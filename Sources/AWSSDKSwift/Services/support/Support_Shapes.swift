@@ -31,10 +31,9 @@ extension Support {
 
     public struct DescribeCommunicationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "communications", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "communications", required: false, type: .list)
         ]
         /// A resumption point for pagination.
         public let nextToken: String?
@@ -46,22 +45,17 @@ extension Support {
             self.communications = communications
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let communications = dictionary["communications"] as? [[String: Any]] {
-                self.communications = try communications.map({ try Communication(dictionary: $0) })
-            } else { 
-                self.communications = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case communications = "communications"
         }
     }
 
     public struct TrustedAdvisorCostOptimizingSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "estimatedMonthlySavings", required: true, type: .double), 
-            AWSShapeProperty(label: "estimatedPercentMonthlySavings", required: true, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "estimatedMonthlySavings", required: true, type: .double), 
+            AWSShapeMember(label: "estimatedPercentMonthlySavings", required: true, type: .double)
         ]
         /// The estimated monthly savings that might be realized if the recommended actions are taken.
         public let estimatedMonthlySavings: Double
@@ -73,19 +67,16 @@ extension Support {
             self.estimatedPercentMonthlySavings = estimatedPercentMonthlySavings
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let estimatedMonthlySavings = dictionary["estimatedMonthlySavings"] as? Double else { throw InitializableError.missingRequiredParam("estimatedMonthlySavings") }
-            self.estimatedMonthlySavings = estimatedMonthlySavings
-            guard let estimatedPercentMonthlySavings = dictionary["estimatedPercentMonthlySavings"] as? Double else { throw InitializableError.missingRequiredParam("estimatedPercentMonthlySavings") }
-            self.estimatedPercentMonthlySavings = estimatedPercentMonthlySavings
+        private enum CodingKeys: String, CodingKey {
+            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case estimatedPercentMonthlySavings = "estimatedPercentMonthlySavings"
         }
     }
 
     public struct DescribeTrustedAdvisorCheckSummariesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "summaries", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "summaries", required: true, type: .list)
         ]
         /// The summary information for the requested Trusted Advisor checks.
         public let summaries: [TrustedAdvisorCheckSummary]
@@ -94,18 +85,16 @@ extension Support {
             self.summaries = summaries
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let summaries = dictionary["summaries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("summaries") }
-            self.summaries = try summaries.map({ try TrustedAdvisorCheckSummary(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case summaries = "summaries"
         }
     }
 
     public struct ResolveCaseResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initialCaseStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "finalCaseStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "initialCaseStatus", required: false, type: .string), 
+            AWSShapeMember(label: "finalCaseStatus", required: false, type: .string)
         ]
         /// The status of the case when the ResolveCase request was sent.
         public let initialCaseStatus: String?
@@ -117,18 +106,17 @@ extension Support {
             self.finalCaseStatus = finalCaseStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.initialCaseStatus = dictionary["initialCaseStatus"] as? String
-            self.finalCaseStatus = dictionary["finalCaseStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case initialCaseStatus = "initialCaseStatus"
+            case finalCaseStatus = "finalCaseStatus"
         }
     }
 
     public struct DescribeCasesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cases", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cases", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The details for the cases that match the request.
         public let cases: [CaseDetails]?
@@ -140,21 +128,16 @@ extension Support {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cases = dictionary["cases"] as? [[String: Any]] {
-                self.cases = try cases.map({ try CaseDetails(dictionary: $0) })
-            } else { 
-                self.cases = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cases = "cases"
+            case nextToken = "nextToken"
         }
     }
 
     public struct CreateCaseResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "caseId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "caseId", required: false, type: .string)
         ]
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
@@ -163,24 +146,23 @@ extension Support {
             self.caseId = caseId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.caseId = dictionary["caseId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "caseId"
         }
     }
 
     public struct DescribeCasesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "afterTime", required: false, type: .string), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "includeCommunications", required: false, type: .boolean), 
-            AWSShapeProperty(label: "displayId", required: false, type: .string), 
-            AWSShapeProperty(label: "includeResolvedCases", required: false, type: .boolean), 
-            AWSShapeProperty(label: "language", required: false, type: .string), 
-            AWSShapeProperty(label: "caseIdList", required: false, type: .list), 
-            AWSShapeProperty(label: "beforeTime", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "afterTime", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "includeCommunications", required: false, type: .boolean), 
+            AWSShapeMember(label: "displayId", required: false, type: .string), 
+            AWSShapeMember(label: "includeResolvedCases", required: false, type: .boolean), 
+            AWSShapeMember(label: "language", required: false, type: .string), 
+            AWSShapeMember(label: "caseIdList", required: false, type: .list), 
+            AWSShapeMember(label: "beforeTime", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
         /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
         public let afterTime: String?
@@ -213,28 +195,27 @@ extension Support {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.afterTime = dictionary["afterTime"] as? String
-            self.nextToken = dictionary["nextToken"] as? String
-            self.includeCommunications = dictionary["includeCommunications"] as? Bool
-            self.displayId = dictionary["displayId"] as? String
-            self.includeResolvedCases = dictionary["includeResolvedCases"] as? Bool
-            self.language = dictionary["language"] as? String
-            self.caseIdList = dictionary["caseIdList"] as? [String]
-            self.beforeTime = dictionary["beforeTime"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case afterTime = "afterTime"
+            case nextToken = "nextToken"
+            case includeCommunications = "includeCommunications"
+            case displayId = "displayId"
+            case includeResolvedCases = "includeResolvedCases"
+            case language = "language"
+            case caseIdList = "caseIdList"
+            case beforeTime = "beforeTime"
+            case maxResults = "maxResults"
         }
     }
 
     public struct DescribeCommunicationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "caseId", required: true, type: .string), 
-            AWSShapeProperty(label: "afterTime", required: false, type: .string), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "beforeTime", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "caseId", required: true, type: .string), 
+            AWSShapeMember(label: "afterTime", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "beforeTime", required: false, type: .string)
         ]
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String
@@ -255,24 +236,22 @@ extension Support {
             self.beforeTime = beforeTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let caseId = dictionary["caseId"] as? String else { throw InitializableError.missingRequiredParam("caseId") }
-            self.caseId = caseId
-            self.afterTime = dictionary["afterTime"] as? String
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.beforeTime = dictionary["beforeTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "caseId"
+            case afterTime = "afterTime"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case beforeTime = "beforeTime"
         }
     }
 
     public struct AddCommunicationToCaseRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "caseId", required: false, type: .string), 
-            AWSShapeProperty(label: "ccEmailAddresses", required: false, type: .list), 
-            AWSShapeProperty(label: "communicationBody", required: true, type: .string), 
-            AWSShapeProperty(label: "attachmentSetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "caseId", required: false, type: .string), 
+            AWSShapeMember(label: "ccEmailAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "communicationBody", required: true, type: .string), 
+            AWSShapeMember(label: "attachmentSetId", required: false, type: .string)
         ]
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
@@ -290,20 +269,18 @@ extension Support {
             self.attachmentSetId = attachmentSetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.caseId = dictionary["caseId"] as? String
-            self.ccEmailAddresses = dictionary["ccEmailAddresses"] as? [String]
-            guard let communicationBody = dictionary["communicationBody"] as? String else { throw InitializableError.missingRequiredParam("communicationBody") }
-            self.communicationBody = communicationBody
-            self.attachmentSetId = dictionary["attachmentSetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "caseId"
+            case ccEmailAddresses = "ccEmailAddresses"
+            case communicationBody = "communicationBody"
+            case attachmentSetId = "attachmentSetId"
         }
     }
 
     public struct DescribeTrustedAdvisorCheckRefreshStatusesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "statuses", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "statuses", required: true, type: .list)
         ]
         /// The refresh status of the specified Trusted Advisor checks.
         public let statuses: [TrustedAdvisorCheckRefreshStatus]
@@ -312,22 +289,20 @@ extension Support {
             self.statuses = statuses
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let statuses = dictionary["statuses"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("statuses") }
-            self.statuses = try statuses.map({ try TrustedAdvisorCheckRefreshStatus(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case statuses = "statuses"
         }
     }
 
     public struct TrustedAdvisorCheckSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: true, type: .string), 
-            AWSShapeProperty(label: "checkId", required: true, type: .string), 
-            AWSShapeProperty(label: "categorySpecificSummary", required: true, type: .structure), 
-            AWSShapeProperty(label: "timestamp", required: true, type: .string), 
-            AWSShapeProperty(label: "hasFlaggedResources", required: false, type: .boolean), 
-            AWSShapeProperty(label: "resourcesSummary", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .string), 
+            AWSShapeMember(label: "checkId", required: true, type: .string), 
+            AWSShapeMember(label: "categorySpecificSummary", required: true, type: .structure), 
+            AWSShapeMember(label: "timestamp", required: true, type: .string), 
+            AWSShapeMember(label: "hasFlaggedResources", required: false, type: .boolean), 
+            AWSShapeMember(label: "resourcesSummary", required: true, type: .structure)
         ]
         /// The alert status of the check: "ok" (green), "warning" (yellow), "error" (red), or "not_available".
         public let status: String
@@ -350,27 +325,21 @@ extension Support {
             self.resourcesSummary = resourcesSummary
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
-            guard let checkId = dictionary["checkId"] as? String else { throw InitializableError.missingRequiredParam("checkId") }
-            self.checkId = checkId
-            guard let categorySpecificSummary = dictionary["categorySpecificSummary"] as? [String: Any] else { throw InitializableError.missingRequiredParam("categorySpecificSummary") }
-            self.categorySpecificSummary = try Support.TrustedAdvisorCategorySpecificSummary(dictionary: categorySpecificSummary)
-            guard let timestamp = dictionary["timestamp"] as? String else { throw InitializableError.missingRequiredParam("timestamp") }
-            self.timestamp = timestamp
-            self.hasFlaggedResources = dictionary["hasFlaggedResources"] as? Bool
-            guard let resourcesSummary = dictionary["resourcesSummary"] as? [String: Any] else { throw InitializableError.missingRequiredParam("resourcesSummary") }
-            self.resourcesSummary = try Support.TrustedAdvisorResourcesSummary(dictionary: resourcesSummary)
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case checkId = "checkId"
+            case categorySpecificSummary = "categorySpecificSummary"
+            case timestamp = "timestamp"
+            case hasFlaggedResources = "hasFlaggedResources"
+            case resourcesSummary = "resourcesSummary"
         }
     }
 
     public struct DescribeTrustedAdvisorCheckResultRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "language", required: false, type: .string), 
-            AWSShapeProperty(label: "checkId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "language", required: false, type: .string), 
+            AWSShapeMember(label: "checkId", required: true, type: .string)
         ]
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
@@ -382,18 +351,16 @@ extension Support {
             self.checkId = checkId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.language = dictionary["language"] as? String
-            guard let checkId = dictionary["checkId"] as? String else { throw InitializableError.missingRequiredParam("checkId") }
-            self.checkId = checkId
+        private enum CodingKeys: String, CodingKey {
+            case language = "language"
+            case checkId = "checkId"
         }
     }
 
     public struct DescribeAttachmentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attachmentId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attachmentId", required: true, type: .string)
         ]
         /// The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation.
         public let attachmentId: String
@@ -402,17 +369,15 @@ extension Support {
             self.attachmentId = attachmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attachmentId = dictionary["attachmentId"] as? String else { throw InitializableError.missingRequiredParam("attachmentId") }
-            self.attachmentId = attachmentId
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "attachmentId"
         }
     }
 
     public struct DescribeTrustedAdvisorCheckSummariesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "checkIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkIds", required: true, type: .list)
         ]
         /// The IDs of the Trusted Advisor checks.
         public let checkIds: [String]
@@ -421,22 +386,20 @@ extension Support {
             self.checkIds = checkIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let checkIds = dictionary["checkIds"] as? [String] else { throw InitializableError.missingRequiredParam("checkIds") }
-            self.checkIds = checkIds
+        private enum CodingKeys: String, CodingKey {
+            case checkIds = "checkIds"
         }
     }
 
     public struct TrustedAdvisorCheckResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: true, type: .string), 
-            AWSShapeProperty(label: "checkId", required: true, type: .string), 
-            AWSShapeProperty(label: "flaggedResources", required: true, type: .list), 
-            AWSShapeProperty(label: "timestamp", required: true, type: .string), 
-            AWSShapeProperty(label: "resourcesSummary", required: true, type: .structure), 
-            AWSShapeProperty(label: "categorySpecificSummary", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .string), 
+            AWSShapeMember(label: "checkId", required: true, type: .string), 
+            AWSShapeMember(label: "flaggedResources", required: true, type: .list), 
+            AWSShapeMember(label: "timestamp", required: true, type: .string), 
+            AWSShapeMember(label: "resourcesSummary", required: true, type: .structure), 
+            AWSShapeMember(label: "categorySpecificSummary", required: true, type: .structure)
         ]
         /// The alert status of the check: "ok" (green), "warning" (yellow), "error" (red), or "not_available".
         public let status: String
@@ -459,27 +422,20 @@ extension Support {
             self.categorySpecificSummary = categorySpecificSummary
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
-            guard let checkId = dictionary["checkId"] as? String else { throw InitializableError.missingRequiredParam("checkId") }
-            self.checkId = checkId
-            guard let flaggedResources = dictionary["flaggedResources"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("flaggedResources") }
-            self.flaggedResources = try flaggedResources.map({ try TrustedAdvisorResourceDetail(dictionary: $0) })
-            guard let timestamp = dictionary["timestamp"] as? String else { throw InitializableError.missingRequiredParam("timestamp") }
-            self.timestamp = timestamp
-            guard let resourcesSummary = dictionary["resourcesSummary"] as? [String: Any] else { throw InitializableError.missingRequiredParam("resourcesSummary") }
-            self.resourcesSummary = try Support.TrustedAdvisorResourcesSummary(dictionary: resourcesSummary)
-            guard let categorySpecificSummary = dictionary["categorySpecificSummary"] as? [String: Any] else { throw InitializableError.missingRequiredParam("categorySpecificSummary") }
-            self.categorySpecificSummary = try Support.TrustedAdvisorCategorySpecificSummary(dictionary: categorySpecificSummary)
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case checkId = "checkId"
+            case flaggedResources = "flaggedResources"
+            case timestamp = "timestamp"
+            case resourcesSummary = "resourcesSummary"
+            case categorySpecificSummary = "categorySpecificSummary"
         }
     }
 
     public struct DescribeTrustedAdvisorChecksResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "checks", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checks", required: true, type: .list)
         ]
         /// Information about all available Trusted Advisor checks.
         public let checks: [TrustedAdvisorCheckDescription]
@@ -488,17 +444,15 @@ extension Support {
             self.checks = checks
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let checks = dictionary["checks"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("checks") }
-            self.checks = try checks.map({ try TrustedAdvisorCheckDescription(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case checks = "checks"
         }
     }
 
     public struct DescribeAttachmentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attachment", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attachment", required: false, type: .structure)
         ]
         /// The attachment content and file name.
         public let attachment: Attachment?
@@ -507,18 +461,17 @@ extension Support {
             self.attachment = attachment
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attachment = dictionary["attachment"] as? [String: Any] { self.attachment = try Support.Attachment(dictionary: attachment) } else { self.attachment = nil }
+        private enum CodingKeys: String, CodingKey {
+            case attachment = "attachment"
         }
     }
 
     public struct Service: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "categories", required: false, type: .list), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "code", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "categories", required: false, type: .list), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "code", required: false, type: .string)
         ]
         /// A list of categories that describe the type of support issue a case describes. Categories consist of a category name and a category code. Category names and codes are passed to AWS Support when you call CreateCase.
         public let categories: [Category]?
@@ -533,25 +486,20 @@ extension Support {
             self.code = code
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let categories = dictionary["categories"] as? [[String: Any]] {
-                self.categories = try categories.map({ try Category(dictionary: $0) })
-            } else { 
-                self.categories = nil
-            }
-            self.name = dictionary["name"] as? String
-            self.code = dictionary["code"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case categories = "categories"
+            case name = "name"
+            case code = "code"
         }
     }
 
     public struct TrustedAdvisorResourcesSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourcesFlagged", required: true, type: .long), 
-            AWSShapeProperty(label: "resourcesIgnored", required: true, type: .long), 
-            AWSShapeProperty(label: "resourcesSuppressed", required: true, type: .long), 
-            AWSShapeProperty(label: "resourcesProcessed", required: true, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourcesFlagged", required: true, type: .long), 
+            AWSShapeMember(label: "resourcesIgnored", required: true, type: .long), 
+            AWSShapeMember(label: "resourcesSuppressed", required: true, type: .long), 
+            AWSShapeMember(label: "resourcesProcessed", required: true, type: .long)
         ]
         /// The number of AWS resources that were flagged (listed) by the Trusted Advisor check.
         public let resourcesFlagged: Int64
@@ -569,34 +517,29 @@ extension Support {
             self.resourcesProcessed = resourcesProcessed
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourcesFlagged = dictionary["resourcesFlagged"] as? Int64 else { throw InitializableError.missingRequiredParam("resourcesFlagged") }
-            self.resourcesFlagged = resourcesFlagged
-            guard let resourcesIgnored = dictionary["resourcesIgnored"] as? Int64 else { throw InitializableError.missingRequiredParam("resourcesIgnored") }
-            self.resourcesIgnored = resourcesIgnored
-            guard let resourcesSuppressed = dictionary["resourcesSuppressed"] as? Int64 else { throw InitializableError.missingRequiredParam("resourcesSuppressed") }
-            self.resourcesSuppressed = resourcesSuppressed
-            guard let resourcesProcessed = dictionary["resourcesProcessed"] as? Int64 else { throw InitializableError.missingRequiredParam("resourcesProcessed") }
-            self.resourcesProcessed = resourcesProcessed
+        private enum CodingKeys: String, CodingKey {
+            case resourcesFlagged = "resourcesFlagged"
+            case resourcesIgnored = "resourcesIgnored"
+            case resourcesSuppressed = "resourcesSuppressed"
+            case resourcesProcessed = "resourcesProcessed"
         }
     }
 
     public struct CaseDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "submittedBy", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "serviceCode", required: false, type: .string), 
-            AWSShapeProperty(label: "displayId", required: false, type: .string), 
-            AWSShapeProperty(label: "ccEmailAddresses", required: false, type: .list), 
-            AWSShapeProperty(label: "severityCode", required: false, type: .string), 
-            AWSShapeProperty(label: "timeCreated", required: false, type: .string), 
-            AWSShapeProperty(label: "language", required: false, type: .string), 
-            AWSShapeProperty(label: "categoryCode", required: false, type: .string), 
-            AWSShapeProperty(label: "caseId", required: false, type: .string), 
-            AWSShapeProperty(label: "recentCommunications", required: false, type: .structure), 
-            AWSShapeProperty(label: "subject", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "submittedBy", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "serviceCode", required: false, type: .string), 
+            AWSShapeMember(label: "displayId", required: false, type: .string), 
+            AWSShapeMember(label: "ccEmailAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "severityCode", required: false, type: .string), 
+            AWSShapeMember(label: "timeCreated", required: false, type: .string), 
+            AWSShapeMember(label: "language", required: false, type: .string), 
+            AWSShapeMember(label: "categoryCode", required: false, type: .string), 
+            AWSShapeMember(label: "caseId", required: false, type: .string), 
+            AWSShapeMember(label: "recentCommunications", required: false, type: .structure), 
+            AWSShapeMember(label: "subject", required: false, type: .string)
         ]
         /// The email address of the account that submitted the case.
         public let submittedBy: String?
@@ -638,27 +581,26 @@ extension Support {
             self.subject = subject
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.submittedBy = dictionary["submittedBy"] as? String
-            self.status = dictionary["status"] as? String
-            self.serviceCode = dictionary["serviceCode"] as? String
-            self.displayId = dictionary["displayId"] as? String
-            self.ccEmailAddresses = dictionary["ccEmailAddresses"] as? [String]
-            self.severityCode = dictionary["severityCode"] as? String
-            self.timeCreated = dictionary["timeCreated"] as? String
-            self.language = dictionary["language"] as? String
-            self.categoryCode = dictionary["categoryCode"] as? String
-            self.caseId = dictionary["caseId"] as? String
-            if let recentCommunications = dictionary["recentCommunications"] as? [String: Any] { self.recentCommunications = try Support.RecentCaseCommunications(dictionary: recentCommunications) } else { self.recentCommunications = nil }
-            self.subject = dictionary["subject"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case submittedBy = "submittedBy"
+            case status = "status"
+            case serviceCode = "serviceCode"
+            case displayId = "displayId"
+            case ccEmailAddresses = "ccEmailAddresses"
+            case severityCode = "severityCode"
+            case timeCreated = "timeCreated"
+            case language = "language"
+            case categoryCode = "categoryCode"
+            case caseId = "caseId"
+            case recentCommunications = "recentCommunications"
+            case subject = "subject"
         }
     }
 
     public struct DescribeServicesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "services", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "services", required: false, type: .list)
         ]
         /// A JSON-formatted list of AWS services.
         public let services: [Service]?
@@ -667,21 +609,16 @@ extension Support {
             self.services = services
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let services = dictionary["services"] as? [[String: Any]] {
-                self.services = try services.map({ try Service(dictionary: $0) })
-            } else { 
-                self.services = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case services = "services"
         }
     }
 
     public struct AddAttachmentsToSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attachments", required: true, type: .list), 
-            AWSShapeProperty(label: "attachmentSetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attachments", required: true, type: .list), 
+            AWSShapeMember(label: "attachmentSetId", required: false, type: .string)
         ]
         /// One or more attachments to add to the set. The limit is 3 attachments per set, and the size limit is 5 MB per attachment.
         public let attachments: [Attachment]
@@ -693,18 +630,16 @@ extension Support {
             self.attachmentSetId = attachmentSetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attachments = dictionary["attachments"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("attachments") }
-            self.attachments = try attachments.map({ try Attachment(dictionary: $0) })
-            self.attachmentSetId = dictionary["attachmentSetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attachments = "attachments"
+            case attachmentSetId = "attachmentSetId"
         }
     }
 
     public struct ResolveCaseRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "caseId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "caseId", required: false, type: .string)
         ]
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
@@ -713,17 +648,16 @@ extension Support {
             self.caseId = caseId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.caseId = dictionary["caseId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "caseId"
         }
     }
 
     public struct AddAttachmentsToSetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attachmentSetId", required: false, type: .string), 
-            AWSShapeProperty(label: "expiryTime", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attachmentSetId", required: false, type: .string), 
+            AWSShapeMember(label: "expiryTime", required: false, type: .string)
         ]
         /// The ID of the attachment set. If an attachmentSetId was not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId was specified, the attachments are added to the specified set, if it exists.
         public let attachmentSetId: String?
@@ -735,18 +669,17 @@ extension Support {
             self.expiryTime = expiryTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attachmentSetId = dictionary["attachmentSetId"] as? String
-            self.expiryTime = dictionary["expiryTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attachmentSetId = "attachmentSetId"
+            case expiryTime = "expiryTime"
         }
     }
 
     public struct Category: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "code", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "code", required: false, type: .string)
         ]
         /// The category name for the support case.
         public let name: String?
@@ -758,17 +691,16 @@ extension Support {
             self.code = code
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.code = dictionary["code"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case code = "code"
         }
     }
 
     public struct DescribeTrustedAdvisorCheckRefreshStatusesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "checkIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkIds", required: true, type: .list)
         ]
         /// The IDs of the Trusted Advisor checks to get the status of. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
         public let checkIds: [String]
@@ -777,17 +709,15 @@ extension Support {
             self.checkIds = checkIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let checkIds = dictionary["checkIds"] as? [String] else { throw InitializableError.missingRequiredParam("checkIds") }
-            self.checkIds = checkIds
+        private enum CodingKeys: String, CodingKey {
+            case checkIds = "checkIds"
         }
     }
 
     public struct DescribeSeverityLevelsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "language", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "language", required: false, type: .string)
         ]
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
@@ -796,16 +726,15 @@ extension Support {
             self.language = language
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.language = dictionary["language"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case language = "language"
         }
     }
 
     public struct RefreshTrustedAdvisorCheckRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "checkId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkId", required: true, type: .string)
         ]
         /// The unique identifier for the Trusted Advisor check to refresh. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
         public let checkId: String
@@ -814,17 +743,15 @@ extension Support {
             self.checkId = checkId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let checkId = dictionary["checkId"] as? String else { throw InitializableError.missingRequiredParam("checkId") }
-            self.checkId = checkId
+        private enum CodingKeys: String, CodingKey {
+            case checkId = "checkId"
         }
     }
 
     public struct TrustedAdvisorCategorySpecificSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "costOptimizing", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "costOptimizing", required: false, type: .structure)
         ]
         /// The summary information about cost savings for a Trusted Advisor check that is in the Cost Optimizing category.
         public let costOptimizing: TrustedAdvisorCostOptimizingSummary?
@@ -833,16 +760,15 @@ extension Support {
             self.costOptimizing = costOptimizing
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let costOptimizing = dictionary["costOptimizing"] as? [String: Any] { self.costOptimizing = try Support.TrustedAdvisorCostOptimizingSummary(dictionary: costOptimizing) } else { self.costOptimizing = nil }
+        private enum CodingKeys: String, CodingKey {
+            case costOptimizing = "costOptimizing"
         }
     }
 
     public struct DescribeTrustedAdvisorCheckResultResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "result", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "result", required: false, type: .structure)
         ]
         /// The detailed results of the Trusted Advisor check.
         public let result: TrustedAdvisorCheckResult?
@@ -851,16 +777,15 @@ extension Support {
             self.result = result
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let result = dictionary["result"] as? [String: Any] { self.result = try Support.TrustedAdvisorCheckResult(dictionary: result) } else { self.result = nil }
+        private enum CodingKeys: String, CodingKey {
+            case result = "result"
         }
     }
 
     public struct DescribeSeverityLevelsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "severityLevels", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "severityLevels", required: false, type: .list)
         ]
         /// The available severity levels for the support case. Available severity levels are defined by your service level agreement with AWS.
         public let severityLevels: [SeverityLevel]?
@@ -869,21 +794,16 @@ extension Support {
             self.severityLevels = severityLevels
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let severityLevels = dictionary["severityLevels"] as? [[String: Any]] {
-                self.severityLevels = try severityLevels.map({ try SeverityLevel(dictionary: $0) })
-            } else { 
-                self.severityLevels = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case severityLevels = "severityLevels"
         }
     }
 
     public struct DescribeServicesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "language", required: false, type: .string), 
-            AWSShapeProperty(label: "serviceCodeList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "language", required: false, type: .string), 
+            AWSShapeMember(label: "serviceCodeList", required: false, type: .list)
         ]
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
@@ -895,17 +815,16 @@ extension Support {
             self.serviceCodeList = serviceCodeList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.language = dictionary["language"] as? String
-            self.serviceCodeList = dictionary["serviceCodeList"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case language = "language"
+            case serviceCodeList = "serviceCodeList"
         }
     }
 
     public struct AddCommunicationToCaseResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "result", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "result", required: false, type: .boolean)
         ]
         /// True if AddCommunicationToCase succeeds. Otherwise, returns an error.
         public let result: Bool?
@@ -914,20 +833,19 @@ extension Support {
             self.result = result
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.result = dictionary["result"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case result = "result"
         }
     }
 
     public struct TrustedAdvisorCheckDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "metadata", required: true, type: .list), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "description", required: true, type: .string), 
-            AWSShapeProperty(label: "id", required: true, type: .string), 
-            AWSShapeProperty(label: "category", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metadata", required: true, type: .list), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: true, type: .string), 
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "category", required: true, type: .string)
         ]
         /// The column headings for the data returned by the Trusted Advisor check. The order of the headings corresponds to the order of the data in the Metadata element of the TrustedAdvisorResourceDetail for the check. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data. 
         public let metadata: [String]
@@ -948,26 +866,20 @@ extension Support {
             self.category = category
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let metadata = dictionary["metadata"] as? [String] else { throw InitializableError.missingRequiredParam("metadata") }
-            self.metadata = metadata
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let description = dictionary["description"] as? String else { throw InitializableError.missingRequiredParam("description") }
-            self.description = description
-            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.id = id
-            guard let category = dictionary["category"] as? String else { throw InitializableError.missingRequiredParam("category") }
-            self.category = category
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "metadata"
+            case name = "name"
+            case description = "description"
+            case id = "id"
+            case category = "category"
         }
     }
 
     public struct Attachment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "fileName", required: false, type: .string), 
-            AWSShapeProperty(label: "data", required: false, type: .blob)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fileName", required: false, type: .string), 
+            AWSShapeMember(label: "data", required: false, type: .blob)
         ]
         /// The name of the attachment file.
         public let fileName: String?
@@ -979,17 +891,16 @@ extension Support {
             self.data = data
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fileName = dictionary["fileName"] as? String
-            self.data = dictionary["data"] as? Data
+        private enum CodingKeys: String, CodingKey {
+            case fileName = "fileName"
+            case data = "data"
         }
     }
 
     public struct RefreshTrustedAdvisorCheckResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .structure)
         ]
         /// The current refresh status for a check, including the amount of time until the check is eligible for refresh.
         public let status: TrustedAdvisorCheckRefreshStatus
@@ -998,21 +909,19 @@ extension Support {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("status") }
-            self.status = try Support.TrustedAdvisorCheckRefreshStatus(dictionary: status)
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
         }
     }
 
     public struct TrustedAdvisorResourceDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "metadata", required: true, type: .list), 
-            AWSShapeProperty(label: "status", required: true, type: .string), 
-            AWSShapeProperty(label: "isSuppressed", required: false, type: .boolean), 
-            AWSShapeProperty(label: "resourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "region", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metadata", required: true, type: .list), 
+            AWSShapeMember(label: "status", required: true, type: .string), 
+            AWSShapeMember(label: "isSuppressed", required: false, type: .boolean), 
+            AWSShapeMember(label: "resourceId", required: true, type: .string), 
+            AWSShapeMember(label: "region", required: false, type: .string)
         ]
         /// Additional information about the identified resource. The exact metadata and its order can be obtained by inspecting the TrustedAdvisorCheckDescription object returned by the call to DescribeTrustedAdvisorChecks. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data. 
         public let metadata: [String]
@@ -1033,23 +942,19 @@ extension Support {
             self.region = region
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let metadata = dictionary["metadata"] as? [String] else { throw InitializableError.missingRequiredParam("metadata") }
-            self.metadata = metadata
-            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
-            self.isSuppressed = dictionary["isSuppressed"] as? Bool
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
-            self.resourceId = resourceId
-            self.region = dictionary["region"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "metadata"
+            case status = "status"
+            case isSuppressed = "isSuppressed"
+            case resourceId = "resourceId"
+            case region = "region"
         }
     }
 
     public struct DescribeTrustedAdvisorChecksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "language", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "language", required: true, type: .string)
         ]
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String
@@ -1058,19 +963,17 @@ extension Support {
             self.language = language
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let language = dictionary["language"] as? String else { throw InitializableError.missingRequiredParam("language") }
-            self.language = language
+        private enum CodingKeys: String, CodingKey {
+            case language = "language"
         }
     }
 
     public struct TrustedAdvisorCheckRefreshStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: true, type: .string), 
-            AWSShapeProperty(label: "checkId", required: true, type: .string), 
-            AWSShapeProperty(label: "millisUntilNextRefreshable", required: true, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .string), 
+            AWSShapeMember(label: "checkId", required: true, type: .string), 
+            AWSShapeMember(label: "millisUntilNextRefreshable", required: true, type: .long)
         ]
         /// The status of the Trusted Advisor check for which a refresh has been requested: "none", "enqueued", "processing", "success", or "abandoned".
         public let status: String
@@ -1085,25 +988,21 @@ extension Support {
             self.millisUntilNextRefreshable = millisUntilNextRefreshable
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["status"] as? String else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
-            guard let checkId = dictionary["checkId"] as? String else { throw InitializableError.missingRequiredParam("checkId") }
-            self.checkId = checkId
-            guard let millisUntilNextRefreshable = dictionary["millisUntilNextRefreshable"] as? Int64 else { throw InitializableError.missingRequiredParam("millisUntilNextRefreshable") }
-            self.millisUntilNextRefreshable = millisUntilNextRefreshable
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case checkId = "checkId"
+            case millisUntilNextRefreshable = "millisUntilNextRefreshable"
         }
     }
 
     public struct Communication: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "caseId", required: false, type: .string), 
-            AWSShapeProperty(label: "submittedBy", required: false, type: .string), 
-            AWSShapeProperty(label: "body", required: false, type: .string), 
-            AWSShapeProperty(label: "attachmentSet", required: false, type: .list), 
-            AWSShapeProperty(label: "timeCreated", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "caseId", required: false, type: .string), 
+            AWSShapeMember(label: "submittedBy", required: false, type: .string), 
+            AWSShapeMember(label: "body", required: false, type: .string), 
+            AWSShapeMember(label: "attachmentSet", required: false, type: .list), 
+            AWSShapeMember(label: "timeCreated", required: false, type: .string)
         ]
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
@@ -1124,25 +1023,20 @@ extension Support {
             self.timeCreated = timeCreated
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.caseId = dictionary["caseId"] as? String
-            self.submittedBy = dictionary["submittedBy"] as? String
-            self.body = dictionary["body"] as? String
-            if let attachmentSet = dictionary["attachmentSet"] as? [[String: Any]] {
-                self.attachmentSet = try attachmentSet.map({ try AttachmentDetails(dictionary: $0) })
-            } else { 
-                self.attachmentSet = nil
-            }
-            self.timeCreated = dictionary["timeCreated"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case caseId = "caseId"
+            case submittedBy = "submittedBy"
+            case body = "body"
+            case attachmentSet = "attachmentSet"
+            case timeCreated = "timeCreated"
         }
     }
 
     public struct SeverityLevel: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "code", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "code", required: false, type: .string)
         ]
         /// The name of the severity level that corresponds to the severity level code.
         public let name: String?
@@ -1154,18 +1048,17 @@ extension Support {
             self.code = code
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.code = dictionary["code"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case code = "code"
         }
     }
 
     public struct AttachmentDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "fileName", required: false, type: .string), 
-            AWSShapeProperty(label: "attachmentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fileName", required: false, type: .string), 
+            AWSShapeMember(label: "attachmentId", required: false, type: .string)
         ]
         /// The file name of the attachment.
         public let fileName: String?
@@ -1177,18 +1070,17 @@ extension Support {
             self.attachmentId = attachmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fileName = dictionary["fileName"] as? String
-            self.attachmentId = dictionary["attachmentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fileName = "fileName"
+            case attachmentId = "attachmentId"
         }
     }
 
     public struct RecentCaseCommunications: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "communications", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "communications", required: false, type: .list)
         ]
         /// A resumption point for pagination.
         public let nextToken: String?
@@ -1200,29 +1092,24 @@ extension Support {
             self.communications = communications
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let communications = dictionary["communications"] as? [[String: Any]] {
-                self.communications = try communications.map({ try Communication(dictionary: $0) })
-            } else { 
-                self.communications = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case communications = "communications"
         }
     }
 
     public struct CreateCaseRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "issueType", required: false, type: .string), 
-            AWSShapeProperty(label: "serviceCode", required: false, type: .string), 
-            AWSShapeProperty(label: "attachmentSetId", required: false, type: .string), 
-            AWSShapeProperty(label: "severityCode", required: false, type: .string), 
-            AWSShapeProperty(label: "ccEmailAddresses", required: false, type: .list), 
-            AWSShapeProperty(label: "categoryCode", required: false, type: .string), 
-            AWSShapeProperty(label: "language", required: false, type: .string), 
-            AWSShapeProperty(label: "communicationBody", required: true, type: .string), 
-            AWSShapeProperty(label: "subject", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "issueType", required: false, type: .string), 
+            AWSShapeMember(label: "serviceCode", required: false, type: .string), 
+            AWSShapeMember(label: "attachmentSetId", required: false, type: .string), 
+            AWSShapeMember(label: "severityCode", required: false, type: .string), 
+            AWSShapeMember(label: "ccEmailAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "categoryCode", required: false, type: .string), 
+            AWSShapeMember(label: "language", required: false, type: .string), 
+            AWSShapeMember(label: "communicationBody", required: true, type: .string), 
+            AWSShapeMember(label: "subject", required: true, type: .string)
         ]
         /// The type of issue for the case. You can specify either "customer-service" or "technical." If you do not indicate a value, the default is "technical."
         public let issueType: String?
@@ -1255,18 +1142,16 @@ extension Support {
             self.subject = subject
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.issueType = dictionary["issueType"] as? String
-            self.serviceCode = dictionary["serviceCode"] as? String
-            self.attachmentSetId = dictionary["attachmentSetId"] as? String
-            self.severityCode = dictionary["severityCode"] as? String
-            self.ccEmailAddresses = dictionary["ccEmailAddresses"] as? [String]
-            self.categoryCode = dictionary["categoryCode"] as? String
-            self.language = dictionary["language"] as? String
-            guard let communicationBody = dictionary["communicationBody"] as? String else { throw InitializableError.missingRequiredParam("communicationBody") }
-            self.communicationBody = communicationBody
-            guard let subject = dictionary["subject"] as? String else { throw InitializableError.missingRequiredParam("subject") }
-            self.subject = subject
+        private enum CodingKeys: String, CodingKey {
+            case issueType = "issueType"
+            case serviceCode = "serviceCode"
+            case attachmentSetId = "attachmentSetId"
+            case severityCode = "severityCode"
+            case ccEmailAddresses = "ccEmailAddresses"
+            case categoryCode = "categoryCode"
+            case language = "language"
+            case communicationBody = "communicationBody"
+            case subject = "subject"
         }
     }
 

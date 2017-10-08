@@ -31,13 +31,12 @@ extension Runtimelex {
 
     public struct GenericAttachment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attachmentLinkUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "title", required: false, type: .string), 
-            AWSShapeProperty(label: "imageUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "buttons", required: false, type: .list), 
-            AWSShapeProperty(label: "subTitle", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attachmentLinkUrl", required: false, type: .string), 
+            AWSShapeMember(label: "title", required: false, type: .string), 
+            AWSShapeMember(label: "imageUrl", required: false, type: .string), 
+            AWSShapeMember(label: "buttons", required: false, type: .list), 
+            AWSShapeMember(label: "subTitle", required: false, type: .string)
         ]
         /// The URL of an attachment to the response card.
         public let attachmentLinkUrl: String?
@@ -58,26 +57,21 @@ extension Runtimelex {
             self.subTitle = subTitle
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attachmentLinkUrl = dictionary["attachmentLinkUrl"] as? String
-            self.title = dictionary["title"] as? String
-            self.imageUrl = dictionary["imageUrl"] as? String
-            if let buttons = dictionary["buttons"] as? [[String: Any]] {
-                self.buttons = try buttons.map({ try Button(dictionary: $0) })
-            } else { 
-                self.buttons = nil
-            }
-            self.subTitle = dictionary["subTitle"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attachmentLinkUrl = "attachmentLinkUrl"
+            case title = "title"
+            case imageUrl = "imageUrl"
+            case buttons = "buttons"
+            case subTitle = "subTitle"
         }
     }
 
     public struct ResponseCard: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "genericAttachments", required: false, type: .list), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "contentType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "genericAttachments", required: false, type: .list), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "contentType", required: false, type: .enum)
         ]
         /// An array of attachment objects representing options.
         public let genericAttachments: [GenericAttachment]?
@@ -92,18 +86,14 @@ extension Runtimelex {
             self.contentType = contentType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let genericAttachments = dictionary["genericAttachments"] as? [[String: Any]] {
-                self.genericAttachments = try genericAttachments.map({ try GenericAttachment(dictionary: $0) })
-            } else { 
-                self.genericAttachments = nil
-            }
-            self.version = dictionary["version"] as? String
-            if let contentType = dictionary["contentType"] as? String { self.contentType = ContentType(rawValue: contentType) } else { self.contentType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case genericAttachments = "genericAttachments"
+            case version = "version"
+            case contentType = "contentType"
         }
     }
 
-    public enum DialogState: String, CustomStringConvertible {
+    public enum DialogState: String, CustomStringConvertible, Codable {
         case elicitintent = "ElicitIntent"
         case confirmintent = "ConfirmIntent"
         case elicitslot = "ElicitSlot"
@@ -115,15 +105,14 @@ extension Runtimelex {
 
     public struct PostTextResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "slotToElicit", required: false, type: .string), 
-            AWSShapeProperty(label: "slots", required: false, type: .map), 
-            AWSShapeProperty(label: "sessionAttributes", required: false, type: .map), 
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "dialogState", required: false, type: .enum), 
-            AWSShapeProperty(label: "intentName", required: false, type: .string), 
-            AWSShapeProperty(label: "responseCard", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "slotToElicit", required: false, type: .string), 
+            AWSShapeMember(label: "slots", required: false, type: .map), 
+            AWSShapeMember(label: "sessionAttributes", required: false, type: .map), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "dialogState", required: false, type: .enum), 
+            AWSShapeMember(label: "intentName", required: false, type: .string), 
+            AWSShapeMember(label: "responseCard", required: false, type: .structure)
         ]
         /// If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public let slotToElicit: String?
@@ -150,36 +139,28 @@ extension Runtimelex {
             self.responseCard = responseCard
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.slotToElicit = dictionary["slotToElicit"] as? String
-            if let slots = dictionary["slots"] as? [String: String] {
-                self.slots = slots
-            } else { 
-                self.slots = nil
-            }
-            if let sessionAttributes = dictionary["sessionAttributes"] as? [String: String] {
-                self.sessionAttributes = sessionAttributes
-            } else { 
-                self.sessionAttributes = nil
-            }
-            self.message = dictionary["message"] as? String
-            if let dialogState = dictionary["dialogState"] as? String { self.dialogState = DialogState(rawValue: dialogState) } else { self.dialogState = nil }
-            self.intentName = dictionary["intentName"] as? String
-            if let responseCard = dictionary["responseCard"] as? [String: Any] { self.responseCard = try Runtimelex.ResponseCard(dictionary: responseCard) } else { self.responseCard = nil }
+        private enum CodingKeys: String, CodingKey {
+            case slotToElicit = "slotToElicit"
+            case slots = "slots"
+            case sessionAttributes = "sessionAttributes"
+            case message = "message"
+            case dialogState = "dialogState"
+            case intentName = "intentName"
+            case responseCard = "responseCard"
         }
     }
 
     public struct PostContentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "inputStream"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
-            AWSShapeProperty(label: "contentType", location: .header(locationName: "Content-Type"), required: true, type: .string), 
-            AWSShapeProperty(label: "inputStream", required: true, type: .blob), 
-            AWSShapeProperty(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string), 
-            AWSShapeProperty(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes"), required: false, type: .string), 
-            AWSShapeProperty(label: "accept", location: .header(locationName: "Accept"), required: false, type: .string), 
-            AWSShapeProperty(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
+        public static let payloadPath: String? = "inputStream"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
+            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: true, type: .string), 
+            AWSShapeMember(label: "inputStream", required: true, type: .blob), 
+            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string), 
+            AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes"), required: false, type: .string), 
+            AWSShapeMember(label: "accept", location: .header(locationName: "Accept"), required: false, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
         ]
         /// Alias of the Amazon Lex bot.
         public let botAlias: String
@@ -206,31 +187,25 @@ extension Runtimelex {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let botAlias = dictionary["botAlias"] as? String else { throw InitializableError.missingRequiredParam("botAlias") }
-            self.botAlias = botAlias
-            guard let contentType = dictionary["Content-Type"] as? String else { throw InitializableError.missingRequiredParam("Content-Type") }
-            self.contentType = contentType
-            guard let inputStream = dictionary["inputStream"] as? Data else { throw InitializableError.missingRequiredParam("inputStream") }
-            self.inputStream = inputStream
-            guard let userId = dictionary["userId"] as? String else { throw InitializableError.missingRequiredParam("userId") }
-            self.userId = userId
-            self.sessionAttributes = dictionary["x-amz-lex-session-attributes"] as? String
-            self.accept = dictionary["Accept"] as? String
-            guard let botName = dictionary["botName"] as? String else { throw InitializableError.missingRequiredParam("botName") }
-            self.botName = botName
+        private enum CodingKeys: String, CodingKey {
+            case botAlias = "botAlias"
+            case contentType = "Content-Type"
+            case inputStream = "inputStream"
+            case userId = "userId"
+            case sessionAttributes = "x-amz-lex-session-attributes"
+            case accept = "Accept"
+            case botName = "botName"
         }
     }
 
     public struct PostTextRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
-            AWSShapeProperty(label: "sessionAttributes", required: false, type: .map), 
-            AWSShapeProperty(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string), 
-            AWSShapeProperty(label: "inputText", required: true, type: .string), 
-            AWSShapeProperty(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
+            AWSShapeMember(label: "sessionAttributes", required: false, type: .map), 
+            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string), 
+            AWSShapeMember(label: "inputText", required: true, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
         ]
         /// The alias of the Amazon Lex bot.
         public let botAlias: String
@@ -251,36 +226,28 @@ extension Runtimelex {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let botAlias = dictionary["botAlias"] as? String else { throw InitializableError.missingRequiredParam("botAlias") }
-            self.botAlias = botAlias
-            if let sessionAttributes = dictionary["sessionAttributes"] as? [String: String] {
-                self.sessionAttributes = sessionAttributes
-            } else { 
-                self.sessionAttributes = nil
-            }
-            guard let userId = dictionary["userId"] as? String else { throw InitializableError.missingRequiredParam("userId") }
-            self.userId = userId
-            guard let inputText = dictionary["inputText"] as? String else { throw InitializableError.missingRequiredParam("inputText") }
-            self.inputText = inputText
-            guard let botName = dictionary["botName"] as? String else { throw InitializableError.missingRequiredParam("botName") }
-            self.botName = botName
+        private enum CodingKeys: String, CodingKey {
+            case botAlias = "botAlias"
+            case sessionAttributes = "sessionAttributes"
+            case userId = "userId"
+            case inputText = "inputText"
+            case botName = "botName"
         }
     }
 
     public struct PostContentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "audioStream"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "contentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeProperty(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"), required: false, type: .string), 
-            AWSShapeProperty(label: "audioStream", required: false, type: .blob), 
-            AWSShapeProperty(label: "inputTranscript", location: .header(locationName: "x-amz-lex-input-transcript"), required: false, type: .string), 
-            AWSShapeProperty(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes"), required: false, type: .string), 
-            AWSShapeProperty(label: "slots", location: .header(locationName: "x-amz-lex-slots"), required: false, type: .string), 
-            AWSShapeProperty(label: "message", location: .header(locationName: "x-amz-lex-message"), required: false, type: .string), 
-            AWSShapeProperty(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state"), required: false, type: .enum), 
-            AWSShapeProperty(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name"), required: false, type: .string)
+        public static let payloadPath: String? = "audioStream"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"), required: false, type: .string), 
+            AWSShapeMember(label: "audioStream", required: false, type: .blob), 
+            AWSShapeMember(label: "inputTranscript", location: .header(locationName: "x-amz-lex-input-transcript"), required: false, type: .string), 
+            AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes"), required: false, type: .string), 
+            AWSShapeMember(label: "slots", location: .header(locationName: "x-amz-lex-slots"), required: false, type: .string), 
+            AWSShapeMember(label: "message", location: .header(locationName: "x-amz-lex-message"), required: false, type: .string), 
+            AWSShapeMember(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state"), required: false, type: .enum), 
+            AWSShapeMember(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name"), required: false, type: .string)
         ]
         /// Content type as specified in the Accept HTTP header in the request.
         public let contentType: String?
@@ -313,25 +280,24 @@ extension Runtimelex {
             self.intentName = intentName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.contentType = dictionary["Content-Type"] as? String
-            self.slotToElicit = dictionary["x-amz-lex-slot-to-elicit"] as? String
-            self.audioStream = dictionary["audioStream"] as? Data
-            self.inputTranscript = dictionary["x-amz-lex-input-transcript"] as? String
-            self.sessionAttributes = dictionary["x-amz-lex-session-attributes"] as? String
-            self.slots = dictionary["x-amz-lex-slots"] as? String
-            self.message = dictionary["x-amz-lex-message"] as? String
-            if let dialogState = dictionary["x-amz-lex-dialog-state"] as? String { self.dialogState = DialogState(rawValue: dialogState) } else { self.dialogState = nil }
-            self.intentName = dictionary["x-amz-lex-intent-name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case contentType = "Content-Type"
+            case slotToElicit = "x-amz-lex-slot-to-elicit"
+            case audioStream = "audioStream"
+            case inputTranscript = "x-amz-lex-input-transcript"
+            case sessionAttributes = "x-amz-lex-session-attributes"
+            case slots = "x-amz-lex-slots"
+            case message = "x-amz-lex-message"
+            case dialogState = "x-amz-lex-dialog-state"
+            case intentName = "x-amz-lex-intent-name"
         }
     }
 
     public struct Button: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "text", required: true, type: .string), 
-            AWSShapeProperty(label: "value", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "text", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: true, type: .string)
         ]
         /// Text that is visible to the user on the button.
         public let text: String
@@ -343,15 +309,13 @@ extension Runtimelex {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let text = dictionary["text"] as? String else { throw InitializableError.missingRequiredParam("text") }
-            self.text = text
-            guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
-            self.value = value
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+            case value = "value"
         }
     }
 
-    public enum ContentType: String, CustomStringConvertible {
+    public enum ContentType: String, CustomStringConvertible, Codable {
         case application_vnd_amazonaws_card_generic = "application/vnd.amazonaws.card.generic"
         public var description: String { return self.rawValue }
     }

@@ -31,10 +31,9 @@ extension ApplicationAutoscaling {
 
     public struct DescribeScalingActivitiesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ScalingActivities", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScalingActivities", required: false, type: .list)
         ]
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
@@ -46,22 +45,17 @@ extension ApplicationAutoscaling {
             self.scalingActivities = scalingActivities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let scalingActivities = dictionary["ScalingActivities"] as? [[String: Any]] {
-                self.scalingActivities = try scalingActivities.map({ try ScalingActivity(dictionary: $0) })
-            } else { 
-                self.scalingActivities = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scalingActivities = "ScalingActivities"
         }
     }
 
     public struct DescribeScalableTargetsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScalableTargets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScalableTargets", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The list of scalable targets that matches the request parameters.
         public let scalableTargets: [ScalableTarget]?
@@ -73,23 +67,19 @@ extension ApplicationAutoscaling {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let scalableTargets = dictionary["ScalableTargets"] as? [[String: Any]] {
-                self.scalableTargets = try scalableTargets.map({ try ScalableTarget(dictionary: $0) })
-            } else { 
-                self.scalableTargets = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case scalableTargets = "ScalableTargets"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum MetricType: String, CustomStringConvertible {
+    public enum MetricType: String, CustomStringConvertible, Codable {
         case dynamodbreadcapacityutilization = "DynamoDBReadCapacityUtilization"
         case dynamodbwritecapacityutilization = "DynamoDBWriteCapacityUtilization"
         public var description: String { return self.rawValue }
     }
 
-    public enum MetricAggregationType: String, CustomStringConvertible {
+    public enum MetricAggregationType: String, CustomStringConvertible, Codable {
         case average = "Average"
         case minimum = "Minimum"
         case maximum = "Maximum"
@@ -98,10 +88,9 @@ extension ApplicationAutoscaling {
 
     public struct MetricDimension: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The value of the dimension.
         public let value: String
@@ -113,36 +102,30 @@ extension ApplicationAutoscaling {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
         }
     }
 
     public struct RegisterScalableTargetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ScalingPolicy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StepScalingPolicyConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "TargetTrackingScalingPolicyConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "PolicyType", required: true, type: .enum), 
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeProperty(label: "PolicyARN", required: true, type: .string), 
-            AWSShapeProperty(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "Alarms", required: false, type: .list), 
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StepScalingPolicyConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "TargetTrackingScalingPolicyConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeMember(label: "PolicyARN", required: true, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "Alarms", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// A step scaling policy.
         public let stepScalingPolicyConfiguration: StepScalingPolicyConfiguration?
@@ -155,7 +138,7 @@ extension ApplicationAutoscaling {
         /// The Amazon Resource Name (ARN) of the scaling policy.
         public let policyARN: String
         /// The Unix timestamp for when the scaling policy was created.
-        public let creationTime: String
+        public let creationTime: Double
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.  
         public let scalableDimension: ScalableDimension
         /// The CloudWatch alarms associated with the scaling policy.
@@ -165,7 +148,7 @@ extension ApplicationAutoscaling {
         /// The name of the scaling policy.
         public let policyName: String
 
-        public init(stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil, policyType: PolicyType, serviceNamespace: ServiceNamespace, policyARN: String, creationTime: String, scalableDimension: ScalableDimension, alarms: [Alarm]? = nil, resourceId: String, policyName: String) {
+        public init(stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil, policyType: PolicyType, serviceNamespace: ServiceNamespace, policyARN: String, creationTime: Double, scalableDimension: ScalableDimension, alarms: [Alarm]? = nil, resourceId: String, policyName: String) {
             self.stepScalingPolicyConfiguration = stepScalingPolicyConfiguration
             self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
             self.policyType = policyType
@@ -178,32 +161,21 @@ extension ApplicationAutoscaling {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let stepScalingPolicyConfiguration = dictionary["StepScalingPolicyConfiguration"] as? [String: Any] { self.stepScalingPolicyConfiguration = try ApplicationAutoscaling.StepScalingPolicyConfiguration(dictionary: stepScalingPolicyConfiguration) } else { self.stepScalingPolicyConfiguration = nil }
-            if let targetTrackingScalingPolicyConfiguration = dictionary["TargetTrackingScalingPolicyConfiguration"] as? [String: Any] { self.targetTrackingScalingPolicyConfiguration = try ApplicationAutoscaling.TargetTrackingScalingPolicyConfiguration(dictionary: targetTrackingScalingPolicyConfiguration) } else { self.targetTrackingScalingPolicyConfiguration = nil }
-            guard let rawPolicyType = dictionary["PolicyType"] as? String, let policyType = PolicyType(rawValue: rawPolicyType) else { throw InitializableError.missingRequiredParam("PolicyType") }
-            self.policyType = policyType
-            guard let rawServiceNamespace = dictionary["ServiceNamespace"] as? String, let serviceNamespace = ServiceNamespace(rawValue: rawServiceNamespace) else { throw InitializableError.missingRequiredParam("ServiceNamespace") }
-            self.serviceNamespace = serviceNamespace
-            guard let policyARN = dictionary["PolicyARN"] as? String else { throw InitializableError.missingRequiredParam("PolicyARN") }
-            self.policyARN = policyARN
-            guard let creationTime = dictionary["CreationTime"] as? String else { throw InitializableError.missingRequiredParam("CreationTime") }
-            self.creationTime = creationTime
-            guard let rawScalableDimension = dictionary["ScalableDimension"] as? String, let scalableDimension = ScalableDimension(rawValue: rawScalableDimension) else { throw InitializableError.missingRequiredParam("ScalableDimension") }
-            self.scalableDimension = scalableDimension
-            if let alarms = dictionary["Alarms"] as? [[String: Any]] {
-                self.alarms = try alarms.map({ try Alarm(dictionary: $0) })
-            } else { 
-                self.alarms = nil
-            }
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case stepScalingPolicyConfiguration = "StepScalingPolicyConfiguration"
+            case targetTrackingScalingPolicyConfiguration = "TargetTrackingScalingPolicyConfiguration"
+            case policyType = "PolicyType"
+            case serviceNamespace = "ServiceNamespace"
+            case policyARN = "PolicyARN"
+            case creationTime = "CreationTime"
+            case scalableDimension = "ScalableDimension"
+            case alarms = "Alarms"
+            case resourceId = "ResourceId"
+            case policyName = "PolicyName"
         }
     }
 
-    public enum MetricStatistic: String, CustomStringConvertible {
+    public enum MetricStatistic: String, CustomStringConvertible, Codable {
         case average = "Average"
         case minimum = "Minimum"
         case maximum = "Maximum"
@@ -212,7 +184,7 @@ extension ApplicationAutoscaling {
         public var description: String { return self.rawValue }
     }
 
-    public enum AdjustmentType: String, CustomStringConvertible {
+    public enum AdjustmentType: String, CustomStringConvertible, Codable {
         case changeincapacity = "ChangeInCapacity"
         case percentchangeincapacity = "PercentChangeInCapacity"
         case exactcapacity = "ExactCapacity"
@@ -221,12 +193,11 @@ extension ApplicationAutoscaling {
 
     public struct DeleteScalingPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string), 
-            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
         ]
         /// The name of the scaling policy.
         public let policyName: String
@@ -244,19 +215,15 @@ extension ApplicationAutoscaling {
             self.serviceNamespace = serviceNamespace
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
-            guard let rawScalableDimension = dictionary["ScalableDimension"] as? String, let scalableDimension = ScalableDimension(rawValue: rawScalableDimension) else { throw InitializableError.missingRequiredParam("ScalableDimension") }
-            self.scalableDimension = scalableDimension
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let rawServiceNamespace = dictionary["ServiceNamespace"] as? String, let serviceNamespace = ServiceNamespace(rawValue: rawServiceNamespace) else { throw InitializableError.missingRequiredParam("ServiceNamespace") }
-            self.serviceNamespace = serviceNamespace
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
+            case scalableDimension = "ScalableDimension"
+            case resourceId = "ResourceId"
+            case serviceNamespace = "ServiceNamespace"
         }
     }
 
-    public enum ScalableDimension: String, CustomStringConvertible {
+    public enum ScalableDimension: String, CustomStringConvertible, Codable {
         case ecs_service_desiredcount = "ecs:service:DesiredCount"
         case ec2_spot_fleet_request_targetcapacity = "ec2:spot-fleet-request:TargetCapacity"
         case elasticmapreduce_instancegroup_instancecount = "elasticmapreduce:instancegroup:InstanceCount"
@@ -270,15 +237,14 @@ extension ApplicationAutoscaling {
 
     public struct PutScalingPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string), 
-            AWSShapeProperty(label: "TargetTrackingScalingPolicyConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "PolicyType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "StepScalingPolicyConfiguration", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "TargetTrackingScalingPolicyConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "PolicyType", required: false, type: .enum), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "StepScalingPolicyConfiguration", required: false, type: .structure)
         ]
         /// The name of the scaling policy.
         public let policyName: String
@@ -305,39 +271,34 @@ extension ApplicationAutoscaling {
             self.stepScalingPolicyConfiguration = stepScalingPolicyConfiguration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
-            if let targetTrackingScalingPolicyConfiguration = dictionary["TargetTrackingScalingPolicyConfiguration"] as? [String: Any] { self.targetTrackingScalingPolicyConfiguration = try ApplicationAutoscaling.TargetTrackingScalingPolicyConfiguration(dictionary: targetTrackingScalingPolicyConfiguration) } else { self.targetTrackingScalingPolicyConfiguration = nil }
-            if let policyType = dictionary["PolicyType"] as? String { self.policyType = PolicyType(rawValue: policyType) } else { self.policyType = nil }
-            guard let rawServiceNamespace = dictionary["ServiceNamespace"] as? String, let serviceNamespace = ServiceNamespace(rawValue: rawServiceNamespace) else { throw InitializableError.missingRequiredParam("ServiceNamespace") }
-            self.serviceNamespace = serviceNamespace
-            guard let rawScalableDimension = dictionary["ScalableDimension"] as? String, let scalableDimension = ScalableDimension(rawValue: rawScalableDimension) else { throw InitializableError.missingRequiredParam("ScalableDimension") }
-            self.scalableDimension = scalableDimension
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            if let stepScalingPolicyConfiguration = dictionary["StepScalingPolicyConfiguration"] as? [String: Any] { self.stepScalingPolicyConfiguration = try ApplicationAutoscaling.StepScalingPolicyConfiguration(dictionary: stepScalingPolicyConfiguration) } else { self.stepScalingPolicyConfiguration = nil }
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
+            case targetTrackingScalingPolicyConfiguration = "TargetTrackingScalingPolicyConfiguration"
+            case policyType = "PolicyType"
+            case serviceNamespace = "ServiceNamespace"
+            case scalableDimension = "ScalableDimension"
+            case resourceId = "ResourceId"
+            case stepScalingPolicyConfiguration = "StepScalingPolicyConfiguration"
         }
     }
 
     public struct ScalableTarget: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxCapacity", required: true, type: .integer), 
-            AWSShapeProperty(label: "MinCapacity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxCapacity", required: true, type: .integer), 
+            AWSShapeMember(label: "MinCapacity", required: true, type: .integer)
         ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
         /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
         public let roleARN: String
         /// The Unix timestamp for when the scalable target was created.
-        public let creationTime: String
+        public let creationTime: Double
         /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.  
         public let scalableDimension: ScalableDimension
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.  
@@ -347,7 +308,7 @@ extension ApplicationAutoscaling {
         /// The minimum value to scale to in response to a scale in event.
         public let minCapacity: Int32
 
-        public init(serviceNamespace: ServiceNamespace, roleARN: String, creationTime: String, scalableDimension: ScalableDimension, resourceId: String, maxCapacity: Int32, minCapacity: Int32) {
+        public init(serviceNamespace: ServiceNamespace, roleARN: String, creationTime: Double, scalableDimension: ScalableDimension, resourceId: String, maxCapacity: Int32, minCapacity: Int32) {
             self.serviceNamespace = serviceNamespace
             self.roleARN = roleARN
             self.creationTime = creationTime
@@ -357,31 +318,23 @@ extension ApplicationAutoscaling {
             self.minCapacity = minCapacity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawServiceNamespace = dictionary["ServiceNamespace"] as? String, let serviceNamespace = ServiceNamespace(rawValue: rawServiceNamespace) else { throw InitializableError.missingRequiredParam("ServiceNamespace") }
-            self.serviceNamespace = serviceNamespace
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
-            guard let creationTime = dictionary["CreationTime"] as? String else { throw InitializableError.missingRequiredParam("CreationTime") }
-            self.creationTime = creationTime
-            guard let rawScalableDimension = dictionary["ScalableDimension"] as? String, let scalableDimension = ScalableDimension(rawValue: rawScalableDimension) else { throw InitializableError.missingRequiredParam("ScalableDimension") }
-            self.scalableDimension = scalableDimension
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let maxCapacity = dictionary["MaxCapacity"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxCapacity") }
-            self.maxCapacity = maxCapacity
-            guard let minCapacity = dictionary["MinCapacity"] as? Int32 else { throw InitializableError.missingRequiredParam("MinCapacity") }
-            self.minCapacity = minCapacity
+        private enum CodingKeys: String, CodingKey {
+            case serviceNamespace = "ServiceNamespace"
+            case roleARN = "RoleARN"
+            case creationTime = "CreationTime"
+            case scalableDimension = "ScalableDimension"
+            case resourceId = "ResourceId"
+            case maxCapacity = "MaxCapacity"
+            case minCapacity = "MinCapacity"
         }
     }
 
     public struct DeregisterScalableTargetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
         ]
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.  
         public let resourceId: String
@@ -396,17 +349,14 @@ extension ApplicationAutoscaling {
             self.serviceNamespace = serviceNamespace
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let rawScalableDimension = dictionary["ScalableDimension"] as? String, let scalableDimension = ScalableDimension(rawValue: rawScalableDimension) else { throw InitializableError.missingRequiredParam("ScalableDimension") }
-            self.scalableDimension = scalableDimension
-            guard let rawServiceNamespace = dictionary["ServiceNamespace"] as? String, let serviceNamespace = ServiceNamespace(rawValue: rawServiceNamespace) else { throw InitializableError.missingRequiredParam("ServiceNamespace") }
-            self.serviceNamespace = serviceNamespace
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case scalableDimension = "ScalableDimension"
+            case serviceNamespace = "ServiceNamespace"
         }
     }
 
-    public enum ServiceNamespace: String, CustomStringConvertible {
+    public enum ServiceNamespace: String, CustomStringConvertible, Codable {
         case ecs = "ecs"
         case elasticmapreduce = "elasticmapreduce"
         case ec2 = "ec2"
@@ -417,10 +367,9 @@ extension ApplicationAutoscaling {
 
     public struct DescribeScalingPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ScalingPolicies", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list)
         ]
         /// The token required to get the next set of results. This value is null if there are no more results to return.
         public let nextToken: String?
@@ -432,25 +381,20 @@ extension ApplicationAutoscaling {
             self.scalingPolicies = scalingPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let scalingPolicies = dictionary["ScalingPolicies"] as? [[String: Any]] {
-                self.scalingPolicies = try scalingPolicies.map({ try ScalingPolicy(dictionary: $0) })
-            } else { 
-                self.scalingPolicies = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scalingPolicies = "ScalingPolicies"
         }
     }
 
     public struct CustomizedMetricSpecification: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
-            AWSShapeProperty(label: "Namespace", required: true, type: .string), 
-            AWSShapeProperty(label: "Unit", required: false, type: .string), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "Statistic", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", required: true, type: .string), 
+            AWSShapeMember(label: "Unit", required: false, type: .string), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "Statistic", required: true, type: .enum)
         ]
         /// The name of the metric.
         public let metricName: String
@@ -471,31 +415,23 @@ extension ApplicationAutoscaling {
             self.statistic = statistic
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
-            self.metricName = metricName
-            guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
-            self.namespace = namespace
-            self.unit = dictionary["Unit"] as? String
-            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
-                self.dimensions = try dimensions.map({ try MetricDimension(dictionary: $0) })
-            } else { 
-                self.dimensions = nil
-            }
-            guard let rawStatistic = dictionary["Statistic"] as? String, let statistic = MetricStatistic(rawValue: rawStatistic) else { throw InitializableError.missingRequiredParam("Statistic") }
-            self.statistic = statistic
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+            case unit = "Unit"
+            case dimensions = "Dimensions"
+            case statistic = "Statistic"
         }
     }
 
     public struct DescribeScalableTargetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeProperty(label: "ResourceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeMember(label: "ResourceIds", required: false, type: .list), 
+            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
@@ -516,23 +452,21 @@ extension ApplicationAutoscaling {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawServiceNamespace = dictionary["ServiceNamespace"] as? String, let serviceNamespace = ServiceNamespace(rawValue: rawServiceNamespace) else { throw InitializableError.missingRequiredParam("ServiceNamespace") }
-            self.serviceNamespace = serviceNamespace
-            self.resourceIds = dictionary["ResourceIds"] as? [String]
-            if let scalableDimension = dictionary["ScalableDimension"] as? String { self.scalableDimension = ScalableDimension(rawValue: scalableDimension) } else { self.scalableDimension = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case serviceNamespace = "ServiceNamespace"
+            case resourceIds = "ResourceIds"
+            case scalableDimension = "ScalableDimension"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct StepAdjustment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScalingAdjustment", required: true, type: .integer), 
-            AWSShapeProperty(label: "MetricIntervalUpperBound", required: false, type: .double), 
-            AWSShapeProperty(label: "MetricIntervalLowerBound", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScalingAdjustment", required: true, type: .integer), 
+            AWSShapeMember(label: "MetricIntervalUpperBound", required: false, type: .double), 
+            AWSShapeMember(label: "MetricIntervalLowerBound", required: false, type: .double)
         ]
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current scalable dimension while a negative number removes from the current scalable dimension.
         public let scalingAdjustment: Int32
@@ -547,23 +481,19 @@ extension ApplicationAutoscaling {
             self.metricIntervalLowerBound = metricIntervalLowerBound
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32 else { throw InitializableError.missingRequiredParam("ScalingAdjustment") }
-            self.scalingAdjustment = scalingAdjustment
-            self.metricIntervalUpperBound = dictionary["MetricIntervalUpperBound"] as? Double
-            self.metricIntervalLowerBound = dictionary["MetricIntervalLowerBound"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case scalingAdjustment = "ScalingAdjustment"
+            case metricIntervalUpperBound = "MetricIntervalUpperBound"
+            case metricIntervalLowerBound = "MetricIntervalLowerBound"
         }
     }
 
     public struct DeleteScalingPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum ScalingActivityStatusCode: String, CustomStringConvertible {
+    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case inprogress = "InProgress"
         case successful = "Successful"
@@ -575,10 +505,9 @@ extension ApplicationAutoscaling {
 
     public struct PredefinedMetricSpecification: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PredefinedMetricType", required: true, type: .enum), 
-            AWSShapeProperty(label: "ResourceLabel", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PredefinedMetricType", required: true, type: .enum), 
+            AWSShapeMember(label: "ResourceLabel", required: false, type: .string)
         ]
         /// The metric type.
         public let predefinedMetricType: MetricType
@@ -590,22 +519,20 @@ extension ApplicationAutoscaling {
             self.resourceLabel = resourceLabel
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawPredefinedMetricType = dictionary["PredefinedMetricType"] as? String, let predefinedMetricType = MetricType(rawValue: rawPredefinedMetricType) else { throw InitializableError.missingRequiredParam("PredefinedMetricType") }
-            self.predefinedMetricType = predefinedMetricType
-            self.resourceLabel = dictionary["ResourceLabel"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case predefinedMetricType = "PredefinedMetricType"
+            case resourceLabel = "ResourceLabel"
         }
     }
 
     public struct TargetTrackingScalingPolicyConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScaleOutCooldown", required: false, type: .integer), 
-            AWSShapeProperty(label: "ScaleInCooldown", required: false, type: .integer), 
-            AWSShapeProperty(label: "PredefinedMetricSpecification", required: false, type: .structure), 
-            AWSShapeProperty(label: "TargetValue", required: true, type: .double), 
-            AWSShapeProperty(label: "CustomizedMetricSpecification", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScaleOutCooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "ScaleInCooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "PredefinedMetricSpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "TargetValue", required: true, type: .double), 
+            AWSShapeMember(label: "CustomizedMetricSpecification", required: false, type: .structure)
         ]
         /// The amount of time, in seconds, after a scale out activity completes before another scale out activity can start. While the cooldown period is in effect, the capacity that has been added by the previous scale out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. The intention is to continuously (but not excessively) scale out.
         public let scaleOutCooldown: Int32?
@@ -626,22 +553,20 @@ extension ApplicationAutoscaling {
             self.customizedMetricSpecification = customizedMetricSpecification
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.scaleOutCooldown = dictionary["ScaleOutCooldown"] as? Int32
-            self.scaleInCooldown = dictionary["ScaleInCooldown"] as? Int32
-            if let predefinedMetricSpecification = dictionary["PredefinedMetricSpecification"] as? [String: Any] { self.predefinedMetricSpecification = try ApplicationAutoscaling.PredefinedMetricSpecification(dictionary: predefinedMetricSpecification) } else { self.predefinedMetricSpecification = nil }
-            guard let targetValue = dictionary["TargetValue"] as? Double else { throw InitializableError.missingRequiredParam("TargetValue") }
-            self.targetValue = targetValue
-            if let customizedMetricSpecification = dictionary["CustomizedMetricSpecification"] as? [String: Any] { self.customizedMetricSpecification = try ApplicationAutoscaling.CustomizedMetricSpecification(dictionary: customizedMetricSpecification) } else { self.customizedMetricSpecification = nil }
+        private enum CodingKeys: String, CodingKey {
+            case scaleOutCooldown = "ScaleOutCooldown"
+            case scaleInCooldown = "ScaleInCooldown"
+            case predefinedMetricSpecification = "PredefinedMetricSpecification"
+            case targetValue = "TargetValue"
+            case customizedMetricSpecification = "CustomizedMetricSpecification"
         }
     }
 
     public struct Alarm: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmName", required: true, type: .string), 
-            AWSShapeProperty(label: "AlarmARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlarmName", required: true, type: .string), 
+            AWSShapeMember(label: "AlarmARN", required: true, type: .string)
         ]
         /// The name of the alarm.
         public let alarmName: String
@@ -653,23 +578,20 @@ extension ApplicationAutoscaling {
             self.alarmARN = alarmARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let alarmName = dictionary["AlarmName"] as? String else { throw InitializableError.missingRequiredParam("AlarmName") }
-            self.alarmName = alarmName
-            guard let alarmARN = dictionary["AlarmARN"] as? String else { throw InitializableError.missingRequiredParam("AlarmARN") }
-            self.alarmARN = alarmARN
+        private enum CodingKeys: String, CodingKey {
+            case alarmName = "AlarmName"
+            case alarmARN = "AlarmARN"
         }
     }
 
     public struct StepScalingPolicyConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricAggregationType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Cooldown", required: false, type: .integer), 
-            AWSShapeProperty(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
-            AWSShapeProperty(label: "StepAdjustments", required: false, type: .list), 
-            AWSShapeProperty(label: "AdjustmentType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricAggregationType", required: false, type: .enum), 
+            AWSShapeMember(label: "Cooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
+            AWSShapeMember(label: "StepAdjustments", required: false, type: .list), 
+            AWSShapeMember(label: "AdjustmentType", required: false, type: .enum)
         ]
         /// The aggregation type for the CloudWatch metrics. Valid values are Minimum, Maximum, and Average.
         public let metricAggregationType: MetricAggregationType?
@@ -690,28 +612,23 @@ extension ApplicationAutoscaling {
             self.adjustmentType = adjustmentType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let metricAggregationType = dictionary["MetricAggregationType"] as? String { self.metricAggregationType = MetricAggregationType(rawValue: metricAggregationType) } else { self.metricAggregationType = nil }
-            self.cooldown = dictionary["Cooldown"] as? Int32
-            self.minAdjustmentMagnitude = dictionary["MinAdjustmentMagnitude"] as? Int32
-            if let stepAdjustments = dictionary["StepAdjustments"] as? [[String: Any]] {
-                self.stepAdjustments = try stepAdjustments.map({ try StepAdjustment(dictionary: $0) })
-            } else { 
-                self.stepAdjustments = nil
-            }
-            if let adjustmentType = dictionary["AdjustmentType"] as? String { self.adjustmentType = AdjustmentType(rawValue: adjustmentType) } else { self.adjustmentType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case metricAggregationType = "MetricAggregationType"
+            case cooldown = "Cooldown"
+            case minAdjustmentMagnitude = "MinAdjustmentMagnitude"
+            case stepAdjustments = "StepAdjustments"
+            case adjustmentType = "AdjustmentType"
         }
     }
 
     public struct DescribeScalingActivitiesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeProperty(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
@@ -732,17 +649,16 @@ extension ApplicationAutoscaling {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawServiceNamespace = dictionary["ServiceNamespace"] as? String, let serviceNamespace = ServiceNamespace(rawValue: rawServiceNamespace) else { throw InitializableError.missingRequiredParam("ServiceNamespace") }
-            self.serviceNamespace = serviceNamespace
-            if let scalableDimension = dictionary["ScalableDimension"] as? String { self.scalableDimension = ScalableDimension(rawValue: scalableDimension) } else { self.scalableDimension = nil }
-            self.resourceId = dictionary["ResourceId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case serviceNamespace = "ServiceNamespace"
+            case scalableDimension = "ScalableDimension"
+            case resourceId = "ResourceId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
-    public enum PolicyType: String, CustomStringConvertible {
+    public enum PolicyType: String, CustomStringConvertible, Codable {
         case stepscaling = "StepScaling"
         case targettrackingscaling = "TargetTrackingScaling"
         public var description: String { return self.rawValue }
@@ -750,10 +666,9 @@ extension ApplicationAutoscaling {
 
     public struct PutScalingPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Alarms", required: false, type: .list), 
-            AWSShapeProperty(label: "PolicyARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Alarms", required: false, type: .list), 
+            AWSShapeMember(label: "PolicyARN", required: true, type: .string)
         ]
         /// The CloudWatch alarms created for the target tracking policy.
         public let alarms: [Alarm]?
@@ -765,27 +680,21 @@ extension ApplicationAutoscaling {
             self.policyARN = policyARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let alarms = dictionary["Alarms"] as? [[String: Any]] {
-                self.alarms = try alarms.map({ try Alarm(dictionary: $0) })
-            } else { 
-                self.alarms = nil
-            }
-            guard let policyARN = dictionary["PolicyARN"] as? String else { throw InitializableError.missingRequiredParam("PolicyARN") }
-            self.policyARN = policyARN
+        private enum CodingKeys: String, CodingKey {
+            case alarms = "Alarms"
+            case policyARN = "PolicyARN"
         }
     }
 
     public struct DescribeScalingPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeProperty(label: "ScalableDimension", required: false, type: .enum), 
-            AWSShapeProperty(label: "PolicyNames", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeMember(label: "ScalableDimension", required: false, type: .enum), 
+            AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
@@ -809,27 +718,25 @@ extension ApplicationAutoscaling {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawServiceNamespace = dictionary["ServiceNamespace"] as? String, let serviceNamespace = ServiceNamespace(rawValue: rawServiceNamespace) else { throw InitializableError.missingRequiredParam("ServiceNamespace") }
-            self.serviceNamespace = serviceNamespace
-            if let scalableDimension = dictionary["ScalableDimension"] as? String { self.scalableDimension = ScalableDimension(rawValue: scalableDimension) } else { self.scalableDimension = nil }
-            self.policyNames = dictionary["PolicyNames"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
-            self.resourceId = dictionary["ResourceId"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case serviceNamespace = "ServiceNamespace"
+            case scalableDimension = "ScalableDimension"
+            case policyNames = "PolicyNames"
+            case nextToken = "NextToken"
+            case resourceId = "ResourceId"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct RegisterScalableTargetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "MaxCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "MinCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "MaxCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "MinCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum)
         ]
         /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf. This parameter is required when you register a scalable target and optional when you update one.
         public let roleARN: String?
@@ -853,51 +760,44 @@ extension ApplicationAutoscaling {
             self.serviceNamespace = serviceNamespace
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleARN = dictionary["RoleARN"] as? String
-            guard let rawScalableDimension = dictionary["ScalableDimension"] as? String, let scalableDimension = ScalableDimension(rawValue: rawScalableDimension) else { throw InitializableError.missingRequiredParam("ScalableDimension") }
-            self.scalableDimension = scalableDimension
-            self.maxCapacity = dictionary["MaxCapacity"] as? Int32
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            self.minCapacity = dictionary["MinCapacity"] as? Int32
-            guard let rawServiceNamespace = dictionary["ServiceNamespace"] as? String, let serviceNamespace = ServiceNamespace(rawValue: rawServiceNamespace) else { throw InitializableError.missingRequiredParam("ServiceNamespace") }
-            self.serviceNamespace = serviceNamespace
+        private enum CodingKeys: String, CodingKey {
+            case roleARN = "RoleARN"
+            case scalableDimension = "ScalableDimension"
+            case maxCapacity = "MaxCapacity"
+            case resourceId = "ResourceId"
+            case minCapacity = "MinCapacity"
+            case serviceNamespace = "ServiceNamespace"
         }
     }
 
     public struct DeregisterScalableTargetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ScalingActivity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Details", required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "StatusCode", required: true, type: .enum), 
-            AWSShapeProperty(label: "Cause", required: true, type: .string), 
-            AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "ActivityId", required: true, type: .string), 
-            AWSShapeProperty(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Details", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceNamespace", required: true, type: .enum), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StatusCode", required: true, type: .enum), 
+            AWSShapeMember(label: "Cause", required: true, type: .string), 
+            AWSShapeMember(label: "ScalableDimension", required: true, type: .enum), 
+            AWSShapeMember(label: "ActivityId", required: true, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
         ]
         /// The Unix timestamp for when the scaling activity began.
-        public let startTime: String
+        public let startTime: Double
         /// The details about the scaling activity.
         public let details: String?
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
         /// The Unix timestamp for when the scaling activity ended.
-        public let endTime: String?
+        public let endTime: Double?
         /// Indicates the status of the scaling activity.
         public let statusCode: ScalingActivityStatusCode
         /// A simple description of what caused the scaling activity to happen.
@@ -913,7 +813,7 @@ extension ApplicationAutoscaling {
         /// A simple description of what action the scaling activity intends to accomplish.
         public let description: String
 
-        public init(startTime: String, details: String? = nil, serviceNamespace: ServiceNamespace, endTime: String? = nil, statusCode: ScalingActivityStatusCode, cause: String, scalableDimension: ScalableDimension, activityId: String, statusMessage: String? = nil, resourceId: String, description: String) {
+        public init(startTime: Double, details: String? = nil, serviceNamespace: ServiceNamespace, endTime: Double? = nil, statusCode: ScalingActivityStatusCode, cause: String, scalableDimension: ScalableDimension, activityId: String, statusMessage: String? = nil, resourceId: String, description: String) {
             self.startTime = startTime
             self.details = details
             self.serviceNamespace = serviceNamespace
@@ -927,26 +827,18 @@ extension ApplicationAutoscaling {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let startTime = dictionary["StartTime"] as? String else { throw InitializableError.missingRequiredParam("StartTime") }
-            self.startTime = startTime
-            self.details = dictionary["Details"] as? String
-            guard let rawServiceNamespace = dictionary["ServiceNamespace"] as? String, let serviceNamespace = ServiceNamespace(rawValue: rawServiceNamespace) else { throw InitializableError.missingRequiredParam("ServiceNamespace") }
-            self.serviceNamespace = serviceNamespace
-            self.endTime = dictionary["EndTime"] as? String
-            guard let rawStatusCode = dictionary["StatusCode"] as? String, let statusCode = ScalingActivityStatusCode(rawValue: rawStatusCode) else { throw InitializableError.missingRequiredParam("StatusCode") }
-            self.statusCode = statusCode
-            guard let cause = dictionary["Cause"] as? String else { throw InitializableError.missingRequiredParam("Cause") }
-            self.cause = cause
-            guard let rawScalableDimension = dictionary["ScalableDimension"] as? String, let scalableDimension = ScalableDimension(rawValue: rawScalableDimension) else { throw InitializableError.missingRequiredParam("ScalableDimension") }
-            self.scalableDimension = scalableDimension
-            guard let activityId = dictionary["ActivityId"] as? String else { throw InitializableError.missingRequiredParam("ActivityId") }
-            self.activityId = activityId
-            self.statusMessage = dictionary["StatusMessage"] as? String
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
-            self.description = description
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case details = "Details"
+            case serviceNamespace = "ServiceNamespace"
+            case endTime = "EndTime"
+            case statusCode = "StatusCode"
+            case cause = "Cause"
+            case scalableDimension = "ScalableDimension"
+            case activityId = "ActivityId"
+            case statusMessage = "StatusMessage"
+            case resourceId = "ResourceId"
+            case description = "Description"
         }
     }
 

@@ -31,10 +31,9 @@ extension Elasticbeanstalk {
 
     public struct EventDescriptionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Events", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Events", required: false, type: .list)
         ]
         ///  If returned, this indicates that there are more results to obtain. Use this token in the next DescribeEvents call to get the next batch of events. 
         public let nextToken: String?
@@ -46,22 +45,17 @@ extension Elasticbeanstalk {
             self.events = events
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let events = dictionary["Events"] as? [[String: Any]] {
-                self.events = try events.map({ try EventDescription(dictionary: $0) })
-            } else { 
-                self.events = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case events = "Events"
         }
     }
 
     public struct SolutionStackDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PermittedFileTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "SolutionStackName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PermittedFileTypes", required: false, type: .list), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string)
         ]
         /// The permitted file types allowed for a solution stack.
         public let permittedFileTypes: [String]?
@@ -73,19 +67,18 @@ extension Elasticbeanstalk {
             self.solutionStackName = solutionStackName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.permittedFileTypes = dictionary["PermittedFileTypes"] as? [String]
-            self.solutionStackName = dictionary["SolutionStackName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case permittedFileTypes = "PermittedFileTypes"
+            case solutionStackName = "SolutionStackName"
         }
     }
 
     public struct RequestEnvironmentInfoMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "InfoType", required: true, type: .enum), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "InfoType", required: true, type: .enum), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
         ]
         /// The name of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public let environmentName: String?
@@ -100,15 +93,14 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            guard let rawInfoType = dictionary["InfoType"] as? String, let infoType = EnvironmentInfoType(rawValue: rawInfoType) else { throw InitializableError.missingRequiredParam("InfoType") }
-            self.infoType = infoType
-            self.environmentId = dictionary["EnvironmentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case infoType = "InfoType"
+            case environmentId = "EnvironmentId"
         }
     }
 
-    public enum ValidationSeverity: String, CustomStringConvertible {
+    public enum ValidationSeverity: String, CustomStringConvertible, Codable {
         case error = "error"
         case warning = "warning"
         public var description: String { return self.rawValue }
@@ -116,10 +108,9 @@ extension Elasticbeanstalk {
 
     public struct PlatformProgrammingLanguage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
         /// The name of the programming language.
         public let name: String?
@@ -131,21 +122,20 @@ extension Elasticbeanstalk {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.version = dictionary["Version"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case version = "Version"
         }
     }
 
     public struct ManagedAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActionType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "ActionDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "ActionId", required: false, type: .string), 
-            AWSShapeProperty(label: "WindowStartTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionType", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ActionDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ActionId", required: false, type: .string), 
+            AWSShapeMember(label: "WindowStartTime", required: false, type: .timestamp)
         ]
         /// The type of managed action.
         public let actionType: ActionType?
@@ -156,9 +146,9 @@ extension Elasticbeanstalk {
         /// A unique identifier for the managed action.
         public let actionId: String?
         /// The start time of the maintenance window in which the managed action will execute.
-        public let windowStartTime: String?
+        public let windowStartTime: Double?
 
-        public init(actionType: ActionType? = nil, status: ActionStatus? = nil, actionDescription: String? = nil, actionId: String? = nil, windowStartTime: String? = nil) {
+        public init(actionType: ActionType? = nil, status: ActionStatus? = nil, actionDescription: String? = nil, actionId: String? = nil, windowStartTime: Double? = nil) {
             self.actionType = actionType
             self.status = status
             self.actionDescription = actionDescription
@@ -166,21 +156,20 @@ extension Elasticbeanstalk {
             self.windowStartTime = windowStartTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let actionType = dictionary["ActionType"] as? String { self.actionType = ActionType(rawValue: actionType) } else { self.actionType = nil }
-            if let status = dictionary["Status"] as? String { self.status = ActionStatus(rawValue: status) } else { self.status = nil }
-            self.actionDescription = dictionary["ActionDescription"] as? String
-            self.actionId = dictionary["ActionId"] as? String
-            self.windowStartTime = dictionary["WindowStartTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "ActionType"
+            case status = "Status"
+            case actionDescription = "ActionDescription"
+            case actionId = "ActionId"
+            case windowStartTime = "WindowStartTime"
         }
     }
 
     public struct RestartAppServerMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
         ]
         /// The name of the environment to restart the server for.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public let environmentName: String?
@@ -192,23 +181,22 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.environmentId = dictionary["EnvironmentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case environmentId = "EnvironmentId"
         }
     }
 
     public struct CPUUtilization: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Nice", required: false, type: .double), 
-            AWSShapeProperty(label: "IRQ", required: false, type: .double), 
-            AWSShapeProperty(label: "SoftIRQ", required: false, type: .double), 
-            AWSShapeProperty(label: "Idle", required: false, type: .double), 
-            AWSShapeProperty(label: "IOWait", required: false, type: .double), 
-            AWSShapeProperty(label: "System", required: false, type: .double), 
-            AWSShapeProperty(label: "User", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Nice", required: false, type: .double), 
+            AWSShapeMember(label: "IRQ", required: false, type: .double), 
+            AWSShapeMember(label: "SoftIRQ", required: false, type: .double), 
+            AWSShapeMember(label: "Idle", required: false, type: .double), 
+            AWSShapeMember(label: "IOWait", required: false, type: .double), 
+            AWSShapeMember(label: "System", required: false, type: .double), 
+            AWSShapeMember(label: "User", required: false, type: .double)
         ]
         /// Percentage of time that the CPU has spent in the Nice state over the last 10 seconds.
         public let nice: Double?
@@ -235,23 +223,22 @@ extension Elasticbeanstalk {
             self.user = user
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nice = dictionary["Nice"] as? Double
-            self.iRQ = dictionary["IRQ"] as? Double
-            self.softIRQ = dictionary["SoftIRQ"] as? Double
-            self.idle = dictionary["Idle"] as? Double
-            self.iOWait = dictionary["IOWait"] as? Double
-            self.system = dictionary["System"] as? Double
-            self.user = dictionary["User"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case nice = "Nice"
+            case iRQ = "IRQ"
+            case softIRQ = "SoftIRQ"
+            case idle = "Idle"
+            case iOWait = "IOWait"
+            case system = "System"
+            case user = "User"
         }
     }
 
     public struct DescribeEnvironmentManagedActionHistoryResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ManagedActionHistoryItems", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ManagedActionHistoryItems", required: false, type: .list)
         ]
         /// A pagination token that you pass to DescribeEnvironmentManagedActionHistory to get the next page of results.
         public let nextToken: String?
@@ -263,24 +250,19 @@ extension Elasticbeanstalk {
             self.managedActionHistoryItems = managedActionHistoryItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let managedActionHistoryItems = dictionary["ManagedActionHistoryItems"] as? [[String: Any]] {
-                self.managedActionHistoryItems = try managedActionHistoryItems.map({ try ManagedActionHistoryItem(dictionary: $0) })
-            } else { 
-                self.managedActionHistoryItems = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case managedActionHistoryItems = "ManagedActionHistoryItems"
         }
     }
 
     public struct TerminateEnvironmentMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "TerminateResources", required: false, type: .boolean), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "ForceTerminate", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "TerminateResources", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "ForceTerminate", required: false, type: .boolean)
         ]
         /// The name of the environment to terminate.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public let environmentName: String?
@@ -298,19 +280,18 @@ extension Elasticbeanstalk {
             self.forceTerminate = forceTerminate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.terminateResources = dictionary["TerminateResources"] as? Bool
-            self.environmentId = dictionary["EnvironmentId"] as? String
-            self.forceTerminate = dictionary["ForceTerminate"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case terminateResources = "TerminateResources"
+            case environmentId = "EnvironmentId"
+            case forceTerminate = "ForceTerminate"
         }
     }
 
     public struct CreateStorageLocationResultMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3Bucket", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Bucket", required: false, type: .string)
         ]
         /// The name of the Amazon S3 bucket created.
         public let s3Bucket: String?
@@ -319,19 +300,18 @@ extension Elasticbeanstalk {
             self.s3Bucket = s3Bucket
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.s3Bucket = dictionary["S3Bucket"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "S3Bucket"
         }
     }
 
     public struct StatusCodes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status5xx", required: false, type: .integer), 
-            AWSShapeProperty(label: "Status3xx", required: false, type: .integer), 
-            AWSShapeProperty(label: "Status2xx", required: false, type: .integer), 
-            AWSShapeProperty(label: "Status4xx", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status5xx", required: false, type: .integer), 
+            AWSShapeMember(label: "Status3xx", required: false, type: .integer), 
+            AWSShapeMember(label: "Status2xx", required: false, type: .integer), 
+            AWSShapeMember(label: "Status4xx", required: false, type: .integer)
         ]
         /// The percentage of requests over the last 10 seconds that resulted in a 5xx (500, 501, etc.) status code.
         public let status5xx: Int32?
@@ -349,22 +329,21 @@ extension Elasticbeanstalk {
             self.status4xx = status4xx
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status5xx = dictionary["Status5xx"] as? Int32
-            self.status3xx = dictionary["Status3xx"] as? Int32
-            self.status2xx = dictionary["Status2xx"] as? Int32
-            self.status4xx = dictionary["Status4xx"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case status5xx = "Status5xx"
+            case status3xx = "Status3xx"
+            case status2xx = "Status2xx"
+            case status4xx = "Status4xx"
         }
     }
 
     public struct ApplyEnvironmentManagedActionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActionType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "ActionDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "ActionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionType", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "ActionDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ActionId", required: false, type: .string)
         ]
         /// The type of managed action.
         public let actionType: ActionType?
@@ -382,27 +361,26 @@ extension Elasticbeanstalk {
             self.actionId = actionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let actionType = dictionary["ActionType"] as? String { self.actionType = ActionType(rawValue: actionType) } else { self.actionType = nil }
-            self.status = dictionary["Status"] as? String
-            self.actionDescription = dictionary["ActionDescription"] as? String
-            self.actionId = dictionary["ActionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "ActionType"
+            case status = "Status"
+            case actionDescription = "ActionDescription"
+            case actionId = "ActionId"
         }
     }
 
     public struct EventDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Severity", required: false, type: .enum), 
-            AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeProperty(label: "VersionLabel", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "RequestId", required: false, type: .string), 
-            AWSShapeProperty(label: "EventDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Severity", required: false, type: .enum), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "EventDate", required: false, type: .timestamp)
         ]
         /// The severity level of this event.
         public let severity: EventSeverity?
@@ -421,9 +399,9 @@ extension Elasticbeanstalk {
         /// The web service request ID for the activity of this event.
         public let requestId: String?
         /// The date when the event occurred.
-        public let eventDate: String?
+        public let eventDate: Double?
 
-        public init(severity: EventSeverity? = nil, templateName: String? = nil, message: String? = nil, platformArn: String? = nil, versionLabel: String? = nil, environmentName: String? = nil, applicationName: String? = nil, requestId: String? = nil, eventDate: String? = nil) {
+        public init(severity: EventSeverity? = nil, templateName: String? = nil, message: String? = nil, platformArn: String? = nil, versionLabel: String? = nil, environmentName: String? = nil, applicationName: String? = nil, requestId: String? = nil, eventDate: Double? = nil) {
             self.severity = severity
             self.templateName = templateName
             self.message = message
@@ -435,25 +413,24 @@ extension Elasticbeanstalk {
             self.eventDate = eventDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let severity = dictionary["Severity"] as? String { self.severity = EventSeverity(rawValue: severity) } else { self.severity = nil }
-            self.templateName = dictionary["TemplateName"] as? String
-            self.message = dictionary["Message"] as? String
-            self.platformArn = dictionary["PlatformArn"] as? String
-            self.versionLabel = dictionary["VersionLabel"] as? String
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.applicationName = dictionary["ApplicationName"] as? String
-            self.requestId = dictionary["RequestId"] as? String
-            self.eventDate = dictionary["EventDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case severity = "Severity"
+            case templateName = "TemplateName"
+            case message = "Message"
+            case platformArn = "PlatformArn"
+            case versionLabel = "VersionLabel"
+            case environmentName = "EnvironmentName"
+            case applicationName = "ApplicationName"
+            case requestId = "RequestId"
+            case eventDate = "EventDate"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The value of the tag.
         public let value: String?
@@ -465,17 +442,16 @@ extension Elasticbeanstalk {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct DescribeEnvironmentManagedActionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ManagedActions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ManagedActions", required: false, type: .list)
         ]
         /// A list of upcoming and in-progress managed actions.
         public let managedActions: [ManagedAction]?
@@ -484,27 +460,22 @@ extension Elasticbeanstalk {
             self.managedActions = managedActions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let managedActions = dictionary["ManagedActions"] as? [[String: Any]] {
-                self.managedActions = try managedActions.map({ try ManagedAction(dictionary: $0) })
-            } else { 
-                self.managedActions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case managedActions = "ManagedActions"
         }
     }
 
     public struct PlatformSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OperatingSystemVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SupportedAddonList", required: false, type: .list), 
-            AWSShapeProperty(label: "PlatformCategory", required: false, type: .string), 
-            AWSShapeProperty(label: "OperatingSystemName", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformOwner", required: false, type: .string), 
-            AWSShapeProperty(label: "SupportedTierList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperatingSystemVersion", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "SupportedAddonList", required: false, type: .list), 
+            AWSShapeMember(label: "PlatformCategory", required: false, type: .string), 
+            AWSShapeMember(label: "OperatingSystemName", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformOwner", required: false, type: .string), 
+            AWSShapeMember(label: "SupportedTierList", required: false, type: .list)
         ]
         /// The version of the operating system used by the platform.
         public let operatingSystemVersion: String?
@@ -534,19 +505,19 @@ extension Elasticbeanstalk {
             self.supportedTierList = supportedTierList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.operatingSystemVersion = dictionary["OperatingSystemVersion"] as? String
-            if let platformStatus = dictionary["PlatformStatus"] as? String { self.platformStatus = PlatformStatus(rawValue: platformStatus) } else { self.platformStatus = nil }
-            self.platformArn = dictionary["PlatformArn"] as? String
-            self.supportedAddonList = dictionary["SupportedAddonList"] as? [String]
-            self.platformCategory = dictionary["PlatformCategory"] as? String
-            self.operatingSystemName = dictionary["OperatingSystemName"] as? String
-            self.platformOwner = dictionary["PlatformOwner"] as? String
-            self.supportedTierList = dictionary["SupportedTierList"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case operatingSystemVersion = "OperatingSystemVersion"
+            case platformStatus = "PlatformStatus"
+            case platformArn = "PlatformArn"
+            case supportedAddonList = "SupportedAddonList"
+            case platformCategory = "PlatformCategory"
+            case operatingSystemName = "OperatingSystemName"
+            case platformOwner = "PlatformOwner"
+            case supportedTierList = "SupportedTierList"
         }
     }
 
-    public enum EventSeverity: String, CustomStringConvertible {
+    public enum EventSeverity: String, CustomStringConvertible, Codable {
         case trace = "TRACE"
         case debug = "DEBUG"
         case info = "INFO"
@@ -558,12 +529,11 @@ extension Elasticbeanstalk {
 
     public struct DescribeEnvironmentManagedActionHistoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The name of the target environment.
         public let environmentName: String?
@@ -581,15 +551,15 @@ extension Elasticbeanstalk {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            self.environmentId = dictionary["EnvironmentId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case maxItems = "MaxItems"
+            case environmentId = "EnvironmentId"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum ComputeType: String, CustomStringConvertible {
+    public enum ComputeType: String, CustomStringConvertible, Codable {
         case build_general1_small = "BUILD_GENERAL1_SMALL"
         case build_general1_medium = "BUILD_GENERAL1_MEDIUM"
         case build_general1_large = "BUILD_GENERAL1_LARGE"
@@ -598,10 +568,9 @@ extension Elasticbeanstalk {
 
     public struct PlatformFramework: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
         /// The name of the framework.
         public let name: String?
@@ -613,19 +582,18 @@ extension Elasticbeanstalk {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.version = dictionary["Version"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case version = "Version"
         }
     }
 
     public struct DescribeEnvironmentHealthRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "AttributeNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "AttributeNames", required: false, type: .list)
         ]
         /// Specify the environment by name. You must specify either this or an EnvironmentName, or both.
         public let environmentName: String?
@@ -640,18 +608,17 @@ extension Elasticbeanstalk {
             self.attributeNames = attributeNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.environmentId = dictionary["EnvironmentId"] as? String
-            if let attributeNames = dictionary["AttributeNames"] as? [String] { self.attributeNames = attributeNames.flatMap({ EnvironmentHealthAttribute(rawValue: $0)}) } else { self.attributeNames = nil }
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case environmentId = "EnvironmentId"
+            case attributeNames = "AttributeNames"
         }
     }
 
     public struct Trigger: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The name of the trigger.
         public let name: String?
@@ -660,16 +627,15 @@ extension Elasticbeanstalk {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct Instance: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The ID of the Amazon EC2 instance.
         public let id: String?
@@ -678,30 +644,29 @@ extension Elasticbeanstalk {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct DescribeEventsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
-            AWSShapeProperty(label: "Severity", required: false, type: .enum), 
-            AWSShapeProperty(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeProperty(label: "VersionLabel", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "RequestId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "Severity", required: false, type: .enum), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur on or after this time.
-        public let startTime: String?
+        public let startTime: Double?
         /// Specifies the maximum number of events that can be returned, beginning with the most recent event.
         public let maxRecords: Int32?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that are associated with this environment configuration.
@@ -715,7 +680,7 @@ extension Elasticbeanstalk {
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
         public let environmentName: String?
         ///  If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime. 
-        public let endTime: String?
+        public let endTime: Double?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
         public let environmentId: String?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
@@ -725,7 +690,7 @@ extension Elasticbeanstalk {
         /// Pagination token. If specified, the events return the next batch of results.
         public let nextToken: String?
 
-        public init(startTime: String? = nil, maxRecords: Int32? = nil, templateName: String? = nil, severity: EventSeverity? = nil, platformArn: String? = nil, versionLabel: String? = nil, environmentName: String? = nil, endTime: String? = nil, environmentId: String? = nil, applicationName: String? = nil, requestId: String? = nil, nextToken: String? = nil) {
+        public init(startTime: Double? = nil, maxRecords: Int32? = nil, templateName: String? = nil, severity: EventSeverity? = nil, platformArn: String? = nil, versionLabel: String? = nil, environmentName: String? = nil, endTime: Double? = nil, environmentId: String? = nil, applicationName: String? = nil, requestId: String? = nil, nextToken: String? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.templateName = templateName
@@ -740,23 +705,23 @@ extension Elasticbeanstalk {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.templateName = dictionary["TemplateName"] as? String
-            if let severity = dictionary["Severity"] as? String { self.severity = EventSeverity(rawValue: severity) } else { self.severity = nil }
-            self.platformArn = dictionary["PlatformArn"] as? String
-            self.versionLabel = dictionary["VersionLabel"] as? String
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.endTime = dictionary["EndTime"] as? String
-            self.environmentId = dictionary["EnvironmentId"] as? String
-            self.applicationName = dictionary["ApplicationName"] as? String
-            self.requestId = dictionary["RequestId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case maxRecords = "MaxRecords"
+            case templateName = "TemplateName"
+            case severity = "Severity"
+            case platformArn = "PlatformArn"
+            case versionLabel = "VersionLabel"
+            case environmentName = "EnvironmentName"
+            case endTime = "EndTime"
+            case environmentId = "EnvironmentId"
+            case applicationName = "ApplicationName"
+            case requestId = "RequestId"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum ConfigurationDeploymentStatus: String, CustomStringConvertible {
+    public enum ConfigurationDeploymentStatus: String, CustomStringConvertible, Codable {
         case deployed = "deployed"
         case pending = "pending"
         case failed = "failed"
@@ -765,16 +730,15 @@ extension Elasticbeanstalk {
 
     public struct CreateApplicationVersionMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionLabel", required: true, type: .string), 
-            AWSShapeProperty(label: "AutoCreateApplication", required: false, type: .boolean), 
-            AWSShapeProperty(label: "BuildConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "SourceBuildInformation", required: false, type: .structure), 
-            AWSShapeProperty(label: "Process", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceBundle", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionLabel", required: true, type: .string), 
+            AWSShapeMember(label: "AutoCreateApplication", required: false, type: .boolean), 
+            AWSShapeMember(label: "BuildConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceBuildInformation", required: false, type: .structure), 
+            AWSShapeMember(label: "Process", required: false, type: .boolean), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "SourceBundle", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// A label identifying this version. Constraint: Must be unique per application. If an application version already exists with this label for the specified application, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
         public let versionLabel: String
@@ -804,28 +768,25 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let versionLabel = dictionary["VersionLabel"] as? String else { throw InitializableError.missingRequiredParam("VersionLabel") }
-            self.versionLabel = versionLabel
-            self.autoCreateApplication = dictionary["AutoCreateApplication"] as? Bool
-            if let buildConfiguration = dictionary["BuildConfiguration"] as? [String: Any] { self.buildConfiguration = try Elasticbeanstalk.BuildConfiguration(dictionary: buildConfiguration) } else { self.buildConfiguration = nil }
-            if let sourceBuildInformation = dictionary["SourceBuildInformation"] as? [String: Any] { self.sourceBuildInformation = try Elasticbeanstalk.SourceBuildInformation(dictionary: sourceBuildInformation) } else { self.sourceBuildInformation = nil }
-            self.process = dictionary["Process"] as? Bool
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
-            if let sourceBundle = dictionary["SourceBundle"] as? [String: Any] { self.sourceBundle = try Elasticbeanstalk.S3Location(dictionary: sourceBundle) } else { self.sourceBundle = nil }
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case versionLabel = "VersionLabel"
+            case autoCreateApplication = "AutoCreateApplication"
+            case buildConfiguration = "BuildConfiguration"
+            case sourceBuildInformation = "SourceBuildInformation"
+            case process = "Process"
+            case applicationName = "ApplicationName"
+            case sourceBundle = "SourceBundle"
+            case description = "Description"
         }
     }
 
     public struct SwapEnvironmentCNAMEsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DestinationEnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceEnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceEnvironmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "DestinationEnvironmentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationEnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "SourceEnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "SourceEnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationEnvironmentId", required: false, type: .string)
         ]
         /// The name of the destination environment.  Condition: You must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may also specify both. You must specify the SourceEnvironmentName with the DestinationEnvironmentName. 
         public let destinationEnvironmentName: String?
@@ -843,15 +804,15 @@ extension Elasticbeanstalk {
             self.destinationEnvironmentId = destinationEnvironmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.destinationEnvironmentName = dictionary["DestinationEnvironmentName"] as? String
-            self.sourceEnvironmentName = dictionary["SourceEnvironmentName"] as? String
-            self.sourceEnvironmentId = dictionary["SourceEnvironmentId"] as? String
-            self.destinationEnvironmentId = dictionary["DestinationEnvironmentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case destinationEnvironmentName = "DestinationEnvironmentName"
+            case sourceEnvironmentName = "SourceEnvironmentName"
+            case sourceEnvironmentId = "SourceEnvironmentId"
+            case destinationEnvironmentId = "DestinationEnvironmentId"
         }
     }
 
-    public enum ConfigurationOptionValueType: String, CustomStringConvertible {
+    public enum ConfigurationOptionValueType: String, CustomStringConvertible, Codable {
         case scalar = "Scalar"
         case list = "List"
         public var description: String { return self.rawValue }
@@ -859,11 +820,10 @@ extension Elasticbeanstalk {
 
     public struct ComposeEnvironmentsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionLabels", required: false, type: .list), 
-            AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionLabels", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string)
         ]
         /// A list of version labels, specifying one or more application source bundles that belong to the target application. Each source bundle must include an environment manifest that specifies the name of the environment and the name of the solution stack to use, and optionally can specify environment links to create.
         public let versionLabels: [String]?
@@ -878,18 +838,17 @@ extension Elasticbeanstalk {
             self.groupName = groupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.versionLabels = dictionary["VersionLabels"] as? [String]
-            self.applicationName = dictionary["ApplicationName"] as? String
-            self.groupName = dictionary["GroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case versionLabels = "VersionLabels"
+            case applicationName = "ApplicationName"
+            case groupName = "GroupName"
         }
     }
 
     public struct EnvironmentResourcesDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancer", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancer", required: false, type: .structure)
         ]
         /// Describes the LoadBalancer.
         public let loadBalancer: LoadBalancerDescription?
@@ -898,16 +857,15 @@ extension Elasticbeanstalk {
             self.loadBalancer = loadBalancer
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let loadBalancer = dictionary["LoadBalancer"] as? [String: Any] { self.loadBalancer = try Elasticbeanstalk.LoadBalancerDescription(dictionary: loadBalancer) } else { self.loadBalancer = nil }
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancer = "LoadBalancer"
         }
     }
 
     public struct CheckDNSAvailabilityMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CNAMEPrefix", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CNAMEPrefix", required: true, type: .string)
         ]
         /// The prefix used when this CNAME is reserved.
         public let cNAMEPrefix: String
@@ -916,21 +874,19 @@ extension Elasticbeanstalk {
             self.cNAMEPrefix = cNAMEPrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cNAMEPrefix = dictionary["CNAMEPrefix"] as? String else { throw InitializableError.missingRequiredParam("CNAMEPrefix") }
-            self.cNAMEPrefix = cNAMEPrefix
+        private enum CodingKeys: String, CodingKey {
+            case cNAMEPrefix = "CNAMEPrefix"
         }
     }
 
     public struct BuildConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Image", required: true, type: .string), 
-            AWSShapeProperty(label: "ComputeType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ArtifactName", required: false, type: .string), 
-            AWSShapeProperty(label: "CodeBuildServiceRole", required: true, type: .string), 
-            AWSShapeProperty(label: "TimeoutInMinutes", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Image", required: true, type: .string), 
+            AWSShapeMember(label: "ComputeType", required: false, type: .enum), 
+            AWSShapeMember(label: "ArtifactName", required: false, type: .string), 
+            AWSShapeMember(label: "CodeBuildServiceRole", required: true, type: .string), 
+            AWSShapeMember(label: "TimeoutInMinutes", required: false, type: .integer)
         ]
         /// The ID of the Docker image to use for this build project.
         public let image: String
@@ -951,29 +907,26 @@ extension Elasticbeanstalk {
             self.timeoutInMinutes = timeoutInMinutes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let image = dictionary["Image"] as? String else { throw InitializableError.missingRequiredParam("Image") }
-            self.image = image
-            if let computeType = dictionary["ComputeType"] as? String { self.computeType = ComputeType(rawValue: computeType) } else { self.computeType = nil }
-            self.artifactName = dictionary["ArtifactName"] as? String
-            guard let codeBuildServiceRole = dictionary["CodeBuildServiceRole"] as? String else { throw InitializableError.missingRequiredParam("CodeBuildServiceRole") }
-            self.codeBuildServiceRole = codeBuildServiceRole
-            self.timeoutInMinutes = dictionary["TimeoutInMinutes"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+            case computeType = "ComputeType"
+            case artifactName = "ArtifactName"
+            case codeBuildServiceRole = "CodeBuildServiceRole"
+            case timeoutInMinutes = "TimeoutInMinutes"
         }
     }
 
     public struct Latency: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "P95", required: false, type: .double), 
-            AWSShapeProperty(label: "P10", required: false, type: .double), 
-            AWSShapeProperty(label: "P90", required: false, type: .double), 
-            AWSShapeProperty(label: "P85", required: false, type: .double), 
-            AWSShapeProperty(label: "P50", required: false, type: .double), 
-            AWSShapeProperty(label: "P75", required: false, type: .double), 
-            AWSShapeProperty(label: "P99", required: false, type: .double), 
-            AWSShapeProperty(label: "P999", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "P95", required: false, type: .double), 
+            AWSShapeMember(label: "P10", required: false, type: .double), 
+            AWSShapeMember(label: "P90", required: false, type: .double), 
+            AWSShapeMember(label: "P85", required: false, type: .double), 
+            AWSShapeMember(label: "P50", required: false, type: .double), 
+            AWSShapeMember(label: "P75", required: false, type: .double), 
+            AWSShapeMember(label: "P99", required: false, type: .double), 
+            AWSShapeMember(label: "P999", required: false, type: .double)
         ]
         /// The average latency for the slowest 5 percent of requests over the last 10 seconds.
         public let p95: Double?
@@ -1003,23 +956,22 @@ extension Elasticbeanstalk {
             self.p999 = p999
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.p95 = dictionary["P95"] as? Double
-            self.p10 = dictionary["P10"] as? Double
-            self.p90 = dictionary["P90"] as? Double
-            self.p85 = dictionary["P85"] as? Double
-            self.p50 = dictionary["P50"] as? Double
-            self.p75 = dictionary["P75"] as? Double
-            self.p99 = dictionary["P99"] as? Double
-            self.p999 = dictionary["P999"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case p95 = "P95"
+            case p10 = "P10"
+            case p90 = "P90"
+            case p85 = "P85"
+            case p50 = "P50"
+            case p75 = "P75"
+            case p99 = "P99"
+            case p999 = "P999"
         }
     }
 
     public struct LoadBalancer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The name of the LoadBalancer.
         public let name: String?
@@ -1028,17 +980,16 @@ extension Elasticbeanstalk {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct RebuildEnvironmentMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
         ]
         /// The name of the environment to rebuild.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public let environmentName: String?
@@ -1050,31 +1001,30 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.environmentId = dictionary["EnvironmentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case environmentId = "EnvironmentId"
         }
     }
 
     public struct ManagedActionHistoryItem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActionType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "FinishedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "FailureType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ActionId", required: false, type: .string), 
-            AWSShapeProperty(label: "FailureDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "ExecutedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ActionDescription", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionType", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "FinishedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FailureType", required: false, type: .enum), 
+            AWSShapeMember(label: "ActionId", required: false, type: .string), 
+            AWSShapeMember(label: "FailureDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ActionDescription", required: false, type: .string)
         ]
         /// The type of the managed action.
         public let actionType: ActionType?
         /// The status of the action.
         public let status: ActionHistoryStatus?
         /// The date and time that the action finished executing.
-        public let finishedTime: String?
+        public let finishedTime: Double?
         /// If the action failed, the type of failure.
         public let failureType: FailureType?
         /// A unique identifier for the managed action.
@@ -1082,11 +1032,11 @@ extension Elasticbeanstalk {
         /// If the action failed, a description of the failure.
         public let failureDescription: String?
         /// The date and time that the action started executing.
-        public let executedTime: String?
+        public let executedTime: Double?
         /// A description of the managed action.
         public let actionDescription: String?
 
-        public init(actionType: ActionType? = nil, status: ActionHistoryStatus? = nil, finishedTime: String? = nil, failureType: FailureType? = nil, actionId: String? = nil, failureDescription: String? = nil, executedTime: String? = nil, actionDescription: String? = nil) {
+        public init(actionType: ActionType? = nil, status: ActionHistoryStatus? = nil, finishedTime: Double? = nil, failureType: FailureType? = nil, actionId: String? = nil, failureDescription: String? = nil, executedTime: Double? = nil, actionDescription: String? = nil) {
             self.actionType = actionType
             self.status = status
             self.finishedTime = finishedTime
@@ -1097,23 +1047,22 @@ extension Elasticbeanstalk {
             self.actionDescription = actionDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let actionType = dictionary["ActionType"] as? String { self.actionType = ActionType(rawValue: actionType) } else { self.actionType = nil }
-            if let status = dictionary["Status"] as? String { self.status = ActionHistoryStatus(rawValue: status) } else { self.status = nil }
-            self.finishedTime = dictionary["FinishedTime"] as? String
-            if let failureType = dictionary["FailureType"] as? String { self.failureType = FailureType(rawValue: failureType) } else { self.failureType = nil }
-            self.actionId = dictionary["ActionId"] as? String
-            self.failureDescription = dictionary["FailureDescription"] as? String
-            self.executedTime = dictionary["ExecutedTime"] as? String
-            self.actionDescription = dictionary["ActionDescription"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "ActionType"
+            case status = "Status"
+            case finishedTime = "FinishedTime"
+            case failureType = "FailureType"
+            case actionId = "ActionId"
+            case failureDescription = "FailureDescription"
+            case executedTime = "ExecutedTime"
+            case actionDescription = "ActionDescription"
         }
     }
 
     public struct DescribePlatformVersionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlatformDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformDescription", required: false, type: .structure)
         ]
         /// Detailed information about the version of the platform.
         public let platformDescription: PlatformDescription?
@@ -1122,16 +1071,15 @@ extension Elasticbeanstalk {
             self.platformDescription = platformDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let platformDescription = dictionary["PlatformDescription"] as? [String: Any] { self.platformDescription = try Elasticbeanstalk.PlatformDescription(dictionary: platformDescription) } else { self.platformDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case platformDescription = "PlatformDescription"
         }
     }
 
     public struct RetrieveEnvironmentInfoResultMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentInfo", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentInfo", required: false, type: .list)
         ]
         ///  The EnvironmentInfoDescription of the environment. 
         public let environmentInfo: [EnvironmentInfoDescription]?
@@ -1140,27 +1088,22 @@ extension Elasticbeanstalk {
             self.environmentInfo = environmentInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let environmentInfo = dictionary["EnvironmentInfo"] as? [[String: Any]] {
-                self.environmentInfo = try environmentInfo.map({ try EnvironmentInfoDescription(dictionary: $0) })
-            } else { 
-                self.environmentInfo = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case environmentInfo = "EnvironmentInfo"
         }
     }
 
     public struct InstanceHealthSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pending", required: false, type: .integer), 
-            AWSShapeProperty(label: "Degraded", required: false, type: .integer), 
-            AWSShapeProperty(label: "Warning", required: false, type: .integer), 
-            AWSShapeProperty(label: "Ok", required: false, type: .integer), 
-            AWSShapeProperty(label: "Info", required: false, type: .integer), 
-            AWSShapeProperty(label: "NoData", required: false, type: .integer), 
-            AWSShapeProperty(label: "Unknown", required: false, type: .integer), 
-            AWSShapeProperty(label: "Severe", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pending", required: false, type: .integer), 
+            AWSShapeMember(label: "Degraded", required: false, type: .integer), 
+            AWSShapeMember(label: "Warning", required: false, type: .integer), 
+            AWSShapeMember(label: "Ok", required: false, type: .integer), 
+            AWSShapeMember(label: "Info", required: false, type: .integer), 
+            AWSShapeMember(label: "NoData", required: false, type: .integer), 
+            AWSShapeMember(label: "Unknown", required: false, type: .integer), 
+            AWSShapeMember(label: "Severe", required: false, type: .integer)
         ]
         ///  Grey. An operation is in progress on an instance within the command timeout.
         public let pending: Int32?
@@ -1190,46 +1133,45 @@ extension Elasticbeanstalk {
             self.severe = severe
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pending = dictionary["Pending"] as? Int32
-            self.degraded = dictionary["Degraded"] as? Int32
-            self.warning = dictionary["Warning"] as? Int32
-            self.ok = dictionary["Ok"] as? Int32
-            self.info = dictionary["Info"] as? Int32
-            self.noData = dictionary["NoData"] as? Int32
-            self.unknown = dictionary["Unknown"] as? Int32
-            self.severe = dictionary["Severe"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case pending = "Pending"
+            case degraded = "Degraded"
+            case warning = "Warning"
+            case ok = "Ok"
+            case info = "Info"
+            case noData = "NoData"
+            case unknown = "Unknown"
+            case severe = "Severe"
         }
     }
 
     public struct ApplicationDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationTemplates", required: false, type: .list), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "DateUpdated", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ResourceLifecycleConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "DateCreated", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Versions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationTemplates", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
         /// The names of the configuration templates associated with this application.
         public let configurationTemplates: [String]?
         /// User-defined description of the application.
         public let description: String?
         /// The date when the application was last modified.
-        public let dateUpdated: String?
+        public let dateUpdated: Double?
         /// The lifecycle settings for the application.
         public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
         /// The name of the application.
         public let applicationName: String?
         /// The date when the application was created.
-        public let dateCreated: String?
+        public let dateCreated: Double?
         /// The names of the versions for this application.
         public let versions: [String]?
 
-        public init(configurationTemplates: [String]? = nil, description: String? = nil, dateUpdated: String? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, applicationName: String? = nil, dateCreated: String? = nil, versions: [String]? = nil) {
+        public init(configurationTemplates: [String]? = nil, description: String? = nil, dateUpdated: Double? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, applicationName: String? = nil, dateCreated: Double? = nil, versions: [String]? = nil) {
             self.configurationTemplates = configurationTemplates
             self.description = description
             self.dateUpdated = dateUpdated
@@ -1239,22 +1181,21 @@ extension Elasticbeanstalk {
             self.versions = versions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configurationTemplates = dictionary["ConfigurationTemplates"] as? [String]
-            self.description = dictionary["Description"] as? String
-            self.dateUpdated = dictionary["DateUpdated"] as? String
-            if let resourceLifecycleConfig = dictionary["ResourceLifecycleConfig"] as? [String: Any] { self.resourceLifecycleConfig = try Elasticbeanstalk.ApplicationResourceLifecycleConfig(dictionary: resourceLifecycleConfig) } else { self.resourceLifecycleConfig = nil }
-            self.applicationName = dictionary["ApplicationName"] as? String
-            self.dateCreated = dictionary["DateCreated"] as? String
-            self.versions = dictionary["Versions"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case configurationTemplates = "ConfigurationTemplates"
+            case description = "Description"
+            case dateUpdated = "DateUpdated"
+            case resourceLifecycleConfig = "ResourceLifecycleConfig"
+            case applicationName = "ApplicationName"
+            case dateCreated = "DateCreated"
+            case versions = "Versions"
         }
     }
 
     public struct Builder: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: false, type: .string)
         ]
         /// The ARN of the builder.
         public let aRN: String?
@@ -1263,12 +1204,12 @@ extension Elasticbeanstalk {
             self.aRN = aRN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.aRN = dictionary["ARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case aRN = "ARN"
         }
     }
 
-    public enum SourceRepository: String, CustomStringConvertible {
+    public enum SourceRepository: String, CustomStringConvertible, Codable {
         case codecommit = "CodeCommit"
         case s3 = "S3"
         public var description: String { return self.rawValue }
@@ -1276,12 +1217,11 @@ extension Elasticbeanstalk {
 
     public struct DescribeInstancesHealthRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AttributeNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AttributeNames", required: false, type: .list)
         ]
         /// Specify the AWS Elastic Beanstalk environment by name.
         public let environmentName: String?
@@ -1299,19 +1239,18 @@ extension Elasticbeanstalk {
             self.attributeNames = attributeNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.environmentId = dictionary["EnvironmentId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            if let attributeNames = dictionary["AttributeNames"] as? [String] { self.attributeNames = attributeNames.flatMap({ InstancesHealthAttribute(rawValue: $0)}) } else { self.attributeNames = nil }
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case environmentId = "EnvironmentId"
+            case nextToken = "NextToken"
+            case attributeNames = "AttributeNames"
         }
     }
 
     public struct AutoScalingGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The name of the AutoScalingGroup . 
         public let name: String?
@@ -1320,17 +1259,16 @@ extension Elasticbeanstalk {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct CreatePlatformVersionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlatformSummary", required: false, type: .structure), 
-            AWSShapeProperty(label: "Builder", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "Builder", required: false, type: .structure)
         ]
         /// Detailed information about the new version of the custom platform.
         public let platformSummary: PlatformSummary?
@@ -1342,17 +1280,16 @@ extension Elasticbeanstalk {
             self.builder = builder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let platformSummary = dictionary["PlatformSummary"] as? [String: Any] { self.platformSummary = try Elasticbeanstalk.PlatformSummary(dictionary: platformSummary) } else { self.platformSummary = nil }
-            if let builder = dictionary["Builder"] as? [String: Any] { self.builder = try Elasticbeanstalk.Builder(dictionary: builder) } else { self.builder = nil }
+        private enum CodingKeys: String, CodingKey {
+            case platformSummary = "PlatformSummary"
+            case builder = "Builder"
         }
     }
 
     public struct EnvironmentDescriptionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Environments", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Environments", required: false, type: .list)
         ]
         ///  Returns an EnvironmentDescription list. 
         public let environments: [EnvironmentDescription]?
@@ -1361,16 +1298,12 @@ extension Elasticbeanstalk {
             self.environments = environments
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let environments = dictionary["Environments"] as? [[String: Any]] {
-                self.environments = try environments.map({ try EnvironmentDescription(dictionary: $0) })
-            } else { 
-                self.environments = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case environments = "Environments"
         }
     }
 
-    public enum InstancesHealthAttribute: String, CustomStringConvertible {
+    public enum InstancesHealthAttribute: String, CustomStringConvertible, Codable {
         case healthstatus = "HealthStatus"
         case color = "Color"
         case causes = "Causes"
@@ -1387,10 +1320,9 @@ extension Elasticbeanstalk {
 
     public struct SourceConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string)
         ]
         /// The name of the configuration template.
         public let templateName: String?
@@ -1402,24 +1334,23 @@ extension Elasticbeanstalk {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.templateName = dictionary["TemplateName"] as? String
-            self.applicationName = dictionary["ApplicationName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "TemplateName"
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct CreateConfigurationTemplateMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OptionSettings", required: false, type: .list), 
-            AWSShapeProperty(label: "SourceConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "TemplateName", required: true, type: .string), 
-            AWSShapeProperty(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
+            AWSShapeMember(label: "SourceConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// If specified, AWS Elastic Beanstalk sets the specified configuration option to the requested value. The new value overrides the value obtained from the solution stack or the source configuration template.
         public let optionSettings: [ConfigurationOptionSetting]?
@@ -1449,43 +1380,36 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
-                self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
-            } else { 
-                self.optionSettings = nil
-            }
-            if let sourceConfiguration = dictionary["SourceConfiguration"] as? [String: Any] { self.sourceConfiguration = try Elasticbeanstalk.SourceConfiguration(dictionary: sourceConfiguration) } else { self.sourceConfiguration = nil }
-            guard let templateName = dictionary["TemplateName"] as? String else { throw InitializableError.missingRequiredParam("TemplateName") }
-            self.templateName = templateName
-            self.solutionStackName = dictionary["SolutionStackName"] as? String
-            self.platformArn = dictionary["PlatformArn"] as? String
-            self.environmentId = dictionary["EnvironmentId"] as? String
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case optionSettings = "OptionSettings"
+            case sourceConfiguration = "SourceConfiguration"
+            case templateName = "TemplateName"
+            case solutionStackName = "SolutionStackName"
+            case platformArn = "PlatformArn"
+            case environmentId = "EnvironmentId"
+            case applicationName = "ApplicationName"
+            case description = "Description"
         }
     }
 
     public struct ConfigurationSettingsDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OptionSettings", required: false, type: .list), 
-            AWSShapeProperty(label: "DateUpdated", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
-            AWSShapeProperty(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "DeploymentStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "DateCreated", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
+            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// A list of the configuration options and their values in this configuration set.
         public let optionSettings: [ConfigurationOptionSetting]?
         /// The date (in UTC time) when this configuration set was last modified.
-        public let dateUpdated: String?
+        public let dateUpdated: Double?
         ///  If not null, the name of the configuration template for this configuration set. 
         public let templateName: String?
         /// The name of the solution stack this configuration set uses.
@@ -1499,11 +1423,11 @@ extension Elasticbeanstalk {
         ///  If this configuration set is associated with an environment, the DeploymentStatus parameter indicates the deployment status of this configuration set:     null: This configuration is not associated with a running environment.    pending: This is a draft configuration that is not deployed to the associated environment but is in the process of deploying.    deployed: This is the configuration that is currently deployed to the associated running environment.    failed: This is a draft configuration that failed to successfully deploy.  
         public let deploymentStatus: ConfigurationDeploymentStatus?
         /// The date (in UTC time) when this configuration set was created.
-        public let dateCreated: String?
+        public let dateCreated: Double?
         /// Describes this configuration set.
         public let description: String?
 
-        public init(optionSettings: [ConfigurationOptionSetting]? = nil, dateUpdated: String? = nil, templateName: String? = nil, solutionStackName: String? = nil, platformArn: String? = nil, environmentName: String? = nil, applicationName: String? = nil, deploymentStatus: ConfigurationDeploymentStatus? = nil, dateCreated: String? = nil, description: String? = nil) {
+        public init(optionSettings: [ConfigurationOptionSetting]? = nil, dateUpdated: Double? = nil, templateName: String? = nil, solutionStackName: String? = nil, platformArn: String? = nil, environmentName: String? = nil, applicationName: String? = nil, deploymentStatus: ConfigurationDeploymentStatus? = nil, dateCreated: Double? = nil, description: String? = nil) {
             self.optionSettings = optionSettings
             self.dateUpdated = dateUpdated
             self.templateName = templateName
@@ -1516,33 +1440,28 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
-                self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
-            } else { 
-                self.optionSettings = nil
-            }
-            self.dateUpdated = dictionary["DateUpdated"] as? String
-            self.templateName = dictionary["TemplateName"] as? String
-            self.solutionStackName = dictionary["SolutionStackName"] as? String
-            self.platformArn = dictionary["PlatformArn"] as? String
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.applicationName = dictionary["ApplicationName"] as? String
-            if let deploymentStatus = dictionary["DeploymentStatus"] as? String { self.deploymentStatus = ConfigurationDeploymentStatus(rawValue: deploymentStatus) } else { self.deploymentStatus = nil }
-            self.dateCreated = dictionary["DateCreated"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case optionSettings = "OptionSettings"
+            case dateUpdated = "DateUpdated"
+            case templateName = "TemplateName"
+            case solutionStackName = "SolutionStackName"
+            case platformArn = "PlatformArn"
+            case environmentName = "EnvironmentName"
+            case applicationName = "ApplicationName"
+            case deploymentStatus = "DeploymentStatus"
+            case dateCreated = "DateCreated"
+            case description = "Description"
         }
     }
 
     public struct UpdateConfigurationTemplateMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OptionSettings", required: false, type: .list), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "OptionsToRemove", required: false, type: .list), 
-            AWSShapeProperty(label: "TemplateName", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "OptionsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// A list of configuration option settings to update with the new specified option value.
         public let optionSettings: [ConfigurationOptionSetting]?
@@ -1563,53 +1482,42 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
-                self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
-            } else { 
-                self.optionSettings = nil
-            }
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
-            if let optionsToRemove = dictionary["OptionsToRemove"] as? [[String: Any]] {
-                self.optionsToRemove = try optionsToRemove.map({ try OptionSpecification(dictionary: $0) })
-            } else { 
-                self.optionsToRemove = nil
-            }
-            guard let templateName = dictionary["TemplateName"] as? String else { throw InitializableError.missingRequiredParam("TemplateName") }
-            self.templateName = templateName
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case optionSettings = "OptionSettings"
+            case applicationName = "ApplicationName"
+            case optionsToRemove = "OptionsToRemove"
+            case templateName = "TemplateName"
+            case description = "Description"
         }
     }
 
     public struct EnvironmentDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
-            AWSShapeProperty(label: "DateUpdated", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "VersionLabel", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "CNAME", required: false, type: .string), 
-            AWSShapeProperty(label: "HealthStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "EndpointURL", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentLinks", required: false, type: .list), 
-            AWSShapeProperty(label: "DateCreated", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AbortableOperationInProgress", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "Health", required: false, type: .enum), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "Resources", required: false, type: .structure), 
-            AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "Tier", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "CNAME", required: false, type: .string), 
+            AWSShapeMember(label: "HealthStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "EndpointURL", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentLinks", required: false, type: .list), 
+            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AbortableOperationInProgress", required: false, type: .boolean), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Health", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "Resources", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "Tier", required: false, type: .structure)
         ]
         /// The name of the configuration template used to originally launch this environment.
         public let templateName: String?
         /// The last modified date for this environment.
-        public let dateUpdated: String?
+        public let dateUpdated: Double?
         /// The application version deployed in this environment.
         public let versionLabel: String?
         /// The name of this environment.
@@ -1623,7 +1531,7 @@ extension Elasticbeanstalk {
         /// A list of links to other environments in the same group.
         public let environmentLinks: [EnvironmentLink]?
         /// The creation date for this environment.
-        public let dateCreated: String?
+        public let dateCreated: Double?
         /// Indicates if there is an in-progress environment configuration update or application version deployment that you can cancel.  true: There is an update in progress.   false: There are no updates currently in progress. 
         public let abortableOperationInProgress: Bool?
         /// Describes this environment.
@@ -1645,7 +1553,7 @@ extension Elasticbeanstalk {
         /// Describes the current tier of this environment.
         public let tier: EnvironmentTier?
 
-        public init(templateName: String? = nil, dateUpdated: String? = nil, versionLabel: String? = nil, environmentName: String? = nil, cNAME: String? = nil, healthStatus: EnvironmentHealthStatus? = nil, endpointURL: String? = nil, environmentLinks: [EnvironmentLink]? = nil, dateCreated: String? = nil, abortableOperationInProgress: Bool? = nil, description: String? = nil, health: EnvironmentHealth? = nil, status: EnvironmentStatus? = nil, solutionStackName: String? = nil, platformArn: String? = nil, environmentId: String? = nil, resources: EnvironmentResourcesDescription? = nil, applicationName: String? = nil, tier: EnvironmentTier? = nil) {
+        public init(templateName: String? = nil, dateUpdated: Double? = nil, versionLabel: String? = nil, environmentName: String? = nil, cNAME: String? = nil, healthStatus: EnvironmentHealthStatus? = nil, endpointURL: String? = nil, environmentLinks: [EnvironmentLink]? = nil, dateCreated: Double? = nil, abortableOperationInProgress: Bool? = nil, description: String? = nil, health: EnvironmentHealth? = nil, status: EnvironmentStatus? = nil, solutionStackName: String? = nil, platformArn: String? = nil, environmentId: String? = nil, resources: EnvironmentResourcesDescription? = nil, applicationName: String? = nil, tier: EnvironmentTier? = nil) {
             self.templateName = templateName
             self.dateUpdated = dateUpdated
             self.versionLabel = versionLabel
@@ -1667,34 +1575,30 @@ extension Elasticbeanstalk {
             self.tier = tier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.templateName = dictionary["TemplateName"] as? String
-            self.dateUpdated = dictionary["DateUpdated"] as? String
-            self.versionLabel = dictionary["VersionLabel"] as? String
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.cNAME = dictionary["CNAME"] as? String
-            if let healthStatus = dictionary["HealthStatus"] as? String { self.healthStatus = EnvironmentHealthStatus(rawValue: healthStatus) } else { self.healthStatus = nil }
-            self.endpointURL = dictionary["EndpointURL"] as? String
-            if let environmentLinks = dictionary["EnvironmentLinks"] as? [[String: Any]] {
-                self.environmentLinks = try environmentLinks.map({ try EnvironmentLink(dictionary: $0) })
-            } else { 
-                self.environmentLinks = nil
-            }
-            self.dateCreated = dictionary["DateCreated"] as? String
-            self.abortableOperationInProgress = dictionary["AbortableOperationInProgress"] as? Bool
-            self.description = dictionary["Description"] as? String
-            if let health = dictionary["Health"] as? String { self.health = EnvironmentHealth(rawValue: health) } else { self.health = nil }
-            if let status = dictionary["Status"] as? String { self.status = EnvironmentStatus(rawValue: status) } else { self.status = nil }
-            self.solutionStackName = dictionary["SolutionStackName"] as? String
-            self.platformArn = dictionary["PlatformArn"] as? String
-            self.environmentId = dictionary["EnvironmentId"] as? String
-            if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Elasticbeanstalk.EnvironmentResourcesDescription(dictionary: resources) } else { self.resources = nil }
-            self.applicationName = dictionary["ApplicationName"] as? String
-            if let tier = dictionary["Tier"] as? [String: Any] { self.tier = try Elasticbeanstalk.EnvironmentTier(dictionary: tier) } else { self.tier = nil }
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "TemplateName"
+            case dateUpdated = "DateUpdated"
+            case versionLabel = "VersionLabel"
+            case environmentName = "EnvironmentName"
+            case cNAME = "CNAME"
+            case healthStatus = "HealthStatus"
+            case endpointURL = "EndpointURL"
+            case environmentLinks = "EnvironmentLinks"
+            case dateCreated = "DateCreated"
+            case abortableOperationInProgress = "AbortableOperationInProgress"
+            case description = "Description"
+            case health = "Health"
+            case status = "Status"
+            case solutionStackName = "SolutionStackName"
+            case platformArn = "PlatformArn"
+            case environmentId = "EnvironmentId"
+            case resources = "Resources"
+            case applicationName = "ApplicationName"
+            case tier = "Tier"
         }
     }
 
-    public enum ActionHistoryStatus: String, CustomStringConvertible {
+    public enum ActionHistoryStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case failed = "Failed"
         case unknown = "Unknown"
@@ -1703,19 +1607,18 @@ extension Elasticbeanstalk {
 
     public struct ConfigurationOptionDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Regex", required: false, type: .structure), 
-            AWSShapeProperty(label: "MaxValue", required: false, type: .integer), 
-            AWSShapeProperty(label: "ChangeSeverity", required: false, type: .string), 
-            AWSShapeProperty(label: "ValueOptions", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxLength", required: false, type: .integer), 
-            AWSShapeProperty(label: "ValueType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "MinValue", required: false, type: .integer), 
-            AWSShapeProperty(label: "UserDefined", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Namespace", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Regex", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxValue", required: false, type: .integer), 
+            AWSShapeMember(label: "ChangeSeverity", required: false, type: .string), 
+            AWSShapeMember(label: "ValueOptions", required: false, type: .list), 
+            AWSShapeMember(label: "MaxLength", required: false, type: .integer), 
+            AWSShapeMember(label: "ValueType", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "MinValue", required: false, type: .integer), 
+            AWSShapeMember(label: "UserDefined", required: false, type: .boolean), 
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
         ]
         /// If specified, the configuration option must be a string value that satisfies this regular expression.
         public let regex: OptionRestrictionRegex?
@@ -1754,26 +1657,25 @@ extension Elasticbeanstalk {
             self.defaultValue = defaultValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let regex = dictionary["Regex"] as? [String: Any] { self.regex = try Elasticbeanstalk.OptionRestrictionRegex(dictionary: regex) } else { self.regex = nil }
-            self.maxValue = dictionary["MaxValue"] as? Int32
-            self.changeSeverity = dictionary["ChangeSeverity"] as? String
-            self.valueOptions = dictionary["ValueOptions"] as? [String]
-            self.maxLength = dictionary["MaxLength"] as? Int32
-            if let valueType = dictionary["ValueType"] as? String { self.valueType = ConfigurationOptionValueType(rawValue: valueType) } else { self.valueType = nil }
-            self.name = dictionary["Name"] as? String
-            self.minValue = dictionary["MinValue"] as? Int32
-            self.userDefined = dictionary["UserDefined"] as? Bool
-            self.namespace = dictionary["Namespace"] as? String
-            self.defaultValue = dictionary["DefaultValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case regex = "Regex"
+            case maxValue = "MaxValue"
+            case changeSeverity = "ChangeSeverity"
+            case valueOptions = "ValueOptions"
+            case maxLength = "MaxLength"
+            case valueType = "ValueType"
+            case name = "Name"
+            case minValue = "MinValue"
+            case userDefined = "UserDefined"
+            case namespace = "Namespace"
+            case defaultValue = "DefaultValue"
         }
     }
 
     public struct ConfigurationSettingsValidationMessages: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Messages", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Messages", required: false, type: .list)
         ]
         ///  A list of ValidationMessage. 
         public let messages: [ValidationMessage]?
@@ -1782,22 +1684,17 @@ extension Elasticbeanstalk {
             self.messages = messages
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let messages = dictionary["Messages"] as? [[String: Any]] {
-                self.messages = try messages.map({ try ValidationMessage(dictionary: $0) })
-            } else { 
-                self.messages = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case messages = "Messages"
         }
     }
 
     public struct SourceBuildInformation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceLocation", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceType", required: true, type: .enum), 
-            AWSShapeProperty(label: "SourceRepository", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceLocation", required: true, type: .string), 
+            AWSShapeMember(label: "SourceType", required: true, type: .enum), 
+            AWSShapeMember(label: "SourceRepository", required: true, type: .enum)
         ]
         /// The location of the source code, as a formatted string, depending on the value of SourceRepository    For CodeCommit, the format is the repository name and commit ID, separated by a forward slash. For example, my-git-repo/265cfa0cf6af46153527f55d6503ec030551f57a.   For S3, the format is the S3 bucket name and object key, separated by a forward slash. For example, my-s3-bucket/Folders/my-source-file.  
         public let sourceLocation: String
@@ -1812,22 +1709,18 @@ extension Elasticbeanstalk {
             self.sourceRepository = sourceRepository
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sourceLocation = dictionary["SourceLocation"] as? String else { throw InitializableError.missingRequiredParam("SourceLocation") }
-            self.sourceLocation = sourceLocation
-            guard let rawSourceType = dictionary["SourceType"] as? String, let sourceType = SourceType(rawValue: rawSourceType) else { throw InitializableError.missingRequiredParam("SourceType") }
-            self.sourceType = sourceType
-            guard let rawSourceRepository = dictionary["SourceRepository"] as? String, let sourceRepository = SourceRepository(rawValue: rawSourceRepository) else { throw InitializableError.missingRequiredParam("SourceRepository") }
-            self.sourceRepository = sourceRepository
+        private enum CodingKeys: String, CodingKey {
+            case sourceLocation = "SourceLocation"
+            case sourceType = "SourceType"
+            case sourceRepository = "SourceRepository"
         }
     }
 
     public struct ApplicationResourceLifecycleDescriptionMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceLifecycleConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "ApplicationName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string)
         ]
         /// The lifecycle configuration.
         public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
@@ -1839,20 +1732,19 @@ extension Elasticbeanstalk {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resourceLifecycleConfig = dictionary["ResourceLifecycleConfig"] as? [String: Any] { self.resourceLifecycleConfig = try Elasticbeanstalk.ApplicationResourceLifecycleConfig(dictionary: resourceLifecycleConfig) } else { self.resourceLifecycleConfig = nil }
-            self.applicationName = dictionary["ApplicationName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceLifecycleConfig = "ResourceLifecycleConfig"
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct ApplicationMetrics: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Latency", required: false, type: .structure), 
-            AWSShapeProperty(label: "RequestCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Duration", required: false, type: .integer), 
-            AWSShapeProperty(label: "StatusCodes", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Latency", required: false, type: .structure), 
+            AWSShapeMember(label: "RequestCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "StatusCodes", required: false, type: .structure)
         ]
         /// Represents the average latency for the slowest X percent of requests over the last 10 seconds. Latencies are in seconds with one millisecond resolution.
         public let latency: Latency?
@@ -1870,19 +1762,18 @@ extension Elasticbeanstalk {
             self.statusCodes = statusCodes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let latency = dictionary["Latency"] as? [String: Any] { self.latency = try Elasticbeanstalk.Latency(dictionary: latency) } else { self.latency = nil }
-            self.requestCount = dictionary["RequestCount"] as? Int32
-            self.duration = dictionary["Duration"] as? Int32
-            if let statusCodes = dictionary["StatusCodes"] as? [String: Any] { self.statusCodes = try Elasticbeanstalk.StatusCodes(dictionary: statusCodes) } else { self.statusCodes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case latency = "Latency"
+            case requestCount = "RequestCount"
+            case duration = "Duration"
+            case statusCodes = "StatusCodes"
         }
     }
 
     public struct ApplicationDescriptionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Applications", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Applications", required: false, type: .list)
         ]
         /// This parameter contains a list of ApplicationDescription.
         public let applications: [ApplicationDescription]?
@@ -1891,25 +1782,20 @@ extension Elasticbeanstalk {
             self.applications = applications
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let applications = dictionary["Applications"] as? [[String: Any]] {
-                self.applications = try applications.map({ try ApplicationDescription(dictionary: $0) })
-            } else { 
-                self.applications = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case applications = "Applications"
         }
     }
 
     public struct DescribeConfigurationOptionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "Options", required: false, type: .list), 
-            AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeProperty(label: "TemplateName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "Options", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string)
         ]
         /// The name of the environment whose configuration options you want to describe.
         public let environmentName: String?
@@ -1933,26 +1819,21 @@ extension Elasticbeanstalk {
             self.templateName = templateName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            if let options = dictionary["Options"] as? [[String: Any]] {
-                self.options = try options.map({ try OptionSpecification(dictionary: $0) })
-            } else { 
-                self.options = nil
-            }
-            self.applicationName = dictionary["ApplicationName"] as? String
-            self.solutionStackName = dictionary["SolutionStackName"] as? String
-            self.platformArn = dictionary["PlatformArn"] as? String
-            self.templateName = dictionary["TemplateName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case options = "Options"
+            case applicationName = "ApplicationName"
+            case solutionStackName = "SolutionStackName"
+            case platformArn = "PlatformArn"
+            case templateName = "TemplateName"
         }
     }
 
     public struct UpdateApplicationMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The name of the application to update. If no such application is found, UpdateApplication returns an InvalidParameterValue error. 
         public let applicationName: String
@@ -1964,19 +1845,17 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case description = "Description"
         }
     }
 
     public struct OptionRestrictionRegex: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pattern", required: false, type: .string), 
-            AWSShapeProperty(label: "Label", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pattern", required: false, type: .string), 
+            AWSShapeMember(label: "Label", required: false, type: .string)
         ]
         /// The regular expression pattern that a string configuration option value with this restriction must match.
         public let pattern: String?
@@ -1988,23 +1867,22 @@ extension Elasticbeanstalk {
             self.label = label
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pattern = dictionary["Pattern"] as? String
-            self.label = dictionary["Label"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pattern = "Pattern"
+            case label = "Label"
         }
     }
 
     public struct Deployment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeploymentTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DeploymentId", required: false, type: .long), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "VersionLabel", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeploymentTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeploymentId", required: false, type: .long), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string)
         ]
         /// For in-progress deployments, the time that the deloyment started. For completed deployments, the time that the deployment ended.
-        public let deploymentTime: String?
+        public let deploymentTime: Double?
         /// The ID of the deployment. This number increases by one each time that you deploy source code or change instance configuration settings.
         public let deploymentId: Int64?
         /// The status of the deployment:    In Progress : The deployment is in progress.    Deployed : The deployment succeeded.    Failed : The deployment failed.  
@@ -2012,27 +1890,26 @@ extension Elasticbeanstalk {
         /// The version label of the application version in the deployment.
         public let versionLabel: String?
 
-        public init(deploymentTime: String? = nil, deploymentId: Int64? = nil, status: String? = nil, versionLabel: String? = nil) {
+        public init(deploymentTime: Double? = nil, deploymentId: Int64? = nil, status: String? = nil, versionLabel: String? = nil) {
             self.deploymentTime = deploymentTime
             self.deploymentId = deploymentId
             self.status = status
             self.versionLabel = versionLabel
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentTime = dictionary["DeploymentTime"] as? String
-            self.deploymentId = dictionary["DeploymentId"] as? Int64
-            self.status = dictionary["Status"] as? String
-            self.versionLabel = dictionary["VersionLabel"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deploymentTime = "DeploymentTime"
+            case deploymentId = "DeploymentId"
+            case status = "Status"
+            case versionLabel = "VersionLabel"
         }
     }
 
     public struct ApplicationResourceLifecycleConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionLifecycleConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "ServiceRole", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionLifecycleConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ServiceRole", required: false, type: .string)
         ]
         /// The application version lifecycle configuration.
         public let versionLifecycleConfig: ApplicationVersionLifecycleConfig?
@@ -2044,17 +1921,16 @@ extension Elasticbeanstalk {
             self.serviceRole = serviceRole
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let versionLifecycleConfig = dictionary["VersionLifecycleConfig"] as? [String: Any] { self.versionLifecycleConfig = try Elasticbeanstalk.ApplicationVersionLifecycleConfig(dictionary: versionLifecycleConfig) } else { self.versionLifecycleConfig = nil }
-            self.serviceRole = dictionary["ServiceRole"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case versionLifecycleConfig = "VersionLifecycleConfig"
+            case serviceRole = "ServiceRole"
         }
     }
 
     public struct DescribeApplicationsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationNames", required: false, type: .list)
         ]
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
         public let applicationNames: [String]?
@@ -2063,16 +1939,15 @@ extension Elasticbeanstalk {
             self.applicationNames = applicationNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.applicationNames = dictionary["ApplicationNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case applicationNames = "ApplicationNames"
         }
     }
 
     public struct EnvironmentResourceDescriptionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentResources", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentResources", required: false, type: .structure)
         ]
         ///  A list of EnvironmentResourceDescription. 
         public let environmentResources: EnvironmentResourceDescription?
@@ -2081,17 +1956,16 @@ extension Elasticbeanstalk {
             self.environmentResources = environmentResources
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let environmentResources = dictionary["EnvironmentResources"] as? [String: Any] { self.environmentResources = try Elasticbeanstalk.EnvironmentResourceDescription(dictionary: environmentResources) } else { self.environmentResources = nil }
+        private enum CodingKeys: String, CodingKey {
+            case environmentResources = "EnvironmentResources"
         }
     }
 
     public struct SystemStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadAverage", required: false, type: .list), 
-            AWSShapeProperty(label: "CPUUtilization", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadAverage", required: false, type: .list), 
+            AWSShapeMember(label: "CPUUtilization", required: false, type: .structure)
         ]
         /// Load average in the last 1-minute, 5-minute, and 15-minute periods. For more information, see Operating System Metrics.
         public let loadAverage: [Double]?
@@ -2103,13 +1977,13 @@ extension Elasticbeanstalk {
             self.cPUUtilization = cPUUtilization
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.loadAverage = dictionary["LoadAverage"] as? [Double]
-            if let cPUUtilization = dictionary["CPUUtilization"] as? [String: Any] { self.cPUUtilization = try Elasticbeanstalk.CPUUtilization(dictionary: cPUUtilization) } else { self.cPUUtilization = nil }
+        private enum CodingKeys: String, CodingKey {
+            case loadAverage = "LoadAverage"
+            case cPUUtilization = "CPUUtilization"
         }
     }
 
-    public enum EnvironmentStatus: String, CustomStringConvertible {
+    public enum EnvironmentStatus: String, CustomStringConvertible, Codable {
         case launching = "Launching"
         case updating = "Updating"
         case ready = "Ready"
@@ -2120,11 +1994,10 @@ extension Elasticbeanstalk {
 
     public struct ApplyEnvironmentManagedActionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "ActionId", required: true, type: .string), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "ActionId", required: true, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
         ]
         /// The name of the target environment.
         public let environmentName: String?
@@ -2139,19 +2012,17 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            guard let actionId = dictionary["ActionId"] as? String else { throw InitializableError.missingRequiredParam("ActionId") }
-            self.actionId = actionId
-            self.environmentId = dictionary["EnvironmentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case actionId = "ActionId"
+            case environmentId = "EnvironmentId"
         }
     }
 
     public struct DescribePlatformVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlatformArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string)
         ]
         /// The ARN of the version of the platform.
         public let platformArn: String?
@@ -2160,18 +2031,17 @@ extension Elasticbeanstalk {
             self.platformArn = platformArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.platformArn = dictionary["PlatformArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case platformArn = "PlatformArn"
         }
     }
 
     public struct ConfigurationOptionsDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", required: false, type: .list), 
-            AWSShapeProperty(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SolutionStackName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: false, type: .list), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string)
         ]
         ///  A list of ConfigurationOptionDescription. 
         public let options: [ConfigurationOptionDescription]?
@@ -2186,23 +2056,18 @@ extension Elasticbeanstalk {
             self.solutionStackName = solutionStackName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let options = dictionary["Options"] as? [[String: Any]] {
-                self.options = try options.map({ try ConfigurationOptionDescription(dictionary: $0) })
-            } else { 
-                self.options = nil
-            }
-            self.platformArn = dictionary["PlatformArn"] as? String
-            self.solutionStackName = dictionary["SolutionStackName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case platformArn = "PlatformArn"
+            case solutionStackName = "SolutionStackName"
         }
     }
 
     public struct ApplicationVersionDescriptionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationVersions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationVersions", required: false, type: .list)
         ]
         /// For a paginated request, the token that you can pass in a subsequent request to get the next page.
         public let nextToken: String?
@@ -2214,36 +2079,31 @@ extension Elasticbeanstalk {
             self.applicationVersions = applicationVersions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let applicationVersions = dictionary["ApplicationVersions"] as? [[String: Any]] {
-                self.applicationVersions = try applicationVersions.map({ try ApplicationVersionDescription(dictionary: $0) })
-            } else { 
-                self.applicationVersions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case applicationVersions = "ApplicationVersions"
         }
     }
 
     public struct ApplicationVersionDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "DateUpdated", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "VersionLabel", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceBuildInformation", required: false, type: .structure), 
-            AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceBundle", required: false, type: .structure), 
-            AWSShapeProperty(label: "BuildArn", required: false, type: .string), 
-            AWSShapeProperty(label: "DateCreated", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "SourceBuildInformation", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "SourceBundle", required: false, type: .structure), 
+            AWSShapeMember(label: "BuildArn", required: false, type: .string), 
+            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp)
         ]
         /// The description of the application version.
         public let description: String?
         /// The processing status of the application version.
         public let status: ApplicationVersionStatus?
         /// The last modified date of the application version.
-        public let dateUpdated: String?
+        public let dateUpdated: Double?
         /// A unique identifier for the application version.
         public let versionLabel: String?
         /// If the version's source code was retrieved from AWS CodeCommit, the location of the source code for the application version.
@@ -2255,9 +2115,9 @@ extension Elasticbeanstalk {
         /// Reference to the artifact from the AWS CodeBuild build.
         public let buildArn: String?
         /// The creation date of the application version.
-        public let dateCreated: String?
+        public let dateCreated: Double?
 
-        public init(description: String? = nil, status: ApplicationVersionStatus? = nil, dateUpdated: String? = nil, versionLabel: String? = nil, sourceBuildInformation: SourceBuildInformation? = nil, applicationName: String? = nil, sourceBundle: S3Location? = nil, buildArn: String? = nil, dateCreated: String? = nil) {
+        public init(description: String? = nil, status: ApplicationVersionStatus? = nil, dateUpdated: Double? = nil, versionLabel: String? = nil, sourceBuildInformation: SourceBuildInformation? = nil, applicationName: String? = nil, sourceBundle: S3Location? = nil, buildArn: String? = nil, dateCreated: Double? = nil) {
             self.description = description
             self.status = status
             self.dateUpdated = dateUpdated
@@ -2269,26 +2129,25 @@ extension Elasticbeanstalk {
             self.dateCreated = dateCreated
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            if let status = dictionary["Status"] as? String { self.status = ApplicationVersionStatus(rawValue: status) } else { self.status = nil }
-            self.dateUpdated = dictionary["DateUpdated"] as? String
-            self.versionLabel = dictionary["VersionLabel"] as? String
-            if let sourceBuildInformation = dictionary["SourceBuildInformation"] as? [String: Any] { self.sourceBuildInformation = try Elasticbeanstalk.SourceBuildInformation(dictionary: sourceBuildInformation) } else { self.sourceBuildInformation = nil }
-            self.applicationName = dictionary["ApplicationName"] as? String
-            if let sourceBundle = dictionary["SourceBundle"] as? [String: Any] { self.sourceBundle = try Elasticbeanstalk.S3Location(dictionary: sourceBundle) } else { self.sourceBundle = nil }
-            self.buildArn = dictionary["BuildArn"] as? String
-            self.dateCreated = dictionary["DateCreated"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case status = "Status"
+            case dateUpdated = "DateUpdated"
+            case versionLabel = "VersionLabel"
+            case sourceBuildInformation = "SourceBuildInformation"
+            case applicationName = "ApplicationName"
+            case sourceBundle = "SourceBundle"
+            case buildArn = "BuildArn"
+            case dateCreated = "DateCreated"
         }
     }
 
     public struct DescribeConfigurationSettingsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         /// The name of the environment to describe.  Condition: You must specify either this or a TemplateName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public let environmentName: String?
@@ -2303,21 +2162,19 @@ extension Elasticbeanstalk {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.templateName = dictionary["TemplateName"] as? String
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case templateName = "TemplateName"
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct OptionSpecification: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Namespace", required: false, type: .string), 
-            AWSShapeProperty(label: "OptionName", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "OptionName", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceName", required: false, type: .string)
         ]
         /// A unique namespace identifying the option's associated AWS resource.
         public let namespace: String?
@@ -2332,19 +2189,18 @@ extension Elasticbeanstalk {
             self.resourceName = resourceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.namespace = dictionary["Namespace"] as? String
-            self.optionName = dictionary["OptionName"] as? String
-            self.resourceName = dictionary["ResourceName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+            case optionName = "OptionName"
+            case resourceName = "ResourceName"
         }
     }
 
     public struct Listener: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Port", required: false, type: .integer), 
-            AWSShapeProperty(label: "Protocol", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "Protocol", required: false, type: .string)
         ]
         /// The port that is used by the Listener.
         public let port: Int32?
@@ -2356,18 +2212,17 @@ extension Elasticbeanstalk {
             self.`protocol` = `protocol`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.port = dictionary["Port"] as? Int32
-            self.`protocol` = dictionary["Protocol"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case port = "Port"
+            case `protocol` = "Protocol"
         }
     }
 
     public struct ApplicationVersionLifecycleConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxCountRule", required: false, type: .structure), 
-            AWSShapeProperty(label: "MaxAgeRule", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxCountRule", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxAgeRule", required: false, type: .structure)
         ]
         /// Specify a max count rule to restrict the number of application versions that are retained for an application.
         public let maxCountRule: MaxCountRule?
@@ -2379,45 +2234,40 @@ extension Elasticbeanstalk {
             self.maxAgeRule = maxAgeRule
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let maxCountRule = dictionary["MaxCountRule"] as? [String: Any] { self.maxCountRule = try Elasticbeanstalk.MaxCountRule(dictionary: maxCountRule) } else { self.maxCountRule = nil }
-            if let maxAgeRule = dictionary["MaxAgeRule"] as? [String: Any] { self.maxAgeRule = try Elasticbeanstalk.MaxAgeRule(dictionary: maxAgeRule) } else { self.maxAgeRule = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxCountRule = "MaxCountRule"
+            case maxAgeRule = "MaxAgeRule"
         }
     }
 
     public struct DescribeInstancesHealthResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceHealthList", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "RefreshedAt", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceHealthList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RefreshedAt", required: false, type: .timestamp)
         ]
         /// Detailed health information about each instance.
         public let instanceHealthList: [SingleInstanceHealth]?
         /// Pagination token for the next page of results, if available.
         public let nextToken: String?
         /// The date and time that the health information was retrieved.
-        public let refreshedAt: String?
+        public let refreshedAt: Double?
 
-        public init(instanceHealthList: [SingleInstanceHealth]? = nil, nextToken: String? = nil, refreshedAt: String? = nil) {
+        public init(instanceHealthList: [SingleInstanceHealth]? = nil, nextToken: String? = nil, refreshedAt: Double? = nil) {
             self.instanceHealthList = instanceHealthList
             self.nextToken = nextToken
             self.refreshedAt = refreshedAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceHealthList = dictionary["InstanceHealthList"] as? [[String: Any]] {
-                self.instanceHealthList = try instanceHealthList.map({ try SingleInstanceHealth(dictionary: $0) })
-            } else { 
-                self.instanceHealthList = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.refreshedAt = dictionary["RefreshedAt"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case instanceHealthList = "InstanceHealthList"
+            case nextToken = "NextToken"
+            case refreshedAt = "RefreshedAt"
         }
     }
 
-    public enum SourceType: String, CustomStringConvertible {
+    public enum SourceType: String, CustomStringConvertible, Codable {
         case git = "Git"
         case zip = "Zip"
         public var description: String { return self.rawValue }
@@ -2425,9 +2275,8 @@ extension Elasticbeanstalk {
 
     public struct ApplicationDescriptionMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Application", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Application", required: false, type: .structure)
         ]
         ///  The ApplicationDescription of the application. 
         public let application: ApplicationDescription?
@@ -2436,12 +2285,12 @@ extension Elasticbeanstalk {
             self.application = application
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let application = dictionary["Application"] as? [String: Any] { self.application = try Elasticbeanstalk.ApplicationDescription(dictionary: application) } else { self.application = nil }
+        private enum CodingKeys: String, CodingKey {
+            case application = "Application"
         }
     }
 
-    public enum EnvironmentHealth: String, CustomStringConvertible {
+    public enum EnvironmentHealth: String, CustomStringConvertible, Codable {
         case green = "Green"
         case yellow = "Yellow"
         case red = "Red"
@@ -2451,16 +2300,15 @@ extension Elasticbeanstalk {
 
     public struct DescribeEnvironmentHealthResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Color", required: false, type: .string), 
-            AWSShapeProperty(label: "InstancesHealth", required: false, type: .structure), 
-            AWSShapeProperty(label: "ApplicationMetrics", required: false, type: .structure), 
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "HealthStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "Causes", required: false, type: .list), 
-            AWSShapeProperty(label: "RefreshedAt", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Color", required: false, type: .string), 
+            AWSShapeMember(label: "InstancesHealth", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplicationMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "HealthStatus", required: false, type: .string), 
+            AWSShapeMember(label: "Causes", required: false, type: .list), 
+            AWSShapeMember(label: "RefreshedAt", required: false, type: .timestamp)
         ]
         /// The environment's operational status. Ready, Launching, Updating, Terminating, or Terminated.
         public let status: EnvironmentHealth?
@@ -2477,9 +2325,9 @@ extension Elasticbeanstalk {
         /// Descriptions of the data that contributed to the environment's current health status.
         public let causes: [String]?
         /// The date and time that the health information was retrieved.
-        public let refreshedAt: String?
+        public let refreshedAt: Double?
 
-        public init(status: EnvironmentHealth? = nil, color: String? = nil, instancesHealth: InstanceHealthSummary? = nil, applicationMetrics: ApplicationMetrics? = nil, environmentName: String? = nil, healthStatus: String? = nil, causes: [String]? = nil, refreshedAt: String? = nil) {
+        public init(status: EnvironmentHealth? = nil, color: String? = nil, instancesHealth: InstanceHealthSummary? = nil, applicationMetrics: ApplicationMetrics? = nil, environmentName: String? = nil, healthStatus: String? = nil, causes: [String]? = nil, refreshedAt: Double? = nil) {
             self.status = status
             self.color = color
             self.instancesHealth = instancesHealth
@@ -2490,25 +2338,24 @@ extension Elasticbeanstalk {
             self.refreshedAt = refreshedAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = EnvironmentHealth(rawValue: status) } else { self.status = nil }
-            self.color = dictionary["Color"] as? String
-            if let instancesHealth = dictionary["InstancesHealth"] as? [String: Any] { self.instancesHealth = try Elasticbeanstalk.InstanceHealthSummary(dictionary: instancesHealth) } else { self.instancesHealth = nil }
-            if let applicationMetrics = dictionary["ApplicationMetrics"] as? [String: Any] { self.applicationMetrics = try Elasticbeanstalk.ApplicationMetrics(dictionary: applicationMetrics) } else { self.applicationMetrics = nil }
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.healthStatus = dictionary["HealthStatus"] as? String
-            self.causes = dictionary["Causes"] as? [String]
-            self.refreshedAt = dictionary["RefreshedAt"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case color = "Color"
+            case instancesHealth = "InstancesHealth"
+            case applicationMetrics = "ApplicationMetrics"
+            case environmentName = "EnvironmentName"
+            case healthStatus = "HealthStatus"
+            case causes = "Causes"
+            case refreshedAt = "RefreshedAt"
         }
     }
 
     public struct RetrieveEnvironmentInfoMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "InfoType", required: true, type: .enum), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "InfoType", required: true, type: .enum), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
         ]
         /// The name of the data's environment.  If no such environment is found, returns an InvalidParameterValue error.   Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public let environmentName: String?
@@ -2523,19 +2370,17 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            guard let rawInfoType = dictionary["InfoType"] as? String, let infoType = EnvironmentInfoType(rawValue: rawInfoType) else { throw InitializableError.missingRequiredParam("InfoType") }
-            self.infoType = infoType
-            self.environmentId = dictionary["EnvironmentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case infoType = "InfoType"
+            case environmentId = "EnvironmentId"
         }
     }
 
     public struct ConfigurationSettingsDescriptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationSettings", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSettings", required: false, type: .list)
         ]
         ///  A list of ConfigurationSettingsDescription. 
         public let configurationSettings: [ConfigurationSettingsDescription]?
@@ -2544,21 +2389,16 @@ extension Elasticbeanstalk {
             self.configurationSettings = configurationSettings
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let configurationSettings = dictionary["ConfigurationSettings"] as? [[String: Any]] {
-                self.configurationSettings = try configurationSettings.map({ try ConfigurationSettingsDescription(dictionary: $0) })
-            } else { 
-                self.configurationSettings = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case configurationSettings = "ConfigurationSettings"
         }
     }
 
     public struct AbortEnvironmentUpdateMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
         ]
         /// This specifies the name of the environment with the in-progress update that you want to cancel.
         public let environmentName: String?
@@ -2570,19 +2410,18 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.environmentId = dictionary["EnvironmentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case environmentId = "EnvironmentId"
         }
     }
 
     public struct MaxCountRule: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "MaxCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "DeleteSourceFromS3", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "MaxCount", required: false, type: .integer), 
+            AWSShapeMember(label: "DeleteSourceFromS3", required: false, type: .boolean)
         ]
         /// Specify true to apply the rule, or false to disable it.
         public let enabled: Bool
@@ -2597,15 +2436,14 @@ extension Elasticbeanstalk {
             self.deleteSourceFromS3 = deleteSourceFromS3
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
-            self.maxCount = dictionary["MaxCount"] as? Int32
-            self.deleteSourceFromS3 = dictionary["DeleteSourceFromS3"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case maxCount = "MaxCount"
+            case deleteSourceFromS3 = "DeleteSourceFromS3"
         }
     }
 
-    public enum ApplicationVersionStatus: String, CustomStringConvertible {
+    public enum ApplicationVersionStatus: String, CustomStringConvertible, Codable {
         case processed = "Processed"
         case unprocessed = "Unprocessed"
         case failed = "Failed"
@@ -2616,10 +2454,9 @@ extension Elasticbeanstalk {
 
     public struct DescribeEnvironmentResourcesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
         ]
         /// The name of the environment to retrieve AWS resource usage data.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public let environmentName: String?
@@ -2631,13 +2468,13 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.environmentId = dictionary["EnvironmentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case environmentId = "EnvironmentId"
         }
     }
 
-    public enum EnvironmentInfoType: String, CustomStringConvertible {
+    public enum EnvironmentInfoType: String, CustomStringConvertible, Codable {
         case tail = "tail"
         case bundle = "bundle"
         public var description: String { return self.rawValue }
@@ -2645,10 +2482,9 @@ extension Elasticbeanstalk {
 
     public struct ListAvailableSolutionStacksResultMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SolutionStackDetails", required: false, type: .list), 
-            AWSShapeProperty(label: "SolutionStacks", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SolutionStackDetails", required: false, type: .list), 
+            AWSShapeMember(label: "SolutionStacks", required: false, type: .list)
         ]
         ///  A list of available solution stacks and their SolutionStackDescription. 
         public let solutionStackDetails: [SolutionStackDescription]?
@@ -2660,22 +2496,17 @@ extension Elasticbeanstalk {
             self.solutionStacks = solutionStacks
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let solutionStackDetails = dictionary["SolutionStackDetails"] as? [[String: Any]] {
-                self.solutionStackDetails = try solutionStackDetails.map({ try SolutionStackDescription(dictionary: $0) })
-            } else { 
-                self.solutionStackDetails = nil
-            }
-            self.solutionStacks = dictionary["SolutionStacks"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case solutionStackDetails = "SolutionStackDetails"
+            case solutionStacks = "SolutionStacks"
         }
     }
 
     public struct S3Location: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3Bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "S3Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "S3Key", required: false, type: .string)
         ]
         /// The Amazon S3 bucket where the data is located.
         public let s3Bucket: String?
@@ -2687,20 +2518,19 @@ extension Elasticbeanstalk {
             self.s3Key = s3Key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.s3Bucket = dictionary["S3Bucket"] as? String
-            self.s3Key = dictionary["S3Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "S3Bucket"
+            case s3Key = "S3Key"
         }
     }
 
     public struct ValidateConfigurationSettingsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "OptionSettings", required: true, type: .list), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "TemplateName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "OptionSettings", required: true, type: .list), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string)
         ]
         /// The name of the environment to validate the settings against. Condition: You cannot specify both this and a configuration template name.
         public let environmentName: String?
@@ -2718,17 +2548,15 @@ extension Elasticbeanstalk {
             self.templateName = templateName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            guard let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("OptionSettings") }
-            self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
-            self.templateName = dictionary["TemplateName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case optionSettings = "OptionSettings"
+            case applicationName = "ApplicationName"
+            case templateName = "TemplateName"
         }
     }
 
-    public enum ActionStatus: String, CustomStringConvertible {
+    public enum ActionStatus: String, CustomStringConvertible, Codable {
         case scheduled = "Scheduled"
         case pending = "Pending"
         case running = "Running"
@@ -2738,13 +2566,12 @@ extension Elasticbeanstalk {
 
     public struct CreatePlatformVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlatformVersion", required: true, type: .string), 
-            AWSShapeProperty(label: "PlatformName", required: true, type: .string), 
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "OptionSettings", required: false, type: .list), 
-            AWSShapeProperty(label: "PlatformDefinitionBundle", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformVersion", required: true, type: .string), 
+            AWSShapeMember(label: "PlatformName", required: true, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
+            AWSShapeMember(label: "PlatformDefinitionBundle", required: true, type: .structure)
         ]
         /// The number, such as 1.0.2, for the new platform version.
         public let platformVersion: String
@@ -2765,23 +2592,16 @@ extension Elasticbeanstalk {
             self.platformDefinitionBundle = platformDefinitionBundle
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let platformVersion = dictionary["PlatformVersion"] as? String else { throw InitializableError.missingRequiredParam("PlatformVersion") }
-            self.platformVersion = platformVersion
-            guard let platformName = dictionary["PlatformName"] as? String else { throw InitializableError.missingRequiredParam("PlatformName") }
-            self.platformName = platformName
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
-                self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
-            } else { 
-                self.optionSettings = nil
-            }
-            guard let platformDefinitionBundle = dictionary["PlatformDefinitionBundle"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PlatformDefinitionBundle") }
-            self.platformDefinitionBundle = try Elasticbeanstalk.S3Location(dictionary: platformDefinitionBundle)
+        private enum CodingKeys: String, CodingKey {
+            case platformVersion = "PlatformVersion"
+            case platformName = "PlatformName"
+            case environmentName = "EnvironmentName"
+            case optionSettings = "OptionSettings"
+            case platformDefinitionBundle = "PlatformDefinitionBundle"
         }
     }
 
-    public enum FailureType: String, CustomStringConvertible {
+    public enum FailureType: String, CustomStringConvertible, Codable {
         case updatecancelled = "UpdateCancelled"
         case cancellationfailed = "CancellationFailed"
         case rollbackfailed = "RollbackFailed"
@@ -2794,21 +2614,20 @@ extension Elasticbeanstalk {
 
     public struct CreateEnvironmentMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OptionSettings", required: false, type: .list), 
-            AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "VersionLabel", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeProperty(label: "CNAMEPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "OptionsToRemove", required: false, type: .list), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "Tier", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "CNAMEPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "OptionsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "Tier", required: false, type: .structure)
         ]
         /// If specified, AWS Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template.
         public let optionSettings: [ConfigurationOptionSetting]?
@@ -2853,41 +2672,27 @@ extension Elasticbeanstalk {
             self.tier = tier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
-                self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
-            } else { 
-                self.optionSettings = nil
-            }
-            self.templateName = dictionary["TemplateName"] as? String
-            self.groupName = dictionary["GroupName"] as? String
-            self.versionLabel = dictionary["VersionLabel"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.description = dictionary["Description"] as? String
-            self.solutionStackName = dictionary["SolutionStackName"] as? String
-            self.platformArn = dictionary["PlatformArn"] as? String
-            self.cNAMEPrefix = dictionary["CNAMEPrefix"] as? String
-            if let optionsToRemove = dictionary["OptionsToRemove"] as? [[String: Any]] {
-                self.optionsToRemove = try optionsToRemove.map({ try OptionSpecification(dictionary: $0) })
-            } else { 
-                self.optionsToRemove = nil
-            }
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
-            if let tier = dictionary["Tier"] as? [String: Any] { self.tier = try Elasticbeanstalk.EnvironmentTier(dictionary: tier) } else { self.tier = nil }
+        private enum CodingKeys: String, CodingKey {
+            case optionSettings = "OptionSettings"
+            case templateName = "TemplateName"
+            case groupName = "GroupName"
+            case versionLabel = "VersionLabel"
+            case tags = "Tags"
+            case environmentName = "EnvironmentName"
+            case description = "Description"
+            case solutionStackName = "SolutionStackName"
+            case platformArn = "PlatformArn"
+            case cNAMEPrefix = "CNAMEPrefix"
+            case optionsToRemove = "OptionsToRemove"
+            case applicationName = "ApplicationName"
+            case tier = "Tier"
         }
     }
 
     public struct DeletePlatformVersionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlatformSummary", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformSummary", required: false, type: .structure)
         ]
         /// Detailed information about the version of the custom platform.
         public let platformSummary: PlatformSummary?
@@ -2896,17 +2701,16 @@ extension Elasticbeanstalk {
             self.platformSummary = platformSummary
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let platformSummary = dictionary["PlatformSummary"] as? [String: Any] { self.platformSummary = try Elasticbeanstalk.PlatformSummary(dictionary: platformSummary) } else { self.platformSummary = nil }
+        private enum CodingKeys: String, CodingKey {
+            case platformSummary = "PlatformSummary"
         }
     }
 
     public struct CustomAmi: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VirtualizationType", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VirtualizationType", required: false, type: .string), 
+            AWSShapeMember(label: "ImageId", required: false, type: .string)
         ]
         /// The type of virtualization used to create the custom AMI.
         public let virtualizationType: String?
@@ -2918,20 +2722,20 @@ extension Elasticbeanstalk {
             self.imageId = imageId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.virtualizationType = dictionary["VirtualizationType"] as? String
-            self.imageId = dictionary["ImageId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case virtualizationType = "VirtualizationType"
+            case imageId = "ImageId"
         }
     }
 
-    public enum ActionType: String, CustomStringConvertible {
+    public enum ActionType: String, CustomStringConvertible, Codable {
         case instancerefresh = "InstanceRefresh"
         case platformupdate = "PlatformUpdate"
         case unknown = "Unknown"
         public var description: String { return self.rawValue }
     }
 
-    public enum EnvironmentHealthAttribute: String, CustomStringConvertible {
+    public enum EnvironmentHealthAttribute: String, CustomStringConvertible, Codable {
         case status = "Status"
         case color = "Color"
         case causes = "Causes"
@@ -2945,10 +2749,9 @@ extension Elasticbeanstalk {
 
     public struct CheckDNSAvailabilityResultMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FullyQualifiedCNAME", required: false, type: .string), 
-            AWSShapeProperty(label: "Available", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FullyQualifiedCNAME", required: false, type: .string), 
+            AWSShapeMember(label: "Available", required: false, type: .boolean)
         ]
         /// The fully qualified CNAME to reserve when CreateEnvironment is called with the provided prefix.
         public let fullyQualifiedCNAME: String?
@@ -2960,18 +2763,17 @@ extension Elasticbeanstalk {
             self.available = available
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fullyQualifiedCNAME = dictionary["FullyQualifiedCNAME"] as? String
-            self.available = dictionary["Available"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case fullyQualifiedCNAME = "FullyQualifiedCNAME"
+            case available = "Available"
         }
     }
 
     public struct DeleteConfigurationTemplateMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TemplateName", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateName", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         /// The name of the configuration template to delete.
         public let templateName: String
@@ -2983,21 +2785,18 @@ extension Elasticbeanstalk {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let templateName = dictionary["TemplateName"] as? String else { throw InitializableError.missingRequiredParam("TemplateName") }
-            self.templateName = templateName
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "TemplateName"
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct PlatformFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "Operator", required: false, type: .string), 
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Operator", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
         /// The custom platform attribute to which the filter values are applied. Valid Values: PlatformName | PlatformVersion | PlatformStatus | PlatformOwner 
         public let `type`: String?
@@ -3012,38 +2811,37 @@ extension Elasticbeanstalk {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.`type` = dictionary["Type"] as? String
-            self.`operator` = dictionary["Operator"] as? String
-            self.values = dictionary["Values"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case `operator` = "Operator"
+            case values = "Values"
         }
     }
 
     public struct PlatformDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DateUpdated", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "PlatformStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "SupportedAddonList", required: false, type: .list), 
-            AWSShapeProperty(label: "PlatformVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "CustomAmiList", required: false, type: .list), 
-            AWSShapeProperty(label: "PlatformCategory", required: false, type: .string), 
-            AWSShapeProperty(label: "Maintainer", required: false, type: .string), 
-            AWSShapeProperty(label: "OperatingSystemName", required: false, type: .string), 
-            AWSShapeProperty(label: "DateCreated", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "PlatformOwner", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformName", required: false, type: .string), 
-            AWSShapeProperty(label: "OperatingSystemVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SupportedTierList", required: false, type: .list), 
-            AWSShapeProperty(label: "Frameworks", required: false, type: .list), 
-            AWSShapeProperty(label: "ProgrammingLanguages", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DateUpdated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PlatformStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "SupportedAddonList", required: false, type: .list), 
+            AWSShapeMember(label: "PlatformVersion", required: false, type: .string), 
+            AWSShapeMember(label: "CustomAmiList", required: false, type: .list), 
+            AWSShapeMember(label: "PlatformCategory", required: false, type: .string), 
+            AWSShapeMember(label: "Maintainer", required: false, type: .string), 
+            AWSShapeMember(label: "OperatingSystemName", required: false, type: .string), 
+            AWSShapeMember(label: "DateCreated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PlatformOwner", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformName", required: false, type: .string), 
+            AWSShapeMember(label: "OperatingSystemVersion", required: false, type: .string), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "SupportedTierList", required: false, type: .list), 
+            AWSShapeMember(label: "Frameworks", required: false, type: .list), 
+            AWSShapeMember(label: "ProgrammingLanguages", required: false, type: .list)
         ]
         /// The date when the platform was last updated.
-        public let dateUpdated: String?
+        public let dateUpdated: Double?
         /// The status of the platform.
         public let platformStatus: PlatformStatus?
         /// The additions supported by the platform.
@@ -3059,7 +2857,7 @@ extension Elasticbeanstalk {
         /// The operating system used by the platform.
         public let operatingSystemName: String?
         /// The date when the platform was created.
-        public let dateCreated: String?
+        public let dateCreated: Double?
         /// The AWS account ID of the person who created the platform.
         public let platformOwner: String?
         /// The description of the platform.
@@ -3079,7 +2877,7 @@ extension Elasticbeanstalk {
         /// The programming languages supported by the platform.
         public let programmingLanguages: [PlatformProgrammingLanguage]?
 
-        public init(dateUpdated: String? = nil, platformStatus: PlatformStatus? = nil, supportedAddonList: [String]? = nil, platformVersion: String? = nil, customAmiList: [CustomAmi]? = nil, platformCategory: String? = nil, maintainer: String? = nil, operatingSystemName: String? = nil, dateCreated: String? = nil, platformOwner: String? = nil, description: String? = nil, platformName: String? = nil, operatingSystemVersion: String? = nil, solutionStackName: String? = nil, platformArn: String? = nil, supportedTierList: [String]? = nil, frameworks: [PlatformFramework]? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil) {
+        public init(dateUpdated: Double? = nil, platformStatus: PlatformStatus? = nil, supportedAddonList: [String]? = nil, platformVersion: String? = nil, customAmiList: [CustomAmi]? = nil, platformCategory: String? = nil, maintainer: String? = nil, operatingSystemName: String? = nil, dateCreated: Double? = nil, platformOwner: String? = nil, description: String? = nil, platformName: String? = nil, operatingSystemVersion: String? = nil, solutionStackName: String? = nil, platformArn: String? = nil, supportedTierList: [String]? = nil, frameworks: [PlatformFramework]? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil) {
             self.dateUpdated = dateUpdated
             self.platformStatus = platformStatus
             self.supportedAddonList = supportedAddonList
@@ -3100,56 +2898,43 @@ extension Elasticbeanstalk {
             self.programmingLanguages = programmingLanguages
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dateUpdated = dictionary["DateUpdated"] as? String
-            if let platformStatus = dictionary["PlatformStatus"] as? String { self.platformStatus = PlatformStatus(rawValue: platformStatus) } else { self.platformStatus = nil }
-            self.supportedAddonList = dictionary["SupportedAddonList"] as? [String]
-            self.platformVersion = dictionary["PlatformVersion"] as? String
-            if let customAmiList = dictionary["CustomAmiList"] as? [[String: Any]] {
-                self.customAmiList = try customAmiList.map({ try CustomAmi(dictionary: $0) })
-            } else { 
-                self.customAmiList = nil
-            }
-            self.platformCategory = dictionary["PlatformCategory"] as? String
-            self.maintainer = dictionary["Maintainer"] as? String
-            self.operatingSystemName = dictionary["OperatingSystemName"] as? String
-            self.dateCreated = dictionary["DateCreated"] as? String
-            self.platformOwner = dictionary["PlatformOwner"] as? String
-            self.description = dictionary["Description"] as? String
-            self.platformName = dictionary["PlatformName"] as? String
-            self.operatingSystemVersion = dictionary["OperatingSystemVersion"] as? String
-            self.solutionStackName = dictionary["SolutionStackName"] as? String
-            self.platformArn = dictionary["PlatformArn"] as? String
-            self.supportedTierList = dictionary["SupportedTierList"] as? [String]
-            if let frameworks = dictionary["Frameworks"] as? [[String: Any]] {
-                self.frameworks = try frameworks.map({ try PlatformFramework(dictionary: $0) })
-            } else { 
-                self.frameworks = nil
-            }
-            if let programmingLanguages = dictionary["ProgrammingLanguages"] as? [[String: Any]] {
-                self.programmingLanguages = try programmingLanguages.map({ try PlatformProgrammingLanguage(dictionary: $0) })
-            } else { 
-                self.programmingLanguages = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case dateUpdated = "DateUpdated"
+            case platformStatus = "PlatformStatus"
+            case supportedAddonList = "SupportedAddonList"
+            case platformVersion = "PlatformVersion"
+            case customAmiList = "CustomAmiList"
+            case platformCategory = "PlatformCategory"
+            case maintainer = "Maintainer"
+            case operatingSystemName = "OperatingSystemName"
+            case dateCreated = "DateCreated"
+            case platformOwner = "PlatformOwner"
+            case description = "Description"
+            case platformName = "PlatformName"
+            case operatingSystemVersion = "OperatingSystemVersion"
+            case solutionStackName = "SolutionStackName"
+            case platformArn = "PlatformArn"
+            case supportedTierList = "SupportedTierList"
+            case frameworks = "Frameworks"
+            case programmingLanguages = "ProgrammingLanguages"
         }
     }
 
     public struct UpdateEnvironmentMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OptionSettings", required: false, type: .list), 
-            AWSShapeProperty(label: "TemplateName", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "SolutionStackName", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformArn", required: false, type: .string), 
-            AWSShapeProperty(label: "OptionsToRemove", required: false, type: .list), 
-            AWSShapeProperty(label: "VersionLabel", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "Tier", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionSettings", required: false, type: .list), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "SolutionStackName", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string), 
+            AWSShapeMember(label: "OptionsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "Tier", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// If specified, AWS Elastic Beanstalk updates the configuration set associated with the running environment and sets the specified configuration options to the requested value.
         public let optionSettings: [ConfigurationOptionSetting]?
@@ -3191,36 +2976,27 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
-                self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
-            } else { 
-                self.optionSettings = nil
-            }
-            self.templateName = dictionary["TemplateName"] as? String
-            self.groupName = dictionary["GroupName"] as? String
-            self.solutionStackName = dictionary["SolutionStackName"] as? String
-            self.platformArn = dictionary["PlatformArn"] as? String
-            if let optionsToRemove = dictionary["OptionsToRemove"] as? [[String: Any]] {
-                self.optionsToRemove = try optionsToRemove.map({ try OptionSpecification(dictionary: $0) })
-            } else { 
-                self.optionsToRemove = nil
-            }
-            self.versionLabel = dictionary["VersionLabel"] as? String
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.environmentId = dictionary["EnvironmentId"] as? String
-            self.applicationName = dictionary["ApplicationName"] as? String
-            if let tier = dictionary["Tier"] as? [String: Any] { self.tier = try Elasticbeanstalk.EnvironmentTier(dictionary: tier) } else { self.tier = nil }
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case optionSettings = "OptionSettings"
+            case templateName = "TemplateName"
+            case groupName = "GroupName"
+            case solutionStackName = "SolutionStackName"
+            case platformArn = "PlatformArn"
+            case optionsToRemove = "OptionsToRemove"
+            case versionLabel = "VersionLabel"
+            case environmentName = "EnvironmentName"
+            case environmentId = "EnvironmentId"
+            case applicationName = "ApplicationName"
+            case tier = "Tier"
+            case description = "Description"
         }
     }
 
     public struct DeleteApplicationMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "TerminateEnvByForce", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "TerminateEnvByForce", required: false, type: .boolean)
         ]
         /// The name of the application to delete.
         public let applicationName: String
@@ -3232,20 +3008,18 @@ extension Elasticbeanstalk {
             self.terminateEnvByForce = terminateEnvByForce
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
-            self.terminateEnvByForce = dictionary["TerminateEnvByForce"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case terminateEnvByForce = "TerminateEnvByForce"
         }
     }
 
     public struct EnvironmentTier: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
         /// The type of this environment tier.
         public let `type`: String?
@@ -3260,19 +3034,18 @@ extension Elasticbeanstalk {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.`type` = dictionary["Type"] as? String
-            self.name = dictionary["Name"] as? String
-            self.version = dictionary["Version"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case name = "Name"
+            case version = "Version"
         }
     }
 
     public struct ListPlatformVersionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformSummaryList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformSummaryList", required: false, type: .list)
         ]
         /// The starting index into the remaining list of platforms. if this value is not null, you can use it in a subsequent ListPlatformVersion call. 
         public let nextToken: String?
@@ -3284,21 +3057,16 @@ extension Elasticbeanstalk {
             self.platformSummaryList = platformSummaryList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let platformSummaryList = dictionary["PlatformSummaryList"] as? [[String: Any]] {
-                self.platformSummaryList = try platformSummaryList.map({ try PlatformSummary(dictionary: $0) })
-            } else { 
-                self.platformSummaryList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case platformSummaryList = "PlatformSummaryList"
         }
     }
 
     public struct ApplicationVersionDescriptionMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationVersion", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationVersion", required: false, type: .structure)
         ]
         ///  The ApplicationVersionDescription of the application version. 
         public let applicationVersion: ApplicationVersionDescription?
@@ -3307,17 +3075,16 @@ extension Elasticbeanstalk {
             self.applicationVersion = applicationVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let applicationVersion = dictionary["ApplicationVersion"] as? [String: Any] { self.applicationVersion = try Elasticbeanstalk.ApplicationVersionDescription(dictionary: applicationVersion) } else { self.applicationVersion = nil }
+        private enum CodingKeys: String, CodingKey {
+            case applicationVersion = "ApplicationVersion"
         }
     }
 
     public struct EnvironmentLink: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "LinkName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "LinkName", required: false, type: .string)
         ]
         /// The name of the linked environment (the dependency).
         public let environmentName: String?
@@ -3329,17 +3096,16 @@ extension Elasticbeanstalk {
             self.linkName = linkName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            self.linkName = dictionary["LinkName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case linkName = "LinkName"
         }
     }
 
     public struct LaunchConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The name of the launch configuration.
         public let name: String?
@@ -3348,18 +3114,17 @@ extension Elasticbeanstalk {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct MaxAgeRule: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxAgeInDays", required: false, type: .integer), 
-            AWSShapeProperty(label: "DeleteSourceFromS3", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxAgeInDays", required: false, type: .integer), 
+            AWSShapeMember(label: "DeleteSourceFromS3", required: false, type: .boolean), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
         ]
         /// Specify the number of days to retain an application versions.
         public let maxAgeInDays: Int32?
@@ -3374,21 +3139,19 @@ extension Elasticbeanstalk {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxAgeInDays = dictionary["MaxAgeInDays"] as? Int32
-            self.deleteSourceFromS3 = dictionary["DeleteSourceFromS3"] as? Bool
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
+        private enum CodingKeys: String, CodingKey {
+            case maxAgeInDays = "MaxAgeInDays"
+            case deleteSourceFromS3 = "DeleteSourceFromS3"
+            case enabled = "Enabled"
         }
     }
 
     public struct ListPlatformVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list)
         ]
         /// The maximum number of platform values returned in one call.
         public let maxRecords: Int32?
@@ -3403,24 +3166,19 @@ extension Elasticbeanstalk {
             self.filters = filters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try PlatformFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+            case filters = "Filters"
         }
     }
 
     public struct UpdateApplicationVersionMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionLabel", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionLabel", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The name of the version to update. If no application version is found with this label, UpdateApplication returns an InvalidParameterValue error. 
         public let versionLabel: String
@@ -3435,21 +3193,18 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let versionLabel = dictionary["VersionLabel"] as? String else { throw InitializableError.missingRequiredParam("VersionLabel") }
-            self.versionLabel = versionLabel
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case versionLabel = "VersionLabel"
+            case applicationName = "ApplicationName"
+            case description = "Description"
         }
     }
 
     public struct DeleteEnvironmentConfigurationMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         /// The name of the environment to delete the draft configuration from.
         public let environmentName: String
@@ -3461,22 +3216,19 @@ extension Elasticbeanstalk {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let environmentName = dictionary["EnvironmentName"] as? String else { throw InitializableError.missingRequiredParam("EnvironmentName") }
-            self.environmentName = environmentName
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct EnvironmentInfoDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "InfoType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Ec2InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "SampleTimestamp", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "InfoType", required: false, type: .enum), 
+            AWSShapeMember(label: "Ec2InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "SampleTimestamp", required: false, type: .timestamp)
         ]
         /// The retrieved information.
         public let message: String?
@@ -3485,30 +3237,29 @@ extension Elasticbeanstalk {
         /// The Amazon EC2 Instance ID for this information.
         public let ec2InstanceId: String?
         /// The time stamp when this information was retrieved.
-        public let sampleTimestamp: String?
+        public let sampleTimestamp: Double?
 
-        public init(message: String? = nil, infoType: EnvironmentInfoType? = nil, ec2InstanceId: String? = nil, sampleTimestamp: String? = nil) {
+        public init(message: String? = nil, infoType: EnvironmentInfoType? = nil, ec2InstanceId: String? = nil, sampleTimestamp: Double? = nil) {
             self.message = message
             self.infoType = infoType
             self.ec2InstanceId = ec2InstanceId
             self.sampleTimestamp = sampleTimestamp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.message = dictionary["Message"] as? String
-            if let infoType = dictionary["InfoType"] as? String { self.infoType = EnvironmentInfoType(rawValue: infoType) } else { self.infoType = nil }
-            self.ec2InstanceId = dictionary["Ec2InstanceId"] as? String
-            self.sampleTimestamp = dictionary["SampleTimestamp"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case infoType = "InfoType"
+            case ec2InstanceId = "Ec2InstanceId"
+            case sampleTimestamp = "SampleTimestamp"
         }
     }
 
     public struct DeleteApplicationVersionMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionLabel", required: true, type: .string), 
-            AWSShapeProperty(label: "DeleteSourceBundle", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionLabel", required: true, type: .string), 
+            AWSShapeMember(label: "DeleteSourceBundle", required: false, type: .boolean), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         /// The label of the version to delete.
         public let versionLabel: String
@@ -3523,23 +3274,20 @@ extension Elasticbeanstalk {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let versionLabel = dictionary["VersionLabel"] as? String else { throw InitializableError.missingRequiredParam("VersionLabel") }
-            self.versionLabel = versionLabel
-            self.deleteSourceBundle = dictionary["DeleteSourceBundle"] as? Bool
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case versionLabel = "VersionLabel"
+            case deleteSourceBundle = "DeleteSourceBundle"
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct ValidationMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Namespace", required: false, type: .string), 
-            AWSShapeProperty(label: "Severity", required: false, type: .enum), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "OptionName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "Severity", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "OptionName", required: false, type: .string)
         ]
         /// The namespace to which the option belongs.
         public let namespace: String?
@@ -3557,15 +3305,15 @@ extension Elasticbeanstalk {
             self.optionName = optionName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.namespace = dictionary["Namespace"] as? String
-            if let severity = dictionary["Severity"] as? String { self.severity = ValidationSeverity(rawValue: severity) } else { self.severity = nil }
-            self.message = dictionary["Message"] as? String
-            self.optionName = dictionary["OptionName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+            case severity = "Severity"
+            case message = "Message"
+            case optionName = "OptionName"
         }
     }
 
-    public enum EnvironmentHealthStatus: String, CustomStringConvertible {
+    public enum EnvironmentHealthStatus: String, CustomStringConvertible, Codable {
         case nodata = "NoData"
         case unknown = "Unknown"
         case pending = "Pending"
@@ -3579,10 +3327,9 @@ extension Elasticbeanstalk {
 
     public struct Queue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "URL", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "URL", required: false, type: .string)
         ]
         /// The name of the queue.
         public let name: String?
@@ -3594,13 +3341,13 @@ extension Elasticbeanstalk {
             self.uRL = uRL
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.uRL = dictionary["URL"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case uRL = "URL"
         }
     }
 
-    public enum PlatformStatus: String, CustomStringConvertible {
+    public enum PlatformStatus: String, CustomStringConvertible, Codable {
         case creating = "Creating"
         case failed = "Failed"
         case ready = "Ready"
@@ -3611,11 +3358,10 @@ extension Elasticbeanstalk {
 
     public struct DescribeEnvironmentManagedActionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "EnvironmentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "EnvironmentId", required: false, type: .string)
         ]
         /// The name of the target environment.
         public let environmentName: String?
@@ -3630,18 +3376,17 @@ extension Elasticbeanstalk {
             self.environmentId = environmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            if let status = dictionary["Status"] as? String { self.status = ActionStatus(rawValue: status) } else { self.status = nil }
-            self.environmentId = dictionary["EnvironmentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case status = "Status"
+            case environmentId = "EnvironmentId"
         }
     }
 
     public struct DeletePlatformVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlatformArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformArn", required: false, type: .string)
         ]
         /// The ARN of the version of the custom platform.
         public let platformArn: String?
@@ -3650,19 +3395,18 @@ extension Elasticbeanstalk {
             self.platformArn = platformArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.platformArn = dictionary["PlatformArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case platformArn = "PlatformArn"
         }
     }
 
     public struct ConfigurationOptionSetting: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Namespace", required: false, type: .string), 
-            AWSShapeProperty(label: "OptionName", required: false, type: .string), 
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "OptionName", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceName", required: false, type: .string)
         ]
         /// A unique namespace identifying the option's associated AWS resource.
         public let namespace: String?
@@ -3680,21 +3424,20 @@ extension Elasticbeanstalk {
             self.resourceName = resourceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.namespace = dictionary["Namespace"] as? String
-            self.optionName = dictionary["OptionName"] as? String
-            self.value = dictionary["Value"] as? String
-            self.resourceName = dictionary["ResourceName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+            case optionName = "OptionName"
+            case value = "Value"
+            case resourceName = "ResourceName"
         }
     }
 
     public struct CreateApplicationMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceLifecycleConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceLifecycleConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Specify an application resource lifecycle configuration to prevent your application from accumulating too many versions.
         public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
@@ -3709,21 +3452,19 @@ extension Elasticbeanstalk {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resourceLifecycleConfig = dictionary["ResourceLifecycleConfig"] as? [String: Any] { self.resourceLifecycleConfig = try Elasticbeanstalk.ApplicationResourceLifecycleConfig(dictionary: resourceLifecycleConfig) } else { self.resourceLifecycleConfig = nil }
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceLifecycleConfig = "ResourceLifecycleConfig"
+            case applicationName = "ApplicationName"
+            case description = "Description"
         }
     }
 
     public struct LoadBalancerDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: false, type: .string), 
-            AWSShapeProperty(label: "Domain", required: false, type: .string), 
-            AWSShapeProperty(label: "Listeners", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
+            AWSShapeMember(label: "Domain", required: false, type: .string), 
+            AWSShapeMember(label: "Listeners", required: false, type: .list)
         ]
         /// The name of the LoadBalancer.
         public let loadBalancerName: String?
@@ -3738,23 +3479,18 @@ extension Elasticbeanstalk {
             self.listeners = listeners
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.loadBalancerName = dictionary["LoadBalancerName"] as? String
-            self.domain = dictionary["Domain"] as? String
-            if let listeners = dictionary["Listeners"] as? [[String: Any]] {
-                self.listeners = try listeners.map({ try Listener(dictionary: $0) })
-            } else { 
-                self.listeners = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case domain = "Domain"
+            case listeners = "Listeners"
         }
     }
 
     public struct UpdateApplicationResourceLifecycleMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceLifecycleConfig", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceLifecycleConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         /// The lifecycle configuration.
         public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig
@@ -3766,28 +3502,25 @@ extension Elasticbeanstalk {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceLifecycleConfig = dictionary["ResourceLifecycleConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ResourceLifecycleConfig") }
-            self.resourceLifecycleConfig = try Elasticbeanstalk.ApplicationResourceLifecycleConfig(dictionary: resourceLifecycleConfig)
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case resourceLifecycleConfig = "ResourceLifecycleConfig"
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct SingleInstanceHealth: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Color", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Deployment", required: false, type: .structure), 
-            AWSShapeProperty(label: "ApplicationMetrics", required: false, type: .structure), 
-            AWSShapeProperty(label: "LaunchedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "HealthStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "System", required: false, type: .structure), 
-            AWSShapeProperty(label: "Causes", required: false, type: .list), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Color", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Deployment", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplicationMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "LaunchedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "HealthStatus", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "System", required: false, type: .structure), 
+            AWSShapeMember(label: "Causes", required: false, type: .list), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string)
         ]
         /// Represents the color indicator that gives you information about the health of the EC2 instance. For more information, see Health Colors and Statuses.
         public let color: String?
@@ -3798,7 +3531,7 @@ extension Elasticbeanstalk {
         /// Request metrics from your application.
         public let applicationMetrics: ApplicationMetrics?
         /// The time at which the EC2 instance was launched.
-        public let launchedAt: String?
+        public let launchedAt: Double?
         /// Returns the health status of the specified instance. For more information, see Health Colors and Statuses.
         public let healthStatus: String?
         /// The instance's type.
@@ -3810,7 +3543,7 @@ extension Elasticbeanstalk {
         /// The availability zone in which the instance runs.
         public let availabilityZone: String?
 
-        public init(color: String? = nil, instanceId: String? = nil, deployment: Deployment? = nil, applicationMetrics: ApplicationMetrics? = nil, launchedAt: String? = nil, healthStatus: String? = nil, instanceType: String? = nil, system: SystemStatus? = nil, causes: [String]? = nil, availabilityZone: String? = nil) {
+        public init(color: String? = nil, instanceId: String? = nil, deployment: Deployment? = nil, applicationMetrics: ApplicationMetrics? = nil, launchedAt: Double? = nil, healthStatus: String? = nil, instanceType: String? = nil, system: SystemStatus? = nil, causes: [String]? = nil, availabilityZone: String? = nil) {
             self.color = color
             self.instanceId = instanceId
             self.deployment = deployment
@@ -3823,31 +3556,30 @@ extension Elasticbeanstalk {
             self.availabilityZone = availabilityZone
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.color = dictionary["Color"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            if let deployment = dictionary["Deployment"] as? [String: Any] { self.deployment = try Elasticbeanstalk.Deployment(dictionary: deployment) } else { self.deployment = nil }
-            if let applicationMetrics = dictionary["ApplicationMetrics"] as? [String: Any] { self.applicationMetrics = try Elasticbeanstalk.ApplicationMetrics(dictionary: applicationMetrics) } else { self.applicationMetrics = nil }
-            self.launchedAt = dictionary["LaunchedAt"] as? String
-            self.healthStatus = dictionary["HealthStatus"] as? String
-            self.instanceType = dictionary["InstanceType"] as? String
-            if let system = dictionary["System"] as? [String: Any] { self.system = try Elasticbeanstalk.SystemStatus(dictionary: system) } else { self.system = nil }
-            self.causes = dictionary["Causes"] as? [String]
-            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case instanceId = "InstanceId"
+            case deployment = "Deployment"
+            case applicationMetrics = "ApplicationMetrics"
+            case launchedAt = "LaunchedAt"
+            case healthStatus = "HealthStatus"
+            case instanceType = "InstanceType"
+            case system = "System"
+            case causes = "Causes"
+            case availabilityZone = "AvailabilityZone"
         }
     }
 
     public struct EnvironmentResourceDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutoScalingGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "LaunchConfigurations", required: false, type: .list), 
-            AWSShapeProperty(label: "Triggers", required: false, type: .list), 
-            AWSShapeProperty(label: "Queues", required: false, type: .list), 
-            AWSShapeProperty(label: "EnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "Instances", required: false, type: .list), 
-            AWSShapeProperty(label: "LoadBalancers", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "Triggers", required: false, type: .list), 
+            AWSShapeMember(label: "Queues", required: false, type: .list), 
+            AWSShapeMember(label: "EnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "Instances", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancers", required: false, type: .list)
         ]
         ///  The AutoScalingGroups used by this environment. 
         public let autoScalingGroups: [AutoScalingGroup]?
@@ -3874,54 +3606,29 @@ extension Elasticbeanstalk {
             self.loadBalancers = loadBalancers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let autoScalingGroups = dictionary["AutoScalingGroups"] as? [[String: Any]] {
-                self.autoScalingGroups = try autoScalingGroups.map({ try AutoScalingGroup(dictionary: $0) })
-            } else { 
-                self.autoScalingGroups = nil
-            }
-            if let launchConfigurations = dictionary["LaunchConfigurations"] as? [[String: Any]] {
-                self.launchConfigurations = try launchConfigurations.map({ try LaunchConfiguration(dictionary: $0) })
-            } else { 
-                self.launchConfigurations = nil
-            }
-            if let triggers = dictionary["Triggers"] as? [[String: Any]] {
-                self.triggers = try triggers.map({ try Trigger(dictionary: $0) })
-            } else { 
-                self.triggers = nil
-            }
-            if let queues = dictionary["Queues"] as? [[String: Any]] {
-                self.queues = try queues.map({ try Queue(dictionary: $0) })
-            } else { 
-                self.queues = nil
-            }
-            self.environmentName = dictionary["EnvironmentName"] as? String
-            if let instances = dictionary["Instances"] as? [[String: Any]] {
-                self.instances = try instances.map({ try Instance(dictionary: $0) })
-            } else { 
-                self.instances = nil
-            }
-            if let loadBalancers = dictionary["LoadBalancers"] as? [[String: Any]] {
-                self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
-            } else { 
-                self.loadBalancers = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroups = "AutoScalingGroups"
+            case launchConfigurations = "LaunchConfigurations"
+            case triggers = "Triggers"
+            case queues = "Queues"
+            case environmentName = "EnvironmentName"
+            case instances = "Instances"
+            case loadBalancers = "LoadBalancers"
         }
     }
 
     public struct DescribeEnvironmentsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IncludedDeletedBackTo", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EnvironmentIds", required: false, type: .list), 
-            AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "IncludeDeleted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VersionLabel", required: false, type: .string), 
-            AWSShapeProperty(label: "EnvironmentNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IncludedDeletedBackTo", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EnvironmentIds", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "IncludeDeleted", required: false, type: .boolean), 
+            AWSShapeMember(label: "VersionLabel", required: false, type: .string), 
+            AWSShapeMember(label: "EnvironmentNames", required: false, type: .list)
         ]
         ///  If specified when IncludeDeleted is set to true, then environments deleted after this date are displayed. 
-        public let includedDeletedBackTo: String?
+        public let includedDeletedBackTo: Double?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
         public let environmentIds: [String]?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
@@ -3933,7 +3640,7 @@ extension Elasticbeanstalk {
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
         public let environmentNames: [String]?
 
-        public init(includedDeletedBackTo: String? = nil, environmentIds: [String]? = nil, applicationName: String? = nil, includeDeleted: Bool? = nil, versionLabel: String? = nil, environmentNames: [String]? = nil) {
+        public init(includedDeletedBackTo: Double? = nil, environmentIds: [String]? = nil, applicationName: String? = nil, includeDeleted: Bool? = nil, versionLabel: String? = nil, environmentNames: [String]? = nil) {
             self.includedDeletedBackTo = includedDeletedBackTo
             self.environmentIds = environmentIds
             self.applicationName = applicationName
@@ -3942,24 +3649,23 @@ extension Elasticbeanstalk {
             self.environmentNames = environmentNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.includedDeletedBackTo = dictionary["IncludedDeletedBackTo"] as? String
-            self.environmentIds = dictionary["EnvironmentIds"] as? [String]
-            self.applicationName = dictionary["ApplicationName"] as? String
-            self.includeDeleted = dictionary["IncludeDeleted"] as? Bool
-            self.versionLabel = dictionary["VersionLabel"] as? String
-            self.environmentNames = dictionary["EnvironmentNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case includedDeletedBackTo = "IncludedDeletedBackTo"
+            case environmentIds = "EnvironmentIds"
+            case applicationName = "ApplicationName"
+            case includeDeleted = "IncludeDeleted"
+            case versionLabel = "VersionLabel"
+            case environmentNames = "EnvironmentNames"
         }
     }
 
     public struct DescribeApplicationVersionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "ApplicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "VersionLabels", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "VersionLabels", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Specify a maximum number of application versions to paginate in the request.
         public let maxRecords: Int32?
@@ -3977,11 +3683,11 @@ extension Elasticbeanstalk {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.applicationName = dictionary["ApplicationName"] as? String
-            self.versionLabels = dictionary["VersionLabels"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case applicationName = "ApplicationName"
+            case versionLabels = "VersionLabels"
+            case nextToken = "NextToken"
         }
     }
 

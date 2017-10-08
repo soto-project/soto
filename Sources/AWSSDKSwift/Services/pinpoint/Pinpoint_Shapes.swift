@@ -31,12 +31,11 @@ extension Pinpoint {
 
     public struct GetCampaignActivitiesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
-            AWSShapeProperty(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
+            AWSShapeMember(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
         public let pageSize: String?
         public let campaignId: String
@@ -50,21 +49,19 @@ extension Pinpoint {
             self.token = token
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["page-size"] as? String
-            guard let campaignId = dictionary["campaign-id"] as? String else { throw InitializableError.missingRequiredParam("campaign-id") }
-            self.campaignId = campaignId
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            self.token = dictionary["token"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "page-size"
+            case campaignId = "campaign-id"
+            case applicationId = "application-id"
+            case token = "token"
         }
     }
 
     public struct SendMessagesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "MessageResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MessageResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "MessageResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageResponse", required: true, type: .structure)
         ]
         public let messageResponse: MessageResponse
 
@@ -72,17 +69,16 @@ extension Pinpoint {
             self.messageResponse = messageResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let messageResponse = dictionary["MessageResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("MessageResponse") }
-            self.messageResponse = try Pinpoint.MessageResponse(dictionary: messageResponse)
+        private enum CodingKeys: String, CodingKey {
+            case messageResponse = "MessageResponse"
         }
     }
 
     public struct UpdateEndpointsBatchResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "MessageBody"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MessageBody", required: true, type: .structure)
+        public static let payloadPath: String? = "MessageBody"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageBody", required: true, type: .structure)
         ]
         public let messageBody: MessageBody
 
@@ -90,27 +86,25 @@ extension Pinpoint {
             self.messageBody = messageBody
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let messageBody = dictionary["MessageBody"] as? [String: Any] else { throw InitializableError.missingRequiredParam("MessageBody") }
-            self.messageBody = try Pinpoint.MessageBody(dictionary: messageBody)
+        private enum CodingKeys: String, CodingKey {
+            case messageBody = "MessageBody"
         }
     }
 
     public struct EndpointRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndpointStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "OptOut", required: false, type: .string), 
-            AWSShapeProperty(label: "Metrics", required: false, type: .map), 
-            AWSShapeProperty(label: "EffectiveDate", required: false, type: .string), 
-            AWSShapeProperty(label: "Address", required: false, type: .string), 
-            AWSShapeProperty(label: "Location", required: false, type: .structure), 
-            AWSShapeProperty(label: "Demographic", required: false, type: .structure), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "RequestId", required: false, type: .string), 
-            AWSShapeProperty(label: "User", required: false, type: .structure), 
-            AWSShapeProperty(label: "ChannelType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointStatus", required: false, type: .string), 
+            AWSShapeMember(label: "OptOut", required: false, type: .string), 
+            AWSShapeMember(label: "Metrics", required: false, type: .map), 
+            AWSShapeMember(label: "EffectiveDate", required: false, type: .string), 
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "Location", required: false, type: .structure), 
+            AWSShapeMember(label: "Demographic", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "User", required: false, type: .structure), 
+            AWSShapeMember(label: "ChannelType", required: false, type: .enum)
         ]
         /// The endpoint status. Can be either ACTIVE or INACTIVE. Will be set to INACTIVE if a delivery fails. Will be set to ACTIVE if the address is updated.
         public let endpointStatus: String?
@@ -150,39 +144,26 @@ extension Pinpoint {
             self.channelType = channelType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.endpointStatus = dictionary["EndpointStatus"] as? String
-            self.optOut = dictionary["OptOut"] as? String
-            if let metrics = dictionary["Metrics"] as? [String: Double] {
-                self.metrics = metrics
-            } else { 
-                self.metrics = nil
-            }
-            self.effectiveDate = dictionary["EffectiveDate"] as? String
-            self.address = dictionary["Address"] as? String
-            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.EndpointLocation(dictionary: location) } else { self.location = nil }
-            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.EndpointDemographic(dictionary: demographic) } else { self.demographic = nil }
-            if let attributes = dictionary["Attributes"] as? [String: Any] {
-                var attributesDict: [String: [String]] = [:]
-                for (key, value) in attributes {
-                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
-                    attributesDict[key] = listOfString
-                }
-                self.attributes = attributesDict
-            } else { 
-                self.attributes = nil
-            }
-            self.requestId = dictionary["RequestId"] as? String
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Pinpoint.EndpointUser(dictionary: user) } else { self.user = nil }
-            if let channelType = dictionary["ChannelType"] as? String { self.channelType = ChannelType(rawValue: channelType) } else { self.channelType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case endpointStatus = "EndpointStatus"
+            case optOut = "OptOut"
+            case metrics = "Metrics"
+            case effectiveDate = "EffectiveDate"
+            case address = "Address"
+            case location = "Location"
+            case demographic = "Demographic"
+            case attributes = "Attributes"
+            case requestId = "RequestId"
+            case user = "User"
+            case channelType = "ChannelType"
         }
     }
 
     public struct UpdateApplicationSettingsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "ApplicationSettingsResource"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationSettingsResource", required: true, type: .structure)
+        public static let payloadPath: String? = "ApplicationSettingsResource"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationSettingsResource", required: true, type: .structure)
         ]
         public let applicationSettingsResource: ApplicationSettingsResource
 
@@ -190,17 +171,15 @@ extension Pinpoint {
             self.applicationSettingsResource = applicationSettingsResource
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationSettingsResource = dictionary["ApplicationSettingsResource"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ApplicationSettingsResource") }
-            self.applicationSettingsResource = try Pinpoint.ApplicationSettingsResource(dictionary: applicationSettingsResource)
+        private enum CodingKeys: String, CodingKey {
+            case applicationSettingsResource = "ApplicationSettingsResource"
         }
     }
 
     public struct EndpointBatchRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: false, type: .list)
         ]
         /// List of items to update. Maximum 100 items
         public let item: [EndpointBatchItem]?
@@ -209,21 +188,16 @@ extension Pinpoint {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["Item"] as? [[String: Any]] {
-                self.item = try item.map({ try EndpointBatchItem(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
         }
     }
 
     public struct GCMChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApiKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApiKey", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
         /// Platform credential API key from Google.
         public let apiKey: String?
@@ -235,13 +209,13 @@ extension Pinpoint {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.apiKey = dictionary["ApiKey"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case apiKey = "ApiKey"
+            case enabled = "Enabled"
         }
     }
 
-    public enum Format: String, CustomStringConvertible {
+    public enum Format: String, CustomStringConvertible, Codable {
         case csv = "CSV"
         case json = "JSON"
         public var description: String { return self.rawValue }
@@ -249,9 +223,8 @@ extension Pinpoint {
 
     public struct GetGcmChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let applicationId: String
 
@@ -259,18 +232,17 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
         }
     }
 
     public struct CreateCampaignRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "WriteCampaignRequest"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "WriteCampaignRequest", required: true, type: .structure)
+        public static let payloadPath: String? = "WriteCampaignRequest"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "WriteCampaignRequest", required: true, type: .structure)
         ]
         public let applicationId: String
         public let writeCampaignRequest: WriteCampaignRequest
@@ -280,20 +252,17 @@ extension Pinpoint {
             self.writeCampaignRequest = writeCampaignRequest
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            guard let writeCampaignRequest = dictionary["WriteCampaignRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteCampaignRequest") }
-            self.writeCampaignRequest = try Pinpoint.WriteCampaignRequest(dictionary: writeCampaignRequest)
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case writeCampaignRequest = "WriteCampaignRequest"
         }
     }
 
     public struct GetSegmentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let segmentId: String
         public let applicationId: String
@@ -303,20 +272,17 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let segmentId = dictionary["segment-id"] as? String else { throw InitializableError.missingRequiredParam("segment-id") }
-            self.segmentId = segmentId
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case segmentId = "segment-id"
+            case applicationId = "application-id"
         }
     }
 
     public struct QuietTime: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "End", required: false, type: .string), 
-            AWSShapeProperty(label: "Start", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "End", required: false, type: .string), 
+            AWSShapeMember(label: "Start", required: false, type: .string)
         ]
         /// The default end time for quiet time in ISO 8601 format.
         public let end: String?
@@ -328,17 +294,16 @@ extension Pinpoint {
             self.start = start
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.end = dictionary["End"] as? String
-            self.start = dictionary["Start"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case end = "End"
+            case start = "Start"
         }
     }
 
     public struct DeleteApnsChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let applicationId: String
 
@@ -346,18 +311,16 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
         }
     }
 
     public struct DeleteCampaignRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let campaignId: String
         public let applicationId: String
@@ -367,15 +330,13 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let campaignId = dictionary["campaign-id"] as? String else { throw InitializableError.missingRequiredParam("campaign-id") }
-            self.campaignId = campaignId
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case campaignId = "campaign-id"
+            case applicationId = "application-id"
         }
     }
 
-    public enum Action: String, CustomStringConvertible {
+    public enum Action: String, CustomStringConvertible, Codable {
         case open_app = "OPEN_APP"
         case deep_link = "DEEP_LINK"
         case url = "URL"
@@ -384,12 +345,11 @@ extension Pinpoint {
 
     public struct EmailChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FromAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Identity", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FromAddress", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "Identity", required: false, type: .string)
         ]
         /// The email address used to send emails from.
         public let fromAddress: String?
@@ -407,19 +367,19 @@ extension Pinpoint {
             self.identity = identity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fromAddress = dictionary["FromAddress"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
-            self.roleArn = dictionary["RoleArn"] as? String
-            self.identity = dictionary["Identity"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fromAddress = "FromAddress"
+            case enabled = "Enabled"
+            case roleArn = "RoleArn"
+            case identity = "Identity"
         }
     }
 
     public struct DeleteGcmChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "GCMChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GCMChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "GCMChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GCMChannelResponse", required: true, type: .structure)
         ]
         public let gCMChannelResponse: GCMChannelResponse
 
@@ -427,17 +387,16 @@ extension Pinpoint {
             self.gCMChannelResponse = gCMChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gCMChannelResponse = dictionary["GCMChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("GCMChannelResponse") }
-            self.gCMChannelResponse = try Pinpoint.GCMChannelResponse(dictionary: gCMChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case gCMChannelResponse = "GCMChannelResponse"
         }
     }
 
     public struct UpdateSmsChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "SMSChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SMSChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "SMSChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SMSChannelResponse", required: true, type: .structure)
         ]
         public let sMSChannelResponse: SMSChannelResponse
 
@@ -445,17 +404,16 @@ extension Pinpoint {
             self.sMSChannelResponse = sMSChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sMSChannelResponse = dictionary["SMSChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SMSChannelResponse") }
-            self.sMSChannelResponse = try Pinpoint.SMSChannelResponse(dictionary: sMSChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case sMSChannelResponse = "SMSChannelResponse"
         }
     }
 
     public struct GetImportJobResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "ImportJobResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImportJobResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "ImportJobResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImportJobResponse", required: true, type: .structure)
         ]
         public let importJobResponse: ImportJobResponse
 
@@ -463,19 +421,17 @@ extension Pinpoint {
             self.importJobResponse = importJobResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let importJobResponse = dictionary["ImportJobResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ImportJobResponse") }
-            self.importJobResponse = try Pinpoint.ImportJobResponse(dictionary: importJobResponse)
+        private enum CodingKeys: String, CodingKey {
+            case importJobResponse = "ImportJobResponse"
         }
     }
 
     public struct GetSegmentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
         public let pageSize: String?
         public let applicationId: String
@@ -487,20 +443,19 @@ extension Pinpoint {
             self.token = token
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["page-size"] as? String
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            self.token = dictionary["token"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "page-size"
+            case applicationId = "application-id"
+            case token = "token"
         }
     }
 
     public struct CreateSegmentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "WriteSegmentRequest"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "WriteSegmentRequest", required: true, type: .structure)
+        public static let payloadPath: String? = "WriteSegmentRequest"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "WriteSegmentRequest", required: true, type: .structure)
         ]
         public let applicationId: String
         public let writeSegmentRequest: WriteSegmentRequest
@@ -510,22 +465,19 @@ extension Pinpoint {
             self.writeSegmentRequest = writeSegmentRequest
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            guard let writeSegmentRequest = dictionary["WriteSegmentRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteSegmentRequest") }
-            self.writeSegmentRequest = try Pinpoint.WriteSegmentRequest(dictionary: writeSegmentRequest)
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case writeSegmentRequest = "WriteSegmentRequest"
         }
     }
 
     public struct GetSegmentVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
-            AWSShapeProperty(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
+            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string)
         ]
         public let pageSize: String?
         public let token: String?
@@ -539,22 +491,20 @@ extension Pinpoint {
             self.segmentId = segmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["page-size"] as? String
-            self.token = dictionary["token"] as? String
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            guard let segmentId = dictionary["segment-id"] as? String else { throw InitializableError.missingRequiredParam("segment-id") }
-            self.segmentId = segmentId
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "page-size"
+            case token = "token"
+            case applicationId = "application-id"
+            case segmentId = "segment-id"
         }
     }
 
     public struct UpdateApnsSandboxChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "APNSSandboxChannelRequest"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "APNSSandboxChannelRequest", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static let payloadPath: String? = "APNSSandboxChannelRequest"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "APNSSandboxChannelRequest", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let aPNSSandboxChannelRequest: APNSSandboxChannelRequest
         public let applicationId: String
@@ -564,24 +514,21 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aPNSSandboxChannelRequest = dictionary["APNSSandboxChannelRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("APNSSandboxChannelRequest") }
-            self.aPNSSandboxChannelRequest = try Pinpoint.APNSSandboxChannelRequest(dictionary: aPNSSandboxChannelRequest)
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case aPNSSandboxChannelRequest = "APNSSandboxChannelRequest"
+            case applicationId = "application-id"
         }
     }
 
     public struct AddressConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TitleOverride", required: false, type: .string), 
-            AWSShapeProperty(label: "Context", required: false, type: .map), 
-            AWSShapeProperty(label: "BodyOverride", required: false, type: .string), 
-            AWSShapeProperty(label: "RawContent", required: false, type: .string), 
-            AWSShapeProperty(label: "ChannelType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Substitutions", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TitleOverride", required: false, type: .string), 
+            AWSShapeMember(label: "Context", required: false, type: .map), 
+            AWSShapeMember(label: "BodyOverride", required: false, type: .string), 
+            AWSShapeMember(label: "RawContent", required: false, type: .string), 
+            AWSShapeMember(label: "ChannelType", required: false, type: .enum), 
+            AWSShapeMember(label: "Substitutions", required: false, type: .map)
         ]
         /// Title override. If specified will override default title if applicable.
         public let titleOverride: String?
@@ -603,43 +550,29 @@ extension Pinpoint {
             self.substitutions = substitutions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.titleOverride = dictionary["TitleOverride"] as? String
-            if let context = dictionary["Context"] as? [String: String] {
-                self.context = context
-            } else { 
-                self.context = nil
-            }
-            self.bodyOverride = dictionary["BodyOverride"] as? String
-            self.rawContent = dictionary["RawContent"] as? String
-            if let channelType = dictionary["ChannelType"] as? String { self.channelType = ChannelType(rawValue: channelType) } else { self.channelType = nil }
-            if let substitutions = dictionary["Substitutions"] as? [String: Any] {
-                var substitutionsDict: [String: [String]] = [:]
-                for (key, value) in substitutions {
-                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
-                    substitutionsDict[key] = listOfString
-                }
-                self.substitutions = substitutionsDict
-            } else { 
-                self.substitutions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case titleOverride = "TitleOverride"
+            case context = "Context"
+            case bodyOverride = "BodyOverride"
+            case rawContent = "RawContent"
+            case channelType = "ChannelType"
+            case substitutions = "Substitutions"
         }
     }
 
     public struct Message: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImageSmallIconUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "Action", required: false, type: .enum), 
-            AWSShapeProperty(label: "Url", required: false, type: .string), 
-            AWSShapeProperty(label: "MediaUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "Title", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "SilentPush", required: false, type: .boolean), 
-            AWSShapeProperty(label: "JsonBody", required: false, type: .string), 
-            AWSShapeProperty(label: "Body", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageIconUrl", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageSmallIconUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Action", required: false, type: .enum), 
+            AWSShapeMember(label: "Url", required: false, type: .string), 
+            AWSShapeMember(label: "MediaUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Title", required: false, type: .string), 
+            AWSShapeMember(label: "ImageUrl", required: false, type: .string), 
+            AWSShapeMember(label: "SilentPush", required: false, type: .boolean), 
+            AWSShapeMember(label: "JsonBody", required: false, type: .string), 
+            AWSShapeMember(label: "Body", required: false, type: .string), 
+            AWSShapeMember(label: "ImageIconUrl", required: false, type: .string)
         ]
         /// The URL that points to the small icon image for the push notification icon, for example, the app icon.
         public let imageSmallIconUrl: String?
@@ -679,35 +612,34 @@ extension Pinpoint {
             self.imageIconUrl = imageIconUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.imageSmallIconUrl = dictionary["ImageSmallIconUrl"] as? String
-            if let action = dictionary["Action"] as? String { self.action = Action(rawValue: action) } else { self.action = nil }
-            self.url = dictionary["Url"] as? String
-            self.mediaUrl = dictionary["MediaUrl"] as? String
-            self.title = dictionary["Title"] as? String
-            self.imageUrl = dictionary["ImageUrl"] as? String
-            self.silentPush = dictionary["SilentPush"] as? Bool
-            self.jsonBody = dictionary["JsonBody"] as? String
-            self.body = dictionary["Body"] as? String
-            self.imageIconUrl = dictionary["ImageIconUrl"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case imageSmallIconUrl = "ImageSmallIconUrl"
+            case action = "Action"
+            case url = "Url"
+            case mediaUrl = "MediaUrl"
+            case title = "Title"
+            case imageUrl = "ImageUrl"
+            case silentPush = "SilentPush"
+            case jsonBody = "JsonBody"
+            case body = "Body"
+            case imageIconUrl = "ImageIconUrl"
         }
     }
 
     public struct SMSChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShortCode", required: false, type: .string), 
-            AWSShapeProperty(label: "Platform", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .integer), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeProperty(label: "SenderId", required: false, type: .string), 
-            AWSShapeProperty(label: "IsArchived", required: false, type: .boolean), 
-            AWSShapeProperty(label: "LastModifiedBy", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShortCode", required: false, type: .string), 
+            AWSShapeMember(label: "Platform", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .integer), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "SenderId", required: false, type: .string), 
+            AWSShapeMember(label: "IsArchived", required: false, type: .boolean), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .string)
         ]
         /// The short code registered with the phone provider.
         public let shortCode: String?
@@ -746,27 +678,27 @@ extension Pinpoint {
             self.lastModifiedBy = lastModifiedBy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.shortCode = dictionary["ShortCode"] as? String
-            self.platform = dictionary["Platform"] as? String
-            self.id = dictionary["Id"] as? String
-            self.version = dictionary["Version"] as? Int32
-            self.enabled = dictionary["Enabled"] as? Bool
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
-            self.creationDate = dictionary["CreationDate"] as? String
-            self.applicationId = dictionary["ApplicationId"] as? String
-            self.senderId = dictionary["SenderId"] as? String
-            self.isArchived = dictionary["IsArchived"] as? Bool
-            self.lastModifiedBy = dictionary["LastModifiedBy"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case shortCode = "ShortCode"
+            case platform = "Platform"
+            case id = "Id"
+            case version = "Version"
+            case enabled = "Enabled"
+            case lastModifiedDate = "LastModifiedDate"
+            case creationDate = "CreationDate"
+            case applicationId = "ApplicationId"
+            case senderId = "SenderId"
+            case isArchived = "IsArchived"
+            case lastModifiedBy = "LastModifiedBy"
         }
     }
 
     public struct UpdateEmailChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "EmailChannelRequest"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EmailChannelRequest", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static let payloadPath: String? = "EmailChannelRequest"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailChannelRequest", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let emailChannelRequest: EmailChannelRequest
         public let applicationId: String
@@ -776,19 +708,16 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let emailChannelRequest = dictionary["EmailChannelRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EmailChannelRequest") }
-            self.emailChannelRequest = try Pinpoint.EmailChannelRequest(dictionary: emailChannelRequest)
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case emailChannelRequest = "EmailChannelRequest"
+            case applicationId = "application-id"
         }
     }
 
     public struct GetApplicationSettingsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let applicationId: String
 
@@ -796,19 +725,17 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
         }
     }
 
     public struct GetSegmentVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "Version", location: .uri(locationName: "version"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .uri(locationName: "version"), required: true, type: .string)
         ]
         public let applicationId: String
         public let segmentId: String
@@ -820,21 +747,17 @@ extension Pinpoint {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            guard let segmentId = dictionary["segment-id"] as? String else { throw InitializableError.missingRequiredParam("segment-id") }
-            self.segmentId = segmentId
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case segmentId = "segment-id"
+            case version = "version"
         }
     }
 
     public struct SegmentLocation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Country", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Country", required: false, type: .structure)
         ]
         /// The country filter according to ISO 3166-1 Alpha-2 codes.
         public let country: SetDimension?
@@ -843,17 +766,16 @@ extension Pinpoint {
             self.country = country
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let country = dictionary["Country"] as? [String: Any] { self.country = try Pinpoint.SetDimension(dictionary: country) } else { self.country = nil }
+        private enum CodingKeys: String, CodingKey {
+            case country = "Country"
         }
     }
 
     public struct SMSChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SenderId", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SenderId", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
         /// Sender identifier of your messages.
         public let senderId: String?
@@ -865,28 +787,27 @@ extension Pinpoint {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.senderId = dictionary["SenderId"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case senderId = "SenderId"
+            case enabled = "Enabled"
         }
     }
 
     public struct WriteCampaignRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TreatmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "SegmentVersion", required: false, type: .integer), 
-            AWSShapeProperty(label: "AdditionalTreatments", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "TreatmentDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "HoldoutPercent", required: false, type: .integer), 
-            AWSShapeProperty(label: "Limits", required: false, type: .structure), 
-            AWSShapeProperty(label: "Schedule", required: false, type: .structure), 
-            AWSShapeProperty(label: "MessageConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "SegmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "IsPaused", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TreatmentName", required: false, type: .string), 
+            AWSShapeMember(label: "SegmentVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "AdditionalTreatments", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "TreatmentDescription", required: false, type: .string), 
+            AWSShapeMember(label: "HoldoutPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "Limits", required: false, type: .structure), 
+            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
+            AWSShapeMember(label: "MessageConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "SegmentId", required: false, type: .string), 
+            AWSShapeMember(label: "IsPaused", required: false, type: .boolean), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The custom name of a variation of the campaign used for A/B testing.
         public let treatmentName: String?
@@ -928,32 +849,28 @@ extension Pinpoint {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.treatmentName = dictionary["TreatmentName"] as? String
-            self.segmentVersion = dictionary["SegmentVersion"] as? Int32
-            if let additionalTreatments = dictionary["AdditionalTreatments"] as? [[String: Any]] {
-                self.additionalTreatments = try additionalTreatments.map({ try WriteTreatmentResource(dictionary: $0) })
-            } else { 
-                self.additionalTreatments = nil
-            }
-            self.name = dictionary["Name"] as? String
-            self.treatmentDescription = dictionary["TreatmentDescription"] as? String
-            self.holdoutPercent = dictionary["HoldoutPercent"] as? Int32
-            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) } else { self.limits = nil }
-            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) } else { self.schedule = nil }
-            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) } else { self.messageConfiguration = nil }
-            self.segmentId = dictionary["SegmentId"] as? String
-            self.isPaused = dictionary["IsPaused"] as? Bool
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case treatmentName = "TreatmentName"
+            case segmentVersion = "SegmentVersion"
+            case additionalTreatments = "AdditionalTreatments"
+            case name = "Name"
+            case treatmentDescription = "TreatmentDescription"
+            case holdoutPercent = "HoldoutPercent"
+            case limits = "Limits"
+            case schedule = "Schedule"
+            case messageConfiguration = "MessageConfiguration"
+            case segmentId = "SegmentId"
+            case isPaused = "IsPaused"
+            case description = "Description"
         }
     }
 
     public struct UpdateApplicationSettingsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "WriteApplicationSettingsRequest"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WriteApplicationSettingsRequest", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static let payloadPath: String? = "WriteApplicationSettingsRequest"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WriteApplicationSettingsRequest", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let writeApplicationSettingsRequest: WriteApplicationSettingsRequest
         public let applicationId: String
@@ -963,23 +880,20 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let writeApplicationSettingsRequest = dictionary["WriteApplicationSettingsRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteApplicationSettingsRequest") }
-            self.writeApplicationSettingsRequest = try Pinpoint.WriteApplicationSettingsRequest(dictionary: writeApplicationSettingsRequest)
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case writeApplicationSettingsRequest = "WriteApplicationSettingsRequest"
+            case applicationId = "application-id"
         }
     }
 
     public struct WriteTreatmentResource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Schedule", required: false, type: .structure), 
-            AWSShapeProperty(label: "TreatmentDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "MessageConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "SizePercent", required: false, type: .integer), 
-            AWSShapeProperty(label: "TreatmentName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
+            AWSShapeMember(label: "TreatmentDescription", required: false, type: .string), 
+            AWSShapeMember(label: "MessageConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "SizePercent", required: false, type: .integer), 
+            AWSShapeMember(label: "TreatmentName", required: false, type: .string)
         ]
         /// The campaign schedule.
         public let schedule: Schedule?
@@ -1000,26 +914,25 @@ extension Pinpoint {
             self.treatmentName = treatmentName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) } else { self.schedule = nil }
-            self.treatmentDescription = dictionary["TreatmentDescription"] as? String
-            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) } else { self.messageConfiguration = nil }
-            self.sizePercent = dictionary["SizePercent"] as? Int32
-            self.treatmentName = dictionary["TreatmentName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schedule = "Schedule"
+            case treatmentDescription = "TreatmentDescription"
+            case messageConfiguration = "MessageConfiguration"
+            case sizePercent = "SizePercent"
+            case treatmentName = "TreatmentName"
         }
     }
 
     public struct TreatmentResource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TreatmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "TreatmentDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "SizePercent", required: false, type: .integer), 
-            AWSShapeProperty(label: "State", required: false, type: .structure), 
-            AWSShapeProperty(label: "Schedule", required: false, type: .structure), 
-            AWSShapeProperty(label: "MessageConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TreatmentName", required: false, type: .string), 
+            AWSShapeMember(label: "TreatmentDescription", required: false, type: .string), 
+            AWSShapeMember(label: "SizePercent", required: false, type: .integer), 
+            AWSShapeMember(label: "State", required: false, type: .structure), 
+            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
+            AWSShapeMember(label: "MessageConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The custom name of a variation of the campaign used for A/B testing.
         public let treatmentName: String?
@@ -1046,27 +959,26 @@ extension Pinpoint {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.treatmentName = dictionary["TreatmentName"] as? String
-            self.treatmentDescription = dictionary["TreatmentDescription"] as? String
-            self.sizePercent = dictionary["SizePercent"] as? Int32
-            if let state = dictionary["State"] as? [String: Any] { self.state = try Pinpoint.CampaignState(dictionary: state) } else { self.state = nil }
-            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) } else { self.schedule = nil }
-            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) } else { self.messageConfiguration = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case treatmentName = "TreatmentName"
+            case treatmentDescription = "TreatmentDescription"
+            case sizePercent = "SizePercent"
+            case state = "State"
+            case schedule = "Schedule"
+            case messageConfiguration = "MessageConfiguration"
+            case id = "Id"
         }
     }
 
     public struct EventStream: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExternalId", required: false, type: .string), 
-            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .string), 
-            AWSShapeProperty(label: "DestinationStreamArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedBy", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExternalId", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationStreamArn", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedBy", required: false, type: .string)
         ]
         /// The external ID assigned the IAM role that authorizes Amazon Pinpoint to publish to the stream.
         public let externalId: String?
@@ -1092,36 +1004,35 @@ extension Pinpoint {
             self.lastUpdatedBy = lastUpdatedBy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.externalId = dictionary["ExternalId"] as? String
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
-            self.destinationStreamArn = dictionary["DestinationStreamArn"] as? String
-            self.applicationId = dictionary["ApplicationId"] as? String
-            self.roleArn = dictionary["RoleArn"] as? String
-            self.lastUpdatedBy = dictionary["LastUpdatedBy"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case externalId = "ExternalId"
+            case lastModifiedDate = "LastModifiedDate"
+            case destinationStreamArn = "DestinationStreamArn"
+            case applicationId = "ApplicationId"
+            case roleArn = "RoleArn"
+            case lastUpdatedBy = "LastUpdatedBy"
         }
     }
 
     public struct EndpointResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "User", required: false, type: .structure), 
-            AWSShapeProperty(label: "ShardId", required: false, type: .string), 
-            AWSShapeProperty(label: "OptOut", required: false, type: .string), 
-            AWSShapeProperty(label: "Metrics", required: false, type: .map), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
-            AWSShapeProperty(label: "CohortId", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "EffectiveDate", required: false, type: .string), 
-            AWSShapeProperty(label: "Location", required: false, type: .structure), 
-            AWSShapeProperty(label: "Address", required: false, type: .string), 
-            AWSShapeProperty(label: "Demographic", required: false, type: .structure), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeProperty(label: "RequestId", required: false, type: .string), 
-            AWSShapeProperty(label: "ChannelType", required: false, type: .enum), 
-            AWSShapeProperty(label: "EndpointStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "User", required: false, type: .structure), 
+            AWSShapeMember(label: "ShardId", required: false, type: .string), 
+            AWSShapeMember(label: "OptOut", required: false, type: .string), 
+            AWSShapeMember(label: "Metrics", required: false, type: .map), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "CohortId", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "EffectiveDate", required: false, type: .string), 
+            AWSShapeMember(label: "Location", required: false, type: .structure), 
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "Demographic", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "ChannelType", required: false, type: .enum), 
+            AWSShapeMember(label: "EndpointStatus", required: false, type: .string)
         ]
         /// Custom user-specific attributes that your app reports to Amazon Pinpoint.
         public let user: EndpointUser?
@@ -1175,44 +1086,30 @@ extension Pinpoint {
             self.endpointStatus = endpointStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Pinpoint.EndpointUser(dictionary: user) } else { self.user = nil }
-            self.shardId = dictionary["ShardId"] as? String
-            self.optOut = dictionary["OptOut"] as? String
-            if let metrics = dictionary["Metrics"] as? [String: Double] {
-                self.metrics = metrics
-            } else { 
-                self.metrics = nil
-            }
-            self.creationDate = dictionary["CreationDate"] as? String
-            self.cohortId = dictionary["CohortId"] as? String
-            self.id = dictionary["Id"] as? String
-            self.effectiveDate = dictionary["EffectiveDate"] as? String
-            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.EndpointLocation(dictionary: location) } else { self.location = nil }
-            self.address = dictionary["Address"] as? String
-            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.EndpointDemographic(dictionary: demographic) } else { self.demographic = nil }
-            if let attributes = dictionary["Attributes"] as? [String: Any] {
-                var attributesDict: [String: [String]] = [:]
-                for (key, value) in attributes {
-                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
-                    attributesDict[key] = listOfString
-                }
-                self.attributes = attributesDict
-            } else { 
-                self.attributes = nil
-            }
-            self.applicationId = dictionary["ApplicationId"] as? String
-            self.requestId = dictionary["RequestId"] as? String
-            if let channelType = dictionary["ChannelType"] as? String { self.channelType = ChannelType(rawValue: channelType) } else { self.channelType = nil }
-            self.endpointStatus = dictionary["EndpointStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case user = "User"
+            case shardId = "ShardId"
+            case optOut = "OptOut"
+            case metrics = "Metrics"
+            case creationDate = "CreationDate"
+            case cohortId = "CohortId"
+            case id = "Id"
+            case effectiveDate = "EffectiveDate"
+            case location = "Location"
+            case address = "Address"
+            case demographic = "Demographic"
+            case attributes = "Attributes"
+            case applicationId = "ApplicationId"
+            case requestId = "RequestId"
+            case channelType = "ChannelType"
+            case endpointStatus = "EndpointStatus"
         }
     }
 
     public struct DeleteSmsChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let applicationId: String
 
@@ -1220,18 +1117,16 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
         }
     }
 
     public struct GetImportJobRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobId", location: .uri(locationName: "job-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", location: .uri(locationName: "job-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let jobId: String
         public let applicationId: String
@@ -1241,22 +1136,19 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobId = dictionary["job-id"] as? String else { throw InitializableError.missingRequiredParam("job-id") }
-            self.jobId = jobId
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "job-id"
+            case applicationId = "application-id"
         }
     }
 
     public struct SMSMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SenderId", required: false, type: .string), 
-            AWSShapeProperty(label: "MessageType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Body", required: false, type: .string), 
-            AWSShapeProperty(label: "Substitutions", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SenderId", required: false, type: .string), 
+            AWSShapeMember(label: "MessageType", required: false, type: .enum), 
+            AWSShapeMember(label: "Body", required: false, type: .string), 
+            AWSShapeMember(label: "Substitutions", required: false, type: .map)
         ]
         /// Sender ID of sent message.
         public let senderId: String?
@@ -1273,28 +1165,18 @@ extension Pinpoint {
             self.substitutions = substitutions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.senderId = dictionary["SenderId"] as? String
-            if let messageType = dictionary["MessageType"] as? String { self.messageType = MessageType(rawValue: messageType) } else { self.messageType = nil }
-            self.body = dictionary["Body"] as? String
-            if let substitutions = dictionary["Substitutions"] as? [String: Any] {
-                var substitutionsDict: [String: [String]] = [:]
-                for (key, value) in substitutions {
-                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
-                    substitutionsDict[key] = listOfString
-                }
-                self.substitutions = substitutionsDict
-            } else { 
-                self.substitutions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case senderId = "SenderId"
+            case messageType = "MessageType"
+            case body = "Body"
+            case substitutions = "Substitutions"
         }
     }
 
     public struct DeleteApnsSandboxChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let applicationId: String
 
@@ -1302,17 +1184,16 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
         }
     }
 
     public struct DeleteSmsChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "SMSChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SMSChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "SMSChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SMSChannelResponse", required: true, type: .structure)
         ]
         public let sMSChannelResponse: SMSChannelResponse
 
@@ -1320,35 +1201,33 @@ extension Pinpoint {
             self.sMSChannelResponse = sMSChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sMSChannelResponse = dictionary["SMSChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SMSChannelResponse") }
-            self.sMSChannelResponse = try Pinpoint.SMSChannelResponse(dictionary: sMSChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case sMSChannelResponse = "SMSChannelResponse"
         }
     }
 
     public struct CampaignResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limits", required: false, type: .structure), 
-            AWSShapeProperty(label: "TreatmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "SegmentVersion", required: false, type: .integer), 
-            AWSShapeProperty(label: "State", required: false, type: .structure), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
-            AWSShapeProperty(label: "Schedule", required: false, type: .structure), 
-            AWSShapeProperty(label: "MessageConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "SegmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "TreatmentDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "AdditionalTreatments", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "HoldoutPercent", required: false, type: .integer), 
-            AWSShapeProperty(label: "Version", required: false, type: .integer), 
-            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeProperty(label: "IsPaused", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultState", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limits", required: false, type: .structure), 
+            AWSShapeMember(label: "TreatmentName", required: false, type: .string), 
+            AWSShapeMember(label: "SegmentVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "State", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
+            AWSShapeMember(label: "MessageConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "SegmentId", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "TreatmentDescription", required: false, type: .string), 
+            AWSShapeMember(label: "AdditionalTreatments", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "HoldoutPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "Version", required: false, type: .integer), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "IsPaused", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultState", required: false, type: .structure)
         ]
         /// The campaign limits settings.
         public let limits: CampaignLimits?
@@ -1412,34 +1291,30 @@ extension Pinpoint {
             self.defaultState = defaultState
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) } else { self.limits = nil }
-            self.treatmentName = dictionary["TreatmentName"] as? String
-            self.segmentVersion = dictionary["SegmentVersion"] as? Int32
-            if let state = dictionary["State"] as? [String: Any] { self.state = try Pinpoint.CampaignState(dictionary: state) } else { self.state = nil }
-            self.creationDate = dictionary["CreationDate"] as? String
-            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) } else { self.schedule = nil }
-            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) } else { self.messageConfiguration = nil }
-            self.segmentId = dictionary["SegmentId"] as? String
-            self.id = dictionary["Id"] as? String
-            self.description = dictionary["Description"] as? String
-            self.treatmentDescription = dictionary["TreatmentDescription"] as? String
-            if let additionalTreatments = dictionary["AdditionalTreatments"] as? [[String: Any]] {
-                self.additionalTreatments = try additionalTreatments.map({ try TreatmentResource(dictionary: $0) })
-            } else { 
-                self.additionalTreatments = nil
-            }
-            self.name = dictionary["Name"] as? String
-            self.holdoutPercent = dictionary["HoldoutPercent"] as? Int32
-            self.version = dictionary["Version"] as? Int32
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
-            self.applicationId = dictionary["ApplicationId"] as? String
-            self.isPaused = dictionary["IsPaused"] as? Bool
-            if let defaultState = dictionary["DefaultState"] as? [String: Any] { self.defaultState = try Pinpoint.CampaignState(dictionary: defaultState) } else { self.defaultState = nil }
+        private enum CodingKeys: String, CodingKey {
+            case limits = "Limits"
+            case treatmentName = "TreatmentName"
+            case segmentVersion = "SegmentVersion"
+            case state = "State"
+            case creationDate = "CreationDate"
+            case schedule = "Schedule"
+            case messageConfiguration = "MessageConfiguration"
+            case segmentId = "SegmentId"
+            case id = "Id"
+            case description = "Description"
+            case treatmentDescription = "TreatmentDescription"
+            case additionalTreatments = "AdditionalTreatments"
+            case name = "Name"
+            case holdoutPercent = "HoldoutPercent"
+            case version = "Version"
+            case lastModifiedDate = "LastModifiedDate"
+            case applicationId = "ApplicationId"
+            case isPaused = "IsPaused"
+            case defaultState = "DefaultState"
         }
     }
 
-    public enum Frequency: String, CustomStringConvertible {
+    public enum Frequency: String, CustomStringConvertible, Codable {
         case once = "ONCE"
         case hourly = "HOURLY"
         case daily = "DAILY"
@@ -1450,9 +1325,8 @@ extension Pinpoint {
 
     public struct GetSmsChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let applicationId: String
 
@@ -1460,19 +1334,17 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
         }
     }
 
     public struct MessageRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MessageConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Context", required: false, type: .map), 
-            AWSShapeProperty(label: "Addresses", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Context", required: false, type: .map), 
+            AWSShapeMember(label: "Addresses", required: false, type: .map)
         ]
         /// Message configuration.
         public let messageConfiguration: DirectMessageConfiguration?
@@ -1486,32 +1358,18 @@ extension Pinpoint {
             self.addresses = addresses
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.DirectMessageConfiguration(dictionary: messageConfiguration) } else { self.messageConfiguration = nil }
-            if let context = dictionary["Context"] as? [String: String] {
-                self.context = context
-            } else { 
-                self.context = nil
-            }
-            if let addresses = dictionary["Addresses"] as? [String: Any] {
-                var addressesDict: [String: AddressConfiguration] = [:]
-                for (key, value) in addresses {
-                    guard let addressConfigurationDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    addressesDict[key] = try AddressConfiguration(dictionary: addressConfigurationDict)
-                }
-                self.addresses = addressesDict
-            } else { 
-                self.addresses = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case messageConfiguration = "MessageConfiguration"
+            case context = "Context"
+            case addresses = "Addresses"
         }
     }
 
     public struct GetCampaignRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let campaignId: String
         public let applicationId: String
@@ -1521,20 +1379,17 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let campaignId = dictionary["campaign-id"] as? String else { throw InitializableError.missingRequiredParam("campaign-id") }
-            self.campaignId = campaignId
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case campaignId = "campaign-id"
+            case applicationId = "application-id"
         }
     }
 
     public struct WriteApplicationSettingsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limits", required: false, type: .structure), 
-            AWSShapeProperty(label: "QuietTime", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limits", required: false, type: .structure), 
+            AWSShapeMember(label: "QuietTime", required: false, type: .structure)
         ]
         /// The default campaign limits for the app. These limits apply to each campaign for the app, unless the campaign overrides the default with limits of its own.
         public let limits: CampaignLimits?
@@ -1546,17 +1401,17 @@ extension Pinpoint {
             self.quietTime = quietTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) } else { self.limits = nil }
-            if let quietTime = dictionary["QuietTime"] as? [String: Any] { self.quietTime = try Pinpoint.QuietTime(dictionary: quietTime) } else { self.quietTime = nil }
+        private enum CodingKeys: String, CodingKey {
+            case limits = "Limits"
+            case quietTime = "QuietTime"
         }
     }
 
     public struct UpdateGcmChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "GCMChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GCMChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "GCMChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GCMChannelResponse", required: true, type: .structure)
         ]
         public let gCMChannelResponse: GCMChannelResponse
 
@@ -1564,29 +1419,27 @@ extension Pinpoint {
             self.gCMChannelResponse = gCMChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gCMChannelResponse = dictionary["GCMChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("GCMChannelResponse") }
-            self.gCMChannelResponse = try Pinpoint.GCMChannelResponse(dictionary: gCMChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case gCMChannelResponse = "GCMChannelResponse"
         }
     }
 
     public struct APNSMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ThreadId", required: false, type: .string), 
-            AWSShapeProperty(label: "Data", required: false, type: .map), 
-            AWSShapeProperty(label: "MediaUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "Title", required: false, type: .string), 
-            AWSShapeProperty(label: "SilentPush", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Badge", required: false, type: .integer), 
-            AWSShapeProperty(label: "Action", required: false, type: .enum), 
-            AWSShapeProperty(label: "Url", required: false, type: .string), 
-            AWSShapeProperty(label: "RawContent", required: false, type: .string), 
-            AWSShapeProperty(label: "Category", required: false, type: .string), 
-            AWSShapeProperty(label: "Sound", required: false, type: .string), 
-            AWSShapeProperty(label: "Body", required: false, type: .string), 
-            AWSShapeProperty(label: "Substitutions", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ThreadId", required: false, type: .string), 
+            AWSShapeMember(label: "Data", required: false, type: .map), 
+            AWSShapeMember(label: "MediaUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Title", required: false, type: .string), 
+            AWSShapeMember(label: "SilentPush", required: false, type: .boolean), 
+            AWSShapeMember(label: "Badge", required: false, type: .integer), 
+            AWSShapeMember(label: "Action", required: false, type: .enum), 
+            AWSShapeMember(label: "Url", required: false, type: .string), 
+            AWSShapeMember(label: "RawContent", required: false, type: .string), 
+            AWSShapeMember(label: "Category", required: false, type: .string), 
+            AWSShapeMember(label: "Sound", required: false, type: .string), 
+            AWSShapeMember(label: "Body", required: false, type: .string), 
+            AWSShapeMember(label: "Substitutions", required: false, type: .map)
         ]
         /// Provide this key with a string value that represents the app-specific identifier for grouping notifications. If you provide a Notification Content app extension, you can use this value to group your notifications together.
         public let threadId: String?
@@ -1629,41 +1482,28 @@ extension Pinpoint {
             self.substitutions = substitutions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.threadId = dictionary["ThreadId"] as? String
-            if let data = dictionary["Data"] as? [String: String] {
-                self.data = data
-            } else { 
-                self.data = nil
-            }
-            self.mediaUrl = dictionary["MediaUrl"] as? String
-            self.title = dictionary["Title"] as? String
-            self.silentPush = dictionary["SilentPush"] as? Bool
-            self.badge = dictionary["Badge"] as? Int32
-            if let action = dictionary["Action"] as? String { self.action = Action(rawValue: action) } else { self.action = nil }
-            self.url = dictionary["Url"] as? String
-            self.rawContent = dictionary["RawContent"] as? String
-            self.category = dictionary["Category"] as? String
-            self.sound = dictionary["Sound"] as? String
-            self.body = dictionary["Body"] as? String
-            if let substitutions = dictionary["Substitutions"] as? [String: Any] {
-                var substitutionsDict: [String: [String]] = [:]
-                for (key, value) in substitutions {
-                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
-                    substitutionsDict[key] = listOfString
-                }
-                self.substitutions = substitutionsDict
-            } else { 
-                self.substitutions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case threadId = "ThreadId"
+            case data = "Data"
+            case mediaUrl = "MediaUrl"
+            case title = "Title"
+            case silentPush = "SilentPush"
+            case badge = "Badge"
+            case action = "Action"
+            case url = "Url"
+            case rawContent = "RawContent"
+            case category = "Category"
+            case sound = "Sound"
+            case body = "Body"
+            case substitutions = "Substitutions"
         }
     }
 
     public struct GetSegmentImportJobsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "ImportJobsResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImportJobsResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "ImportJobsResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImportJobsResponse", required: true, type: .structure)
         ]
         public let importJobsResponse: ImportJobsResponse
 
@@ -1671,19 +1511,18 @@ extension Pinpoint {
             self.importJobsResponse = importJobsResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let importJobsResponse = dictionary["ImportJobsResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ImportJobsResponse") }
-            self.importJobsResponse = try Pinpoint.ImportJobsResponse(dictionary: importJobsResponse)
+        private enum CodingKeys: String, CodingKey {
+            case importJobsResponse = "ImportJobsResponse"
         }
     }
 
     public struct UpdateEndpointRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "EndpointRequest"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndpointRequest", required: true, type: .structure), 
-            AWSShapeProperty(label: "EndpointId", location: .uri(locationName: "endpoint-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static let payloadPath: String? = "EndpointRequest"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointRequest", required: true, type: .structure), 
+            AWSShapeMember(label: "EndpointId", location: .uri(locationName: "endpoint-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let endpointRequest: EndpointRequest
         public let endpointId: String
@@ -1695,27 +1534,23 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let endpointRequest = dictionary["EndpointRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EndpointRequest") }
-            self.endpointRequest = try Pinpoint.EndpointRequest(dictionary: endpointRequest)
-            guard let endpointId = dictionary["endpoint-id"] as? String else { throw InitializableError.missingRequiredParam("endpoint-id") }
-            self.endpointId = endpointId
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case endpointRequest = "EndpointRequest"
+            case endpointId = "endpoint-id"
+            case applicationId = "application-id"
         }
     }
 
     public struct DefaultPushNotificationMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: false, type: .enum), 
-            AWSShapeProperty(label: "Url", required: false, type: .string), 
-            AWSShapeProperty(label: "Data", required: false, type: .map), 
-            AWSShapeProperty(label: "Title", required: false, type: .string), 
-            AWSShapeProperty(label: "SilentPush", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Body", required: false, type: .string), 
-            AWSShapeProperty(label: "Substitutions", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Action", required: false, type: .enum), 
+            AWSShapeMember(label: "Url", required: false, type: .string), 
+            AWSShapeMember(label: "Data", required: false, type: .map), 
+            AWSShapeMember(label: "Title", required: false, type: .string), 
+            AWSShapeMember(label: "SilentPush", required: false, type: .boolean), 
+            AWSShapeMember(label: "Body", required: false, type: .string), 
+            AWSShapeMember(label: "Substitutions", required: false, type: .map)
         ]
         /// The action that occurs if the user taps a push notification delivered by the campaign: OPEN_APP - Your app launches, or it becomes the foreground app if it has been sent to the background. This is the default action. DEEP_LINK - Uses deep linking features in iOS and Android to open your app and display a designated user interface within the app. URL - The default mobile browser on the user's device launches and opens a web page at the URL you specify. Possible values include: OPEN_APP | DEEP_LINK | URL
         public let action: Action?
@@ -1740,31 +1575,18 @@ extension Pinpoint {
             self.substitutions = substitutions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let action = dictionary["Action"] as? String { self.action = Action(rawValue: action) } else { self.action = nil }
-            self.url = dictionary["Url"] as? String
-            if let data = dictionary["Data"] as? [String: String] {
-                self.data = data
-            } else { 
-                self.data = nil
-            }
-            self.title = dictionary["Title"] as? String
-            self.silentPush = dictionary["SilentPush"] as? Bool
-            self.body = dictionary["Body"] as? String
-            if let substitutions = dictionary["Substitutions"] as? [String: Any] {
-                var substitutionsDict: [String: [String]] = [:]
-                for (key, value) in substitutions {
-                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
-                    substitutionsDict[key] = listOfString
-                }
-                self.substitutions = substitutionsDict
-            } else { 
-                self.substitutions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case url = "Url"
+            case data = "Data"
+            case title = "Title"
+            case silentPush = "SilentPush"
+            case body = "Body"
+            case substitutions = "Substitutions"
         }
     }
 
-    public enum Duration: String, CustomStringConvertible {
+    public enum Duration: String, CustomStringConvertible, Codable {
         case hr_24 = "HR_24"
         case day_7 = "DAY_7"
         case day_14 = "DAY_14"
@@ -1772,7 +1594,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum ChannelType: String, CustomStringConvertible {
+    public enum ChannelType: String, CustomStringConvertible, Codable {
         case gcm = "GCM"
         case apns = "APNS"
         case apns_sandbox = "APNS_SANDBOX"
@@ -1784,9 +1606,9 @@ extension Pinpoint {
 
     public struct GetSmsChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "SMSChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SMSChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "SMSChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SMSChannelResponse", required: true, type: .structure)
         ]
         public let sMSChannelResponse: SMSChannelResponse
 
@@ -1794,19 +1616,17 @@ extension Pinpoint {
             self.sMSChannelResponse = sMSChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sMSChannelResponse = dictionary["SMSChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SMSChannelResponse") }
-            self.sMSChannelResponse = try Pinpoint.SMSChannelResponse(dictionary: sMSChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case sMSChannelResponse = "SMSChannelResponse"
         }
     }
 
     public struct MessageResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Result", required: false, type: .map), 
-            AWSShapeProperty(label: "RequestId", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Result", required: false, type: .map), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string)
         ]
         /// A map containing a multi part response for each address, with the address as the key(Email address, phone number or push token) and the result as the value.
         public let result: [String: MessageResult]?
@@ -1821,27 +1641,18 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let result = dictionary["Result"] as? [String: Any] {
-                var resultDict: [String: MessageResult] = [:]
-                for (key, value) in result {
-                    guard let messageResultDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    resultDict[key] = try MessageResult(dictionary: messageResultDict)
-                }
-                self.result = resultDict
-            } else { 
-                self.result = nil
-            }
-            self.requestId = dictionary["RequestId"] as? String
-            self.applicationId = dictionary["ApplicationId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case result = "Result"
+            case requestId = "RequestId"
+            case applicationId = "ApplicationId"
         }
     }
 
     public struct UpdateEmailChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "EmailChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EmailChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "EmailChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailChannelResponse", required: true, type: .structure)
         ]
         public let emailChannelResponse: EmailChannelResponse
 
@@ -1849,13 +1660,12 @@ extension Pinpoint {
             self.emailChannelResponse = emailChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let emailChannelResponse = dictionary["EmailChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EmailChannelResponse") }
-            self.emailChannelResponse = try Pinpoint.EmailChannelResponse(dictionary: emailChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case emailChannelResponse = "EmailChannelResponse"
         }
     }
 
-    public enum AttributeType: String, CustomStringConvertible {
+    public enum AttributeType: String, CustomStringConvertible, Codable {
         case inclusive = "INCLUSIVE"
         case exclusive = "EXCLUSIVE"
         public var description: String { return self.rawValue }
@@ -1863,10 +1673,9 @@ extension Pinpoint {
 
     public struct CampaignsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of campaigns.
         public let item: [CampaignResponse]?
@@ -1878,30 +1687,25 @@ extension Pinpoint {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["Item"] as? [[String: Any]] {
-                self.item = try item.map({ try CampaignResponse(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
+            case nextToken = "NextToken"
         }
     }
 
     public struct GCMChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "Platform", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Version", required: false, type: .integer), 
-            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .string), 
-            AWSShapeProperty(label: "Credential", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
-            AWSShapeProperty(label: "IsArchived", required: false, type: .boolean), 
-            AWSShapeProperty(label: "LastModifiedBy", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Platform", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Version", required: false, type: .integer), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
+            AWSShapeMember(label: "Credential", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "IsArchived", required: false, type: .boolean), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .string)
         ]
         /// Channel ID. Not used, only for backwards compatibility.
         public let id: String?
@@ -1937,26 +1741,25 @@ extension Pinpoint {
             self.lastModifiedBy = lastModifiedBy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.id = dictionary["Id"] as? String
-            self.platform = dictionary["Platform"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
-            self.version = dictionary["Version"] as? Int32
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
-            self.credential = dictionary["Credential"] as? String
-            self.applicationId = dictionary["ApplicationId"] as? String
-            self.creationDate = dictionary["CreationDate"] as? String
-            self.isArchived = dictionary["IsArchived"] as? Bool
-            self.lastModifiedBy = dictionary["LastModifiedBy"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case platform = "Platform"
+            case enabled = "Enabled"
+            case version = "Version"
+            case lastModifiedDate = "LastModifiedDate"
+            case credential = "Credential"
+            case applicationId = "ApplicationId"
+            case creationDate = "CreationDate"
+            case isArchived = "IsArchived"
+            case lastModifiedBy = "LastModifiedBy"
         }
     }
 
     public struct DefaultMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Body", required: false, type: .string), 
-            AWSShapeProperty(label: "Substitutions", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Body", required: false, type: .string), 
+            AWSShapeMember(label: "Substitutions", required: false, type: .map)
         ]
         /// The message body of the notification, the email body or the text message.
         public let body: String?
@@ -1967,26 +1770,16 @@ extension Pinpoint {
             self.substitutions = substitutions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.body = dictionary["Body"] as? String
-            if let substitutions = dictionary["Substitutions"] as? [String: Any] {
-                var substitutionsDict: [String: [String]] = [:]
-                for (key, value) in substitutions {
-                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
-                    substitutionsDict[key] = listOfString
-                }
-                self.substitutions = substitutionsDict
-            } else { 
-                self.substitutions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case substitutions = "Substitutions"
         }
     }
 
     public struct ActivitiesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: false, type: .list)
         ]
         /// List of campaign activities
         public let item: [ActivityResponse]?
@@ -1995,21 +1788,16 @@ extension Pinpoint {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["Item"] as? [[String: Any]] {
-                self.item = try item.map({ try ActivityResponse(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
         }
     }
 
     public struct RecencyDimension: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Duration", required: false, type: .enum), 
-            AWSShapeProperty(label: "RecencyType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Duration", required: false, type: .enum), 
+            AWSShapeMember(label: "RecencyType", required: false, type: .enum)
         ]
         /// The length of time during which users have been active or inactive with your app.
         /// Valid values: HR_24, DAY_7, DAY_14, DAY_30
@@ -2024,22 +1812,21 @@ extension Pinpoint {
             self.recencyType = recencyType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let duration = dictionary["Duration"] as? String { self.duration = Duration(rawValue: duration) } else { self.duration = nil }
-            if let recencyType = dictionary["RecencyType"] as? String { self.recencyType = RecencyType(rawValue: recencyType) } else { self.recencyType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case recencyType = "RecencyType"
         }
     }
 
     public struct EndpointLocation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Longitude", required: false, type: .double), 
-            AWSShapeProperty(label: "Country", required: false, type: .string), 
-            AWSShapeProperty(label: "PostalCode", required: false, type: .string), 
-            AWSShapeProperty(label: "City", required: false, type: .string), 
-            AWSShapeProperty(label: "Latitude", required: false, type: .double), 
-            AWSShapeProperty(label: "Region", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Longitude", required: false, type: .double), 
+            AWSShapeMember(label: "Country", required: false, type: .string), 
+            AWSShapeMember(label: "PostalCode", required: false, type: .string), 
+            AWSShapeMember(label: "City", required: false, type: .string), 
+            AWSShapeMember(label: "Latitude", required: false, type: .double), 
+            AWSShapeMember(label: "Region", required: false, type: .string)
         ]
         /// The longitude of the endpoint location. Rounded to one decimal (Roughly corresponding to a mile).
         public let longitude: Double?
@@ -2063,26 +1850,25 @@ extension Pinpoint {
             self.region = region
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.longitude = dictionary["Longitude"] as? Double
-            self.country = dictionary["Country"] as? String
-            self.postalCode = dictionary["PostalCode"] as? String
-            self.city = dictionary["City"] as? String
-            self.latitude = dictionary["Latitude"] as? Double
-            self.region = dictionary["Region"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case longitude = "Longitude"
+            case country = "Country"
+            case postalCode = "PostalCode"
+            case city = "City"
+            case latitude = "Latitude"
+            case region = "Region"
         }
     }
 
     public struct Schedule: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .string), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .string), 
-            AWSShapeProperty(label: "Frequency", required: false, type: .enum), 
-            AWSShapeProperty(label: "QuietTime", required: false, type: .structure), 
-            AWSShapeProperty(label: "IsLocalTime", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Timezone", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .string), 
+            AWSShapeMember(label: "Frequency", required: false, type: .enum), 
+            AWSShapeMember(label: "QuietTime", required: false, type: .structure), 
+            AWSShapeMember(label: "IsLocalTime", required: false, type: .boolean), 
+            AWSShapeMember(label: "Timezone", required: false, type: .string)
         ]
         /// The scheduled time that the campaign begins in ISO 8601 format.
         public let startTime: String?
@@ -2139,21 +1925,21 @@ extension Pinpoint {
             self.timezone = timezone
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.endTime = dictionary["EndTime"] as? String
-            if let frequency = dictionary["Frequency"] as? String { self.frequency = Frequency(rawValue: frequency) } else { self.frequency = nil }
-            if let quietTime = dictionary["QuietTime"] as? [String: Any] { self.quietTime = try Pinpoint.QuietTime(dictionary: quietTime) } else { self.quietTime = nil }
-            self.isLocalTime = dictionary["IsLocalTime"] as? Bool
-            self.timezone = dictionary["Timezone"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case endTime = "EndTime"
+            case frequency = "Frequency"
+            case quietTime = "QuietTime"
+            case isLocalTime = "IsLocalTime"
+            case timezone = "Timezone"
         }
     }
 
     public struct GetEndpointResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "EndpointResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndpointResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "EndpointResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointResponse", required: true, type: .structure)
         ]
         public let endpointResponse: EndpointResponse
 
@@ -2161,28 +1947,26 @@ extension Pinpoint {
             self.endpointResponse = endpointResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let endpointResponse = dictionary["EndpointResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EndpointResponse") }
-            self.endpointResponse = try Pinpoint.EndpointResponse(dictionary: endpointResponse)
+        private enum CodingKeys: String, CodingKey {
+            case endpointResponse = "EndpointResponse"
         }
     }
 
     public struct EndpointBatchItem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChannelType", required: false, type: .enum), 
-            AWSShapeProperty(label: "User", required: false, type: .structure), 
-            AWSShapeProperty(label: "EffectiveDate", required: false, type: .string), 
-            AWSShapeProperty(label: "OptOut", required: false, type: .string), 
-            AWSShapeProperty(label: "Metrics", required: false, type: .map), 
-            AWSShapeProperty(label: "Location", required: false, type: .structure), 
-            AWSShapeProperty(label: "Address", required: false, type: .string), 
-            AWSShapeProperty(label: "Demographic", required: false, type: .structure), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "RequestId", required: false, type: .string), 
-            AWSShapeProperty(label: "EndpointStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelType", required: false, type: .enum), 
+            AWSShapeMember(label: "User", required: false, type: .structure), 
+            AWSShapeMember(label: "EffectiveDate", required: false, type: .string), 
+            AWSShapeMember(label: "OptOut", required: false, type: .string), 
+            AWSShapeMember(label: "Metrics", required: false, type: .map), 
+            AWSShapeMember(label: "Location", required: false, type: .structure), 
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "Demographic", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointStatus", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The channel type.
         /// Valid values: APNS, GCM
@@ -2225,40 +2009,26 @@ extension Pinpoint {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let channelType = dictionary["ChannelType"] as? String { self.channelType = ChannelType(rawValue: channelType) } else { self.channelType = nil }
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Pinpoint.EndpointUser(dictionary: user) } else { self.user = nil }
-            self.effectiveDate = dictionary["EffectiveDate"] as? String
-            self.optOut = dictionary["OptOut"] as? String
-            if let metrics = dictionary["Metrics"] as? [String: Double] {
-                self.metrics = metrics
-            } else { 
-                self.metrics = nil
-            }
-            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.EndpointLocation(dictionary: location) } else { self.location = nil }
-            self.address = dictionary["Address"] as? String
-            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.EndpointDemographic(dictionary: demographic) } else { self.demographic = nil }
-            if let attributes = dictionary["Attributes"] as? [String: Any] {
-                var attributesDict: [String: [String]] = [:]
-                for (key, value) in attributes {
-                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
-                    attributesDict[key] = listOfString
-                }
-                self.attributes = attributesDict
-            } else { 
-                self.attributes = nil
-            }
-            self.requestId = dictionary["RequestId"] as? String
-            self.endpointStatus = dictionary["EndpointStatus"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case channelType = "ChannelType"
+            case user = "User"
+            case effectiveDate = "EffectiveDate"
+            case optOut = "OptOut"
+            case metrics = "Metrics"
+            case location = "Location"
+            case address = "Address"
+            case demographic = "Demographic"
+            case attributes = "Attributes"
+            case requestId = "RequestId"
+            case endpointStatus = "EndpointStatus"
+            case id = "Id"
         }
     }
 
     public struct GetApnsChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let applicationId: String
 
@@ -2266,17 +2036,16 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
         }
     }
 
     public struct GetApnsChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "APNSChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "APNSChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "APNSChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "APNSChannelResponse", required: true, type: .structure)
         ]
         public let aPNSChannelResponse: APNSChannelResponse
 
@@ -2284,22 +2053,20 @@ extension Pinpoint {
             self.aPNSChannelResponse = aPNSChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aPNSChannelResponse = dictionary["APNSChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("APNSChannelResponse") }
-            self.aPNSChannelResponse = try Pinpoint.APNSChannelResponse(dictionary: aPNSChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case aPNSChannelResponse = "APNSChannelResponse"
         }
     }
 
     public struct SegmentImportResource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExternalId", required: false, type: .string), 
-            AWSShapeProperty(label: "Format", required: false, type: .enum), 
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ChannelCounts", required: false, type: .map), 
-            AWSShapeProperty(label: "S3Url", required: false, type: .string), 
-            AWSShapeProperty(label: "Size", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExternalId", required: false, type: .string), 
+            AWSShapeMember(label: "Format", required: false, type: .enum), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "ChannelCounts", required: false, type: .map), 
+            AWSShapeMember(label: "S3Url", required: false, type: .string), 
+            AWSShapeMember(label: "Size", required: false, type: .integer)
         ]
         /// A unique, custom ID assigned to the IAM role that restricts who can assume the role.
         public let externalId: String?
@@ -2323,21 +2090,17 @@ extension Pinpoint {
             self.size = size
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.externalId = dictionary["ExternalId"] as? String
-            if let format = dictionary["Format"] as? String { self.format = Format(rawValue: format) } else { self.format = nil }
-            self.roleArn = dictionary["RoleArn"] as? String
-            if let channelCounts = dictionary["ChannelCounts"] as? [String: Int32] {
-                self.channelCounts = channelCounts
-            } else { 
-                self.channelCounts = nil
-            }
-            self.s3Url = dictionary["S3Url"] as? String
-            self.size = dictionary["Size"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case externalId = "ExternalId"
+            case format = "Format"
+            case roleArn = "RoleArn"
+            case channelCounts = "ChannelCounts"
+            case s3Url = "S3Url"
+            case size = "Size"
         }
     }
 
-    public enum DimensionType: String, CustomStringConvertible {
+    public enum DimensionType: String, CustomStringConvertible, Codable {
         case inclusive = "INCLUSIVE"
         case exclusive = "EXCLUSIVE"
         public var description: String { return self.rawValue }
@@ -2345,16 +2108,15 @@ extension Pinpoint {
 
     public struct ImportJobRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3Url", required: false, type: .string), 
-            AWSShapeProperty(label: "DefineSegment", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Format", required: false, type: .enum), 
-            AWSShapeProperty(label: "ExternalId", required: false, type: .string), 
-            AWSShapeProperty(label: "RegisterEndpoints", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SegmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SegmentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Url", required: false, type: .string), 
+            AWSShapeMember(label: "DefineSegment", required: false, type: .boolean), 
+            AWSShapeMember(label: "Format", required: false, type: .enum), 
+            AWSShapeMember(label: "ExternalId", required: false, type: .string), 
+            AWSShapeMember(label: "RegisterEndpoints", required: false, type: .boolean), 
+            AWSShapeMember(label: "SegmentName", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SegmentId", required: false, type: .string)
         ]
         /// A URL that points to the location within an Amazon S3 bucket that contains the endpoints to import. The location can be a folder or a single file.
         /// The URL should follow this format: s3://bucket-name/folder-name/file-name
@@ -2387,23 +2149,23 @@ extension Pinpoint {
             self.segmentId = segmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.s3Url = dictionary["S3Url"] as? String
-            self.defineSegment = dictionary["DefineSegment"] as? Bool
-            if let format = dictionary["Format"] as? String { self.format = Format(rawValue: format) } else { self.format = nil }
-            self.externalId = dictionary["ExternalId"] as? String
-            self.registerEndpoints = dictionary["RegisterEndpoints"] as? Bool
-            self.segmentName = dictionary["SegmentName"] as? String
-            self.roleArn = dictionary["RoleArn"] as? String
-            self.segmentId = dictionary["SegmentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case s3Url = "S3Url"
+            case defineSegment = "DefineSegment"
+            case format = "Format"
+            case externalId = "ExternalId"
+            case registerEndpoints = "RegisterEndpoints"
+            case segmentName = "SegmentName"
+            case roleArn = "RoleArn"
+            case segmentId = "SegmentId"
         }
     }
 
     public struct GetEmailChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "EmailChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EmailChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "EmailChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailChannelResponse", required: true, type: .structure)
         ]
         public let emailChannelResponse: EmailChannelResponse
 
@@ -2411,18 +2173,17 @@ extension Pinpoint {
             self.emailChannelResponse = emailChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let emailChannelResponse = dictionary["EmailChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EmailChannelResponse") }
-            self.emailChannelResponse = try Pinpoint.EmailChannelResponse(dictionary: emailChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case emailChannelResponse = "EmailChannelResponse"
         }
     }
 
     public struct SendMessagesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "MessageRequest"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "MessageRequest", required: true, type: .structure)
+        public static let payloadPath: String? = "MessageRequest"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "MessageRequest", required: true, type: .structure)
         ]
         public let applicationId: String
         public let messageRequest: MessageRequest
@@ -2432,19 +2193,17 @@ extension Pinpoint {
             self.messageRequest = messageRequest
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            guard let messageRequest = dictionary["MessageRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("MessageRequest") }
-            self.messageRequest = try Pinpoint.MessageRequest(dictionary: messageRequest)
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case messageRequest = "MessageRequest"
         }
     }
 
     public struct PutEventStreamResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "EventStream"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventStream", required: true, type: .structure)
+        public static let payloadPath: String? = "EventStream"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventStream", required: true, type: .structure)
         ]
         public let eventStream: EventStream
 
@@ -2452,13 +2211,12 @@ extension Pinpoint {
             self.eventStream = eventStream
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let eventStream = dictionary["EventStream"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EventStream") }
-            self.eventStream = try Pinpoint.EventStream(dictionary: eventStream)
+        private enum CodingKeys: String, CodingKey {
+            case eventStream = "EventStream"
         }
     }
 
-    public enum DeliveryStatus: String, CustomStringConvertible {
+    public enum DeliveryStatus: String, CustomStringConvertible, Codable {
         case successful = "SUCCESSFUL"
         case throttled = "THROTTLED"
         case temporary_failure = "TEMPORARY_FAILURE"
@@ -2468,11 +2226,10 @@ extension Pinpoint {
 
     public struct GetCampaignsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
         public let pageSize: String?
         public let applicationId: String
@@ -2484,15 +2241,14 @@ extension Pinpoint {
             self.token = token
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["page-size"] as? String
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            self.token = dictionary["token"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "page-size"
+            case applicationId = "application-id"
+            case token = "token"
         }
     }
 
-    public enum CampaignStatus: String, CustomStringConvertible {
+    public enum CampaignStatus: String, CustomStringConvertible, Codable {
         case scheduled = "SCHEDULED"
         case executing = "EXECUTING"
         case pending_next_run = "PENDING_NEXT_RUN"
@@ -2503,10 +2259,9 @@ extension Pinpoint {
 
     public struct SetDimension: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DimensionType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DimensionType", required: false, type: .enum), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
         /// The type of dimension:
         /// INCLUSIVE - Endpoints that match the criteria are included in the segment.
@@ -2519,24 +2274,23 @@ extension Pinpoint {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let dimensionType = dictionary["DimensionType"] as? String { self.dimensionType = DimensionType(rawValue: dimensionType) } else { self.dimensionType = nil }
-            self.values = dictionary["Values"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case dimensionType = "DimensionType"
+            case values = "Values"
         }
     }
 
     public struct ImportJobResource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3Url", required: false, type: .string), 
-            AWSShapeProperty(label: "DefineSegment", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Format", required: false, type: .enum), 
-            AWSShapeProperty(label: "ExternalId", required: false, type: .string), 
-            AWSShapeProperty(label: "RegisterEndpoints", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SegmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SegmentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Url", required: false, type: .string), 
+            AWSShapeMember(label: "DefineSegment", required: false, type: .boolean), 
+            AWSShapeMember(label: "Format", required: false, type: .enum), 
+            AWSShapeMember(label: "ExternalId", required: false, type: .string), 
+            AWSShapeMember(label: "RegisterEndpoints", required: false, type: .boolean), 
+            AWSShapeMember(label: "SegmentName", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SegmentId", required: false, type: .string)
         ]
         /// A URL that points to the location within an Amazon S3 bucket that contains the endpoints to import. The location can be a folder or a single file.
         /// The URL should follow this format: s3://bucket-name/folder-name/file-name
@@ -2569,23 +2323,23 @@ extension Pinpoint {
             self.segmentId = segmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.s3Url = dictionary["S3Url"] as? String
-            self.defineSegment = dictionary["DefineSegment"] as? Bool
-            if let format = dictionary["Format"] as? String { self.format = Format(rawValue: format) } else { self.format = nil }
-            self.externalId = dictionary["ExternalId"] as? String
-            self.registerEndpoints = dictionary["RegisterEndpoints"] as? Bool
-            self.segmentName = dictionary["SegmentName"] as? String
-            self.roleArn = dictionary["RoleArn"] as? String
-            self.segmentId = dictionary["SegmentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case s3Url = "S3Url"
+            case defineSegment = "DefineSegment"
+            case format = "Format"
+            case externalId = "ExternalId"
+            case registerEndpoints = "RegisterEndpoints"
+            case segmentName = "SegmentName"
+            case roleArn = "RoleArn"
+            case segmentId = "SegmentId"
         }
     }
 
     public struct GetCampaignVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "CampaignResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CampaignResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "CampaignResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignResponse", required: true, type: .structure)
         ]
         public let campaignResponse: CampaignResponse
 
@@ -2593,18 +2347,17 @@ extension Pinpoint {
             self.campaignResponse = campaignResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let campaignResponse = dictionary["CampaignResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CampaignResponse") }
-            self.campaignResponse = try Pinpoint.CampaignResponse(dictionary: campaignResponse)
+        private enum CodingKeys: String, CodingKey {
+            case campaignResponse = "CampaignResponse"
         }
     }
 
     public struct CreateImportJobRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "ImportJobRequest"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImportJobRequest", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static let payloadPath: String? = "ImportJobRequest"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImportJobRequest", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let importJobRequest: ImportJobRequest
         public let applicationId: String
@@ -2614,21 +2367,18 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let importJobRequest = dictionary["ImportJobRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ImportJobRequest") }
-            self.importJobRequest = try Pinpoint.ImportJobRequest(dictionary: importJobRequest)
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case importJobRequest = "ImportJobRequest"
+            case applicationId = "application-id"
         }
     }
 
     public struct APNSChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PrivateKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "PrivateKey", required: false, type: .string)
         ]
         /// The distribution certificate from Apple.
         public let certificate: String?
@@ -2643,20 +2393,20 @@ extension Pinpoint {
             self.privateKey = privateKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificate = dictionary["Certificate"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
-            self.privateKey = dictionary["PrivateKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case enabled = "Enabled"
+            case privateKey = "PrivateKey"
         }
     }
 
-    public enum RecencyType: String, CustomStringConvertible {
+    public enum RecencyType: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible {
+    public enum JobStatus: String, CustomStringConvertible, Codable {
         case created = "CREATED"
         case initializing = "INITIALIZING"
         case processing = "PROCESSING"
@@ -2669,10 +2419,9 @@ extension Pinpoint {
 
     public struct EndpointUser: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserId", required: false, type: .string), 
-            AWSShapeProperty(label: "UserAttributes", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserId", required: false, type: .string), 
+            AWSShapeMember(label: "UserAttributes", required: false, type: .map)
         ]
         /// The unique ID of the user.
         public let userId: String?
@@ -2683,28 +2432,18 @@ extension Pinpoint {
             self.userAttributes = userAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.userId = dictionary["UserId"] as? String
-            if let userAttributes = dictionary["UserAttributes"] as? [String: Any] {
-                var userAttributesDict: [String: [String]] = [:]
-                for (key, value) in userAttributes {
-                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
-                    userAttributesDict[key] = listOfString
-                }
-                self.userAttributes = userAttributesDict
-            } else { 
-                self.userAttributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case userId = "UserId"
+            case userAttributes = "UserAttributes"
         }
     }
 
     public struct CampaignEmailMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Body", required: false, type: .string), 
-            AWSShapeProperty(label: "Title", required: false, type: .string), 
-            AWSShapeProperty(label: "HtmlBody", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Body", required: false, type: .string), 
+            AWSShapeMember(label: "Title", required: false, type: .string), 
+            AWSShapeMember(label: "HtmlBody", required: false, type: .string)
         ]
         /// The email text body.
         public let body: String?
@@ -2719,22 +2458,21 @@ extension Pinpoint {
             self.htmlBody = htmlBody
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.body = dictionary["Body"] as? String
-            self.title = dictionary["Title"] as? String
-            self.htmlBody = dictionary["HtmlBody"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case title = "Title"
+            case htmlBody = "HtmlBody"
         }
     }
 
     public struct SegmentDimensions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Demographic", required: false, type: .structure), 
-            AWSShapeProperty(label: "Behavior", required: false, type: .structure), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "Location", required: false, type: .structure), 
-            AWSShapeProperty(label: "UserAttributes", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Demographic", required: false, type: .structure), 
+            AWSShapeMember(label: "Behavior", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "Location", required: false, type: .structure), 
+            AWSShapeMember(label: "UserAttributes", required: false, type: .map)
         ]
         /// The segment demographics attributes.
         public let demographic: SegmentDemographics?
@@ -2755,38 +2493,20 @@ extension Pinpoint {
             self.userAttributes = userAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.SegmentDemographics(dictionary: demographic) } else { self.demographic = nil }
-            if let behavior = dictionary["Behavior"] as? [String: Any] { self.behavior = try Pinpoint.SegmentBehaviors(dictionary: behavior) } else { self.behavior = nil }
-            if let attributes = dictionary["Attributes"] as? [String: Any] {
-                var attributesDict: [String: AttributeDimension] = [:]
-                for (key, value) in attributes {
-                    guard let attributeDimensionDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    attributesDict[key] = try AttributeDimension(dictionary: attributeDimensionDict)
-                }
-                self.attributes = attributesDict
-            } else { 
-                self.attributes = nil
-            }
-            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.SegmentLocation(dictionary: location) } else { self.location = nil }
-            if let userAttributes = dictionary["UserAttributes"] as? [String: Any] {
-                var userAttributesDict: [String: AttributeDimension] = [:]
-                for (key, value) in userAttributes {
-                    guard let attributeDimensionDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    userAttributesDict[key] = try AttributeDimension(dictionary: attributeDimensionDict)
-                }
-                self.userAttributes = userAttributesDict
-            } else { 
-                self.userAttributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case demographic = "Demographic"
+            case behavior = "Behavior"
+            case attributes = "Attributes"
+            case location = "Location"
+            case userAttributes = "UserAttributes"
         }
     }
 
     public struct GetSegmentVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "SegmentsResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SegmentsResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "SegmentsResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentsResponse", required: true, type: .structure)
         ]
         public let segmentsResponse: SegmentsResponse
 
@@ -2794,17 +2514,15 @@ extension Pinpoint {
             self.segmentsResponse = segmentsResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let segmentsResponse = dictionary["SegmentsResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SegmentsResponse") }
-            self.segmentsResponse = try Pinpoint.SegmentsResponse(dictionary: segmentsResponse)
+        private enum CodingKeys: String, CodingKey {
+            case segmentsResponse = "SegmentsResponse"
         }
     }
 
     public struct GetEventStreamRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         /// Application Id.
         public let applicationId: String
@@ -2813,18 +2531,16 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
         }
     }
 
     public struct MessageBody: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RequestID", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestID", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// The unique message body ID.
         public let requestID: String?
@@ -2836,17 +2552,17 @@ extension Pinpoint {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.requestID = dictionary["RequestID"] as? String
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case requestID = "RequestID"
+            case message = "Message"
         }
     }
 
     public struct GetGcmChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "GCMChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GCMChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "GCMChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GCMChannelResponse", required: true, type: .structure)
         ]
         public let gCMChannelResponse: GCMChannelResponse
 
@@ -2854,20 +2570,18 @@ extension Pinpoint {
             self.gCMChannelResponse = gCMChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gCMChannelResponse = dictionary["GCMChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("GCMChannelResponse") }
-            self.gCMChannelResponse = try Pinpoint.GCMChannelResponse(dictionary: gCMChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case gCMChannelResponse = "GCMChannelResponse"
         }
     }
 
     public struct ApplicationSettingsResource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .string), 
-            AWSShapeProperty(label: "Limits", required: false, type: .structure), 
-            AWSShapeProperty(label: "QuietTime", required: false, type: .structure), 
-            AWSShapeProperty(label: "ApplicationId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
+            AWSShapeMember(label: "Limits", required: false, type: .structure), 
+            AWSShapeMember(label: "QuietTime", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string)
         ]
         /// The date that the settings were last updated in ISO 8601 format.
         public let lastModifiedDate: String?
@@ -2885,19 +2599,19 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
-            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) } else { self.limits = nil }
-            if let quietTime = dictionary["QuietTime"] as? [String: Any] { self.quietTime = try Pinpoint.QuietTime(dictionary: quietTime) } else { self.quietTime = nil }
-            self.applicationId = dictionary["ApplicationId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedDate = "LastModifiedDate"
+            case limits = "Limits"
+            case quietTime = "QuietTime"
+            case applicationId = "ApplicationId"
         }
     }
 
     public struct UpdateEndpointResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "MessageBody"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MessageBody", required: true, type: .structure)
+        public static let payloadPath: String? = "MessageBody"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageBody", required: true, type: .structure)
         ]
         public let messageBody: MessageBody
 
@@ -2905,17 +2619,16 @@ extension Pinpoint {
             self.messageBody = messageBody
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let messageBody = dictionary["MessageBody"] as? [String: Any] else { throw InitializableError.missingRequiredParam("MessageBody") }
-            self.messageBody = try Pinpoint.MessageBody(dictionary: messageBody)
+        private enum CodingKeys: String, CodingKey {
+            case messageBody = "MessageBody"
         }
     }
 
     public struct GetCampaignActivitiesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "ActivitiesResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActivitiesResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "ActivitiesResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActivitiesResponse", required: true, type: .structure)
         ]
         public let activitiesResponse: ActivitiesResponse
 
@@ -2923,20 +2636,18 @@ extension Pinpoint {
             self.activitiesResponse = activitiesResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let activitiesResponse = dictionary["ActivitiesResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ActivitiesResponse") }
-            self.activitiesResponse = try Pinpoint.ActivitiesResponse(dictionary: activitiesResponse)
+        private enum CodingKeys: String, CodingKey {
+            case activitiesResponse = "ActivitiesResponse"
         }
     }
 
     public struct GetCampaignVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
-            AWSShapeProperty(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
+            AWSShapeMember(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
         public let pageSize: String?
         public let campaignId: String
@@ -2950,22 +2661,20 @@ extension Pinpoint {
             self.token = token
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["page-size"] as? String
-            guard let campaignId = dictionary["campaign-id"] as? String else { throw InitializableError.missingRequiredParam("campaign-id") }
-            self.campaignId = campaignId
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            self.token = dictionary["token"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "page-size"
+            case campaignId = "campaign-id"
+            case applicationId = "application-id"
+            case token = "token"
         }
     }
 
     public struct UpdateEndpointsBatchRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "EndpointBatchRequest"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndpointBatchRequest", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static let payloadPath: String? = "EndpointBatchRequest"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointBatchRequest", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let endpointBatchRequest: EndpointBatchRequest
         public let applicationId: String
@@ -2975,20 +2684,17 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let endpointBatchRequest = dictionary["EndpointBatchRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EndpointBatchRequest") }
-            self.endpointBatchRequest = try Pinpoint.EndpointBatchRequest(dictionary: endpointBatchRequest)
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case endpointBatchRequest = "EndpointBatchRequest"
+            case applicationId = "application-id"
         }
     }
 
     public struct AttributeDimension: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeType", required: false, type: .enum), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
         /// The type of dimension:
         /// INCLUSIVE - Endpoints that match the criteria are included in the segment.
@@ -3001,25 +2707,24 @@ extension Pinpoint {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributeType = dictionary["AttributeType"] as? String { self.attributeType = AttributeType(rawValue: attributeType) } else { self.attributeType = nil }
-            self.values = dictionary["Values"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case attributeType = "AttributeType"
+            case values = "Values"
         }
     }
 
     public struct APNSChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "Platform", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Version", required: false, type: .integer), 
-            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeProperty(label: "IsArchived", required: false, type: .boolean), 
-            AWSShapeProperty(label: "LastModifiedBy", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Platform", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Version", required: false, type: .integer), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "IsArchived", required: false, type: .boolean), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .string)
         ]
         /// Channel ID. Not used, only for backwards compatibility.
         public let id: String?
@@ -3052,24 +2757,24 @@ extension Pinpoint {
             self.lastModifiedBy = lastModifiedBy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.id = dictionary["Id"] as? String
-            self.platform = dictionary["Platform"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
-            self.version = dictionary["Version"] as? Int32
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
-            self.creationDate = dictionary["CreationDate"] as? String
-            self.applicationId = dictionary["ApplicationId"] as? String
-            self.isArchived = dictionary["IsArchived"] as? Bool
-            self.lastModifiedBy = dictionary["LastModifiedBy"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case platform = "Platform"
+            case enabled = "Enabled"
+            case version = "Version"
+            case lastModifiedDate = "LastModifiedDate"
+            case creationDate = "CreationDate"
+            case applicationId = "ApplicationId"
+            case isArchived = "IsArchived"
+            case lastModifiedBy = "LastModifiedBy"
         }
     }
 
     public struct UpdateApnsSandboxChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "APNSSandboxChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "APNSSandboxChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "APNSSandboxChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "APNSSandboxChannelResponse", required: true, type: .structure)
         ]
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
 
@@ -3077,17 +2782,15 @@ extension Pinpoint {
             self.aPNSSandboxChannelResponse = aPNSSandboxChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aPNSSandboxChannelResponse = dictionary["APNSSandboxChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("APNSSandboxChannelResponse") }
-            self.aPNSSandboxChannelResponse = try Pinpoint.APNSSandboxChannelResponse(dictionary: aPNSSandboxChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case aPNSSandboxChannelResponse = "APNSSandboxChannelResponse"
         }
     }
 
     public struct DeleteEventStreamRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         /// Application Id.
         public let applicationId: String
@@ -3096,18 +2799,16 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
         }
     }
 
     public struct SegmentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The list of segments.
         public let item: [SegmentResponse]?
@@ -3119,29 +2820,24 @@ extension Pinpoint {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["Item"] as? [[String: Any]] {
-                self.item = try item.map({ try SegmentResponse(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
+            case nextToken = "NextToken"
         }
     }
 
     public struct SegmentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .integer), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .structure), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .string), 
-            AWSShapeProperty(label: "ImportDefinition", required: false, type: .structure), 
-            AWSShapeProperty(label: "SegmentType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .integer), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
+            AWSShapeMember(label: "ImportDefinition", required: false, type: .structure), 
+            AWSShapeMember(label: "SegmentType", required: false, type: .enum)
         ]
         /// The unique segment ID.
         public let id: String?
@@ -3176,36 +2872,35 @@ extension Pinpoint {
             self.segmentType = segmentType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.id = dictionary["Id"] as? String
-            self.name = dictionary["Name"] as? String
-            self.version = dictionary["Version"] as? Int32
-            if let dimensions = dictionary["Dimensions"] as? [String: Any] { self.dimensions = try Pinpoint.SegmentDimensions(dictionary: dimensions) } else { self.dimensions = nil }
-            self.creationDate = dictionary["CreationDate"] as? String
-            self.applicationId = dictionary["ApplicationId"] as? String
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
-            if let importDefinition = dictionary["ImportDefinition"] as? [String: Any] { self.importDefinition = try Pinpoint.SegmentImportResource(dictionary: importDefinition) } else { self.importDefinition = nil }
-            if let segmentType = dictionary["SegmentType"] as? String { self.segmentType = SegmentType(rawValue: segmentType) } else { self.segmentType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
+            case version = "Version"
+            case dimensions = "Dimensions"
+            case creationDate = "CreationDate"
+            case applicationId = "ApplicationId"
+            case lastModifiedDate = "LastModifiedDate"
+            case importDefinition = "ImportDefinition"
+            case segmentType = "SegmentType"
         }
     }
 
     public struct ImportJobResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CompletionDate", required: false, type: .string), 
-            AWSShapeProperty(label: "Definition", required: false, type: .structure), 
-            AWSShapeProperty(label: "FailedPieces", required: false, type: .integer), 
-            AWSShapeProperty(label: "TotalPieces", required: false, type: .integer), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
-            AWSShapeProperty(label: "JobStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "TotalProcessed", required: false, type: .integer), 
-            AWSShapeProperty(label: "CompletedPieces", required: false, type: .integer), 
-            AWSShapeProperty(label: "TotalFailures", required: false, type: .integer), 
-            AWSShapeProperty(label: "Failures", required: false, type: .list), 
-            AWSShapeProperty(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompletionDate", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "FailedPieces", required: false, type: .integer), 
+            AWSShapeMember(label: "TotalPieces", required: false, type: .integer), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "TotalProcessed", required: false, type: .integer), 
+            AWSShapeMember(label: "CompletedPieces", required: false, type: .integer), 
+            AWSShapeMember(label: "TotalFailures", required: false, type: .integer), 
+            AWSShapeMember(label: "Failures", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
         ]
         /// The date the import job completed in ISO 8601 format.
         public let completionDate: String?
@@ -3251,28 +2946,28 @@ extension Pinpoint {
             self.`type` = `type`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.completionDate = dictionary["CompletionDate"] as? String
-            if let definition = dictionary["Definition"] as? [String: Any] { self.definition = try Pinpoint.ImportJobResource(dictionary: definition) } else { self.definition = nil }
-            self.failedPieces = dictionary["FailedPieces"] as? Int32
-            self.totalPieces = dictionary["TotalPieces"] as? Int32
-            self.creationDate = dictionary["CreationDate"] as? String
-            if let jobStatus = dictionary["JobStatus"] as? String { self.jobStatus = JobStatus(rawValue: jobStatus) } else { self.jobStatus = nil }
-            self.id = dictionary["Id"] as? String
-            self.totalProcessed = dictionary["TotalProcessed"] as? Int32
-            self.completedPieces = dictionary["CompletedPieces"] as? Int32
-            self.totalFailures = dictionary["TotalFailures"] as? Int32
-            self.failures = dictionary["Failures"] as? [String]
-            self.applicationId = dictionary["ApplicationId"] as? String
-            self.`type` = dictionary["Type"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case completionDate = "CompletionDate"
+            case definition = "Definition"
+            case failedPieces = "FailedPieces"
+            case totalPieces = "TotalPieces"
+            case creationDate = "CreationDate"
+            case jobStatus = "JobStatus"
+            case id = "Id"
+            case totalProcessed = "TotalProcessed"
+            case completedPieces = "CompletedPieces"
+            case totalFailures = "TotalFailures"
+            case failures = "Failures"
+            case applicationId = "ApplicationId"
+            case `type` = "Type"
         }
     }
 
     public struct CreateImportJobResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "ImportJobResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImportJobResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "ImportJobResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImportJobResponse", required: true, type: .structure)
         ]
         public let importJobResponse: ImportJobResponse
 
@@ -3280,17 +2975,16 @@ extension Pinpoint {
             self.importJobResponse = importJobResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let importJobResponse = dictionary["ImportJobResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ImportJobResponse") }
-            self.importJobResponse = try Pinpoint.ImportJobResponse(dictionary: importJobResponse)
+        private enum CodingKeys: String, CodingKey {
+            case importJobResponse = "ImportJobResponse"
         }
     }
 
     public struct GetEventStreamResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "EventStream"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventStream", required: true, type: .structure)
+        public static let payloadPath: String? = "EventStream"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventStream", required: true, type: .structure)
         ]
         public let eventStream: EventStream
 
@@ -3298,17 +2992,16 @@ extension Pinpoint {
             self.eventStream = eventStream
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let eventStream = dictionary["EventStream"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EventStream") }
-            self.eventStream = try Pinpoint.EventStream(dictionary: eventStream)
+        private enum CodingKeys: String, CodingKey {
+            case eventStream = "EventStream"
         }
     }
 
     public struct GetApplicationSettingsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "ApplicationSettingsResource"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationSettingsResource", required: true, type: .structure)
+        public static let payloadPath: String? = "ApplicationSettingsResource"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationSettingsResource", required: true, type: .structure)
         ]
         public let applicationSettingsResource: ApplicationSettingsResource
 
@@ -3316,17 +3009,16 @@ extension Pinpoint {
             self.applicationSettingsResource = applicationSettingsResource
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationSettingsResource = dictionary["ApplicationSettingsResource"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ApplicationSettingsResource") }
-            self.applicationSettingsResource = try Pinpoint.ApplicationSettingsResource(dictionary: applicationSettingsResource)
+        private enum CodingKeys: String, CodingKey {
+            case applicationSettingsResource = "ApplicationSettingsResource"
         }
     }
 
     public struct GetImportJobsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "ImportJobsResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImportJobsResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "ImportJobsResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImportJobsResponse", required: true, type: .structure)
         ]
         public let importJobsResponse: ImportJobsResponse
 
@@ -3334,17 +3026,16 @@ extension Pinpoint {
             self.importJobsResponse = importJobsResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let importJobsResponse = dictionary["ImportJobsResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ImportJobsResponse") }
-            self.importJobsResponse = try Pinpoint.ImportJobsResponse(dictionary: importJobsResponse)
+        private enum CodingKeys: String, CodingKey {
+            case importJobsResponse = "ImportJobsResponse"
         }
     }
 
     public struct GetCampaignResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "CampaignResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CampaignResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "CampaignResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignResponse", required: true, type: .structure)
         ]
         public let campaignResponse: CampaignResponse
 
@@ -3352,18 +3043,17 @@ extension Pinpoint {
             self.campaignResponse = campaignResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let campaignResponse = dictionary["CampaignResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CampaignResponse") }
-            self.campaignResponse = try Pinpoint.CampaignResponse(dictionary: campaignResponse)
+        private enum CodingKeys: String, CodingKey {
+            case campaignResponse = "CampaignResponse"
         }
     }
 
     public struct UpdateSmsChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "SMSChannelRequest"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SMSChannelRequest", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static let payloadPath: String? = "SMSChannelRequest"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SMSChannelRequest", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let sMSChannelRequest: SMSChannelRequest
         public let applicationId: String
@@ -3373,21 +3063,19 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sMSChannelRequest = dictionary["SMSChannelRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SMSChannelRequest") }
-            self.sMSChannelRequest = try Pinpoint.SMSChannelRequest(dictionary: sMSChannelRequest)
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case sMSChannelRequest = "SMSChannelRequest"
+            case applicationId = "application-id"
         }
     }
 
     public struct UpdateSegmentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "WriteSegmentRequest"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "WriteSegmentRequest", required: true, type: .structure)
+        public static let payloadPath: String? = "WriteSegmentRequest"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string), 
+            AWSShapeMember(label: "WriteSegmentRequest", required: true, type: .structure)
         ]
         public let applicationId: String
         public let segmentId: String
@@ -3399,21 +3087,17 @@ extension Pinpoint {
             self.writeSegmentRequest = writeSegmentRequest
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            guard let segmentId = dictionary["segment-id"] as? String else { throw InitializableError.missingRequiredParam("segment-id") }
-            self.segmentId = segmentId
-            guard let writeSegmentRequest = dictionary["WriteSegmentRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteSegmentRequest") }
-            self.writeSegmentRequest = try Pinpoint.WriteSegmentRequest(dictionary: writeSegmentRequest)
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case segmentId = "segment-id"
+            case writeSegmentRequest = "WriteSegmentRequest"
         }
     }
 
     public struct DeleteGcmChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let applicationId: String
 
@@ -3421,25 +3105,23 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
         }
     }
 
     public struct APNSSandboxChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "Platform", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Version", required: false, type: .integer), 
-            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeProperty(label: "IsArchived", required: false, type: .boolean), 
-            AWSShapeProperty(label: "LastModifiedBy", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Platform", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Version", required: false, type: .integer), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "IsArchived", required: false, type: .boolean), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .string)
         ]
         /// Channel ID. Not used, only for backwards compatibility.
         public let id: String?
@@ -3472,25 +3154,24 @@ extension Pinpoint {
             self.lastModifiedBy = lastModifiedBy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.id = dictionary["Id"] as? String
-            self.platform = dictionary["Platform"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
-            self.version = dictionary["Version"] as? Int32
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
-            self.creationDate = dictionary["CreationDate"] as? String
-            self.applicationId = dictionary["ApplicationId"] as? String
-            self.isArchived = dictionary["IsArchived"] as? Bool
-            self.lastModifiedBy = dictionary["LastModifiedBy"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case platform = "Platform"
+            case enabled = "Enabled"
+            case version = "Version"
+            case lastModifiedDate = "LastModifiedDate"
+            case creationDate = "CreationDate"
+            case applicationId = "ApplicationId"
+            case isArchived = "IsArchived"
+            case lastModifiedBy = "LastModifiedBy"
         }
     }
 
     public struct WriteEventStream: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "DestinationStreamArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationStreamArn", required: false, type: .string)
         ]
         /// The IAM role that authorizes Amazon Pinpoint to publish events to the stream in your account.
         public let roleArn: String?
@@ -3504,17 +3185,17 @@ extension Pinpoint {
             self.destinationStreamArn = destinationStreamArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleArn = dictionary["RoleArn"] as? String
-            self.destinationStreamArn = dictionary["DestinationStreamArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
+            case destinationStreamArn = "DestinationStreamArn"
         }
     }
 
     public struct UpdateApnsChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "APNSChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "APNSChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "APNSChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "APNSChannelResponse", required: true, type: .structure)
         ]
         public let aPNSChannelResponse: APNSChannelResponse
 
@@ -3522,18 +3203,17 @@ extension Pinpoint {
             self.aPNSChannelResponse = aPNSChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aPNSChannelResponse = dictionary["APNSChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("APNSChannelResponse") }
-            self.aPNSChannelResponse = try Pinpoint.APNSChannelResponse(dictionary: aPNSChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case aPNSChannelResponse = "APNSChannelResponse"
         }
     }
 
     public struct UpdateGcmChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "GCMChannelRequest"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GCMChannelRequest", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static let payloadPath: String? = "GCMChannelRequest"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GCMChannelRequest", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let gCMChannelRequest: GCMChannelRequest
         public let applicationId: String
@@ -3543,19 +3223,17 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gCMChannelRequest = dictionary["GCMChannelRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("GCMChannelRequest") }
-            self.gCMChannelRequest = try Pinpoint.GCMChannelRequest(dictionary: gCMChannelRequest)
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case gCMChannelRequest = "GCMChannelRequest"
+            case applicationId = "application-id"
         }
     }
 
     public struct DeleteCampaignResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "CampaignResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CampaignResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "CampaignResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignResponse", required: true, type: .structure)
         ]
         public let campaignResponse: CampaignResponse
 
@@ -3563,18 +3241,16 @@ extension Pinpoint {
             self.campaignResponse = campaignResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let campaignResponse = dictionary["CampaignResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CampaignResponse") }
-            self.campaignResponse = try Pinpoint.CampaignResponse(dictionary: campaignResponse)
+        private enum CodingKeys: String, CodingKey {
+            case campaignResponse = "CampaignResponse"
         }
     }
 
     public struct CampaignLimits: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Daily", required: false, type: .integer), 
-            AWSShapeProperty(label: "Total", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Daily", required: false, type: .integer), 
+            AWSShapeMember(label: "Total", required: false, type: .integer)
         ]
         /// The maximum number of messages that the campaign can send daily.
         public let daily: Int32?
@@ -3586,22 +3262,21 @@ extension Pinpoint {
             self.total = total
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.daily = dictionary["Daily"] as? Int32
-            self.total = dictionary["Total"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case daily = "Daily"
+            case total = "Total"
         }
     }
 
     public struct SegmentDemographics: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Make", required: false, type: .structure), 
-            AWSShapeProperty(label: "Platform", required: false, type: .structure), 
-            AWSShapeProperty(label: "DeviceType", required: false, type: .structure), 
-            AWSShapeProperty(label: "AppVersion", required: false, type: .structure), 
-            AWSShapeProperty(label: "Channel", required: false, type: .structure), 
-            AWSShapeProperty(label: "Model", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Make", required: false, type: .structure), 
+            AWSShapeMember(label: "Platform", required: false, type: .structure), 
+            AWSShapeMember(label: "DeviceType", required: false, type: .structure), 
+            AWSShapeMember(label: "AppVersion", required: false, type: .structure), 
+            AWSShapeMember(label: "Channel", required: false, type: .structure), 
+            AWSShapeMember(label: "Model", required: false, type: .structure)
         ]
         /// The device make criteria for the segment.
         public let make: SetDimension?
@@ -3625,21 +3300,20 @@ extension Pinpoint {
             self.model = model
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let make = dictionary["Make"] as? [String: Any] { self.make = try Pinpoint.SetDimension(dictionary: make) } else { self.make = nil }
-            if let platform = dictionary["Platform"] as? [String: Any] { self.platform = try Pinpoint.SetDimension(dictionary: platform) } else { self.platform = nil }
-            if let deviceType = dictionary["DeviceType"] as? [String: Any] { self.deviceType = try Pinpoint.SetDimension(dictionary: deviceType) } else { self.deviceType = nil }
-            if let appVersion = dictionary["AppVersion"] as? [String: Any] { self.appVersion = try Pinpoint.SetDimension(dictionary: appVersion) } else { self.appVersion = nil }
-            if let channel = dictionary["Channel"] as? [String: Any] { self.channel = try Pinpoint.SetDimension(dictionary: channel) } else { self.channel = nil }
-            if let model = dictionary["Model"] as? [String: Any] { self.model = try Pinpoint.SetDimension(dictionary: model) } else { self.model = nil }
+        private enum CodingKeys: String, CodingKey {
+            case make = "Make"
+            case platform = "Platform"
+            case deviceType = "DeviceType"
+            case appVersion = "AppVersion"
+            case channel = "Channel"
+            case model = "Model"
         }
     }
 
     public struct GetApnsSandboxChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let applicationId: String
 
@@ -3647,17 +3321,16 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
         }
     }
 
     public struct DeleteEventStreamResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "EventStream"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventStream", required: true, type: .structure)
+        public static let payloadPath: String? = "EventStream"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventStream", required: true, type: .structure)
         ]
         public let eventStream: EventStream
 
@@ -3665,28 +3338,26 @@ extension Pinpoint {
             self.eventStream = eventStream
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let eventStream = dictionary["EventStream"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EventStream") }
-            self.eventStream = try Pinpoint.EventStream(dictionary: eventStream)
+        private enum CodingKeys: String, CodingKey {
+            case eventStream = "EventStream"
         }
     }
 
     public struct EmailChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastModifiedBy", required: false, type: .string), 
-            AWSShapeProperty(label: "Platform", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .integer), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "IsArchived", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Identity", required: false, type: .string), 
-            AWSShapeProperty(label: "FromAddress", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .string), 
+            AWSShapeMember(label: "Platform", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .integer), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "IsArchived", required: false, type: .boolean), 
+            AWSShapeMember(label: "Identity", required: false, type: .string), 
+            AWSShapeMember(label: "FromAddress", required: false, type: .string)
         ]
         /// Who last updated this entry
         public let lastModifiedBy: String?
@@ -3728,27 +3399,27 @@ extension Pinpoint {
             self.fromAddress = fromAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastModifiedBy = dictionary["LastModifiedBy"] as? String
-            self.platform = dictionary["Platform"] as? String
-            self.id = dictionary["Id"] as? String
-            self.version = dictionary["Version"] as? Int32
-            self.enabled = dictionary["Enabled"] as? Bool
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
-            self.creationDate = dictionary["CreationDate"] as? String
-            self.applicationId = dictionary["ApplicationId"] as? String
-            self.roleArn = dictionary["RoleArn"] as? String
-            self.isArchived = dictionary["IsArchived"] as? Bool
-            self.identity = dictionary["Identity"] as? String
-            self.fromAddress = dictionary["FromAddress"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedBy = "LastModifiedBy"
+            case platform = "Platform"
+            case id = "Id"
+            case version = "Version"
+            case enabled = "Enabled"
+            case lastModifiedDate = "LastModifiedDate"
+            case creationDate = "CreationDate"
+            case applicationId = "ApplicationId"
+            case roleArn = "RoleArn"
+            case isArchived = "IsArchived"
+            case identity = "Identity"
+            case fromAddress = "FromAddress"
         }
     }
 
     public struct CreateCampaignResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "CampaignResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CampaignResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "CampaignResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignResponse", required: true, type: .structure)
         ]
         public let campaignResponse: CampaignResponse
 
@@ -3756,29 +3427,27 @@ extension Pinpoint {
             self.campaignResponse = campaignResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let campaignResponse = dictionary["CampaignResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CampaignResponse") }
-            self.campaignResponse = try Pinpoint.CampaignResponse(dictionary: campaignResponse)
+        private enum CodingKeys: String, CodingKey {
+            case campaignResponse = "CampaignResponse"
         }
     }
 
     public struct ActivityResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CampaignId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", required: false, type: .string), 
-            AWSShapeProperty(label: "TimezonesTotalCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "TotalEndpointCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "TimezonesCompletedCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "ScheduledStart", required: false, type: .string), 
-            AWSShapeProperty(label: "Start", required: false, type: .string), 
-            AWSShapeProperty(label: "End", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeProperty(label: "TreatmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "Result", required: false, type: .string), 
-            AWSShapeProperty(label: "SuccessfulEndpointCount", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignId", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "TimezonesTotalCount", required: false, type: .integer), 
+            AWSShapeMember(label: "TotalEndpointCount", required: false, type: .integer), 
+            AWSShapeMember(label: "TimezonesCompletedCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduledStart", required: false, type: .string), 
+            AWSShapeMember(label: "Start", required: false, type: .string), 
+            AWSShapeMember(label: "End", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "TreatmentId", required: false, type: .string), 
+            AWSShapeMember(label: "Result", required: false, type: .string), 
+            AWSShapeMember(label: "SuccessfulEndpointCount", required: false, type: .integer)
         ]
         /// The ID of the campaign to which the activity applies.
         public let campaignId: String?
@@ -3825,28 +3494,28 @@ extension Pinpoint {
             self.successfulEndpointCount = successfulEndpointCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.campaignId = dictionary["CampaignId"] as? String
-            self.state = dictionary["State"] as? String
-            self.timezonesTotalCount = dictionary["TimezonesTotalCount"] as? Int32
-            self.totalEndpointCount = dictionary["TotalEndpointCount"] as? Int32
-            self.timezonesCompletedCount = dictionary["TimezonesCompletedCount"] as? Int32
-            self.id = dictionary["Id"] as? String
-            self.scheduledStart = dictionary["ScheduledStart"] as? String
-            self.start = dictionary["Start"] as? String
-            self.end = dictionary["End"] as? String
-            self.applicationId = dictionary["ApplicationId"] as? String
-            self.treatmentId = dictionary["TreatmentId"] as? String
-            self.result = dictionary["Result"] as? String
-            self.successfulEndpointCount = dictionary["SuccessfulEndpointCount"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case campaignId = "CampaignId"
+            case state = "State"
+            case timezonesTotalCount = "TimezonesTotalCount"
+            case totalEndpointCount = "TotalEndpointCount"
+            case timezonesCompletedCount = "TimezonesCompletedCount"
+            case id = "Id"
+            case scheduledStart = "ScheduledStart"
+            case start = "Start"
+            case end = "End"
+            case applicationId = "ApplicationId"
+            case treatmentId = "TreatmentId"
+            case result = "Result"
+            case successfulEndpointCount = "SuccessfulEndpointCount"
         }
     }
 
     public struct CreateSegmentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "SegmentResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SegmentResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "SegmentResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentResponse", required: true, type: .structure)
         ]
         public let segmentResponse: SegmentResponse
 
@@ -3854,20 +3523,18 @@ extension Pinpoint {
             self.segmentResponse = segmentResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let segmentResponse = dictionary["SegmentResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SegmentResponse") }
-            self.segmentResponse = try Pinpoint.SegmentResponse(dictionary: segmentResponse)
+        private enum CodingKeys: String, CodingKey {
+            case segmentResponse = "SegmentResponse"
         }
     }
 
     public struct GetSegmentImportJobsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
-            AWSShapeProperty(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
+            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string)
         ]
         public let pageSize: String?
         public let token: String?
@@ -3881,22 +3548,20 @@ extension Pinpoint {
             self.segmentId = segmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["page-size"] as? String
-            self.token = dictionary["token"] as? String
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            guard let segmentId = dictionary["segment-id"] as? String else { throw InitializableError.missingRequiredParam("segment-id") }
-            self.segmentId = segmentId
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "page-size"
+            case token = "token"
+            case applicationId = "application-id"
+            case segmentId = "segment-id"
         }
     }
 
     public struct UpdateApnsChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "APNSChannelRequest"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "APNSChannelRequest", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static let payloadPath: String? = "APNSChannelRequest"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "APNSChannelRequest", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let aPNSChannelRequest: APNSChannelRequest
         public let applicationId: String
@@ -3906,19 +3571,17 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aPNSChannelRequest = dictionary["APNSChannelRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("APNSChannelRequest") }
-            self.aPNSChannelRequest = try Pinpoint.APNSChannelRequest(dictionary: aPNSChannelRequest)
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case aPNSChannelRequest = "APNSChannelRequest"
+            case applicationId = "application-id"
         }
     }
 
     public struct GetCampaignVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "CampaignsResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CampaignsResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "CampaignsResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignsResponse", required: true, type: .structure)
         ]
         public let campaignsResponse: CampaignsResponse
 
@@ -3926,17 +3589,16 @@ extension Pinpoint {
             self.campaignsResponse = campaignsResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let campaignsResponse = dictionary["CampaignsResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CampaignsResponse") }
-            self.campaignsResponse = try Pinpoint.CampaignsResponse(dictionary: campaignsResponse)
+        private enum CodingKeys: String, CodingKey {
+            case campaignsResponse = "CampaignsResponse"
         }
     }
 
     public struct GetSegmentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "SegmentResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SegmentResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "SegmentResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentResponse", required: true, type: .structure)
         ]
         public let segmentResponse: SegmentResponse
 
@@ -3944,17 +3606,16 @@ extension Pinpoint {
             self.segmentResponse = segmentResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let segmentResponse = dictionary["SegmentResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SegmentResponse") }
-            self.segmentResponse = try Pinpoint.SegmentResponse(dictionary: segmentResponse)
+        private enum CodingKeys: String, CodingKey {
+            case segmentResponse = "SegmentResponse"
         }
     }
 
     public struct GetSegmentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "SegmentsResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SegmentsResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "SegmentsResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentsResponse", required: true, type: .structure)
         ]
         public let segmentsResponse: SegmentsResponse
 
@@ -3962,13 +3623,12 @@ extension Pinpoint {
             self.segmentsResponse = segmentsResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let segmentsResponse = dictionary["SegmentsResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SegmentsResponse") }
-            self.segmentsResponse = try Pinpoint.SegmentsResponse(dictionary: segmentsResponse)
+        private enum CodingKeys: String, CodingKey {
+            case segmentsResponse = "SegmentsResponse"
         }
     }
 
-    public enum MessageType: String, CustomStringConvertible {
+    public enum MessageType: String, CustomStringConvertible, Codable {
         case transactional = "TRANSACTIONAL"
         case promotional = "PROMOTIONAL"
         public var description: String { return self.rawValue }
@@ -3976,11 +3636,11 @@ extension Pinpoint {
 
     public struct UpdateCampaignRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "WriteCampaignRequest"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "WriteCampaignRequest", required: true, type: .structure)
+        public static let payloadPath: String? = "WriteCampaignRequest"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
+            AWSShapeMember(label: "WriteCampaignRequest", required: true, type: .structure)
         ]
         public let applicationId: String
         public let campaignId: String
@@ -3992,21 +3652,18 @@ extension Pinpoint {
             self.writeCampaignRequest = writeCampaignRequest
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            guard let campaignId = dictionary["campaign-id"] as? String else { throw InitializableError.missingRequiredParam("campaign-id") }
-            self.campaignId = campaignId
-            guard let writeCampaignRequest = dictionary["WriteCampaignRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteCampaignRequest") }
-            self.writeCampaignRequest = try Pinpoint.WriteCampaignRequest(dictionary: writeCampaignRequest)
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case campaignId = "campaign-id"
+            case writeCampaignRequest = "WriteCampaignRequest"
         }
     }
 
     public struct DeleteSegmentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "SegmentResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SegmentResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "SegmentResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentResponse", required: true, type: .structure)
         ]
         public let segmentResponse: SegmentResponse
 
@@ -4014,18 +3671,17 @@ extension Pinpoint {
             self.segmentResponse = segmentResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let segmentResponse = dictionary["SegmentResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SegmentResponse") }
-            self.segmentResponse = try Pinpoint.SegmentResponse(dictionary: segmentResponse)
+        private enum CodingKeys: String, CodingKey {
+            case segmentResponse = "SegmentResponse"
         }
     }
 
     public struct PutEventStreamRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "WriteEventStream"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "WriteEventStream", required: true, type: .structure)
+        public static let payloadPath: String? = "WriteEventStream"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "WriteEventStream", required: true, type: .structure)
         ]
         /// Application Id.
         public let applicationId: String
@@ -4037,19 +3693,17 @@ extension Pinpoint {
             self.writeEventStream = writeEventStream
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            guard let writeEventStream = dictionary["WriteEventStream"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteEventStream") }
-            self.writeEventStream = try Pinpoint.WriteEventStream(dictionary: writeEventStream)
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case writeEventStream = "WriteEventStream"
         }
     }
 
     public struct GetCampaignsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "CampaignsResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CampaignsResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "CampaignsResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignsResponse", required: true, type: .structure)
         ]
         public let campaignsResponse: CampaignsResponse
 
@@ -4057,17 +3711,16 @@ extension Pinpoint {
             self.campaignsResponse = campaignsResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let campaignsResponse = dictionary["CampaignsResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CampaignsResponse") }
-            self.campaignsResponse = try Pinpoint.CampaignsResponse(dictionary: campaignsResponse)
+        private enum CodingKeys: String, CodingKey {
+            case campaignsResponse = "CampaignsResponse"
         }
     }
 
     public struct GetSegmentVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "SegmentResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SegmentResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "SegmentResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentResponse", required: true, type: .structure)
         ]
         public let segmentResponse: SegmentResponse
 
@@ -4075,18 +3728,16 @@ extension Pinpoint {
             self.segmentResponse = segmentResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let segmentResponse = dictionary["SegmentResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SegmentResponse") }
-            self.segmentResponse = try Pinpoint.SegmentResponse(dictionary: segmentResponse)
+        private enum CodingKeys: String, CodingKey {
+            case segmentResponse = "SegmentResponse"
         }
     }
 
     public struct GetEndpointRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndpointId", location: .uri(locationName: "endpoint-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointId", location: .uri(locationName: "endpoint-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let endpointId: String
         public let applicationId: String
@@ -4096,21 +3747,18 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let endpointId = dictionary["endpoint-id"] as? String else { throw InitializableError.missingRequiredParam("endpoint-id") }
-            self.endpointId = endpointId
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case endpointId = "endpoint-id"
+            case applicationId = "application-id"
         }
     }
 
     public struct APNSSandboxChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PrivateKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "PrivateKey", required: false, type: .string)
         ]
         /// The distribution certificate from Apple.
         public let certificate: String?
@@ -4125,20 +3773,19 @@ extension Pinpoint {
             self.privateKey = privateKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificate = dictionary["Certificate"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
-            self.privateKey = dictionary["PrivateKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case enabled = "Enabled"
+            case privateKey = "PrivateKey"
         }
     }
 
     public struct GetCampaignVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "Version", location: .uri(locationName: "version"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .uri(locationName: "version"), required: true, type: .string)
         ]
         public let applicationId: String
         public let campaignId: String
@@ -4150,21 +3797,17 @@ extension Pinpoint {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            guard let campaignId = dictionary["campaign-id"] as? String else { throw InitializableError.missingRequiredParam("campaign-id") }
-            self.campaignId = campaignId
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case campaignId = "campaign-id"
+            case version = "version"
         }
     }
 
     public struct DeleteEmailChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let applicationId: String
 
@@ -4172,17 +3815,16 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
         }
     }
 
     public struct UpdateCampaignResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "CampaignResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CampaignResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "CampaignResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignResponse", required: true, type: .structure)
         ]
         public let campaignResponse: CampaignResponse
 
@@ -4190,17 +3832,16 @@ extension Pinpoint {
             self.campaignResponse = campaignResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let campaignResponse = dictionary["CampaignResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CampaignResponse") }
-            self.campaignResponse = try Pinpoint.CampaignResponse(dictionary: campaignResponse)
+        private enum CodingKeys: String, CodingKey {
+            case campaignResponse = "CampaignResponse"
         }
     }
 
     public struct DeleteEmailChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "EmailChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EmailChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "EmailChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailChannelResponse", required: true, type: .structure)
         ]
         public let emailChannelResponse: EmailChannelResponse
 
@@ -4208,17 +3849,16 @@ extension Pinpoint {
             self.emailChannelResponse = emailChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let emailChannelResponse = dictionary["EmailChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EmailChannelResponse") }
-            self.emailChannelResponse = try Pinpoint.EmailChannelResponse(dictionary: emailChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case emailChannelResponse = "EmailChannelResponse"
         }
     }
 
     public struct UpdateSegmentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "SegmentResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SegmentResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "SegmentResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentResponse", required: true, type: .structure)
         ]
         public let segmentResponse: SegmentResponse
 
@@ -4226,17 +3866,15 @@ extension Pinpoint {
             self.segmentResponse = segmentResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let segmentResponse = dictionary["SegmentResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SegmentResponse") }
-            self.segmentResponse = try Pinpoint.SegmentResponse(dictionary: segmentResponse)
+        private enum CodingKeys: String, CodingKey {
+            case segmentResponse = "SegmentResponse"
         }
     }
 
     public struct SegmentBehaviors: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Recency", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Recency", required: false, type: .structure)
         ]
         /// The recency of use.
         public let recency: RecencyDimension?
@@ -4245,16 +3883,15 @@ extension Pinpoint {
             self.recency = recency
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let recency = dictionary["Recency"] as? [String: Any] { self.recency = try Pinpoint.RecencyDimension(dictionary: recency) } else { self.recency = nil }
+        private enum CodingKeys: String, CodingKey {
+            case recency = "Recency"
         }
     }
 
     public struct GetEmailChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let applicationId: String
 
@@ -4262,17 +3899,16 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
         }
     }
 
     public struct GetApnsSandboxChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "APNSSandboxChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "APNSSandboxChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "APNSSandboxChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "APNSSandboxChannelResponse", required: true, type: .structure)
         ]
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
 
@@ -4280,20 +3916,18 @@ extension Pinpoint {
             self.aPNSSandboxChannelResponse = aPNSSandboxChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aPNSSandboxChannelResponse = dictionary["APNSSandboxChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("APNSSandboxChannelResponse") }
-            self.aPNSSandboxChannelResponse = try Pinpoint.APNSSandboxChannelResponse(dictionary: aPNSSandboxChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case aPNSSandboxChannelResponse = "APNSSandboxChannelResponse"
         }
     }
 
     public struct MessageResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatusCode", required: false, type: .integer), 
-            AWSShapeProperty(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "UpdatedToken", required: false, type: .string), 
-            AWSShapeProperty(label: "DeliveryStatus", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StatusCode", required: false, type: .integer), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "UpdatedToken", required: false, type: .string), 
+            AWSShapeMember(label: "DeliveryStatus", required: false, type: .enum)
         ]
         /// Downstream service status code.
         public let statusCode: Int32?
@@ -4311,19 +3945,18 @@ extension Pinpoint {
             self.deliveryStatus = deliveryStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.statusCode = dictionary["StatusCode"] as? Int32
-            self.statusMessage = dictionary["StatusMessage"] as? String
-            self.updatedToken = dictionary["UpdatedToken"] as? String
-            if let deliveryStatus = dictionary["DeliveryStatus"] as? String { self.deliveryStatus = DeliveryStatus(rawValue: deliveryStatus) } else { self.deliveryStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case statusCode = "StatusCode"
+            case statusMessage = "StatusMessage"
+            case updatedToken = "UpdatedToken"
+            case deliveryStatus = "DeliveryStatus"
         }
     }
 
     public struct CampaignState: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CampaignStatus", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignStatus", required: false, type: .enum)
         ]
         /// The status of the campaign, or the status of a treatment that belongs to an A/B test campaign.
         /// Valid values: SCHEDULED, EXECUTING, PENDING_NEXT_RUN, COMPLETED, PAUSED
@@ -4333,16 +3966,16 @@ extension Pinpoint {
             self.campaignStatus = campaignStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let campaignStatus = dictionary["CampaignStatus"] as? String { self.campaignStatus = CampaignStatus(rawValue: campaignStatus) } else { self.campaignStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case campaignStatus = "CampaignStatus"
         }
     }
 
     public struct DeleteApnsChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "APNSChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "APNSChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "APNSChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "APNSChannelResponse", required: true, type: .structure)
         ]
         public let aPNSChannelResponse: APNSChannelResponse
 
@@ -4350,18 +3983,16 @@ extension Pinpoint {
             self.aPNSChannelResponse = aPNSChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aPNSChannelResponse = dictionary["APNSChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("APNSChannelResponse") }
-            self.aPNSChannelResponse = try Pinpoint.APNSChannelResponse(dictionary: aPNSChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case aPNSChannelResponse = "APNSChannelResponse"
         }
     }
 
     public struct DeleteSegmentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentId", location: .uri(locationName: "segment-id"), required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
         ]
         public let segmentId: String
         public let applicationId: String
@@ -4371,20 +4002,17 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let segmentId = dictionary["segment-id"] as? String else { throw InitializableError.missingRequiredParam("segment-id") }
-            self.segmentId = segmentId
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
+        private enum CodingKeys: String, CodingKey {
+            case segmentId = "segment-id"
+            case applicationId = "application-id"
         }
     }
 
     public struct ImportJobsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of import jobs for the application.
         public let item: [ImportJobResponse]?
@@ -4396,23 +4024,18 @@ extension Pinpoint {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["Item"] as? [[String: Any]] {
-                self.item = try item.map({ try ImportJobResponse(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
+            case nextToken = "NextToken"
         }
     }
 
     public struct GetImportJobsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
-            AWSShapeProperty(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
         ]
         public let pageSize: String?
         public let applicationId: String
@@ -4424,21 +4047,19 @@ extension Pinpoint {
             self.token = token
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["page-size"] as? String
-            guard let applicationId = dictionary["application-id"] as? String else { throw InitializableError.missingRequiredParam("application-id") }
-            self.applicationId = applicationId
-            self.token = dictionary["token"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "page-size"
+            case applicationId = "application-id"
+            case token = "token"
         }
     }
 
     public struct CampaignSmsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Body", required: false, type: .string), 
-            AWSShapeProperty(label: "SenderId", required: false, type: .string), 
-            AWSShapeProperty(label: "MessageType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Body", required: false, type: .string), 
+            AWSShapeMember(label: "SenderId", required: false, type: .string), 
+            AWSShapeMember(label: "MessageType", required: false, type: .enum)
         ]
         /// The SMS text body.
         public let body: String?
@@ -4453,22 +4074,21 @@ extension Pinpoint {
             self.messageType = messageType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.body = dictionary["Body"] as? String
-            self.senderId = dictionary["SenderId"] as? String
-            if let messageType = dictionary["MessageType"] as? String { self.messageType = MessageType(rawValue: messageType) } else { self.messageType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case senderId = "SenderId"
+            case messageType = "MessageType"
         }
     }
 
     public struct DirectMessageConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GCMMessage", required: false, type: .structure), 
-            AWSShapeProperty(label: "SMSMessage", required: false, type: .structure), 
-            AWSShapeProperty(label: "DefaultPushNotificationMessage", required: false, type: .structure), 
-            AWSShapeProperty(label: "APNSMessage", required: false, type: .structure), 
-            AWSShapeProperty(label: "DefaultMessage", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GCMMessage", required: false, type: .structure), 
+            AWSShapeMember(label: "SMSMessage", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultPushNotificationMessage", required: false, type: .structure), 
+            AWSShapeMember(label: "APNSMessage", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultMessage", required: false, type: .structure)
         ]
         /// The message to GCM channels. Overrides the default push notification message.
         public let gCMMessage: GCMMessage?
@@ -4489,27 +4109,26 @@ extension Pinpoint {
             self.defaultMessage = defaultMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let gCMMessage = dictionary["GCMMessage"] as? [String: Any] { self.gCMMessage = try Pinpoint.GCMMessage(dictionary: gCMMessage) } else { self.gCMMessage = nil }
-            if let sMSMessage = dictionary["SMSMessage"] as? [String: Any] { self.sMSMessage = try Pinpoint.SMSMessage(dictionary: sMSMessage) } else { self.sMSMessage = nil }
-            if let defaultPushNotificationMessage = dictionary["DefaultPushNotificationMessage"] as? [String: Any] { self.defaultPushNotificationMessage = try Pinpoint.DefaultPushNotificationMessage(dictionary: defaultPushNotificationMessage) } else { self.defaultPushNotificationMessage = nil }
-            if let aPNSMessage = dictionary["APNSMessage"] as? [String: Any] { self.aPNSMessage = try Pinpoint.APNSMessage(dictionary: aPNSMessage) } else { self.aPNSMessage = nil }
-            if let defaultMessage = dictionary["DefaultMessage"] as? [String: Any] { self.defaultMessage = try Pinpoint.DefaultMessage(dictionary: defaultMessage) } else { self.defaultMessage = nil }
+        private enum CodingKeys: String, CodingKey {
+            case gCMMessage = "GCMMessage"
+            case sMSMessage = "SMSMessage"
+            case defaultPushNotificationMessage = "DefaultPushNotificationMessage"
+            case aPNSMessage = "APNSMessage"
+            case defaultMessage = "DefaultMessage"
         }
     }
 
     public struct EndpointDemographic: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Locale", required: false, type: .string), 
-            AWSShapeProperty(label: "Platform", required: false, type: .string), 
-            AWSShapeProperty(label: "Timezone", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Make", required: false, type: .string), 
-            AWSShapeProperty(label: "AppVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Model", required: false, type: .string), 
-            AWSShapeProperty(label: "ModelVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Locale", required: false, type: .string), 
+            AWSShapeMember(label: "Platform", required: false, type: .string), 
+            AWSShapeMember(label: "Timezone", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Make", required: false, type: .string), 
+            AWSShapeMember(label: "AppVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Model", required: false, type: .string), 
+            AWSShapeMember(label: "ModelVersion", required: false, type: .string)
         ]
         /// The endpoint locale in the following format: The ISO 639-1 alpha-2 code, followed by an underscore, followed by an ISO 3166-1 alpha-2 value.
         public let locale: String?
@@ -4539,27 +4158,26 @@ extension Pinpoint {
             self.modelVersion = modelVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.locale = dictionary["Locale"] as? String
-            self.platform = dictionary["Platform"] as? String
-            self.timezone = dictionary["Timezone"] as? String
-            self.platformVersion = dictionary["PlatformVersion"] as? String
-            self.make = dictionary["Make"] as? String
-            self.appVersion = dictionary["AppVersion"] as? String
-            self.model = dictionary["Model"] as? String
-            self.modelVersion = dictionary["ModelVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case locale = "Locale"
+            case platform = "Platform"
+            case timezone = "Timezone"
+            case platformVersion = "PlatformVersion"
+            case make = "Make"
+            case appVersion = "AppVersion"
+            case model = "Model"
+            case modelVersion = "ModelVersion"
         }
     }
 
     public struct MessageConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SMSMessage", required: false, type: .structure), 
-            AWSShapeProperty(label: "EmailMessage", required: false, type: .structure), 
-            AWSShapeProperty(label: "GCMMessage", required: false, type: .structure), 
-            AWSShapeProperty(label: "APNSMessage", required: false, type: .structure), 
-            AWSShapeProperty(label: "DefaultMessage", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SMSMessage", required: false, type: .structure), 
+            AWSShapeMember(label: "EmailMessage", required: false, type: .structure), 
+            AWSShapeMember(label: "GCMMessage", required: false, type: .structure), 
+            AWSShapeMember(label: "APNSMessage", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultMessage", required: false, type: .structure)
         ]
         /// The SMS message configuration.
         public let sMSMessage: CampaignSmsMessage?
@@ -4580,16 +4198,16 @@ extension Pinpoint {
             self.defaultMessage = defaultMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let sMSMessage = dictionary["SMSMessage"] as? [String: Any] { self.sMSMessage = try Pinpoint.CampaignSmsMessage(dictionary: sMSMessage) } else { self.sMSMessage = nil }
-            if let emailMessage = dictionary["EmailMessage"] as? [String: Any] { self.emailMessage = try Pinpoint.CampaignEmailMessage(dictionary: emailMessage) } else { self.emailMessage = nil }
-            if let gCMMessage = dictionary["GCMMessage"] as? [String: Any] { self.gCMMessage = try Pinpoint.Message(dictionary: gCMMessage) } else { self.gCMMessage = nil }
-            if let aPNSMessage = dictionary["APNSMessage"] as? [String: Any] { self.aPNSMessage = try Pinpoint.Message(dictionary: aPNSMessage) } else { self.aPNSMessage = nil }
-            if let defaultMessage = dictionary["DefaultMessage"] as? [String: Any] { self.defaultMessage = try Pinpoint.Message(dictionary: defaultMessage) } else { self.defaultMessage = nil }
+        private enum CodingKeys: String, CodingKey {
+            case sMSMessage = "SMSMessage"
+            case emailMessage = "EmailMessage"
+            case gCMMessage = "GCMMessage"
+            case aPNSMessage = "APNSMessage"
+            case defaultMessage = "DefaultMessage"
         }
     }
 
-    public enum SegmentType: String, CustomStringConvertible {
+    public enum SegmentType: String, CustomStringConvertible, Codable {
         case dimensional = "DIMENSIONAL"
         case `import` = "IMPORT"
         public var description: String { return self.rawValue }
@@ -4597,23 +4215,22 @@ extension Pinpoint {
 
     public struct GCMMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RestrictedPackageName", required: false, type: .string), 
-            AWSShapeProperty(label: "IconReference", required: false, type: .string), 
-            AWSShapeProperty(label: "CollapseKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Data", required: false, type: .map), 
-            AWSShapeProperty(label: "Title", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageIconUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "SilentPush", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SmallImageIconUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "Action", required: false, type: .enum), 
-            AWSShapeProperty(label: "Url", required: false, type: .string), 
-            AWSShapeProperty(label: "RawContent", required: false, type: .string), 
-            AWSShapeProperty(label: "Sound", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "Body", required: false, type: .string), 
-            AWSShapeProperty(label: "Substitutions", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RestrictedPackageName", required: false, type: .string), 
+            AWSShapeMember(label: "IconReference", required: false, type: .string), 
+            AWSShapeMember(label: "CollapseKey", required: false, type: .string), 
+            AWSShapeMember(label: "Data", required: false, type: .map), 
+            AWSShapeMember(label: "Title", required: false, type: .string), 
+            AWSShapeMember(label: "ImageIconUrl", required: false, type: .string), 
+            AWSShapeMember(label: "SilentPush", required: false, type: .boolean), 
+            AWSShapeMember(label: "SmallImageIconUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Action", required: false, type: .enum), 
+            AWSShapeMember(label: "Url", required: false, type: .string), 
+            AWSShapeMember(label: "RawContent", required: false, type: .string), 
+            AWSShapeMember(label: "Sound", required: false, type: .string), 
+            AWSShapeMember(label: "ImageUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Body", required: false, type: .string), 
+            AWSShapeMember(label: "Substitutions", required: false, type: .map)
         ]
         /// This parameter specifies the package name of the application where the registration tokens must match in order to receive the message.
         public let restrictedPackageName: String?
@@ -4662,43 +4279,30 @@ extension Pinpoint {
             self.substitutions = substitutions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.restrictedPackageName = dictionary["RestrictedPackageName"] as? String
-            self.iconReference = dictionary["IconReference"] as? String
-            self.collapseKey = dictionary["CollapseKey"] as? String
-            if let data = dictionary["Data"] as? [String: String] {
-                self.data = data
-            } else { 
-                self.data = nil
-            }
-            self.title = dictionary["Title"] as? String
-            self.imageIconUrl = dictionary["ImageIconUrl"] as? String
-            self.silentPush = dictionary["SilentPush"] as? Bool
-            self.smallImageIconUrl = dictionary["SmallImageIconUrl"] as? String
-            if let action = dictionary["Action"] as? String { self.action = Action(rawValue: action) } else { self.action = nil }
-            self.url = dictionary["Url"] as? String
-            self.rawContent = dictionary["RawContent"] as? String
-            self.sound = dictionary["Sound"] as? String
-            self.imageUrl = dictionary["ImageUrl"] as? String
-            self.body = dictionary["Body"] as? String
-            if let substitutions = dictionary["Substitutions"] as? [String: Any] {
-                var substitutionsDict: [String: [String]] = [:]
-                for (key, value) in substitutions {
-                    guard let listOfString = value as? [String] else { throw InitializableError.convertingError }
-                    substitutionsDict[key] = listOfString
-                }
-                self.substitutions = substitutionsDict
-            } else { 
-                self.substitutions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case restrictedPackageName = "RestrictedPackageName"
+            case iconReference = "IconReference"
+            case collapseKey = "CollapseKey"
+            case data = "Data"
+            case title = "Title"
+            case imageIconUrl = "ImageIconUrl"
+            case silentPush = "SilentPush"
+            case smallImageIconUrl = "SmallImageIconUrl"
+            case action = "Action"
+            case url = "Url"
+            case rawContent = "RawContent"
+            case sound = "Sound"
+            case imageUrl = "ImageUrl"
+            case body = "Body"
+            case substitutions = "Substitutions"
         }
     }
 
     public struct DeleteApnsSandboxChannelResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "APNSSandboxChannelResponse"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "APNSSandboxChannelResponse", required: true, type: .structure)
+        public static let payloadPath: String? = "APNSSandboxChannelResponse"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "APNSSandboxChannelResponse", required: true, type: .structure)
         ]
         public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
 
@@ -4706,18 +4310,16 @@ extension Pinpoint {
             self.aPNSSandboxChannelResponse = aPNSSandboxChannelResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aPNSSandboxChannelResponse = dictionary["APNSSandboxChannelResponse"] as? [String: Any] else { throw InitializableError.missingRequiredParam("APNSSandboxChannelResponse") }
-            self.aPNSSandboxChannelResponse = try Pinpoint.APNSSandboxChannelResponse(dictionary: aPNSSandboxChannelResponse)
+        private enum CodingKeys: String, CodingKey {
+            case aPNSSandboxChannelResponse = "APNSSandboxChannelResponse"
         }
     }
 
     public struct WriteSegmentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .structure)
         ]
         /// The name of segment
         public let name: String?
@@ -4729,9 +4331,9 @@ extension Pinpoint {
             self.dimensions = dimensions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            if let dimensions = dictionary["Dimensions"] as? [String: Any] { self.dimensions = try Pinpoint.SegmentDimensions(dictionary: dimensions) } else { self.dimensions = nil }
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case dimensions = "Dimensions"
         }
     }
 

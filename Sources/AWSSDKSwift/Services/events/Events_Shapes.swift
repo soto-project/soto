@@ -31,11 +31,10 @@ extension Events {
 
     public struct PutPermissionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Principal", required: true, type: .string), 
-            AWSShapeProperty(label: "Action", required: true, type: .string), 
-            AWSShapeProperty(label: "StatementId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Principal", required: true, type: .string), 
+            AWSShapeMember(label: "Action", required: true, type: .string), 
+            AWSShapeMember(label: "StatementId", required: true, type: .string)
         ]
         /// The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*", avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
         public let principal: String
@@ -50,22 +49,18 @@ extension Events {
             self.statementId = statementId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let principal = dictionary["Principal"] as? String else { throw InitializableError.missingRequiredParam("Principal") }
-            self.principal = principal
-            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
-            self.action = action
-            guard let statementId = dictionary["StatementId"] as? String else { throw InitializableError.missingRequiredParam("StatementId") }
-            self.statementId = statementId
+        private enum CodingKeys: String, CodingKey {
+            case principal = "Principal"
+            case action = "Action"
+            case statementId = "StatementId"
         }
     }
 
     public struct InputTransformer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InputTemplate", required: true, type: .string), 
-            AWSShapeProperty(label: "InputPathsMap", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputTemplate", required: true, type: .string), 
+            AWSShapeMember(label: "InputPathsMap", required: false, type: .map)
         ]
         /// Input template where you can use the values of the keys from InputPathsMap to customize the data sent to the target.
         public let inputTemplate: String
@@ -77,23 +72,17 @@ extension Events {
             self.inputPathsMap = inputPathsMap
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let inputTemplate = dictionary["InputTemplate"] as? String else { throw InitializableError.missingRequiredParam("InputTemplate") }
-            self.inputTemplate = inputTemplate
-            if let inputPathsMap = dictionary["InputPathsMap"] as? [String: String] {
-                self.inputPathsMap = inputPathsMap
-            } else { 
-                self.inputPathsMap = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case inputTemplate = "InputTemplate"
+            case inputPathsMap = "InputPathsMap"
         }
     }
 
     public struct PutTargetsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailedEntryCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "FailedEntries", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer), 
+            AWSShapeMember(label: "FailedEntries", required: false, type: .list)
         ]
         /// The number of failed entries.
         public let failedEntryCount: Int32?
@@ -105,23 +94,18 @@ extension Events {
             self.failedEntries = failedEntries
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.failedEntryCount = dictionary["FailedEntryCount"] as? Int32
-            if let failedEntries = dictionary["FailedEntries"] as? [[String: Any]] {
-                self.failedEntries = try failedEntries.map({ try PutTargetsResultEntry(dictionary: $0) })
-            } else { 
-                self.failedEntries = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failedEntryCount = "FailedEntryCount"
+            case failedEntries = "FailedEntries"
         }
     }
 
     public struct DescribeEventBusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string)
         ]
         /// The policy that enables the external account to send events to your account.
         public let policy: String?
@@ -136,24 +120,23 @@ extension Events {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policy = dictionary["Policy"] as? String
-            self.name = dictionary["Name"] as? String
-            self.arn = dictionary["Arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case name = "Name"
+            case arn = "Arn"
         }
     }
 
     public struct Rule: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "EventPattern", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "EventPattern", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
@@ -180,30 +163,29 @@ extension Events {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            if let state = dictionary["State"] as? String { self.state = RuleState(rawValue: state) } else { self.state = nil }
-            self.name = dictionary["Name"] as? String
-            self.eventPattern = dictionary["EventPattern"] as? String
-            self.roleArn = dictionary["RoleArn"] as? String
-            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case state = "State"
+            case name = "Name"
+            case eventPattern = "EventPattern"
+            case roleArn = "RoleArn"
+            case scheduleExpression = "ScheduleExpression"
+            case description = "Description"
         }
     }
 
     public struct Target: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RunCommandParameters", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputTransformer", required: false, type: .structure), 
-            AWSShapeProperty(label: "Arn", required: true, type: .string), 
-            AWSShapeProperty(label: "Input", required: false, type: .string), 
-            AWSShapeProperty(label: "InputPath", required: false, type: .string), 
-            AWSShapeProperty(label: "EcsParameters", required: false, type: .structure), 
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "KinesisParameters", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RunCommandParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "InputTransformer", required: false, type: .structure), 
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "Input", required: false, type: .string), 
+            AWSShapeMember(label: "InputPath", required: false, type: .string), 
+            AWSShapeMember(label: "EcsParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "KinesisParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// Parameters used when you are using the rule to invoke Amazon EC2 Run Command.
         public let runCommandParameters: RunCommandParameters?
@@ -236,26 +218,23 @@ extension Events {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let runCommandParameters = dictionary["RunCommandParameters"] as? [String: Any] { self.runCommandParameters = try Events.RunCommandParameters(dictionary: runCommandParameters) } else { self.runCommandParameters = nil }
-            if let inputTransformer = dictionary["InputTransformer"] as? [String: Any] { self.inputTransformer = try Events.InputTransformer(dictionary: inputTransformer) } else { self.inputTransformer = nil }
-            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
-            self.arn = arn
-            self.input = dictionary["Input"] as? String
-            self.inputPath = dictionary["InputPath"] as? String
-            if let ecsParameters = dictionary["EcsParameters"] as? [String: Any] { self.ecsParameters = try Events.EcsParameters(dictionary: ecsParameters) } else { self.ecsParameters = nil }
-            self.roleArn = dictionary["RoleArn"] as? String
-            if let kinesisParameters = dictionary["KinesisParameters"] as? [String: Any] { self.kinesisParameters = try Events.KinesisParameters(dictionary: kinesisParameters) } else { self.kinesisParameters = nil }
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case runCommandParameters = "RunCommandParameters"
+            case inputTransformer = "InputTransformer"
+            case arn = "Arn"
+            case input = "Input"
+            case inputPath = "InputPath"
+            case ecsParameters = "EcsParameters"
+            case roleArn = "RoleArn"
+            case kinesisParameters = "KinesisParameters"
+            case id = "Id"
         }
     }
 
     public struct DisableRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the rule.
         public let name: String
@@ -264,18 +243,16 @@ extension Events {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct TestEventPatternRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Event", required: true, type: .string), 
-            AWSShapeProperty(label: "EventPattern", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Event", required: true, type: .string), 
+            AWSShapeMember(label: "EventPattern", required: true, type: .string)
         ]
         /// The event, in JSON format, to test against the event pattern.
         public let event: String
@@ -287,20 +264,17 @@ extension Events {
             self.eventPattern = eventPattern
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let event = dictionary["Event"] as? String else { throw InitializableError.missingRequiredParam("Event") }
-            self.event = event
-            guard let eventPattern = dictionary["EventPattern"] as? String else { throw InitializableError.missingRequiredParam("EventPattern") }
-            self.eventPattern = eventPattern
+        private enum CodingKeys: String, CodingKey {
+            case event = "Event"
+            case eventPattern = "EventPattern"
         }
     }
 
     public struct RunCommandTarget: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "Values", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
         ]
         /// Can be either tag: tag-key or InstanceIds.
         public let key: String
@@ -312,21 +286,18 @@ extension Events {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
-            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
-            self.values = values
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
         }
     }
 
     public struct ListRuleNamesByTargetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TargetArn", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
@@ -341,24 +312,22 @@ extension Events {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let targetArn = dictionary["TargetArn"] as? String else { throw InitializableError.missingRequiredParam("TargetArn") }
-            self.targetArn = targetArn
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case targetArn = "TargetArn"
+            case limit = "Limit"
         }
     }
 
     public struct PutRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "EventPattern", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "State", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "EventPattern", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
         ]
         /// A description of the rule.
         public let description: String?
@@ -382,22 +351,20 @@ extension Events {
             self.state = state
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
-            self.roleArn = dictionary["RoleArn"] as? String
-            self.eventPattern = dictionary["EventPattern"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let state = dictionary["State"] as? String { self.state = RuleState(rawValue: state) } else { self.state = nil }
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case scheduleExpression = "ScheduleExpression"
+            case roleArn = "RoleArn"
+            case eventPattern = "EventPattern"
+            case name = "Name"
+            case state = "State"
         }
     }
 
     public struct RunCommandParameters: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RunCommandTargets", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RunCommandTargets", required: true, type: .list)
         ]
         /// Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
         public let runCommandTargets: [RunCommandTarget]
@@ -406,18 +373,16 @@ extension Events {
             self.runCommandTargets = runCommandTargets
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let runCommandTargets = dictionary["RunCommandTargets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("RunCommandTargets") }
-            self.runCommandTargets = try runCommandTargets.map({ try RunCommandTarget(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case runCommandTargets = "RunCommandTargets"
         }
     }
 
     public struct ListTargetsByRuleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Targets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The targets assigned to the rule.
         public let targets: [Target]?
@@ -429,21 +394,16 @@ extension Events {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let targets = dictionary["Targets"] as? [[String: Any]] {
-                self.targets = try targets.map({ try Target(dictionary: $0) })
-            } else { 
-                self.targets = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case targets = "Targets"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DeleteRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the rule.
         public let name: String
@@ -452,23 +412,21 @@ extension Events {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct DescribeRuleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "EventPattern", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "EventPattern", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
@@ -495,30 +453,26 @@ extension Events {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            if let state = dictionary["State"] as? String { self.state = RuleState(rawValue: state) } else { self.state = nil }
-            self.name = dictionary["Name"] as? String
-            self.eventPattern = dictionary["EventPattern"] as? String
-            self.roleArn = dictionary["RoleArn"] as? String
-            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case state = "State"
+            case name = "Name"
+            case eventPattern = "EventPattern"
+            case roleArn = "RoleArn"
+            case scheduleExpression = "ScheduleExpression"
+            case description = "Description"
         }
     }
 
     public struct DescribeEventBusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct PutEventsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Entries", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entries", required: true, type: .list)
         ]
         /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
         public let entries: [PutEventsRequestEntry]
@@ -527,19 +481,17 @@ extension Events {
             self.entries = entries
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let entries = dictionary["Entries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Entries") }
-            self.entries = try entries.map({ try PutEventsRequestEntry(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case entries = "Entries"
         }
     }
 
     public struct RemoveTargetsResultEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "TargetId", required: false, type: .string)
         ]
         /// The error message that explains why the target removal failed.
         public let errorMessage: String?
@@ -554,22 +506,21 @@ extension Events {
             self.targetId = targetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.errorMessage = dictionary["ErrorMessage"] as? String
-            self.errorCode = dictionary["ErrorCode"] as? String
-            self.targetId = dictionary["TargetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case errorCode = "ErrorCode"
+            case targetId = "TargetId"
         }
     }
 
     public struct PutEventsRequestEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Detail", required: false, type: .string), 
-            AWSShapeProperty(label: "DetailType", required: false, type: .string), 
-            AWSShapeProperty(label: "Source", required: false, type: .string), 
-            AWSShapeProperty(label: "Time", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Resources", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Detail", required: false, type: .string), 
+            AWSShapeMember(label: "DetailType", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "Time", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Resources", required: false, type: .list)
         ]
         /// In the JSON sense, an object containing fields, which may also contain nested subobjects. No constraints are imposed on its contents.
         public let detail: String?
@@ -578,11 +529,11 @@ extension Events {
         /// The source of the event.
         public let source: String?
         /// The timestamp of the event, per RFC3339. If no timestamp is provided, the timestamp of the PutEvents call is used.
-        public let time: String?
+        public let time: Double?
         /// AWS resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public let resources: [String]?
 
-        public init(detail: String? = nil, detailType: String? = nil, source: String? = nil, time: String? = nil, resources: [String]? = nil) {
+        public init(detail: String? = nil, detailType: String? = nil, source: String? = nil, time: Double? = nil, resources: [String]? = nil) {
             self.detail = detail
             self.detailType = detailType
             self.source = source
@@ -590,20 +541,19 @@ extension Events {
             self.resources = resources
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.detail = dictionary["Detail"] as? String
-            self.detailType = dictionary["DetailType"] as? String
-            self.source = dictionary["Source"] as? String
-            self.time = dictionary["Time"] as? String
-            self.resources = dictionary["Resources"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case detail = "Detail"
+            case detailType = "DetailType"
+            case source = "Source"
+            case time = "Time"
+            case resources = "Resources"
         }
     }
 
     public struct RemovePermissionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatementId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StatementId", required: true, type: .string)
         ]
         /// The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
         public let statementId: String
@@ -612,17 +562,15 @@ extension Events {
             self.statementId = statementId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let statementId = dictionary["StatementId"] as? String else { throw InitializableError.missingRequiredParam("StatementId") }
-            self.statementId = statementId
+        private enum CodingKeys: String, CodingKey {
+            case statementId = "StatementId"
         }
     }
 
     public struct TestEventPatternResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Result", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Result", required: false, type: .boolean)
         ]
         /// Indicates whether the event matches the event pattern.
         public let result: Bool?
@@ -631,17 +579,16 @@ extension Events {
             self.result = result
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.result = dictionary["Result"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case result = "Result"
         }
     }
 
     public struct PutTargetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Targets", required: true, type: .list), 
-            AWSShapeProperty(label: "Rule", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Targets", required: true, type: .list), 
+            AWSShapeMember(label: "Rule", required: true, type: .string)
         ]
         /// The targets to update or add to the rule.
         public let targets: [Target]
@@ -653,15 +600,13 @@ extension Events {
             self.rule = rule
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targets = dictionary["Targets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Targets") }
-            self.targets = try targets.map({ try Target(dictionary: $0) })
-            guard let rule = dictionary["Rule"] as? String else { throw InitializableError.missingRequiredParam("Rule") }
-            self.rule = rule
+        private enum CodingKeys: String, CodingKey {
+            case targets = "Targets"
+            case rule = "Rule"
         }
     }
 
-    public enum RuleState: String, CustomStringConvertible {
+    public enum RuleState: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
         public var description: String { return self.rawValue }
@@ -669,9 +614,8 @@ extension Events {
 
     public struct EnableRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the rule.
         public let name: String
@@ -680,19 +624,17 @@ extension Events {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct PutTargetsResultEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "TargetId", required: false, type: .string)
         ]
         /// The error message that explains why the target addition failed.
         public let errorMessage: String?
@@ -707,19 +649,18 @@ extension Events {
             self.targetId = targetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.errorMessage = dictionary["ErrorMessage"] as? String
-            self.errorCode = dictionary["ErrorCode"] as? String
-            self.targetId = dictionary["TargetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case errorCode = "ErrorCode"
+            case targetId = "TargetId"
         }
     }
 
     public struct ListRulesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Rules", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Rules", required: false, type: .list)
         ]
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
         public let nextToken: String?
@@ -731,22 +672,17 @@ extension Events {
             self.rules = rules
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let rules = dictionary["Rules"] as? [[String: Any]] {
-                self.rules = try rules.map({ try Rule(dictionary: $0) })
-            } else { 
-                self.rules = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case rules = "Rules"
         }
     }
 
     public struct RemoveTargetsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailedEntryCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "FailedEntries", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer), 
+            AWSShapeMember(label: "FailedEntries", required: false, type: .list)
         ]
         /// The number of failed entries.
         public let failedEntryCount: Int32?
@@ -758,22 +694,17 @@ extension Events {
             self.failedEntries = failedEntries
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.failedEntryCount = dictionary["FailedEntryCount"] as? Int32
-            if let failedEntries = dictionary["FailedEntries"] as? [[String: Any]] {
-                self.failedEntries = try failedEntries.map({ try RemoveTargetsResultEntry(dictionary: $0) })
-            } else { 
-                self.failedEntries = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failedEntryCount = "FailedEntryCount"
+            case failedEntries = "FailedEntries"
         }
     }
 
     public struct EcsParameters: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TaskCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "TaskDefinitionArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskCount", required: false, type: .integer), 
+            AWSShapeMember(label: "TaskDefinitionArn", required: true, type: .string)
         ]
         /// The number of tasks to create based on the TaskDefinition. The default is one.
         public let taskCount: Int32?
@@ -785,18 +716,16 @@ extension Events {
             self.taskDefinitionArn = taskDefinitionArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.taskCount = dictionary["TaskCount"] as? Int32
-            guard let taskDefinitionArn = dictionary["TaskDefinitionArn"] as? String else { throw InitializableError.missingRequiredParam("TaskDefinitionArn") }
-            self.taskDefinitionArn = taskDefinitionArn
+        private enum CodingKeys: String, CodingKey {
+            case taskCount = "TaskCount"
+            case taskDefinitionArn = "TaskDefinitionArn"
         }
     }
 
     public struct DescribeRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the rule.
         public let name: String
@@ -805,18 +734,16 @@ extension Events {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct RemoveTargetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ids", required: true, type: .list), 
-            AWSShapeProperty(label: "Rule", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ids", required: true, type: .list), 
+            AWSShapeMember(label: "Rule", required: true, type: .string)
         ]
         /// The IDs of the targets to remove from the rule.
         public let ids: [String]
@@ -828,19 +755,16 @@ extension Events {
             self.rule = rule
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ids = dictionary["Ids"] as? [String] else { throw InitializableError.missingRequiredParam("Ids") }
-            self.ids = ids
-            guard let rule = dictionary["Rule"] as? String else { throw InitializableError.missingRequiredParam("Rule") }
-            self.rule = rule
+        private enum CodingKeys: String, CodingKey {
+            case ids = "Ids"
+            case rule = "Rule"
         }
     }
 
     public struct PutRuleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
@@ -849,18 +773,17 @@ extension Events {
             self.ruleArn = ruleArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ruleArn = dictionary["RuleArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ruleArn = "RuleArn"
         }
     }
 
     public struct ListRulesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NamePrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// The prefix matching the rule name.
         public let namePrefix: String?
@@ -875,19 +798,18 @@ extension Events {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.namePrefix = dictionary["NamePrefix"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case namePrefix = "NamePrefix"
+            case nextToken = "NextToken"
+            case limit = "Limit"
         }
     }
 
     public struct ListRuleNamesByTargetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "RuleNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RuleNames", required: false, type: .list)
         ]
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
         public let nextToken: String?
@@ -899,19 +821,18 @@ extension Events {
             self.ruleNames = ruleNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.ruleNames = dictionary["RuleNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case ruleNames = "RuleNames"
         }
     }
 
     public struct ListTargetsByRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rule", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rule", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// The name of the rule.
         public let rule: String
@@ -926,21 +847,19 @@ extension Events {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rule = dictionary["Rule"] as? String else { throw InitializableError.missingRequiredParam("Rule") }
-            self.rule = rule
-            self.nextToken = dictionary["NextToken"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case rule = "Rule"
+            case nextToken = "NextToken"
+            case limit = "Limit"
         }
     }
 
     public struct PutEventsResultEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "EventId", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "EventId", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string)
         ]
         /// The error message that explains why the event submission failed.
         public let errorMessage: String?
@@ -955,19 +874,18 @@ extension Events {
             self.errorCode = errorCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.errorMessage = dictionary["ErrorMessage"] as? String
-            self.eventId = dictionary["EventId"] as? String
-            self.errorCode = dictionary["ErrorCode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case eventId = "EventId"
+            case errorCode = "ErrorCode"
         }
     }
 
     public struct PutEventsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailedEntryCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Entries", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Entries", required: false, type: .list)
         ]
         /// The number of failed entries.
         public let failedEntryCount: Int32?
@@ -979,21 +897,16 @@ extension Events {
             self.entries = entries
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.failedEntryCount = dictionary["FailedEntryCount"] as? Int32
-            if let entries = dictionary["Entries"] as? [[String: Any]] {
-                self.entries = try entries.map({ try PutEventsResultEntry(dictionary: $0) })
-            } else { 
-                self.entries = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failedEntryCount = "FailedEntryCount"
+            case entries = "Entries"
         }
     }
 
     public struct KinesisParameters: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PartitionKeyPath", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PartitionKeyPath", required: true, type: .string)
         ]
         /// The JSON path to be extracted from the event and used as the partition key. For more information, see Amazon Kinesis Streams Key Concepts in the Amazon Kinesis Streams Developer Guide.
         public let partitionKeyPath: String
@@ -1002,9 +915,8 @@ extension Events {
             self.partitionKeyPath = partitionKeyPath
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let partitionKeyPath = dictionary["PartitionKeyPath"] as? String else { throw InitializableError.missingRequiredParam("PartitionKeyPath") }
-            self.partitionKeyPath = partitionKeyPath
+        private enum CodingKeys: String, CodingKey {
+            case partitionKeyPath = "PartitionKeyPath"
         }
     }
 

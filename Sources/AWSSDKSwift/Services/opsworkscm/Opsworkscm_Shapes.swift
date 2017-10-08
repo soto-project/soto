@@ -31,9 +31,8 @@ extension Opsworkscm {
 
     public struct DescribeAccountAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attributes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
         ///  The attributes that are currently set for the account. 
         public let attributes: [AccountAttribute]?
@@ -42,21 +41,16 @@ extension Opsworkscm {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try AccountAttribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
         }
     }
 
     public struct DescribeEventsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerEvents", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerEvents", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Contains the response to a DescribeEvents request. 
         public let serverEvents: [ServerEvent]?
@@ -68,21 +62,16 @@ extension Opsworkscm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let serverEvents = dictionary["ServerEvents"] as? [[String: Any]] {
-                self.serverEvents = try serverEvents.map({ try ServerEvent(dictionary: $0) })
-            } else { 
-                self.serverEvents = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case serverEvents = "ServerEvents"
+            case nextToken = "NextToken"
         }
     }
 
     public struct AssociateNodeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeAssociationStatusToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeAssociationStatusToken", required: false, type: .string)
         ]
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request. 
         public let nodeAssociationStatusToken: String?
@@ -91,32 +80,31 @@ extension Opsworkscm {
             self.nodeAssociationStatusToken = nodeAssociationStatusToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nodeAssociationStatusToken = dictionary["NodeAssociationStatusToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nodeAssociationStatusToken = "NodeAssociationStatusToken"
         }
     }
 
     public struct CreateServerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EngineModel", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineAttributes", required: false, type: .list), 
-            AWSShapeProperty(label: "BackupId", required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceRoleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
-            AWSShapeProperty(label: "BackupRetentionCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceProfileArn", required: true, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", required: true, type: .string), 
-            AWSShapeProperty(label: "Engine", required: false, type: .string), 
-            AWSShapeProperty(label: "DisableAutomatedBackup", required: false, type: .boolean), 
-            AWSShapeProperty(label: "KeyPair", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociatePublicIpAddress", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineModel", required: false, type: .string), 
+            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "BackupId", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "BackupRetentionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceProfileArn", required: true, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
+            AWSShapeMember(label: "KeyPair", required: false, type: .string), 
+            AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean)
         ]
         ///  The engine model, or option. Valid values include Single. 
         public let engineModel: String?
@@ -173,41 +161,32 @@ extension Opsworkscm {
             self.associatePublicIpAddress = associatePublicIpAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.engineModel = dictionary["EngineModel"] as? String
-            if let engineAttributes = dictionary["EngineAttributes"] as? [[String: Any]] {
-                self.engineAttributes = try engineAttributes.map({ try EngineAttribute(dictionary: $0) })
-            } else { 
-                self.engineAttributes = nil
-            }
-            self.backupId = dictionary["BackupId"] as? String
-            guard let serviceRoleArn = dictionary["ServiceRoleArn"] as? String else { throw InitializableError.missingRequiredParam("ServiceRoleArn") }
-            self.serviceRoleArn = serviceRoleArn
-            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
-            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
-            self.instanceType = instanceType
-            self.backupRetentionCount = dictionary["BackupRetentionCount"] as? Int32
-            self.subnetIds = dictionary["SubnetIds"] as? [String]
-            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            guard let instanceProfileArn = dictionary["InstanceProfileArn"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileArn") }
-            self.instanceProfileArn = instanceProfileArn
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
-            self.serverName = serverName
-            self.engine = dictionary["Engine"] as? String
-            self.disableAutomatedBackup = dictionary["DisableAutomatedBackup"] as? Bool
-            self.keyPair = dictionary["KeyPair"] as? String
-            self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case engineModel = "EngineModel"
+            case engineAttributes = "EngineAttributes"
+            case backupId = "BackupId"
+            case serviceRoleArn = "ServiceRoleArn"
+            case securityGroupIds = "SecurityGroupIds"
+            case instanceType = "InstanceType"
+            case backupRetentionCount = "BackupRetentionCount"
+            case subnetIds = "SubnetIds"
+            case preferredBackupWindow = "PreferredBackupWindow"
+            case engineVersion = "EngineVersion"
+            case instanceProfileArn = "InstanceProfileArn"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case serverName = "ServerName"
+            case engine = "Engine"
+            case disableAutomatedBackup = "DisableAutomatedBackup"
+            case keyPair = "KeyPair"
+            case associatePublicIpAddress = "AssociatePublicIpAddress"
         }
     }
 
     public struct CreateBackupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerName", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The name of the server that you want to back up. 
         public let serverName: String
@@ -219,14 +198,13 @@ extension Opsworkscm {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
-            self.serverName = serverName
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case serverName = "ServerName"
+            case description = "Description"
         }
     }
 
-    public enum ServerStatus: String, CustomStringConvertible {
+    public enum ServerStatus: String, CustomStringConvertible, Codable {
         case backing_up = "BACKING_UP"
         case connection_lost = "CONNECTION_LOST"
         case creating = "CREATING"
@@ -245,11 +223,10 @@ extension Opsworkscm {
 
     public struct UpdateServerEngineAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
-            AWSShapeProperty(label: "AttributeValue", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "AttributeValue", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string)
         ]
         /// The name of the engine attribute to update. 
         public let attributeName: String
@@ -264,22 +241,19 @@ extension Opsworkscm {
             self.serverName = serverName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
-            self.attributeName = attributeName
-            self.attributeValue = dictionary["AttributeValue"] as? String
-            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
-            self.serverName = serverName
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case attributeValue = "AttributeValue"
+            case serverName = "ServerName"
         }
     }
 
     public struct AssociateNodeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeName", required: true, type: .string), 
-            AWSShapeProperty(label: "EngineAttributes", required: true, type: .list), 
-            AWSShapeProperty(label: "ServerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeName", required: true, type: .string), 
+            AWSShapeMember(label: "EngineAttributes", required: true, type: .list), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string)
         ]
         /// The name of the Chef client node. 
         public let nodeName: String
@@ -294,17 +268,14 @@ extension Opsworkscm {
             self.serverName = serverName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let nodeName = dictionary["NodeName"] as? String else { throw InitializableError.missingRequiredParam("NodeName") }
-            self.nodeName = nodeName
-            guard let engineAttributes = dictionary["EngineAttributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("EngineAttributes") }
-            self.engineAttributes = try engineAttributes.map({ try EngineAttribute(dictionary: $0) })
-            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
-            self.serverName = serverName
+        private enum CodingKeys: String, CodingKey {
+            case nodeName = "NodeName"
+            case engineAttributes = "EngineAttributes"
+            case serverName = "ServerName"
         }
     }
 
-    public enum NodeAssociationStatus: String, CustomStringConvertible {
+    public enum NodeAssociationStatus: String, CustomStringConvertible, Codable {
         case success = "SUCCESS"
         case failed = "FAILED"
         case in_progress = "IN_PROGRESS"
@@ -313,11 +284,10 @@ extension Opsworkscm {
 
     public struct AccountAttribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Maximum", required: false, type: .integer), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Used", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Maximum", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Used", required: false, type: .integer)
         ]
         ///  The maximum allowed value. 
         public let maximum: Int32?
@@ -332,18 +302,17 @@ extension Opsworkscm {
             self.used = used
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maximum = dictionary["Maximum"] as? Int32
-            self.name = dictionary["Name"] as? String
-            self.used = dictionary["Used"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case maximum = "Maximum"
+            case name = "Name"
+            case used = "Used"
         }
     }
 
     public struct StartMaintenanceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Server", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Server", required: false, type: .structure)
         ]
         /// Contains the response to a StartMaintenance request. 
         public let server: Server?
@@ -352,16 +321,15 @@ extension Opsworkscm {
             self.server = server
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let server = dictionary["Server"] as? [String: Any] { self.server = try Opsworkscm.Server(dictionary: server) } else { self.server = nil }
+        private enum CodingKeys: String, CodingKey {
+            case server = "Server"
         }
     }
 
     public struct CreateBackupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Backup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Backup", required: false, type: .structure)
         ]
         /// Backup created by request.
         public let backup: Backup?
@@ -370,12 +338,12 @@ extension Opsworkscm {
             self.backup = backup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let backup = dictionary["Backup"] as? [String: Any] { self.backup = try Opsworkscm.Backup(dictionary: backup) } else { self.backup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case backup = "Backup"
         }
     }
 
-    public enum BackupStatus: String, CustomStringConvertible {
+    public enum BackupStatus: String, CustomStringConvertible, Codable {
         case in_progress = "IN_PROGRESS"
         case ok = "OK"
         case failed = "FAILED"
@@ -385,10 +353,9 @@ extension Opsworkscm {
 
     public struct DescribeNodeAssociationStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeAssociationStatusToken", required: true, type: .string), 
-            AWSShapeProperty(label: "ServerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeAssociationStatusToken", required: true, type: .string), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string)
         ]
         public let nodeAssociationStatusToken: String
         /// The name of the server from which to disassociate the node. 
@@ -399,19 +366,16 @@ extension Opsworkscm {
             self.serverName = serverName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let nodeAssociationStatusToken = dictionary["NodeAssociationStatusToken"] as? String else { throw InitializableError.missingRequiredParam("NodeAssociationStatusToken") }
-            self.nodeAssociationStatusToken = nodeAssociationStatusToken
-            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
-            self.serverName = serverName
+        private enum CodingKeys: String, CodingKey {
+            case nodeAssociationStatusToken = "NodeAssociationStatusToken"
+            case serverName = "ServerName"
         }
     }
 
     public struct StartMaintenanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerName", required: true, type: .string)
         ]
         /// The name of the server on which to run maintenance. 
         public let serverName: String
@@ -420,13 +384,12 @@ extension Opsworkscm {
             self.serverName = serverName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
-            self.serverName = serverName
+        private enum CodingKeys: String, CodingKey {
+            case serverName = "ServerName"
         }
     }
 
-    public enum BackupType: String, CustomStringConvertible {
+    public enum BackupType: String, CustomStringConvertible, Codable {
         case automated = "AUTOMATED"
         case manual = "MANUAL"
         public var description: String { return self.rawValue }
@@ -434,9 +397,8 @@ extension Opsworkscm {
 
     public struct UpdateServerResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Server", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Server", required: false, type: .structure)
         ]
         /// Contains the response to a UpdateServer request. 
         public let server: Server?
@@ -445,16 +407,15 @@ extension Opsworkscm {
             self.server = server
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let server = dictionary["Server"] as? [String: Any] { self.server = try Opsworkscm.Server(dictionary: server) } else { self.server = nil }
+        private enum CodingKeys: String, CodingKey {
+            case server = "Server"
         }
     }
 
     public struct DisassociateNodeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeAssociationStatusToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeAssociationStatusToken", required: false, type: .string)
         ]
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request. 
         public let nodeAssociationStatusToken: String?
@@ -463,18 +424,17 @@ extension Opsworkscm {
             self.nodeAssociationStatusToken = nodeAssociationStatusToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nodeAssociationStatusToken = dictionary["NodeAssociationStatusToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nodeAssociationStatusToken = "NodeAssociationStatusToken"
         }
     }
 
     public struct DescribeServersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string)
         ]
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
         public let maxResults: Int32?
@@ -489,54 +449,52 @@ extension Opsworkscm {
             self.serverName = serverName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            self.serverName = dictionary["ServerName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case serverName = "ServerName"
         }
     }
 
     public struct ServerEvent: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LogUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogUrl", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string)
         ]
         /// The Amazon S3 URL of the event's log file.
         public let logUrl: String?
         /// The time when the event occurred. 
-        public let createdAt: String?
+        public let createdAt: Double?
         /// A human-readable informational or status message.
         public let message: String?
         /// The name of the server on or for which the event occurred. 
         public let serverName: String?
 
-        public init(logUrl: String? = nil, createdAt: String? = nil, message: String? = nil, serverName: String? = nil) {
+        public init(logUrl: String? = nil, createdAt: Double? = nil, message: String? = nil, serverName: String? = nil) {
             self.logUrl = logUrl
             self.createdAt = createdAt
             self.message = message
             self.serverName = serverName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.logUrl = dictionary["LogUrl"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.message = dictionary["Message"] as? String
-            self.serverName = dictionary["ServerName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case logUrl = "LogUrl"
+            case createdAt = "CreatedAt"
+            case message = "Message"
+            case serverName = "ServerName"
         }
     }
 
     public struct DescribeBackupsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
-            AWSShapeProperty(label: "BackupId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "BackupId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Returns backups for the server with the specified ServerName. 
         public let serverName: String?
@@ -554,23 +512,20 @@ extension Opsworkscm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.serverName = dictionary["ServerName"] as? String
-            self.backupId = dictionary["BackupId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case serverName = "ServerName"
+            case backupId = "BackupId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct RestoreServerResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum MaintenanceStatus: String, CustomStringConvertible {
+    public enum MaintenanceStatus: String, CustomStringConvertible, Codable {
         case success = "SUCCESS"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
@@ -578,32 +533,31 @@ extension Opsworkscm {
 
     public struct Backup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EngineModel", required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "S3DataSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "BackupId", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeProperty(label: "ToolsVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceProfileArn", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeProperty(label: "BackupType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Engine", required: false, type: .string), 
-            AWSShapeProperty(label: "S3DataUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "S3LogUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "UserArn", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "BackupArn", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyPair", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineModel", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "S3DataSize", required: false, type: .integer), 
+            AWSShapeMember(label: "BackupId", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "ToolsVersion", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "BackupType", required: false, type: .enum), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "S3DataUrl", required: false, type: .string), 
+            AWSShapeMember(label: "S3LogUrl", required: false, type: .string), 
+            AWSShapeMember(label: "UserArn", required: false, type: .string), 
+            AWSShapeMember(label: "StatusDescription", required: false, type: .string), 
+            AWSShapeMember(label: "BackupArn", required: false, type: .string), 
+            AWSShapeMember(label: "KeyPair", required: false, type: .string)
         ]
         ///  The engine model that is obtained from the server when the backup is created. 
         public let engineModel: String?
@@ -626,7 +580,7 @@ extension Opsworkscm {
         /// The status of a backup while in progress. 
         public let status: BackupStatus?
         ///  The time stamp when the backup was created in the database. Example: 2016-07-29T13:38:47.520Z 
-        public let createdAt: String?
+        public let createdAt: Double?
         ///  The engine version that is obtained from the server when the backup is created. 
         public let engineVersion: String?
         ///  The EC2 instance profile ARN that is obtained from the server when the backup is created. Because this value is stored, you are not required to provide the InstanceProfileArn again if you restore a backup. 
@@ -654,7 +608,7 @@ extension Opsworkscm {
         ///  The key pair that is obtained from the server when the backup is created. 
         public let keyPair: String?
 
-        public init(engineModel: String? = nil, serviceRoleArn: String? = nil, s3DataSize: Int32? = nil, backupId: String? = nil, securityGroupIds: [String]? = nil, toolsVersion: String? = nil, instanceType: String? = nil, description: String? = nil, preferredBackupWindow: String? = nil, status: BackupStatus? = nil, createdAt: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String? = nil, subnetIds: [String]? = nil, backupType: BackupType? = nil, engine: String? = nil, s3DataUrl: String? = nil, s3LogUrl: String? = nil, userArn: String? = nil, statusDescription: String? = nil, backupArn: String? = nil, keyPair: String? = nil) {
+        public init(engineModel: String? = nil, serviceRoleArn: String? = nil, s3DataSize: Int32? = nil, backupId: String? = nil, securityGroupIds: [String]? = nil, toolsVersion: String? = nil, instanceType: String? = nil, description: String? = nil, preferredBackupWindow: String? = nil, status: BackupStatus? = nil, createdAt: Double? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String? = nil, subnetIds: [String]? = nil, backupType: BackupType? = nil, engine: String? = nil, s3DataUrl: String? = nil, s3LogUrl: String? = nil, userArn: String? = nil, statusDescription: String? = nil, backupArn: String? = nil, keyPair: String? = nil) {
             self.engineModel = engineModel
             self.serviceRoleArn = serviceRoleArn
             self.s3DataSize = s3DataSize
@@ -681,39 +635,38 @@ extension Opsworkscm {
             self.keyPair = keyPair
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.engineModel = dictionary["EngineModel"] as? String
-            self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
-            self.s3DataSize = dictionary["S3DataSize"] as? Int32
-            self.backupId = dictionary["BackupId"] as? String
-            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
-            self.toolsVersion = dictionary["ToolsVersion"] as? String
-            self.instanceType = dictionary["InstanceType"] as? String
-            self.description = dictionary["Description"] as? String
-            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
-            if let status = dictionary["Status"] as? String { self.status = BackupStatus(rawValue: status) } else { self.status = nil }
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            self.instanceProfileArn = dictionary["InstanceProfileArn"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.serverName = dictionary["ServerName"] as? String
-            self.subnetIds = dictionary["SubnetIds"] as? [String]
-            if let backupType = dictionary["BackupType"] as? String { self.backupType = BackupType(rawValue: backupType) } else { self.backupType = nil }
-            self.engine = dictionary["Engine"] as? String
-            self.s3DataUrl = dictionary["S3DataUrl"] as? String
-            self.s3LogUrl = dictionary["S3LogUrl"] as? String
-            self.userArn = dictionary["UserArn"] as? String
-            self.statusDescription = dictionary["StatusDescription"] as? String
-            self.backupArn = dictionary["BackupArn"] as? String
-            self.keyPair = dictionary["KeyPair"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case engineModel = "EngineModel"
+            case serviceRoleArn = "ServiceRoleArn"
+            case s3DataSize = "S3DataSize"
+            case backupId = "BackupId"
+            case securityGroupIds = "SecurityGroupIds"
+            case toolsVersion = "ToolsVersion"
+            case instanceType = "InstanceType"
+            case description = "Description"
+            case preferredBackupWindow = "PreferredBackupWindow"
+            case status = "Status"
+            case createdAt = "CreatedAt"
+            case engineVersion = "EngineVersion"
+            case instanceProfileArn = "InstanceProfileArn"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case serverName = "ServerName"
+            case subnetIds = "SubnetIds"
+            case backupType = "BackupType"
+            case engine = "Engine"
+            case s3DataUrl = "S3DataUrl"
+            case s3LogUrl = "S3LogUrl"
+            case userArn = "UserArn"
+            case statusDescription = "StatusDescription"
+            case backupArn = "BackupArn"
+            case keyPair = "KeyPair"
         }
     }
 
     public struct DeleteServerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerName", required: true, type: .string)
         ]
         /// The ID of the server to delete.
         public let serverName: String
@@ -722,19 +675,17 @@ extension Opsworkscm {
             self.serverName = serverName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
-            self.serverName = serverName
+        private enum CodingKeys: String, CodingKey {
+            case serverName = "ServerName"
         }
     }
 
     public struct DisassociateNodeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeName", required: true, type: .string), 
-            AWSShapeProperty(label: "EngineAttributes", required: false, type: .list), 
-            AWSShapeProperty(label: "ServerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeName", required: true, type: .string), 
+            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string)
         ]
         /// The name of the Chef client node. 
         public let nodeName: String
@@ -749,46 +700,39 @@ extension Opsworkscm {
             self.serverName = serverName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let nodeName = dictionary["NodeName"] as? String else { throw InitializableError.missingRequiredParam("NodeName") }
-            self.nodeName = nodeName
-            if let engineAttributes = dictionary["EngineAttributes"] as? [[String: Any]] {
-                self.engineAttributes = try engineAttributes.map({ try EngineAttribute(dictionary: $0) })
-            } else { 
-                self.engineAttributes = nil
-            }
-            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
-            self.serverName = serverName
+        private enum CodingKeys: String, CodingKey {
+            case nodeName = "NodeName"
+            case engineAttributes = "EngineAttributes"
+            case serverName = "ServerName"
         }
     }
 
     public struct Server: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerArn", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineModel", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineAttributes", required: false, type: .list), 
-            AWSShapeProperty(label: "ServiceRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "BackupRetentionCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceProfileArn", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
-            AWSShapeProperty(label: "Engine", required: false, type: .string), 
-            AWSShapeProperty(label: "MaintenanceStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "CloudFormationStackArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "DisableAutomatedBackup", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Endpoint", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
-            AWSShapeProperty(label: "KeyPair", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerArn", required: false, type: .string), 
+            AWSShapeMember(label: "EngineModel", required: false, type: .string), 
+            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "BackupRetentionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "StatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "MaintenanceStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "CloudFormationStackArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
+            AWSShapeMember(label: "KeyPair", required: false, type: .string)
         ]
         /// The ARN of the server. 
         public let serverArn: String?
@@ -809,7 +753,7 @@ extension Opsworkscm {
         /// The preferred backup period specified for the server. 
         public let preferredBackupWindow: String?
         /// Time stamp of server creation. Example 2016-07-29T13:38:47.520Z 
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The engine version of the server. Because Chef is the engine available in this release, the valid value for EngineVersion is 12. 
         public let engineVersion: String?
         /// The instance profile ARN of the server. 
@@ -837,7 +781,7 @@ extension Opsworkscm {
         /// The key pair associated with the server. 
         public let keyPair: String?
 
-        public init(serverArn: String? = nil, engineModel: String? = nil, engineAttributes: [EngineAttribute]? = nil, serviceRoleArn: String? = nil, securityGroupIds: [String]? = nil, instanceType: String? = nil, backupRetentionCount: Int32? = nil, subnetIds: [String]? = nil, preferredBackupWindow: String? = nil, createdAt: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, statusReason: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String? = nil, engine: String? = nil, maintenanceStatus: MaintenanceStatus? = nil, cloudFormationStackArn: String? = nil, status: ServerStatus? = nil, disableAutomatedBackup: Bool? = nil, endpoint: String? = nil, associatePublicIpAddress: Bool? = nil, keyPair: String? = nil) {
+        public init(serverArn: String? = nil, engineModel: String? = nil, engineAttributes: [EngineAttribute]? = nil, serviceRoleArn: String? = nil, securityGroupIds: [String]? = nil, instanceType: String? = nil, backupRetentionCount: Int32? = nil, subnetIds: [String]? = nil, preferredBackupWindow: String? = nil, createdAt: Double? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, statusReason: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String? = nil, engine: String? = nil, maintenanceStatus: MaintenanceStatus? = nil, cloudFormationStackArn: String? = nil, status: ServerStatus? = nil, disableAutomatedBackup: Bool? = nil, endpoint: String? = nil, associatePublicIpAddress: Bool? = nil, keyPair: String? = nil) {
             self.serverArn = serverArn
             self.engineModel = engineModel
             self.engineAttributes = engineAttributes
@@ -863,44 +807,39 @@ extension Opsworkscm {
             self.keyPair = keyPair
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.serverArn = dictionary["ServerArn"] as? String
-            self.engineModel = dictionary["EngineModel"] as? String
-            if let engineAttributes = dictionary["EngineAttributes"] as? [[String: Any]] {
-                self.engineAttributes = try engineAttributes.map({ try EngineAttribute(dictionary: $0) })
-            } else { 
-                self.engineAttributes = nil
-            }
-            self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
-            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
-            self.instanceType = dictionary["InstanceType"] as? String
-            self.backupRetentionCount = dictionary["BackupRetentionCount"] as? Int32
-            self.subnetIds = dictionary["SubnetIds"] as? [String]
-            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            self.instanceProfileArn = dictionary["InstanceProfileArn"] as? String
-            self.statusReason = dictionary["StatusReason"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.serverName = dictionary["ServerName"] as? String
-            self.engine = dictionary["Engine"] as? String
-            if let maintenanceStatus = dictionary["MaintenanceStatus"] as? String { self.maintenanceStatus = MaintenanceStatus(rawValue: maintenanceStatus) } else { self.maintenanceStatus = nil }
-            self.cloudFormationStackArn = dictionary["CloudFormationStackArn"] as? String
-            if let status = dictionary["Status"] as? String { self.status = ServerStatus(rawValue: status) } else { self.status = nil }
-            self.disableAutomatedBackup = dictionary["DisableAutomatedBackup"] as? Bool
-            self.endpoint = dictionary["Endpoint"] as? String
-            self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
-            self.keyPair = dictionary["KeyPair"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case serverArn = "ServerArn"
+            case engineModel = "EngineModel"
+            case engineAttributes = "EngineAttributes"
+            case serviceRoleArn = "ServiceRoleArn"
+            case securityGroupIds = "SecurityGroupIds"
+            case instanceType = "InstanceType"
+            case backupRetentionCount = "BackupRetentionCount"
+            case subnetIds = "SubnetIds"
+            case preferredBackupWindow = "PreferredBackupWindow"
+            case createdAt = "CreatedAt"
+            case engineVersion = "EngineVersion"
+            case instanceProfileArn = "InstanceProfileArn"
+            case statusReason = "StatusReason"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case serverName = "ServerName"
+            case engine = "Engine"
+            case maintenanceStatus = "MaintenanceStatus"
+            case cloudFormationStackArn = "CloudFormationStackArn"
+            case status = "Status"
+            case disableAutomatedBackup = "DisableAutomatedBackup"
+            case endpoint = "Endpoint"
+            case associatePublicIpAddress = "AssociatePublicIpAddress"
+            case keyPair = "KeyPair"
         }
     }
 
     public struct DescribeEventsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string)
         ]
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
         public let maxResults: Int32?
@@ -915,20 +854,18 @@ extension Opsworkscm {
             self.serverName = serverName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
-            self.serverName = serverName
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case serverName = "ServerName"
         }
     }
 
     public struct DescribeServersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Servers", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Servers", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Contains the response to a DescribeServers request. 
         public let servers: [Server]?
@@ -940,24 +877,19 @@ extension Opsworkscm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let servers = dictionary["Servers"] as? [[String: Any]] {
-                self.servers = try servers.map({ try Server(dictionary: $0) })
-            } else { 
-                self.servers = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case servers = "Servers"
+            case nextToken = "NextToken"
         }
     }
 
     public struct RestoreServerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerName", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "BackupId", required: true, type: .string), 
-            AWSShapeProperty(label: "KeyPair", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerName", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "BackupId", required: true, type: .string), 
+            AWSShapeMember(label: "KeyPair", required: false, type: .string)
         ]
         ///  The name of the server that you want to restore. 
         public let serverName: String
@@ -975,22 +907,19 @@ extension Opsworkscm {
             self.keyPair = keyPair
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
-            self.serverName = serverName
-            self.instanceType = dictionary["InstanceType"] as? String
-            guard let backupId = dictionary["BackupId"] as? String else { throw InitializableError.missingRequiredParam("BackupId") }
-            self.backupId = backupId
-            self.keyPair = dictionary["KeyPair"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case serverName = "ServerName"
+            case instanceType = "InstanceType"
+            case backupId = "BackupId"
+            case keyPair = "KeyPair"
         }
     }
 
     public struct DescribeBackupsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Backups", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Backups", required: false, type: .list)
         ]
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeBackups again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
         public let nextToken: String?
@@ -1002,29 +931,21 @@ extension Opsworkscm {
             self.backups = backups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let backups = dictionary["Backups"] as? [[String: Any]] {
-                self.backups = try backups.map({ try Backup(dictionary: $0) })
-            } else { 
-                self.backups = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case backups = "Backups"
         }
     }
 
     public struct DescribeAccountAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeNodeAssociationStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeAssociationStatus", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeAssociationStatus", required: false, type: .enum)
         ]
         /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.   
         public let nodeAssociationStatus: NodeAssociationStatus?
@@ -1033,16 +954,15 @@ extension Opsworkscm {
             self.nodeAssociationStatus = nodeAssociationStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let nodeAssociationStatus = dictionary["NodeAssociationStatus"] as? String { self.nodeAssociationStatus = NodeAssociationStatus(rawValue: nodeAssociationStatus) } else { self.nodeAssociationStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nodeAssociationStatus = "NodeAssociationStatus"
         }
     }
 
     public struct DeleteBackupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BackupId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BackupId", required: true, type: .string)
         ]
         /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS. 
         public let backupId: String
@@ -1051,18 +971,16 @@ extension Opsworkscm {
             self.backupId = backupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let backupId = dictionary["BackupId"] as? String else { throw InitializableError.missingRequiredParam("BackupId") }
-            self.backupId = backupId
+        private enum CodingKeys: String, CodingKey {
+            case backupId = "BackupId"
         }
     }
 
     public struct EngineAttribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The value of the engine attribute. 
         public let value: String?
@@ -1074,21 +992,20 @@ extension Opsworkscm {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
         }
     }
 
     public struct UpdateServerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", required: true, type: .string), 
-            AWSShapeProperty(label: "DisableAutomatedBackup", required: false, type: .boolean), 
-            AWSShapeProperty(label: "BackupRetentionCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: true, type: .string), 
+            AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
+            AWSShapeMember(label: "BackupRetentionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string)
         ]
         public let preferredBackupWindow: String?
         /// The name of the server to update. 
@@ -1107,37 +1024,29 @@ extension Opsworkscm {
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
-            guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
-            self.serverName = serverName
-            self.disableAutomatedBackup = dictionary["DisableAutomatedBackup"] as? Bool
-            self.backupRetentionCount = dictionary["BackupRetentionCount"] as? Int32
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case preferredBackupWindow = "PreferredBackupWindow"
+            case serverName = "ServerName"
+            case disableAutomatedBackup = "DisableAutomatedBackup"
+            case backupRetentionCount = "BackupRetentionCount"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
         }
     }
 
     public struct DeleteServerResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteBackupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateServerResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Server", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Server", required: false, type: .structure)
         ]
         /// The server that is created by the request. 
         public let server: Server?
@@ -1146,16 +1055,15 @@ extension Opsworkscm {
             self.server = server
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let server = dictionary["Server"] as? [String: Any] { self.server = try Opsworkscm.Server(dictionary: server) } else { self.server = nil }
+        private enum CodingKeys: String, CodingKey {
+            case server = "Server"
         }
     }
 
     public struct UpdateServerEngineAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Server", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Server", required: false, type: .structure)
         ]
         /// Contains the response to an UpdateServerEngineAttributes request. 
         public let server: Server?
@@ -1164,8 +1072,8 @@ extension Opsworkscm {
             self.server = server
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let server = dictionary["Server"] as? [String: Any] { self.server = try Opsworkscm.Server(dictionary: server) } else { self.server = nil }
+        private enum CodingKeys: String, CodingKey {
+            case server = "Server"
         }
     }
 

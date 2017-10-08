@@ -31,14 +31,13 @@ extension Workdocs {
 
     public struct DescribeDocumentVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Include", location: .querystring(locationName: "include"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
+            AWSShapeMember(label: "Include", location: .querystring(locationName: "include"), required: false, type: .string)
         ]
         /// Specify "SOURCE" to include initialized versions and a URL for the source document.
         public let fields: String?
@@ -62,31 +61,29 @@ extension Workdocs {
             self.include = include
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fields = dictionary["fields"] as? String
-            self.authenticationToken = dictionary["Authentication"] as? String
-            self.limit = dictionary["limit"] as? Int32
-            self.marker = dictionary["marker"] as? String
-            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
-            self.documentId = documentId
-            self.include = dictionary["include"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case authenticationToken = "Authentication"
+            case limit = "limit"
+            case marker = "marker"
+            case documentId = "DocumentId"
+            case include = "include"
         }
     }
 
     public struct DescribeActivitiesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", location: .querystring(locationName: "startTime"), required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "UserId", location: .querystring(locationName: "userId"), required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "EndTime", location: .querystring(locationName: "endTime"), required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeProperty(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", location: .querystring(locationName: "startTime"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "UserId", location: .querystring(locationName: "userId"), required: false, type: .string), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", location: .querystring(locationName: "endTime"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string)
         ]
         /// The timestamp that determines the starting time of the activities; the response includes the activities performed after the specified timestamp.
-        public let startTime: String?
+        public let startTime: Double?
         /// Amazon WorkDocs authentication token. This field should not be set when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The ID of the user who performed the action. The response includes activities pertaining to this user. This is an optional parameter and is only applicable for administrative API (SigV4) requests.
@@ -94,13 +91,13 @@ extension Workdocs {
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The timestamp that determines the end time of the activities; the response includes the activities performed before the specified timestamp.
-        public let endTime: String?
+        public let endTime: Double?
         /// The maximum number of items to return.
         public let limit: Int32?
         /// The ID of the organization. This is a mandatory parameter when using administrative API (SigV4) requests.
         public let organizationId: String?
 
-        public init(startTime: String? = nil, authenticationToken: String? = nil, userId: String? = nil, marker: String? = nil, endTime: String? = nil, limit: Int32? = nil, organizationId: String? = nil) {
+        public init(startTime: Double? = nil, authenticationToken: String? = nil, userId: String? = nil, marker: String? = nil, endTime: Double? = nil, limit: Int32? = nil, organizationId: String? = nil) {
             self.startTime = startTime
             self.authenticationToken = authenticationToken
             self.userId = userId
@@ -110,33 +107,29 @@ extension Workdocs {
             self.organizationId = organizationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["startTime"] as? String
-            self.authenticationToken = dictionary["Authentication"] as? String
-            self.userId = dictionary["userId"] as? String
-            self.marker = dictionary["marker"] as? String
-            self.endTime = dictionary["endTime"] as? String
-            self.limit = dictionary["limit"] as? Int32
-            self.organizationId = dictionary["organizationId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "startTime"
+            case authenticationToken = "Authentication"
+            case userId = "userId"
+            case marker = "marker"
+            case endTime = "endTime"
+            case limit = "limit"
+            case organizationId = "organizationId"
         }
     }
 
     public struct CreateLabelsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateNotificationSubscriptionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string), 
-            AWSShapeProperty(label: "SubscriptionType", required: true, type: .enum), 
-            AWSShapeProperty(label: "Protocol", required: true, type: .enum), 
-            AWSShapeProperty(label: "Endpoint", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string), 
+            AWSShapeMember(label: "SubscriptionType", required: true, type: .enum), 
+            AWSShapeMember(label: "Protocol", required: true, type: .enum), 
+            AWSShapeMember(label: "Endpoint", required: true, type: .string)
         ]
         /// The ID of the organization.
         public let organizationId: String
@@ -154,19 +147,15 @@ extension Workdocs {
             self.endpoint = endpoint
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let organizationId = dictionary["OrganizationId"] as? String else { throw InitializableError.missingRequiredParam("OrganizationId") }
-            self.organizationId = organizationId
-            guard let rawSubscriptionType = dictionary["SubscriptionType"] as? String, let subscriptionType = SubscriptionType(rawValue: rawSubscriptionType) else { throw InitializableError.missingRequiredParam("SubscriptionType") }
-            self.subscriptionType = subscriptionType
-            guard let rawProtocol = dictionary["Protocol"] as? String, let `protocol` = SubscriptionProtocolType(rawValue: rawProtocol) else { throw InitializableError.missingRequiredParam("Protocol") }
-            self.`protocol` = `protocol`
-            guard let endpoint = dictionary["Endpoint"] as? String else { throw InitializableError.missingRequiredParam("Endpoint") }
-            self.endpoint = endpoint
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case subscriptionType = "SubscriptionType"
+            case `protocol` = "Protocol"
+            case endpoint = "Endpoint"
         }
     }
 
-    public enum ActivityType: String, CustomStringConvertible {
+    public enum ActivityType: String, CustomStringConvertible, Codable {
         case document_checked_in = "DOCUMENT_CHECKED_IN"
         case document_checked_out = "DOCUMENT_CHECKED_OUT"
         case document_renamed = "DOCUMENT_RENAMED"
@@ -203,16 +192,15 @@ extension Workdocs {
 
     public struct CreateCommentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "ParentId", required: false, type: .string), 
-            AWSShapeProperty(label: "ThreadId", required: false, type: .string), 
-            AWSShapeProperty(label: "Text", required: true, type: .string), 
-            AWSShapeProperty(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Visibility", required: false, type: .enum), 
-            AWSShapeProperty(label: "NotifyCollaborators", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "ParentId", required: false, type: .string), 
+            AWSShapeMember(label: "ThreadId", required: false, type: .string), 
+            AWSShapeMember(label: "Text", required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
+            AWSShapeMember(label: "Visibility", required: false, type: .enum), 
+            AWSShapeMember(label: "NotifyCollaborators", required: false, type: .boolean)
         ]
         /// Amazon WorkDocs authentication token. This field should not be set when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
@@ -242,22 +230,19 @@ extension Workdocs {
             self.notifyCollaborators = notifyCollaborators
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.authenticationToken = dictionary["Authentication"] as? String
-            self.parentId = dictionary["ParentId"] as? String
-            self.threadId = dictionary["ThreadId"] as? String
-            guard let text = dictionary["Text"] as? String else { throw InitializableError.missingRequiredParam("Text") }
-            self.text = text
-            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
-            self.versionId = versionId
-            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
-            self.documentId = documentId
-            if let visibility = dictionary["Visibility"] as? String { self.visibility = CommentVisibilityType(rawValue: visibility) } else { self.visibility = nil }
-            self.notifyCollaborators = dictionary["NotifyCollaborators"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case parentId = "ParentId"
+            case threadId = "ThreadId"
+            case text = "Text"
+            case versionId = "VersionId"
+            case documentId = "DocumentId"
+            case visibility = "Visibility"
+            case notifyCollaborators = "NotifyCollaborators"
         }
     }
 
-    public enum DocumentThumbnailType: String, CustomStringConvertible {
+    public enum DocumentThumbnailType: String, CustomStringConvertible, Codable {
         case small = "SMALL"
         case small_hq = "SMALL_HQ"
         case large = "LARGE"
@@ -266,13 +251,12 @@ extension Workdocs {
 
     public struct ShareResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Role", required: false, type: .enum), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "PrincipalId", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ShareId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Role", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "PrincipalId", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ShareId", required: false, type: .string)
         ]
         /// The role.
         public let role: RoleType?
@@ -293,24 +277,23 @@ extension Workdocs {
             self.shareId = shareId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let role = dictionary["Role"] as? String { self.role = RoleType(rawValue: role) } else { self.role = nil }
-            if let status = dictionary["Status"] as? String { self.status = ShareStatusType(rawValue: status) } else { self.status = nil }
-            self.principalId = dictionary["PrincipalId"] as? String
-            self.statusMessage = dictionary["StatusMessage"] as? String
-            self.shareId = dictionary["ShareId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
+            case status = "Status"
+            case principalId = "PrincipalId"
+            case statusMessage = "StatusMessage"
+            case shareId = "ShareId"
         }
     }
 
     public struct GetDocumentVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean), 
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string)
         ]
         /// The version ID of the document.
         public let versionId: String
@@ -331,23 +314,20 @@ extension Workdocs {
             self.authenticationToken = authenticationToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
-            self.versionId = versionId
-            self.includeCustomMetadata = dictionary["includeCustomMetadata"] as? Bool
-            self.fields = dictionary["fields"] as? String
-            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
-            self.documentId = documentId
-            self.authenticationToken = dictionary["Authentication"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case versionId = "VersionId"
+            case includeCustomMetadata = "includeCustomMetadata"
+            case fields = "fields"
+            case documentId = "DocumentId"
+            case authenticationToken = "Authentication"
         }
     }
 
     public struct PermissionInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Role", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Role", required: false, type: .enum)
         ]
         /// The type of permissions.
         public let `type`: RolePermissionType?
@@ -359,19 +339,18 @@ extension Workdocs {
             self.role = role
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = RolePermissionType(rawValue: `type`) } else { self.`type` = nil }
-            if let role = dictionary["Role"] as? String { self.role = RoleType(rawValue: role) } else { self.role = nil }
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case role = "Role"
         }
     }
 
     public struct Subscription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubscriptionId", required: false, type: .string), 
-            AWSShapeProperty(label: "EndPoint", required: false, type: .string), 
-            AWSShapeProperty(label: "Protocol", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionId", required: false, type: .string), 
+            AWSShapeMember(label: "EndPoint", required: false, type: .string), 
+            AWSShapeMember(label: "Protocol", required: false, type: .enum)
         ]
         /// The ID of the subscription.
         public let subscriptionId: String?
@@ -386,20 +365,19 @@ extension Workdocs {
             self.`protocol` = `protocol`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subscriptionId = dictionary["SubscriptionId"] as? String
-            self.endPoint = dictionary["EndPoint"] as? String
-            if let `protocol` = dictionary["Protocol"] as? String { self.`protocol` = SubscriptionProtocolType(rawValue: `protocol`) } else { self.`protocol` = nil }
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionId = "SubscriptionId"
+            case endPoint = "EndPoint"
+            case `protocol` = "Protocol"
         }
     }
 
     public struct DescribeFolderContentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Documents", required: false, type: .list), 
-            AWSShapeProperty(label: "Folders", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Documents", required: false, type: .list), 
+            AWSShapeMember(label: "Folders", required: false, type: .list)
         ]
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
@@ -414,22 +392,14 @@ extension Workdocs {
             self.folders = folders
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let documents = dictionary["Documents"] as? [[String: Any]] {
-                self.documents = try documents.map({ try DocumentMetadata(dictionary: $0) })
-            } else { 
-                self.documents = nil
-            }
-            if let folders = dictionary["Folders"] as? [[String: Any]] {
-                self.folders = try folders.map({ try FolderMetadata(dictionary: $0) })
-            } else { 
-                self.folders = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case documents = "Documents"
+            case folders = "Folders"
         }
     }
 
-    public enum CommentStatusType: String, CustomStringConvertible {
+    public enum CommentStatusType: String, CustomStringConvertible, Codable {
         case draft = "DRAFT"
         case published = "PUBLISHED"
         case deleted = "DELETED"
@@ -438,9 +408,8 @@ extension Workdocs {
 
     public struct UpdateUserResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "User", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "User", required: false, type: .structure)
         ]
         /// The user information.
         public let user: User?
@@ -449,18 +418,17 @@ extension Workdocs {
             self.user = user
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Workdocs.User(dictionary: user) } else { self.user = nil }
+        private enum CodingKeys: String, CodingKey {
+            case user = "User"
         }
     }
 
     public struct DescribeUsersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Users", required: false, type: .list), 
-            AWSShapeProperty(label: "TotalNumberOfUsers", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Users", required: false, type: .list), 
+            AWSShapeMember(label: "TotalNumberOfUsers", required: false, type: .long)
         ]
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
@@ -475,23 +443,18 @@ extension Workdocs {
             self.totalNumberOfUsers = totalNumberOfUsers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let users = dictionary["Users"] as? [[String: Any]] {
-                self.users = try users.map({ try User(dictionary: $0) })
-            } else { 
-                self.users = nil
-            }
-            self.totalNumberOfUsers = dictionary["TotalNumberOfUsers"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case users = "Users"
+            case totalNumberOfUsers = "TotalNumberOfUsers"
         }
     }
 
     public struct ResourcePathComponent: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The name of the resource path.
         public let name: String?
@@ -503,32 +466,31 @@ extension Workdocs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case id = "Id"
         }
     }
 
     public struct CommentMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Contributor", required: false, type: .structure), 
-            AWSShapeProperty(label: "CommentStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "CommentId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "RecipientId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Contributor", required: false, type: .structure), 
+            AWSShapeMember(label: "CommentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "CommentId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RecipientId", required: false, type: .string)
         ]
         /// The user who made the comment.
         public let contributor: User?
         public let commentStatus: CommentStatusType?
         /// The ID of the comment.
         public let commentId: String?
-        public let createdTimestamp: String?
+        public let createdTimestamp: Double?
         /// The ID of the user being replied to.
         public let recipientId: String?
 
-        public init(contributor: User? = nil, commentStatus: CommentStatusType? = nil, commentId: String? = nil, createdTimestamp: String? = nil, recipientId: String? = nil) {
+        public init(contributor: User? = nil, commentStatus: CommentStatusType? = nil, commentId: String? = nil, createdTimestamp: Double? = nil, recipientId: String? = nil) {
             self.contributor = contributor
             self.commentStatus = commentStatus
             self.commentId = commentId
@@ -536,21 +498,20 @@ extension Workdocs {
             self.recipientId = recipientId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let contributor = dictionary["Contributor"] as? [String: Any] { self.contributor = try Workdocs.User(dictionary: contributor) } else { self.contributor = nil }
-            if let commentStatus = dictionary["CommentStatus"] as? String { self.commentStatus = CommentStatusType(rawValue: commentStatus) } else { self.commentStatus = nil }
-            self.commentId = dictionary["CommentId"] as? String
-            self.createdTimestamp = dictionary["CreatedTimestamp"] as? String
-            self.recipientId = dictionary["RecipientId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case contributor = "Contributor"
+            case commentStatus = "CommentStatus"
+            case commentId = "CommentId"
+            case createdTimestamp = "CreatedTimestamp"
+            case recipientId = "RecipientId"
         }
     }
 
     public struct DescribeResourcePermissionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Principals", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Principals", required: false, type: .list)
         ]
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
@@ -562,23 +523,18 @@ extension Workdocs {
             self.principals = principals
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let principals = dictionary["Principals"] as? [[String: Any]] {
-                self.principals = try principals.map({ try Principal(dictionary: $0) })
-            } else { 
-                self.principals = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case principals = "Principals"
         }
     }
 
     public struct CreateLabelsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "Labels", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Labels", required: true, type: .list)
         ]
         /// The ID of the resource.
         public let resourceId: String
@@ -593,21 +549,18 @@ extension Workdocs {
             self.labels = labels
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let labels = dictionary["Labels"] as? [String] else { throw InitializableError.missingRequiredParam("Labels") }
-            self.labels = labels
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case authenticationToken = "Authentication"
+            case labels = "Labels"
         }
     }
 
     public struct DeleteDocumentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
         ]
         /// Amazon WorkDocs authentication token. This field should not be set when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
@@ -619,14 +572,13 @@ extension Workdocs {
             self.documentId = documentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
-            self.documentId = documentId
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
         }
     }
 
-    public enum DocumentStatusType: String, CustomStringConvertible {
+    public enum DocumentStatusType: String, CustomStringConvertible, Codable {
         case initialized = "INITIALIZED"
         case active = "ACTIVE"
         public var description: String { return self.rawValue }
@@ -634,13 +586,12 @@ extension Workdocs {
 
     public struct UpdateDocumentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParentFolderId", required: false, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceState", required: false, type: .enum), 
-            AWSShapeProperty(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourceState", required: false, type: .enum), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The ID of the parent folder.
         public let parentFolderId: String?
@@ -661,17 +612,16 @@ extension Workdocs {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parentFolderId = dictionary["ParentFolderId"] as? String
-            self.authenticationToken = dictionary["Authentication"] as? String
-            if let resourceState = dictionary["ResourceState"] as? String { self.resourceState = ResourceStateType(rawValue: resourceState) } else { self.resourceState = nil }
-            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
-            self.documentId = documentId
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parentFolderId = "ParentFolderId"
+            case authenticationToken = "Authentication"
+            case resourceState = "ResourceState"
+            case documentId = "DocumentId"
+            case name = "Name"
         }
     }
 
-    public enum RolePermissionType: String, CustomStringConvertible {
+    public enum RolePermissionType: String, CustomStringConvertible, Codable {
         case direct = "DIRECT"
         case inherited = "INHERITED"
         public var description: String { return self.rawValue }
@@ -679,9 +629,8 @@ extension Workdocs {
 
     public struct AddResourcePermissionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShareResults", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShareResults", required: false, type: .list)
         ]
         /// The share results.
         public let shareResults: [ShareResult]?
@@ -690,32 +639,27 @@ extension Workdocs {
             self.shareResults = shareResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let shareResults = dictionary["ShareResults"] as? [[String: Any]] {
-                self.shareResults = try shareResults.map({ try ShareResult(dictionary: $0) })
-            } else { 
-                self.shareResults = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case shareResults = "ShareResults"
         }
     }
 
     public struct InitiateDocumentVersionUploadRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "ContentModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "ContentType", required: false, type: .string), 
-            AWSShapeProperty(label: "ParentFolderId", required: true, type: .string), 
-            AWSShapeProperty(label: "ContentCreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DocumentSizeInBytes", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "ContentModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ContentType", required: false, type: .string), 
+            AWSShapeMember(label: "ParentFolderId", required: true, type: .string), 
+            AWSShapeMember(label: "ContentCreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DocumentSizeInBytes", required: false, type: .long)
         ]
         /// The ID of the document.
         public let id: String?
         /// The time stamp when the content of the document was modified.
-        public let contentModifiedTimestamp: String?
+        public let contentModifiedTimestamp: Double?
         /// Amazon WorkDocs authentication token. This field should not be set when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The name of the document.
@@ -725,11 +669,11 @@ extension Workdocs {
         /// The ID of the parent folder.
         public let parentFolderId: String
         /// The time stamp when the content of the document was originally created.
-        public let contentCreatedTimestamp: String?
+        public let contentCreatedTimestamp: Double?
         /// The size of the document, in bytes.
         public let documentSizeInBytes: Int64?
 
-        public init(id: String? = nil, contentModifiedTimestamp: String? = nil, authenticationToken: String? = nil, name: String? = nil, contentType: String? = nil, parentFolderId: String, contentCreatedTimestamp: String? = nil, documentSizeInBytes: Int64? = nil) {
+        public init(id: String? = nil, contentModifiedTimestamp: Double? = nil, authenticationToken: String? = nil, name: String? = nil, contentType: String? = nil, parentFolderId: String, contentCreatedTimestamp: Double? = nil, documentSizeInBytes: Int64? = nil) {
             self.id = id
             self.contentModifiedTimestamp = contentModifiedTimestamp
             self.authenticationToken = authenticationToken
@@ -740,34 +684,32 @@ extension Workdocs {
             self.documentSizeInBytes = documentSizeInBytes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.id = dictionary["Id"] as? String
-            self.contentModifiedTimestamp = dictionary["ContentModifiedTimestamp"] as? String
-            self.authenticationToken = dictionary["Authentication"] as? String
-            self.name = dictionary["Name"] as? String
-            self.contentType = dictionary["ContentType"] as? String
-            guard let parentFolderId = dictionary["ParentFolderId"] as? String else { throw InitializableError.missingRequiredParam("ParentFolderId") }
-            self.parentFolderId = parentFolderId
-            self.contentCreatedTimestamp = dictionary["ContentCreatedTimestamp"] as? String
-            self.documentSizeInBytes = dictionary["DocumentSizeInBytes"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case contentModifiedTimestamp = "ContentModifiedTimestamp"
+            case authenticationToken = "Authentication"
+            case name = "Name"
+            case contentType = "ContentType"
+            case parentFolderId = "ParentFolderId"
+            case contentCreatedTimestamp = "ContentCreatedTimestamp"
+            case documentSizeInBytes = "DocumentSizeInBytes"
         }
     }
 
     public struct FolderMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Labels", required: false, type: .list), 
-            AWSShapeProperty(label: "ResourceState", required: false, type: .enum), 
-            AWSShapeProperty(label: "LatestVersionSize", required: false, type: .long), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Size", required: false, type: .long), 
-            AWSShapeProperty(label: "Signature", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatorId", required: false, type: .string), 
-            AWSShapeProperty(label: "ModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ParentFolderId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Labels", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceState", required: false, type: .enum), 
+            AWSShapeMember(label: "LatestVersionSize", required: false, type: .long), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Size", required: false, type: .long), 
+            AWSShapeMember(label: "Signature", required: false, type: .string), 
+            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
+            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// List of labels on the folder.
         public let labels: [String]?
@@ -784,15 +726,15 @@ extension Workdocs {
         /// The ID of the creator.
         public let creatorId: String?
         /// The time when the folder was updated.
-        public let modifiedTimestamp: String?
+        public let modifiedTimestamp: Double?
         /// The ID of the parent folder.
         public let parentFolderId: String?
         /// The time when the folder was created.
-        public let createdTimestamp: String?
+        public let createdTimestamp: Double?
         /// The ID of the folder.
         public let id: String?
 
-        public init(labels: [String]? = nil, resourceState: ResourceStateType? = nil, latestVersionSize: Int64? = nil, name: String? = nil, size: Int64? = nil, signature: String? = nil, creatorId: String? = nil, modifiedTimestamp: String? = nil, parentFolderId: String? = nil, createdTimestamp: String? = nil, id: String? = nil) {
+        public init(labels: [String]? = nil, resourceState: ResourceStateType? = nil, latestVersionSize: Int64? = nil, name: String? = nil, size: Int64? = nil, signature: String? = nil, creatorId: String? = nil, modifiedTimestamp: Double? = nil, parentFolderId: String? = nil, createdTimestamp: Double? = nil, id: String? = nil) {
             self.labels = labels
             self.resourceState = resourceState
             self.latestVersionSize = latestVersionSize
@@ -806,27 +748,26 @@ extension Workdocs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.labels = dictionary["Labels"] as? [String]
-            if let resourceState = dictionary["ResourceState"] as? String { self.resourceState = ResourceStateType(rawValue: resourceState) } else { self.resourceState = nil }
-            self.latestVersionSize = dictionary["LatestVersionSize"] as? Int64
-            self.name = dictionary["Name"] as? String
-            self.size = dictionary["Size"] as? Int64
-            self.signature = dictionary["Signature"] as? String
-            self.creatorId = dictionary["CreatorId"] as? String
-            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? String
-            self.parentFolderId = dictionary["ParentFolderId"] as? String
-            self.createdTimestamp = dictionary["CreatedTimestamp"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case labels = "Labels"
+            case resourceState = "ResourceState"
+            case latestVersionSize = "LatestVersionSize"
+            case name = "Name"
+            case size = "Size"
+            case signature = "Signature"
+            case creatorId = "CreatorId"
+            case modifiedTimestamp = "ModifiedTimestamp"
+            case parentFolderId = "ParentFolderId"
+            case createdTimestamp = "CreatedTimestamp"
+            case id = "Id"
         }
     }
 
     public struct DescribeActivitiesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "UserActivities", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "UserActivities", required: false, type: .list)
         ]
         /// The marker for the next set of results.
         public let marker: String?
@@ -838,44 +779,39 @@ extension Workdocs {
             self.userActivities = userActivities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let userActivities = dictionary["UserActivities"] as? [[String: Any]] {
-                self.userActivities = try userActivities.map({ try Activity(dictionary: $0) })
-            } else { 
-                self.userActivities = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case userActivities = "UserActivities"
         }
     }
 
     public struct DocumentVersionMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ContentModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Signature", required: false, type: .string), 
-            AWSShapeProperty(label: "ModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Source", required: false, type: .map), 
-            AWSShapeProperty(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Size", required: false, type: .long), 
-            AWSShapeProperty(label: "ContentType", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatorId", required: false, type: .string), 
-            AWSShapeProperty(label: "Thumbnail", required: false, type: .map), 
-            AWSShapeProperty(label: "ContentCreatedTimestamp", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Signature", required: false, type: .string), 
+            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Source", required: false, type: .map), 
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Size", required: false, type: .long), 
+            AWSShapeMember(label: "ContentType", required: false, type: .string), 
+            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
+            AWSShapeMember(label: "Thumbnail", required: false, type: .map), 
+            AWSShapeMember(label: "ContentCreatedTimestamp", required: false, type: .timestamp)
         ]
         /// The time stamp when the content of the document was modified.
-        public let contentModifiedTimestamp: String?
+        public let contentModifiedTimestamp: Double?
         /// The signature of the document.
         public let signature: String?
         /// The time stamp when the document was last uploaded.
-        public let modifiedTimestamp: String?
+        public let modifiedTimestamp: Double?
         /// The source of the document.
         public let source: [DocumentSourceType: String]?
         /// The time stamp when the document was first uploaded.
-        public let createdTimestamp: String?
+        public let createdTimestamp: Double?
         /// The ID of the version.
         public let id: String?
         /// The status of the document.
@@ -891,9 +827,9 @@ extension Workdocs {
         /// The thumbnail of the document.
         public let thumbnail: [DocumentThumbnailType: String]?
         /// The time stamp when the content of the document was originally created.
-        public let contentCreatedTimestamp: String?
+        public let contentCreatedTimestamp: Double?
 
-        public init(contentModifiedTimestamp: String? = nil, signature: String? = nil, modifiedTimestamp: String? = nil, source: [DocumentSourceType: String]? = nil, createdTimestamp: String? = nil, id: String? = nil, status: DocumentStatusType? = nil, name: String? = nil, size: Int64? = nil, contentType: String? = nil, creatorId: String? = nil, thumbnail: [DocumentThumbnailType: String]? = nil, contentCreatedTimestamp: String? = nil) {
+        public init(contentModifiedTimestamp: Double? = nil, signature: String? = nil, modifiedTimestamp: Double? = nil, source: [DocumentSourceType: String]? = nil, createdTimestamp: Double? = nil, id: String? = nil, status: DocumentStatusType? = nil, name: String? = nil, size: Int64? = nil, contentType: String? = nil, creatorId: String? = nil, thumbnail: [DocumentThumbnailType: String]? = nil, contentCreatedTimestamp: Double? = nil) {
             self.contentModifiedTimestamp = contentModifiedTimestamp
             self.signature = signature
             self.modifiedTimestamp = modifiedTimestamp
@@ -909,37 +845,28 @@ extension Workdocs {
             self.contentCreatedTimestamp = contentCreatedTimestamp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.contentModifiedTimestamp = dictionary["ContentModifiedTimestamp"] as? String
-            self.signature = dictionary["Signature"] as? String
-            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? String
-            if let source = dictionary["Source"] as? [DocumentSourceType: String] {
-                self.source = source
-            } else { 
-                self.source = nil
-            }
-            self.createdTimestamp = dictionary["CreatedTimestamp"] as? String
-            self.id = dictionary["Id"] as? String
-            if let status = dictionary["Status"] as? String { self.status = DocumentStatusType(rawValue: status) } else { self.status = nil }
-            self.name = dictionary["Name"] as? String
-            self.size = dictionary["Size"] as? Int64
-            self.contentType = dictionary["ContentType"] as? String
-            self.creatorId = dictionary["CreatorId"] as? String
-            if let thumbnail = dictionary["Thumbnail"] as? [DocumentThumbnailType: String] {
-                self.thumbnail = thumbnail
-            } else { 
-                self.thumbnail = nil
-            }
-            self.contentCreatedTimestamp = dictionary["ContentCreatedTimestamp"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case contentModifiedTimestamp = "ContentModifiedTimestamp"
+            case signature = "Signature"
+            case modifiedTimestamp = "ModifiedTimestamp"
+            case source = "Source"
+            case createdTimestamp = "CreatedTimestamp"
+            case id = "Id"
+            case status = "Status"
+            case name = "Name"
+            case size = "Size"
+            case contentType = "ContentType"
+            case creatorId = "CreatorId"
+            case thumbnail = "Thumbnail"
+            case contentCreatedTimestamp = "ContentCreatedTimestamp"
         }
     }
 
     public struct UserStorageMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StorageRule", required: false, type: .structure), 
-            AWSShapeProperty(label: "StorageUtilizedInBytes", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StorageRule", required: false, type: .structure), 
+            AWSShapeMember(label: "StorageUtilizedInBytes", required: false, type: .long)
         ]
         /// The storage for a user.
         public let storageRule: StorageRuleType?
@@ -951,21 +878,20 @@ extension Workdocs {
             self.storageUtilizedInBytes = storageUtilizedInBytes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let storageRule = dictionary["StorageRule"] as? [String: Any] { self.storageRule = try Workdocs.StorageRuleType(dictionary: storageRule) } else { self.storageRule = nil }
-            self.storageUtilizedInBytes = dictionary["StorageUtilizedInBytes"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case storageRule = "StorageRule"
+            case storageUtilizedInBytes = "StorageUtilizedInBytes"
         }
     }
 
     public struct UserMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EmailAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "Surname", required: false, type: .string), 
-            AWSShapeProperty(label: "Username", required: false, type: .string), 
-            AWSShapeProperty(label: "GivenName", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "Surname", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "GivenName", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The email address of the user.
         public let emailAddress: String?
@@ -986,22 +912,21 @@ extension Workdocs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.emailAddress = dictionary["EmailAddress"] as? String
-            self.surname = dictionary["Surname"] as? String
-            self.username = dictionary["Username"] as? String
-            self.givenName = dictionary["GivenName"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case emailAddress = "EmailAddress"
+            case surname = "Surname"
+            case username = "Username"
+            case givenName = "GivenName"
+            case id = "Id"
         }
     }
 
     public struct GetDocumentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
         ]
         /// Set this to TRUE to include custom metadata in the response.
         public let includeCustomMetadata: Bool?
@@ -1016,19 +941,17 @@ extension Workdocs {
             self.documentId = documentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.includeCustomMetadata = dictionary["includeCustomMetadata"] as? Bool
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
-            self.documentId = documentId
+        private enum CodingKeys: String, CodingKey {
+            case includeCustomMetadata = "includeCustomMetadata"
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
         }
     }
 
     public struct GetFolderPathResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Path", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .structure)
         ]
         /// The path information.
         public let path: ResourcePath?
@@ -1037,12 +960,12 @@ extension Workdocs {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let path = dictionary["Path"] as? [String: Any] { self.path = try Workdocs.ResourcePath(dictionary: path) } else { self.path = nil }
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
         }
     }
 
-    public enum PrincipalType: String, CustomStringConvertible {
+    public enum PrincipalType: String, CustomStringConvertible, Codable {
         case user = "USER"
         case group = "GROUP"
         case invite = "INVITE"
@@ -1053,10 +976,9 @@ extension Workdocs {
 
     public struct GetFolderResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Metadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomMetadata", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomMetadata", required: false, type: .map)
         ]
         /// The metadata of the folder.
         public let metadata: FolderMetadata?
@@ -1068,31 +990,23 @@ extension Workdocs {
             self.customMetadata = customMetadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.FolderMetadata(dictionary: metadata) } else { self.metadata = nil }
-            if let customMetadata = dictionary["CustomMetadata"] as? [String: String] {
-                self.customMetadata = customMetadata
-            } else { 
-                self.customMetadata = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case customMetadata = "CustomMetadata"
         }
     }
 
     public struct CreateCustomMetadataResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeRootFoldersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: true, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
         ]
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
@@ -1107,26 +1021,25 @@ extension Workdocs {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            guard let authenticationToken = dictionary["Authentication"] as? String else { throw InitializableError.missingRequiredParam("Authentication") }
-            self.authenticationToken = authenticationToken
-            self.limit = dictionary["limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "marker"
+            case authenticationToken = "Authentication"
+            case limit = "limit"
         }
     }
 
-    public enum DocumentSourceType: String, CustomStringConvertible {
+    public enum DocumentSourceType: String, CustomStringConvertible, Codable {
         case original = "ORIGINAL"
         case with_comments = "WITH_COMMENTS"
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentVersionStatus: String, CustomStringConvertible {
+    public enum DocumentVersionStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible {
+    public enum ResourceType: String, CustomStringConvertible, Codable {
         case folder = "FOLDER"
         case document = "DOCUMENT"
         public var description: String { return self.rawValue }
@@ -1134,16 +1047,15 @@ extension Workdocs {
 
     public struct Activity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OriginalParent", required: false, type: .structure), 
-            AWSShapeProperty(label: "CommentMetadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourceMetadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "Initiator", required: false, type: .structure), 
-            AWSShapeProperty(label: "TimeStamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Participants", required: false, type: .structure), 
-            AWSShapeProperty(label: "OrganizationId", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginalParent", required: false, type: .structure), 
+            AWSShapeMember(label: "CommentMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "Initiator", required: false, type: .structure), 
+            AWSShapeMember(label: "TimeStamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Participants", required: false, type: .structure), 
+            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
         /// The original parent of the resource. This is an optional field and is filled for move activities.
         public let originalParent: ResourceMetadata?
@@ -1154,7 +1066,7 @@ extension Workdocs {
         /// The user who performed the action.
         public let initiator: UserMetadata?
         /// The timestamp when the action was performed.
-        public let timeStamp: String?
+        public let timeStamp: Double?
         /// The list of users or groups impacted by this action. This is an optional field and is filled for the following sharing activities: DOCUMENT_SHARED, DOCUMENT_SHARED, DOCUMENT_UNSHARED, FOLDER_SHARED, FOLDER_UNSHARED.
         public let participants: Participants?
         /// The ID of the organization.
@@ -1162,7 +1074,7 @@ extension Workdocs {
         /// The activity type.
         public let `type`: ActivityType?
 
-        public init(originalParent: ResourceMetadata? = nil, commentMetadata: CommentMetadata? = nil, resourceMetadata: ResourceMetadata? = nil, initiator: UserMetadata? = nil, timeStamp: String? = nil, participants: Participants? = nil, organizationId: String? = nil, type: ActivityType? = nil) {
+        public init(originalParent: ResourceMetadata? = nil, commentMetadata: CommentMetadata? = nil, resourceMetadata: ResourceMetadata? = nil, initiator: UserMetadata? = nil, timeStamp: Double? = nil, participants: Participants? = nil, organizationId: String? = nil, type: ActivityType? = nil) {
             self.originalParent = originalParent
             self.commentMetadata = commentMetadata
             self.resourceMetadata = resourceMetadata
@@ -1173,31 +1085,30 @@ extension Workdocs {
             self.`type` = `type`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let originalParent = dictionary["OriginalParent"] as? [String: Any] { self.originalParent = try Workdocs.ResourceMetadata(dictionary: originalParent) } else { self.originalParent = nil }
-            if let commentMetadata = dictionary["CommentMetadata"] as? [String: Any] { self.commentMetadata = try Workdocs.CommentMetadata(dictionary: commentMetadata) } else { self.commentMetadata = nil }
-            if let resourceMetadata = dictionary["ResourceMetadata"] as? [String: Any] { self.resourceMetadata = try Workdocs.ResourceMetadata(dictionary: resourceMetadata) } else { self.resourceMetadata = nil }
-            if let initiator = dictionary["Initiator"] as? [String: Any] { self.initiator = try Workdocs.UserMetadata(dictionary: initiator) } else { self.initiator = nil }
-            self.timeStamp = dictionary["TimeStamp"] as? String
-            if let participants = dictionary["Participants"] as? [String: Any] { self.participants = try Workdocs.Participants(dictionary: participants) } else { self.participants = nil }
-            self.organizationId = dictionary["OrganizationId"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = ActivityType(rawValue: `type`) } else { self.`type` = nil }
+        private enum CodingKeys: String, CodingKey {
+            case originalParent = "OriginalParent"
+            case commentMetadata = "CommentMetadata"
+            case resourceMetadata = "ResourceMetadata"
+            case initiator = "Initiator"
+            case timeStamp = "TimeStamp"
+            case participants = "Participants"
+            case organizationId = "OrganizationId"
+            case `type` = "Type"
         }
     }
 
     public struct CreateUserRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EmailAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "TimeZoneId", required: false, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "GivenName", required: true, type: .string), 
-            AWSShapeProperty(label: "Username", required: true, type: .string), 
-            AWSShapeProperty(label: "Surname", required: true, type: .string), 
-            AWSShapeProperty(label: "OrganizationId", required: false, type: .string), 
-            AWSShapeProperty(label: "Password", required: true, type: .string), 
-            AWSShapeProperty(label: "StorageRule", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "TimeZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "GivenName", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "Surname", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "StorageRule", required: false, type: .structure)
         ]
         /// The email address of the user.
         public let emailAddress: String?
@@ -1230,28 +1141,23 @@ extension Workdocs {
             self.storageRule = storageRule
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.emailAddress = dictionary["EmailAddress"] as? String
-            self.timeZoneId = dictionary["TimeZoneId"] as? String
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let givenName = dictionary["GivenName"] as? String else { throw InitializableError.missingRequiredParam("GivenName") }
-            self.givenName = givenName
-            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
-            self.username = username
-            guard let surname = dictionary["Surname"] as? String else { throw InitializableError.missingRequiredParam("Surname") }
-            self.surname = surname
-            self.organizationId = dictionary["OrganizationId"] as? String
-            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
-            self.password = password
-            if let storageRule = dictionary["StorageRule"] as? [String: Any] { self.storageRule = try Workdocs.StorageRuleType(dictionary: storageRule) } else { self.storageRule = nil }
+        private enum CodingKeys: String, CodingKey {
+            case emailAddress = "EmailAddress"
+            case timeZoneId = "TimeZoneId"
+            case authenticationToken = "Authentication"
+            case givenName = "GivenName"
+            case username = "Username"
+            case surname = "Surname"
+            case organizationId = "OrganizationId"
+            case password = "Password"
+            case storageRule = "StorageRule"
         }
     }
 
     public struct ActivateUserResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "User", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "User", required: false, type: .structure)
         ]
         /// The user information.
         public let user: User?
@@ -1260,18 +1166,17 @@ extension Workdocs {
             self.user = user
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Workdocs.User(dictionary: user) } else { self.user = nil }
+        private enum CodingKeys: String, CodingKey {
+            case user = "User"
         }
     }
 
     public struct GetFolderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IncludeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"), required: false, type: .boolean), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
         ]
         /// Set to TRUE to include custom metadata in the response.
         public let includeCustomMetadata: Bool?
@@ -1286,25 +1191,23 @@ extension Workdocs {
             self.folderId = folderId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.includeCustomMetadata = dictionary["includeCustomMetadata"] as? Bool
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let folderId = dictionary["FolderId"] as? String else { throw InitializableError.missingRequiredParam("FolderId") }
-            self.folderId = folderId
+        private enum CodingKeys: String, CodingKey {
+            case includeCustomMetadata = "includeCustomMetadata"
+            case authenticationToken = "Authentication"
+            case folderId = "FolderId"
         }
     }
 
     public struct ResourceMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParentId", required: false, type: .string), 
-            AWSShapeProperty(label: "OriginalName", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "Owner", required: false, type: .structure), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParentId", required: false, type: .string), 
+            AWSShapeMember(label: "OriginalName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .structure), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The parent ID of the resource before a rename operation.
         public let parentId: String?
@@ -1331,23 +1234,22 @@ extension Workdocs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parentId = dictionary["ParentId"] as? String
-            self.originalName = dictionary["OriginalName"] as? String
-            self.name = dictionary["Name"] as? String
-            self.versionId = dictionary["VersionId"] as? String
-            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try Workdocs.UserMetadata(dictionary: owner) } else { self.owner = nil }
-            if let `type` = dictionary["Type"] as? String { self.`type` = ResourceType(rawValue: `type`) } else { self.`type` = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parentId = "ParentId"
+            case originalName = "OriginalName"
+            case name = "Name"
+            case versionId = "VersionId"
+            case owner = "Owner"
+            case `type` = "Type"
+            case id = "Id"
         }
     }
 
     public struct GetDocumentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Metadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomMetadata", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomMetadata", required: false, type: .map)
         ]
         /// The metadata details of the document.
         public let metadata: DocumentMetadata?
@@ -1359,25 +1261,20 @@ extension Workdocs {
             self.customMetadata = customMetadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.DocumentMetadata(dictionary: metadata) } else { self.metadata = nil }
-            if let customMetadata = dictionary["CustomMetadata"] as? [String: String] {
-                self.customMetadata = customMetadata
-            } else { 
-                self.customMetadata = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case customMetadata = "CustomMetadata"
         }
     }
 
     public struct DescribeCommentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
         ]
         /// The ID of the document version.
         public let versionId: String
@@ -1398,18 +1295,16 @@ extension Workdocs {
             self.documentId = documentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
-            self.versionId = versionId
-            self.authenticationToken = dictionary["Authentication"] as? String
-            self.limit = dictionary["limit"] as? Int32
-            self.marker = dictionary["marker"] as? String
-            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
-            self.documentId = documentId
+        private enum CodingKeys: String, CodingKey {
+            case versionId = "VersionId"
+            case authenticationToken = "Authentication"
+            case limit = "limit"
+            case marker = "marker"
+            case documentId = "DocumentId"
         }
     }
 
-    public enum OrderType: String, CustomStringConvertible {
+    public enum OrderType: String, CustomStringConvertible, Codable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
@@ -1417,11 +1312,10 @@ extension Workdocs {
 
     public struct AddResourcePermissionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "Principals", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Principals", required: true, type: .list)
         ]
         /// The ID of the resource.
         public let resourceId: String
@@ -1436,21 +1330,18 @@ extension Workdocs {
             self.principals = principals
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let principals = dictionary["Principals"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Principals") }
-            self.principals = try principals.map({ try SharePrincipal(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case authenticationToken = "Authentication"
+            case principals = "Principals"
         }
     }
 
     public struct DeleteUserRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
         /// Amazon WorkDocs authentication token. This field should not be set when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
@@ -1462,26 +1353,24 @@ extension Workdocs {
             self.userId = userId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
-            self.userId = userId
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case userId = "UserId"
         }
     }
 
     public struct Comment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Contributor", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "ParentId", required: false, type: .string), 
-            AWSShapeProperty(label: "CommentId", required: true, type: .string), 
-            AWSShapeProperty(label: "ThreadId", required: false, type: .string), 
-            AWSShapeProperty(label: "Text", required: false, type: .string), 
-            AWSShapeProperty(label: "Visibility", required: false, type: .enum), 
-            AWSShapeProperty(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "RecipientId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Contributor", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ParentId", required: false, type: .string), 
+            AWSShapeMember(label: "CommentId", required: true, type: .string), 
+            AWSShapeMember(label: "ThreadId", required: false, type: .string), 
+            AWSShapeMember(label: "Text", required: false, type: .string), 
+            AWSShapeMember(label: "Visibility", required: false, type: .enum), 
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RecipientId", required: false, type: .string)
         ]
         /// The details of the user who made the comment.
         public let contributor: User?
@@ -1498,11 +1387,11 @@ extension Workdocs {
         /// The visibility of the comment. Options are either PRIVATE, where the comment is visible only to the comment author and document owner and co-owners, or PUBLIC, where the comment is visible to document owners, co-owners, and contributors.
         public let visibility: CommentVisibilityType?
         /// The time that the comment was created.
-        public let createdTimestamp: String?
+        public let createdTimestamp: Double?
         /// If the comment is a reply to another user's comment, this field contains the user ID of the user being replied to.
         public let recipientId: String?
 
-        public init(contributor: User? = nil, status: CommentStatusType? = nil, parentId: String? = nil, commentId: String, threadId: String? = nil, text: String? = nil, visibility: CommentVisibilityType? = nil, createdTimestamp: String? = nil, recipientId: String? = nil) {
+        public init(contributor: User? = nil, status: CommentStatusType? = nil, parentId: String? = nil, commentId: String, threadId: String? = nil, text: String? = nil, visibility: CommentVisibilityType? = nil, createdTimestamp: Double? = nil, recipientId: String? = nil) {
             self.contributor = contributor
             self.status = status
             self.parentId = parentId
@@ -1514,25 +1403,23 @@ extension Workdocs {
             self.recipientId = recipientId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let contributor = dictionary["Contributor"] as? [String: Any] { self.contributor = try Workdocs.User(dictionary: contributor) } else { self.contributor = nil }
-            if let status = dictionary["Status"] as? String { self.status = CommentStatusType(rawValue: status) } else { self.status = nil }
-            self.parentId = dictionary["ParentId"] as? String
-            guard let commentId = dictionary["CommentId"] as? String else { throw InitializableError.missingRequiredParam("CommentId") }
-            self.commentId = commentId
-            self.threadId = dictionary["ThreadId"] as? String
-            self.text = dictionary["Text"] as? String
-            if let visibility = dictionary["Visibility"] as? String { self.visibility = CommentVisibilityType(rawValue: visibility) } else { self.visibility = nil }
-            self.createdTimestamp = dictionary["CreatedTimestamp"] as? String
-            self.recipientId = dictionary["RecipientId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case contributor = "Contributor"
+            case status = "Status"
+            case parentId = "ParentId"
+            case commentId = "CommentId"
+            case threadId = "ThreadId"
+            case text = "Text"
+            case visibility = "Visibility"
+            case createdTimestamp = "CreatedTimestamp"
+            case recipientId = "RecipientId"
         }
     }
 
     public struct CreateNotificationSubscriptionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subscription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subscription", required: false, type: .structure)
         ]
         /// The subscription.
         public let subscription: Subscription?
@@ -1541,17 +1428,16 @@ extension Workdocs {
             self.subscription = subscription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let subscription = dictionary["Subscription"] as? [String: Any] { self.subscription = try Workdocs.Subscription(dictionary: subscription) } else { self.subscription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case subscription = "Subscription"
         }
     }
 
     public struct UploadMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UploadUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "SignedHeaders", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UploadUrl", required: false, type: .string), 
+            AWSShapeMember(label: "SignedHeaders", required: false, type: .map)
         ]
         /// The URL of the upload.
         public let uploadUrl: String?
@@ -1563,25 +1449,20 @@ extension Workdocs {
             self.signedHeaders = signedHeaders
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.uploadUrl = dictionary["UploadUrl"] as? String
-            if let signedHeaders = dictionary["SignedHeaders"] as? [String: String] {
-                self.signedHeaders = signedHeaders
-            } else { 
-                self.signedHeaders = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case uploadUrl = "UploadUrl"
+            case signedHeaders = "SignedHeaders"
         }
     }
 
     public struct UpdateFolderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParentFolderId", required: false, type: .string), 
-            AWSShapeProperty(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceState", required: false, type: .enum), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
+            AWSShapeMember(label: "ResourceState", required: false, type: .enum), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The ID of the parent folder.
         public let parentFolderId: String?
@@ -1602,23 +1483,21 @@ extension Workdocs {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parentFolderId = dictionary["ParentFolderId"] as? String
-            guard let folderId = dictionary["FolderId"] as? String else { throw InitializableError.missingRequiredParam("FolderId") }
-            self.folderId = folderId
-            if let resourceState = dictionary["ResourceState"] as? String { self.resourceState = ResourceStateType(rawValue: resourceState) } else { self.resourceState = nil }
-            self.authenticationToken = dictionary["Authentication"] as? String
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parentFolderId = "ParentFolderId"
+            case folderId = "FolderId"
+            case resourceState = "ResourceState"
+            case authenticationToken = "Authentication"
+            case name = "Name"
         }
     }
 
     public struct DescribeNotificationSubscriptionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
         ]
         /// The ID of the organization.
         public let organizationId: String
@@ -1633,15 +1512,14 @@ extension Workdocs {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let organizationId = dictionary["OrganizationId"] as? String else { throw InitializableError.missingRequiredParam("OrganizationId") }
-            self.organizationId = organizationId
-            self.marker = dictionary["marker"] as? String
-            self.limit = dictionary["limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case marker = "marker"
+            case limit = "limit"
         }
     }
 
-    public enum LocaleType: String, CustomStringConvertible {
+    public enum LocaleType: String, CustomStringConvertible, Codable {
         case en = "en"
         case fr = "fr"
         case ko = "ko"
@@ -1658,12 +1536,11 @@ extension Workdocs {
 
     public struct CreateCustomMetadataRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionId", location: .querystring(locationName: "versionid"), required: false, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeProperty(label: "CustomMetadata", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionid"), required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "CustomMetadata", required: true, type: .map)
         ]
         /// The ID of the version, if the custom metadata is being added to a document version.
         public let versionId: String?
@@ -1681,22 +1558,19 @@ extension Workdocs {
             self.customMetadata = customMetadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.versionId = dictionary["versionid"] as? String
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let customMetadata = dictionary["CustomMetadata"] as? [String: String] else { throw InitializableError.missingRequiredParam("CustomMetadata") }
-            self.customMetadata = customMetadata
+        private enum CodingKeys: String, CodingKey {
+            case versionId = "versionid"
+            case authenticationToken = "Authentication"
+            case resourceId = "ResourceId"
+            case customMetadata = "CustomMetadata"
         }
     }
 
     public struct Participants: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Users", required: false, type: .list), 
-            AWSShapeProperty(label: "Groups", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Users", required: false, type: .list), 
+            AWSShapeMember(label: "Groups", required: false, type: .list)
         ]
         /// The list of users.
         public let users: [UserMetadata]?
@@ -1708,26 +1582,17 @@ extension Workdocs {
             self.groups = groups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let users = dictionary["Users"] as? [[String: Any]] {
-                self.users = try users.map({ try UserMetadata(dictionary: $0) })
-            } else { 
-                self.users = nil
-            }
-            if let groups = dictionary["Groups"] as? [[String: Any]] {
-                self.groups = try groups.map({ try GroupMetadata(dictionary: $0) })
-            } else { 
-                self.groups = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case users = "Users"
+            case groups = "Groups"
         }
     }
 
     public struct RemoveAllResourcePermissionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string)
         ]
         /// The ID of the resource.
         public let resourceId: String
@@ -1739,25 +1604,23 @@ extension Workdocs {
             self.authenticationToken = authenticationToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            self.authenticationToken = dictionary["Authentication"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case authenticationToken = "Authentication"
         }
     }
 
     public struct UpdateUserRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Locale", required: false, type: .enum), 
-            AWSShapeProperty(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string), 
-            AWSShapeProperty(label: "GivenName", required: false, type: .string), 
-            AWSShapeProperty(label: "TimeZoneId", required: false, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "Surname", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "StorageRule", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Locale", required: false, type: .enum), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string), 
+            AWSShapeMember(label: "GivenName", required: false, type: .string), 
+            AWSShapeMember(label: "TimeZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Surname", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "StorageRule", required: false, type: .structure)
         ]
         /// The locale of the user.
         public let locale: LocaleType?
@@ -1787,20 +1650,19 @@ extension Workdocs {
             self.storageRule = storageRule
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let locale = dictionary["Locale"] as? String { self.locale = LocaleType(rawValue: locale) } else { self.locale = nil }
-            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
-            self.userId = userId
-            self.givenName = dictionary["GivenName"] as? String
-            self.timeZoneId = dictionary["TimeZoneId"] as? String
-            self.authenticationToken = dictionary["Authentication"] as? String
-            self.surname = dictionary["Surname"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = UserType(rawValue: `type`) } else { self.`type` = nil }
-            if let storageRule = dictionary["StorageRule"] as? [String: Any] { self.storageRule = try Workdocs.StorageRuleType(dictionary: storageRule) } else { self.storageRule = nil }
+        private enum CodingKeys: String, CodingKey {
+            case locale = "Locale"
+            case userId = "UserId"
+            case givenName = "GivenName"
+            case timeZoneId = "TimeZoneId"
+            case authenticationToken = "Authentication"
+            case surname = "Surname"
+            case `type` = "Type"
+            case storageRule = "StorageRule"
         }
     }
 
-    public enum CommentVisibilityType: String, CustomStringConvertible {
+    public enum CommentVisibilityType: String, CustomStringConvertible, Codable {
         case `public` = "PUBLIC"
         case `private` = "PRIVATE"
         public var description: String { return self.rawValue }
@@ -1808,9 +1670,8 @@ extension Workdocs {
 
     public struct GetDocumentPathResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Path", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .structure)
         ]
         /// The path information.
         public let path: ResourcePath?
@@ -1819,17 +1680,16 @@ extension Workdocs {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let path = dictionary["Path"] as? [String: Any] { self.path = try Workdocs.ResourcePath(dictionary: path) } else { self.path = nil }
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
         }
     }
 
     public struct DeleteFolderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
         ]
         /// Amazon WorkDocs authentication token. This field should not be set when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
@@ -1841,22 +1701,20 @@ extension Workdocs {
             self.folderId = folderId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let folderId = dictionary["FolderId"] as? String else { throw InitializableError.missingRequiredParam("FolderId") }
-            self.folderId = folderId
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case folderId = "FolderId"
         }
     }
 
     public struct DeleteCustomMetadataRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Keys", location: .querystring(locationName: "keys"), required: false, type: .list), 
-            AWSShapeProperty(label: "DeleteAll", location: .querystring(locationName: "deleteAll"), required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "Keys", location: .querystring(locationName: "keys"), required: false, type: .list), 
+            AWSShapeMember(label: "DeleteAll", location: .querystring(locationName: "deleteAll"), required: false, type: .boolean)
         ]
         /// The ID of the version, if the custom metadata is being deleted from a document version.
         public let versionId: String?
@@ -1877,21 +1735,19 @@ extension Workdocs {
             self.deleteAll = deleteAll
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.versionId = dictionary["versionId"] as? String
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            self.keys = dictionary["keys"] as? [String]
-            self.deleteAll = dictionary["deleteAll"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case versionId = "versionId"
+            case authenticationToken = "Authentication"
+            case resourceId = "ResourceId"
+            case keys = "keys"
+            case deleteAll = "deleteAll"
         }
     }
 
     public struct GetCurrentUserResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "User", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "User", required: false, type: .structure)
         ]
         /// Metadata of the user.
         public let user: User?
@@ -1900,18 +1756,17 @@ extension Workdocs {
             self.user = user
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Workdocs.User(dictionary: user) } else { self.user = nil }
+        private enum CodingKeys: String, CodingKey {
+            case user = "User"
         }
     }
 
     public struct CreateFolderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParentFolderId", required: true, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParentFolderId", required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The ID of the parent folder.
         public let parentFolderId: String
@@ -1926,22 +1781,20 @@ extension Workdocs {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let parentFolderId = dictionary["ParentFolderId"] as? String else { throw InitializableError.missingRequiredParam("ParentFolderId") }
-            self.parentFolderId = parentFolderId
-            self.authenticationToken = dictionary["Authentication"] as? String
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parentFolderId = "ParentFolderId"
+            case authenticationToken = "Authentication"
+            case name = "Name"
         }
     }
 
     public struct DeleteLabelsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "Labels", location: .querystring(locationName: "labels"), required: false, type: .list), 
-            AWSShapeProperty(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeProperty(label: "DeleteAll", location: .querystring(locationName: "deleteAll"), required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Labels", location: .querystring(locationName: "labels"), required: false, type: .list), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "DeleteAll", location: .querystring(locationName: "deleteAll"), required: false, type: .boolean)
         ]
         /// Amazon WorkDocs authentication token. This field should not be set when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
@@ -1959,16 +1812,15 @@ extension Workdocs {
             self.deleteAll = deleteAll
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.authenticationToken = dictionary["Authentication"] as? String
-            self.labels = dictionary["labels"] as? [String]
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            self.deleteAll = dictionary["deleteAll"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case labels = "labels"
+            case resourceId = "ResourceId"
+            case deleteAll = "deleteAll"
         }
     }
 
-    public enum ResourceStateType: String, CustomStringConvertible {
+    public enum ResourceStateType: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case restoring = "RESTORING"
         case recycling = "RECYCLING"
@@ -1978,16 +1830,15 @@ extension Workdocs {
 
     public struct DocumentMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Labels", required: false, type: .list), 
-            AWSShapeProperty(label: "ResourceState", required: false, type: .enum), 
-            AWSShapeProperty(label: "CreatorId", required: false, type: .string), 
-            AWSShapeProperty(label: "ModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ParentFolderId", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionMetadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Labels", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceState", required: false, type: .enum), 
+            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
+            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ParentFolderId", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// List of labels on the document.
         public let labels: [String]?
@@ -1996,17 +1847,17 @@ extension Workdocs {
         /// The ID of the creator.
         public let creatorId: String?
         /// The time when the document was updated.
-        public let modifiedTimestamp: String?
+        public let modifiedTimestamp: Double?
         /// The ID of the parent folder.
         public let parentFolderId: String?
         /// The latest version of the document.
         public let latestVersionMetadata: DocumentVersionMetadata?
         /// The time when the document was created.
-        public let createdTimestamp: String?
+        public let createdTimestamp: Double?
         /// The ID of the document.
         public let id: String?
 
-        public init(labels: [String]? = nil, resourceState: ResourceStateType? = nil, creatorId: String? = nil, modifiedTimestamp: String? = nil, parentFolderId: String? = nil, latestVersionMetadata: DocumentVersionMetadata? = nil, createdTimestamp: String? = nil, id: String? = nil) {
+        public init(labels: [String]? = nil, resourceState: ResourceStateType? = nil, creatorId: String? = nil, modifiedTimestamp: Double? = nil, parentFolderId: String? = nil, latestVersionMetadata: DocumentVersionMetadata? = nil, createdTimestamp: Double? = nil, id: String? = nil) {
             self.labels = labels
             self.resourceState = resourceState
             self.creatorId = creatorId
@@ -2017,31 +1868,30 @@ extension Workdocs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.labels = dictionary["Labels"] as? [String]
-            if let resourceState = dictionary["ResourceState"] as? String { self.resourceState = ResourceStateType(rawValue: resourceState) } else { self.resourceState = nil }
-            self.creatorId = dictionary["CreatorId"] as? String
-            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? String
-            self.parentFolderId = dictionary["ParentFolderId"] as? String
-            if let latestVersionMetadata = dictionary["LatestVersionMetadata"] as? [String: Any] { self.latestVersionMetadata = try Workdocs.DocumentVersionMetadata(dictionary: latestVersionMetadata) } else { self.latestVersionMetadata = nil }
-            self.createdTimestamp = dictionary["CreatedTimestamp"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case labels = "Labels"
+            case resourceState = "ResourceState"
+            case creatorId = "CreatorId"
+            case modifiedTimestamp = "ModifiedTimestamp"
+            case parentFolderId = "ParentFolderId"
+            case latestVersionMetadata = "LatestVersionMetadata"
+            case createdTimestamp = "CreatedTimestamp"
+            case id = "Id"
         }
     }
 
-    public enum SubscriptionType: String, CustomStringConvertible {
+    public enum SubscriptionType: String, CustomStringConvertible, Codable {
         case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
     public struct DescribeResourcePermissionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
         /// Amazon WorkDocs authentication token. This field should not be set when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
@@ -2059,23 +1909,22 @@ extension Workdocs {
             self.resourceId = resourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.authenticationToken = dictionary["Authentication"] as? String
-            self.limit = dictionary["limit"] as? Int32
-            self.marker = dictionary["marker"] as? String
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case limit = "limit"
+            case marker = "marker"
+            case resourceId = "ResourceId"
         }
     }
 
-    public enum UserStatusType: String, CustomStringConvertible {
+    public enum UserStatusType: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum RoleType: String, CustomStringConvertible {
+    public enum RoleType: String, CustomStringConvertible, Codable {
         case viewer = "VIEWER"
         case contributor = "CONTRIBUTOR"
         case owner = "OWNER"
@@ -2085,11 +1934,10 @@ extension Workdocs {
 
     public struct Principal: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Roles", required: false, type: .list), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Roles", required: false, type: .list), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The type of resource.
         public let `type`: PrincipalType?
@@ -2104,23 +1952,18 @@ extension Workdocs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = PrincipalType(rawValue: `type`) } else { self.`type` = nil }
-            if let roles = dictionary["Roles"] as? [[String: Any]] {
-                self.roles = try roles.map({ try PermissionInfo(dictionary: $0) })
-            } else { 
-                self.roles = nil
-            }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case roles = "Roles"
+            case id = "Id"
         }
     }
 
     public struct GroupMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The name of the group.
         public let name: String?
@@ -2132,18 +1975,17 @@ extension Workdocs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case id = "Id"
         }
     }
 
     public struct DescribeNotificationSubscriptionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Subscriptions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Subscriptions", required: false, type: .list)
         ]
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
@@ -2155,17 +1997,13 @@ extension Workdocs {
             self.subscriptions = subscriptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let subscriptions = dictionary["Subscriptions"] as? [[String: Any]] {
-                self.subscriptions = try subscriptions.map({ try Subscription(dictionary: $0) })
-            } else { 
-                self.subscriptions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case subscriptions = "Subscriptions"
         }
     }
 
-    public enum UserFilterType: String, CustomStringConvertible {
+    public enum UserFilterType: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case active_pending = "ACTIVE_PENDING"
         public var description: String { return self.rawValue }
@@ -2173,12 +2011,11 @@ extension Workdocs {
 
     public struct UpdateDocumentVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "VersionStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
         ]
         /// The version ID of the document.
         public let versionId: String
@@ -2196,23 +2033,21 @@ extension Workdocs {
             self.documentId = documentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
-            self.versionId = versionId
-            if let versionStatus = dictionary["VersionStatus"] as? String { self.versionStatus = DocumentVersionStatus(rawValue: versionStatus) } else { self.versionStatus = nil }
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
-            self.documentId = documentId
+        private enum CodingKeys: String, CodingKey {
+            case versionId = "VersionId"
+            case versionStatus = "VersionStatus"
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
         }
     }
 
-    public enum ShareStatusType: String, CustomStringConvertible {
+    public enum ShareStatusType: String, CustomStringConvertible, Codable {
         case success = "SUCCESS"
         case failure = "FAILURE"
         public var description: String { return self.rawValue }
     }
 
-    public enum FolderContentType: String, CustomStringConvertible {
+    public enum FolderContentType: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case document = "DOCUMENT"
         case folder = "FOLDER"
@@ -2221,13 +2056,12 @@ extension Workdocs {
 
     public struct GetDocumentPathRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
         ]
         /// A comma-separated list of values. Specify NAME to include the names of the parent folders.
         public let fields: String?
@@ -2248,24 +2082,22 @@ extension Workdocs {
             self.documentId = documentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fields = dictionary["fields"] as? String
-            self.authenticationToken = dictionary["Authentication"] as? String
-            self.limit = dictionary["limit"] as? Int32
-            self.marker = dictionary["marker"] as? String
-            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
-            self.documentId = documentId
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case authenticationToken = "Authentication"
+            case limit = "limit"
+            case marker = "marker"
+            case documentId = "DocumentId"
         }
     }
 
     public struct RemoveResourcePermissionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "PrincipalType", location: .querystring(locationName: "type"), required: false, type: .enum), 
-            AWSShapeProperty(label: "PrincipalId", location: .uri(locationName: "PrincipalId"), required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalType", location: .querystring(locationName: "type"), required: false, type: .enum), 
+            AWSShapeMember(label: "PrincipalId", location: .uri(locationName: "PrincipalId"), required: true, type: .string), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string)
         ]
         /// Amazon WorkDocs authentication token. This field should not be set when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
@@ -2283,21 +2115,18 @@ extension Workdocs {
             self.resourceId = resourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.authenticationToken = dictionary["Authentication"] as? String
-            if let principalType = dictionary["type"] as? String { self.principalType = PrincipalType(rawValue: principalType) } else { self.principalType = nil }
-            guard let principalId = dictionary["PrincipalId"] as? String else { throw InitializableError.missingRequiredParam("PrincipalId") }
-            self.principalId = principalId
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case principalType = "type"
+            case principalId = "PrincipalId"
+            case resourceId = "ResourceId"
         }
     }
 
     public struct CreateCommentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Comment", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comment", required: false, type: .structure)
         ]
         /// The comment that has been created.
         public let comment: Comment?
@@ -2306,16 +2135,15 @@ extension Workdocs {
             self.comment = comment
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let comment = dictionary["Comment"] as? [String: Any] { self.comment = try Workdocs.Comment(dictionary: comment) } else { self.comment = nil }
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
         }
     }
 
     public struct CreateUserResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "User", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "User", required: false, type: .structure)
         ]
         /// The user information.
         public let user: User?
@@ -2324,19 +2152,18 @@ extension Workdocs {
             self.user = user
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Workdocs.User(dictionary: user) } else { self.user = nil }
+        private enum CodingKeys: String, CodingKey {
+            case user = "User"
         }
     }
 
     public struct DeleteCommentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
-            AWSShapeProperty(label: "CommentId", location: .uri(locationName: "CommentId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string), 
+            AWSShapeMember(label: "CommentId", location: .uri(locationName: "CommentId"), required: true, type: .string)
         ]
         /// The ID of the document version.
         public let versionId: String
@@ -2354,18 +2181,15 @@ extension Workdocs {
             self.commentId = commentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
-            self.versionId = versionId
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
-            self.documentId = documentId
-            guard let commentId = dictionary["CommentId"] as? String else { throw InitializableError.missingRequiredParam("CommentId") }
-            self.commentId = commentId
+        private enum CodingKeys: String, CodingKey {
+            case versionId = "VersionId"
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
+            case commentId = "CommentId"
         }
     }
 
-    public enum ResourceSortType: String, CustomStringConvertible {
+    public enum ResourceSortType: String, CustomStringConvertible, Codable {
         case date = "DATE"
         case name = "NAME"
         public var description: String { return self.rawValue }
@@ -2373,10 +2197,9 @@ extension Workdocs {
 
     public struct DescribeDocumentVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DocumentVersions", required: false, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentVersions", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// The document versions.
         public let documentVersions: [DocumentVersionMetadata]?
@@ -2388,35 +2211,30 @@ extension Workdocs {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let documentVersions = dictionary["DocumentVersions"] as? [[String: Any]] {
-                self.documentVersions = try documentVersions.map({ try DocumentVersionMetadata(dictionary: $0) })
-            } else { 
-                self.documentVersions = nil
-            }
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case documentVersions = "DocumentVersions"
+            case marker = "Marker"
         }
     }
 
     public struct User: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EmailAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "RecycleBinFolderId", required: false, type: .string), 
-            AWSShapeProperty(label: "Username", required: false, type: .string), 
-            AWSShapeProperty(label: "ModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "OrganizationId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "TimeZoneId", required: false, type: .string), 
-            AWSShapeProperty(label: "Locale", required: false, type: .enum), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "GivenName", required: false, type: .string), 
-            AWSShapeProperty(label: "Storage", required: false, type: .structure), 
-            AWSShapeProperty(label: "Surname", required: false, type: .string), 
-            AWSShapeProperty(label: "RootFolderId", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "RecycleBinFolderId", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "ModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "TimeZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "Locale", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "GivenName", required: false, type: .string), 
+            AWSShapeMember(label: "Storage", required: false, type: .structure), 
+            AWSShapeMember(label: "Surname", required: false, type: .string), 
+            AWSShapeMember(label: "RootFolderId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
         /// The email address of the user.
         public let emailAddress: String?
@@ -2425,11 +2243,11 @@ extension Workdocs {
         /// The login name of the user.
         public let username: String?
         /// The time when the user was modified.
-        public let modifiedTimestamp: String?
+        public let modifiedTimestamp: Double?
         /// The ID of the organization.
         public let organizationId: String?
         /// The time when the user was created.
-        public let createdTimestamp: String?
+        public let createdTimestamp: Double?
         /// The ID of the user.
         public let id: String?
         /// The time zone ID of the user.
@@ -2449,7 +2267,7 @@ extension Workdocs {
         /// The type of user.
         public let `type`: UserType?
 
-        public init(emailAddress: String? = nil, recycleBinFolderId: String? = nil, username: String? = nil, modifiedTimestamp: String? = nil, organizationId: String? = nil, createdTimestamp: String? = nil, id: String? = nil, timeZoneId: String? = nil, locale: LocaleType? = nil, status: UserStatusType? = nil, givenName: String? = nil, storage: UserStorageMetadata? = nil, surname: String? = nil, rootFolderId: String? = nil, type: UserType? = nil) {
+        public init(emailAddress: String? = nil, recycleBinFolderId: String? = nil, username: String? = nil, modifiedTimestamp: Double? = nil, organizationId: String? = nil, createdTimestamp: Double? = nil, id: String? = nil, timeZoneId: String? = nil, locale: LocaleType? = nil, status: UserStatusType? = nil, givenName: String? = nil, storage: UserStorageMetadata? = nil, surname: String? = nil, rootFolderId: String? = nil, type: UserType? = nil) {
             self.emailAddress = emailAddress
             self.recycleBinFolderId = recycleBinFolderId
             self.username = username
@@ -2467,31 +2285,30 @@ extension Workdocs {
             self.`type` = `type`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.emailAddress = dictionary["EmailAddress"] as? String
-            self.recycleBinFolderId = dictionary["RecycleBinFolderId"] as? String
-            self.username = dictionary["Username"] as? String
-            self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? String
-            self.organizationId = dictionary["OrganizationId"] as? String
-            self.createdTimestamp = dictionary["CreatedTimestamp"] as? String
-            self.id = dictionary["Id"] as? String
-            self.timeZoneId = dictionary["TimeZoneId"] as? String
-            if let locale = dictionary["Locale"] as? String { self.locale = LocaleType(rawValue: locale) } else { self.locale = nil }
-            if let status = dictionary["Status"] as? String { self.status = UserStatusType(rawValue: status) } else { self.status = nil }
-            self.givenName = dictionary["GivenName"] as? String
-            if let storage = dictionary["Storage"] as? [String: Any] { self.storage = try Workdocs.UserStorageMetadata(dictionary: storage) } else { self.storage = nil }
-            self.surname = dictionary["Surname"] as? String
-            self.rootFolderId = dictionary["RootFolderId"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = UserType(rawValue: `type`) } else { self.`type` = nil }
+        private enum CodingKeys: String, CodingKey {
+            case emailAddress = "EmailAddress"
+            case recycleBinFolderId = "RecycleBinFolderId"
+            case username = "Username"
+            case modifiedTimestamp = "ModifiedTimestamp"
+            case organizationId = "OrganizationId"
+            case createdTimestamp = "CreatedTimestamp"
+            case id = "Id"
+            case timeZoneId = "TimeZoneId"
+            case locale = "Locale"
+            case status = "Status"
+            case givenName = "GivenName"
+            case storage = "Storage"
+            case surname = "Surname"
+            case rootFolderId = "RootFolderId"
+            case `type` = "Type"
         }
     }
 
     public struct StorageRuleType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StorageType", required: false, type: .enum), 
-            AWSShapeProperty(label: "StorageAllocatedInBytes", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StorageType", required: false, type: .enum), 
+            AWSShapeMember(label: "StorageAllocatedInBytes", required: false, type: .long)
         ]
         /// The type of storage.
         public let storageType: StorageType?
@@ -2503,19 +2320,18 @@ extension Workdocs {
             self.storageAllocatedInBytes = storageAllocatedInBytes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let storageType = dictionary["StorageType"] as? String { self.storageType = StorageType(rawValue: storageType) } else { self.storageType = nil }
-            self.storageAllocatedInBytes = dictionary["StorageAllocatedInBytes"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case storageType = "StorageType"
+            case storageAllocatedInBytes = "StorageAllocatedInBytes"
         }
     }
 
     public struct SharePrincipal: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Role", required: true, type: .enum), 
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Role", required: true, type: .enum), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The role of the recipient.
         public let role: RoleType
@@ -2530,17 +2346,14 @@ extension Workdocs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawRole = dictionary["Role"] as? String, let role = RoleType(rawValue: rawRole) else { throw InitializableError.missingRequiredParam("Role") }
-            self.role = role
-            guard let rawType = dictionary["Type"] as? String, let `type` = PrincipalType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
+            case `type` = "Type"
+            case id = "Id"
         }
     }
 
-    public enum UserType: String, CustomStringConvertible {
+    public enum UserType: String, CustomStringConvertible, Codable {
         case user = "USER"
         case admin = "ADMIN"
         public var description: String { return self.rawValue }
@@ -2548,9 +2361,8 @@ extension Workdocs {
 
     public struct CreateFolderResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Metadata", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .structure)
         ]
         /// The metadata of the folder.
         public let metadata: FolderMetadata?
@@ -2559,17 +2371,16 @@ extension Workdocs {
             self.metadata = metadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.FolderMetadata(dictionary: metadata) } else { self.metadata = nil }
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
         }
     }
 
     public struct DeactivateUserRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
         /// Amazon WorkDocs authentication token. This field should not be set when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
@@ -2581,22 +2392,20 @@ extension Workdocs {
             self.userId = userId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
-            self.userId = userId
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case userId = "UserId"
         }
     }
 
     public struct GetFolderPathRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string)
         ]
         /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
         public let fields: String?
@@ -2617,21 +2426,19 @@ extension Workdocs {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fields = dictionary["fields"] as? String
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let folderId = dictionary["FolderId"] as? String else { throw InitializableError.missingRequiredParam("FolderId") }
-            self.folderId = folderId
-            self.limit = dictionary["limit"] as? Int32
-            self.marker = dictionary["marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case authenticationToken = "Authentication"
+            case folderId = "FolderId"
+            case limit = "limit"
+            case marker = "marker"
         }
     }
 
     public struct ResourcePath: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Components", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Components", required: false, type: .list)
         ]
         /// The components of the resource path.
         public let components: [ResourcePathComponent]?
@@ -2640,26 +2447,21 @@ extension Workdocs {
             self.components = components
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let components = dictionary["Components"] as? [[String: Any]] {
-                self.components = try components.map({ try ResourcePathComponent(dictionary: $0) })
-            } else { 
-                self.components = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case components = "Components"
         }
     }
 
-    public enum SubscriptionProtocolType: String, CustomStringConvertible {
+    public enum SubscriptionProtocolType: String, CustomStringConvertible, Codable {
         case https = "HTTPS"
         public var description: String { return self.rawValue }
     }
 
     public struct DeleteFolderContentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string)
         ]
         /// Amazon WorkDocs authentication token. This field should not be set when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
@@ -2671,35 +2473,30 @@ extension Workdocs {
             self.folderId = folderId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let folderId = dictionary["FolderId"] as? String else { throw InitializableError.missingRequiredParam("FolderId") }
-            self.folderId = folderId
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case folderId = "FolderId"
         }
     }
 
     public struct DeleteCustomMetadataResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeUsersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "UserIds", location: .querystring(locationName: "userIds"), required: false, type: .string), 
-            AWSShapeProperty(label: "Sort", location: .querystring(locationName: "sort"), required: false, type: .enum), 
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "Query", location: .querystring(locationName: "query"), required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeProperty(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string), 
-            AWSShapeProperty(label: "Order", location: .querystring(locationName: "order"), required: false, type: .enum), 
-            AWSShapeProperty(label: "Include", location: .querystring(locationName: "include"), required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Fields", location: .querystring(locationName: "fields"), required: false, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "UserIds", location: .querystring(locationName: "userIds"), required: false, type: .string), 
+            AWSShapeMember(label: "Sort", location: .querystring(locationName: "sort"), required: false, type: .enum), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "Query", location: .querystring(locationName: "query"), required: false, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "OrganizationId", location: .querystring(locationName: "organizationId"), required: false, type: .string), 
+            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"), required: false, type: .enum), 
+            AWSShapeMember(label: "Include", location: .querystring(locationName: "include"), required: false, type: .enum)
         ]
         /// A comma-separated list of values. Specify "STORAGE_METADATA" to include the user storage quota and utilization information.
         public let fields: String?
@@ -2735,26 +2532,25 @@ extension Workdocs {
             self.include = include
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fields = dictionary["fields"] as? String
-            self.authenticationToken = dictionary["Authentication"] as? String
-            self.userIds = dictionary["userIds"] as? String
-            if let sort = dictionary["sort"] as? String { self.sort = UserSortType(rawValue: sort) } else { self.sort = nil }
-            self.marker = dictionary["marker"] as? String
-            self.query = dictionary["query"] as? String
-            self.limit = dictionary["limit"] as? Int32
-            self.organizationId = dictionary["organizationId"] as? String
-            if let order = dictionary["order"] as? String { self.order = OrderType(rawValue: order) } else { self.order = nil }
-            if let include = dictionary["include"] as? String { self.include = UserFilterType(rawValue: include) } else { self.include = nil }
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case authenticationToken = "Authentication"
+            case userIds = "userIds"
+            case sort = "sort"
+            case marker = "marker"
+            case query = "query"
+            case limit = "limit"
+            case organizationId = "organizationId"
+            case order = "order"
+            case include = "include"
         }
     }
 
     public struct InitiateDocumentVersionUploadResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Metadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "UploadMetadata", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
+            AWSShapeMember(label: "UploadMetadata", required: false, type: .structure)
         ]
         /// The document metadata.
         public let metadata: DocumentMetadata?
@@ -2766,24 +2562,23 @@ extension Workdocs {
             self.uploadMetadata = uploadMetadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.DocumentMetadata(dictionary: metadata) } else { self.metadata = nil }
-            if let uploadMetadata = dictionary["UploadMetadata"] as? [String: Any] { self.uploadMetadata = try Workdocs.UploadMetadata(dictionary: uploadMetadata) } else { self.uploadMetadata = nil }
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case uploadMetadata = "UploadMetadata"
         }
     }
 
     public struct DescribeFolderContentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "Sort", location: .querystring(locationName: "sort"), required: false, type: .enum), 
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
-            AWSShapeProperty(label: "Order", location: .querystring(locationName: "order"), required: false, type: .enum), 
-            AWSShapeProperty(label: "Type", location: .querystring(locationName: "type"), required: false, type: .enum), 
-            AWSShapeProperty(label: "Include", location: .querystring(locationName: "include"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "Sort", location: .querystring(locationName: "sort"), required: false, type: .enum), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "FolderId", location: .uri(locationName: "FolderId"), required: true, type: .string), 
+            AWSShapeMember(label: "Limit", location: .querystring(locationName: "limit"), required: false, type: .integer), 
+            AWSShapeMember(label: "Order", location: .querystring(locationName: "order"), required: false, type: .enum), 
+            AWSShapeMember(label: "Type", location: .querystring(locationName: "type"), required: false, type: .enum), 
+            AWSShapeMember(label: "Include", location: .querystring(locationName: "include"), required: false, type: .string)
         ]
         /// Amazon WorkDocs authentication token. This field should not be set when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
@@ -2813,20 +2608,19 @@ extension Workdocs {
             self.include = include
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.authenticationToken = dictionary["Authentication"] as? String
-            if let sort = dictionary["sort"] as? String { self.sort = ResourceSortType(rawValue: sort) } else { self.sort = nil }
-            self.marker = dictionary["marker"] as? String
-            guard let folderId = dictionary["FolderId"] as? String else { throw InitializableError.missingRequiredParam("FolderId") }
-            self.folderId = folderId
-            self.limit = dictionary["limit"] as? Int32
-            if let order = dictionary["order"] as? String { self.order = OrderType(rawValue: order) } else { self.order = nil }
-            if let `type` = dictionary["type"] as? String { self.`type` = FolderContentType(rawValue: `type`) } else { self.`type` = nil }
-            self.include = dictionary["include"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case sort = "sort"
+            case marker = "marker"
+            case folderId = "FolderId"
+            case limit = "limit"
+            case order = "order"
+            case `type` = "type"
+            case include = "include"
         }
     }
 
-    public enum UserSortType: String, CustomStringConvertible {
+    public enum UserSortType: String, CustomStringConvertible, Codable {
         case user_name = "USER_NAME"
         case full_name = "FULL_NAME"
         case storage_limit = "STORAGE_LIMIT"
@@ -2837,11 +2631,10 @@ extension Workdocs {
 
     public struct AbortDocumentVersionUploadRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VersionId", location: .uri(locationName: "VersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "DocumentId", location: .uri(locationName: "DocumentId"), required: true, type: .string)
         ]
         /// The ID of the version.
         public let versionId: String
@@ -2856,21 +2649,18 @@ extension Workdocs {
             self.documentId = documentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
-            self.versionId = versionId
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let documentId = dictionary["DocumentId"] as? String else { throw InitializableError.missingRequiredParam("DocumentId") }
-            self.documentId = documentId
+        private enum CodingKeys: String, CodingKey {
+            case versionId = "VersionId"
+            case authenticationToken = "Authentication"
+            case documentId = "DocumentId"
         }
     }
 
     public struct GetDocumentVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Metadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomMetadata", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomMetadata", required: false, type: .map)
         ]
         /// The version metadata.
         public let metadata: DocumentVersionMetadata?
@@ -2882,22 +2672,17 @@ extension Workdocs {
             self.customMetadata = customMetadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.DocumentVersionMetadata(dictionary: metadata) } else { self.metadata = nil }
-            if let customMetadata = dictionary["CustomMetadata"] as? [String: String] {
-                self.customMetadata = customMetadata
-            } else { 
-                self.customMetadata = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case customMetadata = "CustomMetadata"
         }
     }
 
     public struct DeleteNotificationSubscriptionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string), 
-            AWSShapeProperty(label: "SubscriptionId", location: .uri(locationName: "SubscriptionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", location: .uri(locationName: "OrganizationId"), required: true, type: .string), 
+            AWSShapeMember(label: "SubscriptionId", location: .uri(locationName: "SubscriptionId"), required: true, type: .string)
         ]
         /// The ID of the organization.
         public let organizationId: String
@@ -2909,28 +2694,22 @@ extension Workdocs {
             self.subscriptionId = subscriptionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let organizationId = dictionary["OrganizationId"] as? String else { throw InitializableError.missingRequiredParam("OrganizationId") }
-            self.organizationId = organizationId
-            guard let subscriptionId = dictionary["SubscriptionId"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionId") }
-            self.subscriptionId = subscriptionId
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case subscriptionId = "SubscriptionId"
         }
     }
 
     public struct DeleteLabelsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeCommentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Comments", required: false, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comments", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// The list of comments for the specified document version.
         public let comments: [Comment]?
@@ -2942,17 +2721,13 @@ extension Workdocs {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let comments = dictionary["Comments"] as? [[String: Any]] {
-                self.comments = try comments.map({ try Comment(dictionary: $0) })
-            } else { 
-                self.comments = nil
-            }
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case comments = "Comments"
+            case marker = "Marker"
         }
     }
 
-    public enum StorageType: String, CustomStringConvertible {
+    public enum StorageType: String, CustomStringConvertible, Codable {
         case unlimited = "UNLIMITED"
         case quota = "QUOTA"
         public var description: String { return self.rawValue }
@@ -2960,9 +2735,8 @@ extension Workdocs {
 
     public struct GetCurrentUserRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: true, type: .string)
         ]
         /// Amazon WorkDocs authentication token.
         public let authenticationToken: String
@@ -2971,18 +2745,16 @@ extension Workdocs {
             self.authenticationToken = authenticationToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let authenticationToken = dictionary["Authentication"] as? String else { throw InitializableError.missingRequiredParam("Authentication") }
-            self.authenticationToken = authenticationToken
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
         }
     }
 
     public struct DescribeRootFoldersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Folders", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Folders", required: false, type: .list)
         ]
         /// The marker for the next set of results.
         public let marker: String?
@@ -2994,22 +2766,17 @@ extension Workdocs {
             self.folders = folders
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let folders = dictionary["Folders"] as? [[String: Any]] {
-                self.folders = try folders.map({ try FolderMetadata(dictionary: $0) })
-            } else { 
-                self.folders = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case folders = "Folders"
         }
     }
 
     public struct ActivateUserRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
-            AWSShapeProperty(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationToken", location: .header(locationName: "Authentication"), required: false, type: .string), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
         /// Amazon WorkDocs authentication token. This field should not be set when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
@@ -3021,10 +2788,9 @@ extension Workdocs {
             self.userId = userId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.authenticationToken = dictionary["Authentication"] as? String
-            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
-            self.userId = userId
+        private enum CodingKeys: String, CodingKey {
+            case authenticationToken = "Authentication"
+            case userId = "UserId"
         }
     }
 

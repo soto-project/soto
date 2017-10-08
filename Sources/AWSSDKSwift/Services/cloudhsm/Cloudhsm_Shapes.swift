@@ -31,9 +31,8 @@ extension Cloudhsm {
 
     public struct ModifyHapgResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HapgArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HapgArn", required: false, type: .string)
         ]
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
@@ -42,16 +41,15 @@ extension Cloudhsm {
             self.hapgArn = hapgArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.hapgArn = dictionary["HapgArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case hapgArn = "HapgArn"
         }
     }
 
     public struct DeleteHsmResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .string)
         ]
         /// The status of the operation.
         public let status: String
@@ -60,18 +58,16 @@ extension Cloudhsm {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 
     public struct DescribeHsmRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmSerialNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmSerialNumber", required: false, type: .string), 
+            AWSShapeMember(label: "HsmArn", required: false, type: .string)
         ]
         /// The serial number of the HSM. Either the HsmArn or the HsmSerialNumber parameter must be specified.
         public let hsmSerialNumber: String?
@@ -83,17 +79,16 @@ extension Cloudhsm {
             self.hsmArn = hsmArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.hsmSerialNumber = dictionary["HsmSerialNumber"] as? String
-            self.hsmArn = dictionary["HsmArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case hsmSerialNumber = "HsmSerialNumber"
+            case hsmArn = "HsmArn"
         }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
         public let resourceArn: String
@@ -102,17 +97,15 @@ extension Cloudhsm {
             self.resourceArn = resourceArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
         }
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagList", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: true, type: .list)
         ]
         /// One or more tags.
         public let tagList: [Tag]
@@ -121,17 +114,15 @@ extension Cloudhsm {
             self.tagList = tagList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tagList = dictionary["TagList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TagList") }
-            self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case tagList = "TagList"
         }
     }
 
     public struct CreateHapgRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Label", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Label", required: true, type: .string)
         ]
         /// The label of the new high-availability partition group.
         public let label: String
@@ -140,19 +131,17 @@ extension Cloudhsm {
             self.label = label
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let label = dictionary["Label"] as? String else { throw InitializableError.missingRequiredParam("Label") }
-            self.label = label
+        private enum CodingKeys: String, CodingKey {
+            case label = "Label"
         }
     }
 
     public struct GetConfigRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientArn", required: true, type: .string), 
-            AWSShapeProperty(label: "HapgList", required: true, type: .list), 
-            AWSShapeProperty(label: "ClientVersion", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientArn", required: true, type: .string), 
+            AWSShapeMember(label: "HapgList", required: true, type: .list), 
+            AWSShapeMember(label: "ClientVersion", required: true, type: .enum)
         ]
         /// The ARN of the client.
         public let clientArn: String
@@ -167,23 +156,19 @@ extension Cloudhsm {
             self.clientVersion = clientVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clientArn = dictionary["ClientArn"] as? String else { throw InitializableError.missingRequiredParam("ClientArn") }
-            self.clientArn = clientArn
-            guard let hapgList = dictionary["HapgList"] as? [String] else { throw InitializableError.missingRequiredParam("HapgList") }
-            self.hapgList = hapgList
-            guard let rawClientVersion = dictionary["ClientVersion"] as? String, let clientVersion = ClientVersion(rawValue: rawClientVersion) else { throw InitializableError.missingRequiredParam("ClientVersion") }
-            self.clientVersion = clientVersion
+        private enum CodingKeys: String, CodingKey {
+            case clientArn = "ClientArn"
+            case hapgList = "HapgList"
+            case clientVersion = "ClientVersion"
         }
     }
 
     public struct ModifyHapgRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Label", required: false, type: .string), 
-            AWSShapeProperty(label: "HapgArn", required: true, type: .string), 
-            AWSShapeProperty(label: "PartitionSerialList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Label", required: false, type: .string), 
+            AWSShapeMember(label: "HapgArn", required: true, type: .string), 
+            AWSShapeMember(label: "PartitionSerialList", required: false, type: .list)
         ]
         /// The new label for the high-availability partition group.
         public let label: String?
@@ -198,19 +183,17 @@ extension Cloudhsm {
             self.partitionSerialList = partitionSerialList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.label = dictionary["Label"] as? String
-            guard let hapgArn = dictionary["HapgArn"] as? String else { throw InitializableError.missingRequiredParam("HapgArn") }
-            self.hapgArn = hapgArn
-            self.partitionSerialList = dictionary["PartitionSerialList"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case label = "Label"
+            case hapgArn = "HapgArn"
+            case partitionSerialList = "PartitionSerialList"
         }
     }
 
     public struct ListLunaClientsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The NextToken value from a previous call to ListLunaClients. Pass null if this is the first call.
         public let nextToken: String?
@@ -219,17 +202,16 @@ extension Cloudhsm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
         }
     }
 
     public struct CreateLunaClientRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: true, type: .string), 
-            AWSShapeProperty(label: "Label", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: true, type: .string), 
+            AWSShapeMember(label: "Label", required: false, type: .string)
         ]
         /// The contents of a Base64-Encoded X.509 v3 certificate to be installed on the HSMs used by this client.
         public let certificate: String
@@ -241,19 +223,18 @@ extension Cloudhsm {
             self.label = label
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificate = dictionary["Certificate"] as? String else { throw InitializableError.missingRequiredParam("Certificate") }
-            self.certificate = certificate
-            self.label = dictionary["Label"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case label = "Label"
         }
     }
 
-    public enum SubscriptionType: String, CustomStringConvertible {
+    public enum SubscriptionType: String, CustomStringConvertible, Codable {
         case production = "PRODUCTION"
         public var description: String { return self.rawValue }
     }
 
-    public enum CloudHsmObjectState: String, CustomStringConvertible {
+    public enum CloudHsmObjectState: String, CustomStringConvertible, Codable {
         case ready = "READY"
         case updating = "UPDATING"
         case degraded = "DEGRADED"
@@ -262,10 +243,9 @@ extension Cloudhsm {
 
     public struct ModifyLunaClientRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: true, type: .string), 
+            AWSShapeMember(label: "ClientArn", required: true, type: .string)
         ]
         /// The new certificate for the client.
         public let certificate: String
@@ -277,20 +257,17 @@ extension Cloudhsm {
             self.clientArn = clientArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificate = dictionary["Certificate"] as? String else { throw InitializableError.missingRequiredParam("Certificate") }
-            self.certificate = certificate
-            guard let clientArn = dictionary["ClientArn"] as? String else { throw InitializableError.missingRequiredParam("ClientArn") }
-            self.clientArn = clientArn
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case clientArn = "ClientArn"
         }
     }
 
     public struct DescribeLunaClientRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientArn", required: false, type: .string), 
-            AWSShapeProperty(label: "CertificateFingerprint", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientArn", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateFingerprint", required: false, type: .string)
         ]
         /// The ARN of the client.
         public let clientArn: String?
@@ -302,19 +279,18 @@ extension Cloudhsm {
             self.certificateFingerprint = certificateFingerprint
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clientArn = dictionary["ClientArn"] as? String
-            self.certificateFingerprint = dictionary["CertificateFingerprint"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clientArn = "ClientArn"
+            case certificateFingerprint = "CertificateFingerprint"
         }
     }
 
     public struct GetConfigResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigType", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigFile", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigCred", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigType", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigFile", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigCred", required: false, type: .string)
         ]
         /// The type of credentials.
         public let configType: String?
@@ -329,14 +305,14 @@ extension Cloudhsm {
             self.configCred = configCred
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configType = dictionary["ConfigType"] as? String
-            self.configFile = dictionary["ConfigFile"] as? String
-            self.configCred = dictionary["ConfigCred"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case configType = "ConfigType"
+            case configFile = "ConfigFile"
+            case configCred = "ConfigCred"
         }
     }
 
-    public enum HsmStatus: String, CustomStringConvertible {
+    public enum HsmStatus: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case running = "RUNNING"
         case updating = "UPDATING"
@@ -349,9 +325,8 @@ extension Cloudhsm {
 
     public struct DeleteHsmRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmArn", location: .body(locationName: "HsmArn"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmArn", location: .body(locationName: "HsmArn"), required: true, type: .string)
         ]
         /// The ARN of the HSM to delete.
         public let hsmArn: String
@@ -360,17 +335,15 @@ extension Cloudhsm {
             self.hsmArn = hsmArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hsmArn = dictionary["HsmArn"] as? String else { throw InitializableError.missingRequiredParam("HsmArn") }
-            self.hsmArn = hsmArn
+        private enum CodingKeys: String, CodingKey {
+            case hsmArn = "HsmArn"
         }
     }
 
     public struct ListHsmsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The NextToken value from a previous call to ListHsms. Pass null if this is the first call.
         public let nextToken: String?
@@ -379,21 +352,20 @@ extension Cloudhsm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
         }
     }
 
     public struct ModifyHsmRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExternalId", location: .body(locationName: "ExternalId"), required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "SubnetId"), required: false, type: .string), 
-            AWSShapeProperty(label: "EniIp", location: .body(locationName: "EniIp"), required: false, type: .string), 
-            AWSShapeProperty(label: "IamRoleArn", location: .body(locationName: "IamRoleArn"), required: false, type: .string), 
-            AWSShapeProperty(label: "SyslogIp", location: .body(locationName: "SyslogIp"), required: false, type: .string), 
-            AWSShapeProperty(label: "HsmArn", location: .body(locationName: "HsmArn"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExternalId", location: .body(locationName: "ExternalId"), required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", location: .body(locationName: "SubnetId"), required: false, type: .string), 
+            AWSShapeMember(label: "EniIp", location: .body(locationName: "EniIp"), required: false, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", location: .body(locationName: "IamRoleArn"), required: false, type: .string), 
+            AWSShapeMember(label: "SyslogIp", location: .body(locationName: "SyslogIp"), required: false, type: .string), 
+            AWSShapeMember(label: "HsmArn", location: .body(locationName: "HsmArn"), required: true, type: .string)
         ]
         /// The new external ID.
         public let externalId: String?
@@ -417,30 +389,28 @@ extension Cloudhsm {
             self.hsmArn = hsmArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.externalId = dictionary["ExternalId"] as? String
-            self.subnetId = dictionary["SubnetId"] as? String
-            self.eniIp = dictionary["EniIp"] as? String
-            self.iamRoleArn = dictionary["IamRoleArn"] as? String
-            self.syslogIp = dictionary["SyslogIp"] as? String
-            guard let hsmArn = dictionary["HsmArn"] as? String else { throw InitializableError.missingRequiredParam("HsmArn") }
-            self.hsmArn = hsmArn
+        private enum CodingKeys: String, CodingKey {
+            case externalId = "ExternalId"
+            case subnetId = "SubnetId"
+            case eniIp = "EniIp"
+            case iamRoleArn = "IamRoleArn"
+            case syslogIp = "SyslogIp"
+            case hsmArn = "HsmArn"
         }
     }
 
     public struct DescribeHapgResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmsPendingDeletion", required: false, type: .list), 
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "HapgArn", required: false, type: .string), 
-            AWSShapeProperty(label: "HapgSerial", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmsLastActionFailed", required: false, type: .list), 
-            AWSShapeProperty(label: "PartitionSerialList", required: false, type: .list), 
-            AWSShapeProperty(label: "HsmsPendingRegistration", required: false, type: .list), 
-            AWSShapeProperty(label: "LastModifiedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Label", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmsPendingDeletion", required: false, type: .list), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "HapgArn", required: false, type: .string), 
+            AWSShapeMember(label: "HapgSerial", required: false, type: .string), 
+            AWSShapeMember(label: "HsmsLastActionFailed", required: false, type: .list), 
+            AWSShapeMember(label: "PartitionSerialList", required: false, type: .list), 
+            AWSShapeMember(label: "HsmsPendingRegistration", required: false, type: .list), 
+            AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Label", required: false, type: .string)
         ]
         public let hsmsPendingDeletion: [String]?
         /// The state of the high-availability partition group.
@@ -470,28 +440,27 @@ extension Cloudhsm {
             self.label = label
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.hsmsPendingDeletion = dictionary["HsmsPendingDeletion"] as? [String]
-            if let state = dictionary["State"] as? String { self.state = CloudHsmObjectState(rawValue: state) } else { self.state = nil }
-            self.hapgArn = dictionary["HapgArn"] as? String
-            self.hapgSerial = dictionary["HapgSerial"] as? String
-            self.hsmsLastActionFailed = dictionary["HsmsLastActionFailed"] as? [String]
-            self.partitionSerialList = dictionary["PartitionSerialList"] as? [String]
-            self.hsmsPendingRegistration = dictionary["HsmsPendingRegistration"] as? [String]
-            self.lastModifiedTimestamp = dictionary["LastModifiedTimestamp"] as? String
-            self.label = dictionary["Label"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case hsmsPendingDeletion = "HsmsPendingDeletion"
+            case state = "State"
+            case hapgArn = "HapgArn"
+            case hapgSerial = "HapgSerial"
+            case hsmsLastActionFailed = "HsmsLastActionFailed"
+            case partitionSerialList = "PartitionSerialList"
+            case hsmsPendingRegistration = "HsmsPendingRegistration"
+            case lastModifiedTimestamp = "LastModifiedTimestamp"
+            case label = "Label"
         }
     }
 
     public struct DescribeLunaClientResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: false, type: .string), 
-            AWSShapeProperty(label: "LastModifiedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "ClientArn", required: false, type: .string), 
-            AWSShapeProperty(label: "CertificateFingerprint", required: false, type: .string), 
-            AWSShapeProperty(label: "Label", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "ClientArn", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateFingerprint", required: false, type: .string), 
+            AWSShapeMember(label: "Label", required: false, type: .string)
         ]
         /// The certificate installed on the HSMs used by this client.
         public let certificate: String?
@@ -512,20 +481,19 @@ extension Cloudhsm {
             self.label = label
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificate = dictionary["Certificate"] as? String
-            self.lastModifiedTimestamp = dictionary["LastModifiedTimestamp"] as? String
-            self.clientArn = dictionary["ClientArn"] as? String
-            self.certificateFingerprint = dictionary["CertificateFingerprint"] as? String
-            self.label = dictionary["Label"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case lastModifiedTimestamp = "LastModifiedTimestamp"
+            case clientArn = "ClientArn"
+            case certificateFingerprint = "CertificateFingerprint"
+            case label = "Label"
         }
     }
 
     public struct RemoveTagsFromResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .string)
         ]
         /// The status of the operation.
         public let status: String
@@ -534,18 +502,16 @@ extension Cloudhsm {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// The value of the tag.
         public let value: String
@@ -557,19 +523,16 @@ extension Cloudhsm {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct AddTagsToResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .string)
         ]
         /// The status of the operation.
         public let status: String
@@ -578,17 +541,15 @@ extension Cloudhsm {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 
     public struct DeleteHapgRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HapgArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HapgArn", required: true, type: .string)
         ]
         /// The ARN of the high-availability partition group to delete.
         public let hapgArn: String
@@ -597,37 +558,35 @@ extension Cloudhsm {
             self.hapgArn = hapgArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hapgArn = dictionary["HapgArn"] as? String else { throw InitializableError.missingRequiredParam("HapgArn") }
-            self.hapgArn = hapgArn
+        private enum CodingKeys: String, CodingKey {
+            case hapgArn = "HapgArn"
         }
     }
 
     public struct DescribeHsmResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatusDetails", required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "EniIp", required: false, type: .string), 
-            AWSShapeProperty(label: "EniId", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SshPublicKey", required: false, type: .string), 
-            AWSShapeProperty(label: "SubscriptionEndDate", required: false, type: .string), 
-            AWSShapeProperty(label: "SshKeyLastUpdated", required: false, type: .string), 
-            AWSShapeProperty(label: "SerialNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerCertLastUpdated", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "SubscriptionType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ServerCertUri", required: false, type: .string), 
-            AWSShapeProperty(label: "Partitions", required: false, type: .list), 
-            AWSShapeProperty(label: "SoftwareVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmType", required: false, type: .string), 
-            AWSShapeProperty(label: "SubscriptionStartDate", required: false, type: .string), 
-            AWSShapeProperty(label: "VendorName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StatusDetails", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "EniIp", required: false, type: .string), 
+            AWSShapeMember(label: "EniId", required: false, type: .string), 
+            AWSShapeMember(label: "HsmArn", required: false, type: .string), 
+            AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionEndDate", required: false, type: .string), 
+            AWSShapeMember(label: "SshKeyLastUpdated", required: false, type: .string), 
+            AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "ServerCertLastUpdated", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionType", required: false, type: .enum), 
+            AWSShapeMember(label: "ServerCertUri", required: false, type: .string), 
+            AWSShapeMember(label: "Partitions", required: false, type: .list), 
+            AWSShapeMember(label: "SoftwareVersion", required: false, type: .string), 
+            AWSShapeMember(label: "HsmType", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionStartDate", required: false, type: .string), 
+            AWSShapeMember(label: "VendorName", required: false, type: .string)
         ]
         /// Contains additional information about the status of the HSM.
         public let statusDetails: String?
@@ -695,37 +654,36 @@ extension Cloudhsm {
             self.vendorName = vendorName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.statusDetails = dictionary["StatusDetails"] as? String
-            self.subnetId = dictionary["SubnetId"] as? String
-            self.eniIp = dictionary["EniIp"] as? String
-            self.eniId = dictionary["EniId"] as? String
-            self.hsmArn = dictionary["HsmArn"] as? String
-            self.sshPublicKey = dictionary["SshPublicKey"] as? String
-            self.subscriptionEndDate = dictionary["SubscriptionEndDate"] as? String
-            self.sshKeyLastUpdated = dictionary["SshKeyLastUpdated"] as? String
-            self.serialNumber = dictionary["SerialNumber"] as? String
-            self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            if let status = dictionary["Status"] as? String { self.status = HsmStatus(rawValue: status) } else { self.status = nil }
-            self.iamRoleArn = dictionary["IamRoleArn"] as? String
-            self.serverCertLastUpdated = dictionary["ServerCertLastUpdated"] as? String
-            self.vpcId = dictionary["VpcId"] as? String
-            if let subscriptionType = dictionary["SubscriptionType"] as? String { self.subscriptionType = SubscriptionType(rawValue: subscriptionType) } else { self.subscriptionType = nil }
-            self.serverCertUri = dictionary["ServerCertUri"] as? String
-            self.partitions = dictionary["Partitions"] as? [String]
-            self.softwareVersion = dictionary["SoftwareVersion"] as? String
-            self.hsmType = dictionary["HsmType"] as? String
-            self.subscriptionStartDate = dictionary["SubscriptionStartDate"] as? String
-            self.vendorName = dictionary["VendorName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case statusDetails = "StatusDetails"
+            case subnetId = "SubnetId"
+            case eniIp = "EniIp"
+            case eniId = "EniId"
+            case hsmArn = "HsmArn"
+            case sshPublicKey = "SshPublicKey"
+            case subscriptionEndDate = "SubscriptionEndDate"
+            case sshKeyLastUpdated = "SshKeyLastUpdated"
+            case serialNumber = "SerialNumber"
+            case availabilityZone = "AvailabilityZone"
+            case status = "Status"
+            case iamRoleArn = "IamRoleArn"
+            case serverCertLastUpdated = "ServerCertLastUpdated"
+            case vpcId = "VpcId"
+            case subscriptionType = "SubscriptionType"
+            case serverCertUri = "ServerCertUri"
+            case partitions = "Partitions"
+            case softwareVersion = "SoftwareVersion"
+            case hsmType = "HsmType"
+            case subscriptionStartDate = "SubscriptionStartDate"
+            case vendorName = "VendorName"
         }
     }
 
     public struct ListLunaClientsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ClientList", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ClientList", required: true, type: .list)
         ]
         /// If not null, more results are available. Pass this to ListLunaClients to retrieve the next set of items.
         public let nextToken: String?
@@ -737,18 +695,16 @@ extension Cloudhsm {
             self.clientList = clientList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let clientList = dictionary["ClientList"] as? [String] else { throw InitializableError.missingRequiredParam("ClientList") }
-            self.clientList = clientList
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case clientList = "ClientList"
         }
     }
 
     public struct DeleteLunaClientResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .string)
         ]
         /// The status of the action.
         public let status: String
@@ -757,17 +713,15 @@ extension Cloudhsm {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 
     public struct ListAvailableZonesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AZList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AZList", required: false, type: .list)
         ]
         /// The list of Availability Zones that have available AWS CloudHSM capacity.
         public let aZList: [String]?
@@ -776,17 +730,16 @@ extension Cloudhsm {
             self.aZList = aZList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.aZList = dictionary["AZList"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case aZList = "AZList"
         }
     }
 
     public struct AddTagsToResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "TagList", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagList", required: true, type: .list)
         ]
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource to tag.
         public let resourceArn: String
@@ -798,19 +751,16 @@ extension Cloudhsm {
             self.tagList = tagList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-            guard let tagList = dictionary["TagList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TagList") }
-            self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagList = "TagList"
         }
     }
 
     public struct CreateLunaClientResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientArn", required: false, type: .string)
         ]
         /// The ARN of the client.
         public let clientArn: String?
@@ -819,16 +769,15 @@ extension Cloudhsm {
             self.clientArn = clientArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clientArn = dictionary["ClientArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clientArn = "ClientArn"
         }
     }
 
     public struct CreateHapgResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HapgArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HapgArn", required: false, type: .string)
         ]
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
@@ -837,16 +786,15 @@ extension Cloudhsm {
             self.hapgArn = hapgArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.hapgArn = dictionary["HapgArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case hapgArn = "HapgArn"
         }
     }
 
     public struct CreateHsmResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmArn", required: false, type: .string)
         ]
         /// The ARN of the HSM.
         public let hsmArn: String?
@@ -855,17 +803,16 @@ extension Cloudhsm {
             self.hsmArn = hsmArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.hsmArn = dictionary["HsmArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case hsmArn = "HsmArn"
         }
     }
 
     public struct ListHapgsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "HapgList", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "HapgList", required: true, type: .list)
         ]
         /// If not null, more results are available. Pass this value to ListHapgs to retrieve the next set of items.
         public let nextToken: String?
@@ -877,25 +824,23 @@ extension Cloudhsm {
             self.hapgList = hapgList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let hapgList = dictionary["HapgList"] as? [String] else { throw InitializableError.missingRequiredParam("HapgList") }
-            self.hapgList = hapgList
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case hapgList = "HapgList"
         }
     }
 
     public struct CreateHsmRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", location: .body(locationName: "SubnetId"), required: true, type: .string), 
-            AWSShapeProperty(label: "ClientToken", location: .body(locationName: "ClientToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "EniIp", location: .body(locationName: "EniIp"), required: false, type: .string), 
-            AWSShapeProperty(label: "IamRoleArn", location: .body(locationName: "IamRoleArn"), required: true, type: .string), 
-            AWSShapeProperty(label: "SshKey", location: .body(locationName: "SshKey"), required: true, type: .string), 
-            AWSShapeProperty(label: "SubscriptionType", location: .body(locationName: "SubscriptionType"), required: true, type: .enum), 
-            AWSShapeProperty(label: "SyslogIp", location: .body(locationName: "SyslogIp"), required: false, type: .string), 
-            AWSShapeProperty(label: "ExternalId", location: .body(locationName: "ExternalId"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetId", location: .body(locationName: "SubnetId"), required: true, type: .string), 
+            AWSShapeMember(label: "ClientToken", location: .body(locationName: "ClientToken"), required: false, type: .string), 
+            AWSShapeMember(label: "EniIp", location: .body(locationName: "EniIp"), required: false, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", location: .body(locationName: "IamRoleArn"), required: true, type: .string), 
+            AWSShapeMember(label: "SshKey", location: .body(locationName: "SshKey"), required: true, type: .string), 
+            AWSShapeMember(label: "SubscriptionType", location: .body(locationName: "SubscriptionType"), required: true, type: .enum), 
+            AWSShapeMember(label: "SyslogIp", location: .body(locationName: "SyslogIp"), required: false, type: .string), 
+            AWSShapeMember(label: "ExternalId", location: .body(locationName: "ExternalId"), required: false, type: .string)
         ]
         /// The identifier of the subnet in your VPC in which to place the HSM.
         public let subnetId: String
@@ -924,28 +869,23 @@ extension Cloudhsm {
             self.externalId = externalId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
-            self.subnetId = subnetId
-            self.clientToken = dictionary["ClientToken"] as? String
-            self.eniIp = dictionary["EniIp"] as? String
-            guard let iamRoleArn = dictionary["IamRoleArn"] as? String else { throw InitializableError.missingRequiredParam("IamRoleArn") }
-            self.iamRoleArn = iamRoleArn
-            guard let sshKey = dictionary["SshKey"] as? String else { throw InitializableError.missingRequiredParam("SshKey") }
-            self.sshKey = sshKey
-            guard let rawSubscriptionType = dictionary["SubscriptionType"] as? String, let subscriptionType = SubscriptionType(rawValue: rawSubscriptionType) else { throw InitializableError.missingRequiredParam("SubscriptionType") }
-            self.subscriptionType = subscriptionType
-            self.syslogIp = dictionary["SyslogIp"] as? String
-            self.externalId = dictionary["ExternalId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetId = "SubnetId"
+            case clientToken = "ClientToken"
+            case eniIp = "EniIp"
+            case iamRoleArn = "IamRoleArn"
+            case sshKey = "SshKey"
+            case subscriptionType = "SubscriptionType"
+            case syslogIp = "SyslogIp"
+            case externalId = "ExternalId"
         }
     }
 
     public struct RemoveTagsFromResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagKeyList", required: true, type: .list), 
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagKeyList", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
         /// The tag key or keys to remove. Specify only the tag key to remove (not the value). To overwrite the value for an existing tag, use AddTagsToResource.
         public let tagKeyList: [String]
@@ -957,27 +897,21 @@ extension Cloudhsm {
             self.resourceArn = resourceArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tagKeyList = dictionary["TagKeyList"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeyList") }
-            self.tagKeyList = tagKeyList
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
+        private enum CodingKeys: String, CodingKey {
+            case tagKeyList = "TagKeyList"
+            case resourceArn = "ResourceArn"
         }
     }
 
     public struct ListAvailableZonesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteHapgResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .string)
         ]
         /// The status of the action.
         public let status: String
@@ -986,17 +920,15 @@ extension Cloudhsm {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 
     public struct DeleteLunaClientRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientArn", required: true, type: .string)
         ]
         /// The ARN of the client to delete.
         public let clientArn: String
@@ -1005,18 +937,16 @@ extension Cloudhsm {
             self.clientArn = clientArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clientArn = dictionary["ClientArn"] as? String else { throw InitializableError.missingRequiredParam("ClientArn") }
-            self.clientArn = clientArn
+        private enum CodingKeys: String, CodingKey {
+            case clientArn = "ClientArn"
         }
     }
 
     public struct ListHsmsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmList", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The list of ARNs that identify the HSMs.
         public let hsmList: [String]?
@@ -1028,17 +958,16 @@ extension Cloudhsm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.hsmList = dictionary["HsmList"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case hsmList = "HsmList"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DescribeHapgRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HapgArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HapgArn", required: true, type: .string)
         ]
         /// The ARN of the high-availability partition group to describe.
         public let hapgArn: String
@@ -1047,17 +976,15 @@ extension Cloudhsm {
             self.hapgArn = hapgArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hapgArn = dictionary["HapgArn"] as? String else { throw InitializableError.missingRequiredParam("HapgArn") }
-            self.hapgArn = hapgArn
+        private enum CodingKeys: String, CodingKey {
+            case hapgArn = "HapgArn"
         }
     }
 
     public struct ModifyLunaClientResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientArn", required: false, type: .string)
         ]
         /// The ARN of the client.
         public let clientArn: String?
@@ -1066,16 +993,15 @@ extension Cloudhsm {
             self.clientArn = clientArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clientArn = dictionary["ClientArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clientArn = "ClientArn"
         }
     }
 
     public struct ModifyHsmResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmArn", required: false, type: .string)
         ]
         /// The ARN of the HSM.
         public let hsmArn: String?
@@ -1084,16 +1010,15 @@ extension Cloudhsm {
             self.hsmArn = hsmArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.hsmArn = dictionary["HsmArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case hsmArn = "HsmArn"
         }
     }
 
     public struct ListHapgsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The NextToken value from a previous call to ListHapgs. Pass null if this is the first call.
         public let nextToken: String?
@@ -1102,12 +1027,12 @@ extension Cloudhsm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
         }
     }
 
-    public enum ClientVersion: String, CustomStringConvertible {
+    public enum ClientVersion: String, CustomStringConvertible, Codable {
         case _5_1 = "5.1"
         case _5_3 = "5.3"
         public var description: String { return self.rawValue }

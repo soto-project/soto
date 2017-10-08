@@ -31,10 +31,9 @@ extension Discovery {
 
     public struct DisassociateConfigurationItemsFromApplicationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "applicationConfigurationId", required: true, type: .string), 
-            AWSShapeProperty(label: "configurationIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationConfigurationId", required: true, type: .string), 
+            AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
         /// Configuration ID of an application from which each item is disassociated.
         public let applicationConfigurationId: String
@@ -46,20 +45,17 @@ extension Discovery {
             self.configurationIds = configurationIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationConfigurationId = dictionary["applicationConfigurationId"] as? String else { throw InitializableError.missingRequiredParam("applicationConfigurationId") }
-            self.applicationConfigurationId = applicationConfigurationId
-            guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
-            self.configurationIds = configurationIds
+        private enum CodingKeys: String, CodingKey {
+            case applicationConfigurationId = "applicationConfigurationId"
+            case configurationIds = "configurationIds"
         }
     }
 
     public struct DescribeTagsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .structure), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Depending on the input, this is a list of configuration items tagged with a specific tag, or a list of tags for a specific configuration item.
         public let tags: ConfigurationTagSet?
@@ -71,18 +67,17 @@ extension Discovery {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["tags"] as? [String: Any] { self.tags = try Discovery.ConfigurationTagSet(dictionary: tags) } else { self.tags = nil }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case nextToken = "nextToken"
         }
     }
 
     public struct CreateTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tags", required: true, type: .structure), 
-            AWSShapeProperty(label: "configurationIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: true, type: .structure), 
+            AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
         /// Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key-value format. For example:  {"key": "serverType", "value": "webServer"} 
         public let tags: TagSet
@@ -94,27 +89,21 @@ extension Discovery {
             self.configurationIds = configurationIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("tags") }
-            self.tags = try Discovery.TagSet(dictionary: tags)
-            guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
-            self.configurationIds = configurationIds
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case configurationIds = "configurationIds"
         }
     }
 
     public struct DeleteTagsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct FilterValues: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
 
@@ -122,24 +111,20 @@ extension Discovery {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.item = dictionary["item"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case item = "item"
         }
     }
 
     public struct UpdateApplicationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct TagSet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [Tag]?
 
@@ -147,21 +132,16 @@ extension Discovery {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["item"] as? [[String: Any]] {
-                self.item = try item.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case item = "item"
         }
     }
 
     public struct OrderByElement: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "fieldName", required: true, type: .string), 
-            AWSShapeProperty(label: "sortOrder", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fieldName", required: true, type: .string), 
+            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
         ]
         /// The field on which to order.
         public let fieldName: String
@@ -173,27 +153,25 @@ extension Discovery {
             self.sortOrder = sortOrder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let fieldName = dictionary["fieldName"] as? String else { throw InitializableError.missingRequiredParam("fieldName") }
-            self.fieldName = fieldName
-            if let sortOrder = dictionary["sortOrder"] as? String { self.sortOrder = OrderString(rawValue: sortOrder) } else { self.sortOrder = nil }
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "fieldName"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct AgentInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "health", required: false, type: .enum), 
-            AWSShapeProperty(label: "agentNetworkInfoList", required: false, type: .list), 
-            AWSShapeProperty(label: "lastHealthPingTime", required: false, type: .string), 
-            AWSShapeProperty(label: "agentType", required: false, type: .string), 
-            AWSShapeProperty(label: "collectionStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "connectorId", required: false, type: .string), 
-            AWSShapeProperty(label: "agentId", required: false, type: .string), 
-            AWSShapeProperty(label: "registeredTime", required: false, type: .string), 
-            AWSShapeProperty(label: "hostName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "health", required: false, type: .enum), 
+            AWSShapeMember(label: "agentNetworkInfoList", required: false, type: .list), 
+            AWSShapeMember(label: "lastHealthPingTime", required: false, type: .string), 
+            AWSShapeMember(label: "agentType", required: false, type: .string), 
+            AWSShapeMember(label: "collectionStatus", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "connectorId", required: false, type: .string), 
+            AWSShapeMember(label: "agentId", required: false, type: .string), 
+            AWSShapeMember(label: "registeredTime", required: false, type: .string), 
+            AWSShapeMember(label: "hostName", required: false, type: .string)
         ]
         /// The health of the agent or connector.
         public let health: AgentStatus?
@@ -229,34 +207,29 @@ extension Discovery {
             self.hostName = hostName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let health = dictionary["health"] as? String { self.health = AgentStatus(rawValue: health) } else { self.health = nil }
-            if let agentNetworkInfoList = dictionary["agentNetworkInfoList"] as? [[String: Any]] {
-                self.agentNetworkInfoList = try agentNetworkInfoList.map({ try AgentNetworkInfo(dictionary: $0) })
-            } else { 
-                self.agentNetworkInfoList = nil
-            }
-            self.lastHealthPingTime = dictionary["lastHealthPingTime"] as? String
-            self.agentType = dictionary["agentType"] as? String
-            self.collectionStatus = dictionary["collectionStatus"] as? String
-            self.version = dictionary["version"] as? String
-            self.connectorId = dictionary["connectorId"] as? String
-            self.agentId = dictionary["agentId"] as? String
-            self.registeredTime = dictionary["registeredTime"] as? String
-            self.hostName = dictionary["hostName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case health = "health"
+            case agentNetworkInfoList = "agentNetworkInfoList"
+            case lastHealthPingTime = "lastHealthPingTime"
+            case agentType = "agentType"
+            case collectionStatus = "collectionStatus"
+            case version = "version"
+            case connectorId = "connectorId"
+            case agentId = "agentId"
+            case registeredTime = "registeredTime"
+            case hostName = "hostName"
         }
     }
 
     public struct GetDiscoverySummaryResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "serversMappedtoTags", required: false, type: .long), 
-            AWSShapeProperty(label: "applications", required: false, type: .long), 
-            AWSShapeProperty(label: "connectorSummary", required: false, type: .structure), 
-            AWSShapeProperty(label: "agentSummary", required: false, type: .structure), 
-            AWSShapeProperty(label: "servers", required: false, type: .long), 
-            AWSShapeProperty(label: "serversMappedToApplications", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "serversMappedtoTags", required: false, type: .long), 
+            AWSShapeMember(label: "applications", required: false, type: .long), 
+            AWSShapeMember(label: "connectorSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "agentSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "servers", required: false, type: .long), 
+            AWSShapeMember(label: "serversMappedToApplications", required: false, type: .long)
         ]
         /// The number of servers mapped to tags.
         public let serversMappedtoTags: Int64?
@@ -280,28 +253,27 @@ extension Discovery {
             self.serversMappedToApplications = serversMappedToApplications
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.serversMappedtoTags = dictionary["serversMappedtoTags"] as? Int64
-            self.applications = dictionary["applications"] as? Int64
-            if let connectorSummary = dictionary["connectorSummary"] as? [String: Any] { self.connectorSummary = try Discovery.CustomerConnectorInfo(dictionary: connectorSummary) } else { self.connectorSummary = nil }
-            if let agentSummary = dictionary["agentSummary"] as? [String: Any] { self.agentSummary = try Discovery.CustomerAgentInfo(dictionary: agentSummary) } else { self.agentSummary = nil }
-            self.servers = dictionary["servers"] as? Int64
-            self.serversMappedToApplications = dictionary["serversMappedToApplications"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case serversMappedtoTags = "serversMappedtoTags"
+            case applications = "applications"
+            case connectorSummary = "connectorSummary"
+            case agentSummary = "agentSummary"
+            case servers = "servers"
+            case serversMappedToApplications = "serversMappedToApplications"
         }
     }
 
     public struct ConfigurationTag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "timeOfCreation", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "configurationType", required: false, type: .enum), 
-            AWSShapeProperty(label: "value", required: false, type: .string), 
-            AWSShapeProperty(label: "key", required: false, type: .string), 
-            AWSShapeProperty(label: "configurationId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "timeOfCreation", required: false, type: .timestamp), 
+            AWSShapeMember(label: "configurationType", required: false, type: .enum), 
+            AWSShapeMember(label: "value", required: false, type: .string), 
+            AWSShapeMember(label: "key", required: false, type: .string), 
+            AWSShapeMember(label: "configurationId", required: false, type: .string)
         ]
         /// The time the configuration tag was created in Coordinated Universal Time (UTC).
-        public let timeOfCreation: String?
+        public let timeOfCreation: Double?
         /// A type of IT asset to tag.
         public let configurationType: ConfigurationItemType?
         /// A value on which to filter. For example key = serverType and value = web server.
@@ -311,7 +283,7 @@ extension Discovery {
         /// The configuration ID for the item to tag. You can specify a list of keys and values.
         public let configurationId: String?
 
-        public init(timeOfCreation: String? = nil, configurationType: ConfigurationItemType? = nil, value: String? = nil, key: String? = nil, configurationId: String? = nil) {
+        public init(timeOfCreation: Double? = nil, configurationType: ConfigurationItemType? = nil, value: String? = nil, key: String? = nil, configurationId: String? = nil) {
             self.timeOfCreation = timeOfCreation
             self.configurationType = configurationType
             self.value = value
@@ -319,21 +291,20 @@ extension Discovery {
             self.configurationId = configurationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.timeOfCreation = dictionary["timeOfCreation"] as? String
-            if let configurationType = dictionary["configurationType"] as? String { self.configurationType = ConfigurationItemType(rawValue: configurationType) } else { self.configurationType = nil }
-            self.value = dictionary["value"] as? String
-            self.key = dictionary["key"] as? String
-            self.configurationId = dictionary["configurationId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case timeOfCreation = "timeOfCreation"
+            case configurationType = "configurationType"
+            case value = "value"
+            case key = "key"
+            case configurationId = "configurationId"
         }
     }
 
     public struct ListConfigurationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "configurations", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurations", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Returns configuration details, including the configuration ID, attribute names, and attribute values.
         public let configurations: [[String: String]]?
@@ -345,21 +316,20 @@ extension Discovery {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configurations = dictionary["configurations"] as? [[String: String]]
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case configurations = "configurations"
+            case nextToken = "nextToken"
         }
     }
 
     public struct NeighborConnectionDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "destinationServerId", required: true, type: .string), 
-            AWSShapeProperty(label: "transportProtocol", required: false, type: .string), 
-            AWSShapeProperty(label: "connectionsCount", required: true, type: .long), 
-            AWSShapeProperty(label: "destinationPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "sourceServerId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationServerId", required: true, type: .string), 
+            AWSShapeMember(label: "transportProtocol", required: false, type: .string), 
+            AWSShapeMember(label: "connectionsCount", required: true, type: .long), 
+            AWSShapeMember(label: "destinationPort", required: false, type: .integer), 
+            AWSShapeMember(label: "sourceServerId", required: true, type: .string)
         ]
         /// The ID of the server that accepted the network connection.
         public let destinationServerId: String
@@ -380,19 +350,16 @@ extension Discovery {
             self.sourceServerId = sourceServerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let destinationServerId = dictionary["destinationServerId"] as? String else { throw InitializableError.missingRequiredParam("destinationServerId") }
-            self.destinationServerId = destinationServerId
-            self.transportProtocol = dictionary["transportProtocol"] as? String
-            guard let connectionsCount = dictionary["connectionsCount"] as? Int64 else { throw InitializableError.missingRequiredParam("connectionsCount") }
-            self.connectionsCount = connectionsCount
-            self.destinationPort = dictionary["destinationPort"] as? Int32
-            guard let sourceServerId = dictionary["sourceServerId"] as? String else { throw InitializableError.missingRequiredParam("sourceServerId") }
-            self.sourceServerId = sourceServerId
+        private enum CodingKeys: String, CodingKey {
+            case destinationServerId = "destinationServerId"
+            case transportProtocol = "transportProtocol"
+            case connectionsCount = "connectionsCount"
+            case destinationPort = "destinationPort"
+            case sourceServerId = "sourceServerId"
         }
     }
 
-    public enum ConfigurationItemType: String, CustomStringConvertible {
+    public enum ConfigurationItemType: String, CustomStringConvertible, Codable {
         case server = "SERVER"
         case process = "PROCESS"
         case connection = "CONNECTION"
@@ -402,11 +369,10 @@ extension Discovery {
 
     public struct DescribeTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "filters", required: false, type: .list), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// You can filter the list using a key-value format. You can separate these items by using logical operators. Allowed filters include tagKey, tagValue, and configurationId. 
         public let filters: [TagFilter]?
@@ -421,24 +387,19 @@ extension Discovery {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let filters = dictionary["filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try TagFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListServerNeighborsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "neighbors", required: true, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "knownDependencyCount", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "neighbors", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "knownDependencyCount", required: false, type: .long)
         ]
         /// List of distinct servers that are one hop away from the given server.
         public let neighbors: [NeighborConnectionDetail]
@@ -453,20 +414,18 @@ extension Discovery {
             self.knownDependencyCount = knownDependencyCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let neighbors = dictionary["neighbors"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("neighbors") }
-            self.neighbors = try neighbors.map({ try NeighborConnectionDetail(dictionary: $0) })
-            self.nextToken = dictionary["nextToken"] as? String
-            self.knownDependencyCount = dictionary["knownDependencyCount"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case neighbors = "neighbors"
+            case nextToken = "nextToken"
+            case knownDependencyCount = "knownDependencyCount"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "key", required: true, type: .string), 
-            AWSShapeProperty(label: "value", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: true, type: .string)
         ]
         /// The type of tag on which to filter.
         public let key: String
@@ -478,19 +437,16 @@ extension Discovery {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
-            self.key = key
-            guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
-            self.value = value
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct CreateApplicationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "configurationId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationId", required: false, type: .string)
         ]
         /// Configuration ID of an application to be created.
         public let configurationId: String?
@@ -499,17 +455,16 @@ extension Discovery {
             self.configurationId = configurationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configurationId = dictionary["configurationId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configurationId"
         }
     }
 
     public struct TagFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "values", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "values", required: true, type: .structure)
         ]
         /// A name of the tag filter.
         public let name: String
@@ -521,20 +476,17 @@ extension Discovery {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let values = dictionary["values"] as? [String: Any] else { throw InitializableError.missingRequiredParam("values") }
-            self.values = try Discovery.FilterValues(dictionary: values)
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case values = "values"
         }
     }
 
     public struct AssociateConfigurationItemsToApplicationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "applicationConfigurationId", required: true, type: .string), 
-            AWSShapeProperty(label: "configurationIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationConfigurationId", required: true, type: .string), 
+            AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
         /// The configuration ID of an application with which items are to be associated.
         public let applicationConfigurationId: String
@@ -546,19 +498,16 @@ extension Discovery {
             self.configurationIds = configurationIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationConfigurationId = dictionary["applicationConfigurationId"] as? String else { throw InitializableError.missingRequiredParam("applicationConfigurationId") }
-            self.applicationConfigurationId = applicationConfigurationId
-            guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
-            self.configurationIds = configurationIds
+        private enum CodingKeys: String, CodingKey {
+            case applicationConfigurationId = "applicationConfigurationId"
+            case configurationIds = "configurationIds"
         }
     }
 
     public struct StartExportTaskResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "exportId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportId", required: false, type: .string)
         ]
         ///  A unique identifier used to query the status of an export request.
         public let exportId: String?
@@ -567,16 +516,15 @@ extension Discovery {
             self.exportId = exportId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.exportId = dictionary["exportId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case exportId = "exportId"
         }
     }
 
     public struct ConfigurationTagSet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [ConfigurationTag]?
 
@@ -584,20 +532,15 @@ extension Discovery {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["item"] as? [[String: Any]] {
-                self.item = try item.map({ try ConfigurationTag(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case item = "item"
         }
     }
 
     public struct ExportConfigurationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "exportId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportId", required: false, type: .string)
         ]
         /// A unique identifier that you can use to query the export status.
         public let exportId: String?
@@ -606,17 +549,16 @@ extension Discovery {
             self.exportId = exportId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.exportId = dictionary["exportId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case exportId = "exportId"
         }
     }
 
     public struct CreateApplicationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// Description of the application to be created.
         public let description: String?
@@ -628,20 +570,18 @@ extension Discovery {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
         }
     }
 
     public struct DescribeExportTasksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "exportIds", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportIds", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
         /// One or more unique identifiers used to query the status of an export request.
         public let exportIds: [String]?
@@ -656,22 +596,21 @@ extension Discovery {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.exportIds = dictionary["exportIds"] as? [String]
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case exportIds = "exportIds"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct ListServerNeighborsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "portInformationNeeded", required: false, type: .boolean), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "neighborConfigurationIds", required: false, type: .list), 
-            AWSShapeProperty(label: "configurationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "portInformationNeeded", required: false, type: .boolean), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "neighborConfigurationIds", required: false, type: .list), 
+            AWSShapeMember(label: "configurationId", required: true, type: .string)
         ]
         /// Maximum number of results to return in a single page of output.
         public let maxResults: Int32?
@@ -692,17 +631,16 @@ extension Discovery {
             self.configurationId = configurationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.portInformationNeeded = dictionary["portInformationNeeded"] as? Bool
-            self.nextToken = dictionary["nextToken"] as? String
-            self.neighborConfigurationIds = dictionary["neighborConfigurationIds"] as? [String]
-            guard let configurationId = dictionary["configurationId"] as? String else { throw InitializableError.missingRequiredParam("configurationId") }
-            self.configurationId = configurationId
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case portInformationNeeded = "portInformationNeeded"
+            case nextToken = "nextToken"
+            case neighborConfigurationIds = "neighborConfigurationIds"
+            case configurationId = "configurationId"
         }
     }
 
-    public enum ExportDataFormat: String, CustomStringConvertible {
+    public enum ExportDataFormat: String, CustomStringConvertible, Codable {
         case csv = "CSV"
         case graphml = "GRAPHML"
         public var description: String { return self.rawValue }
@@ -710,13 +648,12 @@ extension Discovery {
 
     public struct ListConfigurationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "configurationType", required: true, type: .enum), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "filters", required: false, type: .list), 
-            AWSShapeProperty(label: "orderBy", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationType", required: true, type: .enum), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "orderBy", required: false, type: .list)
         ]
         /// A valid configuration identified by Application Discovery Service. 
         public let configurationType: ConfigurationItemType
@@ -737,25 +674,16 @@ extension Discovery {
             self.orderBy = orderBy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawconfigurationType = dictionary["configurationType"] as? String, let configurationType = ConfigurationItemType(rawValue: rawconfigurationType) else { throw InitializableError.missingRequiredParam("configurationType") }
-            self.configurationType = configurationType
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
-            if let filters = dictionary["filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try Filter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            if let orderBy = dictionary["orderBy"] as? [[String: Any]] {
-                self.orderBy = try orderBy.map({ try OrderByElement(dictionary: $0) })
-            } else { 
-                self.orderBy = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case configurationType = "configurationType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case filters = "filters"
+            case orderBy = "orderBy"
         }
     }
 
-    public enum ExportStatus: String, CustomStringConvertible {
+    public enum ExportStatus: String, CustomStringConvertible, Codable {
         case failed = "FAILED"
         case succeeded = "SUCCEEDED"
         case in_progress = "IN_PROGRESS"
@@ -764,10 +692,9 @@ extension Discovery {
 
     public struct DescribeExportTasksResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "exportsInfo", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "exportsInfo", required: false, type: .list)
         ]
         /// The nextToken value to include in a future DescribeExportTasks request. When the results of a DescribeExportTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -779,23 +706,18 @@ extension Discovery {
             self.exportsInfo = exportsInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let exportsInfo = dictionary["exportsInfo"] as? [[String: Any]] {
-                self.exportsInfo = try exportsInfo.map({ try ExportInfo(dictionary: $0) })
-            } else { 
-                self.exportsInfo = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case exportsInfo = "exportsInfo"
         }
     }
 
     public struct DescribeExportConfigurationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "exportIds", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportIds", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
         /// A unique identifier that you can use to query the export status.
         public let exportIds: [String]?
@@ -810,18 +732,17 @@ extension Discovery {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.exportIds = dictionary["exportIds"] as? [String]
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case exportIds = "exportIds"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct DeleteApplicationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "configurationIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
         /// Configuration ID of an application to be deleted.
         public let configurationIds: [String]
@@ -830,19 +751,17 @@ extension Discovery {
             self.configurationIds = configurationIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
-            self.configurationIds = configurationIds
+        private enum CodingKeys: String, CodingKey {
+            case configurationIds = "configurationIds"
         }
     }
 
     public struct AgentConfigurationStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "agentId", required: false, type: .string), 
-            AWSShapeProperty(label: "operationSucceeded", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "agentId", required: false, type: .string), 
+            AWSShapeMember(label: "operationSucceeded", required: false, type: .boolean)
         ]
         /// A description of the operation performed.
         public let description: String?
@@ -857,24 +776,23 @@ extension Discovery {
             self.operationSucceeded = operationSucceeded
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            self.agentId = dictionary["agentId"] as? String
-            self.operationSucceeded = dictionary["operationSucceeded"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case agentId = "agentId"
+            case operationSucceeded = "operationSucceeded"
         }
     }
 
     public struct CustomerConnectorInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "unhealthyConnectors", required: true, type: .integer), 
-            AWSShapeProperty(label: "healthyConnectors", required: true, type: .integer), 
-            AWSShapeProperty(label: "activeConnectors", required: true, type: .integer), 
-            AWSShapeProperty(label: "totalConnectors", required: true, type: .integer), 
-            AWSShapeProperty(label: "shutdownConnectors", required: true, type: .integer), 
-            AWSShapeProperty(label: "unknownConnectors", required: true, type: .integer), 
-            AWSShapeProperty(label: "blackListedConnectors", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "unhealthyConnectors", required: true, type: .integer), 
+            AWSShapeMember(label: "healthyConnectors", required: true, type: .integer), 
+            AWSShapeMember(label: "activeConnectors", required: true, type: .integer), 
+            AWSShapeMember(label: "totalConnectors", required: true, type: .integer), 
+            AWSShapeMember(label: "shutdownConnectors", required: true, type: .integer), 
+            AWSShapeMember(label: "unknownConnectors", required: true, type: .integer), 
+            AWSShapeMember(label: "blackListedConnectors", required: true, type: .integer)
         ]
         /// Number of unhealthy discovery connectors.
         public let unhealthyConnectors: Int32
@@ -901,29 +819,21 @@ extension Discovery {
             self.blackListedConnectors = blackListedConnectors
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let unhealthyConnectors = dictionary["unhealthyConnectors"] as? Int32 else { throw InitializableError.missingRequiredParam("unhealthyConnectors") }
-            self.unhealthyConnectors = unhealthyConnectors
-            guard let healthyConnectors = dictionary["healthyConnectors"] as? Int32 else { throw InitializableError.missingRequiredParam("healthyConnectors") }
-            self.healthyConnectors = healthyConnectors
-            guard let activeConnectors = dictionary["activeConnectors"] as? Int32 else { throw InitializableError.missingRequiredParam("activeConnectors") }
-            self.activeConnectors = activeConnectors
-            guard let totalConnectors = dictionary["totalConnectors"] as? Int32 else { throw InitializableError.missingRequiredParam("totalConnectors") }
-            self.totalConnectors = totalConnectors
-            guard let shutdownConnectors = dictionary["shutdownConnectors"] as? Int32 else { throw InitializableError.missingRequiredParam("shutdownConnectors") }
-            self.shutdownConnectors = shutdownConnectors
-            guard let unknownConnectors = dictionary["unknownConnectors"] as? Int32 else { throw InitializableError.missingRequiredParam("unknownConnectors") }
-            self.unknownConnectors = unknownConnectors
-            guard let blackListedConnectors = dictionary["blackListedConnectors"] as? Int32 else { throw InitializableError.missingRequiredParam("blackListedConnectors") }
-            self.blackListedConnectors = blackListedConnectors
+        private enum CodingKeys: String, CodingKey {
+            case unhealthyConnectors = "unhealthyConnectors"
+            case healthyConnectors = "healthyConnectors"
+            case activeConnectors = "activeConnectors"
+            case totalConnectors = "totalConnectors"
+            case shutdownConnectors = "shutdownConnectors"
+            case unknownConnectors = "unknownConnectors"
+            case blackListedConnectors = "blackListedConnectors"
         }
     }
 
     public struct StopDataCollectionByAgentIdsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "agentIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentIds", required: true, type: .list)
         ]
         /// The IDs of the agents or connectors from which to stop collecting data.
         public let agentIds: [String]
@@ -932,18 +842,16 @@ extension Discovery {
             self.agentIds = agentIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let agentIds = dictionary["agentIds"] as? [String] else { throw InitializableError.missingRequiredParam("agentIds") }
-            self.agentIds = agentIds
+        private enum CodingKeys: String, CodingKey {
+            case agentIds = "agentIds"
         }
     }
 
     public struct DeleteTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "configurationIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .structure), 
+            AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
         /// Tags that you want to delete from one or more configuration items. Specify the tags that you want to delete in a key-value format. For example:  {"key": "serverType", "value": "webServer"} 
         public let tags: TagSet?
@@ -955,18 +863,16 @@ extension Discovery {
             self.configurationIds = configurationIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["tags"] as? [String: Any] { self.tags = try Discovery.TagSet(dictionary: tags) } else { self.tags = nil }
-            guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
-            self.configurationIds = configurationIds
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case configurationIds = "configurationIds"
         }
     }
 
     public struct DescribeConfigurationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "configurationIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
         /// One or more configuration IDs.
         public let configurationIds: [String]
@@ -975,13 +881,12 @@ extension Discovery {
             self.configurationIds = configurationIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
-            self.configurationIds = configurationIds
+        private enum CodingKeys: String, CodingKey {
+            case configurationIds = "configurationIds"
         }
     }
 
-    public enum AgentStatus: String, CustomStringConvertible {
+    public enum AgentStatus: String, CustomStringConvertible, Codable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
         case running = "RUNNING"
@@ -993,9 +898,8 @@ extension Discovery {
 
     public struct StartExportTaskRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "exportDataFormat", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportDataFormat", required: false, type: .list)
         ]
         /// The file format for the returned export data. Default value is CSV.
         public let exportDataFormat: [ExportDataFormat]?
@@ -1004,25 +908,21 @@ extension Discovery {
             self.exportDataFormat = exportDataFormat
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let exportDataFormat = dictionary["exportDataFormat"] as? [String] { self.exportDataFormat = exportDataFormat.flatMap({ ExportDataFormat(rawValue: $0)}) } else { self.exportDataFormat = nil }
+        private enum CodingKeys: String, CodingKey {
+            case exportDataFormat = "exportDataFormat"
         }
     }
 
     public struct AssociateConfigurationItemsToApplicationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeExportConfigurationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "exportsInfo", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "exportsInfo", required: false, type: .list)
         ]
         /// A token to get the next set of results. For example, if you specify 100 IDs for DescribeExportConfigurationsRequest$exportIds but set DescribeExportConfigurationsRequest$maxResults to 10, you get results in a set of 10. Use the token in the query to get the next set of 10.
         public let nextToken: String?
@@ -1034,21 +934,16 @@ extension Discovery {
             self.exportsInfo = exportsInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let exportsInfo = dictionary["exportsInfo"] as? [[String: Any]] {
-                self.exportsInfo = try exportsInfo.map({ try ExportInfo(dictionary: $0) })
-            } else { 
-                self.exportsInfo = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case exportsInfo = "exportsInfo"
         }
     }
 
     public struct StopDataCollectionByAgentIdsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "agentsConfigurationStatus", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentsConfigurationStatus", required: false, type: .list)
         ]
         /// Information about the agents or connector that were instructed to stop collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
         public let agentsConfigurationStatus: [AgentConfigurationStatus]?
@@ -1057,20 +952,15 @@ extension Discovery {
             self.agentsConfigurationStatus = agentsConfigurationStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let agentsConfigurationStatus = dictionary["agentsConfigurationStatus"] as? [[String: Any]] {
-                self.agentsConfigurationStatus = try agentsConfigurationStatus.map({ try AgentConfigurationStatus(dictionary: $0) })
-            } else { 
-                self.agentsConfigurationStatus = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case agentsConfigurationStatus = "agentsConfigurationStatus"
         }
     }
 
     public struct StartDataCollectionByAgentIdsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "agentsConfigurationStatus", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentsConfigurationStatus", required: false, type: .list)
         ]
         /// Information about agents or the connector that were instructed to start collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
         public let agentsConfigurationStatus: [AgentConfigurationStatus]?
@@ -1079,16 +969,12 @@ extension Discovery {
             self.agentsConfigurationStatus = agentsConfigurationStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let agentsConfigurationStatus = dictionary["agentsConfigurationStatus"] as? [[String: Any]] {
-                self.agentsConfigurationStatus = try agentsConfigurationStatus.map({ try AgentConfigurationStatus(dictionary: $0) })
-            } else { 
-                self.agentsConfigurationStatus = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case agentsConfigurationStatus = "agentsConfigurationStatus"
         }
     }
 
-    public enum OrderString: String, CustomStringConvertible {
+    public enum OrderString: String, CustomStringConvertible, Codable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
@@ -1096,21 +982,17 @@ extension Discovery {
 
     public struct DeleteApplicationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ExportInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "exportId", required: true, type: .string), 
-            AWSShapeProperty(label: "exportStatus", required: true, type: .enum), 
-            AWSShapeProperty(label: "configurationsDownloadUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "statusMessage", required: true, type: .string), 
-            AWSShapeProperty(label: "exportRequestTime", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exportId", required: true, type: .string), 
+            AWSShapeMember(label: "exportStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "configurationsDownloadUrl", required: false, type: .string), 
+            AWSShapeMember(label: "statusMessage", required: true, type: .string), 
+            AWSShapeMember(label: "exportRequestTime", required: true, type: .timestamp)
         ]
         /// A unique identifier that you can use to query the export.
         public let exportId: String
@@ -1121,9 +1003,9 @@ extension Discovery {
         /// Helpful status messages for API callers. For example: Too many exports in the last 6 hours. Export in progress. Export was successful.
         public let statusMessage: String
         /// The time that the configuration data export was initiated.
-        public let exportRequestTime: String
+        public let exportRequestTime: Double
 
-        public init(exportId: String, exportStatus: ExportStatus, configurationsDownloadUrl: String? = nil, statusMessage: String, exportRequestTime: String) {
+        public init(exportId: String, exportStatus: ExportStatus, configurationsDownloadUrl: String? = nil, statusMessage: String, exportRequestTime: Double) {
             self.exportId = exportId
             self.exportStatus = exportStatus
             self.configurationsDownloadUrl = configurationsDownloadUrl
@@ -1131,25 +1013,20 @@ extension Discovery {
             self.exportRequestTime = exportRequestTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let exportId = dictionary["exportId"] as? String else { throw InitializableError.missingRequiredParam("exportId") }
-            self.exportId = exportId
-            guard let rawexportStatus = dictionary["exportStatus"] as? String, let exportStatus = ExportStatus(rawValue: rawexportStatus) else { throw InitializableError.missingRequiredParam("exportStatus") }
-            self.exportStatus = exportStatus
-            self.configurationsDownloadUrl = dictionary["configurationsDownloadUrl"] as? String
-            guard let statusMessage = dictionary["statusMessage"] as? String else { throw InitializableError.missingRequiredParam("statusMessage") }
-            self.statusMessage = statusMessage
-            guard let exportRequestTime = dictionary["exportRequestTime"] as? String else { throw InitializableError.missingRequiredParam("exportRequestTime") }
-            self.exportRequestTime = exportRequestTime
+        private enum CodingKeys: String, CodingKey {
+            case exportId = "exportId"
+            case exportStatus = "exportStatus"
+            case configurationsDownloadUrl = "configurationsDownloadUrl"
+            case statusMessage = "statusMessage"
+            case exportRequestTime = "exportRequestTime"
         }
     }
 
     public struct DescribeAgentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "agentsInfo", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentsInfo", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Lists agents or the Connector by ID or lists all agents/Connectors associated with your user account if you did not specify an agent/Connector ID. The output includes agent/Connector IDs, IP addresses, media access control (MAC) addresses, agent/Connector health, host name where the agent/Connector resides, and the version number of each agent/Connector.
         public let agentsInfo: [AgentInfo]?
@@ -1161,29 +1038,21 @@ extension Discovery {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let agentsInfo = dictionary["agentsInfo"] as? [[String: Any]] {
-                self.agentsInfo = try agentsInfo.map({ try AgentInfo(dictionary: $0) })
-            } else { 
-                self.agentsInfo = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case agentsInfo = "agentsInfo"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetDiscoverySummaryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeConfigurationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "configurations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurations", required: false, type: .list)
         ]
         /// A key in the response map. The value is an array of data.
         public let configurations: [[String: String]]?
@@ -1192,19 +1061,18 @@ extension Discovery {
             self.configurations = configurations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configurations = dictionary["configurations"] as? [[String: String]]
+        private enum CodingKeys: String, CodingKey {
+            case configurations = "configurations"
         }
     }
 
     public struct DescribeAgentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "filters", required: false, type: .list), 
-            AWSShapeProperty(label: "agentIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "filters", required: false, type: .list), 
+            AWSShapeMember(label: "agentIds", required: false, type: .list)
         ]
         /// The total number of agents/Connectors to return in a single page of output. The maximum value is 100.
         public let maxResults: Int32?
@@ -1222,37 +1090,29 @@ extension Discovery {
             self.agentIds = agentIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
-            if let filters = dictionary["filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try Filter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.agentIds = dictionary["agentIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case filters = "filters"
+            case agentIds = "agentIds"
         }
     }
 
     public struct DisassociateConfigurationItemsFromApplicationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CustomerAgentInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "unhealthyAgents", required: true, type: .integer), 
-            AWSShapeProperty(label: "blackListedAgents", required: true, type: .integer), 
-            AWSShapeProperty(label: "totalAgents", required: true, type: .integer), 
-            AWSShapeProperty(label: "unknownAgents", required: true, type: .integer), 
-            AWSShapeProperty(label: "healthyAgents", required: true, type: .integer), 
-            AWSShapeProperty(label: "activeAgents", required: true, type: .integer), 
-            AWSShapeProperty(label: "shutdownAgents", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "unhealthyAgents", required: true, type: .integer), 
+            AWSShapeMember(label: "blackListedAgents", required: true, type: .integer), 
+            AWSShapeMember(label: "totalAgents", required: true, type: .integer), 
+            AWSShapeMember(label: "unknownAgents", required: true, type: .integer), 
+            AWSShapeMember(label: "healthyAgents", required: true, type: .integer), 
+            AWSShapeMember(label: "activeAgents", required: true, type: .integer), 
+            AWSShapeMember(label: "shutdownAgents", required: true, type: .integer)
         ]
         /// Number of unhealthy discovery agents.
         public let unhealthyAgents: Int32
@@ -1279,29 +1139,21 @@ extension Discovery {
             self.shutdownAgents = shutdownAgents
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let unhealthyAgents = dictionary["unhealthyAgents"] as? Int32 else { throw InitializableError.missingRequiredParam("unhealthyAgents") }
-            self.unhealthyAgents = unhealthyAgents
-            guard let blackListedAgents = dictionary["blackListedAgents"] as? Int32 else { throw InitializableError.missingRequiredParam("blackListedAgents") }
-            self.blackListedAgents = blackListedAgents
-            guard let totalAgents = dictionary["totalAgents"] as? Int32 else { throw InitializableError.missingRequiredParam("totalAgents") }
-            self.totalAgents = totalAgents
-            guard let unknownAgents = dictionary["unknownAgents"] as? Int32 else { throw InitializableError.missingRequiredParam("unknownAgents") }
-            self.unknownAgents = unknownAgents
-            guard let healthyAgents = dictionary["healthyAgents"] as? Int32 else { throw InitializableError.missingRequiredParam("healthyAgents") }
-            self.healthyAgents = healthyAgents
-            guard let activeAgents = dictionary["activeAgents"] as? Int32 else { throw InitializableError.missingRequiredParam("activeAgents") }
-            self.activeAgents = activeAgents
-            guard let shutdownAgents = dictionary["shutdownAgents"] as? Int32 else { throw InitializableError.missingRequiredParam("shutdownAgents") }
-            self.shutdownAgents = shutdownAgents
+        private enum CodingKeys: String, CodingKey {
+            case unhealthyAgents = "unhealthyAgents"
+            case blackListedAgents = "blackListedAgents"
+            case totalAgents = "totalAgents"
+            case unknownAgents = "unknownAgents"
+            case healthyAgents = "healthyAgents"
+            case activeAgents = "activeAgents"
+            case shutdownAgents = "shutdownAgents"
         }
     }
 
     public struct StartDataCollectionByAgentIdsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "agentIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentIds", required: true, type: .list)
         ]
         /// The IDs of the agents or connectors from which to start collecting data. If you send a request to an agent/connector ID that you do not have permission to contact, according to your AWS account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/connectors and you do not have permission to contact some of those agents/connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
         public let agentIds: [String]
@@ -1310,19 +1162,17 @@ extension Discovery {
             self.agentIds = agentIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let agentIds = dictionary["agentIds"] as? [String] else { throw InitializableError.missingRequiredParam("agentIds") }
-            self.agentIds = agentIds
+        private enum CodingKeys: String, CodingKey {
+            case agentIds = "agentIds"
         }
     }
 
     public struct UpdateApplicationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "configurationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "configurationId", required: true, type: .string)
         ]
         /// New description of the application to be updated.
         public let description: String?
@@ -1337,21 +1187,19 @@ extension Discovery {
             self.configurationId = configurationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            self.name = dictionary["name"] as? String
-            guard let configurationId = dictionary["configurationId"] as? String else { throw InitializableError.missingRequiredParam("configurationId") }
-            self.configurationId = configurationId
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case configurationId = "configurationId"
         }
     }
 
     public struct Filter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "values", required: true, type: .structure), 
-            AWSShapeProperty(label: "condition", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "values", required: true, type: .structure), 
+            AWSShapeMember(label: "condition", required: true, type: .string)
         ]
         /// The name of the filter.
         public let name: String
@@ -1366,22 +1214,18 @@ extension Discovery {
             self.condition = condition
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let values = dictionary["values"] as? [String: Any] else { throw InitializableError.missingRequiredParam("values") }
-            self.values = try Discovery.FilterValues(dictionary: values)
-            guard let condition = dictionary["condition"] as? String else { throw InitializableError.missingRequiredParam("condition") }
-            self.condition = condition
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case values = "values"
+            case condition = "condition"
         }
     }
 
     public struct AgentNetworkInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "macAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "ipAddress", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "macAddress", required: false, type: .string), 
+            AWSShapeMember(label: "ipAddress", required: false, type: .string)
         ]
         /// The MAC address for the host where the agent/connector resides.
         public let macAddress: String?
@@ -1393,18 +1237,15 @@ extension Discovery {
             self.ipAddress = ipAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.macAddress = dictionary["macAddress"] as? String
-            self.ipAddress = dictionary["ipAddress"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case macAddress = "macAddress"
+            case ipAddress = "ipAddress"
         }
     }
 
     public struct CreateTagsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
 }

@@ -31,13 +31,12 @@ extension Elasticloadbalancing {
 
     public struct PolicyAttributeTypeDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", required: false, type: .string), 
-            AWSShapeProperty(label: "AttributeType", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .string), 
-            AWSShapeProperty(label: "Cardinality", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
+            AWSShapeMember(label: "AttributeType", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "Cardinality", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The name of the attribute.
         public let attributeName: String?
@@ -58,20 +57,19 @@ extension Elasticloadbalancing {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attributeName = dictionary["AttributeName"] as? String
-            self.attributeType = dictionary["AttributeType"] as? String
-            self.defaultValue = dictionary["DefaultValue"] as? String
-            self.cardinality = dictionary["Cardinality"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case attributeType = "AttributeType"
+            case defaultValue = "DefaultValue"
+            case cardinality = "Cardinality"
+            case description = "Description"
         }
     }
 
     public struct AddAvailabilityZonesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
         ]
         /// The updated list of Availability Zones for the load balancer.
         public let availabilityZones: [String]?
@@ -80,17 +78,16 @@ extension Elasticloadbalancing {
             self.availabilityZones = availabilityZones
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
         }
     }
 
     public struct DeleteLoadBalancerPolicyInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -102,20 +99,17 @@ extension Elasticloadbalancing {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case policyName = "PolicyName"
         }
     }
 
     public struct PolicyAttributeDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", required: false, type: .string), 
-            AWSShapeProperty(label: "AttributeValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
+            AWSShapeMember(label: "AttributeValue", required: false, type: .string)
         ]
         /// The name of the attribute.
         public let attributeName: String?
@@ -127,18 +121,17 @@ extension Elasticloadbalancing {
             self.attributeValue = attributeValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attributeName = dictionary["AttributeName"] as? String
-            self.attributeValue = dictionary["AttributeValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case attributeValue = "AttributeValue"
         }
     }
 
     public struct DetachLoadBalancerFromSubnetsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subnets", required: true, type: .list), 
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnets", required: true, type: .list), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
         /// The IDs of the subnets.
         public let subnets: [String]
@@ -150,20 +143,17 @@ extension Elasticloadbalancing {
             self.loadBalancerName = loadBalancerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subnets = dictionary["Subnets"] as? [String] else { throw InitializableError.missingRequiredParam("Subnets") }
-            self.subnets = subnets
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
+        private enum CodingKeys: String, CodingKey {
+            case subnets = "Subnets"
+            case loadBalancerName = "LoadBalancerName"
         }
     }
 
     public struct DescribeAccessPointsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerDescriptions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// Information about the load balancers.
         public let loadBalancerDescriptions: [LoadBalancerDescription]?
@@ -175,22 +165,17 @@ extension Elasticloadbalancing {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let loadBalancerDescriptions = dictionary["LoadBalancerDescriptions"] as? [[String: Any]] {
-                self.loadBalancerDescriptions = try loadBalancerDescriptions.map({ try LoadBalancerDescription(dictionary: $0) })
-            } else { 
-                self.loadBalancerDescriptions = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerDescriptions = "LoadBalancerDescriptions"
+            case nextMarker = "NextMarker"
         }
     }
 
     public struct CreateLoadBalancerListenerInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeProperty(label: "Listeners", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "Listeners", required: true, type: .list)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -202,20 +187,17 @@ extension Elasticloadbalancing {
             self.listeners = listeners
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-            guard let listeners = dictionary["Listeners"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Listeners") }
-            self.listeners = try listeners.map({ try Listener(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case listeners = "Listeners"
         }
     }
 
     public struct RemoveAvailabilityZonesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: true, type: .list), 
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: true, type: .list), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
         /// The Availability Zones.
         public let availabilityZones: [String]
@@ -227,20 +209,17 @@ extension Elasticloadbalancing {
             self.loadBalancerName = loadBalancerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let availabilityZones = dictionary["AvailabilityZones"] as? [String] else { throw InitializableError.missingRequiredParam("AvailabilityZones") }
-            self.availabilityZones = availabilityZones
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case loadBalancerName = "LoadBalancerName"
         }
     }
 
     public struct ModifyLoadBalancerAttributesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeProperty(label: "LoadBalancerAttributes", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "LoadBalancerAttributes", required: true, type: .structure)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -252,20 +231,17 @@ extension Elasticloadbalancing {
             self.loadBalancerAttributes = loadBalancerAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-            guard let loadBalancerAttributes = dictionary["LoadBalancerAttributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("LoadBalancerAttributes") }
-            self.loadBalancerAttributes = try Elasticloadbalancing.LoadBalancerAttributes(dictionary: loadBalancerAttributes)
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case loadBalancerAttributes = "LoadBalancerAttributes"
         }
     }
 
     public struct AttachLoadBalancerToSubnetsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subnets", required: true, type: .list), 
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnets", required: true, type: .list), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
         /// The IDs of the subnets to add. You can add only one subnet per Availability Zone.
         public let subnets: [String]
@@ -277,19 +253,16 @@ extension Elasticloadbalancing {
             self.loadBalancerName = loadBalancerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subnets = dictionary["Subnets"] as? [String] else { throw InitializableError.missingRequiredParam("Subnets") }
-            self.subnets = subnets
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
+        private enum CodingKeys: String, CodingKey {
+            case subnets = "Subnets"
+            case loadBalancerName = "LoadBalancerName"
         }
     }
 
     public struct CreateAccessPointOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DNSName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DNSName", required: false, type: .string)
         ]
         /// The DNS name of the load balancer.
         public let dNSName: String?
@@ -298,17 +271,16 @@ extension Elasticloadbalancing {
             self.dNSName = dNSName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dNSName = dictionary["DNSName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dNSName = "DNSName"
         }
     }
 
     public struct ListenerDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyNames", required: false, type: .list), 
-            AWSShapeProperty(label: "Listener", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
+            AWSShapeMember(label: "Listener", required: false, type: .structure)
         ]
         /// The policies. If there are no policies enabled, the list is empty.
         public let policyNames: [String]?
@@ -320,17 +292,16 @@ extension Elasticloadbalancing {
             self.listener = listener
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyNames = dictionary["PolicyNames"] as? [String]
-            if let listener = dictionary["Listener"] as? [String: Any] { self.listener = try Elasticloadbalancing.Listener(dictionary: listener) } else { self.listener = nil }
+        private enum CodingKeys: String, CodingKey {
+            case policyNames = "PolicyNames"
+            case listener = "Listener"
         }
     }
 
     public struct DeregisterEndPointsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Instances", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Instances", required: false, type: .list)
         ]
         /// The remaining instances registered with the load balancer.
         public let instances: [Instance]?
@@ -339,20 +310,15 @@ extension Elasticloadbalancing {
             self.instances = instances
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instances = dictionary["Instances"] as? [[String: Any]] {
-                self.instances = try instances.map({ try Instance(dictionary: $0) })
-            } else { 
-                self.instances = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case instances = "Instances"
         }
     }
 
     public struct TagKeyOnly: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The name of the key.
         public let key: String?
@@ -361,20 +327,19 @@ extension Elasticloadbalancing {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
         }
     }
 
     public struct LoadBalancerAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConnectionSettings", required: false, type: .structure), 
-            AWSShapeProperty(label: "AdditionalAttributes", required: false, type: .list), 
-            AWSShapeProperty(label: "AccessLog", required: false, type: .structure), 
-            AWSShapeProperty(label: "ConnectionDraining", required: false, type: .structure), 
-            AWSShapeProperty(label: "CrossZoneLoadBalancing", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "AdditionalAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "AccessLog", required: false, type: .structure), 
+            AWSShapeMember(label: "ConnectionDraining", required: false, type: .structure), 
+            AWSShapeMember(label: "CrossZoneLoadBalancing", required: false, type: .structure)
         ]
         /// If enabled, the load balancer allows the connections to remain idle (no data is sent over the connection) for the specified duration. By default, Elastic Load Balancing maintains a 60-second idle connection timeout for both front-end and back-end connections of your load balancer. For more information, see Configure Idle Connection Timeout in the Classic Load Balancer Guide.
         public let connectionSettings: ConnectionSettings?
@@ -395,26 +360,21 @@ extension Elasticloadbalancing {
             self.crossZoneLoadBalancing = crossZoneLoadBalancing
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let connectionSettings = dictionary["ConnectionSettings"] as? [String: Any] { self.connectionSettings = try Elasticloadbalancing.ConnectionSettings(dictionary: connectionSettings) } else { self.connectionSettings = nil }
-            if let additionalAttributes = dictionary["AdditionalAttributes"] as? [[String: Any]] {
-                self.additionalAttributes = try additionalAttributes.map({ try AdditionalAttribute(dictionary: $0) })
-            } else { 
-                self.additionalAttributes = nil
-            }
-            if let accessLog = dictionary["AccessLog"] as? [String: Any] { self.accessLog = try Elasticloadbalancing.AccessLog(dictionary: accessLog) } else { self.accessLog = nil }
-            if let connectionDraining = dictionary["ConnectionDraining"] as? [String: Any] { self.connectionDraining = try Elasticloadbalancing.ConnectionDraining(dictionary: connectionDraining) } else { self.connectionDraining = nil }
-            if let crossZoneLoadBalancing = dictionary["CrossZoneLoadBalancing"] as? [String: Any] { self.crossZoneLoadBalancing = try Elasticloadbalancing.CrossZoneLoadBalancing(dictionary: crossZoneLoadBalancing) } else { self.crossZoneLoadBalancing = nil }
+        private enum CodingKeys: String, CodingKey {
+            case connectionSettings = "ConnectionSettings"
+            case additionalAttributes = "AdditionalAttributes"
+            case accessLog = "AccessLog"
+            case connectionDraining = "ConnectionDraining"
+            case crossZoneLoadBalancing = "CrossZoneLoadBalancing"
         }
     }
 
     public struct DescribeAccessPointsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "LoadBalancerNames", required: false, type: .list), 
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerNames", required: false, type: .list), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
         ]
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
@@ -429,19 +389,18 @@ extension Elasticloadbalancing {
             self.pageSize = pageSize
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.loadBalancerNames = dictionary["LoadBalancerNames"] as? [String]
-            self.pageSize = dictionary["PageSize"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case loadBalancerNames = "LoadBalancerNames"
+            case pageSize = "PageSize"
         }
     }
 
     public struct AdditionalAttribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// This parameter is reserved.
         public let value: String?
@@ -453,19 +412,18 @@ extension Elasticloadbalancing {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct SetLoadBalancerPoliciesOfListenerInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeProperty(label: "LoadBalancerPort", required: true, type: .integer), 
-            AWSShapeProperty(label: "PolicyNames", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "LoadBalancerPort", required: true, type: .integer), 
+            AWSShapeMember(label: "PolicyNames", required: true, type: .list)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -480,22 +438,18 @@ extension Elasticloadbalancing {
             self.policyNames = policyNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-            guard let loadBalancerPort = dictionary["LoadBalancerPort"] as? Int32 else { throw InitializableError.missingRequiredParam("LoadBalancerPort") }
-            self.loadBalancerPort = loadBalancerPort
-            guard let policyNames = dictionary["PolicyNames"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyNames") }
-            self.policyNames = policyNames
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case loadBalancerPort = "LoadBalancerPort"
+            case policyNames = "PolicyNames"
         }
     }
 
     public struct AddAvailabilityZonesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: true, type: .list), 
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: true, type: .list), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
         /// The Availability Zones. These must be in the same region as the load balancer.
         public let availabilityZones: [String]
@@ -507,20 +461,17 @@ extension Elasticloadbalancing {
             self.loadBalancerName = loadBalancerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let availabilityZones = dictionary["AvailabilityZones"] as? [String] else { throw InitializableError.missingRequiredParam("AvailabilityZones") }
-            self.availabilityZones = availabilityZones
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case loadBalancerName = "LoadBalancerName"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// The value of the tag.
         public let value: String?
@@ -532,27 +483,22 @@ extension Elasticloadbalancing {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct SetLoadBalancerPoliciesOfListenerOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct TagDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String?
@@ -564,30 +510,22 @@ extension Elasticloadbalancing {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.loadBalancerName = dictionary["LoadBalancerName"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case tags = "Tags"
         }
     }
 
     public struct CreateLBCookieStickinessPolicyOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ApplySecurityGroupsToLoadBalancerInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeProperty(label: "SecurityGroups", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: true, type: .list)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -599,20 +537,17 @@ extension Elasticloadbalancing {
             self.securityGroups = securityGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-            guard let securityGroups = dictionary["SecurityGroups"] as? [String] else { throw InitializableError.missingRequiredParam("SecurityGroups") }
-            self.securityGroups = securityGroups
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case securityGroups = "SecurityGroups"
         }
     }
 
     public struct DescribeAccountLimitsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer)
         ]
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
@@ -624,18 +559,17 @@ extension Elasticloadbalancing {
             self.pageSize = pageSize
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.pageSize = dictionary["PageSize"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case pageSize = "PageSize"
         }
     }
 
     public struct ConnectionDraining: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timeout", required: false, type: .integer), 
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
         ]
         /// The maximum time, in seconds, to keep the existing connections open before deregistering the instances.
         public let timeout: Int32?
@@ -647,21 +581,19 @@ extension Elasticloadbalancing {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.timeout = dictionary["Timeout"] as? Int32
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
+        private enum CodingKeys: String, CodingKey {
+            case timeout = "Timeout"
+            case enabled = "Enabled"
         }
     }
 
     public struct AccessLog: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EmitInterval", required: false, type: .integer), 
-            AWSShapeProperty(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeProperty(label: "S3BucketPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmitInterval", required: false, type: .integer), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "S3BucketPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
         ]
         /// The interval for publishing the access logs. You can specify an interval of either 5 minutes or 60 minutes. Default: 60 minutes
         public let emitInterval: Int32?
@@ -679,24 +611,22 @@ extension Elasticloadbalancing {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.emitInterval = dictionary["EmitInterval"] as? Int32
-            self.s3BucketName = dictionary["S3BucketName"] as? String
-            self.s3BucketPrefix = dictionary["S3BucketPrefix"] as? String
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
+        private enum CodingKeys: String, CodingKey {
+            case emitInterval = "EmitInterval"
+            case s3BucketName = "S3BucketName"
+            case s3BucketPrefix = "S3BucketPrefix"
+            case enabled = "Enabled"
         }
     }
 
     public struct Listener: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceProtocol", required: false, type: .string), 
-            AWSShapeProperty(label: "InstancePort", required: true, type: .integer), 
-            AWSShapeProperty(label: "LoadBalancerPort", required: true, type: .integer), 
-            AWSShapeProperty(label: "Protocol", required: true, type: .string), 
-            AWSShapeProperty(label: "SSLCertificateId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceProtocol", required: false, type: .string), 
+            AWSShapeMember(label: "InstancePort", required: true, type: .integer), 
+            AWSShapeMember(label: "LoadBalancerPort", required: true, type: .integer), 
+            AWSShapeMember(label: "Protocol", required: true, type: .string), 
+            AWSShapeMember(label: "SSLCertificateId", required: false, type: .string)
         ]
         /// The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is HTTP, HTTPS, TCP, or SSL, InstanceProtocol must be at the same protocol. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstanceProtocol must be HTTP or TCP.
         public let instanceProtocol: String?
@@ -717,23 +647,19 @@ extension Elasticloadbalancing {
             self.sSLCertificateId = sSLCertificateId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceProtocol = dictionary["InstanceProtocol"] as? String
-            guard let instancePort = dictionary["InstancePort"] as? Int32 else { throw InitializableError.missingRequiredParam("InstancePort") }
-            self.instancePort = instancePort
-            guard let loadBalancerPort = dictionary["LoadBalancerPort"] as? Int32 else { throw InitializableError.missingRequiredParam("LoadBalancerPort") }
-            self.loadBalancerPort = loadBalancerPort
-            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
-            self.`protocol` = `protocol`
-            self.sSLCertificateId = dictionary["SSLCertificateId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case instanceProtocol = "InstanceProtocol"
+            case instancePort = "InstancePort"
+            case loadBalancerPort = "LoadBalancerPort"
+            case `protocol` = "Protocol"
+            case sSLCertificateId = "SSLCertificateId"
         }
     }
 
     public struct Instance: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
         /// The instance ID.
         public let instanceId: String?
@@ -742,18 +668,17 @@ extension Elasticloadbalancing {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceId = dictionary["InstanceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
         }
     }
 
     public struct CreateLBCookieStickinessPolicyInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeProperty(label: "CookieExpirationPeriod", required: false, type: .long), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "CookieExpirationPeriod", required: false, type: .long), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -768,20 +693,17 @@ extension Elasticloadbalancing {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-            self.cookieExpirationPeriod = dictionary["CookieExpirationPeriod"] as? Int64
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case cookieExpirationPeriod = "CookieExpirationPeriod"
+            case policyName = "PolicyName"
         }
     }
 
     public struct RegisterEndPointsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Instances", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Instances", required: false, type: .list)
         ]
         /// The updated list of instances for the load balancer.
         public let instances: [Instance]?
@@ -790,22 +712,17 @@ extension Elasticloadbalancing {
             self.instances = instances
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instances = dictionary["Instances"] as? [[String: Any]] {
-                self.instances = try instances.map({ try Instance(dictionary: $0) })
-            } else { 
-                self.instances = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case instances = "Instances"
         }
     }
 
     public struct Policies: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AppCookieStickinessPolicies", required: false, type: .list), 
-            AWSShapeProperty(label: "OtherPolicies", required: false, type: .list), 
-            AWSShapeProperty(label: "LBCookieStickinessPolicies", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppCookieStickinessPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "OtherPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "LBCookieStickinessPolicies", required: false, type: .list)
         ]
         /// The stickiness policies created using CreateAppCookieStickinessPolicy.
         public let appCookieStickinessPolicies: [AppCookieStickinessPolicy]?
@@ -820,26 +737,17 @@ extension Elasticloadbalancing {
             self.lBCookieStickinessPolicies = lBCookieStickinessPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let appCookieStickinessPolicies = dictionary["AppCookieStickinessPolicies"] as? [[String: Any]] {
-                self.appCookieStickinessPolicies = try appCookieStickinessPolicies.map({ try AppCookieStickinessPolicy(dictionary: $0) })
-            } else { 
-                self.appCookieStickinessPolicies = nil
-            }
-            self.otherPolicies = dictionary["OtherPolicies"] as? [String]
-            if let lBCookieStickinessPolicies = dictionary["LBCookieStickinessPolicies"] as? [[String: Any]] {
-                self.lBCookieStickinessPolicies = try lBCookieStickinessPolicies.map({ try LBCookieStickinessPolicy(dictionary: $0) })
-            } else { 
-                self.lBCookieStickinessPolicies = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case appCookieStickinessPolicies = "AppCookieStickinessPolicies"
+            case otherPolicies = "OtherPolicies"
+            case lBCookieStickinessPolicies = "LBCookieStickinessPolicies"
         }
     }
 
     public struct DescribeLoadBalancerAttributesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -848,17 +756,15 @@ extension Elasticloadbalancing {
             self.loadBalancerName = loadBalancerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
         }
     }
 
     public struct DescribeTagsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagDescriptions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagDescriptions", required: false, type: .list)
         ]
         /// Information about the tags.
         public let tagDescriptions: [TagDescription]?
@@ -867,21 +773,16 @@ extension Elasticloadbalancing {
             self.tagDescriptions = tagDescriptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagDescriptions = dictionary["TagDescriptions"] as? [[String: Any]] {
-                self.tagDescriptions = try tagDescriptions.map({ try TagDescription(dictionary: $0) })
-            } else { 
-                self.tagDescriptions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tagDescriptions = "TagDescriptions"
         }
     }
 
     public struct PolicyAttribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", required: false, type: .string), 
-            AWSShapeProperty(label: "AttributeValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
+            AWSShapeMember(label: "AttributeValue", required: false, type: .string)
         ]
         /// The name of the attribute.
         public let attributeName: String?
@@ -893,18 +794,17 @@ extension Elasticloadbalancing {
             self.attributeValue = attributeValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attributeName = dictionary["AttributeName"] as? String
-            self.attributeValue = dictionary["AttributeValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case attributeValue = "AttributeValue"
         }
     }
 
     public struct RegisterEndPointsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeProperty(label: "Instances", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "Instances", required: true, type: .list)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -916,39 +816,30 @@ extension Elasticloadbalancing {
             self.instances = instances
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-            guard let instances = dictionary["Instances"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Instances") }
-            self.instances = try instances.map({ try Instance(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case instances = "Instances"
         }
     }
 
     public struct AddTagsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteLoadBalancerPolicyOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct HealthCheck: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Target", required: true, type: .string), 
-            AWSShapeProperty(label: "UnhealthyThreshold", required: true, type: .integer), 
-            AWSShapeProperty(label: "HealthyThreshold", required: true, type: .integer), 
-            AWSShapeProperty(label: "Interval", required: true, type: .integer), 
-            AWSShapeProperty(label: "Timeout", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Target", required: true, type: .string), 
+            AWSShapeMember(label: "UnhealthyThreshold", required: true, type: .integer), 
+            AWSShapeMember(label: "HealthyThreshold", required: true, type: .integer), 
+            AWSShapeMember(label: "Interval", required: true, type: .integer), 
+            AWSShapeMember(label: "Timeout", required: true, type: .integer)
         ]
         /// The instance being checked. The protocol is either TCP, HTTP, HTTPS, or SSL. The range of valid ports is one (1) through 65535. TCP is the default, specified as a TCP: port pair, for example "TCP:5000". In this case, a health check simply attempts to open a TCP connection to the instance on the specified port. Failure to connect within the configured timeout is considered unhealthy. SSL is also specified as SSL: port pair, for example, SSL:5000. For HTTP/HTTPS, you must include a ping path in the string. HTTP is specified as a HTTP:port;/;PathToPing; grouping, for example "HTTP:80/weather/us/wa/seattle". In this case, a HTTP GET request is issued to the instance on the given port and path. Any answer other than "200 OK" within the timeout period is considered unhealthy. The total length of the HTTP ping target must be 1024 16-bit Unicode characters or less.
         public let target: String
@@ -969,26 +860,20 @@ extension Elasticloadbalancing {
             self.timeout = timeout
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let target = dictionary["Target"] as? String else { throw InitializableError.missingRequiredParam("Target") }
-            self.target = target
-            guard let unhealthyThreshold = dictionary["UnhealthyThreshold"] as? Int32 else { throw InitializableError.missingRequiredParam("UnhealthyThreshold") }
-            self.unhealthyThreshold = unhealthyThreshold
-            guard let healthyThreshold = dictionary["HealthyThreshold"] as? Int32 else { throw InitializableError.missingRequiredParam("HealthyThreshold") }
-            self.healthyThreshold = healthyThreshold
-            guard let interval = dictionary["Interval"] as? Int32 else { throw InitializableError.missingRequiredParam("Interval") }
-            self.interval = interval
-            guard let timeout = dictionary["Timeout"] as? Int32 else { throw InitializableError.missingRequiredParam("Timeout") }
-            self.timeout = timeout
+        private enum CodingKeys: String, CodingKey {
+            case target = "Target"
+            case unhealthyThreshold = "UnhealthyThreshold"
+            case healthyThreshold = "HealthyThreshold"
+            case interval = "Interval"
+            case timeout = "Timeout"
         }
     }
 
     public struct ModifyLoadBalancerAttributesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: false, type: .string), 
-            AWSShapeProperty(label: "LoadBalancerAttributes", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerAttributes", required: false, type: .structure)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String?
@@ -1000,19 +885,18 @@ extension Elasticloadbalancing {
             self.loadBalancerAttributes = loadBalancerAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.loadBalancerName = dictionary["LoadBalancerName"] as? String
-            if let loadBalancerAttributes = dictionary["LoadBalancerAttributes"] as? [String: Any] { self.loadBalancerAttributes = try Elasticloadbalancing.LoadBalancerAttributes(dictionary: loadBalancerAttributes) } else { self.loadBalancerAttributes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case loadBalancerAttributes = "LoadBalancerAttributes"
         }
     }
 
     public struct PolicyDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyTypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyAttributeDescriptions", required: false, type: .list), 
-            AWSShapeProperty(label: "PolicyName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyAttributeDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string)
         ]
         /// The name of the policy type.
         public let policyTypeName: String?
@@ -1027,24 +911,19 @@ extension Elasticloadbalancing {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyTypeName = dictionary["PolicyTypeName"] as? String
-            if let policyAttributeDescriptions = dictionary["PolicyAttributeDescriptions"] as? [[String: Any]] {
-                self.policyAttributeDescriptions = try policyAttributeDescriptions.map({ try PolicyAttributeDescription(dictionary: $0) })
-            } else { 
-                self.policyAttributeDescriptions = nil
-            }
-            self.policyName = dictionary["PolicyName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyTypeName = "PolicyTypeName"
+            case policyAttributeDescriptions = "PolicyAttributeDescriptions"
+            case policyName = "PolicyName"
         }
     }
 
     public struct CreateAppCookieStickinessPolicyInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CookieName", required: true, type: .string), 
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CookieName", required: true, type: .string), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name of the application cookie used for stickiness.
         public let cookieName: String
@@ -1059,21 +938,17 @@ extension Elasticloadbalancing {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cookieName = dictionary["CookieName"] as? String else { throw InitializableError.missingRequiredParam("CookieName") }
-            self.cookieName = cookieName
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case cookieName = "CookieName"
+            case loadBalancerName = "LoadBalancerName"
+            case policyName = "PolicyName"
         }
     }
 
     public struct DescribeLoadBalancerPoliciesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyDescriptions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyDescriptions", required: false, type: .list)
         ]
         /// Information about the policies.
         public let policyDescriptions: [PolicyDescription]?
@@ -1082,20 +957,15 @@ extension Elasticloadbalancing {
             self.policyDescriptions = policyDescriptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policyDescriptions = dictionary["PolicyDescriptions"] as? [[String: Any]] {
-                self.policyDescriptions = try policyDescriptions.map({ try PolicyDescription(dictionary: $0) })
-            } else { 
-                self.policyDescriptions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case policyDescriptions = "PolicyDescriptions"
         }
     }
 
     public struct DeleteAccessPointInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -1104,19 +974,17 @@ extension Elasticloadbalancing {
             self.loadBalancerName = loadBalancerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
         }
     }
 
     public struct PolicyTypeDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyTypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyAttributeTypeDescriptions", required: false, type: .list), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyAttributeTypeDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The name of the policy type.
         public let policyTypeName: String?
@@ -1131,22 +999,17 @@ extension Elasticloadbalancing {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyTypeName = dictionary["PolicyTypeName"] as? String
-            if let policyAttributeTypeDescriptions = dictionary["PolicyAttributeTypeDescriptions"] as? [[String: Any]] {
-                self.policyAttributeTypeDescriptions = try policyAttributeTypeDescriptions.map({ try PolicyAttributeTypeDescription(dictionary: $0) })
-            } else { 
-                self.policyAttributeTypeDescriptions = nil
-            }
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyTypeName = "PolicyTypeName"
+            case policyAttributeTypeDescriptions = "PolicyAttributeTypeDescriptions"
+            case description = "Description"
         }
     }
 
     public struct DetachLoadBalancerFromSubnetsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subnets", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnets", required: false, type: .list)
         ]
         /// The IDs of the remaining subnets for the load balancer.
         public let subnets: [String]?
@@ -1155,16 +1018,15 @@ extension Elasticloadbalancing {
             self.subnets = subnets
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnets = dictionary["Subnets"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case subnets = "Subnets"
         }
     }
 
     public struct ConfigureHealthCheckOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheck", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheck", required: false, type: .structure)
         ]
         /// The updated health check.
         public let healthCheck: HealthCheck?
@@ -1173,16 +1035,15 @@ extension Elasticloadbalancing {
             self.healthCheck = healthCheck
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let healthCheck = dictionary["HealthCheck"] as? [String: Any] { self.healthCheck = try Elasticloadbalancing.HealthCheck(dictionary: healthCheck) } else { self.healthCheck = nil }
+        private enum CodingKeys: String, CodingKey {
+            case healthCheck = "HealthCheck"
         }
     }
 
     public struct DescribeLoadBalancerPolicyTypesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyTypeNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyTypeNames", required: false, type: .list)
         ]
         /// The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing.
         public let policyTypeNames: [String]?
@@ -1191,22 +1052,21 @@ extension Elasticloadbalancing {
             self.policyTypeNames = policyTypeNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyTypeNames = dictionary["PolicyTypeNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case policyTypeNames = "PolicyTypeNames"
         }
     }
 
     public struct CreateAccessPointInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "Listeners", required: true, type: .list), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "Subnets", required: false, type: .list), 
-            AWSShapeProperty(label: "Scheme", required: false, type: .string), 
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "Listeners", required: true, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list), 
+            AWSShapeMember(label: "Scheme", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
         /// One or more Availability Zones from the same region as the load balancer. You must specify at least one Availability Zone. You can add more Availability Zones after you create the load balancer using EnableAvailabilityZonesForLoadBalancer.
         public let availabilityZones: [String]?
@@ -1233,53 +1093,37 @@ extension Elasticloadbalancing {
             self.loadBalancerName = loadBalancerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
-            self.securityGroups = dictionary["SecurityGroups"] as? [String]
-            guard let listeners = dictionary["Listeners"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Listeners") }
-            self.listeners = try listeners.map({ try Listener(dictionary: $0) })
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.subnets = dictionary["Subnets"] as? [String]
-            self.scheme = dictionary["Scheme"] as? String
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case securityGroups = "SecurityGroups"
+            case listeners = "Listeners"
+            case tags = "Tags"
+            case subnets = "Subnets"
+            case scheme = "Scheme"
+            case loadBalancerName = "LoadBalancerName"
         }
     }
 
     public struct SetLoadBalancerPoliciesForBackendServerOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateLoadBalancerListenerOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct SetLoadBalancerListenerSSLCertificateOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeLoadBalancerPoliciesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyNames", required: false, type: .list)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String?
@@ -1291,18 +1135,17 @@ extension Elasticloadbalancing {
             self.policyNames = policyNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.loadBalancerName = dictionary["LoadBalancerName"] as? String
-            self.policyNames = dictionary["PolicyNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case policyNames = "PolicyNames"
         }
     }
 
     public struct DeleteLoadBalancerListenerInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerPorts", required: true, type: .list), 
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerPorts", required: true, type: .list), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
         /// The client port numbers of the listeners.
         public let loadBalancerPorts: [Int32]
@@ -1314,30 +1157,24 @@ extension Elasticloadbalancing {
             self.loadBalancerName = loadBalancerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerPorts = dictionary["LoadBalancerPorts"] as? [Int32] else { throw InitializableError.missingRequiredParam("LoadBalancerPorts") }
-            self.loadBalancerPorts = loadBalancerPorts
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerPorts = "LoadBalancerPorts"
+            case loadBalancerName = "LoadBalancerName"
         }
     }
 
     public struct CreateLoadBalancerPolicyOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct InstanceState: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReasonCode", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "State", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReasonCode", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Information about the cause of OutOfService instances. Specifically, whether the cause is Elastic Load Balancing or the instance. Valid values: ELB | Instance | N/A 
         public let reasonCode: String?
@@ -1355,20 +1192,19 @@ extension Elasticloadbalancing {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.reasonCode = dictionary["ReasonCode"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.state = dictionary["State"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case reasonCode = "ReasonCode"
+            case instanceId = "InstanceId"
+            case state = "State"
+            case description = "Description"
         }
     }
 
     public struct DeregisterEndPointsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeProperty(label: "Instances", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "Instances", required: true, type: .list)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -1380,27 +1216,21 @@ extension Elasticloadbalancing {
             self.instances = instances
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-            guard let instances = dictionary["Instances"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Instances") }
-            self.instances = try instances.map({ try Instance(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case instances = "Instances"
         }
     }
 
     public struct DeleteAccessPointOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeTagsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerNames", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list)
         ]
         /// The names of the load balancers.
         public let loadBalancerNames: [String]
@@ -1409,17 +1239,15 @@ extension Elasticloadbalancing {
             self.loadBalancerNames = loadBalancerNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerNames = dictionary["LoadBalancerNames"] as? [String] else { throw InitializableError.missingRequiredParam("LoadBalancerNames") }
-            self.loadBalancerNames = loadBalancerNames
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerNames = "LoadBalancerNames"
         }
     }
 
     public struct ApplySecurityGroupsToLoadBalancerOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list)
         ]
         /// The IDs of the security groups associated with the load balancer.
         public let securityGroups: [String]?
@@ -1428,16 +1256,15 @@ extension Elasticloadbalancing {
             self.securityGroups = securityGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.securityGroups = dictionary["SecurityGroups"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case securityGroups = "SecurityGroups"
         }
     }
 
     public struct CrossZoneLoadBalancing: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
         ]
         /// Specifies whether cross-zone load balancing is enabled for the load balancer.
         public let enabled: Bool
@@ -1446,18 +1273,16 @@ extension Elasticloadbalancing {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
         }
     }
 
     public struct Limit: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Max", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Max", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The maximum value of the limit.
         public let max: String?
@@ -1469,17 +1294,16 @@ extension Elasticloadbalancing {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.max = dictionary["Max"] as? String
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case name = "Name"
         }
     }
 
     public struct DescribeLoadBalancerAttributesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerAttributes", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerAttributes", required: false, type: .structure)
         ]
         /// Information about the load balancer attributes.
         public let loadBalancerAttributes: LoadBalancerAttributes?
@@ -1488,17 +1312,16 @@ extension Elasticloadbalancing {
             self.loadBalancerAttributes = loadBalancerAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let loadBalancerAttributes = dictionary["LoadBalancerAttributes"] as? [String: Any] { self.loadBalancerAttributes = try Elasticloadbalancing.LoadBalancerAttributes(dictionary: loadBalancerAttributes) } else { self.loadBalancerAttributes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerAttributes = "LoadBalancerAttributes"
         }
     }
 
     public struct LBCookieStickinessPolicy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CookieExpirationPeriod", required: false, type: .long), 
-            AWSShapeProperty(label: "PolicyName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CookieExpirationPeriod", required: false, type: .long), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string)
         ]
         /// The time period, in seconds, after which the cookie should be considered stale. If this parameter is not specified, the stickiness session lasts for the duration of the browser session.
         public let cookieExpirationPeriod: Int64?
@@ -1510,17 +1333,16 @@ extension Elasticloadbalancing {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cookieExpirationPeriod = dictionary["CookieExpirationPeriod"] as? Int64
-            self.policyName = dictionary["PolicyName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cookieExpirationPeriod = "CookieExpirationPeriod"
+            case policyName = "PolicyName"
         }
     }
 
     public struct ConnectionSettings: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdleTimeout", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdleTimeout", required: true, type: .integer)
         ]
         /// The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer.
         public let idleTimeout: Int32
@@ -1529,19 +1351,17 @@ extension Elasticloadbalancing {
             self.idleTimeout = idleTimeout
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let idleTimeout = dictionary["IdleTimeout"] as? Int32 else { throw InitializableError.missingRequiredParam("IdleTimeout") }
-            self.idleTimeout = idleTimeout
+        private enum CodingKeys: String, CodingKey {
+            case idleTimeout = "IdleTimeout"
         }
     }
 
     public struct SetLoadBalancerPoliciesForBackendServerInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyNames", required: true, type: .list), 
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeProperty(label: "InstancePort", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "InstancePort", required: true, type: .integer)
         ]
         /// The names of the policies. If the list is empty, then all current polices are removed from the EC2 instance.
         public let policyNames: [String]
@@ -1556,21 +1376,17 @@ extension Elasticloadbalancing {
             self.instancePort = instancePort
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyNames = dictionary["PolicyNames"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyNames") }
-            self.policyNames = policyNames
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-            guard let instancePort = dictionary["InstancePort"] as? Int32 else { throw InitializableError.missingRequiredParam("InstancePort") }
-            self.instancePort = instancePort
+        private enum CodingKeys: String, CodingKey {
+            case policyNames = "PolicyNames"
+            case loadBalancerName = "LoadBalancerName"
+            case instancePort = "InstancePort"
         }
     }
 
     public struct DescribeLoadBalancerPolicyTypesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyTypeDescriptions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyTypeDescriptions", required: false, type: .list)
         ]
         /// Information about the policy types.
         public let policyTypeDescriptions: [PolicyTypeDescription]?
@@ -1579,20 +1395,15 @@ extension Elasticloadbalancing {
             self.policyTypeDescriptions = policyTypeDescriptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policyTypeDescriptions = dictionary["PolicyTypeDescriptions"] as? [[String: Any]] {
-                self.policyTypeDescriptions = try policyTypeDescriptions.map({ try PolicyTypeDescription(dictionary: $0) })
-            } else { 
-                self.policyTypeDescriptions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case policyTypeDescriptions = "PolicyTypeDescriptions"
         }
     }
 
     public struct DescribeEndPointStateOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceStates", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceStates", required: false, type: .list)
         ]
         /// Information about the health of the instances.
         public let instanceStates: [InstanceState]?
@@ -1601,29 +1412,21 @@ extension Elasticloadbalancing {
             self.instanceStates = instanceStates
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceStates = dictionary["InstanceStates"] as? [[String: Any]] {
-                self.instanceStates = try instanceStates.map({ try InstanceState(dictionary: $0) })
-            } else { 
-                self.instanceStates = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case instanceStates = "InstanceStates"
         }
     }
 
     public struct DeleteLoadBalancerListenerOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct SourceSecurityGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OwnerAlias", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OwnerAlias", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string)
         ]
         /// The owner of the security group.
         public let ownerAlias: String?
@@ -1635,25 +1438,21 @@ extension Elasticloadbalancing {
             self.groupName = groupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ownerAlias = dictionary["OwnerAlias"] as? String
-            self.groupName = dictionary["GroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ownerAlias = "OwnerAlias"
+            case groupName = "GroupName"
         }
     }
 
     public struct RemoveTagsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct RemoveAvailabilityZonesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
         ]
         /// The remaining Availability Zones for the load balancer.
         public let availabilityZones: [String]?
@@ -1662,17 +1461,16 @@ extension Elasticloadbalancing {
             self.availabilityZones = availabilityZones
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
         }
     }
 
     public struct AppCookieStickinessPolicy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CookieName", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CookieName", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string)
         ]
         /// The name of the application cookie used for stickiness.
         public let cookieName: String?
@@ -1684,18 +1482,17 @@ extension Elasticloadbalancing {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cookieName = dictionary["CookieName"] as? String
-            self.policyName = dictionary["PolicyName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cookieName = "CookieName"
+            case policyName = "PolicyName"
         }
     }
 
     public struct AddTagsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerNames", required: true, type: .list), 
-            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
         /// The name of the load balancer. You can specify one load balancer only.
         public let loadBalancerNames: [String]
@@ -1707,22 +1504,19 @@ extension Elasticloadbalancing {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerNames = dictionary["LoadBalancerNames"] as? [String] else { throw InitializableError.missingRequiredParam("LoadBalancerNames") }
-            self.loadBalancerNames = loadBalancerNames
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerNames = "LoadBalancerNames"
+            case tags = "Tags"
         }
     }
 
     public struct CreateLoadBalancerPolicyInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyAttributes", required: false, type: .list), 
-            AWSShapeProperty(label: "PolicyTypeName", required: true, type: .string), 
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "PolicyTypeName", required: true, type: .string), 
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The policy attributes.
         public let policyAttributes: [PolicyAttribute]?
@@ -1740,34 +1534,23 @@ extension Elasticloadbalancing {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policyAttributes = dictionary["PolicyAttributes"] as? [[String: Any]] {
-                self.policyAttributes = try policyAttributes.map({ try PolicyAttribute(dictionary: $0) })
-            } else { 
-                self.policyAttributes = nil
-            }
-            guard let policyTypeName = dictionary["PolicyTypeName"] as? String else { throw InitializableError.missingRequiredParam("PolicyTypeName") }
-            self.policyTypeName = policyTypeName
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case policyAttributes = "PolicyAttributes"
+            case policyTypeName = "PolicyTypeName"
+            case loadBalancerName = "LoadBalancerName"
+            case policyName = "PolicyName"
         }
     }
 
     public struct CreateAppCookieStickinessPolicyOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct AttachLoadBalancerToSubnetsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subnets", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnets", required: false, type: .list)
         ]
         /// The IDs of the subnets attached to the load balancer.
         public let subnets: [String]?
@@ -1776,17 +1559,16 @@ extension Elasticloadbalancing {
             self.subnets = subnets
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnets = dictionary["Subnets"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case subnets = "Subnets"
         }
     }
 
     public struct DescribeAccountLimitsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limits", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limits", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// Information about the limits.
         public let limits: [Limit]?
@@ -1798,22 +1580,17 @@ extension Elasticloadbalancing {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let limits = dictionary["Limits"] as? [[String: Any]] {
-                self.limits = try limits.map({ try Limit(dictionary: $0) })
-            } else { 
-                self.limits = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case limits = "Limits"
+            case nextMarker = "NextMarker"
         }
     }
 
     public struct ConfigureHealthCheckInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeProperty(label: "HealthCheck", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "HealthCheck", required: true, type: .structure)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -1825,34 +1602,31 @@ extension Elasticloadbalancing {
             self.healthCheck = healthCheck
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-            guard let healthCheck = dictionary["HealthCheck"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheck") }
-            self.healthCheck = try Elasticloadbalancing.HealthCheck(dictionary: healthCheck)
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case healthCheck = "HealthCheck"
         }
     }
 
     public struct LoadBalancerDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeProperty(label: "VPCId", required: false, type: .string), 
-            AWSShapeProperty(label: "BackendServerDescriptions", required: false, type: .list), 
-            AWSShapeProperty(label: "Subnets", required: false, type: .list), 
-            AWSShapeProperty(label: "Policies", required: false, type: .structure), 
-            AWSShapeProperty(label: "CanonicalHostedZoneNameID", required: false, type: .string), 
-            AWSShapeProperty(label: "DNSName", required: false, type: .string), 
-            AWSShapeProperty(label: "LoadBalancerName", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CanonicalHostedZoneName", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "ListenerDescriptions", required: false, type: .list), 
-            AWSShapeProperty(label: "SourceSecurityGroup", required: false, type: .structure), 
-            AWSShapeProperty(label: "HealthCheck", required: false, type: .structure), 
-            AWSShapeProperty(label: "Instances", required: false, type: .list), 
-            AWSShapeProperty(label: "Scheme", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "VPCId", required: false, type: .string), 
+            AWSShapeMember(label: "BackendServerDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list), 
+            AWSShapeMember(label: "Policies", required: false, type: .structure), 
+            AWSShapeMember(label: "CanonicalHostedZoneNameID", required: false, type: .string), 
+            AWSShapeMember(label: "DNSName", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CanonicalHostedZoneName", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "ListenerDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "SourceSecurityGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "HealthCheck", required: false, type: .structure), 
+            AWSShapeMember(label: "Instances", required: false, type: .list), 
+            AWSShapeMember(label: "Scheme", required: false, type: .string)
         ]
         /// The Availability Zones for the load balancer.
         public let availabilityZones: [String]?
@@ -1871,7 +1645,7 @@ extension Elasticloadbalancing {
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// The date and time the load balancer was created.
-        public let createdTime: String?
+        public let createdTime: Double?
         /// The DNS name of the load balancer. For more information, see Configure a Custom Domain Name in the Classic Load Balancer Guide.
         public let canonicalHostedZoneName: String?
         /// The security groups for the load balancer. Valid only for load balancers in a VPC.
@@ -1887,7 +1661,7 @@ extension Elasticloadbalancing {
         /// The type of load balancer. Valid only for load balancers in a VPC. If Scheme is internet-facing, the load balancer has a public DNS name that resolves to a public IP address. If Scheme is internal, the load balancer has a public DNS name that resolves to a private IP address.
         public let scheme: String?
 
-        public init(availabilityZones: [String]? = nil, vPCId: String? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, subnets: [String]? = nil, policies: Policies? = nil, canonicalHostedZoneNameID: String? = nil, dNSName: String? = nil, loadBalancerName: String? = nil, createdTime: String? = nil, canonicalHostedZoneName: String? = nil, securityGroups: [String]? = nil, listenerDescriptions: [ListenerDescription]? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, healthCheck: HealthCheck? = nil, instances: [Instance]? = nil, scheme: String? = nil) {
+        public init(availabilityZones: [String]? = nil, vPCId: String? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, subnets: [String]? = nil, policies: Policies? = nil, canonicalHostedZoneNameID: String? = nil, dNSName: String? = nil, loadBalancerName: String? = nil, createdTime: Double? = nil, canonicalHostedZoneName: String? = nil, securityGroups: [String]? = nil, listenerDescriptions: [ListenerDescription]? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, healthCheck: HealthCheck? = nil, instances: [Instance]? = nil, scheme: String? = nil) {
             self.availabilityZones = availabilityZones
             self.vPCId = vPCId
             self.backendServerDescriptions = backendServerDescriptions
@@ -1906,45 +1680,32 @@ extension Elasticloadbalancing {
             self.scheme = scheme
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
-            self.vPCId = dictionary["VPCId"] as? String
-            if let backendServerDescriptions = dictionary["BackendServerDescriptions"] as? [[String: Any]] {
-                self.backendServerDescriptions = try backendServerDescriptions.map({ try BackendServerDescription(dictionary: $0) })
-            } else { 
-                self.backendServerDescriptions = nil
-            }
-            self.subnets = dictionary["Subnets"] as? [String]
-            if let policies = dictionary["Policies"] as? [String: Any] { self.policies = try Elasticloadbalancing.Policies(dictionary: policies) } else { self.policies = nil }
-            self.canonicalHostedZoneNameID = dictionary["CanonicalHostedZoneNameID"] as? String
-            self.dNSName = dictionary["DNSName"] as? String
-            self.loadBalancerName = dictionary["LoadBalancerName"] as? String
-            self.createdTime = dictionary["CreatedTime"] as? String
-            self.canonicalHostedZoneName = dictionary["CanonicalHostedZoneName"] as? String
-            self.securityGroups = dictionary["SecurityGroups"] as? [String]
-            if let listenerDescriptions = dictionary["ListenerDescriptions"] as? [[String: Any]] {
-                self.listenerDescriptions = try listenerDescriptions.map({ try ListenerDescription(dictionary: $0) })
-            } else { 
-                self.listenerDescriptions = nil
-            }
-            if let sourceSecurityGroup = dictionary["SourceSecurityGroup"] as? [String: Any] { self.sourceSecurityGroup = try Elasticloadbalancing.SourceSecurityGroup(dictionary: sourceSecurityGroup) } else { self.sourceSecurityGroup = nil }
-            if let healthCheck = dictionary["HealthCheck"] as? [String: Any] { self.healthCheck = try Elasticloadbalancing.HealthCheck(dictionary: healthCheck) } else { self.healthCheck = nil }
-            if let instances = dictionary["Instances"] as? [[String: Any]] {
-                self.instances = try instances.map({ try Instance(dictionary: $0) })
-            } else { 
-                self.instances = nil
-            }
-            self.scheme = dictionary["Scheme"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case vPCId = "VPCId"
+            case backendServerDescriptions = "BackendServerDescriptions"
+            case subnets = "Subnets"
+            case policies = "Policies"
+            case canonicalHostedZoneNameID = "CanonicalHostedZoneNameID"
+            case dNSName = "DNSName"
+            case loadBalancerName = "LoadBalancerName"
+            case createdTime = "CreatedTime"
+            case canonicalHostedZoneName = "CanonicalHostedZoneName"
+            case securityGroups = "SecurityGroups"
+            case listenerDescriptions = "ListenerDescriptions"
+            case sourceSecurityGroup = "SourceSecurityGroup"
+            case healthCheck = "HealthCheck"
+            case instances = "Instances"
+            case scheme = "Scheme"
         }
     }
 
     public struct SetLoadBalancerListenerSSLCertificateInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeProperty(label: "LoadBalancerPort", required: true, type: .integer), 
-            AWSShapeProperty(label: "SSLCertificateId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "LoadBalancerPort", required: true, type: .integer), 
+            AWSShapeMember(label: "SSLCertificateId", required: true, type: .string)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -1959,22 +1720,18 @@ extension Elasticloadbalancing {
             self.sSLCertificateId = sSLCertificateId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-            guard let loadBalancerPort = dictionary["LoadBalancerPort"] as? Int32 else { throw InitializableError.missingRequiredParam("LoadBalancerPort") }
-            self.loadBalancerPort = loadBalancerPort
-            guard let sSLCertificateId = dictionary["SSLCertificateId"] as? String else { throw InitializableError.missingRequiredParam("SSLCertificateId") }
-            self.sSLCertificateId = sSLCertificateId
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case loadBalancerPort = "LoadBalancerPort"
+            case sSLCertificateId = "SSLCertificateId"
         }
     }
 
     public struct BackendServerDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyNames", required: false, type: .list), 
-            AWSShapeProperty(label: "InstancePort", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
+            AWSShapeMember(label: "InstancePort", required: false, type: .integer)
         ]
         /// The names of the policies enabled for the EC2 instance.
         public let policyNames: [String]?
@@ -1986,18 +1743,17 @@ extension Elasticloadbalancing {
             self.instancePort = instancePort
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyNames = dictionary["PolicyNames"] as? [String]
-            self.instancePort = dictionary["InstancePort"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case policyNames = "PolicyNames"
+            case instancePort = "InstancePort"
         }
     }
 
     public struct DescribeEndPointStateInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string), 
-            AWSShapeProperty(label: "Instances", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
+            AWSShapeMember(label: "Instances", required: false, type: .list)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
@@ -2009,23 +1765,17 @@ extension Elasticloadbalancing {
             self.instances = instances
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-            if let instances = dictionary["Instances"] as? [[String: Any]] {
-                self.instances = try instances.map({ try Instance(dictionary: $0) })
-            } else { 
-                self.instances = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case instances = "Instances"
         }
     }
 
     public struct RemoveTagsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerNames", required: true, type: .list), 
-            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
         /// The name of the load balancer. You can specify a maximum of one load balancer name.
         public let loadBalancerNames: [String]
@@ -2037,11 +1787,9 @@ extension Elasticloadbalancing {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerNames = dictionary["LoadBalancerNames"] as? [String] else { throw InitializableError.missingRequiredParam("LoadBalancerNames") }
-            self.loadBalancerNames = loadBalancerNames
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try TagKeyOnly(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerNames = "LoadBalancerNames"
+            case tags = "Tags"
         }
     }
 

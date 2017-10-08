@@ -31,9 +31,8 @@ extension Rekognition {
 
     public struct DeleteCollectionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatusCode", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StatusCode", required: false, type: .integer)
         ]
         /// HTTP status code that indicates the result of the operation.
         public let statusCode: Int32?
@@ -42,17 +41,16 @@ extension Rekognition {
             self.statusCode = statusCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.statusCode = dictionary["StatusCode"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case statusCode = "StatusCode"
         }
     }
 
     public struct ListCollectionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CollectionIds", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CollectionIds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// An array of collection IDs.
         public let collectionIds: [String]?
@@ -64,13 +62,13 @@ extension Rekognition {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.collectionIds = dictionary["CollectionIds"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case collectionIds = "CollectionIds"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum EmotionName: String, CustomStringConvertible {
+    public enum EmotionName: String, CustomStringConvertible, Codable {
         case happy = "HAPPY"
         case sad = "SAD"
         case angry = "ANGRY"
@@ -84,12 +82,11 @@ extension Rekognition {
 
     public struct BoundingBox: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Height", required: false, type: .float), 
-            AWSShapeProperty(label: "Top", required: false, type: .float), 
-            AWSShapeProperty(label: "Left", required: false, type: .float), 
-            AWSShapeProperty(label: "Width", required: false, type: .float)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Height", required: false, type: .float), 
+            AWSShapeMember(label: "Top", required: false, type: .float), 
+            AWSShapeMember(label: "Left", required: false, type: .float), 
+            AWSShapeMember(label: "Width", required: false, type: .float)
         ]
         /// Height of the bounding box as a ratio of the overall image height.
         public let height: Float?
@@ -107,21 +104,20 @@ extension Rekognition {
             self.width = width
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.height = dictionary["Height"] as? Float
-            self.top = dictionary["Top"] as? Float
-            self.left = dictionary["Left"] as? Float
-            self.width = dictionary["Width"] as? Float
+        private enum CodingKeys: String, CodingKey {
+            case height = "Height"
+            case top = "Top"
+            case left = "Left"
+            case width = "Width"
         }
     }
 
     public struct Pose: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Yaw", required: false, type: .float), 
-            AWSShapeProperty(label: "Roll", required: false, type: .float), 
-            AWSShapeProperty(label: "Pitch", required: false, type: .float)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Yaw", required: false, type: .float), 
+            AWSShapeMember(label: "Roll", required: false, type: .float), 
+            AWSShapeMember(label: "Pitch", required: false, type: .float)
         ]
         /// Value representing the face rotation on the yaw axis.
         public let yaw: Float?
@@ -136,18 +132,17 @@ extension Rekognition {
             self.pitch = pitch
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.yaw = dictionary["Yaw"] as? Float
-            self.roll = dictionary["Roll"] as? Float
-            self.pitch = dictionary["Pitch"] as? Float
+        private enum CodingKeys: String, CodingKey {
+            case yaw = "Yaw"
+            case roll = "Roll"
+            case pitch = "Pitch"
         }
     }
 
     public struct DetectModerationLabelsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ModerationLabels", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ModerationLabels", required: false, type: .list)
         ]
         /// An array of labels for explicit or suggestive adult content found in the image. The list includes the top-level label and each child label detected in the image. This is useful for filtering specific categories of content. 
         public let moderationLabels: [ModerationLabel]?
@@ -156,21 +151,16 @@ extension Rekognition {
             self.moderationLabels = moderationLabels
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let moderationLabels = dictionary["ModerationLabels"] as? [[String: Any]] {
-                self.moderationLabels = try moderationLabels.map({ try ModerationLabel(dictionary: $0) })
-            } else { 
-                self.moderationLabels = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case moderationLabels = "ModerationLabels"
         }
     }
 
     public struct Gender: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Value", required: false, type: .enum)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -182,18 +172,17 @@ extension Rekognition {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.confidence = dictionary["Confidence"] as? Float
-            if let value = dictionary["Value"] as? String { self.value = GenderType(rawValue: value) } else { self.value = nil }
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case value = "Value"
         }
     }
 
     public struct Smile: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -205,19 +194,18 @@ extension Rekognition {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.confidence = dictionary["Confidence"] as? Float
-            self.value = dictionary["Value"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case value = "Value"
         }
     }
 
     public struct S3Object: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
         /// Name of the S3 bucket.
         public let bucket: String?
@@ -232,19 +220,18 @@ extension Rekognition {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.bucket = dictionary["Bucket"] as? String
-            self.name = dictionary["Name"] as? String
-            self.version = dictionary["Version"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case name = "Name"
+            case version = "Version"
         }
     }
 
     public struct DetectFacesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrientationCorrection", required: false, type: .enum), 
-            AWSShapeProperty(label: "FaceDetails", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrientationCorrection", required: false, type: .enum), 
+            AWSShapeMember(label: "FaceDetails", required: false, type: .list)
         ]
         ///  The orientation of the input image (counter-clockwise direction). If your application displays the image, you can use this value to correct image orientation. The bounding box coordinates returned in FaceDetails represent face locations before the image orientation is corrected.   If the input image is in .jpeg format, it might contain exchangeable image (Exif) metadata that includes the image's orientation. If so, and the Exif metadata for the input image populates the orientation field, the value of OrientationCorrection is null and the FaceDetails bounding box coordinates represent face locations after Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. 
         public let orientationCorrection: OrientationCorrection?
@@ -256,22 +243,17 @@ extension Rekognition {
             self.faceDetails = faceDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let orientationCorrection = dictionary["OrientationCorrection"] as? String { self.orientationCorrection = OrientationCorrection(rawValue: orientationCorrection) } else { self.orientationCorrection = nil }
-            if let faceDetails = dictionary["FaceDetails"] as? [[String: Any]] {
-                self.faceDetails = try faceDetails.map({ try FaceDetail(dictionary: $0) })
-            } else { 
-                self.faceDetails = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case orientationCorrection = "OrientationCorrection"
+            case faceDetails = "FaceDetails"
         }
     }
 
     public struct IndexFacesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrientationCorrection", required: false, type: .enum), 
-            AWSShapeProperty(label: "FaceRecords", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrientationCorrection", required: false, type: .enum), 
+            AWSShapeMember(label: "FaceRecords", required: false, type: .list)
         ]
         /// The orientation of the input image (counterclockwise direction). If your application displays the image, you can use this value to correct image orientation. The bounding box coordinates returned in FaceRecords represent face locations before the image orientation is corrected.   If the input image is in jpeg format, it might contain exchangeable image (Exif) metadata. If so, and the Exif metadata populates the orientation field, the value of OrientationCorrection is null and the bounding box coordinates in FaceRecords represent face locations after Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. 
         public let orientationCorrection: OrientationCorrection?
@@ -283,35 +265,30 @@ extension Rekognition {
             self.faceRecords = faceRecords
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let orientationCorrection = dictionary["OrientationCorrection"] as? String { self.orientationCorrection = OrientationCorrection(rawValue: orientationCorrection) } else { self.orientationCorrection = nil }
-            if let faceRecords = dictionary["FaceRecords"] as? [[String: Any]] {
-                self.faceRecords = try faceRecords.map({ try FaceRecord(dictionary: $0) })
-            } else { 
-                self.faceRecords = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case orientationCorrection = "OrientationCorrection"
+            case faceRecords = "FaceRecords"
         }
     }
 
     public struct FaceDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Sunglasses", required: false, type: .structure), 
-            AWSShapeProperty(label: "Gender", required: false, type: .structure), 
-            AWSShapeProperty(label: "EyesOpen", required: false, type: .structure), 
-            AWSShapeProperty(label: "Smile", required: false, type: .structure), 
-            AWSShapeProperty(label: "MouthOpen", required: false, type: .structure), 
-            AWSShapeProperty(label: "BoundingBox", required: false, type: .structure), 
-            AWSShapeProperty(label: "Pose", required: false, type: .structure), 
-            AWSShapeProperty(label: "AgeRange", required: false, type: .structure), 
-            AWSShapeProperty(label: "Eyeglasses", required: false, type: .structure), 
-            AWSShapeProperty(label: "Landmarks", required: false, type: .list), 
-            AWSShapeProperty(label: "Beard", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quality", required: false, type: .structure), 
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Mustache", required: false, type: .structure), 
-            AWSShapeProperty(label: "Emotions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Sunglasses", required: false, type: .structure), 
+            AWSShapeMember(label: "Gender", required: false, type: .structure), 
+            AWSShapeMember(label: "EyesOpen", required: false, type: .structure), 
+            AWSShapeMember(label: "Smile", required: false, type: .structure), 
+            AWSShapeMember(label: "MouthOpen", required: false, type: .structure), 
+            AWSShapeMember(label: "BoundingBox", required: false, type: .structure), 
+            AWSShapeMember(label: "Pose", required: false, type: .structure), 
+            AWSShapeMember(label: "AgeRange", required: false, type: .structure), 
+            AWSShapeMember(label: "Eyeglasses", required: false, type: .structure), 
+            AWSShapeMember(label: "Landmarks", required: false, type: .list), 
+            AWSShapeMember(label: "Beard", required: false, type: .structure), 
+            AWSShapeMember(label: "Quality", required: false, type: .structure), 
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Mustache", required: false, type: .structure), 
+            AWSShapeMember(label: "Emotions", required: false, type: .list)
         ]
         /// Indicates whether or not the face is wearing sunglasses, and the confidence level in the determination.
         public let sunglasses: Sunglasses?
@@ -362,39 +339,30 @@ extension Rekognition {
             self.emotions = emotions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let sunglasses = dictionary["Sunglasses"] as? [String: Any] { self.sunglasses = try Rekognition.Sunglasses(dictionary: sunglasses) } else { self.sunglasses = nil }
-            if let gender = dictionary["Gender"] as? [String: Any] { self.gender = try Rekognition.Gender(dictionary: gender) } else { self.gender = nil }
-            if let eyesOpen = dictionary["EyesOpen"] as? [String: Any] { self.eyesOpen = try Rekognition.EyeOpen(dictionary: eyesOpen) } else { self.eyesOpen = nil }
-            if let smile = dictionary["Smile"] as? [String: Any] { self.smile = try Rekognition.Smile(dictionary: smile) } else { self.smile = nil }
-            if let mouthOpen = dictionary["MouthOpen"] as? [String: Any] { self.mouthOpen = try Rekognition.MouthOpen(dictionary: mouthOpen) } else { self.mouthOpen = nil }
-            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) } else { self.boundingBox = nil }
-            if let pose = dictionary["Pose"] as? [String: Any] { self.pose = try Rekognition.Pose(dictionary: pose) } else { self.pose = nil }
-            if let ageRange = dictionary["AgeRange"] as? [String: Any] { self.ageRange = try Rekognition.AgeRange(dictionary: ageRange) } else { self.ageRange = nil }
-            if let eyeglasses = dictionary["Eyeglasses"] as? [String: Any] { self.eyeglasses = try Rekognition.Eyeglasses(dictionary: eyeglasses) } else { self.eyeglasses = nil }
-            if let landmarks = dictionary["Landmarks"] as? [[String: Any]] {
-                self.landmarks = try landmarks.map({ try Landmark(dictionary: $0) })
-            } else { 
-                self.landmarks = nil
-            }
-            if let beard = dictionary["Beard"] as? [String: Any] { self.beard = try Rekognition.Beard(dictionary: beard) } else { self.beard = nil }
-            if let quality = dictionary["Quality"] as? [String: Any] { self.quality = try Rekognition.ImageQuality(dictionary: quality) } else { self.quality = nil }
-            self.confidence = dictionary["Confidence"] as? Float
-            if let mustache = dictionary["Mustache"] as? [String: Any] { self.mustache = try Rekognition.Mustache(dictionary: mustache) } else { self.mustache = nil }
-            if let emotions = dictionary["Emotions"] as? [[String: Any]] {
-                self.emotions = try emotions.map({ try Emotion(dictionary: $0) })
-            } else { 
-                self.emotions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case sunglasses = "Sunglasses"
+            case gender = "Gender"
+            case eyesOpen = "EyesOpen"
+            case smile = "Smile"
+            case mouthOpen = "MouthOpen"
+            case boundingBox = "BoundingBox"
+            case pose = "Pose"
+            case ageRange = "AgeRange"
+            case eyeglasses = "Eyeglasses"
+            case landmarks = "Landmarks"
+            case beard = "Beard"
+            case quality = "Quality"
+            case confidence = "Confidence"
+            case mustache = "Mustache"
+            case emotions = "Emotions"
         }
     }
 
     public struct CompareFacesMatch: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Face", required: false, type: .structure), 
-            AWSShapeProperty(label: "Similarity", required: false, type: .float)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Face", required: false, type: .structure), 
+            AWSShapeMember(label: "Similarity", required: false, type: .float)
         ]
         /// Provides face metadata (bounding box and confidence that the bounding box actually contains a face).
         public let face: ComparedFace?
@@ -406,21 +374,20 @@ extension Rekognition {
             self.similarity = similarity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let face = dictionary["Face"] as? [String: Any] { self.face = try Rekognition.ComparedFace(dictionary: face) } else { self.face = nil }
-            self.similarity = dictionary["Similarity"] as? Float
+        private enum CodingKeys: String, CodingKey {
+            case face = "Face"
+            case similarity = "Similarity"
         }
     }
 
     public struct Celebrity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Face", required: false, type: .structure), 
-            AWSShapeProperty(label: "Urls", required: false, type: .list), 
-            AWSShapeProperty(label: "MatchConfidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Face", required: false, type: .structure), 
+            AWSShapeMember(label: "Urls", required: false, type: .list), 
+            AWSShapeMember(label: "MatchConfidence", required: false, type: .float), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Provides information about the celebrity's face, such as its location on the image.
         public let face: ComparedFace?
@@ -441,21 +408,20 @@ extension Rekognition {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let face = dictionary["Face"] as? [String: Any] { self.face = try Rekognition.ComparedFace(dictionary: face) } else { self.face = nil }
-            self.urls = dictionary["Urls"] as? [String]
-            self.matchConfidence = dictionary["MatchConfidence"] as? Float
-            self.name = dictionary["Name"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case face = "Face"
+            case urls = "Urls"
+            case matchConfidence = "MatchConfidence"
+            case name = "Name"
+            case id = "Id"
         }
     }
 
     public struct SearchFacesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FaceMatches", required: false, type: .list), 
-            AWSShapeProperty(label: "SearchedFaceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FaceMatches", required: false, type: .list), 
+            AWSShapeMember(label: "SearchedFaceId", required: false, type: .string)
         ]
         /// An array of faces that matched the input face, along with the confidence in the match.
         public let faceMatches: [FaceMatch]?
@@ -467,24 +433,19 @@ extension Rekognition {
             self.searchedFaceId = searchedFaceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let faceMatches = dictionary["FaceMatches"] as? [[String: Any]] {
-                self.faceMatches = try faceMatches.map({ try FaceMatch(dictionary: $0) })
-            } else { 
-                self.faceMatches = nil
-            }
-            self.searchedFaceId = dictionary["SearchedFaceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case faceMatches = "FaceMatches"
+            case searchedFaceId = "SearchedFaceId"
         }
     }
 
     public struct SearchFacesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FaceMatchThreshold", required: false, type: .float), 
-            AWSShapeProperty(label: "MaxFaces", required: false, type: .integer), 
-            AWSShapeProperty(label: "CollectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "FaceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FaceMatchThreshold", required: false, type: .float), 
+            AWSShapeMember(label: "MaxFaces", required: false, type: .integer), 
+            AWSShapeMember(label: "CollectionId", required: true, type: .string), 
+            AWSShapeMember(label: "FaceId", required: true, type: .string)
         ]
         /// Optional value specifying the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%.
         public let faceMatchThreshold: Float?
@@ -502,22 +463,19 @@ extension Rekognition {
             self.faceId = faceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.faceMatchThreshold = dictionary["FaceMatchThreshold"] as? Float
-            self.maxFaces = dictionary["MaxFaces"] as? Int32
-            guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
-            self.collectionId = collectionId
-            guard let faceId = dictionary["FaceId"] as? String else { throw InitializableError.missingRequiredParam("FaceId") }
-            self.faceId = faceId
+        private enum CodingKeys: String, CodingKey {
+            case faceMatchThreshold = "FaceMatchThreshold"
+            case maxFaces = "MaxFaces"
+            case collectionId = "CollectionId"
+            case faceId = "FaceId"
         }
     }
 
     public struct Mustache: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -529,19 +487,18 @@ extension Rekognition {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.confidence = dictionary["Confidence"] as? Float
-            self.value = dictionary["Value"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case value = "Value"
         }
     }
 
     public struct ModerationLabel: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "ParentName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ParentName", required: false, type: .string)
         ]
         /// Specifies the confidence that Amazon Rekognition has that the label has been correctly identified. If you don't specify the MinConfidence parameter in the call to DetectModerationLabels, the operation returns labels with a confidence value greater than or equal to 50 percent.
         public let confidence: Float?
@@ -556,19 +513,18 @@ extension Rekognition {
             self.parentName = parentName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.confidence = dictionary["Confidence"] as? Float
-            self.name = dictionary["Name"] as? String
-            self.parentName = dictionary["ParentName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case name = "Name"
+            case parentName = "ParentName"
         }
     }
 
     public struct EyeOpen: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -580,13 +536,13 @@ extension Rekognition {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.confidence = dictionary["Confidence"] as? Float
-            self.value = dictionary["Value"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case value = "Value"
         }
     }
 
-    public enum Attribute: String, CustomStringConvertible {
+    public enum Attribute: String, CustomStringConvertible, Codable {
         case `default` = "DEFAULT"
         case all = "ALL"
         public var description: String { return self.rawValue }
@@ -594,10 +550,9 @@ extension Rekognition {
 
     public struct DetectFacesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Image", required: true, type: .structure), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Image", required: true, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
         /// The image in which you want to detect faces. You can specify a blob or an S3 object. 
         public let image: Image
@@ -609,19 +564,17 @@ extension Rekognition {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
-            self.image = try Rekognition.Image(dictionary: image)
-            if let attributes = dictionary["Attributes"] as? [String] { self.attributes = attributes.flatMap({ Attribute(rawValue: $0)}) } else { self.attributes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+            case attributes = "Attributes"
         }
     }
 
     public struct Beard: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -633,18 +586,17 @@ extension Rekognition {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.confidence = dictionary["Confidence"] as? Float
-            self.value = dictionary["Value"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case value = "Value"
         }
     }
 
     public struct Sunglasses: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -656,18 +608,17 @@ extension Rekognition {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.confidence = dictionary["Confidence"] as? Float
-            self.value = dictionary["Value"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case value = "Value"
         }
     }
 
     public struct Image: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bytes", required: false, type: .blob), 
-            AWSShapeProperty(label: "S3Object", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bytes", required: false, type: .blob), 
+            AWSShapeMember(label: "S3Object", required: false, type: .structure)
         ]
         /// Blob of image bytes up to 5 MBs.
         public let bytes: Data?
@@ -679,18 +630,17 @@ extension Rekognition {
             self.s3Object = s3Object
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.bytes = dictionary["Bytes"] as? Data
-            if let s3Object = dictionary["S3Object"] as? [String: Any] { self.s3Object = try Rekognition.S3Object(dictionary: s3Object) } else { self.s3Object = nil }
+        private enum CodingKeys: String, CodingKey {
+            case bytes = "Bytes"
+            case s3Object = "S3Object"
         }
     }
 
     public struct AgeRange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "High", required: false, type: .integer), 
-            AWSShapeProperty(label: "Low", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "High", required: false, type: .integer), 
+            AWSShapeMember(label: "Low", required: false, type: .integer)
         ]
         /// The highest estimated age.
         public let high: Int32?
@@ -702,18 +652,17 @@ extension Rekognition {
             self.low = low
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.high = dictionary["High"] as? Int32
-            self.low = dictionary["Low"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case high = "High"
+            case low = "Low"
         }
     }
 
     public struct Eyeglasses: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -725,17 +674,16 @@ extension Rekognition {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.confidence = dictionary["Confidence"] as? Float
-            self.value = dictionary["Value"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case value = "Value"
         }
     }
 
     public struct DeleteCollectionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CollectionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CollectionId", required: true, type: .string)
         ]
         /// ID of the collection to delete.
         public let collectionId: String
@@ -744,17 +692,15 @@ extension Rekognition {
             self.collectionId = collectionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
-            self.collectionId = collectionId
+        private enum CodingKeys: String, CodingKey {
+            case collectionId = "CollectionId"
         }
     }
 
     public struct CreateCollectionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CollectionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CollectionId", required: true, type: .string)
         ]
         /// ID for the collection that you are creating.
         public let collectionId: String
@@ -763,18 +709,16 @@ extension Rekognition {
             self.collectionId = collectionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
-            self.collectionId = collectionId
+        private enum CodingKeys: String, CodingKey {
+            case collectionId = "CollectionId"
         }
     }
 
     public struct DetectLabelsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrientationCorrection", required: false, type: .enum), 
-            AWSShapeProperty(label: "Labels", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrientationCorrection", required: false, type: .enum), 
+            AWSShapeMember(label: "Labels", required: false, type: .list)
         ]
         ///  The orientation of the input image (counter-clockwise direction). If your application displays the image, you can use this value to correct the orientation. If Amazon Rekognition detects that the input image was rotated (for example, by 90 degrees), it first corrects the orientation before detecting the labels.   If the input image Exif metadata populates the orientation field, Amazon Rekognition does not perform orientation correction and the value of OrientationCorrection will be null. 
         public let orientationCorrection: OrientationCorrection?
@@ -786,23 +730,18 @@ extension Rekognition {
             self.labels = labels
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let orientationCorrection = dictionary["OrientationCorrection"] as? String { self.orientationCorrection = OrientationCorrection(rawValue: orientationCorrection) } else { self.orientationCorrection = nil }
-            if let labels = dictionary["Labels"] as? [[String: Any]] {
-                self.labels = try labels.map({ try Label(dictionary: $0) })
-            } else { 
-                self.labels = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case orientationCorrection = "OrientationCorrection"
+            case labels = "Labels"
         }
     }
 
     public struct ListFacesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "CollectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "CollectionId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
         public let nextToken: String?
@@ -817,20 +756,18 @@ extension Rekognition {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
-            self.collectionId = collectionId
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case collectionId = "CollectionId"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ComparedSourceImageFace: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "BoundingBox", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "BoundingBox", required: false, type: .structure)
         ]
         /// Confidence level that the selected bounding box contains a face.
         public let confidence: Float?
@@ -842,18 +779,17 @@ extension Rekognition {
             self.boundingBox = boundingBox
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.confidence = dictionary["Confidence"] as? Float
-            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) } else { self.boundingBox = nil }
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case boundingBox = "BoundingBox"
         }
     }
 
     public struct ListFacesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Faces", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Faces", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// An array of Face objects. 
         public let faces: [Face]?
@@ -865,23 +801,18 @@ extension Rekognition {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let faces = dictionary["Faces"] as? [[String: Any]] {
-                self.faces = try faces.map({ try Face(dictionary: $0) })
-            } else { 
-                self.faces = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case faces = "Faces"
+            case nextToken = "NextToken"
         }
     }
 
     public struct Landmark: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "X", required: false, type: .float), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Y", required: false, type: .float)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "X", required: false, type: .float), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Y", required: false, type: .float)
         ]
         /// x-coordinate from the top left of the landmark expressed as the ration of the width of the image. For example, if the images is 700x200 and the x-coordinate of the landmark is at 350 pixels, this value is 0.5. 
         public let x: Float?
@@ -896,20 +827,19 @@ extension Rekognition {
             self.y = y
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.x = dictionary["X"] as? Float
-            if let `type` = dictionary["Type"] as? String { self.`type` = LandmarkType(rawValue: `type`) } else { self.`type` = nil }
-            self.y = dictionary["Y"] as? Float
+        private enum CodingKeys: String, CodingKey {
+            case x = "X"
+            case `type` = "Type"
+            case y = "Y"
         }
     }
 
     public struct SearchFacesByImageResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SearchedFaceConfidence", required: false, type: .float), 
-            AWSShapeProperty(label: "FaceMatches", required: false, type: .list), 
-            AWSShapeProperty(label: "SearchedFaceBoundingBox", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SearchedFaceConfidence", required: false, type: .float), 
+            AWSShapeMember(label: "FaceMatches", required: false, type: .list), 
+            AWSShapeMember(label: "SearchedFaceBoundingBox", required: false, type: .structure)
         ]
         /// The level of confidence that the searchedFaceBoundingBox, contains a face.
         public let searchedFaceConfidence: Float?
@@ -924,18 +854,14 @@ extension Rekognition {
             self.searchedFaceBoundingBox = searchedFaceBoundingBox
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.searchedFaceConfidence = dictionary["SearchedFaceConfidence"] as? Float
-            if let faceMatches = dictionary["FaceMatches"] as? [[String: Any]] {
-                self.faceMatches = try faceMatches.map({ try FaceMatch(dictionary: $0) })
-            } else { 
-                self.faceMatches = nil
-            }
-            if let searchedFaceBoundingBox = dictionary["SearchedFaceBoundingBox"] as? [String: Any] { self.searchedFaceBoundingBox = try Rekognition.BoundingBox(dictionary: searchedFaceBoundingBox) } else { self.searchedFaceBoundingBox = nil }
+        private enum CodingKeys: String, CodingKey {
+            case searchedFaceConfidence = "SearchedFaceConfidence"
+            case faceMatches = "FaceMatches"
+            case searchedFaceBoundingBox = "SearchedFaceBoundingBox"
         }
     }
 
-    public enum OrientationCorrection: String, CustomStringConvertible {
+    public enum OrientationCorrection: String, CustomStringConvertible, Codable {
         case rotate_0 = "ROTATE_0"
         case rotate_90 = "ROTATE_90"
         case rotate_180 = "ROTATE_180"
@@ -945,10 +871,9 @@ extension Rekognition {
 
     public struct Emotion: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -960,18 +885,17 @@ extension Rekognition {
             self.`type` = `type`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.confidence = dictionary["Confidence"] as? Float
-            if let `type` = dictionary["Type"] as? String { self.`type` = EmotionName(rawValue: `type`) } else { self.`type` = nil }
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case `type` = "Type"
         }
     }
 
     public struct DeleteFacesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FaceIds", required: true, type: .list), 
-            AWSShapeProperty(label: "CollectionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FaceIds", required: true, type: .list), 
+            AWSShapeMember(label: "CollectionId", required: true, type: .string)
         ]
         /// An array of face IDs to delete.
         public let faceIds: [String]
@@ -983,19 +907,16 @@ extension Rekognition {
             self.collectionId = collectionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let faceIds = dictionary["FaceIds"] as? [String] else { throw InitializableError.missingRequiredParam("FaceIds") }
-            self.faceIds = faceIds
-            guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
-            self.collectionId = collectionId
+        private enum CodingKeys: String, CodingKey {
+            case faceIds = "FaceIds"
+            case collectionId = "CollectionId"
         }
     }
 
     public struct DeleteFacesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeletedFaces", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeletedFaces", required: false, type: .list)
         ]
         /// An array of strings (face IDs) of the faces that were deleted.
         public let deletedFaces: [String]?
@@ -1004,16 +925,15 @@ extension Rekognition {
             self.deletedFaces = deletedFaces
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deletedFaces = dictionary["DeletedFaces"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case deletedFaces = "DeletedFaces"
         }
     }
 
     public struct GetCelebrityInfoRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The ID for the celebrity. You get the celebrity ID from a call to the operation, which recognizes celebrities in an image. 
         public let id: String
@@ -1022,18 +942,16 @@ extension Rekognition {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct GetCelebrityInfoResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Urls", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Urls", required: false, type: .list)
         ]
         /// The name of the celebrity.
         public let name: String?
@@ -1045,21 +963,20 @@ extension Rekognition {
             self.urls = urls
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.urls = dictionary["Urls"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case urls = "Urls"
         }
     }
 
     public struct ComparedFace: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BoundingBox", required: false, type: .structure), 
-            AWSShapeProperty(label: "Landmarks", required: false, type: .list), 
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Pose", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quality", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BoundingBox", required: false, type: .structure), 
+            AWSShapeMember(label: "Landmarks", required: false, type: .list), 
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Pose", required: false, type: .structure), 
+            AWSShapeMember(label: "Quality", required: false, type: .structure)
         ]
         /// Bounding box of the face.
         public let boundingBox: BoundingBox?
@@ -1080,27 +997,22 @@ extension Rekognition {
             self.quality = quality
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) } else { self.boundingBox = nil }
-            if let landmarks = dictionary["Landmarks"] as? [[String: Any]] {
-                self.landmarks = try landmarks.map({ try Landmark(dictionary: $0) })
-            } else { 
-                self.landmarks = nil
-            }
-            self.confidence = dictionary["Confidence"] as? Float
-            if let pose = dictionary["Pose"] as? [String: Any] { self.pose = try Rekognition.Pose(dictionary: pose) } else { self.pose = nil }
-            if let quality = dictionary["Quality"] as? [String: Any] { self.quality = try Rekognition.ImageQuality(dictionary: quality) } else { self.quality = nil }
+        private enum CodingKeys: String, CodingKey {
+            case boundingBox = "BoundingBox"
+            case landmarks = "Landmarks"
+            case confidence = "Confidence"
+            case pose = "Pose"
+            case quality = "Quality"
         }
     }
 
     public struct SearchFacesByImageRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Image", required: true, type: .structure), 
-            AWSShapeProperty(label: "FaceMatchThreshold", required: false, type: .float), 
-            AWSShapeProperty(label: "MaxFaces", required: false, type: .integer), 
-            AWSShapeProperty(label: "CollectionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Image", required: true, type: .structure), 
+            AWSShapeMember(label: "FaceMatchThreshold", required: false, type: .float), 
+            AWSShapeMember(label: "MaxFaces", required: false, type: .integer), 
+            AWSShapeMember(label: "CollectionId", required: true, type: .string)
         ]
         /// The input image as bytes or an S3 object.
         public let image: Image
@@ -1118,22 +1030,19 @@ extension Rekognition {
             self.collectionId = collectionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
-            self.image = try Rekognition.Image(dictionary: image)
-            self.faceMatchThreshold = dictionary["FaceMatchThreshold"] as? Float
-            self.maxFaces = dictionary["MaxFaces"] as? Int32
-            guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
-            self.collectionId = collectionId
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+            case faceMatchThreshold = "FaceMatchThreshold"
+            case maxFaces = "MaxFaces"
+            case collectionId = "CollectionId"
         }
     }
 
     public struct FaceMatch: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Face", required: false, type: .structure), 
-            AWSShapeProperty(label: "Similarity", required: false, type: .float)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Face", required: false, type: .structure), 
+            AWSShapeMember(label: "Similarity", required: false, type: .float)
         ]
         /// Describes the face properties such as the bounding box, face ID, image ID of the source image, and external image ID that you assigned.
         public let face: Face?
@@ -1145,18 +1054,17 @@ extension Rekognition {
             self.similarity = similarity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let face = dictionary["Face"] as? [String: Any] { self.face = try Rekognition.Face(dictionary: face) } else { self.face = nil }
-            self.similarity = dictionary["Similarity"] as? Float
+        private enum CodingKeys: String, CodingKey {
+            case face = "Face"
+            case similarity = "Similarity"
         }
     }
 
     public struct DetectModerationLabelsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Image", required: true, type: .structure), 
-            AWSShapeProperty(label: "MinConfidence", required: false, type: .float)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Image", required: true, type: .structure), 
+            AWSShapeMember(label: "MinConfidence", required: false, type: .float)
         ]
         /// The input image as bytes or an S3 object.
         public let image: Image
@@ -1168,19 +1076,17 @@ extension Rekognition {
             self.minConfidence = minConfidence
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
-            self.image = try Rekognition.Image(dictionary: image)
-            self.minConfidence = dictionary["MinConfidence"] as? Float
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+            case minConfidence = "MinConfidence"
         }
     }
 
     public struct Label: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// Level of confidence.
         public let confidence: Float?
@@ -1192,18 +1098,17 @@ extension Rekognition {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.confidence = dictionary["Confidence"] as? Float
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case name = "Name"
         }
     }
 
     public struct ListCollectionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Pagination token from the previous response.
         public let nextToken: String?
@@ -1215,19 +1120,18 @@ extension Rekognition {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DetectLabelsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Image", required: true, type: .structure), 
-            AWSShapeProperty(label: "MaxLabels", required: false, type: .integer), 
-            AWSShapeProperty(label: "MinConfidence", required: false, type: .float)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Image", required: true, type: .structure), 
+            AWSShapeMember(label: "MaxLabels", required: false, type: .integer), 
+            AWSShapeMember(label: "MinConfidence", required: false, type: .float)
         ]
         /// The input image. You can provide a blob of image bytes or an S3 object.
         public let image: Image
@@ -1242,20 +1146,18 @@ extension Rekognition {
             self.minConfidence = minConfidence
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
-            self.image = try Rekognition.Image(dictionary: image)
-            self.maxLabels = dictionary["MaxLabels"] as? Int32
-            self.minConfidence = dictionary["MinConfidence"] as? Float
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+            case maxLabels = "MaxLabels"
+            case minConfidence = "MinConfidence"
         }
     }
 
     public struct CreateCollectionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CollectionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusCode", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CollectionArn", required: false, type: .string), 
+            AWSShapeMember(label: "StatusCode", required: false, type: .integer)
         ]
         /// Amazon Resource Name (ARN) of the collection. You can use this to manage permissions on your resources. 
         public let collectionArn: String?
@@ -1267,18 +1169,17 @@ extension Rekognition {
             self.statusCode = statusCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.collectionArn = dictionary["CollectionArn"] as? String
-            self.statusCode = dictionary["StatusCode"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case collectionArn = "CollectionArn"
+            case statusCode = "StatusCode"
         }
     }
 
     public struct FaceRecord: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Face", required: false, type: .structure), 
-            AWSShapeProperty(label: "FaceDetail", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Face", required: false, type: .structure), 
+            AWSShapeMember(label: "FaceDetail", required: false, type: .structure)
         ]
         /// Describes the face properties such as the bounding box, face ID, image ID of the input image, and external image ID that you assigned. 
         public let face: Face?
@@ -1290,13 +1191,13 @@ extension Rekognition {
             self.faceDetail = faceDetail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let face = dictionary["Face"] as? [String: Any] { self.face = try Rekognition.Face(dictionary: face) } else { self.face = nil }
-            if let faceDetail = dictionary["FaceDetail"] as? [String: Any] { self.faceDetail = try Rekognition.FaceDetail(dictionary: faceDetail) } else { self.faceDetail = nil }
+        private enum CodingKeys: String, CodingKey {
+            case face = "Face"
+            case faceDetail = "FaceDetail"
         }
     }
 
-    public enum GenderType: String, CustomStringConvertible {
+    public enum GenderType: String, CustomStringConvertible, Codable {
         case male = "MALE"
         case female = "FEMALE"
         public var description: String { return self.rawValue }
@@ -1304,13 +1205,12 @@ extension Rekognition {
 
     public struct Face: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BoundingBox", required: false, type: .structure), 
-            AWSShapeProperty(label: "ExternalImageId", required: false, type: .string), 
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "FaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BoundingBox", required: false, type: .structure), 
+            AWSShapeMember(label: "ExternalImageId", required: false, type: .string), 
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "FaceId", required: false, type: .string), 
+            AWSShapeMember(label: "ImageId", required: false, type: .string)
         ]
         /// Bounding box of the face.
         public let boundingBox: BoundingBox?
@@ -1331,22 +1231,21 @@ extension Rekognition {
             self.imageId = imageId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) } else { self.boundingBox = nil }
-            self.externalImageId = dictionary["ExternalImageId"] as? String
-            self.confidence = dictionary["Confidence"] as? Float
-            self.faceId = dictionary["FaceId"] as? String
-            self.imageId = dictionary["ImageId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case boundingBox = "BoundingBox"
+            case externalImageId = "ExternalImageId"
+            case confidence = "Confidence"
+            case faceId = "FaceId"
+            case imageId = "ImageId"
         }
     }
 
     public struct CompareFacesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceImage", required: true, type: .structure), 
-            AWSShapeProperty(label: "TargetImage", required: true, type: .structure), 
-            AWSShapeProperty(label: "SimilarityThreshold", required: false, type: .float)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceImage", required: true, type: .structure), 
+            AWSShapeMember(label: "TargetImage", required: true, type: .structure), 
+            AWSShapeMember(label: "SimilarityThreshold", required: false, type: .float)
         ]
         /// The source image, either as bytes or as an S3 object.
         public let sourceImage: Image
@@ -1361,20 +1260,17 @@ extension Rekognition {
             self.similarityThreshold = similarityThreshold
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sourceImage = dictionary["SourceImage"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SourceImage") }
-            self.sourceImage = try Rekognition.Image(dictionary: sourceImage)
-            guard let targetImage = dictionary["TargetImage"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TargetImage") }
-            self.targetImage = try Rekognition.Image(dictionary: targetImage)
-            self.similarityThreshold = dictionary["SimilarityThreshold"] as? Float
+        private enum CodingKeys: String, CodingKey {
+            case sourceImage = "SourceImage"
+            case targetImage = "TargetImage"
+            case similarityThreshold = "SimilarityThreshold"
         }
     }
 
     public struct RecognizeCelebritiesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Image", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Image", required: true, type: .structure)
         ]
         /// The input image to use for celebrity recognition.
         public let image: Image
@@ -1383,19 +1279,17 @@ extension Rekognition {
             self.image = image
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
-            self.image = try Rekognition.Image(dictionary: image)
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
         }
     }
 
     public struct RecognizeCelebritiesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrientationCorrection", required: false, type: .enum), 
-            AWSShapeProperty(label: "CelebrityFaces", required: false, type: .list), 
-            AWSShapeProperty(label: "UnrecognizedFaces", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrientationCorrection", required: false, type: .enum), 
+            AWSShapeMember(label: "CelebrityFaces", required: false, type: .list), 
+            AWSShapeMember(label: "UnrecognizedFaces", required: false, type: .list)
         ]
         /// The orientation of the input image (counterclockwise direction). If your application displays the image, you can use this value to correct the orientation. The bounding box coordinates returned in CelebrityFaces and UnrecognizedFaces represent face locations before the image orientation is corrected.   If the input image is in .jpeg format, it might contain exchangeable image (Exif) metadata that includes the image's orientation. If so, and the Exif metadata for the input image populates the orientation field, the value of OrientationCorrection is null and the CelebrityFaces and UnrecognizedFaces bounding box coordinates represent face locations after Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata.  
         public let orientationCorrection: OrientationCorrection?
@@ -1410,27 +1304,18 @@ extension Rekognition {
             self.unrecognizedFaces = unrecognizedFaces
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let orientationCorrection = dictionary["OrientationCorrection"] as? String { self.orientationCorrection = OrientationCorrection(rawValue: orientationCorrection) } else { self.orientationCorrection = nil }
-            if let celebrityFaces = dictionary["CelebrityFaces"] as? [[String: Any]] {
-                self.celebrityFaces = try celebrityFaces.map({ try Celebrity(dictionary: $0) })
-            } else { 
-                self.celebrityFaces = nil
-            }
-            if let unrecognizedFaces = dictionary["UnrecognizedFaces"] as? [[String: Any]] {
-                self.unrecognizedFaces = try unrecognizedFaces.map({ try ComparedFace(dictionary: $0) })
-            } else { 
-                self.unrecognizedFaces = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case orientationCorrection = "OrientationCorrection"
+            case celebrityFaces = "CelebrityFaces"
+            case unrecognizedFaces = "UnrecognizedFaces"
         }
     }
 
     public struct MouthOpen: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Confidence", required: false, type: .float), 
-            AWSShapeProperty(label: "Value", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
         /// Level of confidence in the determination.
         public let confidence: Float?
@@ -1442,21 +1327,20 @@ extension Rekognition {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.confidence = dictionary["Confidence"] as? Float
-            self.value = dictionary["Value"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case value = "Value"
         }
     }
 
     public struct CompareFacesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetImageOrientationCorrection", required: false, type: .enum), 
-            AWSShapeProperty(label: "UnmatchedFaces", required: false, type: .list), 
-            AWSShapeProperty(label: "SourceImageFace", required: false, type: .structure), 
-            AWSShapeProperty(label: "FaceMatches", required: false, type: .list), 
-            AWSShapeProperty(label: "SourceImageOrientationCorrection", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetImageOrientationCorrection", required: false, type: .enum), 
+            AWSShapeMember(label: "UnmatchedFaces", required: false, type: .list), 
+            AWSShapeMember(label: "SourceImageFace", required: false, type: .structure), 
+            AWSShapeMember(label: "FaceMatches", required: false, type: .list), 
+            AWSShapeMember(label: "SourceImageOrientationCorrection", required: false, type: .enum)
         ]
         ///  The orientation of the target image (in counterclockwise direction). If your application displays the target image, you can use this value to correct the orientation of the image. The bounding box coordinates returned in FaceMatches and UnmatchedFaces represent face locations before the image orientation is corrected.   If the target image is in .jpg format, it might contain Exif metadata that includes the orientation of the image. If the Exif metadata for the target image populates the orientation field, the value of OrientationCorrection is null and the bounding box coordinates in FaceMatches and UnmatchedFaces represent the location of the face after Exif metadata is used to correct the orientation. Images in .png format don't contain Exif metadata. 
         public let targetImageOrientationCorrection: OrientationCorrection?
@@ -1477,24 +1361,16 @@ extension Rekognition {
             self.sourceImageOrientationCorrection = sourceImageOrientationCorrection
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let targetImageOrientationCorrection = dictionary["TargetImageOrientationCorrection"] as? String { self.targetImageOrientationCorrection = OrientationCorrection(rawValue: targetImageOrientationCorrection) } else { self.targetImageOrientationCorrection = nil }
-            if let unmatchedFaces = dictionary["UnmatchedFaces"] as? [[String: Any]] {
-                self.unmatchedFaces = try unmatchedFaces.map({ try ComparedFace(dictionary: $0) })
-            } else { 
-                self.unmatchedFaces = nil
-            }
-            if let sourceImageFace = dictionary["SourceImageFace"] as? [String: Any] { self.sourceImageFace = try Rekognition.ComparedSourceImageFace(dictionary: sourceImageFace) } else { self.sourceImageFace = nil }
-            if let faceMatches = dictionary["FaceMatches"] as? [[String: Any]] {
-                self.faceMatches = try faceMatches.map({ try CompareFacesMatch(dictionary: $0) })
-            } else { 
-                self.faceMatches = nil
-            }
-            if let sourceImageOrientationCorrection = dictionary["SourceImageOrientationCorrection"] as? String { self.sourceImageOrientationCorrection = OrientationCorrection(rawValue: sourceImageOrientationCorrection) } else { self.sourceImageOrientationCorrection = nil }
+        private enum CodingKeys: String, CodingKey {
+            case targetImageOrientationCorrection = "TargetImageOrientationCorrection"
+            case unmatchedFaces = "UnmatchedFaces"
+            case sourceImageFace = "SourceImageFace"
+            case faceMatches = "FaceMatches"
+            case sourceImageOrientationCorrection = "SourceImageOrientationCorrection"
         }
     }
 
-    public enum LandmarkType: String, CustomStringConvertible {
+    public enum LandmarkType: String, CustomStringConvertible, Codable {
         case eye_left = "EYE_LEFT"
         case eye_right = "EYE_RIGHT"
         case nose = "NOSE"
@@ -1525,10 +1401,9 @@ extension Rekognition {
 
     public struct ImageQuality: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Sharpness", required: false, type: .float), 
-            AWSShapeProperty(label: "Brightness", required: false, type: .float)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Sharpness", required: false, type: .float), 
+            AWSShapeMember(label: "Brightness", required: false, type: .float)
         ]
         /// Value representing sharpness of the face. The service returns a value between 0 and 100 (inclusive). A higher value indicates a sharper face image.
         public let sharpness: Float?
@@ -1540,20 +1415,19 @@ extension Rekognition {
             self.brightness = brightness
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sharpness = dictionary["Sharpness"] as? Float
-            self.brightness = dictionary["Brightness"] as? Float
+        private enum CodingKeys: String, CodingKey {
+            case sharpness = "Sharpness"
+            case brightness = "Brightness"
         }
     }
 
     public struct IndexFacesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Image", required: true, type: .structure), 
-            AWSShapeProperty(label: "ExternalImageId", required: false, type: .string), 
-            AWSShapeProperty(label: "CollectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "DetectionAttributes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Image", required: true, type: .structure), 
+            AWSShapeMember(label: "ExternalImageId", required: false, type: .string), 
+            AWSShapeMember(label: "CollectionId", required: true, type: .string), 
+            AWSShapeMember(label: "DetectionAttributes", required: false, type: .list)
         ]
         /// The input image as bytes or an S3 object.
         public let image: Image
@@ -1571,13 +1445,11 @@ extension Rekognition {
             self.detectionAttributes = detectionAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
-            self.image = try Rekognition.Image(dictionary: image)
-            self.externalImageId = dictionary["ExternalImageId"] as? String
-            guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
-            self.collectionId = collectionId
-            if let detectionAttributes = dictionary["DetectionAttributes"] as? [String] { self.detectionAttributes = detectionAttributes.flatMap({ Attribute(rawValue: $0)}) } else { self.detectionAttributes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+            case externalImageId = "ExternalImageId"
+            case collectionId = "CollectionId"
+            case detectionAttributes = "DetectionAttributes"
         }
     }
 

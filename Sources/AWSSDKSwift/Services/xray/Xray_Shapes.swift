@@ -31,11 +31,10 @@ extension Xray {
 
     public struct BatchGetTracesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Traces", required: false, type: .list), 
-            AWSShapeProperty(label: "UnprocessedTraceIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Traces", required: false, type: .list), 
+            AWSShapeMember(label: "UnprocessedTraceIds", required: false, type: .list)
         ]
         /// Pagination token. Not used.
         public let nextToken: String?
@@ -50,26 +49,21 @@ extension Xray {
             self.unprocessedTraceIds = unprocessedTraceIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let traces = dictionary["Traces"] as? [[String: Any]] {
-                self.traces = try traces.map({ try Trace(dictionary: $0) })
-            } else { 
-                self.traces = nil
-            }
-            self.unprocessedTraceIds = dictionary["UnprocessedTraceIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case traces = "Traces"
+            case unprocessedTraceIds = "UnprocessedTraceIds"
         }
     }
 
     public struct EdgeStatistics: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TotalResponseTime", required: false, type: .double), 
-            AWSShapeProperty(label: "FaultStatistics", required: false, type: .structure), 
-            AWSShapeProperty(label: "OkCount", required: false, type: .long), 
-            AWSShapeProperty(label: "ErrorStatistics", required: false, type: .structure), 
-            AWSShapeProperty(label: "TotalCount", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TotalResponseTime", required: false, type: .double), 
+            AWSShapeMember(label: "FaultStatistics", required: false, type: .structure), 
+            AWSShapeMember(label: "OkCount", required: false, type: .long), 
+            AWSShapeMember(label: "ErrorStatistics", required: false, type: .structure), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .long)
         ]
         /// The aggregate response time of completed requests.
         public let totalResponseTime: Double?
@@ -90,21 +84,20 @@ extension Xray {
             self.totalCount = totalCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.totalResponseTime = dictionary["TotalResponseTime"] as? Double
-            if let faultStatistics = dictionary["FaultStatistics"] as? [String: Any] { self.faultStatistics = try Xray.FaultStatistics(dictionary: faultStatistics) } else { self.faultStatistics = nil }
-            self.okCount = dictionary["OkCount"] as? Int64
-            if let errorStatistics = dictionary["ErrorStatistics"] as? [String: Any] { self.errorStatistics = try Xray.ErrorStatistics(dictionary: errorStatistics) } else { self.errorStatistics = nil }
-            self.totalCount = dictionary["TotalCount"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case totalResponseTime = "TotalResponseTime"
+            case faultStatistics = "FaultStatistics"
+            case okCount = "OkCount"
+            case errorStatistics = "ErrorStatistics"
+            case totalCount = "TotalCount"
         }
     }
 
     public struct Segment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Document", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Document", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The segment document
         public let document: String?
@@ -116,19 +109,18 @@ extension Xray {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.document = dictionary["Document"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case document = "Document"
+            case id = "Id"
         }
     }
 
     public struct Alias: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Names", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Names", required: false, type: .list)
         ]
         /// The type of the alias.
         public let `type`: String?
@@ -143,19 +135,18 @@ extension Xray {
             self.names = names
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.`type` = dictionary["Type"] as? String
-            self.name = dictionary["Name"] as? String
-            self.names = dictionary["Names"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case name = "Name"
+            case names = "Names"
         }
     }
 
     public struct ValueWithServiceIds: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "AnnotationValue", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceIds", required: false, type: .list), 
+            AWSShapeMember(label: "AnnotationValue", required: false, type: .structure)
         ]
         /// Services to which the annotation applies.
         public let serviceIds: [ServiceId]?
@@ -167,22 +158,17 @@ extension Xray {
             self.annotationValue = annotationValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let serviceIds = dictionary["ServiceIds"] as? [[String: Any]] {
-                self.serviceIds = try serviceIds.map({ try ServiceId(dictionary: $0) })
-            } else { 
-                self.serviceIds = nil
-            }
-            if let annotationValue = dictionary["AnnotationValue"] as? [String: Any] { self.annotationValue = try Xray.AnnotationValue(dictionary: annotationValue) } else { self.annotationValue = nil }
+        private enum CodingKeys: String, CodingKey {
+            case serviceIds = "ServiceIds"
+            case annotationValue = "AnnotationValue"
         }
     }
 
     public struct HistogramEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .double), 
-            AWSShapeProperty(label: "Count", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .double), 
+            AWSShapeMember(label: "Count", required: false, type: .integer)
         ]
         /// The value of the entry.
         public let value: Double?
@@ -194,19 +180,18 @@ extension Xray {
             self.count = count
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? Double
-            self.count = dictionary["Count"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case count = "Count"
         }
     }
 
     public struct UnprocessedTraceSegment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// The segment's ID.
         public let id: String?
@@ -221,21 +206,20 @@ extension Xray {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.id = dictionary["Id"] as? String
-            self.errorCode = dictionary["ErrorCode"] as? String
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case errorCode = "ErrorCode"
+            case message = "Message"
         }
     }
 
     public struct GetTraceSummariesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TracesProcessedCount", required: false, type: .long), 
-            AWSShapeProperty(label: "TraceSummaries", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ApproximateTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TracesProcessedCount", required: false, type: .long), 
+            AWSShapeMember(label: "TraceSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ApproximateTime", required: false, type: .timestamp)
         ]
         /// The number of traces that were processed to get this set of summaries.
         public let tracesProcessedCount: Int64?
@@ -244,44 +228,39 @@ extension Xray {
         /// If the requested time frame contained more than one page of results, you can use this token to retrieve the next page. The first page contains the most most recent results, closest to the end of the time frame.
         public let nextToken: String?
         /// The start time of this page of results.
-        public let approximateTime: String?
+        public let approximateTime: Double?
 
-        public init(tracesProcessedCount: Int64? = nil, traceSummaries: [TraceSummary]? = nil, nextToken: String? = nil, approximateTime: String? = nil) {
+        public init(tracesProcessedCount: Int64? = nil, traceSummaries: [TraceSummary]? = nil, nextToken: String? = nil, approximateTime: Double? = nil) {
             self.tracesProcessedCount = tracesProcessedCount
             self.traceSummaries = traceSummaries
             self.nextToken = nextToken
             self.approximateTime = approximateTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tracesProcessedCount = dictionary["TracesProcessedCount"] as? Int64
-            if let traceSummaries = dictionary["TraceSummaries"] as? [[String: Any]] {
-                self.traceSummaries = try traceSummaries.map({ try TraceSummary(dictionary: $0) })
-            } else { 
-                self.traceSummaries = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.approximateTime = dictionary["ApproximateTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tracesProcessedCount = "TracesProcessedCount"
+            case traceSummaries = "TraceSummaries"
+            case nextToken = "NextToken"
+            case approximateTime = "ApproximateTime"
         }
     }
 
     public struct Edge: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SummaryStatistics", required: false, type: .structure), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ReferenceId", required: false, type: .integer), 
-            AWSShapeProperty(label: "Aliases", required: false, type: .list), 
-            AWSShapeProperty(label: "ResponseTimeHistogram", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SummaryStatistics", required: false, type: .structure), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReferenceId", required: false, type: .integer), 
+            AWSShapeMember(label: "Aliases", required: false, type: .list), 
+            AWSShapeMember(label: "ResponseTimeHistogram", required: false, type: .list)
         ]
         /// The start time of the first segment on the edge.
-        public let startTime: String?
+        public let startTime: Double?
         /// Response statistics for segments on the edge.
         public let summaryStatistics: EdgeStatistics?
         /// The end time of the last segment on the edge.
-        public let endTime: String?
+        public let endTime: Double?
         /// Identifier of the edge. Unique within a service map.
         public let referenceId: Int32?
         /// Aliases for the edge.
@@ -289,7 +268,7 @@ extension Xray {
         /// A histogram that maps the spread of client response times on an edge.
         public let responseTimeHistogram: [HistogramEntry]?
 
-        public init(startTime: String? = nil, summaryStatistics: EdgeStatistics? = nil, endTime: String? = nil, referenceId: Int32? = nil, aliases: [Alias]? = nil, responseTimeHistogram: [HistogramEntry]? = nil) {
+        public init(startTime: Double? = nil, summaryStatistics: EdgeStatistics? = nil, endTime: Double? = nil, referenceId: Int32? = nil, aliases: [Alias]? = nil, responseTimeHistogram: [HistogramEntry]? = nil) {
             self.startTime = startTime
             self.summaryStatistics = summaryStatistics
             self.endTime = endTime
@@ -298,31 +277,22 @@ extension Xray {
             self.responseTimeHistogram = responseTimeHistogram
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            if let summaryStatistics = dictionary["SummaryStatistics"] as? [String: Any] { self.summaryStatistics = try Xray.EdgeStatistics(dictionary: summaryStatistics) } else { self.summaryStatistics = nil }
-            self.endTime = dictionary["EndTime"] as? String
-            self.referenceId = dictionary["ReferenceId"] as? Int32
-            if let aliases = dictionary["Aliases"] as? [[String: Any]] {
-                self.aliases = try aliases.map({ try Alias(dictionary: $0) })
-            } else { 
-                self.aliases = nil
-            }
-            if let responseTimeHistogram = dictionary["ResponseTimeHistogram"] as? [[String: Any]] {
-                self.responseTimeHistogram = try responseTimeHistogram.map({ try HistogramEntry(dictionary: $0) })
-            } else { 
-                self.responseTimeHistogram = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case summaryStatistics = "SummaryStatistics"
+            case endTime = "EndTime"
+            case referenceId = "ReferenceId"
+            case aliases = "Aliases"
+            case responseTimeHistogram = "ResponseTimeHistogram"
         }
     }
 
     public struct ErrorStatistics: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TotalCount", required: false, type: .long), 
-            AWSShapeProperty(label: "OtherCount", required: false, type: .long), 
-            AWSShapeProperty(label: "ThrottleCount", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TotalCount", required: false, type: .long), 
+            AWSShapeMember(label: "OtherCount", required: false, type: .long), 
+            AWSShapeMember(label: "ThrottleCount", required: false, type: .long)
         ]
         /// The total number of requests that failed with a 4xx Client Error status code.
         public let totalCount: Int64?
@@ -337,48 +307,44 @@ extension Xray {
             self.throttleCount = throttleCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.totalCount = dictionary["TotalCount"] as? Int64
-            self.otherCount = dictionary["OtherCount"] as? Int64
-            self.throttleCount = dictionary["ThrottleCount"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case totalCount = "TotalCount"
+            case otherCount = "OtherCount"
+            case throttleCount = "ThrottleCount"
         }
     }
 
     public struct GetServiceGraphRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "StartTime", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
         ]
         /// The end of the time frame for which to generate a graph.
-        public let endTime: String
+        public let endTime: Double
         /// Pagination token. Not used.
         public let nextToken: String?
         /// The start of the time frame for which to generate a graph.
-        public let startTime: String
+        public let startTime: Double
 
-        public init(endTime: String, nextToken: String? = nil, startTime: String) {
+        public init(endTime: Double, nextToken: String? = nil, startTime: Double) {
             self.endTime = endTime
             self.nextToken = nextToken
             self.startTime = startTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let endTime = dictionary["EndTime"] as? String else { throw InitializableError.missingRequiredParam("EndTime") }
-            self.endTime = endTime
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let startTime = dictionary["StartTime"] as? String else { throw InitializableError.missingRequiredParam("StartTime") }
-            self.startTime = startTime
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
         }
     }
 
     public struct PutTraceSegmentsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UnprocessedTraceSegments", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UnprocessedTraceSegments", required: false, type: .list)
         ]
         /// Segments that failed processing.
         public let unprocessedTraceSegments: [UnprocessedTraceSegment]?
@@ -387,22 +353,17 @@ extension Xray {
             self.unprocessedTraceSegments = unprocessedTraceSegments
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let unprocessedTraceSegments = dictionary["UnprocessedTraceSegments"] as? [[String: Any]] {
-                self.unprocessedTraceSegments = try unprocessedTraceSegments.map({ try UnprocessedTraceSegment(dictionary: $0) })
-            } else { 
-                self.unprocessedTraceSegments = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedTraceSegments = "UnprocessedTraceSegments"
         }
     }
 
     public struct AnnotationValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BooleanValue", required: false, type: .boolean), 
-            AWSShapeProperty(label: "StringValue", required: false, type: .string), 
-            AWSShapeProperty(label: "NumberValue", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BooleanValue", required: false, type: .boolean), 
+            AWSShapeMember(label: "StringValue", required: false, type: .string), 
+            AWSShapeMember(label: "NumberValue", required: false, type: .double)
         ]
         /// Value for a Boolean annotation.
         public let booleanValue: Bool?
@@ -417,56 +378,50 @@ extension Xray {
             self.numberValue = numberValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.booleanValue = dictionary["BooleanValue"] as? Bool
-            self.stringValue = dictionary["StringValue"] as? String
-            self.numberValue = dictionary["NumberValue"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case booleanValue = "BooleanValue"
+            case stringValue = "StringValue"
+            case numberValue = "NumberValue"
         }
     }
 
     public struct GetServiceGraphResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Services", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Services", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The start of the time frame for which the graph was generated.
-        public let startTime: String?
+        public let startTime: Double?
         /// The end of the time frame for which the graph was generated.
-        public let endTime: String?
+        public let endTime: Double?
         /// The services that have processed a traced request during the specified time frame.
         public let services: [Service]?
         /// Pagination token. Not used.
         public let nextToken: String?
 
-        public init(startTime: String? = nil, endTime: String? = nil, services: [Service]? = nil, nextToken: String? = nil) {
+        public init(startTime: Double? = nil, endTime: Double? = nil, services: [Service]? = nil, nextToken: String? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.services = services
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.endTime = dictionary["EndTime"] as? String
-            if let services = dictionary["Services"] as? [[String: Any]] {
-                self.services = try services.map({ try Service(dictionary: $0) })
-            } else { 
-                self.services = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case endTime = "EndTime"
+            case services = "Services"
+            case nextToken = "NextToken"
         }
     }
 
     public struct TraceUser: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceIds", required: false, type: .list), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
         /// Services that the user's request hit.
         public let serviceIds: [ServiceId]?
@@ -478,22 +433,17 @@ extension Xray {
             self.userName = userName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let serviceIds = dictionary["ServiceIds"] as? [[String: Any]] {
-                self.serviceIds = try serviceIds.map({ try ServiceId(dictionary: $0) })
-            } else { 
-                self.serviceIds = nil
-            }
-            self.userName = dictionary["UserName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case serviceIds = "ServiceIds"
+            case userName = "UserName"
         }
     }
 
     public struct FaultStatistics: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TotalCount", required: false, type: .long), 
-            AWSShapeProperty(label: "OtherCount", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TotalCount", required: false, type: .long), 
+            AWSShapeMember(label: "OtherCount", required: false, type: .long)
         ]
         /// The total number of requests that failed with a 5xx Server Error status code.
         public let totalCount: Int64?
@@ -505,21 +455,20 @@ extension Xray {
             self.otherCount = otherCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.totalCount = dictionary["TotalCount"] as? Int64
-            self.otherCount = dictionary["OtherCount"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case totalCount = "TotalCount"
+            case otherCount = "OtherCount"
         }
     }
 
     public struct Http: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientIp", required: false, type: .string), 
-            AWSShapeProperty(label: "HttpURL", required: false, type: .string), 
-            AWSShapeProperty(label: "HttpMethod", required: false, type: .string), 
-            AWSShapeProperty(label: "HttpStatus", required: false, type: .integer), 
-            AWSShapeProperty(label: "UserAgent", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientIp", required: false, type: .string), 
+            AWSShapeMember(label: "HttpURL", required: false, type: .string), 
+            AWSShapeMember(label: "HttpMethod", required: false, type: .string), 
+            AWSShapeMember(label: "HttpStatus", required: false, type: .integer), 
+            AWSShapeMember(label: "UserAgent", required: false, type: .string)
         ]
         /// The IP address of the requestor.
         public let clientIp: String?
@@ -540,24 +489,23 @@ extension Xray {
             self.userAgent = userAgent
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clientIp = dictionary["ClientIp"] as? String
-            self.httpURL = dictionary["HttpURL"] as? String
-            self.httpMethod = dictionary["HttpMethod"] as? String
-            self.httpStatus = dictionary["HttpStatus"] as? Int32
-            self.userAgent = dictionary["UserAgent"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clientIp = "ClientIp"
+            case httpURL = "HttpURL"
+            case httpMethod = "HttpMethod"
+            case httpStatus = "HttpStatus"
+            case userAgent = "UserAgent"
         }
     }
 
     public struct ServiceStatistics: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TotalResponseTime", required: false, type: .double), 
-            AWSShapeProperty(label: "FaultStatistics", required: false, type: .structure), 
-            AWSShapeProperty(label: "OkCount", required: false, type: .long), 
-            AWSShapeProperty(label: "ErrorStatistics", required: false, type: .structure), 
-            AWSShapeProperty(label: "TotalCount", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TotalResponseTime", required: false, type: .double), 
+            AWSShapeMember(label: "FaultStatistics", required: false, type: .structure), 
+            AWSShapeMember(label: "OkCount", required: false, type: .long), 
+            AWSShapeMember(label: "ErrorStatistics", required: false, type: .structure), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .long)
         ]
         /// The aggregate response time of completed requests.
         public let totalResponseTime: Double?
@@ -578,21 +526,20 @@ extension Xray {
             self.totalCount = totalCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.totalResponseTime = dictionary["TotalResponseTime"] as? Double
-            if let faultStatistics = dictionary["FaultStatistics"] as? [String: Any] { self.faultStatistics = try Xray.FaultStatistics(dictionary: faultStatistics) } else { self.faultStatistics = nil }
-            self.okCount = dictionary["OkCount"] as? Int64
-            if let errorStatistics = dictionary["ErrorStatistics"] as? [String: Any] { self.errorStatistics = try Xray.ErrorStatistics(dictionary: errorStatistics) } else { self.errorStatistics = nil }
-            self.totalCount = dictionary["TotalCount"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case totalResponseTime = "TotalResponseTime"
+            case faultStatistics = "FaultStatistics"
+            case okCount = "OkCount"
+            case errorStatistics = "ErrorStatistics"
+            case totalCount = "TotalCount"
         }
     }
 
     public struct GetTraceGraphRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TraceIds", required: true, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TraceIds", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Trace IDs of requests for which to generate a service graph.
         public let traceIds: [String]
@@ -604,19 +551,17 @@ extension Xray {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let traceIds = dictionary["TraceIds"] as? [String] else { throw InitializableError.missingRequiredParam("TraceIds") }
-            self.traceIds = traceIds
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case traceIds = "TraceIds"
+            case nextToken = "NextToken"
         }
     }
 
     public struct GetTraceGraphResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Services", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Services", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The services that have processed one of the specified requests.
         public let services: [Service]?
@@ -628,23 +573,18 @@ extension Xray {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let services = dictionary["Services"] as? [[String: Any]] {
-                self.services = try services.map({ try Service(dictionary: $0) })
-            } else { 
-                self.services = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case services = "Services"
+            case nextToken = "NextToken"
         }
     }
 
     public struct Trace: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Segments", required: false, type: .list), 
-            AWSShapeProperty(label: "Duration", required: false, type: .double), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Segments", required: false, type: .list), 
+            AWSShapeMember(label: "Duration", required: false, type: .double), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Segment documents for the segments and subsegments that comprise the trace.
         public let segments: [Segment]?
@@ -659,22 +599,17 @@ extension Xray {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let segments = dictionary["Segments"] as? [[String: Any]] {
-                self.segments = try segments.map({ try Segment(dictionary: $0) })
-            } else { 
-                self.segments = nil
-            }
-            self.duration = dictionary["Duration"] as? Double
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case segments = "Segments"
+            case duration = "Duration"
+            case id = "Id"
         }
     }
 
     public struct PutTraceSegmentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TraceSegmentDocuments", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TraceSegmentDocuments", required: true, type: .list)
         ]
         /// A string containing a JSON document defining one or more segments or subsegments.
         public let traceSegmentDocuments: [String]
@@ -683,26 +618,24 @@ extension Xray {
             self.traceSegmentDocuments = traceSegmentDocuments
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let traceSegmentDocuments = dictionary["TraceSegmentDocuments"] as? [String] else { throw InitializableError.missingRequiredParam("TraceSegmentDocuments") }
-            self.traceSegmentDocuments = traceSegmentDocuments
+        private enum CodingKeys: String, CodingKey {
+            case traceSegmentDocuments = "TraceSegmentDocuments"
         }
     }
 
     public struct GetTraceSummariesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "FilterExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "Sampling", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
+            AWSShapeMember(label: "Sampling", required: false, type: .boolean), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The start of the time frame for which to retrieve traces.
-        public let startTime: String
+        public let startTime: Double
         /// The end of the time frame for which to retrieve traces.
-        public let endTime: String
+        public let endTime: Double
         /// Specify a filter expression to retrieve trace summaries for services or requests that meet certain requirements.
         public let filterExpression: String?
         /// Set to true to get summaries for only a subset of available traces.
@@ -710,7 +643,7 @@ extension Xray {
         /// Specify the pagination token returned by a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(startTime: String, endTime: String, filterExpression: String? = nil, sampling: Bool? = nil, nextToken: String? = nil) {
+        public init(startTime: Double, endTime: Double, filterExpression: String? = nil, sampling: Bool? = nil, nextToken: String? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.filterExpression = filterExpression
@@ -718,33 +651,27 @@ extension Xray {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let startTime = dictionary["StartTime"] as? String else { throw InitializableError.missingRequiredParam("StartTime") }
-            self.startTime = startTime
-            guard let endTime = dictionary["EndTime"] as? String else { throw InitializableError.missingRequiredParam("EndTime") }
-            self.endTime = endTime
-            self.filterExpression = dictionary["FilterExpression"] as? String
-            self.sampling = dictionary["Sampling"] as? Bool
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case endTime = "EndTime"
+            case filterExpression = "FilterExpression"
+            case sampling = "Sampling"
+            case nextToken = "NextToken"
         }
     }
 
     public struct PutTelemetryRecordsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct PutTelemetryRecordsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EC2InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Hostname", required: false, type: .string), 
-            AWSShapeProperty(label: "TelemetryRecords", required: true, type: .list), 
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Hostname", required: false, type: .string), 
+            AWSShapeMember(label: "TelemetryRecords", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
         ]
         public let eC2InstanceId: String?
         public let hostname: String?
@@ -758,32 +685,30 @@ extension Xray {
             self.resourceARN = resourceARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eC2InstanceId = dictionary["EC2InstanceId"] as? String
-            self.hostname = dictionary["Hostname"] as? String
-            guard let telemetryRecords = dictionary["TelemetryRecords"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TelemetryRecords") }
-            self.telemetryRecords = try telemetryRecords.map({ try TelemetryRecord(dictionary: $0) })
-            self.resourceARN = dictionary["ResourceARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case eC2InstanceId = "EC2InstanceId"
+            case hostname = "Hostname"
+            case telemetryRecords = "TelemetryRecords"
+            case resourceARN = "ResourceARN"
         }
     }
 
     public struct Service: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: false, type: .string), 
-            AWSShapeProperty(label: "SummaryStatistics", required: false, type: .structure), 
-            AWSShapeProperty(label: "DurationHistogram", required: false, type: .list), 
-            AWSShapeProperty(label: "State", required: false, type: .string), 
-            AWSShapeProperty(label: "ReferenceId", required: false, type: .integer), 
-            AWSShapeProperty(label: "Edges", required: false, type: .list), 
-            AWSShapeProperty(label: "ResponseTimeHistogram", required: false, type: .list), 
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Root", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Names", required: false, type: .list), 
-            AWSShapeProperty(label: "Type", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "SummaryStatistics", required: false, type: .structure), 
+            AWSShapeMember(label: "DurationHistogram", required: false, type: .list), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "ReferenceId", required: false, type: .integer), 
+            AWSShapeMember(label: "Edges", required: false, type: .list), 
+            AWSShapeMember(label: "ResponseTimeHistogram", required: false, type: .list), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Root", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
         ]
         /// Identifier of the AWS account in which the service runs.
         public let accountId: String?
@@ -800,19 +725,19 @@ extension Xray {
         /// A histogram that maps the spread of service response times.
         public let responseTimeHistogram: [HistogramEntry]?
         /// The start time of the first segment that the service generated.
-        public let startTime: String?
+        public let startTime: Double?
         /// Indicates that the service was the first service to process a request.
         public let root: Bool?
         /// The canonical name of the service.
         public let name: String?
         /// The end time of the last segment that the service generated.
-        public let endTime: String?
+        public let endTime: Double?
         /// A list of names for the service, including the canonical name.
         public let names: [String]?
         /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.  
         public let `type`: String?
 
-        public init(accountId: String? = nil, summaryStatistics: ServiceStatistics? = nil, durationHistogram: [HistogramEntry]? = nil, state: String? = nil, referenceId: Int32? = nil, edges: [Edge]? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: String? = nil, root: Bool? = nil, name: String? = nil, endTime: String? = nil, names: [String]? = nil, type: String? = nil) {
+        public init(accountId: String? = nil, summaryStatistics: ServiceStatistics? = nil, durationHistogram: [HistogramEntry]? = nil, state: String? = nil, referenceId: Int32? = nil, edges: [Edge]? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: Double? = nil, root: Bool? = nil, name: String? = nil, endTime: Double? = nil, names: [String]? = nil, type: String? = nil) {
             self.accountId = accountId
             self.summaryStatistics = summaryStatistics
             self.durationHistogram = durationHistogram
@@ -828,43 +753,30 @@ extension Xray {
             self.`type` = `type`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.accountId = dictionary["AccountId"] as? String
-            if let summaryStatistics = dictionary["SummaryStatistics"] as? [String: Any] { self.summaryStatistics = try Xray.ServiceStatistics(dictionary: summaryStatistics) } else { self.summaryStatistics = nil }
-            if let durationHistogram = dictionary["DurationHistogram"] as? [[String: Any]] {
-                self.durationHistogram = try durationHistogram.map({ try HistogramEntry(dictionary: $0) })
-            } else { 
-                self.durationHistogram = nil
-            }
-            self.state = dictionary["State"] as? String
-            self.referenceId = dictionary["ReferenceId"] as? Int32
-            if let edges = dictionary["Edges"] as? [[String: Any]] {
-                self.edges = try edges.map({ try Edge(dictionary: $0) })
-            } else { 
-                self.edges = nil
-            }
-            if let responseTimeHistogram = dictionary["ResponseTimeHistogram"] as? [[String: Any]] {
-                self.responseTimeHistogram = try responseTimeHistogram.map({ try HistogramEntry(dictionary: $0) })
-            } else { 
-                self.responseTimeHistogram = nil
-            }
-            self.startTime = dictionary["StartTime"] as? String
-            self.root = dictionary["Root"] as? Bool
-            self.name = dictionary["Name"] as? String
-            self.endTime = dictionary["EndTime"] as? String
-            self.names = dictionary["Names"] as? [String]
-            self.`type` = dictionary["Type"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case summaryStatistics = "SummaryStatistics"
+            case durationHistogram = "DurationHistogram"
+            case state = "State"
+            case referenceId = "ReferenceId"
+            case edges = "Edges"
+            case responseTimeHistogram = "ResponseTimeHistogram"
+            case startTime = "StartTime"
+            case root = "Root"
+            case name = "Name"
+            case endTime = "EndTime"
+            case names = "Names"
+            case `type` = "Type"
         }
     }
 
     public struct ServiceId: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: false, type: .string), 
-            AWSShapeProperty(label: "Names", required: false, type: .list), 
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         public let accountId: String?
         public let names: [String]?
@@ -878,24 +790,23 @@ extension Xray {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.accountId = dictionary["AccountId"] as? String
-            self.names = dictionary["Names"] as? [String]
-            self.`type` = dictionary["Type"] as? String
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case names = "Names"
+            case `type` = "Type"
+            case name = "Name"
         }
     }
 
     public struct BackendConnectionErrors: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConnectionRefusedCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "TimeoutCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "UnknownHostCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "HTTPCode5XXCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "OtherCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "HTTPCode4XXCount", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionRefusedCount", required: false, type: .integer), 
+            AWSShapeMember(label: "TimeoutCount", required: false, type: .integer), 
+            AWSShapeMember(label: "UnknownHostCount", required: false, type: .integer), 
+            AWSShapeMember(label: "HTTPCode5XXCount", required: false, type: .integer), 
+            AWSShapeMember(label: "OtherCount", required: false, type: .integer), 
+            AWSShapeMember(label: "HTTPCode4XXCount", required: false, type: .integer)
         ]
         public let connectionRefusedCount: Int32?
         public let timeoutCount: Int32?
@@ -913,35 +824,34 @@ extension Xray {
             self.hTTPCode4XXCount = hTTPCode4XXCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.connectionRefusedCount = dictionary["ConnectionRefusedCount"] as? Int32
-            self.timeoutCount = dictionary["TimeoutCount"] as? Int32
-            self.unknownHostCount = dictionary["UnknownHostCount"] as? Int32
-            self.hTTPCode5XXCount = dictionary["HTTPCode5XXCount"] as? Int32
-            self.otherCount = dictionary["OtherCount"] as? Int32
-            self.hTTPCode4XXCount = dictionary["HTTPCode4XXCount"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case connectionRefusedCount = "ConnectionRefusedCount"
+            case timeoutCount = "TimeoutCount"
+            case unknownHostCount = "UnknownHostCount"
+            case hTTPCode5XXCount = "HTTPCode5XXCount"
+            case otherCount = "OtherCount"
+            case hTTPCode4XXCount = "HTTPCode4XXCount"
         }
     }
 
     public struct TelemetryRecord: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SegmentsRejectedCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SegmentsReceivedCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "SegmentsSentCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "SegmentsSpilloverCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "BackendConnectionErrors", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentsRejectedCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SegmentsReceivedCount", required: false, type: .integer), 
+            AWSShapeMember(label: "SegmentsSentCount", required: false, type: .integer), 
+            AWSShapeMember(label: "SegmentsSpilloverCount", required: false, type: .integer), 
+            AWSShapeMember(label: "BackendConnectionErrors", required: false, type: .structure)
         ]
         public let segmentsRejectedCount: Int32?
-        public let timestamp: String?
+        public let timestamp: Double?
         public let segmentsReceivedCount: Int32?
         public let segmentsSentCount: Int32?
         public let segmentsSpilloverCount: Int32?
         public let backendConnectionErrors: BackendConnectionErrors?
 
-        public init(segmentsRejectedCount: Int32? = nil, timestamp: String? = nil, segmentsReceivedCount: Int32? = nil, segmentsSentCount: Int32? = nil, segmentsSpilloverCount: Int32? = nil, backendConnectionErrors: BackendConnectionErrors? = nil) {
+        public init(segmentsRejectedCount: Int32? = nil, timestamp: Double? = nil, segmentsReceivedCount: Int32? = nil, segmentsSentCount: Int32? = nil, segmentsSpilloverCount: Int32? = nil, backendConnectionErrors: BackendConnectionErrors? = nil) {
             self.segmentsRejectedCount = segmentsRejectedCount
             self.timestamp = timestamp
             self.segmentsReceivedCount = segmentsReceivedCount
@@ -950,22 +860,21 @@ extension Xray {
             self.backendConnectionErrors = backendConnectionErrors
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.segmentsRejectedCount = dictionary["SegmentsRejectedCount"] as? Int32
-            self.timestamp = dictionary["Timestamp"] as? String
-            self.segmentsReceivedCount = dictionary["SegmentsReceivedCount"] as? Int32
-            self.segmentsSentCount = dictionary["SegmentsSentCount"] as? Int32
-            self.segmentsSpilloverCount = dictionary["SegmentsSpilloverCount"] as? Int32
-            if let backendConnectionErrors = dictionary["BackendConnectionErrors"] as? [String: Any] { self.backendConnectionErrors = try Xray.BackendConnectionErrors(dictionary: backendConnectionErrors) } else { self.backendConnectionErrors = nil }
+        private enum CodingKeys: String, CodingKey {
+            case segmentsRejectedCount = "SegmentsRejectedCount"
+            case timestamp = "Timestamp"
+            case segmentsReceivedCount = "SegmentsReceivedCount"
+            case segmentsSentCount = "SegmentsSentCount"
+            case segmentsSpilloverCount = "SegmentsSpilloverCount"
+            case backendConnectionErrors = "BackendConnectionErrors"
         }
     }
 
     public struct BatchGetTracesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TraceIds", required: true, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TraceIds", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Specify the trace IDs of requests for which to retrieve segments.
         public let traceIds: [String]
@@ -977,28 +886,26 @@ extension Xray {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let traceIds = dictionary["TraceIds"] as? [String] else { throw InitializableError.missingRequiredParam("TraceIds") }
-            self.traceIds = traceIds
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case traceIds = "TraceIds"
+            case nextToken = "NextToken"
         }
     }
 
     public struct TraceSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsPartial", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ServiceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "Http", required: false, type: .structure), 
-            AWSShapeProperty(label: "HasError", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "HasThrottle", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Users", required: false, type: .list), 
-            AWSShapeProperty(label: "Annotations", required: false, type: .map), 
-            AWSShapeProperty(label: "Duration", required: false, type: .double), 
-            AWSShapeProperty(label: "HasFault", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ResponseTime", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsPartial", required: false, type: .boolean), 
+            AWSShapeMember(label: "ServiceIds", required: false, type: .list), 
+            AWSShapeMember(label: "Http", required: false, type: .structure), 
+            AWSShapeMember(label: "HasError", required: false, type: .boolean), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "HasThrottle", required: false, type: .boolean), 
+            AWSShapeMember(label: "Users", required: false, type: .list), 
+            AWSShapeMember(label: "Annotations", required: false, type: .map), 
+            AWSShapeMember(label: "Duration", required: false, type: .double), 
+            AWSShapeMember(label: "HasFault", required: false, type: .boolean), 
+            AWSShapeMember(label: "ResponseTime", required: false, type: .double)
         ]
         /// One or more of the segment documents is in progress.
         public let isPartial: Bool?
@@ -1037,36 +944,18 @@ extension Xray {
             self.responseTime = responseTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.isPartial = dictionary["IsPartial"] as? Bool
-            if let serviceIds = dictionary["ServiceIds"] as? [[String: Any]] {
-                self.serviceIds = try serviceIds.map({ try ServiceId(dictionary: $0) })
-            } else { 
-                self.serviceIds = nil
-            }
-            if let http = dictionary["Http"] as? [String: Any] { self.http = try Xray.Http(dictionary: http) } else { self.http = nil }
-            self.hasError = dictionary["HasError"] as? Bool
-            self.id = dictionary["Id"] as? String
-            self.hasThrottle = dictionary["HasThrottle"] as? Bool
-            if let users = dictionary["Users"] as? [[String: Any]] {
-                self.users = try users.map({ try TraceUser(dictionary: $0) })
-            } else { 
-                self.users = nil
-            }
-            if let annotations = dictionary["Annotations"] as? [String: Any] {
-                var annotationsDict: [String: [ValueWithServiceIds]] = [:]
-                for (key, value) in annotations {
-                    guard let valueWithServiceIds = value as? [[String: Any]] else { throw InitializableError.convertingError }
-                    let valueWithServiceIdsList: [ValueWithServiceIds] = try valueWithServiceIds.map { try ValueWithServiceIds(dictionary: $0) }
-                    annotationsDict[key] = valueWithServiceIdsList
-                }
-                self.annotations = annotationsDict
-            } else { 
-                self.annotations = nil
-            }
-            self.duration = dictionary["Duration"] as? Double
-            self.hasFault = dictionary["HasFault"] as? Bool
-            self.responseTime = dictionary["ResponseTime"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case isPartial = "IsPartial"
+            case serviceIds = "ServiceIds"
+            case http = "Http"
+            case hasError = "HasError"
+            case id = "Id"
+            case hasThrottle = "HasThrottle"
+            case users = "Users"
+            case annotations = "Annotations"
+            case duration = "Duration"
+            case hasFault = "HasFault"
+            case responseTime = "ResponseTime"
         }
     }
 

@@ -31,15 +31,14 @@ extension Sqs {
 
     public struct ReceiveMessageRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MessageAttributeNames", required: false, type: .structure), 
-            AWSShapeProperty(label: "VisibilityTimeout", required: false, type: .integer), 
-            AWSShapeProperty(label: "MaxNumberOfMessages", required: false, type: .integer), 
-            AWSShapeProperty(label: "QueueUrl", required: true, type: .string), 
-            AWSShapeProperty(label: "ReceiveRequestAttemptId", required: false, type: .string), 
-            AWSShapeProperty(label: "AttributeNames", required: false, type: .structure), 
-            AWSShapeProperty(label: "WaitTimeSeconds", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageAttributeNames", required: false, type: .structure), 
+            AWSShapeMember(label: "VisibilityTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxNumberOfMessages", required: false, type: .integer), 
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string), 
+            AWSShapeMember(label: "ReceiveRequestAttemptId", required: false, type: .string), 
+            AWSShapeMember(label: "AttributeNames", required: false, type: .structure), 
+            AWSShapeMember(label: "WaitTimeSeconds", required: false, type: .integer)
         ]
         /// The name of the message attribute, where N is the index.   The name can contain alphanumeric characters and the underscore (_), hyphen (-), and period (.).   The name is case-sensitive and must be unique among all attribute names for the message.   The name must not start with AWS-reserved prefixes such as AWS. or Amazon. (or any casing variants).   The name must not start or end with a period (.), and it should not have periods in succession (..).   The name can be up to 256 characters long.   When using ReceiveMessage, you can send a list of attribute names to receive, or you can return all of the attributes by specifying All or .* in your request. You can also use all message attributes starting with a prefix, for example bar.*.
         public let messageAttributeNames: MessageAttributeNameList?
@@ -66,24 +65,22 @@ extension Sqs {
             self.waitTimeSeconds = waitTimeSeconds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let messageAttributeNames = dictionary["MessageAttributeNames"] as? [String: Any] { self.messageAttributeNames = try Sqs.MessageAttributeNameList(dictionary: messageAttributeNames) } else { self.messageAttributeNames = nil }
-            self.visibilityTimeout = dictionary["VisibilityTimeout"] as? Int32
-            self.maxNumberOfMessages = dictionary["MaxNumberOfMessages"] as? Int32
-            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
-            self.queueUrl = queueUrl
-            self.receiveRequestAttemptId = dictionary["ReceiveRequestAttemptId"] as? String
-            if let attributeNames = dictionary["AttributeNames"] as? [String: Any] { self.attributeNames = try Sqs.AttributeNameList(dictionary: attributeNames) } else { self.attributeNames = nil }
-            self.waitTimeSeconds = dictionary["WaitTimeSeconds"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case messageAttributeNames = "MessageAttributeNames"
+            case visibilityTimeout = "VisibilityTimeout"
+            case maxNumberOfMessages = "MaxNumberOfMessages"
+            case queueUrl = "QueueUrl"
+            case receiveRequestAttemptId = "ReceiveRequestAttemptId"
+            case attributeNames = "AttributeNames"
+            case waitTimeSeconds = "WaitTimeSeconds"
         }
     }
 
     public struct GetQueueUrlRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueueName", required: true, type: .string), 
-            AWSShapeProperty(label: "QueueOwnerAWSAccountId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueueName", required: true, type: .string), 
+            AWSShapeMember(label: "QueueOwnerAWSAccountId", required: false, type: .string)
         ]
         /// The name of the queue whose URL must be fetched. Maximum 80 characters. Valid values: alphanumeric characters, hyphens (-), and underscores (_). Queue names are case-sensitive.
         public let queueName: String
@@ -95,21 +92,19 @@ extension Sqs {
             self.queueOwnerAWSAccountId = queueOwnerAWSAccountId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let queueName = dictionary["QueueName"] as? String else { throw InitializableError.missingRequiredParam("QueueName") }
-            self.queueName = queueName
-            self.queueOwnerAWSAccountId = dictionary["QueueOwnerAWSAccountId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case queueName = "QueueName"
+            case queueOwnerAWSAccountId = "QueueOwnerAWSAccountId"
         }
     }
 
     public struct SendMessageResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MD5OfMessageAttributes", required: false, type: .string), 
-            AWSShapeProperty(label: "MD5OfMessageBody", required: false, type: .string), 
-            AWSShapeProperty(label: "SequenceNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "MessageId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MD5OfMessageAttributes", required: false, type: .string), 
+            AWSShapeMember(label: "MD5OfMessageBody", required: false, type: .string), 
+            AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
+            AWSShapeMember(label: "MessageId", required: false, type: .string)
         ]
         /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see RFC1321.
         public let mD5OfMessageAttributes: String?
@@ -127,19 +122,18 @@ extension Sqs {
             self.messageId = messageId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mD5OfMessageAttributes = dictionary["MD5OfMessageAttributes"] as? String
-            self.mD5OfMessageBody = dictionary["MD5OfMessageBody"] as? String
-            self.sequenceNumber = dictionary["SequenceNumber"] as? String
-            self.messageId = dictionary["MessageId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case mD5OfMessageAttributes = "MD5OfMessageAttributes"
+            case mD5OfMessageBody = "MD5OfMessageBody"
+            case sequenceNumber = "SequenceNumber"
+            case messageId = "MessageId"
         }
     }
 
     public struct BinaryList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BinaryListValue", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BinaryListValue", required: false, type: .list)
         ]
         public let binaryListValue: [Data]?
 
@@ -147,20 +141,19 @@ extension Sqs {
             self.binaryListValue = binaryListValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.binaryListValue = dictionary["BinaryListValue"] as? [Data]
+        private enum CodingKeys: String, CodingKey {
+            case binaryListValue = "BinaryListValue"
         }
     }
 
     public struct MessageAttributeValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BinaryListValues", location: .body(locationName: "BinaryListValue"), required: false, type: .structure), 
-            AWSShapeProperty(label: "BinaryValue", required: false, type: .blob), 
-            AWSShapeProperty(label: "StringValue", required: false, type: .string), 
-            AWSShapeProperty(label: "DataType", required: true, type: .string), 
-            AWSShapeProperty(label: "StringListValues", location: .body(locationName: "StringListValue"), required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BinaryListValues", location: .body(locationName: "BinaryListValue"), required: false, type: .structure), 
+            AWSShapeMember(label: "BinaryValue", required: false, type: .blob), 
+            AWSShapeMember(label: "StringValue", required: false, type: .string), 
+            AWSShapeMember(label: "DataType", required: true, type: .string), 
+            AWSShapeMember(label: "StringListValues", location: .body(locationName: "StringListValue"), required: false, type: .structure)
         ]
         /// Not implemented. Reserved for future use.
         public let binaryListValues: BinaryList?
@@ -181,23 +174,21 @@ extension Sqs {
             self.stringListValues = stringListValues
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let binaryListValues = dictionary["BinaryListValue"] as? [String: Any] { self.binaryListValues = try Sqs.BinaryList(dictionary: binaryListValues) } else { self.binaryListValues = nil }
-            self.binaryValue = dictionary["BinaryValue"] as? Data
-            self.stringValue = dictionary["StringValue"] as? String
-            guard let dataType = dictionary["DataType"] as? String else { throw InitializableError.missingRequiredParam("DataType") }
-            self.dataType = dataType
-            if let stringListValues = dictionary["StringListValue"] as? [String: Any] { self.stringListValues = try Sqs.StringList(dictionary: stringListValues) } else { self.stringListValues = nil }
+        private enum CodingKeys: String, CodingKey {
+            case binaryListValues = "BinaryListValue"
+            case binaryValue = "BinaryValue"
+            case stringValue = "StringValue"
+            case dataType = "DataType"
+            case stringListValues = "StringListValue"
         }
     }
 
     public struct ChangeMessageVisibilityBatchRequestEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VisibilityTimeout", required: false, type: .integer), 
-            AWSShapeProperty(label: "ReceiptHandle", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VisibilityTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "ReceiptHandle", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The new value (in seconds) for the message's visibility timeout.
         public let visibilityTimeout: Int32?
@@ -212,20 +203,17 @@ extension Sqs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.visibilityTimeout = dictionary["VisibilityTimeout"] as? Int32
-            guard let receiptHandle = dictionary["ReceiptHandle"] as? String else { throw InitializableError.missingRequiredParam("ReceiptHandle") }
-            self.receiptHandle = receiptHandle
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case visibilityTimeout = "VisibilityTimeout"
+            case receiptHandle = "ReceiptHandle"
+            case id = "Id"
         }
     }
 
     public struct StringList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StringListValue", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StringListValue", required: false, type: .list)
         ]
         public let stringListValue: [String]?
 
@@ -233,16 +221,15 @@ extension Sqs {
             self.stringListValue = stringListValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stringListValue = dictionary["StringListValue"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case stringListValue = "StringListValue"
         }
     }
 
     public struct GetQueueUrlResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueueUrl", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueueUrl", required: false, type: .string)
         ]
         /// The URL of the queue.
         public let queueUrl: String?
@@ -251,16 +238,15 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.queueUrl = dictionary["QueueUrl"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case queueUrl = "QueueUrl"
         }
     }
 
     public struct ActionNameList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActionName", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionName", required: false, type: .list)
         ]
         public let actionName: [String]?
 
@@ -268,17 +254,16 @@ extension Sqs {
             self.actionName = actionName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.actionName = dictionary["ActionName"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "ActionName"
         }
     }
 
     public struct ChangeMessageVisibilityBatchRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Entries", required: true, type: .structure), 
-            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entries", required: true, type: .structure), 
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// A list of receipt handles of the messages for which the visibility timeout must be changed.
         public let entries: ChangeMessageVisibilityBatchRequestEntryList
@@ -290,25 +275,22 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let entries = dictionary["Entries"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Entries") }
-            self.entries = try Sqs.ChangeMessageVisibilityBatchRequestEntryList(dictionary: entries)
-            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
-            self.queueUrl = queueUrl
+        private enum CodingKeys: String, CodingKey {
+            case entries = "Entries"
+            case queueUrl = "QueueUrl"
         }
     }
 
     public struct Message: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReceiptHandle", required: false, type: .string), 
-            AWSShapeProperty(label: "MessageId", required: false, type: .string), 
-            AWSShapeProperty(label: "MD5OfMessageAttributes", required: false, type: .string), 
-            AWSShapeProperty(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .map), 
-            AWSShapeProperty(label: "Body", required: false, type: .string), 
-            AWSShapeProperty(label: "MD5OfBody", required: false, type: .string), 
-            AWSShapeProperty(label: "MessageAttributes", location: .body(locationName: "MessageAttribute"), required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReceiptHandle", required: false, type: .string), 
+            AWSShapeMember(label: "MessageId", required: false, type: .string), 
+            AWSShapeMember(label: "MD5OfMessageAttributes", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .map), 
+            AWSShapeMember(label: "Body", required: false, type: .string), 
+            AWSShapeMember(label: "MD5OfBody", required: false, type: .string), 
+            AWSShapeMember(label: "MessageAttributes", location: .body(locationName: "MessageAttribute"), required: false, type: .map)
         ]
         /// An identifier associated with the act of receiving the message. A new receipt handle is returned every time you receive a message. When deleting a message, you provide the last received receipt handle to delete the message.
         public let receiptHandle: String?
@@ -335,35 +317,21 @@ extension Sqs {
             self.messageAttributes = messageAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.receiptHandle = dictionary["ReceiptHandle"] as? String
-            self.messageId = dictionary["MessageId"] as? String
-            self.mD5OfMessageAttributes = dictionary["MD5OfMessageAttributes"] as? String
-            if let attributes = dictionary["Attribute"] as? [MessageSystemAttributeName: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
-            self.body = dictionary["Body"] as? String
-            self.mD5OfBody = dictionary["MD5OfBody"] as? String
-            if let messageAttributes = dictionary["MessageAttribute"] as? [String: Any] {
-                var messageAttributesDict: [String: MessageAttributeValue] = [:]
-                for (key, value) in messageAttributes {
-                    guard let messageAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    messageAttributesDict[key] = try MessageAttributeValue(dictionary: messageAttributeValueDict)
-                }
-                self.messageAttributes = messageAttributesDict
-            } else { 
-                self.messageAttributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case receiptHandle = "ReceiptHandle"
+            case messageId = "MessageId"
+            case mD5OfMessageAttributes = "MD5OfMessageAttributes"
+            case attributes = "Attribute"
+            case body = "Body"
+            case mD5OfBody = "MD5OfBody"
+            case messageAttributes = "MessageAttribute"
         }
     }
 
     public struct MessageAttributeNameList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MessageAttributeName", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageAttributeName", required: false, type: .list)
         ]
         public let messageAttributeName: [String]?
 
@@ -371,17 +339,16 @@ extension Sqs {
             self.messageAttributeName = messageAttributeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.messageAttributeName = dictionary["MessageAttributeName"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case messageAttributeName = "MessageAttributeName"
         }
     }
 
     public struct DeleteMessageBatchResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Successful", required: true, type: .structure), 
-            AWSShapeProperty(label: "Failed", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Successful", required: true, type: .structure), 
+            AWSShapeMember(label: "Failed", required: true, type: .structure)
         ]
         /// A list of  DeleteMessageBatchResultEntry  items.
         public let successful: DeleteMessageBatchResultEntryList
@@ -393,19 +360,16 @@ extension Sqs {
             self.failed = failed
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let successful = dictionary["Successful"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Successful") }
-            self.successful = try Sqs.DeleteMessageBatchResultEntryList(dictionary: successful)
-            guard let failed = dictionary["Failed"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Failed") }
-            self.failed = try Sqs.BatchResultErrorEntryList(dictionary: failed)
+        private enum CodingKeys: String, CodingKey {
+            case successful = "Successful"
+            case failed = "Failed"
         }
     }
 
     public struct ReceiveMessageResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Messages", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Messages", required: false, type: .structure)
         ]
         /// A list of messages.
         public let messages: MessageList?
@@ -414,21 +378,20 @@ extension Sqs {
             self.messages = messages
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let messages = dictionary["Messages"] as? [String: Any] { self.messages = try Sqs.MessageList(dictionary: messages) } else { self.messages = nil }
+        private enum CodingKeys: String, CodingKey {
+            case messages = "Messages"
         }
     }
 
     public struct SendMessageRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DelaySeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "QueueUrl", required: true, type: .string), 
-            AWSShapeProperty(label: "MessageGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "MessageDeduplicationId", required: false, type: .string), 
-            AWSShapeProperty(label: "MessageBody", required: true, type: .string), 
-            AWSShapeProperty(label: "MessageAttributes", location: .body(locationName: "MessageAttribute"), required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DelaySeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string), 
+            AWSShapeMember(label: "MessageGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "MessageDeduplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "MessageBody", required: true, type: .string), 
+            AWSShapeMember(label: "MessageAttributes", location: .body(locationName: "MessageAttribute"), required: false, type: .map)
         ]
         ///  The length of time, in seconds, for which to delay a specific message. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue applies.   When you set FifoQueue, you can't set DelaySeconds per message. You can set this parameter only on a queue level. 
         public let delaySeconds: Int32?
@@ -452,35 +415,23 @@ extension Sqs {
             self.messageAttributes = messageAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.delaySeconds = dictionary["DelaySeconds"] as? Int32
-            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
-            self.queueUrl = queueUrl
-            self.messageGroupId = dictionary["MessageGroupId"] as? String
-            self.messageDeduplicationId = dictionary["MessageDeduplicationId"] as? String
-            guard let messageBody = dictionary["MessageBody"] as? String else { throw InitializableError.missingRequiredParam("MessageBody") }
-            self.messageBody = messageBody
-            if let messageAttributes = dictionary["MessageAttribute"] as? [String: Any] {
-                var messageAttributesDict: [String: MessageAttributeValue] = [:]
-                for (key, value) in messageAttributes {
-                    guard let messageAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    messageAttributesDict[key] = try MessageAttributeValue(dictionary: messageAttributeValueDict)
-                }
-                self.messageAttributes = messageAttributesDict
-            } else { 
-                self.messageAttributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case delaySeconds = "DelaySeconds"
+            case queueUrl = "QueueUrl"
+            case messageGroupId = "MessageGroupId"
+            case messageDeduplicationId = "MessageDeduplicationId"
+            case messageBody = "MessageBody"
+            case messageAttributes = "MessageAttribute"
         }
     }
 
     public struct AddPermissionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Label", required: true, type: .string), 
-            AWSShapeProperty(label: "AWSAccountIds", required: true, type: .structure), 
-            AWSShapeProperty(label: "Actions", required: true, type: .structure), 
-            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Label", required: true, type: .string), 
+            AWSShapeMember(label: "AWSAccountIds", required: true, type: .structure), 
+            AWSShapeMember(label: "Actions", required: true, type: .structure), 
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// The unique identification of the permission you're setting (for example, AliceSendMessage). Maximum 80 characters. Allowed characters include alphanumeric characters, hyphens (-), and underscores (_).
         public let label: String
@@ -498,24 +449,19 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let label = dictionary["Label"] as? String else { throw InitializableError.missingRequiredParam("Label") }
-            self.label = label
-            guard let aWSAccountIds = dictionary["AWSAccountIds"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AWSAccountIds") }
-            self.aWSAccountIds = try Sqs.AWSAccountIdList(dictionary: aWSAccountIds)
-            guard let actions = dictionary["Actions"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Actions") }
-            self.actions = try Sqs.ActionNameList(dictionary: actions)
-            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
-            self.queueUrl = queueUrl
+        private enum CodingKeys: String, CodingKey {
+            case label = "Label"
+            case aWSAccountIds = "AWSAccountIds"
+            case actions = "Actions"
+            case queueUrl = "QueueUrl"
         }
     }
 
     public struct CreateQueueRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueueName", required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueueName", required: true, type: .string), 
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .map)
         ]
         /// The name of the new queue. The following limits apply to this name:   A queue name can have up to 80 characters.   Valid values: alphanumeric characters, hyphens (-), and underscores (_).   A FIFO queue name must end with the .fifo suffix.   Queue names are case-sensitive.
         public let queueName: String
@@ -527,22 +473,16 @@ extension Sqs {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let queueName = dictionary["QueueName"] as? String else { throw InitializableError.missingRequiredParam("QueueName") }
-            self.queueName = queueName
-            if let attributes = dictionary["Attribute"] as? [QueueAttributeName: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case queueName = "QueueName"
+            case attributes = "Attribute"
         }
     }
 
     public struct ListDeadLetterSourceQueuesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "queueUrls", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "queueUrls", required: true, type: .structure)
         ]
         /// A list of source queue URLs that have the RedrivePolicy queue attribute configured with a dead letter queue.
         public let queueUrls: QueueUrlList
@@ -551,17 +491,15 @@ extension Sqs {
             self.queueUrls = queueUrls
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let queueUrls = dictionary["queueUrls"] as? [String: Any] else { throw InitializableError.missingRequiredParam("queueUrls") }
-            self.queueUrls = try Sqs.QueueUrlList(dictionary: queueUrls)
+        private enum CodingKeys: String, CodingKey {
+            case queueUrls = "queueUrls"
         }
     }
 
     public struct AWSAccountIdList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AWSAccountId", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AWSAccountId", required: false, type: .list)
         ]
         public let aWSAccountId: [String]?
 
@@ -569,16 +507,15 @@ extension Sqs {
             self.aWSAccountId = aWSAccountId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.aWSAccountId = dictionary["AWSAccountId"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case aWSAccountId = "AWSAccountId"
         }
     }
 
     public struct QueueUrlList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueueUrl", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueueUrl", required: false, type: .list)
         ]
         public let queueUrl: [String]?
 
@@ -586,12 +523,12 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.queueUrl = dictionary["QueueUrl"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case queueUrl = "QueueUrl"
         }
     }
 
-    public enum QueueAttributeName: String, CustomStringConvertible {
+    public enum QueueAttributeName: String, CustomStringConvertible, Codable {
         case all = "All"
         case policy = "Policy"
         case visibilitytimeout = "VisibilityTimeout"
@@ -615,9 +552,8 @@ extension Sqs {
 
     public struct ListQueuesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueueNamePrefix", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueueNamePrefix", required: false, type: .string)
         ]
         /// A string to use for filtering the list results. Only those queues whose name begins with the specified string are returned. Queue names are case-sensitive.
         public let queueNamePrefix: String?
@@ -626,17 +562,16 @@ extension Sqs {
             self.queueNamePrefix = queueNamePrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.queueNamePrefix = dictionary["QueueNamePrefix"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case queueNamePrefix = "QueueNamePrefix"
         }
     }
 
     public struct RemovePermissionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueueUrl", required: true, type: .string), 
-            AWSShapeProperty(label: "Label", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string), 
+            AWSShapeMember(label: "Label", required: true, type: .string)
         ]
         /// The URL of the Amazon SQS queue from which permissions are removed. Queue URLs are case-sensitive.
         public let queueUrl: String
@@ -648,19 +583,16 @@ extension Sqs {
             self.label = label
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
-            self.queueUrl = queueUrl
-            guard let label = dictionary["Label"] as? String else { throw InitializableError.missingRequiredParam("Label") }
-            self.label = label
+        private enum CodingKeys: String, CodingKey {
+            case queueUrl = "QueueUrl"
+            case label = "Label"
         }
     }
 
     public struct SendMessageBatchResultEntryList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SendMessageBatchResultEntry", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SendMessageBatchResultEntry", required: false, type: .list)
         ]
         public let sendMessageBatchResultEntry: [SendMessageBatchResultEntry]?
 
@@ -668,21 +600,16 @@ extension Sqs {
             self.sendMessageBatchResultEntry = sendMessageBatchResultEntry
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let sendMessageBatchResultEntry = dictionary["SendMessageBatchResultEntry"] as? [[String: Any]] {
-                self.sendMessageBatchResultEntry = try sendMessageBatchResultEntry.map({ try SendMessageBatchResultEntry(dictionary: $0) })
-            } else { 
-                self.sendMessageBatchResultEntry = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case sendMessageBatchResultEntry = "SendMessageBatchResultEntry"
         }
     }
 
     public struct ChangeMessageVisibilityBatchResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Successful", required: true, type: .structure), 
-            AWSShapeProperty(label: "Failed", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Successful", required: true, type: .structure), 
+            AWSShapeMember(label: "Failed", required: true, type: .structure)
         ]
         /// A list of  ChangeMessageVisibilityBatchResultEntry  items.
         public let successful: ChangeMessageVisibilityBatchResultEntryList
@@ -694,19 +621,16 @@ extension Sqs {
             self.failed = failed
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let successful = dictionary["Successful"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Successful") }
-            self.successful = try Sqs.ChangeMessageVisibilityBatchResultEntryList(dictionary: successful)
-            guard let failed = dictionary["Failed"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Failed") }
-            self.failed = try Sqs.BatchResultErrorEntryList(dictionary: failed)
+        private enum CodingKeys: String, CodingKey {
+            case successful = "Successful"
+            case failed = "Failed"
         }
     }
 
     public struct DeleteMessageBatchResultEntryList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeleteMessageBatchResultEntry", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteMessageBatchResultEntry", required: false, type: .list)
         ]
         public let deleteMessageBatchResultEntry: [DeleteMessageBatchResultEntry]?
 
@@ -714,20 +638,15 @@ extension Sqs {
             self.deleteMessageBatchResultEntry = deleteMessageBatchResultEntry
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let deleteMessageBatchResultEntry = dictionary["DeleteMessageBatchResultEntry"] as? [[String: Any]] {
-                self.deleteMessageBatchResultEntry = try deleteMessageBatchResultEntry.map({ try DeleteMessageBatchResultEntry(dictionary: $0) })
-            } else { 
-                self.deleteMessageBatchResultEntry = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case deleteMessageBatchResultEntry = "DeleteMessageBatchResultEntry"
         }
     }
 
     public struct MessageList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .list)
         ]
         public let message: [Message]?
 
@@ -735,20 +654,15 @@ extension Sqs {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let message = dictionary["Message"] as? [[String: Any]] {
-                self.message = try message.map({ try Message(dictionary: $0) })
-            } else { 
-                self.message = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
         }
     }
 
     public struct ListDeadLetterSourceQueuesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// The URL of a dead letter queue. Queue URLs are case-sensitive.
         public let queueUrl: String
@@ -757,21 +671,19 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
-            self.queueUrl = queueUrl
+        private enum CodingKeys: String, CodingKey {
+            case queueUrl = "QueueUrl"
         }
     }
 
     public struct SendMessageBatchResultEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MD5OfMessageAttributes", required: false, type: .string), 
-            AWSShapeProperty(label: "MD5OfMessageBody", required: true, type: .string), 
-            AWSShapeProperty(label: "SequenceNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "MessageId", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MD5OfMessageAttributes", required: false, type: .string), 
+            AWSShapeMember(label: "MD5OfMessageBody", required: true, type: .string), 
+            AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
+            AWSShapeMember(label: "MessageId", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see RFC1321.
         public let mD5OfMessageAttributes: String?
@@ -792,24 +704,20 @@ extension Sqs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mD5OfMessageAttributes = dictionary["MD5OfMessageAttributes"] as? String
-            guard let mD5OfMessageBody = dictionary["MD5OfMessageBody"] as? String else { throw InitializableError.missingRequiredParam("MD5OfMessageBody") }
-            self.mD5OfMessageBody = mD5OfMessageBody
-            self.sequenceNumber = dictionary["SequenceNumber"] as? String
-            guard let messageId = dictionary["MessageId"] as? String else { throw InitializableError.missingRequiredParam("MessageId") }
-            self.messageId = messageId
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case mD5OfMessageAttributes = "MD5OfMessageAttributes"
+            case mD5OfMessageBody = "MD5OfMessageBody"
+            case sequenceNumber = "SequenceNumber"
+            case messageId = "MessageId"
+            case id = "Id"
         }
     }
 
     public struct SetQueueAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attributes", location: .body(locationName: "Attribute"), required: true, type: .map), 
-            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: true, type: .map), 
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// A map of attributes to set. The following lists the names, descriptions, and values of the special request parameters that the SetQueueAttributes action uses:    DelaySeconds - The length of time, in seconds, for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 (15 minutes). The default is 0 (zero).     MaximumMessageSize - The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) up to 262,144 bytes (256 KiB). The default is 262,144 (256 KiB).     MessageRetentionPeriod - The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer representing seconds, from 60 (1 minute) to 1,209,600 (14 days). The default is 345,600 (4 days).     Policy - The queue's policy. A valid AWS policy. For more information about policy structure, see Overview of AWS IAM Policies in the Amazon IAM User Guide.     ReceiveMessageWaitTimeSeconds - The length of time, in seconds, for which a  ReceiveMessage  action waits for a message to arrive. Valid values: an integer from 0 to 20 (seconds). The default is 0.     RedrivePolicy - The parameters for the dead letter queue functionality of the source queue. For more information about the redrive policy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide.   The dead letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead letter queue of a standard queue must also be a standard queue.     VisibilityTimeout - The visibility timeout for the queue. Valid values: an integer from 0 to 43,200 (12 hours). The default is 30. For more information about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide.   The following attributes apply only to server-side-encryption:    KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see Key Terms. While the alias of the AWS-managed CMK for Amazon SQS is always alias/aws/sqs, the alias of a custom CMK can, for example, be alias/aws/sqs. For more examples, see KeyId in the AWS Key Management Service API Reference.     KmsDataKeyReusePeriodSeconds - The length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). The default is 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which incur charges after Free Tier. For more information, see How Does the Data Key Reuse Period Work?.    The following attribute applies only to FIFO (first-in-first-out) queues:    ContentBasedDeduplication - Enables content-based deduplication. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide.    Every message must have a unique MessageDeduplicationId,   You may provide a MessageDeduplicationId explicitly.   If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.   If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.   If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.      Any other valid special request parameters (such as the following) are ignored:    ApproximateNumberOfMessages     ApproximateNumberOfMessagesDelayed     ApproximateNumberOfMessagesNotVisible     CreatedTimestamp     LastModifiedTimestamp     QueueArn   
         public let attributes: [QueueAttributeName: String]
@@ -821,19 +729,16 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attributes = dictionary["Attribute"] as? [QueueAttributeName: String] else { throw InitializableError.missingRequiredParam("Attribute") }
-            self.attributes = attributes
-            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
-            self.queueUrl = queueUrl
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attribute"
+            case queueUrl = "QueueUrl"
         }
     }
 
     public struct AttributeNameList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: false, type: .list)
         ]
         public let attributeName: [QueueAttributeName]?
 
@@ -841,16 +746,15 @@ extension Sqs {
             self.attributeName = attributeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributeName = dictionary["AttributeName"] as? [String] { self.attributeName = attributeName.flatMap({ QueueAttributeName(rawValue: $0)}) } else { self.attributeName = nil }
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
         }
     }
 
     public struct GetQueueAttributesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .map)
         ]
         /// A map of attributes to their respective values.
         public let attributes: [QueueAttributeName: String]?
@@ -859,20 +763,15 @@ extension Sqs {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attribute"] as? [QueueAttributeName: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attribute"
         }
     }
 
     public struct CreateQueueResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueueUrl", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueueUrl", required: false, type: .string)
         ]
         /// The URL of the created Amazon SQS queue.
         public let queueUrl: String?
@@ -881,16 +780,15 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.queueUrl = dictionary["QueueUrl"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case queueUrl = "QueueUrl"
         }
     }
 
     public struct ListQueuesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueueUrls", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueueUrls", required: false, type: .structure)
         ]
         /// A list of queue URLs, up to 1,000 entries.
         public let queueUrls: QueueUrlList?
@@ -899,18 +797,17 @@ extension Sqs {
             self.queueUrls = queueUrls
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let queueUrls = dictionary["QueueUrls"] as? [String: Any] { self.queueUrls = try Sqs.QueueUrlList(dictionary: queueUrls) } else { self.queueUrls = nil }
+        private enum CodingKeys: String, CodingKey {
+            case queueUrls = "QueueUrls"
         }
     }
 
     public struct ChangeMessageVisibilityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VisibilityTimeout", required: true, type: .integer), 
-            AWSShapeProperty(label: "ReceiptHandle", required: true, type: .string), 
-            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VisibilityTimeout", required: true, type: .integer), 
+            AWSShapeMember(label: "ReceiptHandle", required: true, type: .string), 
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// The new value for the message's visibility timeout (in seconds). Values values: 0 to 43200. Maximum: 12 hours.
         public let visibilityTimeout: Int32
@@ -925,21 +822,17 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let visibilityTimeout = dictionary["VisibilityTimeout"] as? Int32 else { throw InitializableError.missingRequiredParam("VisibilityTimeout") }
-            self.visibilityTimeout = visibilityTimeout
-            guard let receiptHandle = dictionary["ReceiptHandle"] as? String else { throw InitializableError.missingRequiredParam("ReceiptHandle") }
-            self.receiptHandle = receiptHandle
-            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
-            self.queueUrl = queueUrl
+        private enum CodingKeys: String, CodingKey {
+            case visibilityTimeout = "VisibilityTimeout"
+            case receiptHandle = "ReceiptHandle"
+            case queueUrl = "QueueUrl"
         }
     }
 
     public struct ChangeMessageVisibilityBatchRequestEntryList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeMessageVisibilityBatchRequestEntry", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChangeMessageVisibilityBatchRequestEntry", required: false, type: .list)
         ]
         public let changeMessageVisibilityBatchRequestEntry: [ChangeMessageVisibilityBatchRequestEntry]?
 
@@ -947,16 +840,12 @@ extension Sqs {
             self.changeMessageVisibilityBatchRequestEntry = changeMessageVisibilityBatchRequestEntry
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let changeMessageVisibilityBatchRequestEntry = dictionary["ChangeMessageVisibilityBatchRequestEntry"] as? [[String: Any]] {
-                self.changeMessageVisibilityBatchRequestEntry = try changeMessageVisibilityBatchRequestEntry.map({ try ChangeMessageVisibilityBatchRequestEntry(dictionary: $0) })
-            } else { 
-                self.changeMessageVisibilityBatchRequestEntry = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case changeMessageVisibilityBatchRequestEntry = "ChangeMessageVisibilityBatchRequestEntry"
         }
     }
 
-    public enum MessageSystemAttributeName: String, CustomStringConvertible {
+    public enum MessageSystemAttributeName: String, CustomStringConvertible, Codable {
         case senderid = "SenderId"
         case senttimestamp = "SentTimestamp"
         case approximatereceivecount = "ApproximateReceiveCount"
@@ -969,10 +858,9 @@ extension Sqs {
 
     public struct DeleteMessageBatchRequestEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReceiptHandle", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReceiptHandle", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// A receipt handle.
         public let receiptHandle: String
@@ -984,22 +872,19 @@ extension Sqs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let receiptHandle = dictionary["ReceiptHandle"] as? String else { throw InitializableError.missingRequiredParam("ReceiptHandle") }
-            self.receiptHandle = receiptHandle
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case receiptHandle = "ReceiptHandle"
+            case id = "Id"
         }
     }
 
     public struct BatchResultErrorEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", required: true, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "SenderFault", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: true, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "SenderFault", required: true, type: .boolean), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// An error code representing why the action failed on this entry.
         public let code: String
@@ -1017,22 +902,18 @@ extension Sqs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let code = dictionary["Code"] as? String else { throw InitializableError.missingRequiredParam("Code") }
-            self.code = code
-            self.message = dictionary["Message"] as? String
-            guard let senderFault = dictionary["SenderFault"] as? Bool else { throw InitializableError.missingRequiredParam("SenderFault") }
-            self.senderFault = senderFault
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case senderFault = "SenderFault"
+            case id = "Id"
         }
     }
 
     public struct ChangeMessageVisibilityBatchResultEntryList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeMessageVisibilityBatchResultEntry", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChangeMessageVisibilityBatchResultEntry", required: false, type: .list)
         ]
         public let changeMessageVisibilityBatchResultEntry: [ChangeMessageVisibilityBatchResultEntry]?
 
@@ -1040,21 +921,16 @@ extension Sqs {
             self.changeMessageVisibilityBatchResultEntry = changeMessageVisibilityBatchResultEntry
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let changeMessageVisibilityBatchResultEntry = dictionary["ChangeMessageVisibilityBatchResultEntry"] as? [[String: Any]] {
-                self.changeMessageVisibilityBatchResultEntry = try changeMessageVisibilityBatchResultEntry.map({ try ChangeMessageVisibilityBatchResultEntry(dictionary: $0) })
-            } else { 
-                self.changeMessageVisibilityBatchResultEntry = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case changeMessageVisibilityBatchResultEntry = "ChangeMessageVisibilityBatchResultEntry"
         }
     }
 
     public struct DeleteMessageRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReceiptHandle", required: true, type: .string), 
-            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReceiptHandle", required: true, type: .string), 
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// The receipt handle associated with the message to delete.
         public let receiptHandle: String
@@ -1066,19 +942,16 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let receiptHandle = dictionary["ReceiptHandle"] as? String else { throw InitializableError.missingRequiredParam("ReceiptHandle") }
-            self.receiptHandle = receiptHandle
-            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
-            self.queueUrl = queueUrl
+        private enum CodingKeys: String, CodingKey {
+            case receiptHandle = "ReceiptHandle"
+            case queueUrl = "QueueUrl"
         }
     }
 
     public struct ChangeMessageVisibilityBatchResultEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// Represents a message whose visibility timeout has been changed successfully.
         public let id: String
@@ -1087,18 +960,16 @@ extension Sqs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct SendMessageBatchRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Entries", required: true, type: .structure), 
-            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entries", required: true, type: .structure), 
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// A list of  SendMessageBatchRequestEntry  items.
         public let entries: SendMessageBatchRequestEntryList
@@ -1110,19 +981,16 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let entries = dictionary["Entries"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Entries") }
-            self.entries = try Sqs.SendMessageBatchRequestEntryList(dictionary: entries)
-            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
-            self.queueUrl = queueUrl
+        private enum CodingKeys: String, CodingKey {
+            case entries = "Entries"
+            case queueUrl = "QueueUrl"
         }
     }
 
     public struct PurgeQueueRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// The URL of the queue from which the PurgeQueue action deletes messages. Queue URLs are case-sensitive.
         public let queueUrl: String
@@ -1131,18 +999,16 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
-            self.queueUrl = queueUrl
+        private enum CodingKeys: String, CodingKey {
+            case queueUrl = "QueueUrl"
         }
     }
 
     public struct DeleteMessageBatchRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Entries", required: true, type: .structure), 
-            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entries", required: true, type: .structure), 
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// A list of receipt handles for the messages to be deleted.
         public let entries: DeleteMessageBatchRequestEntryList
@@ -1154,20 +1020,17 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let entries = dictionary["Entries"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Entries") }
-            self.entries = try Sqs.DeleteMessageBatchRequestEntryList(dictionary: entries)
-            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
-            self.queueUrl = queueUrl
+        private enum CodingKeys: String, CodingKey {
+            case entries = "Entries"
+            case queueUrl = "QueueUrl"
         }
     }
 
     public struct GetQueueAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeNames", required: false, type: .structure), 
-            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeNames", required: false, type: .structure), 
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// A list of attributes for which to retrieve information.  In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully.  The following attributes are supported:    All - Returns all values.     ApproximateNumberOfMessages - Returns the approximate number of visible messages in a queue. For more information, see Resources Required to Process Messages in the Amazon SQS Developer Guide.     ApproximateNumberOfMessagesDelayed - Returns the approximate number of messages that are waiting to be added to the queue.     ApproximateNumberOfMessagesNotVisible - Returns the approximate number of messages that have not timed-out and aren't deleted. For more information, see Resources Required to Process Messages in the Amazon SQS Developer Guide.     CreatedTimestamp - Returns the time when the queue was created in seconds (epoch time).    DelaySeconds - Returns the default delay on the queue in seconds.    LastModifiedTimestamp - Returns the time when the queue was last changed in seconds (epoch time).    MaximumMessageSize - Returns the limit of how many bytes a message can contain before Amazon SQS rejects it.    MessageRetentionPeriod - Returns the length of time, in seconds, for which Amazon SQS retains a message.    Policy - Returns the policy of the queue.    QueueArn - Returns the Amazon resource name (ARN) of the queue.    ReceiveMessageWaitTimeSeconds - Returns the length of time, in seconds, for which the ReceiveMessage action waits for a message to arrive.     RedrivePolicy - Returns the parameters for dead letter queue functionality of the source queue. For more information about the redrive policy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide.     VisibilityTimeout - Returns the visibility timeout for the queue. For more information about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide.    The following attributes apply only to server-side-encryption:    KmsMasterKeyId - Returns the ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see Key Terms.     KmsDataKeyReusePeriodSeconds - Returns the length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again.    The following attributes apply only to FIFO (first-in-first-out) queues:    FifoQueue - Returns whether the queue is FIFO. For more information, see FIFO Queue Logic in the Amazon SQS Developer Guide.  To determine whether a queue is FIFO, you can check whether QueueName ends with the .fifo suffix.     ContentBasedDeduplication - Returns whether content-based deduplication is enabled for the queue. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide.   
         public let attributeNames: AttributeNameList?
@@ -1179,18 +1042,16 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributeNames = dictionary["AttributeNames"] as? [String: Any] { self.attributeNames = try Sqs.AttributeNameList(dictionary: attributeNames) } else { self.attributeNames = nil }
-            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
-            self.queueUrl = queueUrl
+        private enum CodingKeys: String, CodingKey {
+            case attributeNames = "AttributeNames"
+            case queueUrl = "QueueUrl"
         }
     }
 
     public struct BatchResultErrorEntryList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchResultErrorEntry", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchResultErrorEntry", required: false, type: .list)
         ]
         public let batchResultErrorEntry: [BatchResultErrorEntry]?
 
@@ -1198,20 +1059,15 @@ extension Sqs {
             self.batchResultErrorEntry = batchResultErrorEntry
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let batchResultErrorEntry = dictionary["BatchResultErrorEntry"] as? [[String: Any]] {
-                self.batchResultErrorEntry = try batchResultErrorEntry.map({ try BatchResultErrorEntry(dictionary: $0) })
-            } else { 
-                self.batchResultErrorEntry = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case batchResultErrorEntry = "BatchResultErrorEntry"
         }
     }
 
     public struct DeleteQueueRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueueUrl", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// The URL of the Amazon SQS queue to delete. Queue URLs are case-sensitive.
         public let queueUrl: String
@@ -1220,17 +1076,15 @@ extension Sqs {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
-            self.queueUrl = queueUrl
+        private enum CodingKeys: String, CodingKey {
+            case queueUrl = "QueueUrl"
         }
     }
 
     public struct SendMessageBatchRequestEntryList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SendMessageBatchRequestEntry", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SendMessageBatchRequestEntry", required: false, type: .list)
         ]
         public let sendMessageBatchRequestEntry: [SendMessageBatchRequestEntry]?
 
@@ -1238,20 +1092,15 @@ extension Sqs {
             self.sendMessageBatchRequestEntry = sendMessageBatchRequestEntry
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let sendMessageBatchRequestEntry = dictionary["SendMessageBatchRequestEntry"] as? [[String: Any]] {
-                self.sendMessageBatchRequestEntry = try sendMessageBatchRequestEntry.map({ try SendMessageBatchRequestEntry(dictionary: $0) })
-            } else { 
-                self.sendMessageBatchRequestEntry = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case sendMessageBatchRequestEntry = "SendMessageBatchRequestEntry"
         }
     }
 
     public struct DeleteMessageBatchRequestEntryList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeleteMessageBatchRequestEntry", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteMessageBatchRequestEntry", required: false, type: .list)
         ]
         public let deleteMessageBatchRequestEntry: [DeleteMessageBatchRequestEntry]?
 
@@ -1259,25 +1108,20 @@ extension Sqs {
             self.deleteMessageBatchRequestEntry = deleteMessageBatchRequestEntry
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let deleteMessageBatchRequestEntry = dictionary["DeleteMessageBatchRequestEntry"] as? [[String: Any]] {
-                self.deleteMessageBatchRequestEntry = try deleteMessageBatchRequestEntry.map({ try DeleteMessageBatchRequestEntry(dictionary: $0) })
-            } else { 
-                self.deleteMessageBatchRequestEntry = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case deleteMessageBatchRequestEntry = "DeleteMessageBatchRequestEntry"
         }
     }
 
     public struct SendMessageBatchRequestEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DelaySeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "MessageAttributes", location: .body(locationName: "MessageAttribute"), required: false, type: .map), 
-            AWSShapeProperty(label: "MessageGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "MessageDeduplicationId", required: false, type: .string), 
-            AWSShapeProperty(label: "MessageBody", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DelaySeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MessageAttributes", location: .body(locationName: "MessageAttribute"), required: false, type: .map), 
+            AWSShapeMember(label: "MessageGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "MessageDeduplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "MessageBody", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The length of time, in seconds, for which a specific message is delayed. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue is applied.   When you set FifoQueue, you can't set DelaySeconds per message. You can set this parameter only on a queue level. 
         public let delaySeconds: Int32?
@@ -1301,32 +1145,20 @@ extension Sqs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.delaySeconds = dictionary["DelaySeconds"] as? Int32
-            if let messageAttributes = dictionary["MessageAttribute"] as? [String: Any] {
-                var messageAttributesDict: [String: MessageAttributeValue] = [:]
-                for (key, value) in messageAttributes {
-                    guard let messageAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    messageAttributesDict[key] = try MessageAttributeValue(dictionary: messageAttributeValueDict)
-                }
-                self.messageAttributes = messageAttributesDict
-            } else { 
-                self.messageAttributes = nil
-            }
-            self.messageGroupId = dictionary["MessageGroupId"] as? String
-            self.messageDeduplicationId = dictionary["MessageDeduplicationId"] as? String
-            guard let messageBody = dictionary["MessageBody"] as? String else { throw InitializableError.missingRequiredParam("MessageBody") }
-            self.messageBody = messageBody
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case delaySeconds = "DelaySeconds"
+            case messageAttributes = "MessageAttribute"
+            case messageGroupId = "MessageGroupId"
+            case messageDeduplicationId = "MessageDeduplicationId"
+            case messageBody = "MessageBody"
+            case id = "Id"
         }
     }
 
     public struct DeleteMessageBatchResultEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// Represents a successfully deleted message.
         public let id: String
@@ -1335,18 +1167,16 @@ extension Sqs {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct SendMessageBatchResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Successful", required: true, type: .structure), 
-            AWSShapeProperty(label: "Failed", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Successful", required: true, type: .structure), 
+            AWSShapeMember(label: "Failed", required: true, type: .structure)
         ]
         /// A list of  SendMessageBatchResultEntry  items.
         public let successful: SendMessageBatchResultEntryList
@@ -1358,11 +1188,9 @@ extension Sqs {
             self.failed = failed
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let successful = dictionary["Successful"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Successful") }
-            self.successful = try Sqs.SendMessageBatchResultEntryList(dictionary: successful)
-            guard let failed = dictionary["Failed"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Failed") }
-            self.failed = try Sqs.BatchResultErrorEntryList(dictionary: failed)
+        private enum CodingKeys: String, CodingKey {
+            case successful = "Successful"
+            case failed = "Failed"
         }
     }
 

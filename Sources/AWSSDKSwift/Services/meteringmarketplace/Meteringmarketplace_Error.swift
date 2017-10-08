@@ -44,7 +44,7 @@ extension MeteringmarketplaceError {
     public init?(errorCode: String, message: String?){
         var errorCode = errorCode
         if let index = errorCode.index(of: "#") {
-            errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))
+            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
         case "InternalServiceErrorException":

@@ -31,9 +31,8 @@ extension IotData {
 
     public struct GetThingShadowRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
         /// The name of the thing.
         public let thingName: String
@@ -42,17 +41,15 @@ extension IotData {
             self.thingName = thingName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
-            self.thingName = thingName
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
         }
     }
 
     public struct DeleteThingShadowRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
         /// The name of the thing.
         public let thingName: String
@@ -61,17 +58,16 @@ extension IotData {
             self.thingName = thingName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
-            self.thingName = thingName
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
         }
     }
 
     public struct DeleteThingShadowResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "payload"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "payload", required: true, type: .blob)
+        public static let payloadPath: String? = "payload"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "payload", required: true, type: .blob)
         ]
         /// The state information, in JSON format.
         public let payload: Data
@@ -80,19 +76,18 @@ extension IotData {
             self.payload = payload
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let payload = dictionary["payload"] as? Data else { throw InitializableError.missingRequiredParam("payload") }
-            self.payload = payload
+        private enum CodingKeys: String, CodingKey {
+            case payload = "payload"
         }
     }
 
     public struct PublishRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "payload"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "qos", location: .querystring(locationName: "qos"), required: false, type: .integer), 
-            AWSShapeProperty(label: "payload", required: false, type: .blob), 
-            AWSShapeProperty(label: "topic", location: .uri(locationName: "topic"), required: true, type: .string)
+        public static let payloadPath: String? = "payload"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "qos", location: .querystring(locationName: "qos"), required: false, type: .integer), 
+            AWSShapeMember(label: "payload", required: false, type: .blob), 
+            AWSShapeMember(label: "topic", location: .uri(locationName: "topic"), required: true, type: .string)
         ]
         /// The Quality of Service (QoS) level.
         public let qos: Int32?
@@ -107,19 +102,18 @@ extension IotData {
             self.topic = topic
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.qos = dictionary["qos"] as? Int32
-            self.payload = dictionary["payload"] as? Data
-            guard let topic = dictionary["topic"] as? String else { throw InitializableError.missingRequiredParam("topic") }
-            self.topic = topic
+        private enum CodingKeys: String, CodingKey {
+            case qos = "qos"
+            case payload = "payload"
+            case topic = "topic"
         }
     }
 
     public struct GetThingShadowResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "payload"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "payload", required: false, type: .blob)
+        public static let payloadPath: String? = "payload"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "payload", required: false, type: .blob)
         ]
         /// The state information, in JSON format.
         public let payload: Data?
@@ -128,16 +122,16 @@ extension IotData {
             self.payload = payload
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.payload = dictionary["payload"] as? Data
+        private enum CodingKeys: String, CodingKey {
+            case payload = "payload"
         }
     }
 
     public struct UpdateThingShadowResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "payload"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "payload", required: false, type: .blob)
+        public static let payloadPath: String? = "payload"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "payload", required: false, type: .blob)
         ]
         /// The state information, in JSON format.
         public let payload: Data?
@@ -146,17 +140,17 @@ extension IotData {
             self.payload = payload
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.payload = dictionary["payload"] as? Data
+        private enum CodingKeys: String, CodingKey {
+            case payload = "payload"
         }
     }
 
     public struct UpdateThingShadowRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "payload"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "payload", required: true, type: .blob), 
-            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static let payloadPath: String? = "payload"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "payload", required: true, type: .blob), 
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
         /// The state information, in JSON format.
         public let payload: Data
@@ -168,11 +162,9 @@ extension IotData {
             self.thingName = thingName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let payload = dictionary["payload"] as? Data else { throw InitializableError.missingRequiredParam("payload") }
-            self.payload = payload
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
-            self.thingName = thingName
+        private enum CodingKeys: String, CodingKey {
+            case payload = "payload"
+            case thingName = "thingName"
         }
     }
 

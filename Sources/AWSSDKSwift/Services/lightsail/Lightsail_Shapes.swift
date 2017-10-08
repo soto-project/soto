@@ -31,9 +31,8 @@ extension Lightsail {
 
     public struct GetOperationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
         ]
         /// A token used for advancing to the next page of results from your get operations request.
         public let pageToken: String?
@@ -42,16 +41,15 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageToken = dictionary["pageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetInstanceStateResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .structure)
         ]
         /// The state of the instance.
         public let state: InstanceState?
@@ -60,17 +58,16 @@ extension Lightsail {
             self.state = state
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["state"] as? [String: Any] { self.state = try Lightsail.InstanceState(dictionary: state) } else { self.state = nil }
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
         }
     }
 
     public struct GetDomainsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domains", required: false, type: .list), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domains", required: false, type: .list), 
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
         ]
         /// An array of key-value pairs containing information about each of the domain entries in the user's account.
         public let domains: [Domain]?
@@ -82,22 +79,17 @@ extension Lightsail {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let domains = dictionary["domains"] as? [[String: Any]] {
-                self.domains = try domains.map({ try Domain(dictionary: $0) })
-            } else { 
-                self.domains = nil
-            }
-            self.nextPageToken = dictionary["nextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case domains = "domains"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetInstanceMetricDataResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "metricData", required: false, type: .list), 
-            AWSShapeProperty(label: "metricName", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metricData", required: false, type: .list), 
+            AWSShapeMember(label: "metricName", required: false, type: .enum)
         ]
         /// An array of key-value pairs containing information about the results of your get instance metric data request.
         public let metricData: [MetricDatapoint]?
@@ -109,21 +101,16 @@ extension Lightsail {
             self.metricName = metricName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let metricData = dictionary["metricData"] as? [[String: Any]] {
-                self.metricData = try metricData.map({ try MetricDatapoint(dictionary: $0) })
-            } else { 
-                self.metricData = nil
-            }
-            if let metricName = dictionary["metricName"] as? String { self.metricName = InstanceMetricName(rawValue: metricName) } else { self.metricName = nil }
+        private enum CodingKeys: String, CodingKey {
+            case metricData = "metricData"
+            case metricName = "metricName"
         }
     }
 
     public struct CreateDomainResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the domain resource you created.
         public let operation: Operation?
@@ -132,12 +119,12 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 
-    public enum OperationStatus: String, CustomStringConvertible {
+    public enum OperationStatus: String, CustomStringConvertible, Codable {
         case notstarted = "NotStarted"
         case started = "Started"
         case failed = "Failed"
@@ -147,17 +134,13 @@ extension Lightsail {
 
     public struct UnpeerVpcRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteDomainResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the results of your delete domain request.
         public let operation: Operation?
@@ -166,19 +149,18 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 
     public struct CreateKeyPairResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "keyPair", required: false, type: .structure), 
-            AWSShapeProperty(label: "publicKeyBase64", required: false, type: .string), 
-            AWSShapeProperty(label: "privateKeyBase64", required: false, type: .string), 
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "keyPair", required: false, type: .structure), 
+            AWSShapeMember(label: "publicKeyBase64", required: false, type: .string), 
+            AWSShapeMember(label: "privateKeyBase64", required: false, type: .string), 
+            AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the new key pair you just created.
         public let keyPair: KeyPair?
@@ -196,20 +178,19 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let keyPair = dictionary["keyPair"] as? [String: Any] { self.keyPair = try Lightsail.KeyPair(dictionary: keyPair) } else { self.keyPair = nil }
-            self.publicKeyBase64 = dictionary["publicKeyBase64"] as? String
-            self.privateKeyBase64 = dictionary["privateKeyBase64"] as? String
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case keyPair = "keyPair"
+            case publicKeyBase64 = "publicKeyBase64"
+            case privateKeyBase64 = "privateKeyBase64"
+            case operation = "operation"
         }
     }
 
     public struct GetOperationsForResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceName", required: true, type: .string)
         ]
         /// A token used for advancing to the next page of results from your get operations for resource request.
         public let pageToken: String?
@@ -221,19 +202,17 @@ extension Lightsail {
             self.resourceName = resourceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageToken = dictionary["pageToken"] as? String
-            guard let resourceName = dictionary["resourceName"] as? String else { throw InitializableError.missingRequiredParam("resourceName") }
-            self.resourceName = resourceName
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+            case resourceName = "resourceName"
         }
     }
 
     public struct AttachStaticIpRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "staticIpName", required: true, type: .string), 
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "staticIpName", required: true, type: .string), 
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The name of the static IP.
         public let staticIpName: String
@@ -245,31 +224,28 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let staticIpName = dictionary["staticIpName"] as? String else { throw InitializableError.missingRequiredParam("staticIpName") }
-            self.staticIpName = staticIpName
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
+        private enum CodingKeys: String, CodingKey {
+            case staticIpName = "staticIpName"
+            case instanceName = "instanceName"
         }
     }
 
     public struct InstanceSnapshot: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "fromBundleId", required: false, type: .string), 
-            AWSShapeProperty(label: "supportCode", required: false, type: .string), 
-            AWSShapeProperty(label: "fromInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string), 
-            AWSShapeProperty(label: "fromBlueprintId", required: false, type: .string), 
-            AWSShapeProperty(label: "sizeInGb", required: false, type: .integer), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "fromInstanceName", required: false, type: .string), 
-            AWSShapeProperty(label: "progress", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "fromBundleId", required: false, type: .string), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "fromInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "fromBlueprintId", required: false, type: .string), 
+            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "fromInstanceName", required: false, type: .string), 
+            AWSShapeMember(label: "progress", required: false, type: .string)
         ]
         /// The state the snapshot is in.
         public let state: InstanceSnapshotState?
@@ -278,7 +254,7 @@ extension Lightsail {
         /// The type of resource (usually InstanceSnapshot).
         public let resourceType: ResourceType?
         /// The timestamp when the snapshot was created (e.g., 1479907467.024).
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The bundle ID from which you created the snapshot (e.g., micro_1_0).
         public let fromBundleId: String?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
@@ -298,7 +274,7 @@ extension Lightsail {
         /// The progress of the snapshot.
         public let progress: String?
 
-        public init(state: InstanceSnapshotState? = nil, name: String? = nil, resourceType: ResourceType? = nil, createdAt: String? = nil, fromBundleId: String? = nil, supportCode: String? = nil, fromInstanceArn: String? = nil, arn: String? = nil, fromBlueprintId: String? = nil, sizeInGb: Int32? = nil, location: ResourceLocation? = nil, fromInstanceName: String? = nil, progress: String? = nil) {
+        public init(state: InstanceSnapshotState? = nil, name: String? = nil, resourceType: ResourceType? = nil, createdAt: Double? = nil, fromBundleId: String? = nil, supportCode: String? = nil, fromInstanceArn: String? = nil, arn: String? = nil, fromBlueprintId: String? = nil, sizeInGb: Int32? = nil, location: ResourceLocation? = nil, fromInstanceName: String? = nil, progress: String? = nil) {
             self.state = state
             self.name = name
             self.resourceType = resourceType
@@ -314,35 +290,34 @@ extension Lightsail {
             self.progress = progress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["state"] as? String { self.state = InstanceSnapshotState(rawValue: state) } else { self.state = nil }
-            self.name = dictionary["name"] as? String
-            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
-            self.createdAt = dictionary["createdAt"] as? String
-            self.fromBundleId = dictionary["fromBundleId"] as? String
-            self.supportCode = dictionary["supportCode"] as? String
-            self.fromInstanceArn = dictionary["fromInstanceArn"] as? String
-            self.arn = dictionary["arn"] as? String
-            self.fromBlueprintId = dictionary["fromBlueprintId"] as? String
-            self.sizeInGb = dictionary["sizeInGb"] as? Int32
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
-            self.fromInstanceName = dictionary["fromInstanceName"] as? String
-            self.progress = dictionary["progress"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case name = "name"
+            case resourceType = "resourceType"
+            case createdAt = "createdAt"
+            case fromBundleId = "fromBundleId"
+            case supportCode = "supportCode"
+            case fromInstanceArn = "fromInstanceArn"
+            case arn = "arn"
+            case fromBlueprintId = "fromBlueprintId"
+            case sizeInGb = "sizeInGb"
+            case location = "location"
+            case fromInstanceName = "fromInstanceName"
+            case progress = "progress"
         }
     }
 
     public struct InstanceAccessDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "privateKey", required: false, type: .string), 
-            AWSShapeProperty(label: "ipAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceName", required: false, type: .string), 
-            AWSShapeProperty(label: "protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "password", required: false, type: .string), 
-            AWSShapeProperty(label: "certKey", required: false, type: .string), 
-            AWSShapeProperty(label: "expiresAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "username", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "privateKey", required: false, type: .string), 
+            AWSShapeMember(label: "ipAddress", required: false, type: .string), 
+            AWSShapeMember(label: "instanceName", required: false, type: .string), 
+            AWSShapeMember(label: "protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "password", required: false, type: .string), 
+            AWSShapeMember(label: "certKey", required: false, type: .string), 
+            AWSShapeMember(label: "expiresAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "username", required: false, type: .string)
         ]
         /// For SSH access, the temporary private key. For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey).
         public let privateKey: String?
@@ -357,11 +332,11 @@ extension Lightsail {
         /// For SSH access, the public key to use when accessing your instance For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey-cert.pub.
         public let certKey: String?
         /// For SSH access, the date on which the temporary keys expire.
-        public let expiresAt: String?
+        public let expiresAt: Double?
         /// The user name to use when logging in to the Amazon Lightsail instance.
         public let username: String?
 
-        public init(privateKey: String? = nil, ipAddress: String? = nil, instanceName: String? = nil, protocol: InstanceAccessProtocol? = nil, password: String? = nil, certKey: String? = nil, expiresAt: String? = nil, username: String? = nil) {
+        public init(privateKey: String? = nil, ipAddress: String? = nil, instanceName: String? = nil, protocol: InstanceAccessProtocol? = nil, password: String? = nil, certKey: String? = nil, expiresAt: Double? = nil, username: String? = nil) {
             self.privateKey = privateKey
             self.ipAddress = ipAddress
             self.instanceName = instanceName
@@ -372,24 +347,23 @@ extension Lightsail {
             self.username = username
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.privateKey = dictionary["privateKey"] as? String
-            self.ipAddress = dictionary["ipAddress"] as? String
-            self.instanceName = dictionary["instanceName"] as? String
-            if let `protocol` = dictionary["protocol"] as? String { self.`protocol` = InstanceAccessProtocol(rawValue: `protocol`) } else { self.`protocol` = nil }
-            self.password = dictionary["password"] as? String
-            self.certKey = dictionary["certKey"] as? String
-            self.expiresAt = dictionary["expiresAt"] as? String
-            self.username = dictionary["username"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case privateKey = "privateKey"
+            case ipAddress = "ipAddress"
+            case instanceName = "instanceName"
+            case `protocol` = "protocol"
+            case password = "password"
+            case certKey = "certKey"
+            case expiresAt = "expiresAt"
+            case username = "username"
         }
     }
 
     public struct GetBundlesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "includeInactive", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string), 
+            AWSShapeMember(label: "includeInactive", required: false, type: .boolean)
         ]
         /// A token used for advancing to the next page of results from your get bundles request.
         public let pageToken: String?
@@ -401,17 +375,16 @@ extension Lightsail {
             self.includeInactive = includeInactive
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageToken = dictionary["pageToken"] as? String
-            self.includeInactive = dictionary["includeInactive"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+            case includeInactive = "includeInactive"
         }
     }
 
     public struct DeleteDomainEntryResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the results of your delete domain entry request.
         public let operation: Operation?
@@ -420,16 +393,15 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 
     public struct GetRegionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "regions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "regions", required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about your get regions request.
         public let regions: [Region]?
@@ -438,16 +410,12 @@ extension Lightsail {
             self.regions = regions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let regions = dictionary["regions"] as? [[String: Any]] {
-                self.regions = try regions.map({ try Region(dictionary: $0) })
-            } else { 
-                self.regions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case regions = "regions"
         }
     }
 
-    public enum BlueprintType: String, CustomStringConvertible {
+    public enum BlueprintType: String, CustomStringConvertible, Codable {
         case os = "os"
         case app = "app"
         public var description: String { return self.rawValue }
@@ -455,9 +423,8 @@ extension Lightsail {
 
     public struct GetInstanceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instance", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instance", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the specified instance.
         public let instance: Instance?
@@ -466,16 +433,15 @@ extension Lightsail {
             self.instance = instance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instance = dictionary["instance"] as? [String: Any] { self.instance = try Lightsail.Instance(dictionary: instance) } else { self.instance = nil }
+        private enum CodingKeys: String, CodingKey {
+            case instance = "instance"
         }
     }
 
     public struct DeleteInstanceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the results of your delete instance request.
         public let operations: [Operation]?
@@ -484,16 +450,12 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
-    public enum RegionName: String, CustomStringConvertible {
+    public enum RegionName: String, CustomStringConvertible, Codable {
         case us_east_1 = "us-east-1"
         case us_east_2 = "us-east-2"
         case us_west_1 = "us-west-1"
@@ -510,10 +472,9 @@ extension Lightsail {
 
     public struct GetInstanceAccessDetailsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The protocol to use to connect to your instance. Defaults to ssh.
         public let `protocol`: InstanceAccessProtocol?
@@ -525,19 +486,17 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `protocol` = dictionary["protocol"] as? String { self.`protocol` = InstanceAccessProtocol(rawValue: `protocol`) } else { self.`protocol` = nil }
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
+        private enum CodingKeys: String, CodingKey {
+            case `protocol` = "protocol"
+            case instanceName = "instanceName"
         }
     }
 
     public struct GetInstanceSnapshotsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceSnapshots", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "instanceSnapshots", required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get instance snapshots request.
         public let nextPageToken: String?
@@ -549,29 +508,24 @@ extension Lightsail {
             self.instanceSnapshots = instanceSnapshots
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            if let instanceSnapshots = dictionary["instanceSnapshots"] as? [[String: Any]] {
-                self.instanceSnapshots = try instanceSnapshots.map({ try InstanceSnapshot(dictionary: $0) })
-            } else { 
-                self.instanceSnapshots = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case instanceSnapshots = "instanceSnapshots"
         }
     }
 
     public struct StaticIp: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attachedTo", required: false, type: .string), 
-            AWSShapeProperty(label: "isAttached", required: false, type: .boolean), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ipAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "supportCode", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attachedTo", required: false, type: .string), 
+            AWSShapeMember(label: "isAttached", required: false, type: .boolean), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "ipAddress", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The instance where the static IP is attached (e.g., Amazon_Linux-1GB-Virginia-1).
         public let attachedTo: String?
@@ -586,13 +540,13 @@ extension Lightsail {
         /// The name of the static IP (e.g., StaticIP-Virginia-EXAMPLE).
         public let name: String?
         /// The timestamp when the static IP was created (e.g., 1479735304.222).
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
         /// The Amazon Resource Name (ARN) of the static IP (e.g., arn:aws:lightsail:us-east-1:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
         public let arn: String?
 
-        public init(attachedTo: String? = nil, isAttached: Bool? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, ipAddress: String? = nil, name: String? = nil, createdAt: String? = nil, supportCode: String? = nil, arn: String? = nil) {
+        public init(attachedTo: String? = nil, isAttached: Bool? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, ipAddress: String? = nil, name: String? = nil, createdAt: Double? = nil, supportCode: String? = nil, arn: String? = nil) {
             self.attachedTo = attachedTo
             self.isAttached = isAttached
             self.location = location
@@ -604,24 +558,23 @@ extension Lightsail {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attachedTo = dictionary["attachedTo"] as? String
-            self.isAttached = dictionary["isAttached"] as? Bool
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
-            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
-            self.ipAddress = dictionary["ipAddress"] as? String
-            self.name = dictionary["name"] as? String
-            self.createdAt = dictionary["createdAt"] as? String
-            self.supportCode = dictionary["supportCode"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attachedTo = "attachedTo"
+            case isAttached = "isAttached"
+            case location = "location"
+            case resourceType = "resourceType"
+            case ipAddress = "ipAddress"
+            case name = "name"
+            case createdAt = "createdAt"
+            case supportCode = "supportCode"
+            case arn = "arn"
         }
     }
 
     public struct GetInstancePortStatesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "portStates", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "portStates", required: false, type: .list)
         ]
         /// Information about the port states resulting from your request.
         public let portStates: [InstancePortState]?
@@ -630,23 +583,18 @@ extension Lightsail {
             self.portStates = portStates
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let portStates = dictionary["portStates"] as? [[String: Any]] {
-                self.portStates = try portStates.map({ try InstancePortState(dictionary: $0) })
-            } else { 
-                self.portStates = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case portStates = "portStates"
         }
     }
 
     public struct InstancePortState: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "fromPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "toPort", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "fromPort", required: false, type: .integer), 
+            AWSShapeMember(label: "protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "toPort", required: false, type: .integer)
         ]
         /// Specifies whether the instance port is open or closed.
         public let state: PortState?
@@ -664,25 +612,24 @@ extension Lightsail {
             self.toPort = toPort
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["state"] as? String { self.state = PortState(rawValue: state) } else { self.state = nil }
-            self.fromPort = dictionary["fromPort"] as? Int32
-            if let `protocol` = dictionary["protocol"] as? String { self.`protocol` = NetworkProtocol(rawValue: `protocol`) } else { self.`protocol` = nil }
-            self.toPort = dictionary["toPort"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case fromPort = "fromPort"
+            case `protocol` = "protocol"
+            case toPort = "toPort"
         }
     }
 
     public struct KeyPair: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "fingerprint", required: false, type: .string), 
-            AWSShapeProperty(label: "supportCode", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "fingerprint", required: false, type: .string), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The friendly name of the SSH key pair.
         public let name: String?
@@ -691,7 +638,7 @@ extension Lightsail {
         /// The resource type (usually KeyPair).
         public let resourceType: ResourceType?
         /// The timestamp when the key pair was created (e.g., 1479816991.349).
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The RSA fingerprint of the key pair.
         public let fingerprint: String?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
@@ -699,7 +646,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the key pair (e.g., arn:aws:lightsail:us-east-1:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
         public let arn: String?
 
-        public init(name: String? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, createdAt: String? = nil, fingerprint: String? = nil, supportCode: String? = nil, arn: String? = nil) {
+        public init(name: String? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, createdAt: Double? = nil, fingerprint: String? = nil, supportCode: String? = nil, arn: String? = nil) {
             self.name = name
             self.location = location
             self.resourceType = resourceType
@@ -709,22 +656,21 @@ extension Lightsail {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
-            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
-            self.createdAt = dictionary["createdAt"] as? String
-            self.fingerprint = dictionary["fingerprint"] as? String
-            self.supportCode = dictionary["supportCode"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case location = "location"
+            case resourceType = "resourceType"
+            case createdAt = "createdAt"
+            case fingerprint = "fingerprint"
+            case supportCode = "supportCode"
+            case arn = "arn"
         }
     }
 
     public struct GetStaticIpRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "staticIpName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "staticIpName", required: true, type: .string)
         ]
         /// The name of the static IP in Lightsail.
         public let staticIpName: String
@@ -733,18 +679,16 @@ extension Lightsail {
             self.staticIpName = staticIpName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let staticIpName = dictionary["staticIpName"] as? String else { throw InitializableError.missingRequiredParam("staticIpName") }
-            self.staticIpName = staticIpName
+        private enum CodingKeys: String, CodingKey {
+            case staticIpName = "staticIpName"
         }
     }
 
     public struct GetKeyPairsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "keyPairs", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "keyPairs", required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get key pairs request.
         public let nextPageToken: String?
@@ -756,30 +700,25 @@ extension Lightsail {
             self.keyPairs = keyPairs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            if let keyPairs = dictionary["keyPairs"] as? [[String: Any]] {
-                self.keyPairs = try keyPairs.map({ try KeyPair(dictionary: $0) })
-            } else { 
-                self.keyPairs = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case keyPairs = "keyPairs"
         }
     }
 
     public struct Bundle: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "isActive", required: false, type: .boolean), 
-            AWSShapeProperty(label: "power", required: false, type: .integer), 
-            AWSShapeProperty(label: "cpuCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "ramSizeInGb", required: false, type: .float), 
-            AWSShapeProperty(label: "bundleId", required: false, type: .string), 
-            AWSShapeProperty(label: "transferPerMonthInGb", required: false, type: .integer), 
-            AWSShapeProperty(label: "diskSizeInGb", required: false, type: .integer), 
-            AWSShapeProperty(label: "price", required: false, type: .float)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "instanceType", required: false, type: .string), 
+            AWSShapeMember(label: "isActive", required: false, type: .boolean), 
+            AWSShapeMember(label: "power", required: false, type: .integer), 
+            AWSShapeMember(label: "cpuCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ramSizeInGb", required: false, type: .float), 
+            AWSShapeMember(label: "bundleId", required: false, type: .string), 
+            AWSShapeMember(label: "transferPerMonthInGb", required: false, type: .integer), 
+            AWSShapeMember(label: "diskSizeInGb", required: false, type: .integer), 
+            AWSShapeMember(label: "price", required: false, type: .float)
         ]
         /// A friendly name for the bundle (e.g., Micro).
         public let name: String?
@@ -815,33 +754,29 @@ extension Lightsail {
             self.price = price
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.instanceType = dictionary["instanceType"] as? String
-            self.isActive = dictionary["isActive"] as? Bool
-            self.power = dictionary["power"] as? Int32
-            self.cpuCount = dictionary["cpuCount"] as? Int32
-            self.ramSizeInGb = dictionary["ramSizeInGb"] as? Float
-            self.bundleId = dictionary["bundleId"] as? String
-            self.transferPerMonthInGb = dictionary["transferPerMonthInGb"] as? Int32
-            self.diskSizeInGb = dictionary["diskSizeInGb"] as? Int32
-            self.price = dictionary["price"] as? Float
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case instanceType = "instanceType"
+            case isActive = "isActive"
+            case power = "power"
+            case cpuCount = "cpuCount"
+            case ramSizeInGb = "ramSizeInGb"
+            case bundleId = "bundleId"
+            case transferPerMonthInGb = "transferPerMonthInGb"
+            case diskSizeInGb = "diskSizeInGb"
+            case price = "price"
         }
     }
 
     public struct PeerVpcRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct RebootInstanceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
@@ -850,25 +785,20 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
     public struct CreateInstancesFromSnapshotRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "availabilityZone", required: true, type: .string), 
-            AWSShapeProperty(label: "instanceNames", required: true, type: .list), 
-            AWSShapeProperty(label: "bundleId", required: true, type: .string), 
-            AWSShapeProperty(label: "instanceSnapshotName", required: true, type: .string), 
-            AWSShapeProperty(label: "userData", required: false, type: .string), 
-            AWSShapeProperty(label: "keyPairName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
+            AWSShapeMember(label: "instanceNames", required: true, type: .list), 
+            AWSShapeMember(label: "bundleId", required: true, type: .string), 
+            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "userData", required: false, type: .string), 
+            AWSShapeMember(label: "keyPairName", required: false, type: .string)
         ]
         /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-1a (case sensitive). You can get a list of availability zones by using the get regions operation. Be sure to add the include availability zones parameter to your request.
         public let availabilityZone: String
@@ -892,25 +822,20 @@ extension Lightsail {
             self.keyPairName = keyPairName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let availabilityZone = dictionary["availabilityZone"] as? String else { throw InitializableError.missingRequiredParam("availabilityZone") }
-            self.availabilityZone = availabilityZone
-            guard let instanceNames = dictionary["instanceNames"] as? [String] else { throw InitializableError.missingRequiredParam("instanceNames") }
-            self.instanceNames = instanceNames
-            guard let bundleId = dictionary["bundleId"] as? String else { throw InitializableError.missingRequiredParam("bundleId") }
-            self.bundleId = bundleId
-            guard let instanceSnapshotName = dictionary["instanceSnapshotName"] as? String else { throw InitializableError.missingRequiredParam("instanceSnapshotName") }
-            self.instanceSnapshotName = instanceSnapshotName
-            self.userData = dictionary["userData"] as? String
-            self.keyPairName = dictionary["keyPairName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
+            case instanceNames = "instanceNames"
+            case bundleId = "bundleId"
+            case instanceSnapshotName = "instanceSnapshotName"
+            case userData = "userData"
+            case keyPairName = "keyPairName"
         }
     }
 
     public struct GetOperationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operationId", required: true, type: .string)
         ]
         /// A GUID used to identify the operation.
         public let operationId: String
@@ -919,17 +844,15 @@ extension Lightsail {
             self.operationId = operationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let operationId = dictionary["operationId"] as? String else { throw InitializableError.missingRequiredParam("operationId") }
-            self.operationId = operationId
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "operationId"
         }
     }
 
     public struct ImportKeyPairResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
@@ -938,12 +861,12 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 
-    public enum ResourceType: String, CustomStringConvertible {
+    public enum ResourceType: String, CustomStringConvertible, Codable {
         case instance = "Instance"
         case staticip = "StaticIp"
         case keypair = "KeyPair"
@@ -955,9 +878,8 @@ extension Lightsail {
 
     public struct DeleteDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", required: true, type: .string)
         ]
         /// The specific domain name to delete.
         public let domainName: String
@@ -966,17 +888,15 @@ extension Lightsail {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
         }
     }
 
     public struct GetKeyPairRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "keyPairName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "keyPairName", required: true, type: .string)
         ]
         /// The name of the key pair for which you are requesting information.
         public let keyPairName: String
@@ -985,17 +905,15 @@ extension Lightsail {
             self.keyPairName = keyPairName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyPairName = dictionary["keyPairName"] as? String else { throw InitializableError.missingRequiredParam("keyPairName") }
-            self.keyPairName = keyPairName
+        private enum CodingKeys: String, CodingKey {
+            case keyPairName = "keyPairName"
         }
     }
 
     public struct ReleaseStaticIpRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "staticIpName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "staticIpName", required: true, type: .string)
         ]
         /// The name of the static IP to delete.
         public let staticIpName: String
@@ -1004,17 +922,15 @@ extension Lightsail {
             self.staticIpName = staticIpName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let staticIpName = dictionary["staticIpName"] as? String else { throw InitializableError.missingRequiredParam("staticIpName") }
-            self.staticIpName = staticIpName
+        private enum CodingKeys: String, CodingKey {
+            case staticIpName = "staticIpName"
         }
     }
 
     public struct IsVpcPeeredResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "isPeered", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "isPeered", required: false, type: .boolean)
         ]
         /// Returns true if the Lightsail VPC is peered; otherwise, false.
         public let isPeered: Bool?
@@ -1023,17 +939,16 @@ extension Lightsail {
             self.isPeered = isPeered
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.isPeered = dictionary["isPeered"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case isPeered = "isPeered"
         }
     }
 
     public struct OpenInstancePublicPortsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string), 
-            AWSShapeProperty(label: "portInfo", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string), 
+            AWSShapeMember(label: "portInfo", required: true, type: .structure)
         ]
         /// The name of the instance for which you want to open the public ports.
         public let instanceName: String
@@ -1045,19 +960,16 @@ extension Lightsail {
             self.portInfo = portInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
-            guard let portInfo = dictionary["portInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("portInfo") }
-            self.portInfo = try Lightsail.PortInfo(dictionary: portInfo)
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
+            case portInfo = "portInfo"
         }
     }
 
     public struct CreateInstancesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the results of your create instances request.
         public let operations: [Operation]?
@@ -1066,20 +978,15 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
     public struct GetInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The name of the instance.
         public let instanceName: String
@@ -1088,18 +995,16 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
         }
     }
 
     public struct CloseInstancePublicPortsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string), 
-            AWSShapeProperty(label: "portInfo", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string), 
+            AWSShapeMember(label: "portInfo", required: true, type: .structure)
         ]
         /// The name of the instance on which you're attempting to close the public ports.
         public let instanceName: String
@@ -1111,36 +1016,33 @@ extension Lightsail {
             self.portInfo = portInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
-            guard let portInfo = dictionary["portInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("portInfo") }
-            self.portInfo = try Lightsail.PortInfo(dictionary: portInfo)
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
+            case portInfo = "portInfo"
         }
     }
 
     public struct Instance: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .structure), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "publicIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "privateIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "sshKeyName", required: false, type: .string), 
-            AWSShapeProperty(label: "supportCode", required: false, type: .string), 
-            AWSShapeProperty(label: "bundleId", required: false, type: .string), 
-            AWSShapeProperty(label: "isStaticIp", required: false, type: .boolean), 
-            AWSShapeProperty(label: "blueprintName", required: false, type: .string), 
-            AWSShapeProperty(label: "username", required: false, type: .string), 
-            AWSShapeProperty(label: "ipv6Address", required: false, type: .string), 
-            AWSShapeProperty(label: "hardware", required: false, type: .structure), 
-            AWSShapeProperty(label: "blueprintId", required: false, type: .string), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "arn", required: false, type: .string), 
-            AWSShapeProperty(label: "networking", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "publicIpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "privateIpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "sshKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "bundleId", required: false, type: .string), 
+            AWSShapeMember(label: "isStaticIp", required: false, type: .boolean), 
+            AWSShapeMember(label: "blueprintName", required: false, type: .string), 
+            AWSShapeMember(label: "username", required: false, type: .string), 
+            AWSShapeMember(label: "ipv6Address", required: false, type: .string), 
+            AWSShapeMember(label: "hardware", required: false, type: .structure), 
+            AWSShapeMember(label: "blueprintId", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "networking", required: false, type: .structure)
         ]
         /// The status code and the state (e.g., running) for the instance.
         public let state: InstanceState?
@@ -1153,7 +1055,7 @@ extension Lightsail {
         /// The private IP address of the instance.
         public let privateIpAddress: String?
         /// The timestamp when the instance was created (e.g., 1479734909.17).
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The name of the SSH key being used to connect to the instance (e.g., LightsailDefaultKeyPair).
         public let sshKeyName: String?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
@@ -1179,7 +1081,7 @@ extension Lightsail {
         /// Information about the public ports and monthly data transfer rates for the instance.
         public let networking: InstanceNetworking?
 
-        public init(state: InstanceState? = nil, name: String? = nil, resourceType: ResourceType? = nil, publicIpAddress: String? = nil, privateIpAddress: String? = nil, createdAt: String? = nil, sshKeyName: String? = nil, supportCode: String? = nil, bundleId: String? = nil, isStaticIp: Bool? = nil, blueprintName: String? = nil, username: String? = nil, ipv6Address: String? = nil, hardware: InstanceHardware? = nil, blueprintId: String? = nil, location: ResourceLocation? = nil, arn: String? = nil, networking: InstanceNetworking? = nil) {
+        public init(state: InstanceState? = nil, name: String? = nil, resourceType: ResourceType? = nil, publicIpAddress: String? = nil, privateIpAddress: String? = nil, createdAt: Double? = nil, sshKeyName: String? = nil, supportCode: String? = nil, bundleId: String? = nil, isStaticIp: Bool? = nil, blueprintName: String? = nil, username: String? = nil, ipv6Address: String? = nil, hardware: InstanceHardware? = nil, blueprintId: String? = nil, location: ResourceLocation? = nil, arn: String? = nil, networking: InstanceNetworking? = nil) {
             self.state = state
             self.name = name
             self.resourceType = resourceType
@@ -1200,39 +1102,38 @@ extension Lightsail {
             self.networking = networking
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["state"] as? [String: Any] { self.state = try Lightsail.InstanceState(dictionary: state) } else { self.state = nil }
-            self.name = dictionary["name"] as? String
-            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
-            self.publicIpAddress = dictionary["publicIpAddress"] as? String
-            self.privateIpAddress = dictionary["privateIpAddress"] as? String
-            self.createdAt = dictionary["createdAt"] as? String
-            self.sshKeyName = dictionary["sshKeyName"] as? String
-            self.supportCode = dictionary["supportCode"] as? String
-            self.bundleId = dictionary["bundleId"] as? String
-            self.isStaticIp = dictionary["isStaticIp"] as? Bool
-            self.blueprintName = dictionary["blueprintName"] as? String
-            self.username = dictionary["username"] as? String
-            self.ipv6Address = dictionary["ipv6Address"] as? String
-            if let hardware = dictionary["hardware"] as? [String: Any] { self.hardware = try Lightsail.InstanceHardware(dictionary: hardware) } else { self.hardware = nil }
-            self.blueprintId = dictionary["blueprintId"] as? String
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
-            self.arn = dictionary["arn"] as? String
-            if let networking = dictionary["networking"] as? [String: Any] { self.networking = try Lightsail.InstanceNetworking(dictionary: networking) } else { self.networking = nil }
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case name = "name"
+            case resourceType = "resourceType"
+            case publicIpAddress = "publicIpAddress"
+            case privateIpAddress = "privateIpAddress"
+            case createdAt = "createdAt"
+            case sshKeyName = "sshKeyName"
+            case supportCode = "supportCode"
+            case bundleId = "bundleId"
+            case isStaticIp = "isStaticIp"
+            case blueprintName = "blueprintName"
+            case username = "username"
+            case ipv6Address = "ipv6Address"
+            case hardware = "hardware"
+            case blueprintId = "blueprintId"
+            case location = "location"
+            case arn = "arn"
+            case networking = "networking"
         }
     }
 
     public struct Domain: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "domainEntries", required: false, type: .list), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "supportCode", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "domainEntries", required: false, type: .list), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The name of the domain.
         public let name: String?
@@ -1243,13 +1144,13 @@ extension Lightsail {
         /// An array of key-value pairs containing information about the domain entries.
         public let domainEntries: [DomainEntry]?
         /// The date when the domain recordset was created.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
         /// The Amazon Resource Name (ARN) of the domain recordset (e.g., arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
         public let arn: String?
 
-        public init(name: String? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, domainEntries: [DomainEntry]? = nil, createdAt: String? = nil, supportCode: String? = nil, arn: String? = nil) {
+        public init(name: String? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, domainEntries: [DomainEntry]? = nil, createdAt: Double? = nil, supportCode: String? = nil, arn: String? = nil) {
             self.name = name
             self.location = location
             self.resourceType = resourceType
@@ -1259,26 +1160,21 @@ extension Lightsail {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
-            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
-            if let domainEntries = dictionary["domainEntries"] as? [[String: Any]] {
-                self.domainEntries = try domainEntries.map({ try DomainEntry(dictionary: $0) })
-            } else { 
-                self.domainEntries = nil
-            }
-            self.createdAt = dictionary["createdAt"] as? String
-            self.supportCode = dictionary["supportCode"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case location = "location"
+            case resourceType = "resourceType"
+            case domainEntries = "domainEntries"
+            case createdAt = "createdAt"
+            case supportCode = "supportCode"
+            case arn = "arn"
         }
     }
 
     public struct GetStaticIpResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "staticIp", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "staticIp", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the requested static IP.
         public let staticIp: StaticIp?
@@ -1287,16 +1183,15 @@ extension Lightsail {
             self.staticIp = staticIp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let staticIp = dictionary["staticIp"] as? [String: Any] { self.staticIp = try Lightsail.StaticIp(dictionary: staticIp) } else { self.staticIp = nil }
+        private enum CodingKeys: String, CodingKey {
+            case staticIp = "staticIp"
         }
     }
 
     public struct DetachStaticIpRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "staticIpName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "staticIpName", required: true, type: .string)
         ]
         /// The name of the static IP to detach from the instance.
         public let staticIpName: String
@@ -1305,18 +1200,16 @@ extension Lightsail {
             self.staticIpName = staticIpName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let staticIpName = dictionary["staticIpName"] as? String else { throw InitializableError.missingRequiredParam("staticIpName") }
-            self.staticIpName = staticIpName
+        private enum CodingKeys: String, CodingKey {
+            case staticIpName = "staticIpName"
         }
     }
 
     public struct GetActiveNamesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "activeNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "activeNames", required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get active names request.
         public let nextPageToken: String?
@@ -1328,17 +1221,16 @@ extension Lightsail {
             self.activeNames = activeNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            self.activeNames = dictionary["activeNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case activeNames = "activeNames"
         }
     }
 
     public struct DeleteInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The name of the instance to delete.
         public let instanceName: String
@@ -1347,19 +1239,17 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
         }
     }
 
     public struct GetOperationsForResourceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageCount", required: false, type: .string), 
-            AWSShapeProperty(label: "operations", required: false, type: .list), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageCount", required: false, type: .string), 
+            AWSShapeMember(label: "operations", required: false, type: .list), 
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
         ]
         /// (Deprecated) Returns the number of pages of results that remain.  In releases prior to June 12, 2017, this parameter returned null by the API. It is now deprecated, and the API returns the nextPageToken parameter instead. 
         public let nextPageCount: String?
@@ -1374,18 +1264,14 @@ extension Lightsail {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageCount = dictionary["nextPageCount"] as? String
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
-            self.nextPageToken = dictionary["nextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextPageCount = "nextPageCount"
+            case operations = "operations"
+            case nextPageToken = "nextPageToken"
         }
     }
 
-    public enum InstanceMetricName: String, CustomStringConvertible {
+    public enum InstanceMetricName: String, CustomStringConvertible, Codable {
         case cpuutilization = "CPUUtilization"
         case networkin = "NetworkIn"
         case networkout = "NetworkOut"
@@ -1395,7 +1281,7 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
-    public enum PortAccessType: String, CustomStringConvertible {
+    public enum PortAccessType: String, CustomStringConvertible, Codable {
         case `public` = "Public"
         case `private` = "Private"
         public var description: String { return self.rawValue }
@@ -1403,22 +1289,21 @@ extension Lightsail {
 
     public struct Disk: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "isAttached", required: false, type: .boolean), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "supportCode", required: false, type: .string), 
-            AWSShapeProperty(label: "isSystemDisk", required: false, type: .boolean), 
-            AWSShapeProperty(label: "attachmentState", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string), 
-            AWSShapeProperty(label: "attachedTo", required: false, type: .string), 
-            AWSShapeProperty(label: "sizeInGb", required: false, type: .integer), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "path", required: false, type: .string), 
-            AWSShapeProperty(label: "gbInUse", required: false, type: .integer), 
-            AWSShapeProperty(label: "iops", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "isAttached", required: false, type: .boolean), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "supportCode", required: false, type: .string), 
+            AWSShapeMember(label: "isSystemDisk", required: false, type: .boolean), 
+            AWSShapeMember(label: "attachmentState", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "attachedTo", required: false, type: .string), 
+            AWSShapeMember(label: "sizeInGb", required: false, type: .integer), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "path", required: false, type: .string), 
+            AWSShapeMember(label: "gbInUse", required: false, type: .integer), 
+            AWSShapeMember(label: "iops", required: false, type: .integer)
         ]
         /// A Boolean value indicating whether the disk is attached.
         public let isAttached: Bool?
@@ -1427,7 +1312,7 @@ extension Lightsail {
         /// The resource type of the disk. 
         public let resourceType: ResourceType?
         /// The date when the disk was created.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
         /// A Boolean value indicating whether this disk is a system disk (has an operating system loaded on it).
@@ -1449,7 +1334,7 @@ extension Lightsail {
         /// The input/output operations per second (IOPS) of the disk.
         public let iops: Int32?
 
-        public init(isAttached: Bool? = nil, name: String? = nil, resourceType: ResourceType? = nil, createdAt: String? = nil, supportCode: String? = nil, isSystemDisk: Bool? = nil, attachmentState: String? = nil, arn: String? = nil, attachedTo: String? = nil, sizeInGb: Int32? = nil, location: ResourceLocation? = nil, path: String? = nil, gbInUse: Int32? = nil, iops: Int32? = nil) {
+        public init(isAttached: Bool? = nil, name: String? = nil, resourceType: ResourceType? = nil, createdAt: Double? = nil, supportCode: String? = nil, isSystemDisk: Bool? = nil, attachmentState: String? = nil, arn: String? = nil, attachedTo: String? = nil, sizeInGb: Int32? = nil, location: ResourceLocation? = nil, path: String? = nil, gbInUse: Int32? = nil, iops: Int32? = nil) {
             self.isAttached = isAttached
             self.name = name
             self.resourceType = resourceType
@@ -1466,29 +1351,28 @@ extension Lightsail {
             self.iops = iops
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.isAttached = dictionary["isAttached"] as? Bool
-            self.name = dictionary["name"] as? String
-            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
-            self.createdAt = dictionary["createdAt"] as? String
-            self.supportCode = dictionary["supportCode"] as? String
-            self.isSystemDisk = dictionary["isSystemDisk"] as? Bool
-            self.attachmentState = dictionary["attachmentState"] as? String
-            self.arn = dictionary["arn"] as? String
-            self.attachedTo = dictionary["attachedTo"] as? String
-            self.sizeInGb = dictionary["sizeInGb"] as? Int32
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
-            self.path = dictionary["path"] as? String
-            self.gbInUse = dictionary["gbInUse"] as? Int32
-            self.iops = dictionary["iops"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case isAttached = "isAttached"
+            case name = "name"
+            case resourceType = "resourceType"
+            case createdAt = "createdAt"
+            case supportCode = "supportCode"
+            case isSystemDisk = "isSystemDisk"
+            case attachmentState = "attachmentState"
+            case arn = "arn"
+            case attachedTo = "attachedTo"
+            case sizeInGb = "sizeInGb"
+            case location = "location"
+            case path = "path"
+            case gbInUse = "gbInUse"
+            case iops = "iops"
         }
     }
 
     public struct GetDomainsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
         ]
         /// A token used for advancing to the next page of results from your get domains request.
         public let pageToken: String?
@@ -1497,16 +1381,15 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageToken = dictionary["pageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
         }
     }
 
     public struct UpdateDomainEntryResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
@@ -1515,20 +1398,15 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
     public struct GetKeyPairsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
         ]
         /// A token used for advancing to the next page of results from your get key pairs request.
         public let pageToken: String?
@@ -1537,20 +1415,19 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageToken = dictionary["pageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
         }
     }
 
     public struct DomainEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "options", required: false, type: .map), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "target", required: false, type: .string), 
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "options", required: false, type: .map), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "target", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .string)
         ]
         /// The options for the domain entry.
         public let options: [String: String]?
@@ -1571,25 +1448,20 @@ extension Lightsail {
             self.`type` = `type`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let options = dictionary["options"] as? [String: String] {
-                self.options = options
-            } else { 
-                self.options = nil
-            }
-            self.name = dictionary["name"] as? String
-            self.target = dictionary["target"] as? String
-            self.id = dictionary["id"] as? String
-            self.`type` = dictionary["type"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case options = "options"
+            case name = "name"
+            case target = "target"
+            case id = "id"
+            case `type` = "type"
         }
     }
 
     public struct DownloadDefaultKeyPairResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "privateKeyBase64", required: false, type: .string), 
-            AWSShapeProperty(label: "publicKeyBase64", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "privateKeyBase64", required: false, type: .string), 
+            AWSShapeMember(label: "publicKeyBase64", required: false, type: .string)
         ]
         /// A base64-encoded RSA private key.
         public let privateKeyBase64: String?
@@ -1601,17 +1473,16 @@ extension Lightsail {
             self.publicKeyBase64 = publicKeyBase64
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.privateKeyBase64 = dictionary["privateKeyBase64"] as? String
-            self.publicKeyBase64 = dictionary["publicKeyBase64"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case privateKeyBase64 = "privateKeyBase64"
+            case publicKeyBase64 = "publicKeyBase64"
         }
     }
 
     public struct CreateInstancesFromSnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the results of your create instances from snapshot request.
         public let operations: [Operation]?
@@ -1620,21 +1491,16 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .string), 
-            AWSShapeProperty(label: "zoneName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .string), 
+            AWSShapeMember(label: "zoneName", required: false, type: .string)
         ]
         /// The state of the Availability Zone.
         public let state: String?
@@ -1646,21 +1512,18 @@ extension Lightsail {
             self.zoneName = zoneName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.state = dictionary["state"] as? String
-            self.zoneName = dictionary["zoneName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case zoneName = "zoneName"
         }
     }
 
     public struct IsVpcPeeredRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum MetricUnit: String, CustomStringConvertible {
+    public enum MetricUnit: String, CustomStringConvertible, Codable {
         case seconds = "Seconds"
         case microseconds = "Microseconds"
         case milliseconds = "Milliseconds"
@@ -1693,10 +1556,9 @@ extension Lightsail {
 
     public struct CreateDomainEntryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainEntry", required: true, type: .structure), 
-            AWSShapeProperty(label: "domainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainEntry", required: true, type: .structure), 
+            AWSShapeMember(label: "domainName", required: true, type: .string)
         ]
         /// An array of key-value pairs containing information about the domain entry request.
         public let domainEntry: DomainEntry
@@ -1708,20 +1570,17 @@ extension Lightsail {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainEntry = dictionary["domainEntry"] as? [String: Any] else { throw InitializableError.missingRequiredParam("domainEntry") }
-            self.domainEntry = try Lightsail.DomainEntry(dictionary: domainEntry)
-            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainEntry = "domainEntry"
+            case domainName = "domainName"
         }
     }
 
     public struct CreateInstanceSnapshotRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceSnapshotName", required: true, type: .string), 
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The name for your new snapshot.
         public let instanceSnapshotName: String
@@ -1733,19 +1592,16 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceSnapshotName = dictionary["instanceSnapshotName"] as? String else { throw InitializableError.missingRequiredParam("instanceSnapshotName") }
-            self.instanceSnapshotName = instanceSnapshotName
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
+        private enum CodingKeys: String, CodingKey {
+            case instanceSnapshotName = "instanceSnapshotName"
+            case instanceName = "instanceName"
         }
     }
 
     public struct StopInstanceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
@@ -1754,21 +1610,16 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
     public struct GetInstancesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "instances", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "instances", required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get instances request.
         public let nextPageToken: String?
@@ -1780,17 +1631,13 @@ extension Lightsail {
             self.instances = instances
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            if let instances = dictionary["instances"] as? [[String: Any]] {
-                self.instances = try instances.map({ try Instance(dictionary: $0) })
-            } else { 
-                self.instances = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case instances = "instances"
         }
     }
 
-    public enum MetricStatistic: String, CustomStringConvertible {
+    public enum MetricStatistic: String, CustomStringConvertible, Codable {
         case minimum = "Minimum"
         case maximum = "Maximum"
         case sum = "Sum"
@@ -1801,10 +1648,9 @@ extension Lightsail {
 
     public struct InstanceState: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "code", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "code", required: false, type: .integer)
         ]
         /// The state of the instance (e.g., running or pending).
         public let name: String?
@@ -1816,17 +1662,16 @@ extension Lightsail {
             self.code = code
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.code = dictionary["code"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case code = "code"
         }
     }
 
     public struct PeerVpcResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
@@ -1835,16 +1680,15 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 
     public struct GetInstanceSnapshotRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceSnapshotName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string)
         ]
         /// The name of the snapshot for which you are requesting information.
         public let instanceSnapshotName: String
@@ -1853,17 +1697,15 @@ extension Lightsail {
             self.instanceSnapshotName = instanceSnapshotName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceSnapshotName = dictionary["instanceSnapshotName"] as? String else { throw InitializableError.missingRequiredParam("instanceSnapshotName") }
-            self.instanceSnapshotName = instanceSnapshotName
+        private enum CodingKeys: String, CodingKey {
+            case instanceSnapshotName = "instanceSnapshotName"
         }
     }
 
     public struct AllocateStaticIpResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the static IP address you allocated.
         public let operations: [Operation]?
@@ -1872,20 +1714,15 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
     public struct DeleteKeyPairResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the results of your delete key pair request.
         public let operation: Operation?
@@ -1894,16 +1731,15 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 
     public struct GetKeyPairResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "keyPair", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "keyPair", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the key pair.
         public let keyPair: KeyPair?
@@ -1912,16 +1748,15 @@ extension Lightsail {
             self.keyPair = keyPair
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let keyPair = dictionary["keyPair"] as? [String: Any] { self.keyPair = try Lightsail.KeyPair(dictionary: keyPair) } else { self.keyPair = nil }
+        private enum CodingKeys: String, CodingKey {
+            case keyPair = "keyPair"
         }
     }
 
     public struct GetRegionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "includeAvailabilityZones", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "includeAvailabilityZones", required: false, type: .boolean)
         ]
         /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: e.g., us-east-1a.
         public let includeAvailabilityZones: Bool?
@@ -1930,17 +1765,16 @@ extension Lightsail {
             self.includeAvailabilityZones = includeAvailabilityZones
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.includeAvailabilityZones = dictionary["includeAvailabilityZones"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case includeAvailabilityZones = "includeAvailabilityZones"
         }
     }
 
     public struct PutInstancePublicPortsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "portInfos", required: true, type: .list), 
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "portInfos", required: true, type: .list), 
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// Specifies information about the public port(s).
         public let portInfos: [PortInfo]
@@ -1952,19 +1786,16 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let portInfos = dictionary["portInfos"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("portInfos") }
-            self.portInfos = try portInfos.map({ try PortInfo(dictionary: $0) })
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
+        private enum CodingKeys: String, CodingKey {
+            case portInfos = "portInfos"
+            case instanceName = "instanceName"
         }
     }
 
     public struct GetInstanceAccessDetailsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "accessDetails", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "accessDetails", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about a get instance access request.
         public let accessDetails: InstanceAccessDetails?
@@ -1973,16 +1804,15 @@ extension Lightsail {
             self.accessDetails = accessDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let accessDetails = dictionary["accessDetails"] as? [String: Any] { self.accessDetails = try Lightsail.InstanceAccessDetails(dictionary: accessDetails) } else { self.accessDetails = nil }
+        private enum CodingKeys: String, CodingKey {
+            case accessDetails = "accessDetails"
         }
     }
 
     public struct AttachStaticIpResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about your API operations.
         public let operations: [Operation]?
@@ -1991,22 +1821,17 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
     public struct PortInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "fromPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "toPort", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "fromPort", required: false, type: .integer), 
+            AWSShapeMember(label: "toPort", required: false, type: .integer)
         ]
         /// The protocol. 
         public let `protocol`: NetworkProtocol?
@@ -2021,18 +1846,17 @@ extension Lightsail {
             self.toPort = toPort
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `protocol` = dictionary["protocol"] as? String { self.`protocol` = NetworkProtocol(rawValue: `protocol`) } else { self.`protocol` = nil }
-            self.fromPort = dictionary["fromPort"] as? Int32
-            self.toPort = dictionary["toPort"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case `protocol` = "protocol"
+            case fromPort = "fromPort"
+            case toPort = "toPort"
         }
     }
 
     public struct GetActiveNamesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
         ]
         /// A token used for paginating results from your get active names request.
         public let pageToken: String?
@@ -2041,16 +1865,15 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageToken = dictionary["pageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
         }
     }
 
     public struct RebootInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The name of the instance to reboot.
         public let instanceName: String
@@ -2059,23 +1882,21 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
         }
     }
 
     public struct MetricDatapoint: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sampleCount", required: false, type: .double), 
-            AWSShapeProperty(label: "unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "average", required: false, type: .double), 
-            AWSShapeProperty(label: "maximum", required: false, type: .double), 
-            AWSShapeProperty(label: "minimum", required: false, type: .double), 
-            AWSShapeProperty(label: "sum", required: false, type: .double), 
-            AWSShapeProperty(label: "timestamp", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sampleCount", required: false, type: .double), 
+            AWSShapeMember(label: "unit", required: false, type: .enum), 
+            AWSShapeMember(label: "average", required: false, type: .double), 
+            AWSShapeMember(label: "maximum", required: false, type: .double), 
+            AWSShapeMember(label: "minimum", required: false, type: .double), 
+            AWSShapeMember(label: "sum", required: false, type: .double), 
+            AWSShapeMember(label: "timestamp", required: false, type: .timestamp)
         ]
         /// The sample count.
         public let sampleCount: Double?
@@ -2090,9 +1911,9 @@ extension Lightsail {
         /// The sum.
         public let sum: Double?
         /// The timestamp (e.g., 1479816991.349).
-        public let timestamp: String?
+        public let timestamp: Double?
 
-        public init(sampleCount: Double? = nil, unit: MetricUnit? = nil, average: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sum: Double? = nil, timestamp: String? = nil) {
+        public init(sampleCount: Double? = nil, unit: MetricUnit? = nil, average: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sum: Double? = nil, timestamp: Double? = nil) {
             self.sampleCount = sampleCount
             self.unit = unit
             self.average = average
@@ -2102,22 +1923,21 @@ extension Lightsail {
             self.timestamp = timestamp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sampleCount = dictionary["sampleCount"] as? Double
-            if let unit = dictionary["unit"] as? String { self.unit = MetricUnit(rawValue: unit) } else { self.unit = nil }
-            self.average = dictionary["average"] as? Double
-            self.maximum = dictionary["maximum"] as? Double
-            self.minimum = dictionary["minimum"] as? Double
-            self.sum = dictionary["sum"] as? Double
-            self.timestamp = dictionary["timestamp"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sampleCount = "sampleCount"
+            case unit = "unit"
+            case average = "average"
+            case maximum = "maximum"
+            case minimum = "minimum"
+            case sum = "sum"
+            case timestamp = "timestamp"
         }
     }
 
     public struct GetInstancesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
         ]
         /// A token used for advancing to the next page of results from your get instances request.
         public let pageToken: String?
@@ -2126,17 +1946,16 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageToken = dictionary["pageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
         }
     }
 
     public struct InstanceNetworking: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ports", required: false, type: .list), 
-            AWSShapeProperty(label: "monthlyTransfer", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ports", required: false, type: .list), 
+            AWSShapeMember(label: "monthlyTransfer", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the ports on the instance.
         public let ports: [InstancePortInfo]?
@@ -2148,17 +1967,13 @@ extension Lightsail {
             self.monthlyTransfer = monthlyTransfer
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let ports = dictionary["ports"] as? [[String: Any]] {
-                self.ports = try ports.map({ try InstancePortInfo(dictionary: $0) })
-            } else { 
-                self.ports = nil
-            }
-            if let monthlyTransfer = dictionary["monthlyTransfer"] as? [String: Any] { self.monthlyTransfer = try Lightsail.MonthlyTransfer(dictionary: monthlyTransfer) } else { self.monthlyTransfer = nil }
+        private enum CodingKeys: String, CodingKey {
+            case ports = "ports"
+            case monthlyTransfer = "monthlyTransfer"
         }
     }
 
-    public enum InstanceSnapshotState: String, CustomStringConvertible {
+    public enum InstanceSnapshotState: String, CustomStringConvertible, Codable {
         case pending = "pending"
         case error = "error"
         case available = "available"
@@ -2167,17 +1982,13 @@ extension Lightsail {
 
     public struct DownloadDefaultKeyPairRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct PutInstancePublicPortsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
         /// Describes metadata about the operation you just executed.
         public let operation: Operation?
@@ -2186,16 +1997,15 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 
     public struct GetInstanceSnapshotsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
         ]
         /// A token used for advancing to the next page of results from your get instance snapshots request.
         public let pageToken: String?
@@ -2204,16 +2014,15 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageToken = dictionary["pageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetInstanceSnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceSnapshot", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceSnapshot", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the results of your get instance snapshot request.
         public let instanceSnapshot: InstanceSnapshot?
@@ -2222,12 +2031,12 @@ extension Lightsail {
             self.instanceSnapshot = instanceSnapshot
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceSnapshot = dictionary["instanceSnapshot"] as? [String: Any] { self.instanceSnapshot = try Lightsail.InstanceSnapshot(dictionary: instanceSnapshot) } else { self.instanceSnapshot = nil }
+        private enum CodingKeys: String, CodingKey {
+            case instanceSnapshot = "instanceSnapshot"
         }
     }
 
-    public enum InstanceAccessProtocol: String, CustomStringConvertible {
+    public enum InstanceAccessProtocol: String, CustomStringConvertible, Codable {
         case ssh = "ssh"
         case rdp = "rdp"
         public var description: String { return self.rawValue }
@@ -2235,10 +2044,9 @@ extension Lightsail {
 
     public struct DeleteDomainEntryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainEntry", required: true, type: .structure), 
-            AWSShapeProperty(label: "domainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainEntry", required: true, type: .structure), 
+            AWSShapeMember(label: "domainName", required: true, type: .string)
         ]
         /// An array of key-value pairs containing information about your domain entries.
         public let domainEntry: DomainEntry
@@ -2250,30 +2058,27 @@ extension Lightsail {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainEntry = dictionary["domainEntry"] as? [String: Any] else { throw InitializableError.missingRequiredParam("domainEntry") }
-            self.domainEntry = try Lightsail.DomainEntry(dictionary: domainEntry)
-            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainEntry = "domainEntry"
+            case domainName = "domainName"
         }
     }
 
     public struct Operation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operationType", required: false, type: .enum), 
-            AWSShapeProperty(label: "isTerminal", required: false, type: .boolean), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "errorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceName", required: false, type: .string), 
-            AWSShapeProperty(label: "errorDetails", required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "statusChangedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "operationDetails", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operationType", required: false, type: .enum), 
+            AWSShapeMember(label: "isTerminal", required: false, type: .boolean), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "errorCode", required: false, type: .string), 
+            AWSShapeMember(label: "resourceName", required: false, type: .string), 
+            AWSShapeMember(label: "errorDetails", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "statusChangedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "operationDetails", required: false, type: .string)
         ]
         /// The type of operation. 
         public let operationType: OperationType?
@@ -2292,15 +2097,15 @@ extension Lightsail {
         /// The error details.
         public let errorDetails: String?
         /// The timestamp when the operation was initialized (e.g., 1479816991.349).
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The status of the operation. 
         public let status: OperationStatus?
         /// The timestamp when the status was changed (e.g., 1479816991.349).
-        public let statusChangedAt: String?
+        public let statusChangedAt: Double?
         /// Details about the operation (e.g., Debian-1GB-Virginia-1).
         public let operationDetails: String?
 
-        public init(operationType: OperationType? = nil, isTerminal: Bool? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, id: String? = nil, errorCode: String? = nil, resourceName: String? = nil, errorDetails: String? = nil, createdAt: String? = nil, status: OperationStatus? = nil, statusChangedAt: String? = nil, operationDetails: String? = nil) {
+        public init(operationType: OperationType? = nil, isTerminal: Bool? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, id: String? = nil, errorCode: String? = nil, resourceName: String? = nil, errorDetails: String? = nil, createdAt: Double? = nil, status: OperationStatus? = nil, statusChangedAt: Double? = nil, operationDetails: String? = nil) {
             self.operationType = operationType
             self.isTerminal = isTerminal
             self.location = location
@@ -2315,28 +2120,27 @@ extension Lightsail {
             self.operationDetails = operationDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operationType = dictionary["operationType"] as? String { self.operationType = OperationType(rawValue: operationType) } else { self.operationType = nil }
-            self.isTerminal = dictionary["isTerminal"] as? Bool
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
-            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
-            self.id = dictionary["id"] as? String
-            self.errorCode = dictionary["errorCode"] as? String
-            self.resourceName = dictionary["resourceName"] as? String
-            self.errorDetails = dictionary["errorDetails"] as? String
-            self.createdAt = dictionary["createdAt"] as? String
-            if let status = dictionary["status"] as? String { self.status = OperationStatus(rawValue: status) } else { self.status = nil }
-            self.statusChangedAt = dictionary["statusChangedAt"] as? String
-            self.operationDetails = dictionary["operationDetails"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case operationType = "operationType"
+            case isTerminal = "isTerminal"
+            case location = "location"
+            case resourceType = "resourceType"
+            case id = "id"
+            case errorCode = "errorCode"
+            case resourceName = "resourceName"
+            case errorDetails = "errorDetails"
+            case createdAt = "createdAt"
+            case status = "status"
+            case statusChangedAt = "statusChangedAt"
+            case operationDetails = "operationDetails"
         }
     }
 
     public struct ResourceLocation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "regionName", required: false, type: .enum), 
-            AWSShapeProperty(label: "availabilityZone", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "regionName", required: false, type: .enum), 
+            AWSShapeMember(label: "availabilityZone", required: false, type: .string)
         ]
         /// The AWS Region name.
         public let regionName: RegionName?
@@ -2348,18 +2152,17 @@ extension Lightsail {
             self.availabilityZone = availabilityZone
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let regionName = dictionary["regionName"] as? String { self.regionName = RegionName(rawValue: regionName) } else { self.regionName = nil }
-            self.availabilityZone = dictionary["availabilityZone"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case regionName = "regionName"
+            case availabilityZone = "availabilityZone"
         }
     }
 
     public struct GetOperationsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get operations request.
         public let nextPageToken: String?
@@ -2371,22 +2174,17 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case operations = "operations"
         }
     }
 
     public struct GetBlueprintsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "blueprints", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "blueprints", required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get blueprints request.
         public let nextPageToken: String?
@@ -2398,21 +2196,16 @@ extension Lightsail {
             self.blueprints = blueprints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            if let blueprints = dictionary["blueprints"] as? [[String: Any]] {
-                self.blueprints = try blueprints.map({ try Blueprint(dictionary: $0) })
-            } else { 
-                self.blueprints = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case blueprints = "blueprints"
         }
     }
 
     public struct CreateKeyPairRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "keyPairName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "keyPairName", required: true, type: .string)
         ]
         /// The name for your new key pair.
         public let keyPairName: String
@@ -2421,17 +2214,15 @@ extension Lightsail {
             self.keyPairName = keyPairName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyPairName = dictionary["keyPairName"] as? String else { throw InitializableError.missingRequiredParam("keyPairName") }
-            self.keyPairName = keyPairName
+        private enum CodingKeys: String, CodingKey {
+            case keyPairName = "keyPairName"
         }
     }
 
     public struct ReleaseStaticIpResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
@@ -2440,20 +2231,15 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
     public struct DetachStaticIpResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the results of your detach static IP request.
         public let operations: [Operation]?
@@ -2462,16 +2248,12 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
-    public enum OperationType: String, CustomStringConvertible {
+    public enum OperationType: String, CustomStringConvertible, Codable {
         case deleteinstance = "DeleteInstance"
         case createinstance = "CreateInstance"
         case stopinstance = "StopInstance"
@@ -2496,10 +2278,9 @@ extension Lightsail {
 
     public struct ImportKeyPairRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "keyPairName", required: true, type: .string), 
-            AWSShapeProperty(label: "publicKeyBase64", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "keyPairName", required: true, type: .string), 
+            AWSShapeMember(label: "publicKeyBase64", required: true, type: .string)
         ]
         /// The name of the key pair for which you want to import the public key.
         public let keyPairName: String
@@ -2511,20 +2292,17 @@ extension Lightsail {
             self.publicKeyBase64 = publicKeyBase64
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyPairName = dictionary["keyPairName"] as? String else { throw InitializableError.missingRequiredParam("keyPairName") }
-            self.keyPairName = keyPairName
-            guard let publicKeyBase64 = dictionary["publicKeyBase64"] as? String else { throw InitializableError.missingRequiredParam("publicKeyBase64") }
-            self.publicKeyBase64 = publicKeyBase64
+        private enum CodingKeys: String, CodingKey {
+            case keyPairName = "keyPairName"
+            case publicKeyBase64 = "publicKeyBase64"
         }
     }
 
     public struct GetBlueprintsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "includeInactive", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string), 
+            AWSShapeMember(label: "includeInactive", required: false, type: .boolean)
         ]
         /// A token used for advancing to the next page of results from your get blueprints request.
         public let pageToken: String?
@@ -2536,17 +2314,16 @@ extension Lightsail {
             self.includeInactive = includeInactive
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageToken = dictionary["pageToken"] as? String
-            self.includeInactive = dictionary["includeInactive"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
+            case includeInactive = "includeInactive"
         }
     }
 
     public struct DeleteKeyPairRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "keyPairName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "keyPairName", required: true, type: .string)
         ]
         /// The name of the key pair to delete.
         public let keyPairName: String
@@ -2555,23 +2332,21 @@ extension Lightsail {
             self.keyPairName = keyPairName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyPairName = dictionary["keyPairName"] as? String else { throw InitializableError.missingRequiredParam("keyPairName") }
-            self.keyPairName = keyPairName
+        private enum CodingKeys: String, CodingKey {
+            case keyPairName = "keyPairName"
         }
     }
 
     public struct InstancePortInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "accessFrom", required: false, type: .string), 
-            AWSShapeProperty(label: "fromPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "commonName", required: false, type: .string), 
-            AWSShapeProperty(label: "protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "accessDirection", required: false, type: .enum), 
-            AWSShapeProperty(label: "accessType", required: false, type: .enum), 
-            AWSShapeProperty(label: "toPort", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "accessFrom", required: false, type: .string), 
+            AWSShapeMember(label: "fromPort", required: false, type: .integer), 
+            AWSShapeMember(label: "commonName", required: false, type: .string), 
+            AWSShapeMember(label: "protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "accessDirection", required: false, type: .enum), 
+            AWSShapeMember(label: "accessType", required: false, type: .enum), 
+            AWSShapeMember(label: "toPort", required: false, type: .integer)
         ]
         /// The location from which access is allowed (e.g., Anywhere (0.0.0.0/0)).
         public let accessFrom: String?
@@ -2598,22 +2373,21 @@ extension Lightsail {
             self.toPort = toPort
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.accessFrom = dictionary["accessFrom"] as? String
-            self.fromPort = dictionary["fromPort"] as? Int32
-            self.commonName = dictionary["commonName"] as? String
-            if let `protocol` = dictionary["protocol"] as? String { self.`protocol` = NetworkProtocol(rawValue: `protocol`) } else { self.`protocol` = nil }
-            if let accessDirection = dictionary["accessDirection"] as? String { self.accessDirection = AccessDirection(rawValue: accessDirection) } else { self.accessDirection = nil }
-            if let accessType = dictionary["accessType"] as? String { self.accessType = PortAccessType(rawValue: accessType) } else { self.accessType = nil }
-            self.toPort = dictionary["toPort"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case accessFrom = "accessFrom"
+            case fromPort = "fromPort"
+            case commonName = "commonName"
+            case `protocol` = "protocol"
+            case accessDirection = "accessDirection"
+            case accessType = "accessType"
+            case toPort = "toPort"
         }
     }
 
     public struct GetDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", required: true, type: .string)
         ]
         /// The domain name for which your want to return information about.
         public let domainName: String
@@ -2622,17 +2396,15 @@ extension Lightsail {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
         }
     }
 
     public struct GetInstancePortStatesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The name of the instance.
         public let instanceName: String
@@ -2641,17 +2413,15 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
         }
     }
 
     public struct GetInstanceStateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The name of the instance to get state information about.
         public let instanceName: String
@@ -2660,17 +2430,15 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
         }
     }
 
     public struct DeleteInstanceSnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the results of your delete instance snapshot request.
         public let operations: [Operation]?
@@ -2679,26 +2447,21 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
     public struct CreateInstancesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "availabilityZone", required: true, type: .string), 
-            AWSShapeProperty(label: "keyPairName", required: false, type: .string), 
-            AWSShapeProperty(label: "customImageName", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceNames", required: true, type: .list), 
-            AWSShapeProperty(label: "bundleId", required: true, type: .string), 
-            AWSShapeProperty(label: "userData", required: false, type: .string), 
-            AWSShapeProperty(label: "blueprintId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
+            AWSShapeMember(label: "keyPairName", required: false, type: .string), 
+            AWSShapeMember(label: "customImageName", required: false, type: .string), 
+            AWSShapeMember(label: "instanceNames", required: true, type: .list), 
+            AWSShapeMember(label: "bundleId", required: true, type: .string), 
+            AWSShapeMember(label: "userData", required: false, type: .string), 
+            AWSShapeMember(label: "blueprintId", required: true, type: .string)
         ]
         /// The Availability Zone in which to create your instance. Use the following format: us-east-1a (case sensitive). You can get a list of availability zones by using the get regions operation. Be sure to add the include availability zones parameter to your request.
         public let availabilityZone: String
@@ -2725,36 +2488,31 @@ extension Lightsail {
             self.blueprintId = blueprintId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let availabilityZone = dictionary["availabilityZone"] as? String else { throw InitializableError.missingRequiredParam("availabilityZone") }
-            self.availabilityZone = availabilityZone
-            self.keyPairName = dictionary["keyPairName"] as? String
-            self.customImageName = dictionary["customImageName"] as? String
-            guard let instanceNames = dictionary["instanceNames"] as? [String] else { throw InitializableError.missingRequiredParam("instanceNames") }
-            self.instanceNames = instanceNames
-            guard let bundleId = dictionary["bundleId"] as? String else { throw InitializableError.missingRequiredParam("bundleId") }
-            self.bundleId = bundleId
-            self.userData = dictionary["userData"] as? String
-            guard let blueprintId = dictionary["blueprintId"] as? String else { throw InitializableError.missingRequiredParam("blueprintId") }
-            self.blueprintId = blueprintId
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
+            case keyPairName = "keyPairName"
+            case customImageName = "customImageName"
+            case instanceNames = "instanceNames"
+            case bundleId = "bundleId"
+            case userData = "userData"
+            case blueprintId = "blueprintId"
         }
     }
 
     public struct Blueprint: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "isActive", required: false, type: .boolean), 
-            AWSShapeProperty(label: "productUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "licenseUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "versionCode", required: false, type: .string), 
-            AWSShapeProperty(label: "group", required: false, type: .string), 
-            AWSShapeProperty(label: "minPower", required: false, type: .integer), 
-            AWSShapeProperty(label: "blueprintId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "isActive", required: false, type: .boolean), 
+            AWSShapeMember(label: "productUrl", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "licenseUrl", required: false, type: .string), 
+            AWSShapeMember(label: "versionCode", required: false, type: .string), 
+            AWSShapeMember(label: "group", required: false, type: .string), 
+            AWSShapeMember(label: "minPower", required: false, type: .integer), 
+            AWSShapeMember(label: "blueprintId", required: false, type: .string)
         ]
         /// The type of the blueprint (e.g., os or app).
         public let `type`: BlueprintType?
@@ -2793,26 +2551,25 @@ extension Lightsail {
             self.blueprintId = blueprintId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["type"] as? String { self.`type` = BlueprintType(rawValue: `type`) } else { self.`type` = nil }
-            self.isActive = dictionary["isActive"] as? Bool
-            self.productUrl = dictionary["productUrl"] as? String
-            self.name = dictionary["name"] as? String
-            self.description = dictionary["description"] as? String
-            self.version = dictionary["version"] as? String
-            self.licenseUrl = dictionary["licenseUrl"] as? String
-            self.versionCode = dictionary["versionCode"] as? String
-            self.group = dictionary["group"] as? String
-            self.minPower = dictionary["minPower"] as? Int32
-            self.blueprintId = dictionary["blueprintId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case isActive = "isActive"
+            case productUrl = "productUrl"
+            case name = "name"
+            case description = "description"
+            case version = "version"
+            case licenseUrl = "licenseUrl"
+            case versionCode = "versionCode"
+            case group = "group"
+            case minPower = "minPower"
+            case blueprintId = "blueprintId"
         }
     }
 
     public struct DeleteInstanceSnapshotRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceSnapshotName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string)
         ]
         /// The name of the snapshot to delete.
         public let instanceSnapshotName: String
@@ -2821,18 +2578,16 @@ extension Lightsail {
             self.instanceSnapshotName = instanceSnapshotName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceSnapshotName = dictionary["instanceSnapshotName"] as? String else { throw InitializableError.missingRequiredParam("instanceSnapshotName") }
-            self.instanceSnapshotName = instanceSnapshotName
+        private enum CodingKeys: String, CodingKey {
+            case instanceSnapshotName = "instanceSnapshotName"
         }
     }
 
     public struct GetBundlesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "bundles", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "bundles", required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get active names request.
         public let nextPageToken: String?
@@ -2844,25 +2599,20 @@ extension Lightsail {
             self.bundles = bundles
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            if let bundles = dictionary["bundles"] as? [[String: Any]] {
-                self.bundles = try bundles.map({ try Bundle(dictionary: $0) })
-            } else { 
-                self.bundles = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case bundles = "bundles"
         }
     }
 
     public struct Region: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "displayName", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .enum), 
-            AWSShapeProperty(label: "continentCode", required: false, type: .string), 
-            AWSShapeProperty(label: "availabilityZones", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "displayName", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .enum), 
+            AWSShapeMember(label: "continentCode", required: false, type: .string), 
+            AWSShapeMember(label: "availabilityZones", required: false, type: .list)
         ]
         /// The description of the AWS Region (e.g., This region is recommended to serve users in the eastern United States and eastern Canada).
         public let description: String?
@@ -2883,24 +2633,19 @@ extension Lightsail {
             self.availabilityZones = availabilityZones
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            self.displayName = dictionary["displayName"] as? String
-            if let name = dictionary["name"] as? String { self.name = RegionName(rawValue: name) } else { self.name = nil }
-            self.continentCode = dictionary["continentCode"] as? String
-            if let availabilityZones = dictionary["availabilityZones"] as? [[String: Any]] {
-                self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
-            } else { 
-                self.availabilityZones = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case displayName = "displayName"
+            case name = "name"
+            case continentCode = "continentCode"
+            case availabilityZones = "availabilityZones"
         }
     }
 
     public struct CreateDomainEntryResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the operation.
         public let operation: Operation?
@@ -2909,12 +2654,12 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 
-    public enum NetworkProtocol: String, CustomStringConvertible {
+    public enum NetworkProtocol: String, CustomStringConvertible, Codable {
         case tcp = "tcp"
         case all = "all"
         case udp = "udp"
@@ -2923,10 +2668,9 @@ extension Lightsail {
 
     public struct UpdateDomainEntryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainEntry", required: true, type: .structure), 
-            AWSShapeProperty(label: "domainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainEntry", required: true, type: .structure), 
+            AWSShapeMember(label: "domainName", required: true, type: .string)
         ]
         /// An array of key-value pairs containing information about the domain entry.
         public let domainEntry: DomainEntry
@@ -2938,19 +2682,16 @@ extension Lightsail {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainEntry = dictionary["domainEntry"] as? [String: Any] else { throw InitializableError.missingRequiredParam("domainEntry") }
-            self.domainEntry = try Lightsail.DomainEntry(dictionary: domainEntry)
-            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainEntry = "domainEntry"
+            case domainName = "domainName"
         }
     }
 
     public struct GetDomainResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domain", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domain", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about your get domain request.
         public let domain: Domain?
@@ -2959,16 +2700,15 @@ extension Lightsail {
             self.domain = domain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let domain = dictionary["domain"] as? [String: Any] { self.domain = try Lightsail.Domain(dictionary: domain) } else { self.domain = nil }
+        private enum CodingKeys: String, CodingKey {
+            case domain = "domain"
         }
     }
 
     public struct CloseInstancePublicPortsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
         /// An array of key-value pairs that contains information about the operation.
         public let operation: Operation?
@@ -2977,16 +2717,15 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 
     public struct GetOperationResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the results of your get operation request.
         public let operation: Operation?
@@ -2995,16 +2734,15 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 
     public struct AllocateStaticIpRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "staticIpName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "staticIpName", required: true, type: .string)
         ]
         /// The name of the static IP address.
         public let staticIpName: String
@@ -3013,17 +2751,15 @@ extension Lightsail {
             self.staticIpName = staticIpName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let staticIpName = dictionary["staticIpName"] as? String else { throw InitializableError.missingRequiredParam("staticIpName") }
-            self.staticIpName = staticIpName
+        private enum CodingKeys: String, CodingKey {
+            case staticIpName = "staticIpName"
         }
     }
 
     public struct MonthlyTransfer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "gbPerMonthAllocated", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "gbPerMonthAllocated", required: false, type: .integer)
         ]
         /// The amount allocated per month (in GB).
         public let gbPerMonthAllocated: Int32?
@@ -3032,16 +2768,15 @@ extension Lightsail {
             self.gbPerMonthAllocated = gbPerMonthAllocated
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gbPerMonthAllocated = dictionary["gbPerMonthAllocated"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case gbPerMonthAllocated = "gbPerMonthAllocated"
         }
     }
 
     public struct UnpeerVpcResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
@@ -3050,12 +2785,12 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 
-    public enum PortState: String, CustomStringConvertible {
+    public enum PortState: String, CustomStringConvertible, Codable {
         case open = "open"
         case closed = "closed"
         public var description: String { return self.rawValue }
@@ -3063,9 +2798,8 @@ extension Lightsail {
 
     public struct StartInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The name of the instance (a virtual private server) to start.
         public let instanceName: String
@@ -3074,17 +2808,15 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
         }
     }
 
     public struct OpenInstancePublicPortsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operation", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operation", required: false, type: .structure)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operation: Operation?
@@ -3093,16 +2825,15 @@ extension Lightsail {
             self.operation = operation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case operation = "operation"
         }
     }
 
     public struct CreateInstanceSnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the results of your create instances snapshot request.
         public let operations: [Operation]?
@@ -3111,20 +2842,15 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
     public struct StartInstanceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
         ]
         /// An array of key-value pairs containing information about the request operation.
         public let operations: [Operation]?
@@ -3133,21 +2859,16 @@ extension Lightsail {
             self.operations = operations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
     public struct GetStaticIpsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "staticIps", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "staticIps", required: false, type: .list)
         ]
         /// A token used for advancing to the next page of results from your get static IPs request.
         public let nextPageToken: String?
@@ -3159,17 +2880,13 @@ extension Lightsail {
             self.staticIps = staticIps
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            if let staticIps = dictionary["staticIps"] as? [[String: Any]] {
-                self.staticIps = try staticIps.map({ try StaticIp(dictionary: $0) })
-            } else { 
-                self.staticIps = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case staticIps = "staticIps"
         }
     }
 
-    public enum AccessDirection: String, CustomStringConvertible {
+    public enum AccessDirection: String, CustomStringConvertible, Codable {
         case inbound = "inbound"
         case outbound = "outbound"
         public var description: String { return self.rawValue }
@@ -3177,15 +2894,14 @@ extension Lightsail {
 
     public struct GetInstanceMetricDataRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string), 
-            AWSShapeProperty(label: "unit", required: true, type: .enum), 
-            AWSShapeProperty(label: "statistics", required: true, type: .list), 
-            AWSShapeProperty(label: "endTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "period", required: true, type: .integer), 
-            AWSShapeProperty(label: "startTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "metricName", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string), 
+            AWSShapeMember(label: "unit", required: true, type: .enum), 
+            AWSShapeMember(label: "statistics", required: true, type: .list), 
+            AWSShapeMember(label: "endTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "period", required: true, type: .integer), 
+            AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "metricName", required: true, type: .enum)
         ]
         /// The name of the instance for which you want to get metrics data.
         public let instanceName: String
@@ -3194,15 +2910,15 @@ extension Lightsail {
         /// The instance statistics. 
         public let statistics: [MetricStatistic]
         /// The end time of the time period.
-        public let endTime: String
+        public let endTime: Double
         /// The time period for which you are requesting data.
         public let period: Int32
         /// The start time of the time period.
-        public let startTime: String
+        public let startTime: Double
         /// The metric name to get data about. 
         public let metricName: InstanceMetricName
 
-        public init(instanceName: String, unit: MetricUnit, statistics: [MetricStatistic], endTime: String, period: Int32, startTime: String, metricName: InstanceMetricName) {
+        public init(instanceName: String, unit: MetricUnit, statistics: [MetricStatistic], endTime: Double, period: Int32, startTime: Double, metricName: InstanceMetricName) {
             self.instanceName = instanceName
             self.unit = unit
             self.statistics = statistics
@@ -3212,29 +2928,21 @@ extension Lightsail {
             self.metricName = metricName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
-            guard let rawunit = dictionary["unit"] as? String, let unit = MetricUnit(rawValue: rawunit) else { throw InitializableError.missingRequiredParam("unit") }
-            self.unit = unit
-            guard let statistics = dictionary["statistics"] as? [String] else { throw InitializableError.missingRequiredParam("statistics") }
-            self.statistics = statistics.flatMap({ MetricStatistic(rawValue: $0)})
-            guard let endTime = dictionary["endTime"] as? String else { throw InitializableError.missingRequiredParam("endTime") }
-            self.endTime = endTime
-            guard let period = dictionary["period"] as? Int32 else { throw InitializableError.missingRequiredParam("period") }
-            self.period = period
-            guard let startTime = dictionary["startTime"] as? String else { throw InitializableError.missingRequiredParam("startTime") }
-            self.startTime = startTime
-            guard let rawmetricName = dictionary["metricName"] as? String, let metricName = InstanceMetricName(rawValue: rawmetricName) else { throw InitializableError.missingRequiredParam("metricName") }
-            self.metricName = metricName
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
+            case unit = "unit"
+            case statistics = "statistics"
+            case endTime = "endTime"
+            case period = "period"
+            case startTime = "startTime"
+            case metricName = "metricName"
         }
     }
 
     public struct StopInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The name of the instance (a virtual private server) to stop.
         public let instanceName: String
@@ -3243,19 +2951,17 @@ extension Lightsail {
             self.instanceName = instanceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
         }
     }
 
     public struct InstanceHardware: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cpuCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "disks", required: false, type: .list), 
-            AWSShapeProperty(label: "ramSizeInGb", required: false, type: .float)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cpuCount", required: false, type: .integer), 
+            AWSShapeMember(label: "disks", required: false, type: .list), 
+            AWSShapeMember(label: "ramSizeInGb", required: false, type: .float)
         ]
         /// The number of vCPUs the instance has.
         public let cpuCount: Int32?
@@ -3270,22 +2976,17 @@ extension Lightsail {
             self.ramSizeInGb = ramSizeInGb
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cpuCount = dictionary["cpuCount"] as? Int32
-            if let disks = dictionary["disks"] as? [[String: Any]] {
-                self.disks = try disks.map({ try Disk(dictionary: $0) })
-            } else { 
-                self.disks = nil
-            }
-            self.ramSizeInGb = dictionary["ramSizeInGb"] as? Float
+        private enum CodingKeys: String, CodingKey {
+            case cpuCount = "cpuCount"
+            case disks = "disks"
+            case ramSizeInGb = "ramSizeInGb"
         }
     }
 
     public struct GetStaticIpsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pageToken", required: false, type: .string)
         ]
         /// A token used for advancing to the next page of results from your get static IPs request.
         public let pageToken: String?
@@ -3294,16 +2995,15 @@ extension Lightsail {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageToken = dictionary["pageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageToken = "pageToken"
         }
     }
 
     public struct CreateDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", required: true, type: .string)
         ]
         /// The domain name to manage (e.g., example.com).  You cannot register a new domain name using Lightsail. You must register a domain name using Amazon Route 53 or another domain name registrar. If you have already registered your domain, you can enter its name in this parameter to manage the DNS records for that domain. 
         public let domainName: String
@@ -3312,9 +3012,8 @@ extension Lightsail {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
         }
     }
 

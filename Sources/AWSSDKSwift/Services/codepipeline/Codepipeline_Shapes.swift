@@ -31,9 +31,8 @@ extension Codepipeline {
 
     public struct ActionContext: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string)
         ]
         /// The name of the action within the context of a job.
         public let name: String?
@@ -42,51 +41,49 @@ extension Codepipeline {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct PipelineSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "updated", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .integer), 
-            AWSShapeProperty(label: "created", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "updated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .integer), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp)
         ]
         /// The date and time of the last update to the pipeline, in timestamp format.
-        public let updated: String?
+        public let updated: Double?
         /// The name of the pipeline.
         public let name: String?
         /// The version number of the pipeline.
         public let version: Int32?
         /// The date and time the pipeline was created, in timestamp format.
-        public let created: String?
+        public let created: Double?
 
-        public init(updated: String? = nil, name: String? = nil, version: Int32? = nil, created: String? = nil) {
+        public init(updated: Double? = nil, name: String? = nil, version: Int32? = nil, created: Double? = nil) {
             self.updated = updated
             self.name = name
             self.version = version
             self.created = created
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.updated = dictionary["updated"] as? String
-            self.name = dictionary["name"] as? String
-            self.version = dictionary["version"] as? Int32
-            self.created = dictionary["created"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case updated = "updated"
+            case name = "name"
+            case version = "version"
+            case created = "created"
         }
     }
 
     public struct FailureDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "message", required: true, type: .string), 
-            AWSShapeProperty(label: "externalExecutionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "message", required: true, type: .string), 
+            AWSShapeMember(label: "externalExecutionId", required: false, type: .string)
         ]
         /// The type of the failure.
         public let `type`: FailureType
@@ -101,21 +98,18 @@ extension Codepipeline {
             self.externalExecutionId = externalExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawtype = dictionary["type"] as? String, let `type` = FailureType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            guard let message = dictionary["message"] as? String else { throw InitializableError.missingRequiredParam("message") }
-            self.message = message
-            self.externalExecutionId = dictionary["externalExecutionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case message = "message"
+            case externalExecutionId = "externalExecutionId"
         }
     }
 
     public struct ListActionTypesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "actionTypes", required: true, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionTypes", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Provides details of the action types.
         public let actionTypes: [ActionType]
@@ -127,19 +121,17 @@ extension Codepipeline {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let actionTypes = dictionary["actionTypes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("actionTypes") }
-            self.actionTypes = try actionTypes.map({ try ActionType(dictionary: $0) })
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case actionTypes = "actionTypes"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListPipelineExecutionsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pipelineExecutionSummaries", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineExecutionSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A list of executions in the history of a pipeline.
         public let pipelineExecutionSummaries: [PipelineExecutionSummary]?
@@ -151,56 +143,48 @@ extension Codepipeline {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let pipelineExecutionSummaries = dictionary["pipelineExecutionSummaries"] as? [[String: Any]] {
-                self.pipelineExecutionSummaries = try pipelineExecutionSummaries.map({ try PipelineExecutionSummary(dictionary: $0) })
-            } else { 
-                self.pipelineExecutionSummaries = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionSummaries = "pipelineExecutionSummaries"
+            case nextToken = "nextToken"
         }
     }
 
     public struct CurrentRevision: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revision", required: true, type: .string), 
-            AWSShapeProperty(label: "changeIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "revisionSummary", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revision", required: true, type: .string), 
+            AWSShapeMember(label: "changeIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "revisionSummary", required: false, type: .string)
         ]
         /// The revision ID of the current version of an artifact.
         public let revision: String
         /// The change identifier for the current revision.
         public let changeIdentifier: String
         /// The date and time when the most recent revision of the artifact was created, in timestamp format.
-        public let created: String?
+        public let created: Double?
         /// The summary of the most recent revision of the artifact.
         public let revisionSummary: String?
 
-        public init(revision: String, changeIdentifier: String, created: String? = nil, revisionSummary: String? = nil) {
+        public init(revision: String, changeIdentifier: String, created: Double? = nil, revisionSummary: String? = nil) {
             self.revision = revision
             self.changeIdentifier = changeIdentifier
             self.created = created
             self.revisionSummary = revisionSummary
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let revision = dictionary["revision"] as? String else { throw InitializableError.missingRequiredParam("revision") }
-            self.revision = revision
-            guard let changeIdentifier = dictionary["changeIdentifier"] as? String else { throw InitializableError.missingRequiredParam("changeIdentifier") }
-            self.changeIdentifier = changeIdentifier
-            self.created = dictionary["created"] as? String
-            self.revisionSummary = dictionary["revisionSummary"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case revision = "revision"
+            case changeIdentifier = "changeIdentifier"
+            case created = "created"
+            case revisionSummary = "revisionSummary"
         }
     }
 
     public struct GetJobDetailsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", required: true, type: .string)
         ]
         /// The unique system-generated ID for the job.
         public let jobId: String
@@ -209,18 +193,16 @@ extension Codepipeline {
             self.jobId = jobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
-            self.jobId = jobId
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
         }
     }
 
     public struct PutActionRevisionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pipelineExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "newRevision", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "newRevision", required: false, type: .boolean)
         ]
         /// The ID of the current workflow state of the pipeline.
         public let pipelineExecutionId: String?
@@ -232,17 +214,16 @@ extension Codepipeline {
             self.newRevision = newRevision
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pipelineExecutionId = dictionary["pipelineExecutionId"] as? String
-            self.newRevision = dictionary["newRevision"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionId = "pipelineExecutionId"
+            case newRevision = "newRevision"
         }
     }
 
     public struct RetryStageExecutionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pipelineExecutionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string)
         ]
         /// The ID of the current workflow execution in the failed stage.
         public let pipelineExecutionId: String?
@@ -251,17 +232,16 @@ extension Codepipeline {
             self.pipelineExecutionId = pipelineExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pipelineExecutionId = dictionary["pipelineExecutionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionId = "pipelineExecutionId"
         }
     }
 
     public struct ArtifactDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "minimumCount", required: true, type: .integer), 
-            AWSShapeProperty(label: "maximumCount", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "minimumCount", required: true, type: .integer), 
+            AWSShapeMember(label: "maximumCount", required: true, type: .integer)
         ]
         /// The minimum number of artifacts allowed for the action type.
         public let minimumCount: Int32
@@ -273,20 +253,17 @@ extension Codepipeline {
             self.maximumCount = maximumCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let minimumCount = dictionary["minimumCount"] as? Int32 else { throw InitializableError.missingRequiredParam("minimumCount") }
-            self.minimumCount = minimumCount
-            guard let maximumCount = dictionary["maximumCount"] as? Int32 else { throw InitializableError.missingRequiredParam("maximumCount") }
-            self.maximumCount = maximumCount
+        private enum CodingKeys: String, CodingKey {
+            case minimumCount = "minimumCount"
+            case maximumCount = "maximumCount"
         }
     }
 
     public struct ErrorDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "code", required: false, type: .string), 
-            AWSShapeProperty(label: "message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "code", required: false, type: .string), 
+            AWSShapeMember(label: "message", required: false, type: .string)
         ]
         /// The system ID or error number code of the error.
         public let code: String?
@@ -298,23 +275,22 @@ extension Codepipeline {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.code = dictionary["code"] as? String
-            self.message = dictionary["message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
         }
     }
 
     public struct ActionConfigurationProperty: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "key", required: true, type: .boolean), 
-            AWSShapeProperty(label: "secret", required: true, type: .boolean), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "required", required: true, type: .boolean), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "queryable", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "key", required: true, type: .boolean), 
+            AWSShapeMember(label: "secret", required: true, type: .boolean), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "required", required: true, type: .boolean), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "queryable", required: false, type: .boolean)
         ]
         /// The name of the action configuration property.
         public let name: String
@@ -341,26 +317,21 @@ extension Codepipeline {
             self.queryable = queryable
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let key = dictionary["key"] as? Bool else { throw InitializableError.missingRequiredParam("key") }
-            self.key = key
-            guard let secret = dictionary["secret"] as? Bool else { throw InitializableError.missingRequiredParam("secret") }
-            self.secret = secret
-            self.description = dictionary["description"] as? String
-            guard let required = dictionary["required"] as? Bool else { throw InitializableError.missingRequiredParam("required") }
-            self.required = required
-            if let `type` = dictionary["type"] as? String { self.`type` = ActionConfigurationPropertyType(rawValue: `type`) } else { self.`type` = nil }
-            self.queryable = dictionary["queryable"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case key = "key"
+            case secret = "secret"
+            case description = "description"
+            case required = "required"
+            case `type` = "type"
+            case queryable = "queryable"
         }
     }
 
     public struct StageContext: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string)
         ]
         /// The name of the stage.
         public let name: String?
@@ -369,17 +340,16 @@ extension Codepipeline {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct StageExecution: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: true, type: .enum), 
-            AWSShapeProperty(label: "pipelineExecutionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "pipelineExecutionId", required: true, type: .string)
         ]
         /// The status of the stage, or for a completed stage, the last status of the stage.
         public let status: StageExecutionStatus
@@ -391,27 +361,24 @@ extension Codepipeline {
             self.pipelineExecutionId = pipelineExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawstatus = dictionary["status"] as? String, let status = StageExecutionStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
-            guard let pipelineExecutionId = dictionary["pipelineExecutionId"] as? String else { throw InitializableError.missingRequiredParam("pipelineExecutionId") }
-            self.pipelineExecutionId = pipelineExecutionId
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case pipelineExecutionId = "pipelineExecutionId"
         }
     }
 
     public struct ActionExecution: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "summary", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "lastUpdatedBy", required: false, type: .string), 
-            AWSShapeProperty(label: "externalExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "externalExecutionUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "token", required: false, type: .string), 
-            AWSShapeProperty(label: "errorDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "percentComplete", required: false, type: .integer), 
-            AWSShapeProperty(label: "lastStatusChange", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "summary", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "lastUpdatedBy", required: false, type: .string), 
+            AWSShapeMember(label: "externalExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "externalExecutionUrl", required: false, type: .string), 
+            AWSShapeMember(label: "token", required: false, type: .string), 
+            AWSShapeMember(label: "errorDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "percentComplete", required: false, type: .integer), 
+            AWSShapeMember(label: "lastStatusChange", required: false, type: .timestamp)
         ]
         /// A summary of the run of the action.
         public let summary: String?
@@ -430,9 +397,9 @@ extension Codepipeline {
         /// A percentage of completeness of the action as it runs.
         public let percentComplete: Int32?
         /// The last status change of the action.
-        public let lastStatusChange: String?
+        public let lastStatusChange: Double?
 
-        public init(summary: String? = nil, status: ActionExecutionStatus? = nil, lastUpdatedBy: String? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, token: String? = nil, errorDetails: ErrorDetails? = nil, percentComplete: Int32? = nil, lastStatusChange: String? = nil) {
+        public init(summary: String? = nil, status: ActionExecutionStatus? = nil, lastUpdatedBy: String? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, token: String? = nil, errorDetails: ErrorDetails? = nil, percentComplete: Int32? = nil, lastStatusChange: Double? = nil) {
             self.summary = summary
             self.status = status
             self.lastUpdatedBy = lastUpdatedBy
@@ -444,24 +411,23 @@ extension Codepipeline {
             self.lastStatusChange = lastStatusChange
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.summary = dictionary["summary"] as? String
-            if let status = dictionary["status"] as? String { self.status = ActionExecutionStatus(rawValue: status) } else { self.status = nil }
-            self.lastUpdatedBy = dictionary["lastUpdatedBy"] as? String
-            self.externalExecutionId = dictionary["externalExecutionId"] as? String
-            self.externalExecutionUrl = dictionary["externalExecutionUrl"] as? String
-            self.token = dictionary["token"] as? String
-            if let errorDetails = dictionary["errorDetails"] as? [String: Any] { self.errorDetails = try Codepipeline.ErrorDetails(dictionary: errorDetails) } else { self.errorDetails = nil }
-            self.percentComplete = dictionary["percentComplete"] as? Int32
-            self.lastStatusChange = dictionary["lastStatusChange"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case summary = "summary"
+            case status = "status"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case externalExecutionId = "externalExecutionId"
+            case externalExecutionUrl = "externalExecutionUrl"
+            case token = "token"
+            case errorDetails = "errorDetails"
+            case percentComplete = "percentComplete"
+            case lastStatusChange = "lastStatusChange"
         }
     }
 
     public struct StartPipelineExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// The name of the pipeline to start.
         public let name: String
@@ -470,20 +436,18 @@ extension Codepipeline {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct StageState: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "inboundTransitionState", required: false, type: .structure), 
-            AWSShapeProperty(label: "actionStates", required: false, type: .list), 
-            AWSShapeProperty(label: "stageName", required: false, type: .string), 
-            AWSShapeProperty(label: "latestExecution", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "inboundTransitionState", required: false, type: .structure), 
+            AWSShapeMember(label: "actionStates", required: false, type: .list), 
+            AWSShapeMember(label: "stageName", required: false, type: .string), 
+            AWSShapeMember(label: "latestExecution", required: false, type: .structure)
         ]
         /// The state of the inbound transition, which is either enabled or disabled.
         public let inboundTransitionState: TransitionState?
@@ -501,26 +465,21 @@ extension Codepipeline {
             self.latestExecution = latestExecution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let inboundTransitionState = dictionary["inboundTransitionState"] as? [String: Any] { self.inboundTransitionState = try Codepipeline.TransitionState(dictionary: inboundTransitionState) } else { self.inboundTransitionState = nil }
-            if let actionStates = dictionary["actionStates"] as? [[String: Any]] {
-                self.actionStates = try actionStates.map({ try ActionState(dictionary: $0) })
-            } else { 
-                self.actionStates = nil
-            }
-            self.stageName = dictionary["stageName"] as? String
-            if let latestExecution = dictionary["latestExecution"] as? [String: Any] { self.latestExecution = try Codepipeline.StageExecution(dictionary: latestExecution) } else { self.latestExecution = nil }
+        private enum CodingKeys: String, CodingKey {
+            case inboundTransitionState = "inboundTransitionState"
+            case actionStates = "actionStates"
+            case stageName = "stageName"
+            case latestExecution = "latestExecution"
         }
     }
 
     public struct PutActionRevisionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stageName", required: true, type: .string), 
-            AWSShapeProperty(label: "actionName", required: true, type: .string), 
-            AWSShapeProperty(label: "pipelineName", required: true, type: .string), 
-            AWSShapeProperty(label: "actionRevision", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stageName", required: true, type: .string), 
+            AWSShapeMember(label: "actionName", required: true, type: .string), 
+            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
+            AWSShapeMember(label: "actionRevision", required: true, type: .structure)
         ]
         /// The name of the stage that contains the action that will act upon the revision.
         public let stageName: String
@@ -538,25 +497,20 @@ extension Codepipeline {
             self.actionRevision = actionRevision
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
-            self.stageName = stageName
-            guard let actionName = dictionary["actionName"] as? String else { throw InitializableError.missingRequiredParam("actionName") }
-            self.actionName = actionName
-            guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
-            self.pipelineName = pipelineName
-            guard let actionRevision = dictionary["actionRevision"] as? [String: Any] else { throw InitializableError.missingRequiredParam("actionRevision") }
-            self.actionRevision = try Codepipeline.ActionRevision(dictionary: actionRevision)
+        private enum CodingKeys: String, CodingKey {
+            case stageName = "stageName"
+            case actionName = "actionName"
+            case pipelineName = "pipelineName"
+            case actionRevision = "actionRevision"
         }
     }
 
     public struct PutThirdPartyJobFailureResultInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failureDetails", required: true, type: .structure), 
-            AWSShapeProperty(label: "clientToken", required: true, type: .string), 
-            AWSShapeProperty(label: "jobId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failureDetails", required: true, type: .structure), 
+            AWSShapeMember(label: "clientToken", required: true, type: .string), 
+            AWSShapeMember(label: "jobId", required: true, type: .string)
         ]
         /// Represents information about failure details.
         public let failureDetails: FailureDetails
@@ -571,23 +525,19 @@ extension Codepipeline {
             self.jobId = jobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let failureDetails = dictionary["failureDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failureDetails") }
-            self.failureDetails = try Codepipeline.FailureDetails(dictionary: failureDetails)
-            guard let clientToken = dictionary["clientToken"] as? String else { throw InitializableError.missingRequiredParam("clientToken") }
-            self.clientToken = clientToken
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
-            self.jobId = jobId
+        private enum CodingKeys: String, CodingKey {
+            case failureDetails = "failureDetails"
+            case clientToken = "clientToken"
+            case jobId = "jobId"
         }
     }
 
     public struct Artifact: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revision", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "location", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revision", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .structure)
         ]
         /// The artifact's revision ID. Depending on the type of object, this could be a commit ID (GitHub) or a revision ID (Amazon S3).
         public let revision: String?
@@ -602,25 +552,24 @@ extension Codepipeline {
             self.location = location
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.revision = dictionary["revision"] as? String
-            self.name = dictionary["name"] as? String
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Codepipeline.ArtifactLocation(dictionary: location) } else { self.location = nil }
+        private enum CodingKeys: String, CodingKey {
+            case revision = "revision"
+            case name = "name"
+            case location = "location"
         }
     }
 
     public struct JobData: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "actionTypeId", required: false, type: .structure), 
-            AWSShapeProperty(label: "actionConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "artifactCredentials", required: false, type: .structure), 
-            AWSShapeProperty(label: "outputArtifacts", required: false, type: .list), 
-            AWSShapeProperty(label: "encryptionKey", required: false, type: .structure), 
-            AWSShapeProperty(label: "continuationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "inputArtifacts", required: false, type: .list), 
-            AWSShapeProperty(label: "pipelineContext", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionTypeId", required: false, type: .structure), 
+            AWSShapeMember(label: "actionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "artifactCredentials", required: false, type: .structure), 
+            AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "encryptionKey", required: false, type: .structure), 
+            AWSShapeMember(label: "continuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "pipelineContext", required: false, type: .structure)
         ]
         /// Represents information about an action type.
         public let actionTypeId: ActionTypeId?
@@ -650,35 +599,26 @@ extension Codepipeline {
             self.pipelineContext = pipelineContext
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let actionTypeId = dictionary["actionTypeId"] as? [String: Any] { self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId) } else { self.actionTypeId = nil }
-            if let actionConfiguration = dictionary["actionConfiguration"] as? [String: Any] { self.actionConfiguration = try Codepipeline.ActionConfiguration(dictionary: actionConfiguration) } else { self.actionConfiguration = nil }
-            if let artifactCredentials = dictionary["artifactCredentials"] as? [String: Any] { self.artifactCredentials = try Codepipeline.AWSSessionCredentials(dictionary: artifactCredentials) } else { self.artifactCredentials = nil }
-            if let outputArtifacts = dictionary["outputArtifacts"] as? [[String: Any]] {
-                self.outputArtifacts = try outputArtifacts.map({ try Artifact(dictionary: $0) })
-            } else { 
-                self.outputArtifacts = nil
-            }
-            if let encryptionKey = dictionary["encryptionKey"] as? [String: Any] { self.encryptionKey = try Codepipeline.EncryptionKey(dictionary: encryptionKey) } else { self.encryptionKey = nil }
-            self.continuationToken = dictionary["continuationToken"] as? String
-            if let inputArtifacts = dictionary["inputArtifacts"] as? [[String: Any]] {
-                self.inputArtifacts = try inputArtifacts.map({ try Artifact(dictionary: $0) })
-            } else { 
-                self.inputArtifacts = nil
-            }
-            if let pipelineContext = dictionary["pipelineContext"] as? [String: Any] { self.pipelineContext = try Codepipeline.PipelineContext(dictionary: pipelineContext) } else { self.pipelineContext = nil }
+        private enum CodingKeys: String, CodingKey {
+            case actionTypeId = "actionTypeId"
+            case actionConfiguration = "actionConfiguration"
+            case artifactCredentials = "artifactCredentials"
+            case outputArtifacts = "outputArtifacts"
+            case encryptionKey = "encryptionKey"
+            case continuationToken = "continuationToken"
+            case inputArtifacts = "inputArtifacts"
+            case pipelineContext = "pipelineContext"
         }
     }
 
     public struct PutApprovalResultInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stageName", required: true, type: .string), 
-            AWSShapeProperty(label: "actionName", required: true, type: .string), 
-            AWSShapeProperty(label: "result", required: true, type: .structure), 
-            AWSShapeProperty(label: "pipelineName", required: true, type: .string), 
-            AWSShapeProperty(label: "token", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stageName", required: true, type: .string), 
+            AWSShapeMember(label: "actionName", required: true, type: .string), 
+            AWSShapeMember(label: "result", required: true, type: .structure), 
+            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
+            AWSShapeMember(label: "token", required: true, type: .string)
         ]
         /// The name of the stage that contains the action.
         public let stageName: String
@@ -699,26 +639,20 @@ extension Codepipeline {
             self.token = token
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
-            self.stageName = stageName
-            guard let actionName = dictionary["actionName"] as? String else { throw InitializableError.missingRequiredParam("actionName") }
-            self.actionName = actionName
-            guard let result = dictionary["result"] as? [String: Any] else { throw InitializableError.missingRequiredParam("result") }
-            self.result = try Codepipeline.ApprovalResult(dictionary: result)
-            guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
-            self.pipelineName = pipelineName
-            guard let token = dictionary["token"] as? String else { throw InitializableError.missingRequiredParam("token") }
-            self.token = token
+        private enum CodingKeys: String, CodingKey {
+            case stageName = "stageName"
+            case actionName = "actionName"
+            case result = "result"
+            case pipelineName = "pipelineName"
+            case token = "token"
         }
     }
 
     public struct ArtifactLocation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "s3Location", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "s3Location", required: false, type: .structure)
         ]
         /// The type of artifact in the location.
         public let `type`: ArtifactLocationType?
@@ -730,18 +664,17 @@ extension Codepipeline {
             self.s3Location = s3Location
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["type"] as? String { self.`type` = ArtifactLocationType(rawValue: `type`) } else { self.`type` = nil }
-            if let s3Location = dictionary["s3Location"] as? [String: Any] { self.s3Location = try Codepipeline.S3ArtifactLocation(dictionary: s3Location) } else { self.s3Location = nil }
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case s3Location = "s3Location"
         }
     }
 
     public struct GetPipelineExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pipelineName", required: true, type: .string), 
-            AWSShapeProperty(label: "pipelineExecutionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
+            AWSShapeMember(label: "pipelineExecutionId", required: true, type: .string)
         ]
         /// The name of the pipeline about which you want to get execution details.
         public let pipelineName: String
@@ -753,20 +686,18 @@ extension Codepipeline {
             self.pipelineExecutionId = pipelineExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
-            self.pipelineName = pipelineName
-            guard let pipelineExecutionId = dictionary["pipelineExecutionId"] as? String else { throw InitializableError.missingRequiredParam("pipelineExecutionId") }
-            self.pipelineExecutionId = pipelineExecutionId
+        private enum CodingKeys: String, CodingKey {
+            case pipelineName = "pipelineName"
+            case pipelineExecutionId = "pipelineExecutionId"
         }
     }
 
-    public enum EncryptionKeyType: String, CustomStringConvertible {
+    public enum EncryptionKeyType: String, CustomStringConvertible, Codable {
         case kms = "KMS"
         public var description: String { return self.rawValue }
     }
 
-    public enum JobStatus: String, CustomStringConvertible {
+    public enum JobStatus: String, CustomStringConvertible, Codable {
         case created = "Created"
         case queued = "Queued"
         case dispatched = "Dispatched"
@@ -779,12 +710,11 @@ extension Codepipeline {
 
     public struct DisableStageTransitionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "transitionType", required: true, type: .enum), 
-            AWSShapeProperty(label: "stageName", required: true, type: .string), 
-            AWSShapeProperty(label: "reason", required: true, type: .string), 
-            AWSShapeProperty(label: "pipelineName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "transitionType", required: true, type: .enum), 
+            AWSShapeMember(label: "stageName", required: true, type: .string), 
+            AWSShapeMember(label: "reason", required: true, type: .string), 
+            AWSShapeMember(label: "pipelineName", required: true, type: .string)
         ]
         /// Specifies whether artifacts will be prevented from transitioning into the stage and being processed by the actions in that stage (inbound), or prevented from transitioning from the stage after they have been processed by the actions in that stage (outbound).
         public let transitionType: StageTransitionType
@@ -802,19 +732,15 @@ extension Codepipeline {
             self.pipelineName = pipelineName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawtransitionType = dictionary["transitionType"] as? String, let transitionType = StageTransitionType(rawValue: rawtransitionType) else { throw InitializableError.missingRequiredParam("transitionType") }
-            self.transitionType = transitionType
-            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
-            self.stageName = stageName
-            guard let reason = dictionary["reason"] as? String else { throw InitializableError.missingRequiredParam("reason") }
-            self.reason = reason
-            guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
-            self.pipelineName = pipelineName
+        private enum CodingKeys: String, CodingKey {
+            case transitionType = "transitionType"
+            case stageName = "stageName"
+            case reason = "reason"
+            case pipelineName = "pipelineName"
         }
     }
 
-    public enum ActionCategory: String, CustomStringConvertible {
+    public enum ActionCategory: String, CustomStringConvertible, Codable {
         case source = "Source"
         case build = "Build"
         case deploy = "Deploy"
@@ -824,16 +750,15 @@ extension Codepipeline {
         public var description: String { return self.rawValue }
     }
 
-    public enum StageRetryMode: String, CustomStringConvertible {
+    public enum StageRetryMode: String, CustomStringConvertible, Codable {
         case failed_actions = "FAILED_ACTIONS"
         public var description: String { return self.rawValue }
     }
 
     public struct GetJobDetailsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobDetails", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobDetails", required: false, type: .structure)
         ]
         /// The details of the job.  If AWSSessionCredentials is used, a long-running job can call GetJobDetails again to obtain new credentials. 
         public let jobDetails: JobDetails?
@@ -842,16 +767,15 @@ extension Codepipeline {
             self.jobDetails = jobDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let jobDetails = dictionary["jobDetails"] as? [String: Any] { self.jobDetails = try Codepipeline.JobDetails(dictionary: jobDetails) } else { self.jobDetails = nil }
+        private enum CodingKeys: String, CodingKey {
+            case jobDetails = "jobDetails"
         }
     }
 
     public struct AcknowledgeJobOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum)
         ]
         /// Whether the job worker has received the specified job.
         public let status: JobStatus?
@@ -860,20 +784,19 @@ extension Codepipeline {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? String { self.status = JobStatus(rawValue: status) } else { self.status = nil }
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
         }
     }
 
     public struct PipelineExecution: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "pipelineVersion", required: false, type: .integer), 
-            AWSShapeProperty(label: "pipelineExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "pipelineName", required: false, type: .string), 
-            AWSShapeProperty(label: "artifactRevisions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "pipelineVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "pipelineName", required: false, type: .string), 
+            AWSShapeMember(label: "artifactRevisions", required: false, type: .list)
         ]
         /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution caught up and continued through the pipeline instead.    Failed: The pipeline execution did not complete successfully.  
         public let status: PipelineExecutionStatus?
@@ -894,25 +817,20 @@ extension Codepipeline {
             self.artifactRevisions = artifactRevisions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? String { self.status = PipelineExecutionStatus(rawValue: status) } else { self.status = nil }
-            self.pipelineVersion = dictionary["pipelineVersion"] as? Int32
-            self.pipelineExecutionId = dictionary["pipelineExecutionId"] as? String
-            self.pipelineName = dictionary["pipelineName"] as? String
-            if let artifactRevisions = dictionary["artifactRevisions"] as? [[String: Any]] {
-                self.artifactRevisions = try artifactRevisions.map({ try ArtifactRevision(dictionary: $0) })
-            } else { 
-                self.artifactRevisions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case pipelineVersion = "pipelineVersion"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineName = "pipelineName"
+            case artifactRevisions = "artifactRevisions"
         }
     }
 
     public struct AcknowledgeJobInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nonce", required: true, type: .string), 
-            AWSShapeProperty(label: "jobId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nonce", required: true, type: .string), 
+            AWSShapeMember(label: "jobId", required: true, type: .string)
         ]
         /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the PollForJobs request that returned this job.
         public let nonce: String
@@ -924,21 +842,18 @@ extension Codepipeline {
             self.jobId = jobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let nonce = dictionary["nonce"] as? String else { throw InitializableError.missingRequiredParam("nonce") }
-            self.nonce = nonce
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
-            self.jobId = jobId
+        private enum CodingKeys: String, CodingKey {
+            case nonce = "nonce"
+            case jobId = "jobId"
         }
     }
 
     public struct JobDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "accountId", required: false, type: .string), 
-            AWSShapeProperty(label: "data", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "accountId", required: false, type: .string), 
+            AWSShapeMember(label: "data", required: false, type: .structure)
         ]
         /// The unique system-generated ID of the job.
         public let id: String?
@@ -953,19 +868,18 @@ extension Codepipeline {
             self.data = data
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.id = dictionary["id"] as? String
-            self.accountId = dictionary["accountId"] as? String
-            if let data = dictionary["data"] as? [String: Any] { self.data = try Codepipeline.JobData(dictionary: data) } else { self.data = nil }
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case accountId = "accountId"
+            case data = "data"
         }
     }
 
     public struct S3ArtifactLocation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "bucketName", required: true, type: .string), 
-            AWSShapeProperty(label: "objectKey", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bucketName", required: true, type: .string), 
+            AWSShapeMember(label: "objectKey", required: true, type: .string)
         ]
         /// The name of the Amazon S3 bucket.
         public let bucketName: String
@@ -977,19 +891,16 @@ extension Codepipeline {
             self.objectKey = objectKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let bucketName = dictionary["bucketName"] as? String else { throw InitializableError.missingRequiredParam("bucketName") }
-            self.bucketName = bucketName
-            guard let objectKey = dictionary["objectKey"] as? String else { throw InitializableError.missingRequiredParam("objectKey") }
-            self.objectKey = objectKey
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case objectKey = "objectKey"
         }
     }
 
     public struct CreateCustomActionTypeOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "actionType", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionType", required: true, type: .structure)
         ]
         /// Returns information about the details of an action type.
         public let actionType: ActionType
@@ -998,20 +909,18 @@ extension Codepipeline {
             self.actionType = actionType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let actionType = dictionary["actionType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("actionType") }
-            self.actionType = try Codepipeline.ActionType(dictionary: actionType)
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "actionType"
         }
     }
 
     public struct ActionTypeId: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "owner", required: true, type: .enum), 
-            AWSShapeProperty(label: "version", required: true, type: .string), 
-            AWSShapeProperty(label: "provider", required: true, type: .string), 
-            AWSShapeProperty(label: "category", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "owner", required: true, type: .enum), 
+            AWSShapeMember(label: "version", required: true, type: .string), 
+            AWSShapeMember(label: "provider", required: true, type: .string), 
+            AWSShapeMember(label: "category", required: true, type: .enum)
         ]
         /// The creator of the action being called.
         public let owner: ActionOwner
@@ -1029,19 +938,15 @@ extension Codepipeline {
             self.category = category
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawowner = dictionary["owner"] as? String, let owner = ActionOwner(rawValue: rawowner) else { throw InitializableError.missingRequiredParam("owner") }
-            self.owner = owner
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
-            guard let provider = dictionary["provider"] as? String else { throw InitializableError.missingRequiredParam("provider") }
-            self.provider = provider
-            guard let rawcategory = dictionary["category"] as? String, let category = ActionCategory(rawValue: rawcategory) else { throw InitializableError.missingRequiredParam("category") }
-            self.category = category
+        private enum CodingKeys: String, CodingKey {
+            case owner = "owner"
+            case version = "version"
+            case provider = "provider"
+            case category = "category"
         }
     }
 
-    public enum StageExecutionStatus: String, CustomStringConvertible {
+    public enum StageExecutionStatus: String, CustomStringConvertible, Codable {
         case inprogress = "InProgress"
         case failed = "Failed"
         case succeeded = "Succeeded"
@@ -1050,10 +955,9 @@ extension Codepipeline {
 
     public struct GetThirdPartyJobDetailsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "clientToken", required: true, type: .string), 
-            AWSShapeProperty(label: "jobId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: true, type: .string), 
+            AWSShapeMember(label: "jobId", required: true, type: .string)
         ]
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientToken: String
@@ -1065,23 +969,20 @@ extension Codepipeline {
             self.jobId = jobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clientToken = dictionary["clientToken"] as? String else { throw InitializableError.missingRequiredParam("clientToken") }
-            self.clientToken = clientToken
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
-            self.jobId = jobId
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case jobId = "jobId"
         }
     }
 
     public struct PutThirdPartyJobSuccessResultInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "executionDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "clientToken", required: true, type: .string), 
-            AWSShapeProperty(label: "continuationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "currentRevision", required: false, type: .structure), 
-            AWSShapeProperty(label: "jobId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "executionDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "clientToken", required: true, type: .string), 
+            AWSShapeMember(label: "continuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "currentRevision", required: false, type: .structure), 
+            AWSShapeMember(label: "jobId", required: true, type: .string)
         ]
         /// The details of the actions taken and results produced on an artifact as it passes through stages in the pipeline. 
         public let executionDetails: ExecutionDetails?
@@ -1102,24 +1003,21 @@ extension Codepipeline {
             self.jobId = jobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let executionDetails = dictionary["executionDetails"] as? [String: Any] { self.executionDetails = try Codepipeline.ExecutionDetails(dictionary: executionDetails) } else { self.executionDetails = nil }
-            guard let clientToken = dictionary["clientToken"] as? String else { throw InitializableError.missingRequiredParam("clientToken") }
-            self.clientToken = clientToken
-            self.continuationToken = dictionary["continuationToken"] as? String
-            if let currentRevision = dictionary["currentRevision"] as? [String: Any] { self.currentRevision = try Codepipeline.CurrentRevision(dictionary: currentRevision) } else { self.currentRevision = nil }
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
-            self.jobId = jobId
+        private enum CodingKeys: String, CodingKey {
+            case executionDetails = "executionDetails"
+            case clientToken = "clientToken"
+            case continuationToken = "continuationToken"
+            case currentRevision = "currentRevision"
+            case jobId = "jobId"
         }
     }
 
     public struct DeleteCustomActionTypeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "provider", required: true, type: .string), 
-            AWSShapeProperty(label: "version", required: true, type: .string), 
-            AWSShapeProperty(label: "category", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "provider", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: true, type: .string), 
+            AWSShapeMember(label: "category", required: true, type: .enum)
         ]
         /// The provider of the service used in the custom action, such as AWS CodeDeploy.
         public let provider: String
@@ -1134,23 +1032,19 @@ extension Codepipeline {
             self.category = category
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let provider = dictionary["provider"] as? String else { throw InitializableError.missingRequiredParam("provider") }
-            self.provider = provider
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
-            guard let rawcategory = dictionary["category"] as? String, let category = ActionCategory(rawValue: rawcategory) else { throw InitializableError.missingRequiredParam("category") }
-            self.category = category
+        private enum CodingKeys: String, CodingKey {
+            case provider = "provider"
+            case version = "version"
+            case category = "category"
         }
     }
 
     public struct StageDeclaration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "blockers", required: false, type: .list), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "actions", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "blockers", required: false, type: .list), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "actions", required: true, type: .list)
         ]
         /// Reserved for future use.
         public let blockers: [BlockerDeclaration]?
@@ -1165,26 +1059,19 @@ extension Codepipeline {
             self.actions = actions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let blockers = dictionary["blockers"] as? [[String: Any]] {
-                self.blockers = try blockers.map({ try BlockerDeclaration(dictionary: $0) })
-            } else { 
-                self.blockers = nil
-            }
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let actions = dictionary["actions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("actions") }
-            self.actions = try actions.map({ try ActionDeclaration(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case blockers = "blockers"
+            case name = "name"
+            case actions = "actions"
         }
     }
 
     public struct AWSSessionCredentials: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sessionToken", required: true, type: .string), 
-            AWSShapeProperty(label: "accessKeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "secretAccessKey", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sessionToken", required: true, type: .string), 
+            AWSShapeMember(label: "accessKeyId", required: true, type: .string), 
+            AWSShapeMember(label: "secretAccessKey", required: true, type: .string)
         ]
         /// The token for the session.
         public let sessionToken: String
@@ -1199,22 +1086,18 @@ extension Codepipeline {
             self.secretAccessKey = secretAccessKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sessionToken = dictionary["sessionToken"] as? String else { throw InitializableError.missingRequiredParam("sessionToken") }
-            self.sessionToken = sessionToken
-            guard let accessKeyId = dictionary["accessKeyId"] as? String else { throw InitializableError.missingRequiredParam("accessKeyId") }
-            self.accessKeyId = accessKeyId
-            guard let secretAccessKey = dictionary["secretAccessKey"] as? String else { throw InitializableError.missingRequiredParam("secretAccessKey") }
-            self.secretAccessKey = secretAccessKey
+        private enum CodingKeys: String, CodingKey {
+            case sessionToken = "sessionToken"
+            case accessKeyId = "accessKeyId"
+            case secretAccessKey = "secretAccessKey"
         }
     }
 
     public struct EncryptionKey: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "id", required: true, type: .string), 
-            AWSShapeProperty(label: "type", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
         ]
         /// The ID used to identify the key. For an AWS KMS key, this is the key ID or key ARN.
         public let id: String
@@ -1226,21 +1109,18 @@ extension Codepipeline {
             self.`type` = `type`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.id = id
-            guard let rawtype = dictionary["type"] as? String, let `type` = EncryptionKeyType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case `type` = "type"
         }
     }
 
     public struct EnableStageTransitionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pipelineName", required: true, type: .string), 
-            AWSShapeProperty(label: "transitionType", required: true, type: .enum), 
-            AWSShapeProperty(label: "stageName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
+            AWSShapeMember(label: "transitionType", required: true, type: .enum), 
+            AWSShapeMember(label: "stageName", required: true, type: .string)
         ]
         /// The name of the pipeline in which you want to enable the flow of artifacts from one stage to another.
         public let pipelineName: String
@@ -1255,21 +1135,17 @@ extension Codepipeline {
             self.stageName = stageName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
-            self.pipelineName = pipelineName
-            guard let rawtransitionType = dictionary["transitionType"] as? String, let transitionType = StageTransitionType(rawValue: rawtransitionType) else { throw InitializableError.missingRequiredParam("transitionType") }
-            self.transitionType = transitionType
-            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
-            self.stageName = stageName
+        private enum CodingKeys: String, CodingKey {
+            case pipelineName = "pipelineName"
+            case transitionType = "transitionType"
+            case stageName = "stageName"
         }
     }
 
     public struct InputArtifact: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// The name of the artifact to be worked on, for example, "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
         public let name: String
@@ -1278,13 +1154,12 @@ extension Codepipeline {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
-    public enum StageTransitionType: String, CustomStringConvertible {
+    public enum StageTransitionType: String, CustomStringConvertible, Codable {
         case inbound = "Inbound"
         case outbound = "Outbound"
         public var description: String { return self.rawValue }
@@ -1292,9 +1167,8 @@ extension Codepipeline {
 
     public struct PollForJobsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobs", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobs", required: false, type: .list)
         ]
         /// Information about the jobs to take action on.
         public let jobs: [Job]?
@@ -1303,31 +1177,26 @@ extension Codepipeline {
             self.jobs = jobs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let jobs = dictionary["jobs"] as? [[String: Any]] {
-                self.jobs = try jobs.map({ try Job(dictionary: $0) })
-            } else { 
-                self.jobs = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
         }
     }
 
-    public enum BlockerType: String, CustomStringConvertible {
+    public enum BlockerType: String, CustomStringConvertible, Codable {
         case schedule = "Schedule"
         public var description: String { return self.rawValue }
     }
 
     public struct ActionDeclaration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "actionTypeId", required: true, type: .structure), 
-            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "runOrder", required: false, type: .integer), 
-            AWSShapeProperty(label: "outputArtifacts", required: false, type: .list), 
-            AWSShapeProperty(label: "inputArtifacts", required: false, type: .list), 
-            AWSShapeProperty(label: "configuration", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionTypeId", required: true, type: .structure), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "runOrder", required: false, type: .integer), 
+            AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "configuration", required: false, type: .map)
         ]
         /// The configuration information for the action type.
         public let actionTypeId: ActionTypeId
@@ -1354,53 +1223,38 @@ extension Codepipeline {
             self.configuration = configuration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let actionTypeId = dictionary["actionTypeId"] as? [String: Any] else { throw InitializableError.missingRequiredParam("actionTypeId") }
-            self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId)
-            self.roleArn = dictionary["roleArn"] as? String
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.runOrder = dictionary["runOrder"] as? Int32
-            if let outputArtifacts = dictionary["outputArtifacts"] as? [[String: Any]] {
-                self.outputArtifacts = try outputArtifacts.map({ try OutputArtifact(dictionary: $0) })
-            } else { 
-                self.outputArtifacts = nil
-            }
-            if let inputArtifacts = dictionary["inputArtifacts"] as? [[String: Any]] {
-                self.inputArtifacts = try inputArtifacts.map({ try InputArtifact(dictionary: $0) })
-            } else { 
-                self.inputArtifacts = nil
-            }
-            if let configuration = dictionary["configuration"] as? [String: String] {
-                self.configuration = configuration
-            } else { 
-                self.configuration = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case actionTypeId = "actionTypeId"
+            case roleArn = "roleArn"
+            case name = "name"
+            case runOrder = "runOrder"
+            case outputArtifacts = "outputArtifacts"
+            case inputArtifacts = "inputArtifacts"
+            case configuration = "configuration"
         }
     }
 
     public struct GetPipelineStateOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "updated", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "pipelineVersion", required: false, type: .integer), 
-            AWSShapeProperty(label: "stageStates", required: false, type: .list), 
-            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "pipelineName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "updated", required: false, type: .timestamp), 
+            AWSShapeMember(label: "pipelineVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "stageStates", required: false, type: .list), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "pipelineName", required: false, type: .string)
         ]
         /// The date and time the pipeline was last updated, in timestamp format.
-        public let updated: String?
+        public let updated: Double?
         /// The version number of the pipeline.  A newly-created pipeline is always assigned a version number of 1. 
         public let pipelineVersion: Int32?
         /// A list of the pipeline stage output information, including stage name, state, most recent run details, whether the stage is disabled, and other data.
         public let stageStates: [StageState]?
         /// The date and time the pipeline was created, in timestamp format.
-        public let created: String?
+        public let created: Double?
         /// The name of the pipeline for which you want to get the state.
         public let pipelineName: String?
 
-        public init(updated: String? = nil, pipelineVersion: Int32? = nil, stageStates: [StageState]? = nil, created: String? = nil, pipelineName: String? = nil) {
+        public init(updated: Double? = nil, pipelineVersion: Int32? = nil, stageStates: [StageState]? = nil, created: Double? = nil, pipelineName: String? = nil) {
             self.updated = updated
             self.pipelineVersion = pipelineVersion
             self.stageStates = stageStates
@@ -1408,27 +1262,22 @@ extension Codepipeline {
             self.pipelineName = pipelineName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.updated = dictionary["updated"] as? String
-            self.pipelineVersion = dictionary["pipelineVersion"] as? Int32
-            if let stageStates = dictionary["stageStates"] as? [[String: Any]] {
-                self.stageStates = try stageStates.map({ try StageState(dictionary: $0) })
-            } else { 
-                self.stageStates = nil
-            }
-            self.created = dictionary["created"] as? String
-            self.pipelineName = dictionary["pipelineName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case updated = "updated"
+            case pipelineVersion = "pipelineVersion"
+            case stageStates = "stageStates"
+            case created = "created"
+            case pipelineName = "pipelineName"
         }
     }
 
     public struct PutJobSuccessResultInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "executionDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "continuationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "currentRevision", required: false, type: .structure), 
-            AWSShapeProperty(label: "jobId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "executionDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "continuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "currentRevision", required: false, type: .structure), 
+            AWSShapeMember(label: "jobId", required: true, type: .string)
         ]
         /// The execution details of the successful job, such as the actions taken by the job worker.
         public let executionDetails: ExecutionDetails?
@@ -1446,20 +1295,18 @@ extension Codepipeline {
             self.jobId = jobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let executionDetails = dictionary["executionDetails"] as? [String: Any] { self.executionDetails = try Codepipeline.ExecutionDetails(dictionary: executionDetails) } else { self.executionDetails = nil }
-            self.continuationToken = dictionary["continuationToken"] as? String
-            if let currentRevision = dictionary["currentRevision"] as? [String: Any] { self.currentRevision = try Codepipeline.CurrentRevision(dictionary: currentRevision) } else { self.currentRevision = nil }
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
-            self.jobId = jobId
+        private enum CodingKeys: String, CodingKey {
+            case executionDetails = "executionDetails"
+            case continuationToken = "continuationToken"
+            case currentRevision = "currentRevision"
+            case jobId = "jobId"
         }
     }
 
     public struct OutputArtifact: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// The name of the output of an artifact, such as "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions. Output artifact names must be unique within a pipeline.
         public let name: String
@@ -1468,17 +1315,15 @@ extension Codepipeline {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct DeletePipelineInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// The name of the pipeline to be deleted.
         public let name: String
@@ -1487,21 +1332,19 @@ extension Codepipeline {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct PipelineDeclaration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "artifactStore", required: true, type: .structure), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "stages", required: true, type: .list), 
-            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "artifactStore", required: true, type: .structure), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "stages", required: true, type: .list), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .integer)
         ]
         /// Represents the context of an action within the stage of a pipeline to a job worker. 
         public let artifactStore: ArtifactStore
@@ -1522,26 +1365,21 @@ extension Codepipeline {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let artifactStore = dictionary["artifactStore"] as? [String: Any] else { throw InitializableError.missingRequiredParam("artifactStore") }
-            self.artifactStore = try Codepipeline.ArtifactStore(dictionary: artifactStore)
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let stages = dictionary["stages"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("stages") }
-            self.stages = try stages.map({ try StageDeclaration(dictionary: $0) })
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
-            self.version = dictionary["version"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case artifactStore = "artifactStore"
+            case name = "name"
+            case stages = "stages"
+            case roleArn = "roleArn"
+            case version = "version"
         }
     }
 
     public struct ThirdPartyJobDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "nonce", required: false, type: .string), 
-            AWSShapeProperty(label: "data", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "nonce", required: false, type: .string), 
+            AWSShapeMember(label: "data", required: false, type: .structure)
         ]
         /// The identifier used to identify the job details in AWS CodePipeline.
         public let id: String?
@@ -1556,22 +1394,21 @@ extension Codepipeline {
             self.data = data
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.id = dictionary["id"] as? String
-            self.nonce = dictionary["nonce"] as? String
-            if let data = dictionary["data"] as? [String: Any] { self.data = try Codepipeline.ThirdPartyJobData(dictionary: data) } else { self.data = nil }
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case nonce = "nonce"
+            case data = "data"
         }
     }
 
     public struct ActionState: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "entityUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "actionName", required: false, type: .string), 
-            AWSShapeProperty(label: "currentRevision", required: false, type: .structure), 
-            AWSShapeProperty(label: "revisionUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "latestExecution", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "entityUrl", required: false, type: .string), 
+            AWSShapeMember(label: "actionName", required: false, type: .string), 
+            AWSShapeMember(label: "currentRevision", required: false, type: .structure), 
+            AWSShapeMember(label: "revisionUrl", required: false, type: .string), 
+            AWSShapeMember(label: "latestExecution", required: false, type: .structure)
         ]
         /// A URL link for more information about the state of the action, such as a deployment group details page.
         public let entityUrl: String?
@@ -1592,22 +1429,21 @@ extension Codepipeline {
             self.latestExecution = latestExecution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.entityUrl = dictionary["entityUrl"] as? String
-            self.actionName = dictionary["actionName"] as? String
-            if let currentRevision = dictionary["currentRevision"] as? [String: Any] { self.currentRevision = try Codepipeline.ActionRevision(dictionary: currentRevision) } else { self.currentRevision = nil }
-            self.revisionUrl = dictionary["revisionUrl"] as? String
-            if let latestExecution = dictionary["latestExecution"] as? [String: Any] { self.latestExecution = try Codepipeline.ActionExecution(dictionary: latestExecution) } else { self.latestExecution = nil }
+        private enum CodingKeys: String, CodingKey {
+            case entityUrl = "entityUrl"
+            case actionName = "actionName"
+            case currentRevision = "currentRevision"
+            case revisionUrl = "revisionUrl"
+            case latestExecution = "latestExecution"
         }
     }
 
     public struct PollForJobsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "actionTypeId", required: true, type: .structure), 
-            AWSShapeProperty(label: "queryParam", required: false, type: .map), 
-            AWSShapeProperty(label: "maxBatchSize", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionTypeId", required: true, type: .structure), 
+            AWSShapeMember(label: "queryParam", required: false, type: .map), 
+            AWSShapeMember(label: "maxBatchSize", required: false, type: .integer)
         ]
         /// Represents information about an action type.
         public let actionTypeId: ActionTypeId
@@ -1622,24 +1458,18 @@ extension Codepipeline {
             self.maxBatchSize = maxBatchSize
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let actionTypeId = dictionary["actionTypeId"] as? [String: Any] else { throw InitializableError.missingRequiredParam("actionTypeId") }
-            self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId)
-            if let queryParam = dictionary["queryParam"] as? [String: String] {
-                self.queryParam = queryParam
-            } else { 
-                self.queryParam = nil
-            }
-            self.maxBatchSize = dictionary["maxBatchSize"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case actionTypeId = "actionTypeId"
+            case queryParam = "queryParam"
+            case maxBatchSize = "maxBatchSize"
         }
     }
 
     public struct ThirdPartyJob: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobId", required: false, type: .string), 
-            AWSShapeProperty(label: "clientId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", required: false, type: .string), 
+            AWSShapeMember(label: "clientId", required: false, type: .string)
         ]
         /// The identifier used to identify the job in AWS CodePipeline.
         public let jobId: String?
@@ -1651,29 +1481,28 @@ extension Codepipeline {
             self.clientId = clientId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.jobId = dictionary["jobId"] as? String
-            self.clientId = dictionary["clientId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case clientId = "clientId"
         }
     }
 
     public struct ArtifactRevision: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revisionSummary", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "revisionChangeIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "revisionId", required: false, type: .string), 
-            AWSShapeProperty(label: "revisionUrl", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revisionSummary", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "revisionChangeIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "revisionId", required: false, type: .string), 
+            AWSShapeMember(label: "revisionUrl", required: false, type: .string)
         ]
         /// Summary information about the most recent revision of the artifact. For GitHub and AWS CodeCommit repositories, the commit message. For Amazon S3 buckets or actions, the user-provided content of a codepipeline-artifact-revision-summary key specified in the object metadata.
         public let revisionSummary: String?
         /// The name of an artifact. This name might be system-generated, such as "MyApp", or might be defined by the user when an action is created.
         public let name: String?
         /// The date and time when the most recent revision of the artifact was created, in timestamp format.
-        public let created: String?
+        public let created: Double?
         /// An additional identifier for a revision, such as a commit date or, for artifacts stored in Amazon S3 buckets, the ETag value.
         public let revisionChangeIdentifier: String?
         /// The revision ID of the artifact.
@@ -1681,7 +1510,7 @@ extension Codepipeline {
         /// The commit ID for the artifact revision. For artifacts stored in GitHub or AWS CodeCommit repositories, the commit ID is linked to a commit details page.
         public let revisionUrl: String?
 
-        public init(revisionSummary: String? = nil, name: String? = nil, created: String? = nil, revisionChangeIdentifier: String? = nil, revisionId: String? = nil, revisionUrl: String? = nil) {
+        public init(revisionSummary: String? = nil, name: String? = nil, created: Double? = nil, revisionChangeIdentifier: String? = nil, revisionId: String? = nil, revisionUrl: String? = nil) {
             self.revisionSummary = revisionSummary
             self.name = name
             self.created = created
@@ -1690,21 +1519,20 @@ extension Codepipeline {
             self.revisionUrl = revisionUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.revisionSummary = dictionary["revisionSummary"] as? String
-            self.name = dictionary["name"] as? String
-            self.created = dictionary["created"] as? String
-            self.revisionChangeIdentifier = dictionary["revisionChangeIdentifier"] as? String
-            self.revisionId = dictionary["revisionId"] as? String
-            self.revisionUrl = dictionary["revisionUrl"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case revisionSummary = "revisionSummary"
+            case name = "name"
+            case created = "created"
+            case revisionChangeIdentifier = "revisionChangeIdentifier"
+            case revisionId = "revisionId"
+            case revisionUrl = "revisionUrl"
         }
     }
 
     public struct ListPipelinesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous list pipelines call, which can be used to return the next set of pipelines in the list.
         public let nextToken: String?
@@ -1713,43 +1541,39 @@ extension Codepipeline {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
         }
     }
 
     public struct ActionRevision: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "created", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "revisionChangeId", required: true, type: .string), 
-            AWSShapeProperty(label: "revisionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "created", required: true, type: .timestamp), 
+            AWSShapeMember(label: "revisionChangeId", required: true, type: .string), 
+            AWSShapeMember(label: "revisionId", required: true, type: .string)
         ]
         /// The date and time when the most recent version of the action was created, in timestamp format.
-        public let created: String
+        public let created: Double
         /// The unique identifier of the change that set the state to this revision, for example a deployment ID or timestamp.
         public let revisionChangeId: String
         /// The system-generated unique ID that identifies the revision number of the action.
         public let revisionId: String
 
-        public init(created: String, revisionChangeId: String, revisionId: String) {
+        public init(created: Double, revisionChangeId: String, revisionId: String) {
             self.created = created
             self.revisionChangeId = revisionChangeId
             self.revisionId = revisionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let created = dictionary["created"] as? String else { throw InitializableError.missingRequiredParam("created") }
-            self.created = created
-            guard let revisionChangeId = dictionary["revisionChangeId"] as? String else { throw InitializableError.missingRequiredParam("revisionChangeId") }
-            self.revisionChangeId = revisionChangeId
-            guard let revisionId = dictionary["revisionId"] as? String else { throw InitializableError.missingRequiredParam("revisionId") }
-            self.revisionId = revisionId
+        private enum CodingKeys: String, CodingKey {
+            case created = "created"
+            case revisionChangeId = "revisionChangeId"
+            case revisionId = "revisionId"
         }
     }
 
-    public enum PipelineExecutionStatus: String, CustomStringConvertible {
+    public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable {
         case inprogress = "InProgress"
         case succeeded = "Succeeded"
         case superseded = "Superseded"
@@ -1759,12 +1583,11 @@ extension Codepipeline {
 
     public struct RetryStageExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "retryMode", required: true, type: .enum), 
-            AWSShapeProperty(label: "pipelineExecutionId", required: true, type: .string), 
-            AWSShapeProperty(label: "stageName", required: true, type: .string), 
-            AWSShapeProperty(label: "pipelineName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "retryMode", required: true, type: .enum), 
+            AWSShapeMember(label: "pipelineExecutionId", required: true, type: .string), 
+            AWSShapeMember(label: "stageName", required: true, type: .string), 
+            AWSShapeMember(label: "pipelineName", required: true, type: .string)
         ]
         /// The scope of the retry attempt. Currently, the only supported value is FAILED_ACTIONS.
         public let retryMode: StageRetryMode
@@ -1782,52 +1605,47 @@ extension Codepipeline {
             self.pipelineName = pipelineName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawretryMode = dictionary["retryMode"] as? String, let retryMode = StageRetryMode(rawValue: rawretryMode) else { throw InitializableError.missingRequiredParam("retryMode") }
-            self.retryMode = retryMode
-            guard let pipelineExecutionId = dictionary["pipelineExecutionId"] as? String else { throw InitializableError.missingRequiredParam("pipelineExecutionId") }
-            self.pipelineExecutionId = pipelineExecutionId
-            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
-            self.stageName = stageName
-            guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
-            self.pipelineName = pipelineName
+        private enum CodingKeys: String, CodingKey {
+            case retryMode = "retryMode"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case stageName = "stageName"
+            case pipelineName = "pipelineName"
         }
     }
 
     public struct TransitionState: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "disabledReason", required: false, type: .string), 
-            AWSShapeProperty(label: "lastChangedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "lastChangedBy", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "disabledReason", required: false, type: .string), 
+            AWSShapeMember(label: "lastChangedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastChangedBy", required: false, type: .string)
         ]
         /// Whether the transition between stages is enabled (true) or disabled (false).
         public let enabled: Bool?
         /// The user-specified reason why the transition between two stages of a pipeline was disabled.
         public let disabledReason: String?
         /// The timestamp when the transition state was last changed.
-        public let lastChangedAt: String?
+        public let lastChangedAt: Double?
         /// The ID of the user who last changed the transition state.
         public let lastChangedBy: String?
 
-        public init(enabled: Bool? = nil, disabledReason: String? = nil, lastChangedAt: String? = nil, lastChangedBy: String? = nil) {
+        public init(enabled: Bool? = nil, disabledReason: String? = nil, lastChangedAt: Double? = nil, lastChangedBy: String? = nil) {
             self.enabled = enabled
             self.disabledReason = disabledReason
             self.lastChangedAt = lastChangedAt
             self.lastChangedBy = lastChangedBy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.enabled = dictionary["enabled"] as? Bool
-            self.disabledReason = dictionary["disabledReason"] as? String
-            self.lastChangedAt = dictionary["lastChangedAt"] as? String
-            self.lastChangedBy = dictionary["lastChangedBy"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case disabledReason = "disabledReason"
+            case lastChangedAt = "lastChangedAt"
+            case lastChangedBy = "lastChangedBy"
         }
     }
 
-    public enum ApprovalStatus: String, CustomStringConvertible {
+    public enum ApprovalStatus: String, CustomStringConvertible, Codable {
         case approved = "Approved"
         case rejected = "Rejected"
         public var description: String { return self.rawValue }
@@ -1835,11 +1653,10 @@ extension Codepipeline {
 
     public struct PipelineContext: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pipelineName", required: false, type: .string), 
-            AWSShapeProperty(label: "action", required: false, type: .structure), 
-            AWSShapeProperty(label: "stage", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineName", required: false, type: .string), 
+            AWSShapeMember(label: "action", required: false, type: .structure), 
+            AWSShapeMember(label: "stage", required: false, type: .structure)
         ]
         /// The name of the pipeline. This is a user-specified value. Pipeline names must be unique across all pipeline names under an Amazon Web Services account.
         public let pipelineName: String?
@@ -1853,19 +1670,18 @@ extension Codepipeline {
             self.stage = stage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pipelineName = dictionary["pipelineName"] as? String
-            if let action = dictionary["action"] as? [String: Any] { self.action = try Codepipeline.ActionContext(dictionary: action) } else { self.action = nil }
-            if let stage = dictionary["stage"] as? [String: Any] { self.stage = try Codepipeline.StageContext(dictionary: stage) } else { self.stage = nil }
+        private enum CodingKeys: String, CodingKey {
+            case pipelineName = "pipelineName"
+            case action = "action"
+            case stage = "stage"
         }
     }
 
     public struct PollForThirdPartyJobsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "actionTypeId", required: true, type: .structure), 
-            AWSShapeProperty(label: "maxBatchSize", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionTypeId", required: true, type: .structure), 
+            AWSShapeMember(label: "maxBatchSize", required: false, type: .integer)
         ]
         /// Represents information about an action type.
         public let actionTypeId: ActionTypeId
@@ -1877,18 +1693,16 @@ extension Codepipeline {
             self.maxBatchSize = maxBatchSize
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let actionTypeId = dictionary["actionTypeId"] as? [String: Any] else { throw InitializableError.missingRequiredParam("actionTypeId") }
-            self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId)
-            self.maxBatchSize = dictionary["maxBatchSize"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case actionTypeId = "actionTypeId"
+            case maxBatchSize = "maxBatchSize"
         }
     }
 
     public struct PollForThirdPartyJobsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobs", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobs", required: false, type: .list)
         ]
         /// Information about the jobs to take action on.
         public let jobs: [ThirdPartyJob]?
@@ -1897,21 +1711,16 @@ extension Codepipeline {
             self.jobs = jobs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let jobs = dictionary["jobs"] as? [[String: Any]] {
-                self.jobs = try jobs.map({ try ThirdPartyJob(dictionary: $0) })
-            } else { 
-                self.jobs = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
         }
     }
 
     public struct PutJobFailureResultInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failureDetails", required: true, type: .structure), 
-            AWSShapeProperty(label: "jobId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failureDetails", required: true, type: .structure), 
+            AWSShapeMember(label: "jobId", required: true, type: .string)
         ]
         /// The details about the failure of a job.
         public let failureDetails: FailureDetails
@@ -1923,21 +1732,18 @@ extension Codepipeline {
             self.jobId = jobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let failureDetails = dictionary["failureDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failureDetails") }
-            self.failureDetails = try Codepipeline.FailureDetails(dictionary: failureDetails)
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
-            self.jobId = jobId
+        private enum CodingKeys: String, CodingKey {
+            case failureDetails = "failureDetails"
+            case jobId = "jobId"
         }
     }
 
     public struct ArtifactStore: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "location", required: true, type: .string), 
-            AWSShapeProperty(label: "encryptionKey", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "location", required: true, type: .string), 
+            AWSShapeMember(label: "encryptionKey", required: false, type: .structure)
         ]
         /// The type of the artifact store, such as S3.
         public let `type`: ArtifactStoreType
@@ -1952,41 +1758,38 @@ extension Codepipeline {
             self.encryptionKey = encryptionKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawtype = dictionary["type"] as? String, let `type` = ArtifactStoreType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            guard let location = dictionary["location"] as? String else { throw InitializableError.missingRequiredParam("location") }
-            self.location = location
-            if let encryptionKey = dictionary["encryptionKey"] as? [String: Any] { self.encryptionKey = try Codepipeline.EncryptionKey(dictionary: encryptionKey) } else { self.encryptionKey = nil }
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case location = "location"
+            case encryptionKey = "encryptionKey"
         }
     }
 
     public struct PutApprovalResultOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "approvedAt", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "approvedAt", required: false, type: .timestamp)
         ]
         /// The timestamp showing when the approval or rejection was submitted.
-        public let approvedAt: String?
+        public let approvedAt: Double?
 
-        public init(approvedAt: String? = nil) {
+        public init(approvedAt: Double? = nil) {
             self.approvedAt = approvedAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.approvedAt = dictionary["approvedAt"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case approvedAt = "approvedAt"
         }
     }
 
-    public enum ActionOwner: String, CustomStringConvertible {
+    public enum ActionOwner: String, CustomStringConvertible, Codable {
         case aws = "AWS"
         case thirdparty = "ThirdParty"
         case custom = "Custom"
         public var description: String { return self.rawValue }
     }
 
-    public enum FailureType: String, CustomStringConvertible {
+    public enum FailureType: String, CustomStringConvertible, Codable {
         case jobfailed = "JobFailed"
         case configurationerror = "ConfigurationError"
         case permissionerror = "PermissionError"
@@ -1998,10 +1801,9 @@ extension Codepipeline {
 
     public struct GetPipelineInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .integer)
         ]
         /// The name of the pipeline for which you want to get information. Pipeline names must be unique under an Amazon Web Services (AWS) user account.
         public let name: String
@@ -2013,22 +1815,20 @@ extension Codepipeline {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.version = dictionary["version"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
         }
     }
 
     public struct ActionType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "inputArtifactDetails", required: true, type: .structure), 
-            AWSShapeProperty(label: "id", required: true, type: .structure), 
-            AWSShapeProperty(label: "actionConfigurationProperties", required: false, type: .list), 
-            AWSShapeProperty(label: "settings", required: false, type: .structure), 
-            AWSShapeProperty(label: "outputArtifactDetails", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "inputArtifactDetails", required: true, type: .structure), 
+            AWSShapeMember(label: "id", required: true, type: .structure), 
+            AWSShapeMember(label: "actionConfigurationProperties", required: false, type: .list), 
+            AWSShapeMember(label: "settings", required: false, type: .structure), 
+            AWSShapeMember(label: "outputArtifactDetails", required: true, type: .structure)
         ]
         /// The details of the input artifact for the action, such as its commit ID.
         public let inputArtifactDetails: ArtifactDetails
@@ -2049,34 +1849,26 @@ extension Codepipeline {
             self.outputArtifactDetails = outputArtifactDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let inputArtifactDetails = dictionary["inputArtifactDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("inputArtifactDetails") }
-            self.inputArtifactDetails = try Codepipeline.ArtifactDetails(dictionary: inputArtifactDetails)
-            guard let id = dictionary["id"] as? [String: Any] else { throw InitializableError.missingRequiredParam("id") }
-            self.id = try Codepipeline.ActionTypeId(dictionary: id)
-            if let actionConfigurationProperties = dictionary["actionConfigurationProperties"] as? [[String: Any]] {
-                self.actionConfigurationProperties = try actionConfigurationProperties.map({ try ActionConfigurationProperty(dictionary: $0) })
-            } else { 
-                self.actionConfigurationProperties = nil
-            }
-            if let settings = dictionary["settings"] as? [String: Any] { self.settings = try Codepipeline.ActionTypeSettings(dictionary: settings) } else { self.settings = nil }
-            guard let outputArtifactDetails = dictionary["outputArtifactDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("outputArtifactDetails") }
-            self.outputArtifactDetails = try Codepipeline.ArtifactDetails(dictionary: outputArtifactDetails)
+        private enum CodingKeys: String, CodingKey {
+            case inputArtifactDetails = "inputArtifactDetails"
+            case id = "id"
+            case actionConfigurationProperties = "actionConfigurationProperties"
+            case settings = "settings"
+            case outputArtifactDetails = "outputArtifactDetails"
         }
     }
 
-    public enum ArtifactLocationType: String, CustomStringConvertible {
+    public enum ArtifactLocationType: String, CustomStringConvertible, Codable {
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
     public struct ListPipelineExecutionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pipelineName", required: true, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineName", required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The name of the pipeline for which you want to get execution summary information.
         public let pipelineName: String
@@ -2091,19 +1883,17 @@ extension Codepipeline {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
-            self.pipelineName = pipelineName
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pipelineName = "pipelineName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetPipelineExecutionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pipelineExecution", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineExecution", required: false, type: .structure)
         ]
         /// Represents information about the execution of a pipeline.
         public let pipelineExecution: PipelineExecution?
@@ -2112,23 +1902,22 @@ extension Codepipeline {
             self.pipelineExecution = pipelineExecution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let pipelineExecution = dictionary["pipelineExecution"] as? [String: Any] { self.pipelineExecution = try Codepipeline.PipelineExecution(dictionary: pipelineExecution) } else { self.pipelineExecution = nil }
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecution = "pipelineExecution"
         }
     }
 
     public struct ThirdPartyJobData: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "actionTypeId", required: false, type: .structure), 
-            AWSShapeProperty(label: "actionConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "artifactCredentials", required: false, type: .structure), 
-            AWSShapeProperty(label: "outputArtifacts", required: false, type: .list), 
-            AWSShapeProperty(label: "encryptionKey", required: false, type: .structure), 
-            AWSShapeProperty(label: "continuationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "inputArtifacts", required: false, type: .list), 
-            AWSShapeProperty(label: "pipelineContext", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionTypeId", required: false, type: .structure), 
+            AWSShapeMember(label: "actionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "artifactCredentials", required: false, type: .structure), 
+            AWSShapeMember(label: "outputArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "encryptionKey", required: false, type: .structure), 
+            AWSShapeMember(label: "continuationToken", required: false, type: .string), 
+            AWSShapeMember(label: "inputArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "pipelineContext", required: false, type: .structure)
         ]
         /// Represents information about an action type.
         public let actionTypeId: ActionTypeId?
@@ -2158,31 +1947,22 @@ extension Codepipeline {
             self.pipelineContext = pipelineContext
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let actionTypeId = dictionary["actionTypeId"] as? [String: Any] { self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId) } else { self.actionTypeId = nil }
-            if let actionConfiguration = dictionary["actionConfiguration"] as? [String: Any] { self.actionConfiguration = try Codepipeline.ActionConfiguration(dictionary: actionConfiguration) } else { self.actionConfiguration = nil }
-            if let artifactCredentials = dictionary["artifactCredentials"] as? [String: Any] { self.artifactCredentials = try Codepipeline.AWSSessionCredentials(dictionary: artifactCredentials) } else { self.artifactCredentials = nil }
-            if let outputArtifacts = dictionary["outputArtifacts"] as? [[String: Any]] {
-                self.outputArtifacts = try outputArtifacts.map({ try Artifact(dictionary: $0) })
-            } else { 
-                self.outputArtifacts = nil
-            }
-            if let encryptionKey = dictionary["encryptionKey"] as? [String: Any] { self.encryptionKey = try Codepipeline.EncryptionKey(dictionary: encryptionKey) } else { self.encryptionKey = nil }
-            self.continuationToken = dictionary["continuationToken"] as? String
-            if let inputArtifacts = dictionary["inputArtifacts"] as? [[String: Any]] {
-                self.inputArtifacts = try inputArtifacts.map({ try Artifact(dictionary: $0) })
-            } else { 
-                self.inputArtifacts = nil
-            }
-            if let pipelineContext = dictionary["pipelineContext"] as? [String: Any] { self.pipelineContext = try Codepipeline.PipelineContext(dictionary: pipelineContext) } else { self.pipelineContext = nil }
+        private enum CodingKeys: String, CodingKey {
+            case actionTypeId = "actionTypeId"
+            case actionConfiguration = "actionConfiguration"
+            case artifactCredentials = "artifactCredentials"
+            case outputArtifacts = "outputArtifacts"
+            case encryptionKey = "encryptionKey"
+            case continuationToken = "continuationToken"
+            case inputArtifacts = "inputArtifacts"
+            case pipelineContext = "pipelineContext"
         }
     }
 
     public struct GetPipelineOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pipeline", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipeline", required: false, type: .structure)
         ]
         /// Represents the structure of actions and stages to be performed in the pipeline. 
         public let pipeline: PipelineDeclaration?
@@ -2191,16 +1971,15 @@ extension Codepipeline {
             self.pipeline = pipeline
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let pipeline = dictionary["pipeline"] as? [String: Any] { self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline) } else { self.pipeline = nil }
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "pipeline"
         }
     }
 
     public struct ActionConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "configuration", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configuration", required: false, type: .map)
         ]
         /// The configuration data for the action.
         public let configuration: [String: String]?
@@ -2209,20 +1988,15 @@ extension Codepipeline {
             self.configuration = configuration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let configuration = dictionary["configuration"] as? [String: String] {
-                self.configuration = configuration
-            } else { 
-                self.configuration = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
         }
     }
 
     public struct CreatePipelineOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pipeline", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipeline", required: false, type: .structure)
         ]
         /// Represents the structure of actions and stages to be performed in the pipeline. 
         public let pipeline: PipelineDeclaration?
@@ -2231,16 +2005,15 @@ extension Codepipeline {
             self.pipeline = pipeline
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let pipeline = dictionary["pipeline"] as? [String: Any] { self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline) } else { self.pipeline = nil }
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "pipeline"
         }
     }
 
     public struct StartPipelineExecutionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pipelineExecutionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string)
         ]
         /// The unique system-generated ID of the pipeline execution that was started.
         public let pipelineExecutionId: String?
@@ -2249,12 +2022,12 @@ extension Codepipeline {
             self.pipelineExecutionId = pipelineExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pipelineExecutionId = dictionary["pipelineExecutionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionId = "pipelineExecutionId"
         }
     }
 
-    public enum ActionConfigurationPropertyType: String, CustomStringConvertible {
+    public enum ActionConfigurationPropertyType: String, CustomStringConvertible, Codable {
         case string = "String"
         case number = "Number"
         case boolean = "Boolean"
@@ -2263,9 +2036,8 @@ extension Codepipeline {
 
     public struct GetPipelineStateInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// The name of the pipeline about which you want to get information.
         public let name: String
@@ -2274,20 +2046,18 @@ extension Codepipeline {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct ActionTypeSettings: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revisionUrlTemplate", required: false, type: .string), 
-            AWSShapeProperty(label: "thirdPartyConfigurationUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "executionUrlTemplate", required: false, type: .string), 
-            AWSShapeProperty(label: "entityUrlTemplate", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revisionUrlTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "thirdPartyConfigurationUrl", required: false, type: .string), 
+            AWSShapeMember(label: "executionUrlTemplate", required: false, type: .string), 
+            AWSShapeMember(label: "entityUrlTemplate", required: false, type: .string)
         ]
         /// The URL returned to the AWS CodePipeline console that contains a link to the page where customers can update or change the configuration of the external action.
         public let revisionUrlTemplate: String?
@@ -2305,19 +2075,18 @@ extension Codepipeline {
             self.entityUrlTemplate = entityUrlTemplate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.revisionUrlTemplate = dictionary["revisionUrlTemplate"] as? String
-            self.thirdPartyConfigurationUrl = dictionary["thirdPartyConfigurationUrl"] as? String
-            self.executionUrlTemplate = dictionary["executionUrlTemplate"] as? String
-            self.entityUrlTemplate = dictionary["entityUrlTemplate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case revisionUrlTemplate = "revisionUrlTemplate"
+            case thirdPartyConfigurationUrl = "thirdPartyConfigurationUrl"
+            case executionUrlTemplate = "executionUrlTemplate"
+            case entityUrlTemplate = "entityUrlTemplate"
         }
     }
 
     public struct AcknowledgeThirdPartyJobOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum)
         ]
         /// The status information for the third party job, if any.
         public let status: JobStatus?
@@ -2326,22 +2095,21 @@ extension Codepipeline {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? String { self.status = JobStatus(rawValue: status) } else { self.status = nil }
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
         }
     }
 
     public struct CreateCustomActionTypeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "inputArtifactDetails", required: true, type: .structure), 
-            AWSShapeProperty(label: "settings", required: false, type: .structure), 
-            AWSShapeProperty(label: "outputArtifactDetails", required: true, type: .structure), 
-            AWSShapeProperty(label: "configurationProperties", required: false, type: .list), 
-            AWSShapeProperty(label: "version", required: true, type: .string), 
-            AWSShapeProperty(label: "provider", required: true, type: .string), 
-            AWSShapeProperty(label: "category", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "inputArtifactDetails", required: true, type: .structure), 
+            AWSShapeMember(label: "settings", required: false, type: .structure), 
+            AWSShapeMember(label: "outputArtifactDetails", required: true, type: .structure), 
+            AWSShapeMember(label: "configurationProperties", required: false, type: .list), 
+            AWSShapeMember(label: "version", required: true, type: .string), 
+            AWSShapeMember(label: "provider", required: true, type: .string), 
+            AWSShapeMember(label: "category", required: true, type: .enum)
         ]
         /// The details of the input artifact for the action, such as its commit ID.
         public let inputArtifactDetails: ArtifactDetails
@@ -2368,32 +2136,22 @@ extension Codepipeline {
             self.category = category
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let inputArtifactDetails = dictionary["inputArtifactDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("inputArtifactDetails") }
-            self.inputArtifactDetails = try Codepipeline.ArtifactDetails(dictionary: inputArtifactDetails)
-            if let settings = dictionary["settings"] as? [String: Any] { self.settings = try Codepipeline.ActionTypeSettings(dictionary: settings) } else { self.settings = nil }
-            guard let outputArtifactDetails = dictionary["outputArtifactDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("outputArtifactDetails") }
-            self.outputArtifactDetails = try Codepipeline.ArtifactDetails(dictionary: outputArtifactDetails)
-            if let configurationProperties = dictionary["configurationProperties"] as? [[String: Any]] {
-                self.configurationProperties = try configurationProperties.map({ try ActionConfigurationProperty(dictionary: $0) })
-            } else { 
-                self.configurationProperties = nil
-            }
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
-            guard let provider = dictionary["provider"] as? String else { throw InitializableError.missingRequiredParam("provider") }
-            self.provider = provider
-            guard let rawcategory = dictionary["category"] as? String, let category = ActionCategory(rawValue: rawcategory) else { throw InitializableError.missingRequiredParam("category") }
-            self.category = category
+        private enum CodingKeys: String, CodingKey {
+            case inputArtifactDetails = "inputArtifactDetails"
+            case settings = "settings"
+            case outputArtifactDetails = "outputArtifactDetails"
+            case configurationProperties = "configurationProperties"
+            case version = "version"
+            case provider = "provider"
+            case category = "category"
         }
     }
 
     public struct ApprovalResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "summary", required: true, type: .string), 
-            AWSShapeProperty(label: "status", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "summary", required: true, type: .string), 
+            AWSShapeMember(label: "status", required: true, type: .enum)
         ]
         /// The summary of the current status of the approval request.
         public let summary: String
@@ -2405,20 +2163,17 @@ extension Codepipeline {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let summary = dictionary["summary"] as? String else { throw InitializableError.missingRequiredParam("summary") }
-            self.summary = summary
-            guard let rawstatus = dictionary["status"] as? String, let status = ApprovalStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
+        private enum CodingKeys: String, CodingKey {
+            case summary = "summary"
+            case status = "status"
         }
     }
 
     public struct BlockerDeclaration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// Reserved for future use.
         public let `type`: BlockerType
@@ -2430,15 +2185,13 @@ extension Codepipeline {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawtype = dictionary["type"] as? String, let `type` = BlockerType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case name = "name"
         }
     }
 
-    public enum ActionExecutionStatus: String, CustomStringConvertible {
+    public enum ActionExecutionStatus: String, CustomStringConvertible, Codable {
         case inprogress = "InProgress"
         case succeeded = "Succeeded"
         case failed = "Failed"
@@ -2447,10 +2200,9 @@ extension Codepipeline {
 
     public struct ListActionTypesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "actionOwnerFilter", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "actionOwnerFilter", required: false, type: .enum)
         ]
         /// An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
         public let nextToken: String?
@@ -2462,17 +2214,16 @@ extension Codepipeline {
             self.actionOwnerFilter = actionOwnerFilter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let actionOwnerFilter = dictionary["actionOwnerFilter"] as? String { self.actionOwnerFilter = ActionOwner(rawValue: actionOwnerFilter) } else { self.actionOwnerFilter = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case actionOwnerFilter = "actionOwnerFilter"
         }
     }
 
     public struct CreatePipelineInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pipeline", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipeline", required: true, type: .structure)
         ]
         /// Represents the structure of actions and stages to be performed in the pipeline. 
         public let pipeline: PipelineDeclaration
@@ -2481,17 +2232,15 @@ extension Codepipeline {
             self.pipeline = pipeline
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let pipeline = dictionary["pipeline"] as? [String: Any] else { throw InitializableError.missingRequiredParam("pipeline") }
-            self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline)
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "pipeline"
         }
     }
 
     public struct UpdatePipelineInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pipeline", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipeline", required: true, type: .structure)
         ]
         /// The name of the pipeline to be updated.
         public let pipeline: PipelineDeclaration
@@ -2500,53 +2249,50 @@ extension Codepipeline {
             self.pipeline = pipeline
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let pipeline = dictionary["pipeline"] as? [String: Any] else { throw InitializableError.missingRequiredParam("pipeline") }
-            self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline)
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "pipeline"
         }
     }
 
     public struct PipelineExecutionSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "pipelineExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "lastUpdateTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp)
         ]
         /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution caught up and continued through the pipeline instead.    Failed: The pipeline execution did not complete successfully.  
         public let status: PipelineExecutionStatus?
         /// The ID of the pipeline execution.
         public let pipelineExecutionId: String?
         /// The date and time when the pipeline execution began, in timestamp format.
-        public let startTime: String?
+        public let startTime: Double?
         /// The date and time of the last change to the pipeline execution, in timestamp format.
-        public let lastUpdateTime: String?
+        public let lastUpdateTime: Double?
 
-        public init(status: PipelineExecutionStatus? = nil, pipelineExecutionId: String? = nil, startTime: String? = nil, lastUpdateTime: String? = nil) {
+        public init(status: PipelineExecutionStatus? = nil, pipelineExecutionId: String? = nil, startTime: Double? = nil, lastUpdateTime: Double? = nil) {
             self.status = status
             self.pipelineExecutionId = pipelineExecutionId
             self.startTime = startTime
             self.lastUpdateTime = lastUpdateTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? String { self.status = PipelineExecutionStatus(rawValue: status) } else { self.status = nil }
-            self.pipelineExecutionId = dictionary["pipelineExecutionId"] as? String
-            self.startTime = dictionary["startTime"] as? String
-            self.lastUpdateTime = dictionary["lastUpdateTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case startTime = "startTime"
+            case lastUpdateTime = "lastUpdateTime"
         }
     }
 
     public struct Job: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "accountId", required: false, type: .string), 
-            AWSShapeProperty(label: "data", required: false, type: .structure), 
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "nonce", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "accountId", required: false, type: .string), 
+            AWSShapeMember(label: "data", required: false, type: .structure), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "nonce", required: false, type: .string)
         ]
         /// The ID of the AWS account to use when performing the job.
         public let accountId: String?
@@ -2564,19 +2310,18 @@ extension Codepipeline {
             self.nonce = nonce
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.accountId = dictionary["accountId"] as? String
-            if let data = dictionary["data"] as? [String: Any] { self.data = try Codepipeline.JobData(dictionary: data) } else { self.data = nil }
-            self.id = dictionary["id"] as? String
-            self.nonce = dictionary["nonce"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case data = "data"
+            case id = "id"
+            case nonce = "nonce"
         }
     }
 
     public struct UpdatePipelineOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pipeline", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pipeline", required: false, type: .structure)
         ]
         /// The structure of the updated pipeline.
         public let pipeline: PipelineDeclaration?
@@ -2585,18 +2330,17 @@ extension Codepipeline {
             self.pipeline = pipeline
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let pipeline = dictionary["pipeline"] as? [String: Any] { self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline) } else { self.pipeline = nil }
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "pipeline"
         }
     }
 
     public struct ExecutionDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "summary", required: false, type: .string), 
-            AWSShapeProperty(label: "percentComplete", required: false, type: .integer), 
-            AWSShapeProperty(label: "externalExecutionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "summary", required: false, type: .string), 
+            AWSShapeMember(label: "percentComplete", required: false, type: .integer), 
+            AWSShapeMember(label: "externalExecutionId", required: false, type: .string)
         ]
         /// The summary of the current status of the actions.
         public let summary: String?
@@ -2611,18 +2355,17 @@ extension Codepipeline {
             self.externalExecutionId = externalExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.summary = dictionary["summary"] as? String
-            self.percentComplete = dictionary["percentComplete"] as? Int32
-            self.externalExecutionId = dictionary["externalExecutionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case summary = "summary"
+            case percentComplete = "percentComplete"
+            case externalExecutionId = "externalExecutionId"
         }
     }
 
     public struct GetThirdPartyJobDetailsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobDetails", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobDetails", required: false, type: .structure)
         ]
         /// The details of the job, including any protected values defined for the job.
         public let jobDetails: ThirdPartyJobDetails?
@@ -2631,18 +2374,17 @@ extension Codepipeline {
             self.jobDetails = jobDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let jobDetails = dictionary["jobDetails"] as? [String: Any] { self.jobDetails = try Codepipeline.ThirdPartyJobDetails(dictionary: jobDetails) } else { self.jobDetails = nil }
+        private enum CodingKeys: String, CodingKey {
+            case jobDetails = "jobDetails"
         }
     }
 
     public struct AcknowledgeThirdPartyJobInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nonce", required: true, type: .string), 
-            AWSShapeProperty(label: "jobId", required: true, type: .string), 
-            AWSShapeProperty(label: "clientToken", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nonce", required: true, type: .string), 
+            AWSShapeMember(label: "jobId", required: true, type: .string), 
+            AWSShapeMember(label: "clientToken", required: true, type: .string)
         ]
         /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response to a GetThirdPartyJobDetails request.
         public let nonce: String
@@ -2657,22 +2399,18 @@ extension Codepipeline {
             self.clientToken = clientToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let nonce = dictionary["nonce"] as? String else { throw InitializableError.missingRequiredParam("nonce") }
-            self.nonce = nonce
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
-            self.jobId = jobId
-            guard let clientToken = dictionary["clientToken"] as? String else { throw InitializableError.missingRequiredParam("clientToken") }
-            self.clientToken = clientToken
+        private enum CodingKeys: String, CodingKey {
+            case nonce = "nonce"
+            case jobId = "jobId"
+            case clientToken = "clientToken"
         }
     }
 
     public struct ListPipelinesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "pipelines", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "pipelines", required: false, type: .list)
         ]
         /// If the amount of returned information is significantly large, an identifier is also returned which can be used in a subsequent list pipelines call to return the next set of pipelines in the list.
         public let nextToken: String?
@@ -2684,17 +2422,13 @@ extension Codepipeline {
             self.pipelines = pipelines
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let pipelines = dictionary["pipelines"] as? [[String: Any]] {
-                self.pipelines = try pipelines.map({ try PipelineSummary(dictionary: $0) })
-            } else { 
-                self.pipelines = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case pipelines = "pipelines"
         }
     }
 
-    public enum ArtifactStoreType: String, CustomStringConvertible {
+    public enum ArtifactStoreType: String, CustomStringConvertible, Codable {
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }

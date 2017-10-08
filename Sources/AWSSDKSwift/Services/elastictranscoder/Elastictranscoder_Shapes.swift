@@ -31,11 +31,10 @@ extension Elastictranscoder {
 
     public struct ListJobsByPipelineRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ascending", location: .querystring(locationName: "Ascending"), required: false, type: .string), 
-            AWSShapeProperty(label: "PipelineId", location: .uri(locationName: "PipelineId"), required: true, type: .string), 
-            AWSShapeProperty(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ascending", location: .querystring(locationName: "Ascending"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelineId", location: .uri(locationName: "PipelineId"), required: true, type: .string), 
+            AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string)
         ]
         ///  To list jobs in chronological order by the date and time that they were submitted, enter true. To list jobs in reverse chronological order, enter false. 
         public let ascending: String?
@@ -50,19 +49,17 @@ extension Elastictranscoder {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ascending = dictionary["Ascending"] as? String
-            guard let pipelineId = dictionary["PipelineId"] as? String else { throw InitializableError.missingRequiredParam("PipelineId") }
-            self.pipelineId = pipelineId
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ascending = "Ascending"
+            case pipelineId = "PipelineId"
+            case pageToken = "PageToken"
         }
     }
 
     public struct DeletePipelineRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identifier of the pipeline that you want to delete.
         public let id: String
@@ -71,21 +68,19 @@ extension Elastictranscoder {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct CaptionSource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Label", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "TimeOffset", required: false, type: .string), 
-            AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "Language", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Label", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "TimeOffset", required: false, type: .string), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
+            AWSShapeMember(label: "Language", required: false, type: .string)
         ]
         /// The label of the caption shown in the player when choosing a language. We recommend that you put the caption language name here, in the language of the captions.
         public let label: String?
@@ -106,20 +101,19 @@ extension Elastictranscoder {
             self.language = language
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.label = dictionary["Label"] as? String
-            self.key = dictionary["Key"] as? String
-            self.timeOffset = dictionary["TimeOffset"] as? String
-            if let encryption = dictionary["Encryption"] as? [String: Any] { self.encryption = try Elastictranscoder.Encryption(dictionary: encryption) } else { self.encryption = nil }
-            self.language = dictionary["Language"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case label = "Label"
+            case key = "Key"
+            case timeOffset = "TimeOffset"
+            case encryption = "Encryption"
+            case language = "Language"
         }
     }
 
     public struct ReadPresetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Preset", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Preset", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the preset.
         public let preset: Preset?
@@ -128,17 +122,16 @@ extension Elastictranscoder {
             self.preset = preset
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let preset = dictionary["Preset"] as? [String: Any] { self.preset = try Elastictranscoder.Preset(dictionary: preset) } else { self.preset = nil }
+        private enum CodingKeys: String, CodingKey {
+            case preset = "Preset"
         }
     }
 
     public struct JobAlbumArt: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MergePolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "Artwork", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MergePolicy", required: false, type: .string), 
+            AWSShapeMember(label: "Artwork", required: false, type: .list)
         ]
         /// A policy that determines how Elastic Transcoder handles the existence of multiple album artwork files.    Replace: The specified album art replaces any existing album art.    Prepend: The specified album art is placed in front of any existing album art.    Append: The specified album art is placed after any existing album art.    Fallback: If the original input file contains artwork, Elastic Transcoder uses that artwork for the output. If the original input does not contain artwork, Elastic Transcoder uses the specified album art file.  
         public let mergePolicy: String?
@@ -150,29 +143,24 @@ extension Elastictranscoder {
             self.artwork = artwork
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mergePolicy = dictionary["MergePolicy"] as? String
-            if let artwork = dictionary["Artwork"] as? [[String: Any]] {
-                self.artwork = try artwork.map({ try Artwork(dictionary: $0) })
-            } else { 
-                self.artwork = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case mergePolicy = "MergePolicy"
+            case artwork = "Artwork"
         }
     }
 
     public struct Preset: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Thumbnails", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Audio", required: false, type: .structure), 
-            AWSShapeProperty(label: "Video", required: false, type: .structure), 
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "Container", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Thumbnails", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Audio", required: false, type: .structure), 
+            AWSShapeMember(label: "Video", required: false, type: .structure), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Container", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// A section of the response body that provides information about the thumbnail preset values, if any.
         public let thumbnails: Thumbnails?
@@ -205,33 +193,32 @@ extension Elastictranscoder {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let thumbnails = dictionary["Thumbnails"] as? [String: Any] { self.thumbnails = try Elastictranscoder.Thumbnails(dictionary: thumbnails) } else { self.thumbnails = nil }
-            self.id = dictionary["Id"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.name = dictionary["Name"] as? String
-            if let audio = dictionary["Audio"] as? [String: Any] { self.audio = try Elastictranscoder.AudioParameters(dictionary: audio) } else { self.audio = nil }
-            if let video = dictionary["Video"] as? [String: Any] { self.video = try Elastictranscoder.VideoParameters(dictionary: video) } else { self.video = nil }
-            self.`type` = dictionary["Type"] as? String
-            self.container = dictionary["Container"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case thumbnails = "Thumbnails"
+            case id = "Id"
+            case arn = "Arn"
+            case name = "Name"
+            case audio = "Audio"
+            case video = "Video"
+            case `type` = "Type"
+            case container = "Container"
+            case description = "Description"
         }
     }
 
     public struct JobInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeSpan", required: false, type: .structure), 
-            AWSShapeProperty(label: "Interlaced", required: false, type: .string), 
-            AWSShapeProperty(label: "DetectedProperties", required: false, type: .structure), 
-            AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "AspectRatio", required: false, type: .string), 
-            AWSShapeProperty(label: "InputCaptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "Resolution", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Container", required: false, type: .string), 
-            AWSShapeProperty(label: "FrameRate", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimeSpan", required: false, type: .structure), 
+            AWSShapeMember(label: "Interlaced", required: false, type: .string), 
+            AWSShapeMember(label: "DetectedProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
+            AWSShapeMember(label: "AspectRatio", required: false, type: .string), 
+            AWSShapeMember(label: "InputCaptions", required: false, type: .structure), 
+            AWSShapeMember(label: "Resolution", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Container", required: false, type: .string), 
+            AWSShapeMember(label: "FrameRate", required: false, type: .string)
         ]
         /// Settings for clipping an input. Each input can have different clip settings.
         public let timeSpan: TimeSpan?
@@ -267,26 +254,25 @@ extension Elastictranscoder {
             self.frameRate = frameRate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let timeSpan = dictionary["TimeSpan"] as? [String: Any] { self.timeSpan = try Elastictranscoder.TimeSpan(dictionary: timeSpan) } else { self.timeSpan = nil }
-            self.interlaced = dictionary["Interlaced"] as? String
-            if let detectedProperties = dictionary["DetectedProperties"] as? [String: Any] { self.detectedProperties = try Elastictranscoder.DetectedProperties(dictionary: detectedProperties) } else { self.detectedProperties = nil }
-            if let encryption = dictionary["Encryption"] as? [String: Any] { self.encryption = try Elastictranscoder.Encryption(dictionary: encryption) } else { self.encryption = nil }
-            self.aspectRatio = dictionary["AspectRatio"] as? String
-            if let inputCaptions = dictionary["InputCaptions"] as? [String: Any] { self.inputCaptions = try Elastictranscoder.InputCaptions(dictionary: inputCaptions) } else { self.inputCaptions = nil }
-            self.resolution = dictionary["Resolution"] as? String
-            self.key = dictionary["Key"] as? String
-            self.container = dictionary["Container"] as? String
-            self.frameRate = dictionary["FrameRate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case timeSpan = "TimeSpan"
+            case interlaced = "Interlaced"
+            case detectedProperties = "DetectedProperties"
+            case encryption = "Encryption"
+            case aspectRatio = "AspectRatio"
+            case inputCaptions = "InputCaptions"
+            case resolution = "Resolution"
+            case key = "Key"
+            case container = "Container"
+            case frameRate = "FrameRate"
         }
     }
 
     public struct ListPipelinesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ascending", location: .querystring(locationName: "Ascending"), required: false, type: .string), 
-            AWSShapeProperty(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ascending", location: .querystring(locationName: "Ascending"), required: false, type: .string), 
+            AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string)
         ]
         /// To list pipelines in chronological order by the date and time that they were created, enter true. To list pipelines in reverse chronological order, enter false.
         public let ascending: String?
@@ -298,31 +284,30 @@ extension Elastictranscoder {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ascending = dictionary["Ascending"] as? String
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ascending = "Ascending"
+            case pageToken = "PageToken"
         }
     }
 
     public struct VideoParameters: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DisplayAspectRatio", required: false, type: .string), 
-            AWSShapeProperty(label: "PaddingPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "FixedGOP", required: false, type: .string), 
-            AWSShapeProperty(label: "SizingPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxHeight", required: false, type: .string), 
-            AWSShapeProperty(label: "FrameRate", required: false, type: .string), 
-            AWSShapeProperty(label: "Codec", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyframesMaxDist", required: false, type: .string), 
-            AWSShapeProperty(label: "AspectRatio", required: false, type: .string), 
-            AWSShapeProperty(label: "Resolution", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxFrameRate", required: false, type: .string), 
-            AWSShapeProperty(label: "CodecOptions", required: false, type: .map), 
-            AWSShapeProperty(label: "BitRate", required: false, type: .string), 
-            AWSShapeProperty(label: "Watermarks", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxWidth", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisplayAspectRatio", required: false, type: .string), 
+            AWSShapeMember(label: "PaddingPolicy", required: false, type: .string), 
+            AWSShapeMember(label: "FixedGOP", required: false, type: .string), 
+            AWSShapeMember(label: "SizingPolicy", required: false, type: .string), 
+            AWSShapeMember(label: "MaxHeight", required: false, type: .string), 
+            AWSShapeMember(label: "FrameRate", required: false, type: .string), 
+            AWSShapeMember(label: "Codec", required: false, type: .string), 
+            AWSShapeMember(label: "KeyframesMaxDist", required: false, type: .string), 
+            AWSShapeMember(label: "AspectRatio", required: false, type: .string), 
+            AWSShapeMember(label: "Resolution", required: false, type: .string), 
+            AWSShapeMember(label: "MaxFrameRate", required: false, type: .string), 
+            AWSShapeMember(label: "CodecOptions", required: false, type: .map), 
+            AWSShapeMember(label: "BitRate", required: false, type: .string), 
+            AWSShapeMember(label: "Watermarks", required: false, type: .list), 
+            AWSShapeMember(label: "MaxWidth", required: false, type: .string)
         ]
         /// The value that Elastic Transcoder adds to the metadata in the output file.
         public let displayAspectRatio: String?
@@ -373,51 +358,39 @@ extension Elastictranscoder {
             self.maxWidth = maxWidth
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.displayAspectRatio = dictionary["DisplayAspectRatio"] as? String
-            self.paddingPolicy = dictionary["PaddingPolicy"] as? String
-            self.fixedGOP = dictionary["FixedGOP"] as? String
-            self.sizingPolicy = dictionary["SizingPolicy"] as? String
-            self.maxHeight = dictionary["MaxHeight"] as? String
-            self.frameRate = dictionary["FrameRate"] as? String
-            self.codec = dictionary["Codec"] as? String
-            self.keyframesMaxDist = dictionary["KeyframesMaxDist"] as? String
-            self.aspectRatio = dictionary["AspectRatio"] as? String
-            self.resolution = dictionary["Resolution"] as? String
-            self.maxFrameRate = dictionary["MaxFrameRate"] as? String
-            if let codecOptions = dictionary["CodecOptions"] as? [String: String] {
-                self.codecOptions = codecOptions
-            } else { 
-                self.codecOptions = nil
-            }
-            self.bitRate = dictionary["BitRate"] as? String
-            if let watermarks = dictionary["Watermarks"] as? [[String: Any]] {
-                self.watermarks = try watermarks.map({ try PresetWatermark(dictionary: $0) })
-            } else { 
-                self.watermarks = nil
-            }
-            self.maxWidth = dictionary["MaxWidth"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case displayAspectRatio = "DisplayAspectRatio"
+            case paddingPolicy = "PaddingPolicy"
+            case fixedGOP = "FixedGOP"
+            case sizingPolicy = "SizingPolicy"
+            case maxHeight = "MaxHeight"
+            case frameRate = "FrameRate"
+            case codec = "Codec"
+            case keyframesMaxDist = "KeyframesMaxDist"
+            case aspectRatio = "AspectRatio"
+            case resolution = "Resolution"
+            case maxFrameRate = "MaxFrameRate"
+            case codecOptions = "CodecOptions"
+            case bitRate = "BitRate"
+            case watermarks = "Watermarks"
+            case maxWidth = "MaxWidth"
         }
     }
 
     public struct DeletePresetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreatePresetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Audio", required: false, type: .structure), 
-            AWSShapeProperty(label: "Container", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Thumbnails", required: false, type: .structure), 
-            AWSShapeProperty(label: "Video", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Audio", required: false, type: .structure), 
+            AWSShapeMember(label: "Container", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Thumbnails", required: false, type: .structure), 
+            AWSShapeMember(label: "Video", required: false, type: .structure)
         ]
         /// A section of the request body that specifies the audio parameters.
         public let audio: AudioParameters?
@@ -441,24 +414,21 @@ extension Elastictranscoder {
             self.video = video
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let audio = dictionary["Audio"] as? [String: Any] { self.audio = try Elastictranscoder.AudioParameters(dictionary: audio) } else { self.audio = nil }
-            guard let container = dictionary["Container"] as? String else { throw InitializableError.missingRequiredParam("Container") }
-            self.container = container
-            self.description = dictionary["Description"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let thumbnails = dictionary["Thumbnails"] as? [String: Any] { self.thumbnails = try Elastictranscoder.Thumbnails(dictionary: thumbnails) } else { self.thumbnails = nil }
-            if let video = dictionary["Video"] as? [String: Any] { self.video = try Elastictranscoder.VideoParameters(dictionary: video) } else { self.video = nil }
+        private enum CodingKeys: String, CodingKey {
+            case audio = "Audio"
+            case container = "Container"
+            case description = "Description"
+            case name = "Name"
+            case thumbnails = "Thumbnails"
+            case video = "Video"
         }
     }
 
     public struct ListJobsByStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Jobs", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Jobs", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// An array of Job objects that have the specified status.
         public let jobs: [Job]?
@@ -470,30 +440,22 @@ extension Elastictranscoder {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let jobs = dictionary["Jobs"] as? [[String: Any]] {
-                self.jobs = try jobs.map({ try Job(dictionary: $0) })
-            } else { 
-                self.jobs = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "Jobs"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct CancelJobResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListPresetsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Presets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Presets", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// An array of Preset objects.
         public let presets: [Preset]?
@@ -505,27 +467,22 @@ extension Elastictranscoder {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let presets = dictionary["Presets"] as? [[String: Any]] {
-                self.presets = try presets.map({ try Preset(dictionary: $0) })
-            } else { 
-                self.presets = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case presets = "Presets"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct Playlist: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "HlsContentProtection", required: false, type: .structure), 
-            AWSShapeProperty(label: "OutputKeys", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Format", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusDetail", required: false, type: .string), 
-            AWSShapeProperty(label: "PlayReadyDrm", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "HlsContentProtection", required: false, type: .structure), 
+            AWSShapeMember(label: "OutputKeys", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Format", required: false, type: .string), 
+            AWSShapeMember(label: "StatusDetail", required: false, type: .string), 
+            AWSShapeMember(label: "PlayReadyDrm", required: false, type: .structure)
         ]
         /// The status of the job with which the playlist is associated.
         public let status: String?
@@ -552,23 +509,22 @@ extension Elastictranscoder {
             self.playReadyDrm = playReadyDrm
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            if let hlsContentProtection = dictionary["HlsContentProtection"] as? [String: Any] { self.hlsContentProtection = try Elastictranscoder.HlsContentProtection(dictionary: hlsContentProtection) } else { self.hlsContentProtection = nil }
-            self.outputKeys = dictionary["OutputKeys"] as? [String]
-            self.name = dictionary["Name"] as? String
-            self.format = dictionary["Format"] as? String
-            self.statusDetail = dictionary["StatusDetail"] as? String
-            if let playReadyDrm = dictionary["PlayReadyDrm"] as? [String: Any] { self.playReadyDrm = try Elastictranscoder.PlayReadyDrm(dictionary: playReadyDrm) } else { self.playReadyDrm = nil }
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case hlsContentProtection = "HlsContentProtection"
+            case outputKeys = "OutputKeys"
+            case name = "Name"
+            case format = "Format"
+            case statusDetail = "StatusDetail"
+            case playReadyDrm = "PlayReadyDrm"
         }
     }
 
     public struct TimeSpan: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Duration", required: false, type: .string), 
-            AWSShapeProperty(label: "StartTime", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Duration", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .string)
         ]
         /// The duration of the clip. The format can be either HH:mm:ss.SSS (maximum value: 23:59:59.999; SSS is thousandths of a second) or sssss.SSS (maximum value: 86399.999). If you don't specify a value, Elastic Transcoder creates an output file from StartTime to the end of the file. If you specify a value longer than the duration of the input file, Elastic Transcoder transcodes the file and returns a warning message.
         public let duration: String?
@@ -580,32 +536,28 @@ extension Elastictranscoder {
             self.startTime = startTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.duration = dictionary["Duration"] as? String
-            self.startTime = dictionary["StartTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case startTime = "StartTime"
         }
     }
 
     public struct DeletePipelineResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreatePipelineRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InputBucket", required: true, type: .string), 
-            AWSShapeProperty(label: "AwsKmsKeyArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ThumbnailConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Role", required: true, type: .string), 
-            AWSShapeProperty(label: "Notifications", required: false, type: .structure), 
-            AWSShapeProperty(label: "ContentConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "OutputBucket", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputBucket", required: true, type: .string), 
+            AWSShapeMember(label: "AwsKmsKeyArn", required: false, type: .string), 
+            AWSShapeMember(label: "ThumbnailConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Role", required: true, type: .string), 
+            AWSShapeMember(label: "Notifications", required: false, type: .structure), 
+            AWSShapeMember(label: "ContentConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "OutputBucket", required: false, type: .string)
         ]
         /// The Amazon S3 bucket in which you saved the media files that you want to transcode.
         public let inputBucket: String
@@ -635,27 +587,23 @@ extension Elastictranscoder {
             self.outputBucket = outputBucket
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let inputBucket = dictionary["InputBucket"] as? String else { throw InitializableError.missingRequiredParam("InputBucket") }
-            self.inputBucket = inputBucket
-            self.awsKmsKeyArn = dictionary["AwsKmsKeyArn"] as? String
-            if let thumbnailConfig = dictionary["ThumbnailConfig"] as? [String: Any] { self.thumbnailConfig = try Elastictranscoder.PipelineOutputConfig(dictionary: thumbnailConfig) } else { self.thumbnailConfig = nil }
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let role = dictionary["Role"] as? String else { throw InitializableError.missingRequiredParam("Role") }
-            self.role = role
-            if let notifications = dictionary["Notifications"] as? [String: Any] { self.notifications = try Elastictranscoder.Notifications(dictionary: notifications) } else { self.notifications = nil }
-            if let contentConfig = dictionary["ContentConfig"] as? [String: Any] { self.contentConfig = try Elastictranscoder.PipelineOutputConfig(dictionary: contentConfig) } else { self.contentConfig = nil }
-            self.outputBucket = dictionary["OutputBucket"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case inputBucket = "InputBucket"
+            case awsKmsKeyArn = "AwsKmsKeyArn"
+            case thumbnailConfig = "ThumbnailConfig"
+            case name = "Name"
+            case role = "Role"
+            case notifications = "Notifications"
+            case contentConfig = "ContentConfig"
+            case outputBucket = "OutputBucket"
         }
     }
 
     public struct UpdatePipelineStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The desired status of the pipeline:    Active: The pipeline is processing jobs.    Paused: The pipeline is not currently processing jobs.  
         public let status: String
@@ -667,26 +615,23 @@ extension Elastictranscoder {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case id = "Id"
         }
     }
 
     public struct Thumbnails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PaddingPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "Interval", required: false, type: .string), 
-            AWSShapeProperty(label: "AspectRatio", required: false, type: .string), 
-            AWSShapeProperty(label: "Format", required: false, type: .string), 
-            AWSShapeProperty(label: "Resolution", required: false, type: .string), 
-            AWSShapeProperty(label: "SizingPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxHeight", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxWidth", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PaddingPolicy", required: false, type: .string), 
+            AWSShapeMember(label: "Interval", required: false, type: .string), 
+            AWSShapeMember(label: "AspectRatio", required: false, type: .string), 
+            AWSShapeMember(label: "Format", required: false, type: .string), 
+            AWSShapeMember(label: "Resolution", required: false, type: .string), 
+            AWSShapeMember(label: "SizingPolicy", required: false, type: .string), 
+            AWSShapeMember(label: "MaxHeight", required: false, type: .string), 
+            AWSShapeMember(label: "MaxWidth", required: false, type: .string)
         ]
         /// When you set PaddingPolicy to Pad, Elastic Transcoder may add black bars to the top and bottom and/or left and right sides of thumbnails to make the total size of the thumbnails match the values that you specified for thumbnail MaxWidth and MaxHeight settings.
         public let paddingPolicy: String?
@@ -716,33 +661,32 @@ extension Elastictranscoder {
             self.maxWidth = maxWidth
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.paddingPolicy = dictionary["PaddingPolicy"] as? String
-            self.interval = dictionary["Interval"] as? String
-            self.aspectRatio = dictionary["AspectRatio"] as? String
-            self.format = dictionary["Format"] as? String
-            self.resolution = dictionary["Resolution"] as? String
-            self.sizingPolicy = dictionary["SizingPolicy"] as? String
-            self.maxHeight = dictionary["MaxHeight"] as? String
-            self.maxWidth = dictionary["MaxWidth"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case paddingPolicy = "PaddingPolicy"
+            case interval = "Interval"
+            case aspectRatio = "AspectRatio"
+            case format = "Format"
+            case resolution = "Resolution"
+            case sizingPolicy = "SizingPolicy"
+            case maxHeight = "MaxHeight"
+            case maxWidth = "MaxWidth"
         }
     }
 
     public struct Pipeline: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "InputBucket", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "AwsKmsKeyArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ThumbnailConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Role", required: false, type: .string), 
-            AWSShapeProperty(label: "Notifications", required: false, type: .structure), 
-            AWSShapeProperty(label: "ContentConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "OutputBucket", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "InputBucket", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "AwsKmsKeyArn", required: false, type: .string), 
+            AWSShapeMember(label: "ThumbnailConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "Notifications", required: false, type: .structure), 
+            AWSShapeMember(label: "ContentConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "OutputBucket", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The current status of the pipeline:    Active: The pipeline is processing jobs.    Paused: The pipeline is not currently processing jobs.  
         public let status: String?
@@ -781,29 +725,28 @@ extension Elastictranscoder {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            self.inputBucket = dictionary["InputBucket"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.awsKmsKeyArn = dictionary["AwsKmsKeyArn"] as? String
-            if let thumbnailConfig = dictionary["ThumbnailConfig"] as? [String: Any] { self.thumbnailConfig = try Elastictranscoder.PipelineOutputConfig(dictionary: thumbnailConfig) } else { self.thumbnailConfig = nil }
-            self.name = dictionary["Name"] as? String
-            self.role = dictionary["Role"] as? String
-            if let notifications = dictionary["Notifications"] as? [String: Any] { self.notifications = try Elastictranscoder.Notifications(dictionary: notifications) } else { self.notifications = nil }
-            if let contentConfig = dictionary["ContentConfig"] as? [String: Any] { self.contentConfig = try Elastictranscoder.PipelineOutputConfig(dictionary: contentConfig) } else { self.contentConfig = nil }
-            self.outputBucket = dictionary["OutputBucket"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case inputBucket = "InputBucket"
+            case arn = "Arn"
+            case awsKmsKeyArn = "AwsKmsKeyArn"
+            case thumbnailConfig = "ThumbnailConfig"
+            case name = "Name"
+            case role = "Role"
+            case notifications = "Notifications"
+            case contentConfig = "ContentConfig"
+            case outputBucket = "OutputBucket"
+            case id = "Id"
         }
     }
 
     public struct TestRoleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Role", required: true, type: .string), 
-            AWSShapeProperty(label: "InputBucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Topics", required: true, type: .list), 
-            AWSShapeProperty(label: "OutputBucket", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Role", required: true, type: .string), 
+            AWSShapeMember(label: "InputBucket", required: true, type: .string), 
+            AWSShapeMember(label: "Topics", required: true, type: .list), 
+            AWSShapeMember(label: "OutputBucket", required: true, type: .string)
         ]
         /// The IAM Amazon Resource Name (ARN) for the role that you want Elastic Transcoder to test.
         public let role: String
@@ -821,24 +764,19 @@ extension Elastictranscoder {
             self.outputBucket = outputBucket
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let role = dictionary["Role"] as? String else { throw InitializableError.missingRequiredParam("Role") }
-            self.role = role
-            guard let inputBucket = dictionary["InputBucket"] as? String else { throw InitializableError.missingRequiredParam("InputBucket") }
-            self.inputBucket = inputBucket
-            guard let topics = dictionary["Topics"] as? [String] else { throw InitializableError.missingRequiredParam("Topics") }
-            self.topics = topics
-            guard let outputBucket = dictionary["OutputBucket"] as? String else { throw InitializableError.missingRequiredParam("OutputBucket") }
-            self.outputBucket = outputBucket
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
+            case inputBucket = "InputBucket"
+            case topics = "Topics"
+            case outputBucket = "OutputBucket"
         }
     }
 
     public struct ListJobsByPipelineResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Jobs", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Jobs", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// An array of Job objects that are in the specified pipeline.
         public let jobs: [Job]?
@@ -850,22 +788,17 @@ extension Elastictranscoder {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let jobs = dictionary["Jobs"] as? [[String: Any]] {
-                self.jobs = try jobs.map({ try Job(dictionary: $0) })
-            } else { 
-                self.jobs = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "Jobs"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct UpdatePipelineNotificationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Notifications", required: true, type: .structure), 
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Notifications", required: true, type: .structure), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status.  To receive notifications, you must also subscribe to the new topic in the Amazon SNS console.     Progressing: The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify when Elastic Transcoder has started to process jobs that are added to this pipeline. This is the ARN that Amazon SNS returned when you created the topic.    Completed: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder has finished processing a job. This is the ARN that Amazon SNS returned when you created the topic.    Warning: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters a warning condition. This is the ARN that Amazon SNS returned when you created the topic.    Error: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters an error condition. This is the ARN that Amazon SNS returned when you created the topic.  
         public let notifications: Notifications
@@ -877,24 +810,21 @@ extension Elastictranscoder {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let notifications = dictionary["Notifications"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notifications") }
-            self.notifications = try Elastictranscoder.Notifications(dictionary: notifications)
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case notifications = "Notifications"
+            case id = "Id"
         }
     }
 
     public struct PlayReadyDrm: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Format", required: false, type: .string), 
-            AWSShapeProperty(label: "InitializationVector", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyMd5", required: false, type: .string), 
-            AWSShapeProperty(label: "LicenseAcquisitionUrl", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Format", required: false, type: .string), 
+            AWSShapeMember(label: "InitializationVector", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "KeyMd5", required: false, type: .string), 
+            AWSShapeMember(label: "LicenseAcquisitionUrl", required: false, type: .string)
         ]
         /// The type of DRM, if any, that you want Elastic Transcoder to apply to the output files associated with this playlist.
         public let format: String?
@@ -918,23 +848,22 @@ extension Elastictranscoder {
             self.licenseAcquisitionUrl = licenseAcquisitionUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.format = dictionary["Format"] as? String
-            self.initializationVector = dictionary["InitializationVector"] as? String
-            self.key = dictionary["Key"] as? String
-            self.keyId = dictionary["KeyId"] as? String
-            self.keyMd5 = dictionary["KeyMd5"] as? String
-            self.licenseAcquisitionUrl = dictionary["LicenseAcquisitionUrl"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case format = "Format"
+            case initializationVector = "InitializationVector"
+            case key = "Key"
+            case keyId = "KeyId"
+            case keyMd5 = "KeyMd5"
+            case licenseAcquisitionUrl = "LicenseAcquisitionUrl"
         }
     }
 
     public struct Captions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MergePolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "CaptionSources", required: false, type: .list), 
-            AWSShapeProperty(label: "CaptionFormats", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MergePolicy", required: false, type: .string), 
+            AWSShapeMember(label: "CaptionSources", required: false, type: .list), 
+            AWSShapeMember(label: "CaptionFormats", required: false, type: .list)
         ]
         /// A policy that determines how Elastic Transcoder handles the existence of multiple captions.    MergeOverride: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the sidecar captions and ignores the embedded captions for that language.    MergeRetain: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the embedded captions and ignores the sidecar captions for that language. If CaptionSources is empty, Elastic Transcoder omits all sidecar captions from the output files.    Override: Elastic Transcoder transcodes only the sidecar captions that you specify in CaptionSources.    MergePolicy cannot be null.
         public let mergePolicy: String?
@@ -949,33 +878,24 @@ extension Elastictranscoder {
             self.captionFormats = captionFormats
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mergePolicy = dictionary["MergePolicy"] as? String
-            if let captionSources = dictionary["CaptionSources"] as? [[String: Any]] {
-                self.captionSources = try captionSources.map({ try CaptionSource(dictionary: $0) })
-            } else { 
-                self.captionSources = nil
-            }
-            if let captionFormats = dictionary["CaptionFormats"] as? [[String: Any]] {
-                self.captionFormats = try captionFormats.map({ try CaptionFormat(dictionary: $0) })
-            } else { 
-                self.captionFormats = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case mergePolicy = "MergePolicy"
+            case captionSources = "CaptionSources"
+            case captionFormats = "CaptionFormats"
         }
     }
 
     public struct CreateJobRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OutputKeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "Input", required: false, type: .structure), 
-            AWSShapeProperty(label: "Playlists", required: false, type: .list), 
-            AWSShapeProperty(label: "Output", required: false, type: .structure), 
-            AWSShapeProperty(label: "Inputs", required: false, type: .list), 
-            AWSShapeProperty(label: "PipelineId", required: true, type: .string), 
-            AWSShapeProperty(label: "Outputs", required: false, type: .list), 
-            AWSShapeProperty(label: "UserMetadata", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputKeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "Input", required: false, type: .structure), 
+            AWSShapeMember(label: "Playlists", required: false, type: .list), 
+            AWSShapeMember(label: "Output", required: false, type: .structure), 
+            AWSShapeMember(label: "Inputs", required: false, type: .list), 
+            AWSShapeMember(label: "PipelineId", required: true, type: .string), 
+            AWSShapeMember(label: "Outputs", required: false, type: .list), 
+            AWSShapeMember(label: "UserMetadata", required: false, type: .map)
         ]
         /// The value, if any, that you want Elastic Transcoder to prepend to the names of all files that this job creates, including output files, thumbnails, and playlists.
         public let outputKeyPrefix: String?
@@ -1005,46 +925,28 @@ extension Elastictranscoder {
             self.userMetadata = userMetadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.outputKeyPrefix = dictionary["OutputKeyPrefix"] as? String
-            if let input = dictionary["Input"] as? [String: Any] { self.input = try Elastictranscoder.JobInput(dictionary: input) } else { self.input = nil }
-            if let playlists = dictionary["Playlists"] as? [[String: Any]] {
-                self.playlists = try playlists.map({ try CreateJobPlaylist(dictionary: $0) })
-            } else { 
-                self.playlists = nil
-            }
-            if let output = dictionary["Output"] as? [String: Any] { self.output = try Elastictranscoder.CreateJobOutput(dictionary: output) } else { self.output = nil }
-            if let inputs = dictionary["Inputs"] as? [[String: Any]] {
-                self.inputs = try inputs.map({ try JobInput(dictionary: $0) })
-            } else { 
-                self.inputs = nil
-            }
-            guard let pipelineId = dictionary["PipelineId"] as? String else { throw InitializableError.missingRequiredParam("PipelineId") }
-            self.pipelineId = pipelineId
-            if let outputs = dictionary["Outputs"] as? [[String: Any]] {
-                self.outputs = try outputs.map({ try CreateJobOutput(dictionary: $0) })
-            } else { 
-                self.outputs = nil
-            }
-            if let userMetadata = dictionary["UserMetadata"] as? [String: String] {
-                self.userMetadata = userMetadata
-            } else { 
-                self.userMetadata = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case outputKeyPrefix = "OutputKeyPrefix"
+            case input = "Input"
+            case playlists = "Playlists"
+            case output = "Output"
+            case inputs = "Inputs"
+            case pipelineId = "PipelineId"
+            case outputs = "Outputs"
+            case userMetadata = "UserMetadata"
         }
     }
 
     public struct Artwork: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PaddingPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "InputKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "SizingPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxHeight", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxWidth", required: false, type: .string), 
-            AWSShapeProperty(label: "AlbumArtFormat", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PaddingPolicy", required: false, type: .string), 
+            AWSShapeMember(label: "InputKey", required: false, type: .string), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
+            AWSShapeMember(label: "SizingPolicy", required: false, type: .string), 
+            AWSShapeMember(label: "MaxHeight", required: false, type: .string), 
+            AWSShapeMember(label: "MaxWidth", required: false, type: .string), 
+            AWSShapeMember(label: "AlbumArtFormat", required: false, type: .string)
         ]
         /// When you set PaddingPolicy to Pad, Elastic Transcoder may add white bars to the top and bottom and/or left and right sides of the output album art to make the total size of the output art match the values that you specified for MaxWidth and MaxHeight.
         public let paddingPolicy: String?
@@ -1071,22 +973,21 @@ extension Elastictranscoder {
             self.albumArtFormat = albumArtFormat
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.paddingPolicy = dictionary["PaddingPolicy"] as? String
-            self.inputKey = dictionary["InputKey"] as? String
-            if let encryption = dictionary["Encryption"] as? [String: Any] { self.encryption = try Elastictranscoder.Encryption(dictionary: encryption) } else { self.encryption = nil }
-            self.sizingPolicy = dictionary["SizingPolicy"] as? String
-            self.maxHeight = dictionary["MaxHeight"] as? String
-            self.maxWidth = dictionary["MaxWidth"] as? String
-            self.albumArtFormat = dictionary["AlbumArtFormat"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case paddingPolicy = "PaddingPolicy"
+            case inputKey = "InputKey"
+            case encryption = "Encryption"
+            case sizingPolicy = "SizingPolicy"
+            case maxHeight = "MaxHeight"
+            case maxWidth = "MaxWidth"
+            case albumArtFormat = "AlbumArtFormat"
         }
     }
 
     public struct CreateJobResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Job", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Job", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the job that is created.
         public let job: Job?
@@ -1095,17 +996,16 @@ extension Elastictranscoder {
             self.job = job
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let job = dictionary["Job"] as? [String: Any] { self.job = try Elastictranscoder.Job(dictionary: job) } else { self.job = nil }
+        private enum CodingKeys: String, CodingKey {
+            case job = "Job"
         }
     }
 
     public struct CreatePipelineResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pipeline", required: false, type: .structure), 
-            AWSShapeProperty(label: "Warnings", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pipeline", required: false, type: .structure), 
+            AWSShapeMember(label: "Warnings", required: false, type: .list)
         ]
         /// A section of the response body that provides information about the pipeline that is created.
         public let pipeline: Pipeline?
@@ -1117,21 +1017,16 @@ extension Elastictranscoder {
             self.warnings = warnings
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let pipeline = dictionary["Pipeline"] as? [String: Any] { self.pipeline = try Elastictranscoder.Pipeline(dictionary: pipeline) } else { self.pipeline = nil }
-            if let warnings = dictionary["Warnings"] as? [[String: Any]] {
-                self.warnings = try warnings.map({ try Warning(dictionary: $0) })
-            } else { 
-                self.warnings = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "Pipeline"
+            case warnings = "Warnings"
         }
     }
 
     public struct DeletePresetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identifier of the preset for which you want to get detailed information.
         public let id: String
@@ -1140,18 +1035,16 @@ extension Elastictranscoder {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct ListPipelinesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pipelines", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pipelines", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// An array of Pipeline objects.
         public let pipelines: [Pipeline]?
@@ -1163,22 +1056,17 @@ extension Elastictranscoder {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let pipelines = dictionary["Pipelines"] as? [[String: Any]] {
-                self.pipelines = try pipelines.map({ try Pipeline(dictionary: $0) })
-            } else { 
-                self.pipelines = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pipelines = "Pipelines"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct ListPresetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ascending", location: .querystring(locationName: "Ascending"), required: false, type: .string), 
-            AWSShapeProperty(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ascending", location: .querystring(locationName: "Ascending"), required: false, type: .string), 
+            AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string)
         ]
         /// To list presets in chronological order by the date and time that they were created, enter true. To list presets in reverse chronological order, enter false.
         public let ascending: String?
@@ -1190,17 +1078,16 @@ extension Elastictranscoder {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ascending = dictionary["Ascending"] as? String
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ascending = "Ascending"
+            case pageToken = "PageToken"
         }
     }
 
     public struct ReadJobResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Job", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Job", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the job.
         public let job: Job?
@@ -1209,18 +1096,17 @@ extension Elastictranscoder {
             self.job = job
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let job = dictionary["Job"] as? [String: Any] { self.job = try Elastictranscoder.Job(dictionary: job) } else { self.job = nil }
+        private enum CodingKeys: String, CodingKey {
+            case job = "Job"
         }
     }
 
     public struct ListJobsByStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", location: .uri(locationName: "Status"), required: true, type: .string), 
-            AWSShapeProperty(label: "Ascending", location: .querystring(locationName: "Ascending"), required: false, type: .string), 
-            AWSShapeProperty(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", location: .uri(locationName: "Status"), required: true, type: .string), 
+            AWSShapeMember(label: "Ascending", location: .querystring(locationName: "Ascending"), required: false, type: .string), 
+            AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string)
         ]
         /// To get information about all of the jobs associated with the current AWS account that have a given status, specify the following status: Submitted, Progressing, Complete, Canceled, or Error.
         public let status: String
@@ -1235,26 +1121,24 @@ extension Elastictranscoder {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            self.ascending = dictionary["Ascending"] as? String
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case ascending = "Ascending"
+            case pageToken = "PageToken"
         }
     }
 
     public struct UpdatePipelineRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InputBucket", required: false, type: .string), 
-            AWSShapeProperty(label: "AwsKmsKeyArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ThumbnailConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Role", required: false, type: .string), 
-            AWSShapeProperty(label: "Notifications", required: false, type: .structure), 
-            AWSShapeProperty(label: "ContentConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputBucket", required: false, type: .string), 
+            AWSShapeMember(label: "AwsKmsKeyArn", required: false, type: .string), 
+            AWSShapeMember(label: "ThumbnailConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "Notifications", required: false, type: .structure), 
+            AWSShapeMember(label: "ContentConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The Amazon S3 bucket in which you saved the media files that you want to transcode and the graphics that you want to use as watermarks.
         public let inputBucket: String?
@@ -1284,29 +1168,27 @@ extension Elastictranscoder {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.inputBucket = dictionary["InputBucket"] as? String
-            self.awsKmsKeyArn = dictionary["AwsKmsKeyArn"] as? String
-            if let thumbnailConfig = dictionary["ThumbnailConfig"] as? [String: Any] { self.thumbnailConfig = try Elastictranscoder.PipelineOutputConfig(dictionary: thumbnailConfig) } else { self.thumbnailConfig = nil }
-            self.name = dictionary["Name"] as? String
-            self.role = dictionary["Role"] as? String
-            if let notifications = dictionary["Notifications"] as? [String: Any] { self.notifications = try Elastictranscoder.Notifications(dictionary: notifications) } else { self.notifications = nil }
-            if let contentConfig = dictionary["ContentConfig"] as? [String: Any] { self.contentConfig = try Elastictranscoder.PipelineOutputConfig(dictionary: contentConfig) } else { self.contentConfig = nil }
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case inputBucket = "InputBucket"
+            case awsKmsKeyArn = "AwsKmsKeyArn"
+            case thumbnailConfig = "ThumbnailConfig"
+            case name = "Name"
+            case role = "Role"
+            case notifications = "Notifications"
+            case contentConfig = "ContentConfig"
+            case id = "Id"
         }
     }
 
     public struct HlsContentProtection: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InitializationVector", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyMd5", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyStoragePolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "LicenseAcquisitionUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "Method", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InitializationVector", required: false, type: .string), 
+            AWSShapeMember(label: "KeyMd5", required: false, type: .string), 
+            AWSShapeMember(label: "KeyStoragePolicy", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "LicenseAcquisitionUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Method", required: false, type: .string)
         ]
         /// If Elastic Transcoder is generating your key for you, you must leave this field blank. The series of random bits created by a random bit generator, unique for every encryption operation, that you want Elastic Transcoder to use to encrypt your output files. The initialization vector must be base64-encoded, and it must be exactly 16 bytes before being base64-encoded.
         public let initializationVector: String?
@@ -1330,41 +1212,40 @@ extension Elastictranscoder {
             self.method = method
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.initializationVector = dictionary["InitializationVector"] as? String
-            self.keyMd5 = dictionary["KeyMd5"] as? String
-            self.keyStoragePolicy = dictionary["KeyStoragePolicy"] as? String
-            self.key = dictionary["Key"] as? String
-            self.licenseAcquisitionUrl = dictionary["LicenseAcquisitionUrl"] as? String
-            self.method = dictionary["Method"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case initializationVector = "InitializationVector"
+            case keyMd5 = "KeyMd5"
+            case keyStoragePolicy = "KeyStoragePolicy"
+            case key = "Key"
+            case licenseAcquisitionUrl = "LicenseAcquisitionUrl"
+            case method = "Method"
         }
     }
 
     public struct JobOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PresetId", required: false, type: .string), 
-            AWSShapeProperty(label: "Height", required: false, type: .integer), 
-            AWSShapeProperty(label: "DurationMillis", required: false, type: .long), 
-            AWSShapeProperty(label: "FileSize", required: false, type: .long), 
-            AWSShapeProperty(label: "Watermarks", required: false, type: .list), 
-            AWSShapeProperty(label: "Width", required: false, type: .integer), 
-            AWSShapeProperty(label: "AlbumArt", required: false, type: .structure), 
-            AWSShapeProperty(label: "Captions", required: false, type: .structure), 
-            AWSShapeProperty(label: "ThumbnailPattern", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "FrameRate", required: false, type: .string), 
-            AWSShapeProperty(label: "Rotate", required: false, type: .string), 
-            AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "ThumbnailEncryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Composition", required: false, type: .list), 
-            AWSShapeProperty(label: "AppliedColorSpaceConversion", required: false, type: .string), 
-            AWSShapeProperty(label: "Duration", required: false, type: .long), 
-            AWSShapeProperty(label: "StatusDetail", required: false, type: .string), 
-            AWSShapeProperty(label: "SegmentDuration", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PresetId", required: false, type: .string), 
+            AWSShapeMember(label: "Height", required: false, type: .integer), 
+            AWSShapeMember(label: "DurationMillis", required: false, type: .long), 
+            AWSShapeMember(label: "FileSize", required: false, type: .long), 
+            AWSShapeMember(label: "Watermarks", required: false, type: .list), 
+            AWSShapeMember(label: "Width", required: false, type: .integer), 
+            AWSShapeMember(label: "AlbumArt", required: false, type: .structure), 
+            AWSShapeMember(label: "Captions", required: false, type: .structure), 
+            AWSShapeMember(label: "ThumbnailPattern", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "FrameRate", required: false, type: .string), 
+            AWSShapeMember(label: "Rotate", required: false, type: .string), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
+            AWSShapeMember(label: "ThumbnailEncryption", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Composition", required: false, type: .list), 
+            AWSShapeMember(label: "AppliedColorSpaceConversion", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .long), 
+            AWSShapeMember(label: "StatusDetail", required: false, type: .string), 
+            AWSShapeMember(label: "SegmentDuration", required: false, type: .string)
         ]
         /// The value of the Id object for the preset that you want to use for this job. The preset determines the audio, video, and thumbnail settings that Elastic Transcoder uses for transcoding. To use a preset that you created, specify the preset ID that Elastic Transcoder returned in the response when you created the preset. You can also use the Elastic Transcoder system presets, which you can get with ListPresets.
         public let presetId: String?
@@ -1433,45 +1314,36 @@ extension Elastictranscoder {
             self.segmentDuration = segmentDuration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.presetId = dictionary["PresetId"] as? String
-            self.height = dictionary["Height"] as? Int32
-            self.durationMillis = dictionary["DurationMillis"] as? Int64
-            self.fileSize = dictionary["FileSize"] as? Int64
-            if let watermarks = dictionary["Watermarks"] as? [[String: Any]] {
-                self.watermarks = try watermarks.map({ try JobWatermark(dictionary: $0) })
-            } else { 
-                self.watermarks = nil
-            }
-            self.width = dictionary["Width"] as? Int32
-            if let albumArt = dictionary["AlbumArt"] as? [String: Any] { self.albumArt = try Elastictranscoder.JobAlbumArt(dictionary: albumArt) } else { self.albumArt = nil }
-            if let captions = dictionary["Captions"] as? [String: Any] { self.captions = try Elastictranscoder.Captions(dictionary: captions) } else { self.captions = nil }
-            self.thumbnailPattern = dictionary["ThumbnailPattern"] as? String
-            self.id = dictionary["Id"] as? String
-            self.frameRate = dictionary["FrameRate"] as? String
-            self.rotate = dictionary["Rotate"] as? String
-            if let encryption = dictionary["Encryption"] as? [String: Any] { self.encryption = try Elastictranscoder.Encryption(dictionary: encryption) } else { self.encryption = nil }
-            if let thumbnailEncryption = dictionary["ThumbnailEncryption"] as? [String: Any] { self.thumbnailEncryption = try Elastictranscoder.Encryption(dictionary: thumbnailEncryption) } else { self.thumbnailEncryption = nil }
-            self.status = dictionary["Status"] as? String
-            self.key = dictionary["Key"] as? String
-            if let composition = dictionary["Composition"] as? [[String: Any]] {
-                self.composition = try composition.map({ try Clip(dictionary: $0) })
-            } else { 
-                self.composition = nil
-            }
-            self.appliedColorSpaceConversion = dictionary["AppliedColorSpaceConversion"] as? String
-            self.duration = dictionary["Duration"] as? Int64
-            self.statusDetail = dictionary["StatusDetail"] as? String
-            self.segmentDuration = dictionary["SegmentDuration"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case presetId = "PresetId"
+            case height = "Height"
+            case durationMillis = "DurationMillis"
+            case fileSize = "FileSize"
+            case watermarks = "Watermarks"
+            case width = "Width"
+            case albumArt = "AlbumArt"
+            case captions = "Captions"
+            case thumbnailPattern = "ThumbnailPattern"
+            case id = "Id"
+            case frameRate = "FrameRate"
+            case rotate = "Rotate"
+            case encryption = "Encryption"
+            case thumbnailEncryption = "ThumbnailEncryption"
+            case status = "Status"
+            case key = "Key"
+            case composition = "Composition"
+            case appliedColorSpaceConversion = "AppliedColorSpaceConversion"
+            case duration = "Duration"
+            case statusDetail = "StatusDetail"
+            case segmentDuration = "SegmentDuration"
         }
     }
 
     public struct InputCaptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MergePolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "CaptionSources", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MergePolicy", required: false, type: .string), 
+            AWSShapeMember(label: "CaptionSources", required: false, type: .list)
         ]
         /// A policy that determines how Elastic Transcoder handles the existence of multiple captions.    MergeOverride: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the sidecar captions and ignores the embedded captions for that language.    MergeRetain: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the embedded captions and ignores the sidecar captions for that language. If CaptionSources is empty, Elastic Transcoder omits all sidecar captions from the output files.    Override: Elastic Transcoder transcodes only the sidecar captions that you specify in CaptionSources.    MergePolicy cannot be null.
         public let mergePolicy: String?
@@ -1483,23 +1355,18 @@ extension Elastictranscoder {
             self.captionSources = captionSources
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mergePolicy = dictionary["MergePolicy"] as? String
-            if let captionSources = dictionary["CaptionSources"] as? [[String: Any]] {
-                self.captionSources = try captionSources.map({ try CaptionSource(dictionary: $0) })
-            } else { 
-                self.captionSources = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case mergePolicy = "MergePolicy"
+            case captionSources = "CaptionSources"
         }
     }
 
     public struct PipelineOutputConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Permissions", required: false, type: .list), 
-            AWSShapeProperty(label: "Bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "StorageClass", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Permissions", required: false, type: .list), 
+            AWSShapeMember(label: "Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "StorageClass", required: false, type: .string)
         ]
         /// Optional. The Permissions object specifies which users and/or predefined Amazon S3 groups you want to have access to transcoded files and playlists, and the type of access you want them to have. You can grant permissions to a maximum of 30 users and/or predefined Amazon S3 groups. If you include Permissions, Elastic Transcoder grants only the permissions that you specify. It does not grant full permissions to the owner of the role specified by Role. If you want that user to have full control, you must explicitly grant full control to the user.  If you omit Permissions, Elastic Transcoder grants full control over the transcoded files and playlists to the owner of the role specified by Role, and grants no other permissions to any other user or group.
         public let permissions: [Permission]?
@@ -1514,23 +1381,18 @@ extension Elastictranscoder {
             self.storageClass = storageClass
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let permissions = dictionary["Permissions"] as? [[String: Any]] {
-                self.permissions = try permissions.map({ try Permission(dictionary: $0) })
-            } else { 
-                self.permissions = nil
-            }
-            self.bucket = dictionary["Bucket"] as? String
-            self.storageClass = dictionary["StorageClass"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case permissions = "Permissions"
+            case bucket = "Bucket"
+            case storageClass = "StorageClass"
         }
     }
 
     public struct UpdatePipelineResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pipeline", required: false, type: .structure), 
-            AWSShapeProperty(label: "Warnings", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pipeline", required: false, type: .structure), 
+            AWSShapeMember(label: "Warnings", required: false, type: .list)
         ]
         /// The pipeline updated by this UpdatePipelineResponse call.
         public let pipeline: Pipeline?
@@ -1542,23 +1404,18 @@ extension Elastictranscoder {
             self.warnings = warnings
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let pipeline = dictionary["Pipeline"] as? [String: Any] { self.pipeline = try Elastictranscoder.Pipeline(dictionary: pipeline) } else { self.pipeline = nil }
-            if let warnings = dictionary["Warnings"] as? [[String: Any]] {
-                self.warnings = try warnings.map({ try Warning(dictionary: $0) })
-            } else { 
-                self.warnings = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "Pipeline"
+            case warnings = "Warnings"
         }
     }
 
     public struct CaptionFormat: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pattern", required: false, type: .string), 
-            AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "Format", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pattern", required: false, type: .string), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
+            AWSShapeMember(label: "Format", required: false, type: .string)
         ]
         /// The prefix for caption filenames, in the form description-{language}, where:    description is a description of the video.    {language} is a literal value that Elastic Transcoder replaces with the two- or three-letter code for the language of the caption in the output file names.   If you don't include {language} in the file name pattern, Elastic Transcoder automatically appends "{language}" to the value that you specify for the description. In addition, Elastic Transcoder automatically appends the count to the end of the segment files. For example, suppose you're transcoding into srt format. When you enter "Sydney-{language}-sunrise", and the language of the captions is English (en), the name of the first caption file is be Sydney-en-sunrise00000.srt.
         public let pattern: String?
@@ -1573,18 +1430,17 @@ extension Elastictranscoder {
             self.format = format
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pattern = dictionary["Pattern"] as? String
-            if let encryption = dictionary["Encryption"] as? [String: Any] { self.encryption = try Elastictranscoder.Encryption(dictionary: encryption) } else { self.encryption = nil }
-            self.format = dictionary["Format"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pattern = "Pattern"
+            case encryption = "Encryption"
+            case format = "Format"
         }
     }
 
     public struct ReadPresetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identifier of the preset for which you want to get detailed information.
         public let id: String
@@ -1593,17 +1449,15 @@ extension Elastictranscoder {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct ReadJobRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identifier of the job for which you want to get detailed information.
         public let id: String
@@ -1612,26 +1466,24 @@ extension Elastictranscoder {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct PresetWatermark: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VerticalOffset", required: false, type: .string), 
-            AWSShapeProperty(label: "Target", required: false, type: .string), 
-            AWSShapeProperty(label: "HorizontalOffset", required: false, type: .string), 
-            AWSShapeProperty(label: "VerticalAlign", required: false, type: .string), 
-            AWSShapeProperty(label: "HorizontalAlign", required: false, type: .string), 
-            AWSShapeProperty(label: "SizingPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxHeight", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxWidth", required: false, type: .string), 
-            AWSShapeProperty(label: "Opacity", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VerticalOffset", required: false, type: .string), 
+            AWSShapeMember(label: "Target", required: false, type: .string), 
+            AWSShapeMember(label: "HorizontalOffset", required: false, type: .string), 
+            AWSShapeMember(label: "VerticalAlign", required: false, type: .string), 
+            AWSShapeMember(label: "HorizontalAlign", required: false, type: .string), 
+            AWSShapeMember(label: "SizingPolicy", required: false, type: .string), 
+            AWSShapeMember(label: "MaxHeight", required: false, type: .string), 
+            AWSShapeMember(label: "MaxWidth", required: false, type: .string), 
+            AWSShapeMember(label: "Opacity", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         ///  VerticalOffset  The amount by which you want the vertical position of the watermark to be offset from the position specified by VerticalAlign:   number of pixels (px): The minimum value is 0 pixels, and the maximum value is the value of MaxHeight.   integer percentage (%): The range of valid values is 0 to 100.   For example, if you specify Top for VerticalAlign and 5px for VerticalOffset, the top of the watermark appears 5 pixels from the top border of the output video.  VerticalOffset is only valid when the value of VerticalAlign is Top or Bottom. If you specify an offset that causes the watermark to extend beyond the top or bottom border and Elastic Transcoder has not added black bars, the watermark is cropped. If Elastic Transcoder has added black bars, the watermark extends into the black bars. If the watermark extends beyond the black bars, it is cropped. Use the value of Target to specify whether you want Elastic Transcoder to include the black bars that are added by Elastic Transcoder, if any, in the offset calculation.
         public let verticalOffset: String?
@@ -1667,27 +1519,26 @@ extension Elastictranscoder {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.verticalOffset = dictionary["VerticalOffset"] as? String
-            self.target = dictionary["Target"] as? String
-            self.horizontalOffset = dictionary["HorizontalOffset"] as? String
-            self.verticalAlign = dictionary["VerticalAlign"] as? String
-            self.horizontalAlign = dictionary["HorizontalAlign"] as? String
-            self.sizingPolicy = dictionary["SizingPolicy"] as? String
-            self.maxHeight = dictionary["MaxHeight"] as? String
-            self.maxWidth = dictionary["MaxWidth"] as? String
-            self.opacity = dictionary["Opacity"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case verticalOffset = "VerticalOffset"
+            case target = "Target"
+            case horizontalOffset = "HorizontalOffset"
+            case verticalAlign = "VerticalAlign"
+            case horizontalAlign = "HorizontalAlign"
+            case sizingPolicy = "SizingPolicy"
+            case maxHeight = "MaxHeight"
+            case maxWidth = "MaxWidth"
+            case opacity = "Opacity"
+            case id = "Id"
         }
     }
 
     public struct JobWatermark: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PresetWatermarkId", required: false, type: .string), 
-            AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PresetWatermarkId", required: false, type: .string), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
+            AWSShapeMember(label: "InputKey", required: false, type: .string)
         ]
         /// The ID of the watermark settings that Elastic Transcoder uses to add watermarks to the video during transcoding. The settings are in the preset specified by Preset for the current output. In that preset, the value of Watermarks Id tells Elastic Transcoder which settings to use.
         public let presetWatermarkId: String?
@@ -1702,19 +1553,18 @@ extension Elastictranscoder {
             self.inputKey = inputKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.presetWatermarkId = dictionary["PresetWatermarkId"] as? String
-            if let encryption = dictionary["Encryption"] as? [String: Any] { self.encryption = try Elastictranscoder.Encryption(dictionary: encryption) } else { self.encryption = nil }
-            self.inputKey = dictionary["InputKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case presetWatermarkId = "PresetWatermarkId"
+            case encryption = "Encryption"
+            case inputKey = "InputKey"
         }
     }
 
     public struct CreatePresetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Warning", required: false, type: .string), 
-            AWSShapeProperty(label: "Preset", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Warning", required: false, type: .string), 
+            AWSShapeMember(label: "Preset", required: false, type: .structure)
         ]
         /// If the preset settings don't comply with the standards for the video codec but Elastic Transcoder created the preset, this message explains the reason the preset settings don't meet the standard. Elastic Transcoder created the preset because the settings might produce acceptable output.
         public let warning: String?
@@ -1726,18 +1576,17 @@ extension Elastictranscoder {
             self.preset = preset
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.warning = dictionary["Warning"] as? String
-            if let preset = dictionary["Preset"] as? [String: Any] { self.preset = try Elastictranscoder.Preset(dictionary: preset) } else { self.preset = nil }
+        private enum CodingKeys: String, CodingKey {
+            case warning = "Warning"
+            case preset = "Preset"
         }
     }
 
     public struct TestRoleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Success", required: false, type: .string), 
-            AWSShapeProperty(label: "Messages", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Success", required: false, type: .string), 
+            AWSShapeMember(label: "Messages", required: false, type: .list)
         ]
         /// If the operation is successful, this value is true; otherwise, the value is false.
         public let success: String?
@@ -1749,21 +1598,20 @@ extension Elastictranscoder {
             self.messages = messages
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.success = dictionary["Success"] as? String
-            self.messages = dictionary["Messages"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case success = "Success"
+            case messages = "Messages"
         }
     }
 
     public struct CreateJobPlaylist: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Format", required: false, type: .string), 
-            AWSShapeProperty(label: "HlsContentProtection", required: false, type: .structure), 
-            AWSShapeProperty(label: "PlayReadyDrm", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputKeys", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Format", required: false, type: .string), 
+            AWSShapeMember(label: "HlsContentProtection", required: false, type: .structure), 
+            AWSShapeMember(label: "PlayReadyDrm", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OutputKeys", required: false, type: .list)
         ]
         /// The format of the output playlist. Valid formats include HLSv3, HLSv4, and Smooth.
         public let format: String?
@@ -1784,30 +1632,29 @@ extension Elastictranscoder {
             self.outputKeys = outputKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.format = dictionary["Format"] as? String
-            if let hlsContentProtection = dictionary["HlsContentProtection"] as? [String: Any] { self.hlsContentProtection = try Elastictranscoder.HlsContentProtection(dictionary: hlsContentProtection) } else { self.hlsContentProtection = nil }
-            if let playReadyDrm = dictionary["PlayReadyDrm"] as? [String: Any] { self.playReadyDrm = try Elastictranscoder.PlayReadyDrm(dictionary: playReadyDrm) } else { self.playReadyDrm = nil }
-            self.name = dictionary["Name"] as? String
-            self.outputKeys = dictionary["OutputKeys"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case format = "Format"
+            case hlsContentProtection = "HlsContentProtection"
+            case playReadyDrm = "PlayReadyDrm"
+            case name = "Name"
+            case outputKeys = "OutputKeys"
         }
     }
 
     public struct CreateJobOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Captions", required: false, type: .structure), 
-            AWSShapeProperty(label: "ThumbnailPattern", required: false, type: .string), 
-            AWSShapeProperty(label: "PresetId", required: false, type: .string), 
-            AWSShapeProperty(label: "ThumbnailEncryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "Rotate", required: false, type: .string), 
-            AWSShapeProperty(label: "Encryption", required: false, type: .structure), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Composition", required: false, type: .list), 
-            AWSShapeProperty(label: "Watermarks", required: false, type: .list), 
-            AWSShapeProperty(label: "SegmentDuration", required: false, type: .string), 
-            AWSShapeProperty(label: "AlbumArt", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Captions", required: false, type: .structure), 
+            AWSShapeMember(label: "ThumbnailPattern", required: false, type: .string), 
+            AWSShapeMember(label: "PresetId", required: false, type: .string), 
+            AWSShapeMember(label: "ThumbnailEncryption", required: false, type: .structure), 
+            AWSShapeMember(label: "Rotate", required: false, type: .string), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Composition", required: false, type: .list), 
+            AWSShapeMember(label: "Watermarks", required: false, type: .list), 
+            AWSShapeMember(label: "SegmentDuration", required: false, type: .string), 
+            AWSShapeMember(label: "AlbumArt", required: false, type: .structure)
         ]
         /// You can configure Elastic Transcoder to transcode captions, or subtitles, from one format to another. All captions must be in UTF-8. Elastic Transcoder supports two types of captions:    Embedded: Embedded captions are included in the same file as the audio and video. Elastic Transcoder supports only one embedded caption per language, to a maximum of 300 embedded captions per file. Valid input values include: CEA-608 (EIA-608, first non-empty channel only), CEA-708 (EIA-708, first non-empty channel only), and mov-text  Valid outputs include: mov-text  Elastic Transcoder supports a maximum of one embedded format per output.    Sidecar: Sidecar captions are kept in a separate metadata file from the audio and video data. Sidecar captions require a player that is capable of understanding the relationship between the video file and the sidecar file. Elastic Transcoder supports only one sidecar caption per language, to a maximum of 20 sidecar captions per file. Valid input values include: dfxp (first div element only), ebu-tt, scc, smpt, srt, ttml (first div element only), and webvtt  Valid outputs include: dfxp (first div element only), scc, srt, and webvtt.   If you want ttml or smpte-tt compatible captions, specify dfxp as your output format. Elastic Transcoder does not support OCR (Optical Character Recognition), does not accept pictures as a valid input for captions, and is not available for audio-only transcoding. Elastic Transcoder does not preserve text formatting (for example, italics) during the transcoding process. To remove captions or leave the captions empty, set Captions to null. To pass through existing captions unchanged, set the MergePolicy to MergeRetain, and pass in a null CaptionSources array. For more information on embedded files, see the Subtitles Wikipedia page. For more information on sidecar files, see the Extensible Metadata Platform and Sidecar file Wikipedia pages.
         public let captions: Captions?
@@ -1846,38 +1693,29 @@ extension Elastictranscoder {
             self.albumArt = albumArt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let captions = dictionary["Captions"] as? [String: Any] { self.captions = try Elastictranscoder.Captions(dictionary: captions) } else { self.captions = nil }
-            self.thumbnailPattern = dictionary["ThumbnailPattern"] as? String
-            self.presetId = dictionary["PresetId"] as? String
-            if let thumbnailEncryption = dictionary["ThumbnailEncryption"] as? [String: Any] { self.thumbnailEncryption = try Elastictranscoder.Encryption(dictionary: thumbnailEncryption) } else { self.thumbnailEncryption = nil }
-            self.rotate = dictionary["Rotate"] as? String
-            if let encryption = dictionary["Encryption"] as? [String: Any] { self.encryption = try Elastictranscoder.Encryption(dictionary: encryption) } else { self.encryption = nil }
-            self.key = dictionary["Key"] as? String
-            if let composition = dictionary["Composition"] as? [[String: Any]] {
-                self.composition = try composition.map({ try Clip(dictionary: $0) })
-            } else { 
-                self.composition = nil
-            }
-            if let watermarks = dictionary["Watermarks"] as? [[String: Any]] {
-                self.watermarks = try watermarks.map({ try JobWatermark(dictionary: $0) })
-            } else { 
-                self.watermarks = nil
-            }
-            self.segmentDuration = dictionary["SegmentDuration"] as? String
-            if let albumArt = dictionary["AlbumArt"] as? [String: Any] { self.albumArt = try Elastictranscoder.JobAlbumArt(dictionary: albumArt) } else { self.albumArt = nil }
+        private enum CodingKeys: String, CodingKey {
+            case captions = "Captions"
+            case thumbnailPattern = "ThumbnailPattern"
+            case presetId = "PresetId"
+            case thumbnailEncryption = "ThumbnailEncryption"
+            case rotate = "Rotate"
+            case encryption = "Encryption"
+            case key = "Key"
+            case composition = "Composition"
+            case watermarks = "Watermarks"
+            case segmentDuration = "SegmentDuration"
+            case albumArt = "AlbumArt"
         }
     }
 
     public struct DetectedProperties: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Height", required: false, type: .integer), 
-            AWSShapeProperty(label: "DurationMillis", required: false, type: .long), 
-            AWSShapeProperty(label: "FileSize", required: false, type: .long), 
-            AWSShapeProperty(label: "Width", required: false, type: .integer), 
-            AWSShapeProperty(label: "FrameRate", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Height", required: false, type: .integer), 
+            AWSShapeMember(label: "DurationMillis", required: false, type: .long), 
+            AWSShapeMember(label: "FileSize", required: false, type: .long), 
+            AWSShapeMember(label: "Width", required: false, type: .integer), 
+            AWSShapeMember(label: "FrameRate", required: false, type: .string)
         ]
         /// The detected height of the input file, in pixels.
         public let height: Int32?
@@ -1898,21 +1736,20 @@ extension Elastictranscoder {
             self.frameRate = frameRate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.height = dictionary["Height"] as? Int32
-            self.durationMillis = dictionary["DurationMillis"] as? Int64
-            self.fileSize = dictionary["FileSize"] as? Int64
-            self.width = dictionary["Width"] as? Int32
-            self.frameRate = dictionary["FrameRate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case height = "Height"
+            case durationMillis = "DurationMillis"
+            case fileSize = "FileSize"
+            case width = "Width"
+            case frameRate = "FrameRate"
         }
     }
 
     public struct ReadPipelineResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pipeline", required: false, type: .structure), 
-            AWSShapeProperty(label: "Warnings", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pipeline", required: false, type: .structure), 
+            AWSShapeMember(label: "Warnings", required: false, type: .list)
         ]
         /// A section of the response body that provides information about the pipeline.
         public let pipeline: Pipeline?
@@ -1924,22 +1761,17 @@ extension Elastictranscoder {
             self.warnings = warnings
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let pipeline = dictionary["Pipeline"] as? [String: Any] { self.pipeline = try Elastictranscoder.Pipeline(dictionary: pipeline) } else { self.pipeline = nil }
-            if let warnings = dictionary["Warnings"] as? [[String: Any]] {
-                self.warnings = try warnings.map({ try Warning(dictionary: $0) })
-            } else { 
-                self.warnings = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "Pipeline"
+            case warnings = "Warnings"
         }
     }
 
     public struct Warning: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// The code of the cross-regional warning.
         public let code: String?
@@ -1951,17 +1783,16 @@ extension Elastictranscoder {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.code = dictionary["Code"] as? String
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
     public struct UpdatePipelineNotificationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pipeline", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pipeline", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the pipeline associated with this notification.
         public let pipeline: Pipeline?
@@ -1970,21 +1801,20 @@ extension Elastictranscoder {
             self.pipeline = pipeline
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let pipeline = dictionary["Pipeline"] as? [String: Any] { self.pipeline = try Elastictranscoder.Pipeline(dictionary: pipeline) } else { self.pipeline = nil }
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "Pipeline"
         }
     }
 
     public struct AudioParameters: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CodecOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "BitRate", required: false, type: .string), 
-            AWSShapeProperty(label: "Codec", required: false, type: .string), 
-            AWSShapeProperty(label: "AudioPackingMode", required: false, type: .string), 
-            AWSShapeProperty(label: "Channels", required: false, type: .string), 
-            AWSShapeProperty(label: "SampleRate", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CodecOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "BitRate", required: false, type: .string), 
+            AWSShapeMember(label: "Codec", required: false, type: .string), 
+            AWSShapeMember(label: "AudioPackingMode", required: false, type: .string), 
+            AWSShapeMember(label: "Channels", required: false, type: .string), 
+            AWSShapeMember(label: "SampleRate", required: false, type: .string)
         ]
         /// If you specified AAC for Audio:Codec, this is the AAC compression profile to use. Valid values include:  auto, AAC-LC, HE-AAC, HE-AACv2  If you specify auto, Elastic Transcoder chooses a profile based on the bit rate of the output file.
         public let codecOptions: AudioCodecOptions?
@@ -2008,24 +1838,23 @@ extension Elastictranscoder {
             self.sampleRate = sampleRate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let codecOptions = dictionary["CodecOptions"] as? [String: Any] { self.codecOptions = try Elastictranscoder.AudioCodecOptions(dictionary: codecOptions) } else { self.codecOptions = nil }
-            self.bitRate = dictionary["BitRate"] as? String
-            self.codec = dictionary["Codec"] as? String
-            self.audioPackingMode = dictionary["AudioPackingMode"] as? String
-            self.channels = dictionary["Channels"] as? String
-            self.sampleRate = dictionary["SampleRate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case codecOptions = "CodecOptions"
+            case bitRate = "BitRate"
+            case codec = "Codec"
+            case audioPackingMode = "AudioPackingMode"
+            case channels = "Channels"
+            case sampleRate = "SampleRate"
         }
     }
 
     public struct Notifications: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Completed", required: false, type: .string), 
-            AWSShapeProperty(label: "Error", required: false, type: .string), 
-            AWSShapeProperty(label: "Warning", required: false, type: .string), 
-            AWSShapeProperty(label: "Progressing", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Completed", required: false, type: .string), 
+            AWSShapeMember(label: "Error", required: false, type: .string), 
+            AWSShapeMember(label: "Warning", required: false, type: .string), 
+            AWSShapeMember(label: "Progressing", required: false, type: .string)
         ]
         /// The Amazon SNS topic that you want to notify when Elastic Transcoder has finished processing the job.
         public let completed: String?
@@ -2043,22 +1872,21 @@ extension Elastictranscoder {
             self.progressing = progressing
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.completed = dictionary["Completed"] as? String
-            self.error = dictionary["Error"] as? String
-            self.warning = dictionary["Warning"] as? String
-            self.progressing = dictionary["Progressing"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case completed = "Completed"
+            case error = "Error"
+            case warning = "Warning"
+            case progressing = "Progressing"
         }
     }
 
     public struct AudioCodecOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Signed", required: false, type: .string), 
-            AWSShapeProperty(label: "Profile", required: false, type: .string), 
-            AWSShapeProperty(label: "BitDepth", required: false, type: .string), 
-            AWSShapeProperty(label: "BitOrder", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Signed", required: false, type: .string), 
+            AWSShapeMember(label: "Profile", required: false, type: .string), 
+            AWSShapeMember(label: "BitDepth", required: false, type: .string), 
+            AWSShapeMember(label: "BitOrder", required: false, type: .string)
         ]
         /// You can only choose whether an audio sample is signed when you specify pcm for the value of Audio:Codec. Whether audio samples are represented with negative and positive numbers (signed) or only positive numbers (unsigned). The supported value is Signed.
         public let signed: String?
@@ -2076,19 +1904,18 @@ extension Elastictranscoder {
             self.bitOrder = bitOrder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.signed = dictionary["Signed"] as? String
-            self.profile = dictionary["Profile"] as? String
-            self.bitDepth = dictionary["BitDepth"] as? String
-            self.bitOrder = dictionary["BitOrder"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case signed = "Signed"
+            case profile = "Profile"
+            case bitDepth = "BitDepth"
+            case bitOrder = "BitOrder"
         }
     }
 
     public struct UpdatePipelineStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pipeline", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pipeline", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the pipeline.
         public let pipeline: Pipeline?
@@ -2097,16 +1924,15 @@ extension Elastictranscoder {
             self.pipeline = pipeline
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let pipeline = dictionary["Pipeline"] as? [String: Any] { self.pipeline = try Elastictranscoder.Pipeline(dictionary: pipeline) } else { self.pipeline = nil }
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "Pipeline"
         }
     }
 
     public struct CancelJobRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identifier of the job that you want to cancel. To get a list of the jobs (including their jobId) that have a status of Submitted, use the ListJobsByStatus API action.
         public let id: String
@@ -2115,28 +1941,26 @@ extension Elastictranscoder {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct Job: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timing", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputKeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "Input", required: false, type: .structure), 
-            AWSShapeProperty(label: "UserMetadata", required: false, type: .map), 
-            AWSShapeProperty(label: "Playlists", required: false, type: .list), 
-            AWSShapeProperty(label: "Output", required: false, type: .structure), 
-            AWSShapeProperty(label: "Inputs", required: false, type: .list), 
-            AWSShapeProperty(label: "PipelineId", required: false, type: .string), 
-            AWSShapeProperty(label: "Outputs", required: false, type: .list), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timing", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "OutputKeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "Input", required: false, type: .structure), 
+            AWSShapeMember(label: "UserMetadata", required: false, type: .map), 
+            AWSShapeMember(label: "Playlists", required: false, type: .list), 
+            AWSShapeMember(label: "Output", required: false, type: .structure), 
+            AWSShapeMember(label: "Inputs", required: false, type: .list), 
+            AWSShapeMember(label: "PipelineId", required: false, type: .string), 
+            AWSShapeMember(label: "Outputs", required: false, type: .list), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Details about the timing of a job.
         public let timing: Timing?
@@ -2178,45 +2002,28 @@ extension Elastictranscoder {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let timing = dictionary["Timing"] as? [String: Any] { self.timing = try Elastictranscoder.Timing(dictionary: timing) } else { self.timing = nil }
-            self.status = dictionary["Status"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.outputKeyPrefix = dictionary["OutputKeyPrefix"] as? String
-            if let input = dictionary["Input"] as? [String: Any] { self.input = try Elastictranscoder.JobInput(dictionary: input) } else { self.input = nil }
-            if let userMetadata = dictionary["UserMetadata"] as? [String: String] {
-                self.userMetadata = userMetadata
-            } else { 
-                self.userMetadata = nil
-            }
-            if let playlists = dictionary["Playlists"] as? [[String: Any]] {
-                self.playlists = try playlists.map({ try Playlist(dictionary: $0) })
-            } else { 
-                self.playlists = nil
-            }
-            if let output = dictionary["Output"] as? [String: Any] { self.output = try Elastictranscoder.JobOutput(dictionary: output) } else { self.output = nil }
-            if let inputs = dictionary["Inputs"] as? [[String: Any]] {
-                self.inputs = try inputs.map({ try JobInput(dictionary: $0) })
-            } else { 
-                self.inputs = nil
-            }
-            self.pipelineId = dictionary["PipelineId"] as? String
-            if let outputs = dictionary["Outputs"] as? [[String: Any]] {
-                self.outputs = try outputs.map({ try JobOutput(dictionary: $0) })
-            } else { 
-                self.outputs = nil
-            }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case timing = "Timing"
+            case status = "Status"
+            case arn = "Arn"
+            case outputKeyPrefix = "OutputKeyPrefix"
+            case input = "Input"
+            case userMetadata = "UserMetadata"
+            case playlists = "Playlists"
+            case output = "Output"
+            case inputs = "Inputs"
+            case pipelineId = "PipelineId"
+            case outputs = "Outputs"
+            case id = "Id"
         }
     }
 
     public struct Permission: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GranteeType", required: false, type: .string), 
-            AWSShapeProperty(label: "Access", required: false, type: .list), 
-            AWSShapeProperty(label: "Grantee", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GranteeType", required: false, type: .string), 
+            AWSShapeMember(label: "Access", required: false, type: .list), 
+            AWSShapeMember(label: "Grantee", required: false, type: .string)
         ]
         /// The type of value that appears in the Grantee object:    Canonical: Either the canonical user ID for an AWS account or an origin access identity for an Amazon CloudFront distribution.  A canonical user ID is not the same as an AWS account number.     Email: The registered email address of an AWS account.    Group: One of the following predefined Amazon S3 groups: AllUsers, AuthenticatedUsers, or LogDelivery.  
         public let granteeType: String?
@@ -2231,21 +2038,20 @@ extension Elastictranscoder {
             self.grantee = grantee
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.granteeType = dictionary["GranteeType"] as? String
-            self.access = dictionary["Access"] as? [String]
-            self.grantee = dictionary["Grantee"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case granteeType = "GranteeType"
+            case access = "Access"
+            case grantee = "Grantee"
         }
     }
 
     public struct Encryption: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Mode", required: false, type: .string), 
-            AWSShapeProperty(label: "InitializationVector", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyMd5", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Mode", required: false, type: .string), 
+            AWSShapeMember(label: "InitializationVector", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "KeyMd5", required: false, type: .string)
         ]
         /// The specific server-side encryption mode that you want Elastic Transcoder to use when decrypting your input files or encrypting your output files. Elastic Transcoder supports the following options:    S3: Amazon S3 creates and manages the keys used for encrypting your files.    S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.    AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.    AES-CTR: AES Counter Mode.    AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.   For all three AES options, you must provide the following settings, which must be base64-encoded:    Key     Key MD5     Initialization Vector     For the AES modes, your private encryption keys and your unencrypted data are never stored by AWS; therefore, it is important that you safely manage your encryption keys. If you lose them, you won't be able to unencrypt your data. 
         public let mode: String?
@@ -2263,19 +2069,18 @@ extension Elastictranscoder {
             self.keyMd5 = keyMd5
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mode = dictionary["Mode"] as? String
-            self.initializationVector = dictionary["InitializationVector"] as? String
-            self.key = dictionary["Key"] as? String
-            self.keyMd5 = dictionary["KeyMd5"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case mode = "Mode"
+            case initializationVector = "InitializationVector"
+            case key = "Key"
+            case keyMd5 = "KeyMd5"
         }
     }
 
     public struct ReadPipelineRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identifier of the pipeline to read.
         public let id: String
@@ -2284,17 +2089,15 @@ extension Elastictranscoder {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct Clip: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeSpan", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimeSpan", required: false, type: .structure)
         ]
         /// Settings that determine when a clip begins and how long it lasts.
         public let timeSpan: TimeSpan?
@@ -2303,18 +2106,17 @@ extension Elastictranscoder {
             self.timeSpan = timeSpan
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let timeSpan = dictionary["TimeSpan"] as? [String: Any] { self.timeSpan = try Elastictranscoder.TimeSpan(dictionary: timeSpan) } else { self.timeSpan = nil }
+        private enum CodingKeys: String, CodingKey {
+            case timeSpan = "TimeSpan"
         }
     }
 
     public struct Timing: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTimeMillis", required: false, type: .long), 
-            AWSShapeProperty(label: "SubmitTimeMillis", required: false, type: .long), 
-            AWSShapeProperty(label: "FinishTimeMillis", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTimeMillis", required: false, type: .long), 
+            AWSShapeMember(label: "SubmitTimeMillis", required: false, type: .long), 
+            AWSShapeMember(label: "FinishTimeMillis", required: false, type: .long)
         ]
         /// The time the job began transcoding, in epoch milliseconds.
         public let startTimeMillis: Int64?
@@ -2329,10 +2131,10 @@ extension Elastictranscoder {
             self.finishTimeMillis = finishTimeMillis
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTimeMillis = dictionary["StartTimeMillis"] as? Int64
-            self.submitTimeMillis = dictionary["SubmitTimeMillis"] as? Int64
-            self.finishTimeMillis = dictionary["FinishTimeMillis"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case startTimeMillis = "StartTimeMillis"
+            case submitTimeMillis = "SubmitTimeMillis"
+            case finishTimeMillis = "FinishTimeMillis"
         }
     }
 

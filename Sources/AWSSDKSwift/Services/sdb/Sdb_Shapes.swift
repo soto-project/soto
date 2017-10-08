@@ -31,11 +31,10 @@ extension Sdb {
 
     public struct ReplaceableAttribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Replace", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Replace", required: false, type: .boolean)
         ]
         /// The value of the replaceable attribute.
         public let value: String
@@ -50,23 +49,20 @@ extension Sdb {
             self.replace = replace
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.replace = dictionary["Replace"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
+            case replace = "Replace"
         }
     }
 
     public struct GetAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ItemName", required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "AttributeNames", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsistentRead", required: false, type: .boolean), 
+            AWSShapeMember(label: "ItemName", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "AttributeNames", required: false, type: .structure)
         ]
         /// Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
         public let consistentRead: Bool?
@@ -84,22 +80,19 @@ extension Sdb {
             self.attributeNames = attributeNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.consistentRead = dictionary["ConsistentRead"] as? Bool
-            guard let itemName = dictionary["ItemName"] as? String else { throw InitializableError.missingRequiredParam("ItemName") }
-            self.itemName = itemName
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            if let attributeNames = dictionary["AttributeNames"] as? [String: Any] { self.attributeNames = try Sdb.AttributeNameList(dictionary: attributeNames) } else { self.attributeNames = nil }
+        private enum CodingKeys: String, CodingKey {
+            case consistentRead = "ConsistentRead"
+            case itemName = "ItemName"
+            case domainName = "DomainName"
+            case attributeNames = "AttributeNames"
         }
     }
 
     public struct ListDomainsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxNumberOfDomains", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxNumberOfDomains", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The maximum number of domain names you want returned. The range is 1 to 100. The default setting is 100.
         public let maxNumberOfDomains: Int32?
@@ -111,17 +104,16 @@ extension Sdb {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxNumberOfDomains = dictionary["MaxNumberOfDomains"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxNumberOfDomains = "MaxNumberOfDomains"
+            case nextToken = "NextToken"
         }
     }
 
     public struct AttributeList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attribute", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attribute", required: false, type: .list)
         ]
         public let attribute: [Attribute]?
 
@@ -129,20 +121,15 @@ extension Sdb {
             self.attribute = attribute
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attribute = dictionary["Attribute"] as? [[String: Any]] {
-                self.attribute = try attribute.map({ try Attribute(dictionary: $0) })
-            } else { 
-                self.attribute = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
         }
     }
 
     public struct GetAttributesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attributes", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .structure)
         ]
         /// The list of attributes returned by the operation.
         public let attributes: AttributeList?
@@ -151,18 +138,17 @@ extension Sdb {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attributes"] as? [String: Any] { self.attributes = try Sdb.AttributeList(dictionary: attributes) } else { self.attributes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
         }
     }
 
     public struct SelectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SelectExpression", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsistentRead", required: false, type: .boolean), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SelectExpression", required: true, type: .string)
         ]
         /// Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
         public let consistentRead: Bool?
@@ -177,20 +163,18 @@ extension Sdb {
             self.selectExpression = selectExpression
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.consistentRead = dictionary["ConsistentRead"] as? Bool
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let selectExpression = dictionary["SelectExpression"] as? String else { throw InitializableError.missingRequiredParam("SelectExpression") }
-            self.selectExpression = selectExpression
+        private enum CodingKeys: String, CodingKey {
+            case consistentRead = "ConsistentRead"
+            case nextToken = "NextToken"
+            case selectExpression = "SelectExpression"
         }
     }
 
     public struct BatchDeleteAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// A list of items on which to perform the operation.
         public let items: DeletableItemList
@@ -202,25 +186,22 @@ extension Sdb {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let items = dictionary["Items"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Items") }
-            self.items = try Sdb.DeletableItemList(dictionary: items)
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case domainName = "DomainName"
         }
     }
 
     public struct DomainMetadataResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timestamp", required: false, type: .integer), 
-            AWSShapeProperty(label: "AttributeNamesSizeBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "AttributeValuesSizeBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "ItemCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "AttributeValueCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "AttributeNameCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "ItemNamesSizeBytes", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timestamp", required: false, type: .integer), 
+            AWSShapeMember(label: "AttributeNamesSizeBytes", required: false, type: .long), 
+            AWSShapeMember(label: "AttributeValuesSizeBytes", required: false, type: .long), 
+            AWSShapeMember(label: "ItemCount", required: false, type: .integer), 
+            AWSShapeMember(label: "AttributeValueCount", required: false, type: .integer), 
+            AWSShapeMember(label: "AttributeNameCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ItemNamesSizeBytes", required: false, type: .long)
         ]
         /// The data and time when metadata was calculated, in Epoch (UNIX) seconds.
         public let timestamp: Int32?
@@ -247,24 +228,23 @@ extension Sdb {
             self.itemNamesSizeBytes = itemNamesSizeBytes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.timestamp = dictionary["Timestamp"] as? Int32
-            self.attributeNamesSizeBytes = dictionary["AttributeNamesSizeBytes"] as? Int64
-            self.attributeValuesSizeBytes = dictionary["AttributeValuesSizeBytes"] as? Int64
-            self.itemCount = dictionary["ItemCount"] as? Int32
-            self.attributeValueCount = dictionary["AttributeValueCount"] as? Int32
-            self.attributeNameCount = dictionary["AttributeNameCount"] as? Int32
-            self.itemNamesSizeBytes = dictionary["ItemNamesSizeBytes"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+            case attributeNamesSizeBytes = "AttributeNamesSizeBytes"
+            case attributeValuesSizeBytes = "AttributeValuesSizeBytes"
+            case itemCount = "ItemCount"
+            case attributeValueCount = "AttributeValueCount"
+            case attributeNameCount = "AttributeNameCount"
+            case itemNamesSizeBytes = "ItemNamesSizeBytes"
         }
     }
 
     public struct Item: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlternateNameEncoding", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlternateNameEncoding", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Attributes", required: true, type: .structure)
         ]
         public let alternateNameEncoding: String?
         /// The name of the item.
@@ -278,23 +258,20 @@ extension Sdb {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.alternateNameEncoding = dictionary["AlternateNameEncoding"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let attributes = dictionary["Attributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = try Sdb.AttributeList(dictionary: attributes)
+        private enum CodingKeys: String, CodingKey {
+            case alternateNameEncoding = "AlternateNameEncoding"
+            case name = "Name"
+            case attributes = "Attributes"
         }
     }
 
     public struct Attribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlternateNameEncoding", required: false, type: .string), 
-            AWSShapeProperty(label: "AlternateValueEncoding", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Value", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlternateNameEncoding", required: false, type: .string), 
+            AWSShapeMember(label: "AlternateValueEncoding", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
         ]
         public let alternateNameEncoding: String?
         public let alternateValueEncoding: String?
@@ -310,21 +287,18 @@ extension Sdb {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.alternateNameEncoding = dictionary["AlternateNameEncoding"] as? String
-            self.alternateValueEncoding = dictionary["AlternateValueEncoding"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
+        private enum CodingKeys: String, CodingKey {
+            case alternateNameEncoding = "AlternateNameEncoding"
+            case alternateValueEncoding = "AlternateValueEncoding"
+            case name = "Name"
+            case value = "Value"
         }
     }
 
     public struct DomainMetadataRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain for which to display the metadata of.
         public let domainName: String
@@ -333,17 +307,15 @@ extension Sdb {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct DeleteDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain to delete.
         public let domainName: String
@@ -352,18 +324,16 @@ extension Sdb {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct BatchPutAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// A list of items on which to perform the operation.
         public let items: ReplaceableItemList
@@ -375,20 +345,17 @@ extension Sdb {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let items = dictionary["Items"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Items") }
-            self.items = try Sdb.ReplaceableItemList(dictionary: items)
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case domainName = "DomainName"
         }
     }
 
     public struct ReplaceableItem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: .body(locationName: "ItemName"), required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .body(locationName: "ItemName"), required: true, type: .string), 
+            AWSShapeMember(label: "Attributes", required: true, type: .structure)
         ]
         /// The name of the replaceable item.
         public let name: String
@@ -400,19 +367,16 @@ extension Sdb {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["ItemName"] as? String else { throw InitializableError.missingRequiredParam("ItemName") }
-            self.name = name
-            guard let attributes = dictionary["Attributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = try Sdb.ReplaceableAttributeList(dictionary: attributes)
+        private enum CodingKeys: String, CodingKey {
+            case name = "ItemName"
+            case attributes = "Attributes"
         }
     }
 
     public struct DeletableItemList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: false, type: .list)
         ]
         public let item: [DeletableItem]?
 
@@ -420,20 +384,15 @@ extension Sdb {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["Item"] as? [[String: Any]] {
-                self.item = try item.map({ try DeletableItem(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
         }
     }
 
     public struct AttributeNameList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: false, type: .list)
         ]
         public let attributeName: [String]?
 
@@ -441,17 +400,16 @@ extension Sdb {
             self.attributeName = attributeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attributeName = dictionary["AttributeName"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
         }
     }
 
     public struct DeletableItem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: .body(locationName: "ItemName"), required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .body(locationName: "ItemName"), required: true, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .structure)
         ]
         public let name: String
         public let attributes: DeletableAttributeList?
@@ -461,20 +419,18 @@ extension Sdb {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["ItemName"] as? String else { throw InitializableError.missingRequiredParam("ItemName") }
-            self.name = name
-            if let attributes = dictionary["Attributes"] as? [String: Any] { self.attributes = try Sdb.DeletableAttributeList(dictionary: attributes) } else { self.attributes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case name = "ItemName"
+            case attributes = "Attributes"
         }
     }
 
     public struct UpdateCondition: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Exists", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Exists", required: false, type: .boolean)
         ]
         /// The value of an attribute. This value can only be specified when the Exists parameter is equal to true.
         public let value: String?
@@ -489,18 +445,17 @@ extension Sdb {
             self.exists = exists
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.name = dictionary["Name"] as? String
-            self.exists = dictionary["Exists"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
+            case exists = "Exists"
         }
     }
 
     public struct ItemList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: false, type: .list)
         ]
         public let item: [Item]?
 
@@ -508,23 +463,18 @@ extension Sdb {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["Item"] as? [[String: Any]] {
-                self.item = try item.map({ try Item(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
         }
     }
 
     public struct PutAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ItemName", required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "Expected", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ItemName", required: true, type: .string), 
+            AWSShapeMember(label: "Attributes", required: true, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "Expected", required: false, type: .structure)
         ]
         /// The name of the item.
         public let itemName: String
@@ -542,23 +492,19 @@ extension Sdb {
             self.expected = expected
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let itemName = dictionary["ItemName"] as? String else { throw InitializableError.missingRequiredParam("ItemName") }
-            self.itemName = itemName
-            guard let attributes = dictionary["Attributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = try Sdb.ReplaceableAttributeList(dictionary: attributes)
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            if let expected = dictionary["Expected"] as? [String: Any] { self.expected = try Sdb.UpdateCondition(dictionary: expected) } else { self.expected = nil }
+        private enum CodingKeys: String, CodingKey {
+            case itemName = "ItemName"
+            case attributes = "Attributes"
+            case domainName = "DomainName"
+            case expected = "Expected"
         }
     }
 
     public struct DeletableAttribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The value of the attribute.
         public let value: String?
@@ -570,21 +516,19 @@ extension Sdb {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
         }
     }
 
     public struct DeleteAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ItemName", required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "Expected", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ItemName", required: true, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "Expected", required: false, type: .structure)
         ]
         /// The name of the item. Similar to rows on a spreadsheet, items represent individual objects that contain one or more value-attribute pairs.
         public let itemName: String
@@ -602,22 +546,19 @@ extension Sdb {
             self.expected = expected
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let itemName = dictionary["ItemName"] as? String else { throw InitializableError.missingRequiredParam("ItemName") }
-            self.itemName = itemName
-            if let attributes = dictionary["Attributes"] as? [String: Any] { self.attributes = try Sdb.DeletableAttributeList(dictionary: attributes) } else { self.attributes = nil }
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            if let expected = dictionary["Expected"] as? [String: Any] { self.expected = try Sdb.UpdateCondition(dictionary: expected) } else { self.expected = nil }
+        private enum CodingKeys: String, CodingKey {
+            case itemName = "ItemName"
+            case attributes = "Attributes"
+            case domainName = "DomainName"
+            case expected = "Expected"
         }
     }
 
     public struct ListDomainsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "DomainNames", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "DomainNames", required: false, type: .structure)
         ]
         /// An opaque token indicating that there are more domains than the specified MaxNumberOfDomains still available.
         public let nextToken: String?
@@ -629,17 +570,16 @@ extension Sdb {
             self.domainNames = domainNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let domainNames = dictionary["DomainNames"] as? [String: Any] { self.domainNames = try Sdb.DomainNameList(dictionary: domainNames) } else { self.domainNames = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case domainNames = "DomainNames"
         }
     }
 
     public struct ReplaceableAttributeList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attribute", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attribute", required: false, type: .list)
         ]
         public let attribute: [ReplaceableAttribute]?
 
@@ -647,20 +587,15 @@ extension Sdb {
             self.attribute = attribute
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attribute = dictionary["Attribute"] as? [[String: Any]] {
-                self.attribute = try attribute.map({ try ReplaceableAttribute(dictionary: $0) })
-            } else { 
-                self.attribute = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
         }
     }
 
     public struct DeletableAttributeList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attribute", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attribute", required: false, type: .list)
         ]
         public let attribute: [DeletableAttribute]?
 
@@ -668,20 +603,15 @@ extension Sdb {
             self.attribute = attribute
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attribute = dictionary["Attribute"] as? [[String: Any]] {
-                self.attribute = try attribute.map({ try DeletableAttribute(dictionary: $0) })
-            } else { 
-                self.attribute = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
         }
     }
 
     public struct ReplaceableItemList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: false, type: .list)
         ]
         public let item: [ReplaceableItem]?
 
@@ -689,21 +619,16 @@ extension Sdb {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["Item"] as? [[String: Any]] {
-                self.item = try item.map({ try ReplaceableItem(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
         }
     }
 
     public struct SelectResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of items that match the select expression.
         public let items: ItemList?
@@ -715,17 +640,16 @@ extension Sdb {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Sdb.ItemList(dictionary: items) } else { self.items = nil }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
         }
     }
 
     public struct CreateDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain to create. The name can range between 3 and 255 characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
         public let domainName: String
@@ -734,17 +658,15 @@ extension Sdb {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct DomainNameList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: false, type: .list)
         ]
         public let domainName: [String]?
 
@@ -752,8 +674,8 @@ extension Sdb {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.domainName = dictionary["DomainName"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 

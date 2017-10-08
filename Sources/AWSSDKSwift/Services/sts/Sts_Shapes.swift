@@ -31,11 +31,10 @@ extension Sts {
 
     public struct GetSessionTokenRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TokenCode", required: false, type: .string), 
-            AWSShapeProperty(label: "SerialNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TokenCode", required: false, type: .string), 
+            AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
+            AWSShapeMember(label: "DurationSeconds", required: false, type: .integer)
         ]
         /// The value provided by the MFA device, if MFA is required. If any policy requires the IAM user to submit an MFA code, specify this value. If MFA authentication is required, and the user does not provide a code when requesting a set of temporary security credentials, the user will receive an "access denied" response when requesting resources that require MFA authentication. The format for this parameter, as described by its regex pattern, is a sequence of six numeric digits.
         public let tokenCode: String?
@@ -50,18 +49,17 @@ extension Sts {
             self.durationSeconds = durationSeconds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tokenCode = dictionary["TokenCode"] as? String
-            self.serialNumber = dictionary["SerialNumber"] as? String
-            self.durationSeconds = dictionary["DurationSeconds"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case tokenCode = "TokenCode"
+            case serialNumber = "SerialNumber"
+            case durationSeconds = "DurationSeconds"
         }
     }
 
     public struct GetSessionTokenResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Credentials", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Credentials", required: false, type: .structure)
         ]
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  Note: The size of the security token that STS APIs return is not fixed. We strongly recommend that you make no assumptions about the maximum size. As of this writing, the typical size is less than 4096 bytes, but that can vary. Also, future updates to AWS might require larger sizes.
         public let credentials: Credentials?
@@ -70,16 +68,15 @@ extension Sts {
             self.credentials = credentials
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try Sts.Credentials(dictionary: credentials) } else { self.credentials = nil }
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "Credentials"
         }
     }
 
     public struct DecodeAuthorizationMessageRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EncodedMessage", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncodedMessage", required: true, type: .string)
         ]
         /// The encoded message that was returned with the response.
         public let encodedMessage: String
@@ -88,20 +85,18 @@ extension Sts {
             self.encodedMessage = encodedMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let encodedMessage = dictionary["EncodedMessage"] as? String else { throw InitializableError.missingRequiredParam("EncodedMessage") }
-            self.encodedMessage = encodedMessage
+        private enum CodingKeys: String, CodingKey {
+            case encodedMessage = "EncodedMessage"
         }
     }
 
     public struct Credentials: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SessionToken", required: true, type: .string), 
-            AWSShapeProperty(label: "AccessKeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "SecretAccessKey", required: true, type: .string), 
-            AWSShapeProperty(label: "Expiration", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SessionToken", required: true, type: .string), 
+            AWSShapeMember(label: "AccessKeyId", required: true, type: .string), 
+            AWSShapeMember(label: "SecretAccessKey", required: true, type: .string), 
+            AWSShapeMember(label: "Expiration", required: true, type: .timestamp)
         ]
         /// The token that users must pass to the service API to use the temporary credentials.
         public let sessionToken: String
@@ -110,37 +105,32 @@ extension Sts {
         /// The secret access key that can be used to sign requests.
         public let secretAccessKey: String
         /// The date on which the current credentials expire.
-        public let expiration: String
+        public let expiration: Double
 
-        public init(sessionToken: String, accessKeyId: String, secretAccessKey: String, expiration: String) {
+        public init(sessionToken: String, accessKeyId: String, secretAccessKey: String, expiration: Double) {
             self.sessionToken = sessionToken
             self.accessKeyId = accessKeyId
             self.secretAccessKey = secretAccessKey
             self.expiration = expiration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sessionToken = dictionary["SessionToken"] as? String else { throw InitializableError.missingRequiredParam("SessionToken") }
-            self.sessionToken = sessionToken
-            guard let accessKeyId = dictionary["AccessKeyId"] as? String else { throw InitializableError.missingRequiredParam("AccessKeyId") }
-            self.accessKeyId = accessKeyId
-            guard let secretAccessKey = dictionary["SecretAccessKey"] as? String else { throw InitializableError.missingRequiredParam("SecretAccessKey") }
-            self.secretAccessKey = secretAccessKey
-            guard let expiration = dictionary["Expiration"] as? String else { throw InitializableError.missingRequiredParam("Expiration") }
-            self.expiration = expiration
+        private enum CodingKeys: String, CodingKey {
+            case sessionToken = "SessionToken"
+            case accessKeyId = "AccessKeyId"
+            case secretAccessKey = "SecretAccessKey"
+            case expiration = "Expiration"
         }
     }
 
     public struct AssumeRoleWithWebIdentityResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Audience", required: false, type: .string), 
-            AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubjectFromWebIdentityToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AssumedRoleUser", required: false, type: .structure), 
-            AWSShapeProperty(label: "Provider", required: false, type: .string), 
-            AWSShapeProperty(label: "PackedPolicySize", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Audience", required: false, type: .string), 
+            AWSShapeMember(label: "Credentials", required: false, type: .structure), 
+            AWSShapeMember(label: "SubjectFromWebIdentityToken", required: false, type: .string), 
+            AWSShapeMember(label: "AssumedRoleUser", required: false, type: .structure), 
+            AWSShapeMember(label: "Provider", required: false, type: .string), 
+            AWSShapeMember(label: "PackedPolicySize", required: false, type: .integer)
         ]
         /// The intended audience (also known as client ID) of the web identity token. This is traditionally the client identifier issued to the application that requested the web identity token.
         public let audience: String?
@@ -164,23 +154,22 @@ extension Sts {
             self.packedPolicySize = packedPolicySize
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.audience = dictionary["Audience"] as? String
-            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try Sts.Credentials(dictionary: credentials) } else { self.credentials = nil }
-            self.subjectFromWebIdentityToken = dictionary["SubjectFromWebIdentityToken"] as? String
-            if let assumedRoleUser = dictionary["AssumedRoleUser"] as? [String: Any] { self.assumedRoleUser = try Sts.AssumedRoleUser(dictionary: assumedRoleUser) } else { self.assumedRoleUser = nil }
-            self.provider = dictionary["Provider"] as? String
-            self.packedPolicySize = dictionary["PackedPolicySize"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case audience = "Audience"
+            case credentials = "Credentials"
+            case subjectFromWebIdentityToken = "SubjectFromWebIdentityToken"
+            case assumedRoleUser = "AssumedRoleUser"
+            case provider = "Provider"
+            case packedPolicySize = "PackedPolicySize"
         }
     }
 
     public struct GetFederationTokenResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
-            AWSShapeProperty(label: "FederatedUser", required: false, type: .structure), 
-            AWSShapeProperty(label: "PackedPolicySize", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Credentials", required: false, type: .structure), 
+            AWSShapeMember(label: "FederatedUser", required: false, type: .structure), 
+            AWSShapeMember(label: "PackedPolicySize", required: false, type: .integer)
         ]
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  Note: The size of the security token that STS APIs return is not fixed. We strongly recommend that you make no assumptions about the maximum size. As of this writing, the typical size is less than 4096 bytes, but that can vary. Also, future updates to AWS might require larger sizes.
         public let credentials: Credentials?
@@ -195,23 +184,22 @@ extension Sts {
             self.packedPolicySize = packedPolicySize
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try Sts.Credentials(dictionary: credentials) } else { self.credentials = nil }
-            if let federatedUser = dictionary["FederatedUser"] as? [String: Any] { self.federatedUser = try Sts.FederatedUser(dictionary: federatedUser) } else { self.federatedUser = nil }
-            self.packedPolicySize = dictionary["PackedPolicySize"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "Credentials"
+            case federatedUser = "FederatedUser"
+            case packedPolicySize = "PackedPolicySize"
         }
     }
 
     public struct AssumeRoleWithWebIdentityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProviderId", required: false, type: .string), 
-            AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "RoleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "WebIdentityToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Policy", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleSessionName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProviderId", required: false, type: .string), 
+            AWSShapeMember(label: "DurationSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "WebIdentityToken", required: true, type: .string), 
+            AWSShapeMember(label: "Policy", required: false, type: .string), 
+            AWSShapeMember(label: "RoleSessionName", required: true, type: .string)
         ]
         /// The fully qualified host component of the domain name of the identity provider. Specify this value only for OAuth 2.0 access tokens. Currently www.amazon.com and graph.facebook.com are the only supported identity providers for OAuth 2.0 access tokens. Do not include URL schemes and port numbers. Do not specify this value for OpenID Connect ID tokens.
         public let providerId: String?
@@ -235,25 +223,21 @@ extension Sts {
             self.roleSessionName = roleSessionName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.providerId = dictionary["ProviderId"] as? String
-            self.durationSeconds = dictionary["DurationSeconds"] as? Int32
-            guard let roleArn = dictionary["RoleArn"] as? String else { throw InitializableError.missingRequiredParam("RoleArn") }
-            self.roleArn = roleArn
-            guard let webIdentityToken = dictionary["WebIdentityToken"] as? String else { throw InitializableError.missingRequiredParam("WebIdentityToken") }
-            self.webIdentityToken = webIdentityToken
-            self.policy = dictionary["Policy"] as? String
-            guard let roleSessionName = dictionary["RoleSessionName"] as? String else { throw InitializableError.missingRequiredParam("RoleSessionName") }
-            self.roleSessionName = roleSessionName
+        private enum CodingKeys: String, CodingKey {
+            case providerId = "ProviderId"
+            case durationSeconds = "DurationSeconds"
+            case roleArn = "RoleArn"
+            case webIdentityToken = "WebIdentityToken"
+            case policy = "Policy"
+            case roleSessionName = "RoleSessionName"
         }
     }
 
     public struct AssumedRoleUser: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: true, type: .string), 
-            AWSShapeProperty(label: "AssumedRoleId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "AssumedRoleId", required: true, type: .string)
         ]
         /// The ARN of the temporary security credentials that are returned from the AssumeRole action. For more information about ARNs and how to use them in policies, see IAM Identifiers in Using IAM. 
         public let arn: String
@@ -265,19 +249,16 @@ extension Sts {
             self.assumedRoleId = assumedRoleId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
-            self.arn = arn
-            guard let assumedRoleId = dictionary["AssumedRoleId"] as? String else { throw InitializableError.missingRequiredParam("AssumedRoleId") }
-            self.assumedRoleId = assumedRoleId
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case assumedRoleId = "AssumedRoleId"
         }
     }
 
     public struct DecodeAuthorizationMessageResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DecodedMessage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DecodedMessage", required: false, type: .string)
         ]
         /// An XML document that contains the decoded message.
         public let decodedMessage: String?
@@ -286,28 +267,24 @@ extension Sts {
             self.decodedMessage = decodedMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.decodedMessage = dictionary["DecodedMessage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case decodedMessage = "DecodedMessage"
         }
     }
 
     public struct GetCallerIdentityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct AssumeRoleWithSAMLRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrincipalArn", required: true, type: .string), 
-            AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "RoleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Policy", required: false, type: .string), 
-            AWSShapeProperty(label: "SAMLAssertion", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PrincipalArn", required: true, type: .string), 
+            AWSShapeMember(label: "DurationSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "Policy", required: false, type: .string), 
+            AWSShapeMember(label: "SAMLAssertion", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the SAML provider in IAM that describes the IdP.
         public let principalArn: String
@@ -328,30 +305,26 @@ extension Sts {
             self.sAMLAssertion = sAMLAssertion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let principalArn = dictionary["PrincipalArn"] as? String else { throw InitializableError.missingRequiredParam("PrincipalArn") }
-            self.principalArn = principalArn
-            self.durationSeconds = dictionary["DurationSeconds"] as? Int32
-            guard let roleArn = dictionary["RoleArn"] as? String else { throw InitializableError.missingRequiredParam("RoleArn") }
-            self.roleArn = roleArn
-            self.policy = dictionary["Policy"] as? String
-            guard let sAMLAssertion = dictionary["SAMLAssertion"] as? String else { throw InitializableError.missingRequiredParam("SAMLAssertion") }
-            self.sAMLAssertion = sAMLAssertion
+        private enum CodingKeys: String, CodingKey {
+            case principalArn = "PrincipalArn"
+            case durationSeconds = "DurationSeconds"
+            case roleArn = "RoleArn"
+            case policy = "Policy"
+            case sAMLAssertion = "SAMLAssertion"
         }
     }
 
     public struct AssumeRoleWithSAMLResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
-            AWSShapeProperty(label: "AssumedRoleUser", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubjectType", required: false, type: .string), 
-            AWSShapeProperty(label: "PackedPolicySize", required: false, type: .integer), 
-            AWSShapeProperty(label: "Audience", required: false, type: .string), 
-            AWSShapeProperty(label: "NameQualifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Issuer", required: false, type: .string), 
-            AWSShapeProperty(label: "Subject", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Credentials", required: false, type: .structure), 
+            AWSShapeMember(label: "AssumedRoleUser", required: false, type: .structure), 
+            AWSShapeMember(label: "SubjectType", required: false, type: .string), 
+            AWSShapeMember(label: "PackedPolicySize", required: false, type: .integer), 
+            AWSShapeMember(label: "Audience", required: false, type: .string), 
+            AWSShapeMember(label: "NameQualifier", required: false, type: .string), 
+            AWSShapeMember(label: "Issuer", required: false, type: .string), 
+            AWSShapeMember(label: "Subject", required: false, type: .string)
         ]
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  Note: The size of the security token that STS APIs return is not fixed. We strongly recommend that you make no assumptions about the maximum size. As of this writing, the typical size is less than 4096 bytes, but that can vary. Also, future updates to AWS might require larger sizes.
         public let credentials: Credentials?
@@ -381,25 +354,24 @@ extension Sts {
             self.subject = subject
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try Sts.Credentials(dictionary: credentials) } else { self.credentials = nil }
-            if let assumedRoleUser = dictionary["AssumedRoleUser"] as? [String: Any] { self.assumedRoleUser = try Sts.AssumedRoleUser(dictionary: assumedRoleUser) } else { self.assumedRoleUser = nil }
-            self.subjectType = dictionary["SubjectType"] as? String
-            self.packedPolicySize = dictionary["PackedPolicySize"] as? Int32
-            self.audience = dictionary["Audience"] as? String
-            self.nameQualifier = dictionary["NameQualifier"] as? String
-            self.issuer = dictionary["Issuer"] as? String
-            self.subject = dictionary["Subject"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "Credentials"
+            case assumedRoleUser = "AssumedRoleUser"
+            case subjectType = "SubjectType"
+            case packedPolicySize = "PackedPolicySize"
+            case audience = "Audience"
+            case nameQualifier = "NameQualifier"
+            case issuer = "Issuer"
+            case subject = "Subject"
         }
     }
 
     public struct GetFederationTokenRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DurationSeconds", required: false, type: .integer)
         ]
         /// An IAM policy in JSON format that is passed with the GetFederationToken call and evaluated along with the policy or policies that are attached to the IAM user whose credentials are used to call GetFederationToken. The passed policy is used to scope down the permissions that are available to the IAM user, by allowing only a subset of the permissions that are granted to the IAM user. The passed policy cannot grant more permissions than those granted to the IAM user. The final permissions for the federated user are the most restrictive set based on the intersection of the passed policy and the IAM user policy. If you do not pass a policy, the resulting temporary security credentials have no effective permissions. The only exception is when the temporary security credentials are used to access a resource that has a resource-based policy that specifically allows the federated user to access the resource. The format for this parameter, as described by its regex pattern, is a string of characters up to 2048 characters in length. The characters can be any ASCII character from the space character to the end of the valid character list (\u0020-\u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters.  The policy plain text must be 2048 bytes or shorter. However, an internal conversion compresses it into a packed binary format with a separate limit. The PackedPolicySize response element indicates by percentage how close to the upper size limit the policy is, with 100% equaling the maximum allowed size.  For more information about how permissions work, see Permissions for GetFederationToken.
         public let policy: String?
@@ -414,21 +386,19 @@ extension Sts {
             self.durationSeconds = durationSeconds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policy = dictionary["Policy"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.durationSeconds = dictionary["DurationSeconds"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case name = "Name"
+            case durationSeconds = "DurationSeconds"
         }
     }
 
     public struct GetCallerIdentityResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Account", required: false, type: .string), 
-            AWSShapeProperty(label: "UserId", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Account", required: false, type: .string), 
+            AWSShapeMember(label: "UserId", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string)
         ]
         /// The AWS account ID number of the account that owns or contains the calling entity.
         public let account: String?
@@ -443,24 +413,23 @@ extension Sts {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.account = dictionary["Account"] as? String
-            self.userId = dictionary["UserId"] as? String
-            self.arn = dictionary["Arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+            case userId = "UserId"
+            case arn = "Arn"
         }
     }
 
     public struct AssumeRoleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "ExternalId", required: false, type: .string), 
-            AWSShapeProperty(label: "TokenCode", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Policy", required: false, type: .string), 
-            AWSShapeProperty(label: "SerialNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleSessionName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DurationSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "ExternalId", required: false, type: .string), 
+            AWSShapeMember(label: "TokenCode", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "Policy", required: false, type: .string), 
+            AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
+            AWSShapeMember(label: "RoleSessionName", required: true, type: .string)
         ]
         /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) to 3600 seconds (1 hour). By default, the value is set to 3600 seconds.  This is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session, separately from the DurationSeconds parameter on this API. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide. 
         public let durationSeconds: Int32?
@@ -487,26 +456,23 @@ extension Sts {
             self.roleSessionName = roleSessionName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.durationSeconds = dictionary["DurationSeconds"] as? Int32
-            self.externalId = dictionary["ExternalId"] as? String
-            self.tokenCode = dictionary["TokenCode"] as? String
-            guard let roleArn = dictionary["RoleArn"] as? String else { throw InitializableError.missingRequiredParam("RoleArn") }
-            self.roleArn = roleArn
-            self.policy = dictionary["Policy"] as? String
-            self.serialNumber = dictionary["SerialNumber"] as? String
-            guard let roleSessionName = dictionary["RoleSessionName"] as? String else { throw InitializableError.missingRequiredParam("RoleSessionName") }
-            self.roleSessionName = roleSessionName
+        private enum CodingKeys: String, CodingKey {
+            case durationSeconds = "DurationSeconds"
+            case externalId = "ExternalId"
+            case tokenCode = "TokenCode"
+            case roleArn = "RoleArn"
+            case policy = "Policy"
+            case serialNumber = "SerialNumber"
+            case roleSessionName = "RoleSessionName"
         }
     }
 
     public struct AssumeRoleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
-            AWSShapeProperty(label: "AssumedRoleUser", required: false, type: .structure), 
-            AWSShapeProperty(label: "PackedPolicySize", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Credentials", required: false, type: .structure), 
+            AWSShapeMember(label: "AssumedRoleUser", required: false, type: .structure), 
+            AWSShapeMember(label: "PackedPolicySize", required: false, type: .integer)
         ]
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  Note: The size of the security token that STS APIs return is not fixed. We strongly recommend that you make no assumptions about the maximum size. As of this writing, the typical size is less than 4096 bytes, but that can vary. Also, future updates to AWS might require larger sizes.
         public let credentials: Credentials?
@@ -521,19 +487,18 @@ extension Sts {
             self.packedPolicySize = packedPolicySize
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try Sts.Credentials(dictionary: credentials) } else { self.credentials = nil }
-            if let assumedRoleUser = dictionary["AssumedRoleUser"] as? [String: Any] { self.assumedRoleUser = try Sts.AssumedRoleUser(dictionary: assumedRoleUser) } else { self.assumedRoleUser = nil }
-            self.packedPolicySize = dictionary["PackedPolicySize"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "Credentials"
+            case assumedRoleUser = "AssumedRoleUser"
+            case packedPolicySize = "PackedPolicySize"
         }
     }
 
     public struct FederatedUser: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FederatedUserId", required: true, type: .string), 
-            AWSShapeProperty(label: "Arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FederatedUserId", required: true, type: .string), 
+            AWSShapeMember(label: "Arn", required: true, type: .string)
         ]
         /// The string that identifies the federated user associated with the credentials, similar to the unique ID of an IAM user.
         public let federatedUserId: String
@@ -545,11 +510,9 @@ extension Sts {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let federatedUserId = dictionary["FederatedUserId"] as? String else { throw InitializableError.missingRequiredParam("FederatedUserId") }
-            self.federatedUserId = federatedUserId
-            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case federatedUserId = "FederatedUserId"
+            case arn = "Arn"
         }
     }
 

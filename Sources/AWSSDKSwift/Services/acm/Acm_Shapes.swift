@@ -29,7 +29,7 @@ import AWSSDKSwiftCore
 
 extension Acm {
 
-    public enum CertificateType: String, CustomStringConvertible {
+    public enum CertificateType: String, CustomStringConvertible, Codable {
         case imported = "IMPORTED"
         case amazon_issued = "AMAZON_ISSUED"
         public var description: String { return self.rawValue }
@@ -37,10 +37,9 @@ extension Acm {
 
     public struct RemoveTagsFromCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: true, type: .list), 
-            AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
         /// The key-value pair that defines the tag to remove.
         public let tags: [Tag]
@@ -52,15 +51,13 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
-            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
-            self.certificateArn = certificateArn
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case certificateArn = "CertificateArn"
         }
     }
 
-    public enum DomainStatus: String, CustomStringConvertible {
+    public enum DomainStatus: String, CustomStringConvertible, Codable {
         case pending_validation = "PENDING_VALIDATION"
         case success = "SUCCESS"
         case failed = "FAILED"
@@ -69,10 +66,9 @@ extension Acm {
 
     public struct ListCertificatesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "CertificateSummaryList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateSummaryList", required: false, type: .list)
         ]
         /// When the list is truncated, this value is present and contains the value to use for the NextToken parameter in a subsequent pagination request.
         public let nextToken: String?
@@ -84,21 +80,16 @@ extension Acm {
             self.certificateSummaryList = certificateSummaryList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let certificateSummaryList = dictionary["CertificateSummaryList"] as? [[String: Any]] {
-                self.certificateSummaryList = try certificateSummaryList.map({ try CertificateSummary(dictionary: $0) })
-            } else { 
-                self.certificateSummaryList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case certificateSummaryList = "CertificateSummaryList"
         }
     }
 
     public struct RequestCertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string)
         ]
         /// String that contains the ARN of the issued certificate. This must be of the form:  arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 
         public let certificateArn: String?
@@ -107,12 +98,12 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificateArn = dictionary["CertificateArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
         }
     }
 
-    public enum CertificateStatus: String, CustomStringConvertible {
+    public enum CertificateStatus: String, CustomStringConvertible, Codable {
         case pending_validation = "PENDING_VALIDATION"
         case issued = "ISSUED"
         case inactive = "INACTIVE"
@@ -125,12 +116,11 @@ extension Acm {
 
     public struct ImportCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: true, type: .blob), 
-            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateKey", required: true, type: .blob), 
-            AWSShapeProperty(label: "CertificateChain", required: false, type: .blob)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: true, type: .blob), 
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateKey", required: true, type: .blob), 
+            AWSShapeMember(label: "CertificateChain", required: false, type: .blob)
         ]
         /// The certificate to import. It must meet the following requirements:   Must be PEM-encoded.   Must contain a 1024-bit or 2048-bit RSA public key.   Must be valid at the time of import. You cannot import a certificate before its validity period begins (the certificate's NotBefore date) or after it expires (the certificate's NotAfter date).  
         public let certificate: Data
@@ -148,21 +138,18 @@ extension Acm {
             self.certificateChain = certificateChain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificate = dictionary["Certificate"] as? Data else { throw InitializableError.missingRequiredParam("Certificate") }
-            self.certificate = certificate
-            self.certificateArn = dictionary["CertificateArn"] as? String
-            guard let privateKey = dictionary["PrivateKey"] as? Data else { throw InitializableError.missingRequiredParam("PrivateKey") }
-            self.privateKey = privateKey
-            self.certificateChain = dictionary["CertificateChain"] as? Data
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case certificateArn = "CertificateArn"
+            case privateKey = "PrivateKey"
+            case certificateChain = "CertificateChain"
         }
     }
 
     public struct ListTagsForCertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The key-value pairs that define the applied tags.
         public let tags: [Tag]?
@@ -171,21 +158,16 @@ extension Acm {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// The value of the tag.
         public let value: String?
@@ -197,18 +179,16 @@ extension Acm {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct GetCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
         /// String that contains a certificate ARN in the following format:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
@@ -217,20 +197,18 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
-            self.certificateArn = certificateArn
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
         }
     }
 
     public struct DomainValidation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ValidationDomain", required: false, type: .string), 
-            AWSShapeProperty(label: "ValidationStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "ValidationEmails", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ValidationDomain", required: false, type: .string), 
+            AWSShapeMember(label: "ValidationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "ValidationEmails", required: false, type: .list)
         ]
         /// The domain name that ACM used to send domain validation emails.
         public let validationDomain: String?
@@ -248,16 +226,15 @@ extension Acm {
             self.validationEmails = validationEmails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.validationDomain = dictionary["ValidationDomain"] as? String
-            if let validationStatus = dictionary["ValidationStatus"] as? String { self.validationStatus = DomainStatus(rawValue: validationStatus) } else { self.validationStatus = nil }
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            self.validationEmails = dictionary["ValidationEmails"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case validationDomain = "ValidationDomain"
+            case validationStatus = "ValidationStatus"
+            case domainName = "DomainName"
+            case validationEmails = "ValidationEmails"
         }
     }
 
-    public enum RenewalStatus: String, CustomStringConvertible {
+    public enum RenewalStatus: String, CustomStringConvertible, Codable {
         case pending_auto_renewal = "PENDING_AUTO_RENEWAL"
         case pending_validation = "PENDING_VALIDATION"
         case success = "SUCCESS"
@@ -267,10 +244,9 @@ extension Acm {
 
     public struct AddTagsToCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: true, type: .list), 
-            AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
         /// The key-value pair that defines the tag. The tag value is optional.
         public let tags: [Tag]
@@ -282,20 +258,17 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
-            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
-            self.certificateArn = certificateArn
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case certificateArn = "CertificateArn"
         }
     }
 
     public struct GetCertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: false, type: .string), 
-            AWSShapeProperty(label: "CertificateChain", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateChain", required: false, type: .string)
         ]
         /// String that contains the ACM Certificate represented by the ARN specified at input.
         public let certificate: String?
@@ -307,19 +280,18 @@ extension Acm {
             self.certificateChain = certificateChain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificate = dictionary["Certificate"] as? String
-            self.certificateChain = dictionary["CertificateChain"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case certificateChain = "CertificateChain"
         }
     }
 
     public struct ResendValidationEmailRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ValidationDomain", required: true, type: .string), 
-            AWSShapeProperty(label: "CertificateArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Domain", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ValidationDomain", required: true, type: .string), 
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string), 
+            AWSShapeMember(label: "Domain", required: true, type: .string)
         ]
         /// The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com, ACM sends email to the domain registrant, technical contact, and administrative contact in WHOIS and the following five addresses:   admin@subdomain.example.com   administrator@subdomain.example.com   hostmaster@subdomain.example.com   postmaster@subdomain.example.com   webmaster@subdomain.example.com  
         public let validationDomain: String
@@ -334,17 +306,14 @@ extension Acm {
             self.domain = domain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let validationDomain = dictionary["ValidationDomain"] as? String else { throw InitializableError.missingRequiredParam("ValidationDomain") }
-            self.validationDomain = validationDomain
-            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
-            self.certificateArn = certificateArn
-            guard let domain = dictionary["Domain"] as? String else { throw InitializableError.missingRequiredParam("Domain") }
-            self.domain = domain
+        private enum CodingKeys: String, CodingKey {
+            case validationDomain = "ValidationDomain"
+            case certificateArn = "CertificateArn"
+            case domain = "Domain"
         }
     }
 
-    public enum RevocationReason: String, CustomStringConvertible {
+    public enum RevocationReason: String, CustomStringConvertible, Codable {
         case unspecified = "UNSPECIFIED"
         case key_compromise = "KEY_COMPROMISE"
         case ca_compromise = "CA_COMPROMISE"
@@ -360,10 +329,9 @@ extension Acm {
 
     public struct RenewalSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainValidationOptions", required: true, type: .list), 
-            AWSShapeProperty(label: "RenewalStatus", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainValidationOptions", required: true, type: .list), 
+            AWSShapeMember(label: "RenewalStatus", required: true, type: .enum)
         ]
         /// Contains information about the validation of each domain name in the certificate, as it pertains to ACM's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED.
         public let domainValidationOptions: [DomainValidation]
@@ -375,20 +343,17 @@ extension Acm {
             self.renewalStatus = renewalStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainValidationOptions = dictionary["DomainValidationOptions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("DomainValidationOptions") }
-            self.domainValidationOptions = try domainValidationOptions.map({ try DomainValidation(dictionary: $0) })
-            guard let rawRenewalStatus = dictionary["RenewalStatus"] as? String, let renewalStatus = RenewalStatus(rawValue: rawRenewalStatus) else { throw InitializableError.missingRequiredParam("RenewalStatus") }
-            self.renewalStatus = renewalStatus
+        private enum CodingKeys: String, CodingKey {
+            case domainValidationOptions = "DomainValidationOptions"
+            case renewalStatus = "RenewalStatus"
         }
     }
 
     public struct DomainValidationOption: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ValidationDomain", required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ValidationDomain", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The domain name that you want ACM to use to send you validation emails. This domain name is the suffix of the email addresses that you want ACM to use. This must be the same as the DomainName value or a superdomain of the DomainName value. For example, if you request a certificate for testing.example.com, you can specify example.com for this value. In that case, ACM sends domain validation emails to the following five addresses:   admin@example.com   administrator@example.com   hostmaster@example.com   postmaster@example.com   webmaster@example.com  
         public let validationDomain: String
@@ -400,20 +365,17 @@ extension Acm {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let validationDomain = dictionary["ValidationDomain"] as? String else { throw InitializableError.missingRequiredParam("ValidationDomain") }
-            self.validationDomain = validationDomain
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case validationDomain = "ValidationDomain"
+            case domainName = "DomainName"
         }
     }
 
     public struct CertificateSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) of the certificate. This is of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String?
@@ -425,17 +387,16 @@ extension Acm {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificateArn = dictionary["CertificateArn"] as? String
-            self.domainName = dictionary["DomainName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case domainName = "DomainName"
         }
     }
 
     public struct DescribeCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the ACM Certificate. The ARN must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
@@ -444,13 +405,12 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
-            self.certificateArn = certificateArn
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
         }
     }
 
-    public enum KeyAlgorithm: String, CustomStringConvertible {
+    public enum KeyAlgorithm: String, CustomStringConvertible, Codable {
         case rsa_2048 = "RSA_2048"
         case rsa_1024 = "RSA_1024"
         case ec_prime256v1 = "EC_prime256v1"
@@ -459,11 +419,10 @@ extension Acm {
 
     public struct ListCertificatesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateStatuses", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateStatuses", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
         /// The status or statuses on which to filter the list of ACM Certificates.
         public let certificateStatuses: [CertificateStatus]?
@@ -478,18 +437,17 @@ extension Acm {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let certificateStatuses = dictionary["CertificateStatuses"] as? [String] { self.certificateStatuses = certificateStatuses.flatMap({ CertificateStatus(rawValue: $0)}) } else { self.certificateStatuses = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case certificateStatuses = "CertificateStatuses"
+            case nextToken = "NextToken"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct DescribeCertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .structure)
         ]
         /// Metadata about an ACM certificate.
         public let certificate: CertificateDetail?
@@ -498,19 +456,18 @@ extension Acm {
             self.certificate = certificate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let certificate = dictionary["Certificate"] as? [String: Any] { self.certificate = try Acm.CertificateDetail(dictionary: certificate) } else { self.certificate = nil }
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
         }
     }
 
     public struct RequestCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainValidationOptions", required: false, type: .list), 
-            AWSShapeProperty(label: "SubjectAlternativeNames", required: false, type: .list), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "IdempotencyToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainValidationOptions", required: false, type: .list), 
+            AWSShapeMember(label: "SubjectAlternativeNames", required: false, type: .list), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string)
         ]
         /// The domain name that you want ACM to use to send you emails to validate your ownership of the domain.
         public let domainValidationOptions: [DomainValidationOption]?
@@ -528,24 +485,18 @@ extension Acm {
             self.idempotencyToken = idempotencyToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let domainValidationOptions = dictionary["DomainValidationOptions"] as? [[String: Any]] {
-                self.domainValidationOptions = try domainValidationOptions.map({ try DomainValidationOption(dictionary: $0) })
-            } else { 
-                self.domainValidationOptions = nil
-            }
-            self.subjectAlternativeNames = dictionary["SubjectAlternativeNames"] as? [String]
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            self.idempotencyToken = dictionary["IdempotencyToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case domainValidationOptions = "DomainValidationOptions"
+            case subjectAlternativeNames = "SubjectAlternativeNames"
+            case domainName = "DomainName"
+            case idempotencyToken = "IdempotencyToken"
         }
     }
 
     public struct ImportCertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the imported certificate.
         public let certificateArn: String?
@@ -554,16 +505,15 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificateArn = dictionary["CertificateArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
         }
     }
 
     public struct ListTagsForCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
         /// String that contains the ARN of the ACM Certificate for which you want to list the tags. This has the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
@@ -572,17 +522,15 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
-            self.certificateArn = certificateArn
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
         }
     }
 
     public struct DeleteCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
         /// String that contains the ARN of the ACM Certificate to be deleted. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let certificateArn: String
@@ -591,13 +539,12 @@ extension Acm {
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
-            self.certificateArn = certificateArn
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
         }
     }
 
-    public enum FailureReason: String, CustomStringConvertible {
+    public enum FailureReason: String, CustomStringConvertible, Codable {
         case no_available_contacts = "NO_AVAILABLE_CONTACTS"
         case additional_verification_required = "ADDITIONAL_VERIFICATION_REQUIRED"
         case domain_not_allowed = "DOMAIN_NOT_ALLOWED"
@@ -608,38 +555,37 @@ extension Acm {
 
     public struct CertificateDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailureReason", required: false, type: .enum), 
-            AWSShapeProperty(label: "IssuedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ImportedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "RevokedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "RenewalSummary", required: false, type: .structure), 
-            AWSShapeProperty(label: "SignatureAlgorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "Serial", required: false, type: .string), 
-            AWSShapeProperty(label: "RevocationReason", required: false, type: .enum), 
-            AWSShapeProperty(label: "NotAfter", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NotBefore", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SubjectAlternativeNames", required: false, type: .list), 
-            AWSShapeProperty(label: "DomainValidationOptions", required: false, type: .list), 
-            AWSShapeProperty(label: "KeyAlgorithm", required: false, type: .enum), 
-            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "InUseBy", required: false, type: .list), 
-            AWSShapeProperty(label: "Issuer", required: false, type: .string), 
-            AWSShapeProperty(label: "Subject", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailureReason", required: false, type: .enum), 
+            AWSShapeMember(label: "IssuedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ImportedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RevokedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RenewalSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "SignatureAlgorithm", required: false, type: .string), 
+            AWSShapeMember(label: "Serial", required: false, type: .string), 
+            AWSShapeMember(label: "RevocationReason", required: false, type: .enum), 
+            AWSShapeMember(label: "NotAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NotBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SubjectAlternativeNames", required: false, type: .list), 
+            AWSShapeMember(label: "DomainValidationOptions", required: false, type: .list), 
+            AWSShapeMember(label: "KeyAlgorithm", required: false, type: .enum), 
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "InUseBy", required: false, type: .list), 
+            AWSShapeMember(label: "Issuer", required: false, type: .string), 
+            AWSShapeMember(label: "Subject", required: false, type: .string)
         ]
         /// The reason the certificate request failed. This value exists only when the certificate status is FAILED. For more information, see Certificate Request Failed in the AWS Certificate Manager User Guide.
         public let failureReason: FailureReason?
         /// The time at which the certificate was issued. This value exists only when the certificate type is AMAZON_ISSUED.
-        public let issuedAt: String?
+        public let issuedAt: Double?
         /// The date and time at which the certificate was imported. This value exists only when the certificate type is IMPORTED.
-        public let importedAt: String?
+        public let importedAt: Double?
         /// The time at which the certificate was revoked. This value exists only when the certificate status is REVOKED.
-        public let revokedAt: String?
+        public let revokedAt: Double?
         /// Contains information about the status of ACM's managed renewal for the certificate. This field exists only when the certificate type is AMAZON_ISSUED.
         public let renewalSummary: RenewalSummary?
         /// The algorithm that was used to sign the certificate.
@@ -649,13 +595,13 @@ extension Acm {
         /// The reason the certificate was revoked. This value exists only when the certificate status is REVOKED.
         public let revocationReason: RevocationReason?
         /// The time after which the certificate is not valid.
-        public let notAfter: String?
+        public let notAfter: Double?
         /// The status of the certificate.
         public let status: CertificateStatus?
         /// The time at which the certificate was requested. This value exists only when the certificate type is AMAZON_ISSUED.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The time before which the certificate is not valid.
-        public let notBefore: String?
+        public let notBefore: Double?
         /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website.
         public let subjectAlternativeNames: [String]?
         /// Contains information about the initial validation of each domain name that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED.
@@ -675,7 +621,7 @@ extension Acm {
         /// The name of the entity that is associated with the public key contained in the certificate.
         public let subject: String?
 
-        public init(failureReason: FailureReason? = nil, issuedAt: String? = nil, importedAt: String? = nil, revokedAt: String? = nil, renewalSummary: RenewalSummary? = nil, signatureAlgorithm: String? = nil, serial: String? = nil, revocationReason: RevocationReason? = nil, notAfter: String? = nil, status: CertificateStatus? = nil, createdAt: String? = nil, notBefore: String? = nil, subjectAlternativeNames: [String]? = nil, domainValidationOptions: [DomainValidation]? = nil, keyAlgorithm: KeyAlgorithm? = nil, certificateArn: String? = nil, domainName: String? = nil, type: CertificateType? = nil, inUseBy: [String]? = nil, issuer: String? = nil, subject: String? = nil) {
+        public init(failureReason: FailureReason? = nil, issuedAt: Double? = nil, importedAt: Double? = nil, revokedAt: Double? = nil, renewalSummary: RenewalSummary? = nil, signatureAlgorithm: String? = nil, serial: String? = nil, revocationReason: RevocationReason? = nil, notAfter: Double? = nil, status: CertificateStatus? = nil, createdAt: Double? = nil, notBefore: Double? = nil, subjectAlternativeNames: [String]? = nil, domainValidationOptions: [DomainValidation]? = nil, keyAlgorithm: KeyAlgorithm? = nil, certificateArn: String? = nil, domainName: String? = nil, type: CertificateType? = nil, inUseBy: [String]? = nil, issuer: String? = nil, subject: String? = nil) {
             self.failureReason = failureReason
             self.issuedAt = issuedAt
             self.importedAt = importedAt
@@ -699,32 +645,28 @@ extension Acm {
             self.subject = subject
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failureReason = dictionary["FailureReason"] as? String { self.failureReason = FailureReason(rawValue: failureReason) } else { self.failureReason = nil }
-            self.issuedAt = dictionary["IssuedAt"] as? String
-            self.importedAt = dictionary["ImportedAt"] as? String
-            self.revokedAt = dictionary["RevokedAt"] as? String
-            if let renewalSummary = dictionary["RenewalSummary"] as? [String: Any] { self.renewalSummary = try Acm.RenewalSummary(dictionary: renewalSummary) } else { self.renewalSummary = nil }
-            self.signatureAlgorithm = dictionary["SignatureAlgorithm"] as? String
-            self.serial = dictionary["Serial"] as? String
-            if let revocationReason = dictionary["RevocationReason"] as? String { self.revocationReason = RevocationReason(rawValue: revocationReason) } else { self.revocationReason = nil }
-            self.notAfter = dictionary["NotAfter"] as? String
-            if let status = dictionary["Status"] as? String { self.status = CertificateStatus(rawValue: status) } else { self.status = nil }
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.notBefore = dictionary["NotBefore"] as? String
-            self.subjectAlternativeNames = dictionary["SubjectAlternativeNames"] as? [String]
-            if let domainValidationOptions = dictionary["DomainValidationOptions"] as? [[String: Any]] {
-                self.domainValidationOptions = try domainValidationOptions.map({ try DomainValidation(dictionary: $0) })
-            } else { 
-                self.domainValidationOptions = nil
-            }
-            if let keyAlgorithm = dictionary["KeyAlgorithm"] as? String { self.keyAlgorithm = KeyAlgorithm(rawValue: keyAlgorithm) } else { self.keyAlgorithm = nil }
-            self.certificateArn = dictionary["CertificateArn"] as? String
-            self.domainName = dictionary["DomainName"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = CertificateType(rawValue: `type`) } else { self.`type` = nil }
-            self.inUseBy = dictionary["InUseBy"] as? [String]
-            self.issuer = dictionary["Issuer"] as? String
-            self.subject = dictionary["Subject"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case failureReason = "FailureReason"
+            case issuedAt = "IssuedAt"
+            case importedAt = "ImportedAt"
+            case revokedAt = "RevokedAt"
+            case renewalSummary = "RenewalSummary"
+            case signatureAlgorithm = "SignatureAlgorithm"
+            case serial = "Serial"
+            case revocationReason = "RevocationReason"
+            case notAfter = "NotAfter"
+            case status = "Status"
+            case createdAt = "CreatedAt"
+            case notBefore = "NotBefore"
+            case subjectAlternativeNames = "SubjectAlternativeNames"
+            case domainValidationOptions = "DomainValidationOptions"
+            case keyAlgorithm = "KeyAlgorithm"
+            case certificateArn = "CertificateArn"
+            case domainName = "DomainName"
+            case `type` = "Type"
+            case inUseBy = "InUseBy"
+            case issuer = "Issuer"
+            case subject = "Subject"
         }
     }
 

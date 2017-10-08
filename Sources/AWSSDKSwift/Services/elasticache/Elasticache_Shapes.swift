@@ -31,9 +31,8 @@ extension Elasticache {
 
     public struct DescribeEngineDefaultParametersResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EngineDefaults", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineDefaults", required: false, type: .structure)
         ]
         public let engineDefaults: EngineDefaults?
 
@@ -41,17 +40,16 @@ extension Elasticache {
             self.engineDefaults = engineDefaults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let engineDefaults = dictionary["EngineDefaults"] as? [String: Any] { self.engineDefaults = try Elasticache.EngineDefaults(dictionary: engineDefaults) } else { self.engineDefaults = nil }
+        private enum CodingKeys: String, CodingKey {
+            case engineDefaults = "EngineDefaults"
         }
     }
 
     public struct EventsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Events", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Events", required: false, type: .structure)
         ]
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -63,17 +61,16 @@ extension Elasticache {
             self.events = events
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let events = dictionary["Events"] as? [String: Any] { self.events = try Elasticache.EventList(dictionary: events) } else { self.events = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case events = "Events"
         }
     }
 
     public struct NodeGroupList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeGroup", required: false, type: .list)
         ]
         public let nodeGroup: [NodeGroup]?
 
@@ -81,32 +78,27 @@ extension Elasticache {
             self.nodeGroup = nodeGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let nodeGroup = dictionary["NodeGroup"] as? [[String: Any]] {
-                self.nodeGroup = try nodeGroup.map({ try NodeGroup(dictionary: $0) })
-            } else { 
-                self.nodeGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nodeGroup = "NodeGroup"
         }
     }
 
     public struct ReplicationGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PendingModifiedValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "AutomaticFailover", required: false, type: .enum), 
-            AWSShapeProperty(label: "MemberClusters", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigurationEndpoint", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshottingClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotRetentionLimit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NodeGroups", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
+            AWSShapeMember(label: "AutomaticFailover", required: false, type: .enum), 
+            AWSShapeMember(label: "MemberClusters", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationEndpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshottingClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "NodeGroups", required: false, type: .structure)
         ]
         /// A group of settings to be applied to the replication group, either immediately or during the next maintenance window.
         public let pendingModifiedValues: ReplicationGroupPendingModifiedValues?
@@ -151,28 +143,27 @@ extension Elasticache {
             self.nodeGroups = nodeGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Elasticache.ReplicationGroupPendingModifiedValues(dictionary: pendingModifiedValues) } else { self.pendingModifiedValues = nil }
-            if let automaticFailover = dictionary["AutomaticFailover"] as? String { self.automaticFailover = AutomaticFailoverStatus(rawValue: automaticFailover) } else { self.automaticFailover = nil }
-            if let memberClusters = dictionary["MemberClusters"] as? [String: Any] { self.memberClusters = try Elasticache.ClusterIdList(dictionary: memberClusters) } else { self.memberClusters = nil }
-            self.clusterEnabled = dictionary["ClusterEnabled"] as? Bool
-            self.description = dictionary["Description"] as? String
-            if let configurationEndpoint = dictionary["ConfigurationEndpoint"] as? [String: Any] { self.configurationEndpoint = try Elasticache.Endpoint(dictionary: configurationEndpoint) } else { self.configurationEndpoint = nil }
-            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
-            self.status = dictionary["Status"] as? String
-            self.snapshottingClusterId = dictionary["SnapshottingClusterId"] as? String
-            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
-            self.cacheNodeType = dictionary["CacheNodeType"] as? String
-            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
-            if let nodeGroups = dictionary["NodeGroups"] as? [String: Any] { self.nodeGroups = try Elasticache.NodeGroupList(dictionary: nodeGroups) } else { self.nodeGroups = nil }
+        private enum CodingKeys: String, CodingKey {
+            case pendingModifiedValues = "PendingModifiedValues"
+            case automaticFailover = "AutomaticFailover"
+            case memberClusters = "MemberClusters"
+            case clusterEnabled = "ClusterEnabled"
+            case description = "Description"
+            case configurationEndpoint = "ConfigurationEndpoint"
+            case snapshotWindow = "SnapshotWindow"
+            case status = "Status"
+            case snapshottingClusterId = "SnapshottingClusterId"
+            case replicationGroupId = "ReplicationGroupId"
+            case cacheNodeType = "CacheNodeType"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
+            case nodeGroups = "NodeGroups"
         }
     }
 
     public struct ReplicationGroupList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroup", required: false, type: .list)
         ]
         public let replicationGroup: [ReplicationGroup]?
 
@@ -180,21 +171,16 @@ extension Elasticache {
             self.replicationGroup = replicationGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationGroup = dictionary["ReplicationGroup"] as? [[String: Any]] {
-                self.replicationGroup = try replicationGroup.map({ try ReplicationGroup(dictionary: $0) })
-            } else { 
-                self.replicationGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroup = "ReplicationGroup"
         }
     }
 
     public struct CacheSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheSubnetGroups", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CacheSubnetGroups", required: false, type: .structure)
         ]
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -206,17 +192,16 @@ extension Elasticache {
             self.cacheSubnetGroups = cacheSubnetGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let cacheSubnetGroups = dictionary["CacheSubnetGroups"] as? [String: Any] { self.cacheSubnetGroups = try Elasticache.CacheSubnetGroups(dictionary: cacheSubnetGroups) } else { self.cacheSubnetGroups = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case cacheSubnetGroups = "CacheSubnetGroups"
         }
     }
 
     public struct CreateCacheClusterResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheCluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheCluster", required: false, type: .structure)
         ]
         public let cacheCluster: CacheCluster?
 
@@ -224,17 +209,16 @@ extension Elasticache {
             self.cacheCluster = cacheCluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheCluster = dictionary["CacheCluster"] as? [String: Any] { self.cacheCluster = try Elasticache.CacheCluster(dictionary: cacheCluster) } else { self.cacheCluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cacheCluster = "CacheCluster"
         }
     }
 
     public struct Endpoint: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Address", required: false, type: .string), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
         /// The DNS hostname of the cache node.
         public let address: String?
@@ -246,17 +230,16 @@ extension Elasticache {
             self.port = port
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.address = dictionary["Address"] as? String
-            self.port = dictionary["Port"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case port = "Port"
         }
     }
 
     public struct ReservedCacheNodesOfferingList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedCacheNodesOffering", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedCacheNodesOffering", required: false, type: .list)
         ]
         public let reservedCacheNodesOffering: [ReservedCacheNodesOffering]?
 
@@ -264,16 +247,12 @@ extension Elasticache {
             self.reservedCacheNodesOffering = reservedCacheNodesOffering
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let reservedCacheNodesOffering = dictionary["ReservedCacheNodesOffering"] as? [[String: Any]] {
-                self.reservedCacheNodesOffering = try reservedCacheNodesOffering.map({ try ReservedCacheNodesOffering(dictionary: $0) })
-            } else { 
-                self.reservedCacheNodesOffering = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case reservedCacheNodesOffering = "ReservedCacheNodesOffering"
         }
     }
 
-    public enum ChangeType: String, CustomStringConvertible {
+    public enum ChangeType: String, CustomStringConvertible, Codable {
         case immediate = "immediate"
         case requires_reboot = "requires-reboot"
         public var description: String { return self.rawValue }
@@ -281,10 +260,9 @@ extension Elasticache {
 
     public struct ParameterNameValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterName", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterValue", required: false, type: .string)
         ]
         /// The name of the parameter.
         public let parameterName: String?
@@ -296,17 +274,16 @@ extension Elasticache {
             self.parameterValue = parameterValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parameterName = dictionary["ParameterName"] as? String
-            self.parameterValue = dictionary["ParameterValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameterName = "ParameterName"
+            case parameterValue = "ParameterValue"
         }
     }
 
     public struct DeleteCacheSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSubnetGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSubnetGroupName", required: true, type: .string)
         ]
         /// The name of the cache subnet group to delete. Constraints: Must contain no more than 255 alphanumeric characters or hyphens.
         public let cacheSubnetGroupName: String
@@ -315,18 +292,16 @@ extension Elasticache {
             self.cacheSubnetGroupName = cacheSubnetGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSubnetGroupName") }
-            self.cacheSubnetGroupName = cacheSubnetGroupName
+        private enum CodingKeys: String, CodingKey {
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
         }
     }
 
     public struct CacheClusterMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheClusters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusters", required: false, type: .structure)
         ]
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -338,17 +313,16 @@ extension Elasticache {
             self.cacheClusters = cacheClusters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let cacheClusters = dictionary["CacheClusters"] as? [String: Any] { self.cacheClusters = try Elasticache.CacheClusterList(dictionary: cacheClusters) } else { self.cacheClusters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case cacheClusters = "CacheClusters"
         }
     }
 
     public struct SecurityGroupIdsList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecurityGroupId", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroupId", required: false, type: .list)
         ]
         public let securityGroupId: [String]?
 
@@ -356,16 +330,15 @@ extension Elasticache {
             self.securityGroupId = securityGroupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.securityGroupId = dictionary["SecurityGroupId"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupId = "SecurityGroupId"
         }
     }
 
     public struct ReservedCacheNodeList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedCacheNode", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedCacheNode", required: false, type: .list)
         ]
         public let reservedCacheNode: [ReservedCacheNode]?
 
@@ -373,23 +346,18 @@ extension Elasticache {
             self.reservedCacheNode = reservedCacheNode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let reservedCacheNode = dictionary["ReservedCacheNode"] as? [[String: Any]] {
-                self.reservedCacheNode = try reservedCacheNode.map({ try ReservedCacheNode(dictionary: $0) })
-            } else { 
-                self.reservedCacheNode = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case reservedCacheNode = "ReservedCacheNode"
         }
     }
 
     public struct DescribeCacheParametersMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Source", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheParameterGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: true, type: .string)
         ]
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int32?
@@ -407,34 +375,32 @@ extension Elasticache {
             self.cacheParameterGroupName = cacheParameterGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.source = dictionary["Source"] as? String
-            self.marker = dictionary["Marker"] as? String
-            guard let cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupName") }
-            self.cacheParameterGroupName = cacheParameterGroupName
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case source = "Source"
+            case marker = "Marker"
+            case cacheParameterGroupName = "CacheParameterGroupName"
         }
     }
 
     public struct ReservedCacheNode: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CacheNodeCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "RecurringCharges", required: false, type: .structure), 
-            AWSShapeProperty(label: "FixedPrice", required: false, type: .double), 
-            AWSShapeProperty(label: "UsagePrice", required: false, type: .double), 
-            AWSShapeProperty(label: "State", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "ReservedCacheNodeId", required: false, type: .string), 
-            AWSShapeProperty(label: "Duration", required: false, type: .integer), 
-            AWSShapeProperty(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
-            AWSShapeProperty(label: "OfferingType", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductDescription", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CacheNodeCount", required: false, type: .integer), 
+            AWSShapeMember(label: "RecurringCharges", required: false, type: .structure), 
+            AWSShapeMember(label: "FixedPrice", required: false, type: .double), 
+            AWSShapeMember(label: "UsagePrice", required: false, type: .double), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedCacheNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
+            AWSShapeMember(label: "ProductDescription", required: false, type: .string)
         ]
         /// The time the reservation started.
-        public let startTime: String?
+        public let startTime: Double?
         /// The number of cache nodes that have been reserved.
         public let cacheNodeCount: Int32?
         /// The recurring price charged to run this reserved cache node.
@@ -458,7 +424,7 @@ extension Elasticache {
         /// The description of the reserved cache node.
         public let productDescription: String?
 
-        public init(startTime: String? = nil, cacheNodeCount: Int32? = nil, recurringCharges: RecurringChargeList? = nil, fixedPrice: Double? = nil, usagePrice: Double? = nil, state: String? = nil, cacheNodeType: String? = nil, reservedCacheNodeId: String? = nil, duration: Int32? = nil, reservedCacheNodesOfferingId: String? = nil, offeringType: String? = nil, productDescription: String? = nil) {
+        public init(startTime: Double? = nil, cacheNodeCount: Int32? = nil, recurringCharges: RecurringChargeList? = nil, fixedPrice: Double? = nil, usagePrice: Double? = nil, state: String? = nil, cacheNodeType: String? = nil, reservedCacheNodeId: String? = nil, duration: Int32? = nil, reservedCacheNodesOfferingId: String? = nil, offeringType: String? = nil, productDescription: String? = nil) {
             self.startTime = startTime
             self.cacheNodeCount = cacheNodeCount
             self.recurringCharges = recurringCharges
@@ -473,28 +439,27 @@ extension Elasticache {
             self.productDescription = productDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.cacheNodeCount = dictionary["CacheNodeCount"] as? Int32
-            if let recurringCharges = dictionary["RecurringCharges"] as? [String: Any] { self.recurringCharges = try Elasticache.RecurringChargeList(dictionary: recurringCharges) } else { self.recurringCharges = nil }
-            self.fixedPrice = dictionary["FixedPrice"] as? Double
-            self.usagePrice = dictionary["UsagePrice"] as? Double
-            self.state = dictionary["State"] as? String
-            self.cacheNodeType = dictionary["CacheNodeType"] as? String
-            self.reservedCacheNodeId = dictionary["ReservedCacheNodeId"] as? String
-            self.duration = dictionary["Duration"] as? Int32
-            self.reservedCacheNodesOfferingId = dictionary["ReservedCacheNodesOfferingId"] as? String
-            self.offeringType = dictionary["OfferingType"] as? String
-            self.productDescription = dictionary["ProductDescription"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case cacheNodeCount = "CacheNodeCount"
+            case recurringCharges = "RecurringCharges"
+            case fixedPrice = "FixedPrice"
+            case usagePrice = "UsagePrice"
+            case state = "State"
+            case cacheNodeType = "CacheNodeType"
+            case reservedCacheNodeId = "ReservedCacheNodeId"
+            case duration = "Duration"
+            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
+            case offeringType = "OfferingType"
+            case productDescription = "ProductDescription"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The tag's value. May be null.
         public let value: String?
@@ -506,13 +471,13 @@ extension Elasticache {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
-    public enum PendingAutomaticFailoverStatus: String, CustomStringConvertible {
+    public enum PendingAutomaticFailoverStatus: String, CustomStringConvertible, Codable {
         case enabled = "enabled"
         case disabled = "disabled"
         public var description: String { return self.rawValue }
@@ -520,11 +485,10 @@ extension Elasticache {
 
     public struct ResetCacheParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheParameterGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "ParameterNameValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "ResetAllParameters", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "ParameterNameValues", required: false, type: .structure), 
+            AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean)
         ]
         /// The name of the cache parameter group to reset.
         public let cacheParameterGroupName: String
@@ -539,19 +503,17 @@ extension Elasticache {
             self.resetAllParameters = resetAllParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupName") }
-            self.cacheParameterGroupName = cacheParameterGroupName
-            if let parameterNameValues = dictionary["ParameterNameValues"] as? [String: Any] { self.parameterNameValues = try Elasticache.ParameterNameValueList(dictionary: parameterNameValues) } else { self.parameterNameValues = nil }
-            self.resetAllParameters = dictionary["ResetAllParameters"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroupName = "CacheParameterGroupName"
+            case parameterNameValues = "ParameterNameValues"
+            case resetAllParameters = "ResetAllParameters"
         }
     }
 
     public struct CopySnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
 
@@ -559,16 +521,15 @@ extension Elasticache {
             self.snapshot = snapshot
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Elasticache.Snapshot(dictionary: snapshot) } else { self.snapshot = nil }
+        private enum CodingKeys: String, CodingKey {
+            case snapshot = "Snapshot"
         }
     }
 
     public struct ListTagsForResourceMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceName", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the resource for which you want the list of tags, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let resourceName: String
@@ -577,17 +538,15 @@ extension Elasticache {
             self.resourceName = resourceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
-            self.resourceName = resourceName
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "ResourceName"
         }
     }
 
     public struct CacheEngineVersionList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheEngineVersion", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheEngineVersion", required: false, type: .list)
         ]
         public let cacheEngineVersion: [CacheEngineVersion]?
 
@@ -595,20 +554,15 @@ extension Elasticache {
             self.cacheEngineVersion = cacheEngineVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheEngineVersion = dictionary["CacheEngineVersion"] as? [[String: Any]] {
-                self.cacheEngineVersion = try cacheEngineVersion.map({ try CacheEngineVersion(dictionary: $0) })
-            } else { 
-                self.cacheEngineVersion = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cacheEngineVersion = "CacheEngineVersion"
         }
     }
 
     public struct PreferredAvailabilityZoneList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PreferredAvailabilityZone", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .list)
         ]
         public let preferredAvailabilityZone: [String]?
 
@@ -616,23 +570,22 @@ extension Elasticache {
             self.preferredAvailabilityZone = preferredAvailabilityZone
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.preferredAvailabilityZone = dictionary["PreferredAvailabilityZone"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case preferredAvailabilityZone = "PreferredAvailabilityZone"
         }
     }
 
     public struct ReservedCacheNodesOffering: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OfferingType", required: false, type: .string), 
-            AWSShapeProperty(label: "RecurringCharges", required: false, type: .structure), 
-            AWSShapeProperty(label: "UsagePrice", required: false, type: .double), 
-            AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "Duration", required: false, type: .integer), 
-            AWSShapeProperty(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
-            AWSShapeProperty(label: "FixedPrice", required: false, type: .double), 
-            AWSShapeProperty(label: "ProductDescription", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
+            AWSShapeMember(label: "RecurringCharges", required: false, type: .structure), 
+            AWSShapeMember(label: "UsagePrice", required: false, type: .double), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "FixedPrice", required: false, type: .double), 
+            AWSShapeMember(label: "ProductDescription", required: false, type: .string)
         ]
         /// The offering type.
         public let offeringType: String?
@@ -662,23 +615,22 @@ extension Elasticache {
             self.productDescription = productDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.offeringType = dictionary["OfferingType"] as? String
-            if let recurringCharges = dictionary["RecurringCharges"] as? [String: Any] { self.recurringCharges = try Elasticache.RecurringChargeList(dictionary: recurringCharges) } else { self.recurringCharges = nil }
-            self.usagePrice = dictionary["UsagePrice"] as? Double
-            self.cacheNodeType = dictionary["CacheNodeType"] as? String
-            self.duration = dictionary["Duration"] as? Int32
-            self.reservedCacheNodesOfferingId = dictionary["ReservedCacheNodesOfferingId"] as? String
-            self.fixedPrice = dictionary["FixedPrice"] as? Double
-            self.productDescription = dictionary["ProductDescription"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case offeringType = "OfferingType"
+            case recurringCharges = "RecurringCharges"
+            case usagePrice = "UsagePrice"
+            case cacheNodeType = "CacheNodeType"
+            case duration = "Duration"
+            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
+            case fixedPrice = "FixedPrice"
+            case productDescription = "ProductDescription"
         }
     }
 
     public struct CacheSecurityGroupMembershipList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSecurityGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .list)
         ]
         public let cacheSecurityGroup: [CacheSecurityGroupMembership]?
 
@@ -686,22 +638,17 @@ extension Elasticache {
             self.cacheSecurityGroup = cacheSecurityGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheSecurityGroup = dictionary["CacheSecurityGroup"] as? [[String: Any]] {
-                self.cacheSecurityGroup = try cacheSecurityGroup.map({ try CacheSecurityGroupMembership(dictionary: $0) })
-            } else { 
-                self.cacheSecurityGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroup = "CacheSecurityGroup"
         }
     }
 
     public struct RevokeCacheSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EC2SecurityGroupOwnerId", required: true, type: .string), 
-            AWSShapeProperty(label: "CacheSecurityGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "EC2SecurityGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: true, type: .string), 
+            AWSShapeMember(label: "CacheSecurityGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupName", required: true, type: .string)
         ]
         /// The AWS account number of the Amazon EC2 security group owner. Note that this is not the same thing as an AWS access key ID - you must provide a valid AWS account number for this parameter.
         public let eC2SecurityGroupOwnerId: String
@@ -716,22 +663,18 @@ extension Elasticache {
             self.eC2SecurityGroupName = eC2SecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String else { throw InitializableError.missingRequiredParam("EC2SecurityGroupOwnerId") }
-            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
-            guard let cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSecurityGroupName") }
-            self.cacheSecurityGroupName = cacheSecurityGroupName
-            guard let eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("EC2SecurityGroupName") }
-            self.eC2SecurityGroupName = eC2SecurityGroupName
+        private enum CodingKeys: String, CodingKey {
+            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case cacheSecurityGroupName = "CacheSecurityGroupName"
+            case eC2SecurityGroupName = "EC2SecurityGroupName"
         }
     }
 
     public struct TestFailoverMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeGroupId", required: true, type: .string), 
-            AWSShapeProperty(label: "ReplicationGroupId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string)
         ]
         /// The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 5 node groups in any rolling 24-hour period.
         public let nodeGroupId: String
@@ -743,20 +686,17 @@ extension Elasticache {
             self.replicationGroupId = replicationGroupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let nodeGroupId = dictionary["NodeGroupId"] as? String else { throw InitializableError.missingRequiredParam("NodeGroupId") }
-            self.nodeGroupId = nodeGroupId
-            guard let replicationGroupId = dictionary["ReplicationGroupId"] as? String else { throw InitializableError.missingRequiredParam("ReplicationGroupId") }
-            self.replicationGroupId = replicationGroupId
+        private enum CodingKeys: String, CodingKey {
+            case nodeGroupId = "NodeGroupId"
+            case replicationGroupId = "ReplicationGroupId"
         }
     }
 
     public struct RecurringCharge: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecurringChargeAmount", required: false, type: .double), 
-            AWSShapeProperty(label: "RecurringChargeFrequency", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecurringChargeAmount", required: false, type: .double), 
+            AWSShapeMember(label: "RecurringChargeFrequency", required: false, type: .string)
         ]
         /// The monetary amount of the recurring charge.
         public let recurringChargeAmount: Double?
@@ -768,17 +708,16 @@ extension Elasticache {
             self.recurringChargeFrequency = recurringChargeFrequency
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.recurringChargeAmount = dictionary["RecurringChargeAmount"] as? Double
-            self.recurringChargeFrequency = dictionary["RecurringChargeFrequency"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case recurringChargeAmount = "RecurringChargeAmount"
+            case recurringChargeFrequency = "RecurringChargeFrequency"
         }
     }
 
     public struct CacheNodeTypeSpecificValueList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheNodeTypeSpecificValue", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeTypeSpecificValue", required: false, type: .list)
         ]
         public let cacheNodeTypeSpecificValue: [CacheNodeTypeSpecificValue]?
 
@@ -786,22 +725,17 @@ extension Elasticache {
             self.cacheNodeTypeSpecificValue = cacheNodeTypeSpecificValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheNodeTypeSpecificValue = dictionary["CacheNodeTypeSpecificValue"] as? [[String: Any]] {
-                self.cacheNodeTypeSpecificValue = try cacheNodeTypeSpecificValue.map({ try CacheNodeTypeSpecificValue(dictionary: $0) })
-            } else { 
-                self.cacheNodeTypeSpecificValue = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeTypeSpecificValue = "CacheNodeTypeSpecificValue"
         }
     }
 
     public struct CreateSnapshotMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotName", required: true, type: .string), 
-            AWSShapeProperty(label: "ReplicationGroupId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string)
         ]
         /// The identifier of an existing cache cluster. The snapshot is created from this cache cluster.
         public let cacheClusterId: String?
@@ -816,19 +750,17 @@ extension Elasticache {
             self.replicationGroupId = replicationGroupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cacheClusterId = dictionary["CacheClusterId"] as? String
-            guard let snapshotName = dictionary["SnapshotName"] as? String else { throw InitializableError.missingRequiredParam("SnapshotName") }
-            self.snapshotName = snapshotName
-            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cacheClusterId = "CacheClusterId"
+            case snapshotName = "SnapshotName"
+            case replicationGroupId = "ReplicationGroupId"
         }
     }
 
     public struct CacheClusterList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheCluster", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheCluster", required: false, type: .list)
         ]
         public let cacheCluster: [CacheCluster]?
 
@@ -836,29 +768,24 @@ extension Elasticache {
             self.cacheCluster = cacheCluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheCluster = dictionary["CacheCluster"] as? [[String: Any]] {
-                self.cacheCluster = try cacheCluster.map({ try CacheCluster(dictionary: $0) })
-            } else { 
-                self.cacheCluster = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cacheCluster = "CacheCluster"
         }
     }
 
     public struct DescribeEventsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Duration", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer)
         ]
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
-        public let startTime: String?
+        public let startTime: Double?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int32?
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -866,13 +793,13 @@ extension Elasticache {
         /// The event source to retrieve events for. If no value is specified, all events are returned.
         public let sourceType: SourceType?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
-        public let endTime: String?
+        public let endTime: Double?
         /// The identifier of the event source for which events are returned. If not specified, all sources are included in the response.
         public let sourceIdentifier: String?
         /// The number of minutes worth of events to retrieve.
         public let duration: Int32?
 
-        public init(startTime: String? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, endTime: String? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
+        public init(startTime: Double? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, endTime: Double? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.marker = marker
@@ -882,28 +809,27 @@ extension Elasticache {
             self.duration = duration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
-            self.endTime = dictionary["EndTime"] as? String
-            self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
-            self.duration = dictionary["Duration"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case sourceType = "SourceType"
+            case endTime = "EndTime"
+            case sourceIdentifier = "SourceIdentifier"
+            case duration = "Duration"
         }
     }
 
     public struct CacheNode: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceCacheNodeId", required: false, type: .string), 
-            AWSShapeProperty(label: "CustomerAvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeId", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterGroupStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeCreateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Endpoint", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceCacheNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "CustomerAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterGroupStatus", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .structure)
         ]
         /// The ID of the primary node to which this read replica node is synchronized. If this field is empty, this node is not associated with a primary cache cluster.
         public let sourceCacheNodeId: String?
@@ -916,11 +842,11 @@ extension Elasticache {
         /// The status of the parameter group applied to this cache node.
         public let parameterGroupStatus: String?
         /// The date and time when the cache node was created.
-        public let cacheNodeCreateTime: String?
+        public let cacheNodeCreateTime: Double?
         /// The hostname for connecting to this cache node.
         public let endpoint: Endpoint?
 
-        public init(sourceCacheNodeId: String? = nil, customerAvailabilityZone: String? = nil, cacheNodeId: String? = nil, cacheNodeStatus: String? = nil, parameterGroupStatus: String? = nil, cacheNodeCreateTime: String? = nil, endpoint: Endpoint? = nil) {
+        public init(sourceCacheNodeId: String? = nil, customerAvailabilityZone: String? = nil, cacheNodeId: String? = nil, cacheNodeStatus: String? = nil, parameterGroupStatus: String? = nil, cacheNodeCreateTime: Double? = nil, endpoint: Endpoint? = nil) {
             self.sourceCacheNodeId = sourceCacheNodeId
             self.customerAvailabilityZone = customerAvailabilityZone
             self.cacheNodeId = cacheNodeId
@@ -930,44 +856,43 @@ extension Elasticache {
             self.endpoint = endpoint
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourceCacheNodeId = dictionary["SourceCacheNodeId"] as? String
-            self.customerAvailabilityZone = dictionary["CustomerAvailabilityZone"] as? String
-            self.cacheNodeId = dictionary["CacheNodeId"] as? String
-            self.cacheNodeStatus = dictionary["CacheNodeStatus"] as? String
-            self.parameterGroupStatus = dictionary["ParameterGroupStatus"] as? String
-            self.cacheNodeCreateTime = dictionary["CacheNodeCreateTime"] as? String
-            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Elasticache.Endpoint(dictionary: endpoint) } else { self.endpoint = nil }
+        private enum CodingKeys: String, CodingKey {
+            case sourceCacheNodeId = "SourceCacheNodeId"
+            case customerAvailabilityZone = "CustomerAvailabilityZone"
+            case cacheNodeId = "CacheNodeId"
+            case cacheNodeStatus = "CacheNodeStatus"
+            case parameterGroupStatus = "ParameterGroupStatus"
+            case cacheNodeCreateTime = "CacheNodeCreateTime"
+            case endpoint = "Endpoint"
         }
     }
 
     public struct CreateCacheClusterMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AZMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "SnapshotArns", required: false, type: .structure), 
-            AWSShapeProperty(label: "CacheSecurityGroupNames", required: false, type: .structure), 
-            AWSShapeProperty(label: "NumCacheNodes", required: false, type: .integer), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "PreferredAvailabilityZones", required: false, type: .structure), 
-            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotName", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NotificationTopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredAvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheSubnetGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "Engine", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheParameterGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheClusterId", required: true, type: .string), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer), 
-            AWSShapeProperty(label: "SnapshotRetentionLimit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthToken", required: false, type: .string), 
+            AWSShapeMember(label: "AZMode", required: false, type: .enum), 
+            AWSShapeMember(label: "SnapshotArns", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .structure), 
+            AWSShapeMember(label: "NumCacheNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "PreferredAvailabilityZones", required: false, type: .structure), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "SnapshotName", required: false, type: .string), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer)
         ]
         ///  Reserved parameter. The password used to access a password protected server. Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   Cannot contain any of the following characters: '/', '"', or "@".    For more information, see AUTH password at Redis.
         public let authToken: String?
@@ -1042,40 +967,38 @@ extension Elasticache {
             self.snapshotRetentionLimit = snapshotRetentionLimit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.authToken = dictionary["AuthToken"] as? String
-            if let aZMode = dictionary["AZMode"] as? String { self.aZMode = AZMode(rawValue: aZMode) } else { self.aZMode = nil }
-            if let snapshotArns = dictionary["SnapshotArns"] as? [String: Any] { self.snapshotArns = try Elasticache.SnapshotArnsList(dictionary: snapshotArns) } else { self.snapshotArns = nil }
-            if let cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String: Any] { self.cacheSecurityGroupNames = try Elasticache.CacheSecurityGroupNameList(dictionary: cacheSecurityGroupNames) } else { self.cacheSecurityGroupNames = nil }
-            self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Elasticache.TagList(dictionary: tags) } else { self.tags = nil }
-            if let preferredAvailabilityZones = dictionary["PreferredAvailabilityZones"] as? [String: Any] { self.preferredAvailabilityZones = try Elasticache.PreferredAvailabilityZoneList(dictionary: preferredAvailabilityZones) } else { self.preferredAvailabilityZones = nil }
-            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String: Any] { self.securityGroupIds = try Elasticache.SecurityGroupIdsList(dictionary: securityGroupIds) } else { self.securityGroupIds = nil }
-            self.snapshotName = dictionary["SnapshotName"] as? String
-            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
-            self.notificationTopicArn = dictionary["NotificationTopicArn"] as? String
-            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
-            self.preferredAvailabilityZone = dictionary["PreferredAvailabilityZone"] as? String
-            self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.engine = dictionary["Engine"] as? String
-            self.cacheNodeType = dictionary["CacheNodeType"] as? String
-            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
-            guard let cacheClusterId = dictionary["CacheClusterId"] as? String else { throw InitializableError.missingRequiredParam("CacheClusterId") }
-            self.cacheClusterId = cacheClusterId
-            self.port = dictionary["Port"] as? Int32
-            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case authToken = "AuthToken"
+            case aZMode = "AZMode"
+            case snapshotArns = "SnapshotArns"
+            case cacheSecurityGroupNames = "CacheSecurityGroupNames"
+            case numCacheNodes = "NumCacheNodes"
+            case tags = "Tags"
+            case preferredAvailabilityZones = "PreferredAvailabilityZones"
+            case securityGroupIds = "SecurityGroupIds"
+            case snapshotName = "SnapshotName"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case notificationTopicArn = "NotificationTopicArn"
+            case snapshotWindow = "SnapshotWindow"
+            case engineVersion = "EngineVersion"
+            case replicationGroupId = "ReplicationGroupId"
+            case preferredAvailabilityZone = "PreferredAvailabilityZone"
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case engine = "Engine"
+            case cacheNodeType = "CacheNodeType"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+            case cacheClusterId = "CacheClusterId"
+            case port = "Port"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
         }
     }
 
     public struct RemoveTagsFromResourceMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceName", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceName", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let resourceName: String
@@ -1087,19 +1010,16 @@ extension Elasticache {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
-            self.resourceName = resourceName
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "ResourceName"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct DeleteReplicationGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
         ]
         public let replicationGroup: ReplicationGroup?
 
@@ -1107,17 +1027,16 @@ extension Elasticache {
             self.replicationGroup = replicationGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationGroup = dictionary["ReplicationGroup"] as? [String: Any] { self.replicationGroup = try Elasticache.ReplicationGroup(dictionary: replicationGroup) } else { self.replicationGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroup = "ReplicationGroup"
         }
     }
 
     public struct CacheParameterGroupsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheParameterGroups", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroups", required: false, type: .structure)
         ]
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -1129,17 +1048,16 @@ extension Elasticache {
             self.cacheParameterGroups = cacheParameterGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let cacheParameterGroups = dictionary["CacheParameterGroups"] as? [String: Any] { self.cacheParameterGroups = try Elasticache.CacheParameterGroupList(dictionary: cacheParameterGroups) } else { self.cacheParameterGroups = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case cacheParameterGroups = "CacheParameterGroups"
         }
     }
 
     public struct EventList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Event", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Event", required: false, type: .list)
         ]
         public let event: [Event]?
 
@@ -1147,20 +1065,15 @@ extension Elasticache {
             self.event = event
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let event = dictionary["Event"] as? [[String: Any]] {
-                self.event = try event.map({ try Event(dictionary: $0) })
-            } else { 
-                self.event = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case event = "Event"
         }
     }
 
     public struct TestFailoverResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
         ]
         public let replicationGroup: ReplicationGroup?
 
@@ -1168,20 +1081,19 @@ extension Elasticache {
             self.replicationGroup = replicationGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationGroup = dictionary["ReplicationGroup"] as? [String: Any] { self.replicationGroup = try Elasticache.ReplicationGroup(dictionary: replicationGroup) } else { self.replicationGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroup = "ReplicationGroup"
         }
     }
 
     public struct CacheEngineVersion: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheEngineDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheParameterGroupFamily", required: false, type: .string), 
-            AWSShapeProperty(label: "Engine", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheEngineVersionDescription", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheEngineDescription", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupFamily", required: false, type: .string), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "CacheEngineVersionDescription", required: false, type: .string)
         ]
         /// The description of the cache engine.
         public let cacheEngineDescription: String?
@@ -1202,20 +1114,19 @@ extension Elasticache {
             self.cacheEngineVersionDescription = cacheEngineVersionDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cacheEngineDescription = dictionary["CacheEngineDescription"] as? String
-            self.cacheParameterGroupFamily = dictionary["CacheParameterGroupFamily"] as? String
-            self.engine = dictionary["Engine"] as? String
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            self.cacheEngineVersionDescription = dictionary["CacheEngineVersionDescription"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cacheEngineDescription = "CacheEngineDescription"
+            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
+            case engine = "Engine"
+            case engineVersion = "EngineVersion"
+            case cacheEngineVersionDescription = "CacheEngineVersionDescription"
         }
     }
 
     public struct NodeGroupMemberList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeGroupMember", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeGroupMember", required: false, type: .list)
         ]
         public let nodeGroupMember: [NodeGroupMember]?
 
@@ -1223,22 +1134,17 @@ extension Elasticache {
             self.nodeGroupMember = nodeGroupMember
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let nodeGroupMember = dictionary["NodeGroupMember"] as? [[String: Any]] {
-                self.nodeGroupMember = try nodeGroupMember.map({ try NodeGroupMember(dictionary: $0) })
-            } else { 
-                self.nodeGroupMember = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nodeGroupMember = "NodeGroupMember"
         }
     }
 
     public struct CacheParameterGroupDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheNodeTypeSpecificParameters", required: false, type: .structure), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeTypeSpecificParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .structure)
         ]
         /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
         public let cacheNodeTypeSpecificParameters: CacheNodeTypeSpecificParametersList?
@@ -1253,24 +1159,23 @@ extension Elasticache {
             self.parameters = parameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheNodeTypeSpecificParameters = dictionary["CacheNodeTypeSpecificParameters"] as? [String: Any] { self.cacheNodeTypeSpecificParameters = try Elasticache.CacheNodeTypeSpecificParametersList(dictionary: cacheNodeTypeSpecificParameters) } else { self.cacheNodeTypeSpecificParameters = nil }
-            self.marker = dictionary["Marker"] as? String
-            if let parameters = dictionary["Parameters"] as? [String: Any] { self.parameters = try Elasticache.ParametersList(dictionary: parameters) } else { self.parameters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeTypeSpecificParameters = "CacheNodeTypeSpecificParameters"
+            case marker = "Marker"
+            case parameters = "Parameters"
         }
     }
 
     public struct DescribeSnapshotsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "ShowNodeGroupConfig", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ReplicationGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotSource", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ShowNodeGroupConfig", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotSource", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotName", required: false, type: .string)
         ]
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 50 Constraints: minimum 20; maximum 50.
         public let maxRecords: Int32?
@@ -1297,22 +1202,21 @@ extension Elasticache {
             self.snapshotName = snapshotName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.showNodeGroupConfig = dictionary["ShowNodeGroupConfig"] as? Bool
-            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
-            self.marker = dictionary["Marker"] as? String
-            self.snapshotSource = dictionary["SnapshotSource"] as? String
-            self.cacheClusterId = dictionary["CacheClusterId"] as? String
-            self.snapshotName = dictionary["SnapshotName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case showNodeGroupConfig = "ShowNodeGroupConfig"
+            case replicationGroupId = "ReplicationGroupId"
+            case marker = "Marker"
+            case snapshotSource = "SnapshotSource"
+            case cacheClusterId = "CacheClusterId"
+            case snapshotName = "SnapshotName"
         }
     }
 
     public struct RevokeCacheSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSecurityGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .structure)
         ]
         public let cacheSecurityGroup: CacheSecurityGroup?
 
@@ -1320,16 +1224,15 @@ extension Elasticache {
             self.cacheSecurityGroup = cacheSecurityGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheSecurityGroup = dictionary["CacheSecurityGroup"] as? [String: Any] { self.cacheSecurityGroup = try Elasticache.CacheSecurityGroup(dictionary: cacheSecurityGroup) } else { self.cacheSecurityGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroup = "CacheSecurityGroup"
         }
     }
 
     public struct SubnetIdentifierList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .list)
         ]
         public let subnetIdentifier: [String]?
 
@@ -1337,18 +1240,17 @@ extension Elasticache {
             self.subnetIdentifier = subnetIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetIdentifier = dictionary["SubnetIdentifier"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case subnetIdentifier = "SubnetIdentifier"
         }
     }
 
     public struct EC2SecurityGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "EC2SecurityGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string)
         ]
         /// The AWS account ID of the Amazon EC2 security group owner.
         public let eC2SecurityGroupOwnerId: String?
@@ -1363,19 +1265,18 @@ extension Elasticache {
             self.eC2SecurityGroupName = eC2SecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String
-            self.status = dictionary["Status"] as? String
-            self.eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case status = "Status"
+            case eC2SecurityGroupName = "EC2SecurityGroupName"
         }
     }
 
     public struct Subnet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetAvailabilityZone", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure)
         ]
         /// The unique identifier for the subnet.
         public let subnetIdentifier: String?
@@ -1387,25 +1288,24 @@ extension Elasticache {
             self.subnetAvailabilityZone = subnetAvailabilityZone
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetIdentifier = dictionary["SubnetIdentifier"] as? String
-            if let subnetAvailabilityZone = dictionary["SubnetAvailabilityZone"] as? [String: Any] { self.subnetAvailabilityZone = try Elasticache.AvailabilityZone(dictionary: subnetAvailabilityZone) } else { self.subnetAvailabilityZone = nil }
+        private enum CodingKeys: String, CodingKey {
+            case subnetIdentifier = "SubnetIdentifier"
+            case subnetAvailabilityZone = "SubnetAvailabilityZone"
         }
     }
 
     public struct Parameter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterValue", required: false, type: .string), 
-            AWSShapeProperty(label: "AllowedValues", required: false, type: .string), 
-            AWSShapeProperty(label: "DataType", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterName", required: false, type: .string), 
-            AWSShapeProperty(label: "Source", required: false, type: .string), 
-            AWSShapeProperty(label: "IsModifiable", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MinimumEngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ChangeType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
+            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
+            AWSShapeMember(label: "DataType", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "IsModifiable", required: false, type: .boolean), 
+            AWSShapeMember(label: "MinimumEngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeType", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The value of the parameter.
         public let parameterValue: String?
@@ -1438,26 +1338,25 @@ extension Elasticache {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parameterValue = dictionary["ParameterValue"] as? String
-            self.allowedValues = dictionary["AllowedValues"] as? String
-            self.dataType = dictionary["DataType"] as? String
-            self.parameterName = dictionary["ParameterName"] as? String
-            self.source = dictionary["Source"] as? String
-            self.isModifiable = dictionary["IsModifiable"] as? Bool
-            self.minimumEngineVersion = dictionary["MinimumEngineVersion"] as? String
-            if let changeType = dictionary["ChangeType"] as? String { self.changeType = ChangeType(rawValue: changeType) } else { self.changeType = nil }
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameterValue = "ParameterValue"
+            case allowedValues = "AllowedValues"
+            case dataType = "DataType"
+            case parameterName = "ParameterName"
+            case source = "Source"
+            case isModifiable = "IsModifiable"
+            case minimumEngineVersion = "MinimumEngineVersion"
+            case changeType = "ChangeType"
+            case description = "Description"
         }
     }
 
     public struct CacheParameterGroupStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheParameterGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeIdsToReboot", required: false, type: .structure), 
-            AWSShapeProperty(label: "ParameterApplyStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeIdsToReboot", required: false, type: .structure), 
+            AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string)
         ]
         /// The name of the cache parameter group.
         public let cacheParameterGroupName: String?
@@ -1472,21 +1371,20 @@ extension Elasticache {
             self.parameterApplyStatus = parameterApplyStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
-            if let cacheNodeIdsToReboot = dictionary["CacheNodeIdsToReboot"] as? [String: Any] { self.cacheNodeIdsToReboot = try Elasticache.CacheNodeIdsList(dictionary: cacheNodeIdsToReboot) } else { self.cacheNodeIdsToReboot = nil }
-            self.parameterApplyStatus = dictionary["ParameterApplyStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroupName = "CacheParameterGroupName"
+            case cacheNodeIdsToReboot = "CacheNodeIdsToReboot"
+            case parameterApplyStatus = "ParameterApplyStatus"
         }
     }
 
     public struct Event: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Date", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "Date", required: false, type: .timestamp)
         ]
         /// The identifier for the source of the event. For example, if the event occurred at the cache cluster level, the identifier would be the name of the cache cluster.
         public let sourceIdentifier: String?
@@ -1495,28 +1393,27 @@ extension Elasticache {
         /// Specifies the origin of this event - a cache cluster, a parameter group, a security group, etc.
         public let sourceType: SourceType?
         /// The date and time when the event occurred.
-        public let date: String?
+        public let date: Double?
 
-        public init(sourceIdentifier: String? = nil, message: String? = nil, sourceType: SourceType? = nil, date: String? = nil) {
+        public init(sourceIdentifier: String? = nil, message: String? = nil, sourceType: SourceType? = nil, date: Double? = nil) {
             self.sourceIdentifier = sourceIdentifier
             self.message = message
             self.sourceType = sourceType
             self.date = date
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
-            self.message = dictionary["Message"] as? String
-            if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
-            self.date = dictionary["Date"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sourceIdentifier = "SourceIdentifier"
+            case message = "Message"
+            case sourceType = "SourceType"
+            case date = "Date"
         }
     }
 
     public struct SnapshotList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Snapshot", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshot", required: false, type: .list)
         ]
         public let snapshot: [Snapshot]?
 
@@ -1524,20 +1421,15 @@ extension Elasticache {
             self.snapshot = snapshot
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshot = dictionary["Snapshot"] as? [[String: Any]] {
-                self.snapshot = try snapshot.map({ try Snapshot(dictionary: $0) })
-            } else { 
-                self.snapshot = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case snapshot = "Snapshot"
         }
     }
 
     public struct DeleteCacheClusterResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheCluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheCluster", required: false, type: .structure)
         ]
         public let cacheCluster: CacheCluster?
 
@@ -1545,17 +1437,16 @@ extension Elasticache {
             self.cacheCluster = cacheCluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheCluster = dictionary["CacheCluster"] as? [String: Any] { self.cacheCluster = try Elasticache.CacheCluster(dictionary: cacheCluster) } else { self.cacheCluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cacheCluster = "CacheCluster"
         }
     }
 
     public struct CacheNodeTypeSpecificValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string)
         ]
         /// The value for the cache node type.
         public let value: String?
@@ -1567,38 +1458,37 @@ extension Elasticache {
             self.cacheNodeType = cacheNodeType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.cacheNodeType = dictionary["CacheNodeType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case cacheNodeType = "CacheNodeType"
         }
     }
 
     public struct CacheCluster: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PendingModifiedValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotRetentionLimit", required: false, type: .integer), 
-            AWSShapeProperty(label: "CacheSubnetGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheClusterCreateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NumCacheNodes", required: false, type: .integer), 
-            AWSShapeProperty(label: "CacheClusterStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CacheNodes", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigurationEndpoint", required: false, type: .structure), 
-            AWSShapeProperty(label: "PreferredAvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "ReplicationGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheParameterGroup", required: false, type: .structure), 
-            AWSShapeProperty(label: "CacheSecurityGroups", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClientDownloadLandingPage", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "Engine", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
+            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NumCacheNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheClusterStatus", required: false, type: .string), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "CacheNodes", required: false, type: .structure), 
+            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationEndpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheSecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "ClientDownloadLandingPage", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "Engine", required: false, type: .string)
         ]
         public let pendingModifiedValues: PendingModifiedValues?
         /// The number of days for which ElastiCache retains automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
@@ -1606,7 +1496,7 @@ extension Elasticache {
         /// The name of the cache subnet group associated with the cache cluster.
         public let cacheSubnetGroupName: String?
         /// The date and time when the cache cluster was created.
-        public let cacheClusterCreateTime: String?
+        public let cacheClusterCreateTime: Double?
         /// The number of cache nodes in the cache cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
         public let numCacheNodes: Int32?
         /// The current state of this cache cluster, one of the following values: available, creating, deleted, deleting, incompatible-network, modifying, rebooting cache cluster nodes, restore-failed, or snapshotting.
@@ -1642,7 +1532,7 @@ extension Elasticache {
         /// The name of the cache engine (memcached or redis) to be used for this cache cluster.
         public let engine: String?
 
-        public init(pendingModifiedValues: PendingModifiedValues? = nil, snapshotRetentionLimit: Int32? = nil, cacheSubnetGroupName: String? = nil, cacheClusterCreateTime: String? = nil, numCacheNodes: Int32? = nil, cacheClusterStatus: String? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodes: CacheNodeList? = nil, snapshotWindow: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, engineVersion: String? = nil, preferredMaintenanceWindow: String? = nil, configurationEndpoint: Endpoint? = nil, preferredAvailabilityZone: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, replicationGroupId: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: CacheSecurityGroupMembershipList? = nil, clientDownloadLandingPage: String? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, engine: String? = nil) {
+        public init(pendingModifiedValues: PendingModifiedValues? = nil, snapshotRetentionLimit: Int32? = nil, cacheSubnetGroupName: String? = nil, cacheClusterCreateTime: Double? = nil, numCacheNodes: Int32? = nil, cacheClusterStatus: String? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodes: CacheNodeList? = nil, snapshotWindow: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, engineVersion: String? = nil, preferredMaintenanceWindow: String? = nil, configurationEndpoint: Endpoint? = nil, preferredAvailabilityZone: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, replicationGroupId: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: CacheSecurityGroupMembershipList? = nil, clientDownloadLandingPage: String? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, engine: String? = nil) {
             self.pendingModifiedValues = pendingModifiedValues
             self.snapshotRetentionLimit = snapshotRetentionLimit
             self.cacheSubnetGroupName = cacheSubnetGroupName
@@ -1667,42 +1557,37 @@ extension Elasticache {
             self.engine = engine
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Elasticache.PendingModifiedValues(dictionary: pendingModifiedValues) } else { self.pendingModifiedValues = nil }
-            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
-            self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
-            self.cacheClusterCreateTime = dictionary["CacheClusterCreateTime"] as? String
-            self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
-            self.cacheClusterStatus = dictionary["CacheClusterStatus"] as? String
-            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
-            if let cacheNodes = dictionary["CacheNodes"] as? [String: Any] { self.cacheNodes = try Elasticache.CacheNodeList(dictionary: cacheNodes) } else { self.cacheNodes = nil }
-            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
-            if let notificationConfiguration = dictionary["NotificationConfiguration"] as? [String: Any] { self.notificationConfiguration = try Elasticache.NotificationConfiguration(dictionary: notificationConfiguration) } else { self.notificationConfiguration = nil }
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            if let configurationEndpoint = dictionary["ConfigurationEndpoint"] as? [String: Any] { self.configurationEndpoint = try Elasticache.Endpoint(dictionary: configurationEndpoint) } else { self.configurationEndpoint = nil }
-            self.preferredAvailabilityZone = dictionary["PreferredAvailabilityZone"] as? String
-            if let securityGroups = dictionary["SecurityGroups"] as? [[String: Any]] {
-                self.securityGroups = try securityGroups.map({ try SecurityGroupMembership(dictionary: $0) })
-            } else { 
-                self.securityGroups = nil
-            }
-            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
-            if let cacheParameterGroup = dictionary["CacheParameterGroup"] as? [String: Any] { self.cacheParameterGroup = try Elasticache.CacheParameterGroupStatus(dictionary: cacheParameterGroup) } else { self.cacheParameterGroup = nil }
-            if let cacheSecurityGroups = dictionary["CacheSecurityGroups"] as? [String: Any] { self.cacheSecurityGroups = try Elasticache.CacheSecurityGroupMembershipList(dictionary: cacheSecurityGroups) } else { self.cacheSecurityGroups = nil }
-            self.clientDownloadLandingPage = dictionary["ClientDownloadLandingPage"] as? String
-            self.cacheClusterId = dictionary["CacheClusterId"] as? String
-            self.cacheNodeType = dictionary["CacheNodeType"] as? String
-            self.engine = dictionary["Engine"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pendingModifiedValues = "PendingModifiedValues"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case cacheClusterCreateTime = "CacheClusterCreateTime"
+            case numCacheNodes = "NumCacheNodes"
+            case cacheClusterStatus = "CacheClusterStatus"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case cacheNodes = "CacheNodes"
+            case snapshotWindow = "SnapshotWindow"
+            case notificationConfiguration = "NotificationConfiguration"
+            case engineVersion = "EngineVersion"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case configurationEndpoint = "ConfigurationEndpoint"
+            case preferredAvailabilityZone = "PreferredAvailabilityZone"
+            case securityGroups = "SecurityGroups"
+            case replicationGroupId = "ReplicationGroupId"
+            case cacheParameterGroup = "CacheParameterGroup"
+            case cacheSecurityGroups = "CacheSecurityGroups"
+            case clientDownloadLandingPage = "ClientDownloadLandingPage"
+            case cacheClusterId = "CacheClusterId"
+            case cacheNodeType = "CacheNodeType"
+            case engine = "Engine"
         }
     }
 
     public struct CacheSecurityGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheSecurityGroups", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CacheSecurityGroups", required: false, type: .structure)
         ]
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -1714,21 +1599,20 @@ extension Elasticache {
             self.cacheSecurityGroups = cacheSecurityGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let cacheSecurityGroups = dictionary["CacheSecurityGroups"] as? [String: Any] { self.cacheSecurityGroups = try Elasticache.CacheSecurityGroups(dictionary: cacheSecurityGroups) } else { self.cacheSecurityGroups = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case cacheSecurityGroups = "CacheSecurityGroups"
         }
     }
 
     public struct NodeGroupMember: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReadEndpoint", required: false, type: .structure), 
-            AWSShapeProperty(label: "CurrentRole", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredAvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeId", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheClusterId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReadEndpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "CurrentRole", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string)
         ]
         public let readEndpoint: Endpoint?
         /// The role that is currently assigned to the node - primary or replica.
@@ -1748,22 +1632,21 @@ extension Elasticache {
             self.cacheClusterId = cacheClusterId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let readEndpoint = dictionary["ReadEndpoint"] as? [String: Any] { self.readEndpoint = try Elasticache.Endpoint(dictionary: readEndpoint) } else { self.readEndpoint = nil }
-            self.currentRole = dictionary["CurrentRole"] as? String
-            self.preferredAvailabilityZone = dictionary["PreferredAvailabilityZone"] as? String
-            self.cacheNodeId = dictionary["CacheNodeId"] as? String
-            self.cacheClusterId = dictionary["CacheClusterId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case readEndpoint = "ReadEndpoint"
+            case currentRole = "CurrentRole"
+            case preferredAvailabilityZone = "PreferredAvailabilityZone"
+            case cacheNodeId = "CacheNodeId"
+            case cacheClusterId = "CacheClusterId"
         }
     }
 
     public struct PurchaseReservedCacheNodesOfferingMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedCacheNodeId", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "ReservedCacheNodesOfferingId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedCacheNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: true, type: .string)
         ]
         /// A customer-specified identifier to track this reservation.  The Reserved Cache Node ID is an unique customer-specified identifier to track this reservation. If this parameter is not specified, ElastiCache automatically generates an identifier for the reservation.  Example: myreservationID
         public let reservedCacheNodeId: String?
@@ -1778,20 +1661,18 @@ extension Elasticache {
             self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.reservedCacheNodeId = dictionary["ReservedCacheNodeId"] as? String
-            self.cacheNodeCount = dictionary["CacheNodeCount"] as? Int32
-            guard let reservedCacheNodesOfferingId = dictionary["ReservedCacheNodesOfferingId"] as? String else { throw InitializableError.missingRequiredParam("ReservedCacheNodesOfferingId") }
-            self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
+        private enum CodingKeys: String, CodingKey {
+            case reservedCacheNodeId = "ReservedCacheNodeId"
+            case cacheNodeCount = "CacheNodeCount"
+            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
         }
     }
 
     public struct DescribeSnapshotsListMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Snapshots", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Snapshots", required: false, type: .structure)
         ]
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -1803,18 +1684,17 @@ extension Elasticache {
             self.snapshots = snapshots
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let snapshots = dictionary["Snapshots"] as? [String: Any] { self.snapshots = try Elasticache.SnapshotList(dictionary: snapshots) } else { self.snapshots = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case snapshots = "Snapshots"
         }
     }
 
     public struct CacheSecurityGroupMembership: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheSecurityGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "CacheSecurityGroupName", required: false, type: .string)
         ]
         /// The membership status in the cache security group. The status changes when a cache security group is modified, or when the cache security groups assigned to a cache cluster are modified.
         public let status: String?
@@ -1826,18 +1706,17 @@ extension Elasticache {
             self.cacheSecurityGroupName = cacheSecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            self.cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case cacheSecurityGroupName = "CacheSecurityGroupName"
         }
     }
 
     public struct ModifyCacheParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheParameterGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "ParameterNameValues", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "ParameterNameValues", required: true, type: .structure)
         ]
         /// The name of the cache parameter group to modify.
         public let cacheParameterGroupName: String
@@ -1849,20 +1728,17 @@ extension Elasticache {
             self.parameterNameValues = parameterNameValues
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupName") }
-            self.cacheParameterGroupName = cacheParameterGroupName
-            guard let parameterNameValues = dictionary["ParameterNameValues"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ParameterNameValues") }
-            self.parameterNameValues = try Elasticache.ParameterNameValueList(dictionary: parameterNameValues)
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroupName = "CacheParameterGroupName"
+            case parameterNameValues = "ParameterNameValues"
         }
     }
 
     public struct AddTagsToResourceMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: true, type: .structure), 
-            AWSShapeProperty(label: "ResourceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .structure), 
+            AWSShapeMember(label: "ResourceName", required: true, type: .string)
         ]
         /// A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
         public let tags: TagList
@@ -1874,19 +1750,16 @@ extension Elasticache {
             self.resourceName = resourceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try Elasticache.TagList(dictionary: tags)
-            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
-            self.resourceName = resourceName
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case resourceName = "ResourceName"
         }
     }
 
     public struct CacheSubnetGroups: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSubnetGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSubnetGroup", required: false, type: .list)
         ]
         public let cacheSubnetGroup: [CacheSubnetGroup]?
 
@@ -1894,16 +1767,12 @@ extension Elasticache {
             self.cacheSubnetGroup = cacheSubnetGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheSubnetGroup = dictionary["CacheSubnetGroup"] as? [[String: Any]] {
-                self.cacheSubnetGroup = try cacheSubnetGroup.map({ try CacheSubnetGroup(dictionary: $0) })
-            } else { 
-                self.cacheSubnetGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cacheSubnetGroup = "CacheSubnetGroup"
         }
     }
 
-    public enum AutomaticFailoverStatus: String, CustomStringConvertible {
+    public enum AutomaticFailoverStatus: String, CustomStringConvertible, Codable {
         case enabled = "enabled"
         case disabled = "disabled"
         case enabling = "enabling"
@@ -1913,9 +1782,8 @@ extension Elasticache {
 
     public struct CacheNodeList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheNode", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNode", required: false, type: .list)
         ]
         public let cacheNode: [CacheNode]?
 
@@ -1923,20 +1791,15 @@ extension Elasticache {
             self.cacheNode = cacheNode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheNode = dictionary["CacheNode"] as? [[String: Any]] {
-                self.cacheNode = try cacheNode.map({ try CacheNode(dictionary: $0) })
-            } else { 
-                self.cacheNode = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cacheNode = "CacheNode"
         }
     }
 
     public struct RebootCacheClusterResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheCluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheCluster", required: false, type: .structure)
         ]
         public let cacheCluster: CacheCluster?
 
@@ -1944,18 +1807,17 @@ extension Elasticache {
             self.cacheCluster = cacheCluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheCluster = dictionary["CacheCluster"] as? [String: Any] { self.cacheCluster = try Elasticache.CacheCluster(dictionary: cacheCluster) } else { self.cacheCluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cacheCluster = "CacheCluster"
         }
     }
 
     public struct ModifyCacheSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSubnetGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "SubnetIds", required: false, type: .structure), 
-            AWSShapeProperty(label: "CacheSubnetGroupDescription", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSubnetGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheSubnetGroupDescription", required: false, type: .string)
         ]
         /// The name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup 
         public let cacheSubnetGroupName: String
@@ -1970,19 +1832,17 @@ extension Elasticache {
             self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSubnetGroupName") }
-            self.cacheSubnetGroupName = cacheSubnetGroupName
-            if let subnetIds = dictionary["SubnetIds"] as? [String: Any] { self.subnetIds = try Elasticache.SubnetIdentifierList(dictionary: subnetIds) } else { self.subnetIds = nil }
-            self.cacheSubnetGroupDescription = dictionary["CacheSubnetGroupDescription"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case subnetIds = "SubnetIds"
+            case cacheSubnetGroupDescription = "CacheSubnetGroupDescription"
         }
     }
 
     public struct ModifyCacheClusterResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheCluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheCluster", required: false, type: .structure)
         ]
         public let cacheCluster: CacheCluster?
 
@@ -1990,32 +1850,31 @@ extension Elasticache {
             self.cacheCluster = cacheCluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheCluster = dictionary["CacheCluster"] as? [String: Any] { self.cacheCluster = try Elasticache.CacheCluster(dictionary: cacheCluster) } else { self.cacheCluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cacheCluster = "CacheCluster"
         }
     }
 
     public struct ModifyCacheClusterMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheNodeIdsToRemove", required: false, type: .structure), 
-            AWSShapeProperty(label: "CacheSecurityGroupNames", required: false, type: .structure), 
-            AWSShapeProperty(label: "NumCacheNodes", required: false, type: .integer), 
-            AWSShapeProperty(label: "NotificationTopicStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .structure), 
-            AWSShapeProperty(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NotificationTopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheParameterGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "NewAvailabilityZones", required: false, type: .structure), 
-            AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotRetentionLimit", required: false, type: .integer), 
-            AWSShapeProperty(label: "CacheClusterId", required: true, type: .string), 
-            AWSShapeProperty(label: "AZMode", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeIdsToRemove", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .structure), 
+            AWSShapeMember(label: "NumCacheNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "NotificationTopicStatus", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "NewAvailabilityZones", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "AZMode", required: false, type: .enum)
         ]
         /// A list of cache node IDs to be removed. A node ID is a numeric identifier (0001, 0002, etc.). This parameter is only valid when NumCacheNodes is less than the existing number of cache nodes. The number of cache node IDs supplied in this parameter must match the difference between the existing number of cache nodes in the cluster or pending cache nodes, whichever is greater, and the value of NumCacheNodes in the request. For example: If you have 3 active cache nodes, 7 pending cache nodes, and the number of cache nodes in this ModifyCacheCluser call is 5, you must list 2 (7 - 5) cache node IDs to remove.
         public let cacheNodeIdsToRemove: CacheNodeIdsList?
@@ -2072,35 +1931,33 @@ extension Elasticache {
             self.aZMode = aZMode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheNodeIdsToRemove = dictionary["CacheNodeIdsToRemove"] as? [String: Any] { self.cacheNodeIdsToRemove = try Elasticache.CacheNodeIdsList(dictionary: cacheNodeIdsToRemove) } else { self.cacheNodeIdsToRemove = nil }
-            if let cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String: Any] { self.cacheSecurityGroupNames = try Elasticache.CacheSecurityGroupNameList(dictionary: cacheSecurityGroupNames) } else { self.cacheSecurityGroupNames = nil }
-            self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
-            self.notificationTopicStatus = dictionary["NotificationTopicStatus"] as? String
-            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String: Any] { self.securityGroupIds = try Elasticache.SecurityGroupIdsList(dictionary: securityGroupIds) } else { self.securityGroupIds = nil }
-            self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
-            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
-            self.notificationTopicArn = dictionary["NotificationTopicArn"] as? String
-            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
-            if let newAvailabilityZones = dictionary["NewAvailabilityZones"] as? [String: Any] { self.newAvailabilityZones = try Elasticache.PreferredAvailabilityZoneList(dictionary: newAvailabilityZones) } else { self.newAvailabilityZones = nil }
-            self.cacheNodeType = dictionary["CacheNodeType"] as? String
-            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
-            guard let cacheClusterId = dictionary["CacheClusterId"] as? String else { throw InitializableError.missingRequiredParam("CacheClusterId") }
-            self.cacheClusterId = cacheClusterId
-            if let aZMode = dictionary["AZMode"] as? String { self.aZMode = AZMode(rawValue: aZMode) } else { self.aZMode = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeIdsToRemove = "CacheNodeIdsToRemove"
+            case cacheSecurityGroupNames = "CacheSecurityGroupNames"
+            case numCacheNodes = "NumCacheNodes"
+            case notificationTopicStatus = "NotificationTopicStatus"
+            case securityGroupIds = "SecurityGroupIds"
+            case applyImmediately = "ApplyImmediately"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case notificationTopicArn = "NotificationTopicArn"
+            case snapshotWindow = "SnapshotWindow"
+            case engineVersion = "EngineVersion"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+            case newAvailabilityZones = "NewAvailabilityZones"
+            case cacheNodeType = "CacheNodeType"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
+            case cacheClusterId = "CacheClusterId"
+            case aZMode = "AZMode"
         }
     }
 
     public struct DescribeEngineDefaultParametersMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheParameterGroupFamily", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupFamily", required: true, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -2115,21 +1972,19 @@ extension Elasticache {
             self.maxRecords = maxRecords
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let cacheParameterGroupFamily = dictionary["CacheParameterGroupFamily"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupFamily") }
-            self.cacheParameterGroupFamily = cacheParameterGroupFamily
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
+            case maxRecords = "MaxRecords"
         }
     }
 
     public struct CopySnapshotMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetSnapshotName", required: true, type: .string), 
-            AWSShapeProperty(label: "TargetBucket", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceSnapshotName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetSnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "TargetBucket", required: false, type: .string), 
+            AWSShapeMember(label: "SourceSnapshotName", required: true, type: .string)
         ]
         /// A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting.
         public let targetSnapshotName: String
@@ -2144,21 +1999,18 @@ extension Elasticache {
             self.sourceSnapshotName = sourceSnapshotName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targetSnapshotName = dictionary["TargetSnapshotName"] as? String else { throw InitializableError.missingRequiredParam("TargetSnapshotName") }
-            self.targetSnapshotName = targetSnapshotName
-            self.targetBucket = dictionary["TargetBucket"] as? String
-            guard let sourceSnapshotName = dictionary["SourceSnapshotName"] as? String else { throw InitializableError.missingRequiredParam("SourceSnapshotName") }
-            self.sourceSnapshotName = sourceSnapshotName
+        private enum CodingKeys: String, CodingKey {
+            case targetSnapshotName = "TargetSnapshotName"
+            case targetBucket = "TargetBucket"
+            case sourceSnapshotName = "SourceSnapshotName"
         }
     }
 
     public struct ListAllowedNodeTypeModificationsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationGroupId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string)
         ]
         /// The name of the cache cluster you want to scale up to a larger node instanced type. ElastiCache uses the cluster id to identify the current node type of this cluster and from that to create a list of node types you can scale up to.  You must provide a value for either the CacheClusterId or the ReplicationGroupId. 
         public let cacheClusterId: String?
@@ -2170,17 +2022,16 @@ extension Elasticache {
             self.replicationGroupId = replicationGroupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cacheClusterId = dictionary["CacheClusterId"] as? String
-            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cacheClusterId = "CacheClusterId"
+            case replicationGroupId = "ReplicationGroupId"
         }
     }
 
     public struct RecurringChargeList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecurringCharge", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecurringCharge", required: false, type: .list)
         ]
         public let recurringCharge: [RecurringCharge]?
 
@@ -2188,23 +2039,18 @@ extension Elasticache {
             self.recurringCharge = recurringCharge
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let recurringCharge = dictionary["RecurringCharge"] as? [[String: Any]] {
-                self.recurringCharge = try recurringCharge.map({ try RecurringCharge(dictionary: $0) })
-            } else { 
-                self.recurringCharge = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case recurringCharge = "RecurringCharge"
         }
     }
 
     public struct EngineDefaults: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheParameterGroupFamily", required: false, type: .string), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .structure), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeTypeSpecificParameters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroupFamily", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeTypeSpecificParameters", required: false, type: .structure)
         ]
         /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 
         public let cacheParameterGroupFamily: String?
@@ -2222,20 +2068,19 @@ extension Elasticache {
             self.cacheNodeTypeSpecificParameters = cacheNodeTypeSpecificParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cacheParameterGroupFamily = dictionary["CacheParameterGroupFamily"] as? String
-            if let parameters = dictionary["Parameters"] as? [String: Any] { self.parameters = try Elasticache.ParametersList(dictionary: parameters) } else { self.parameters = nil }
-            self.marker = dictionary["Marker"] as? String
-            if let cacheNodeTypeSpecificParameters = dictionary["CacheNodeTypeSpecificParameters"] as? [String: Any] { self.cacheNodeTypeSpecificParameters = try Elasticache.CacheNodeTypeSpecificParametersList(dictionary: cacheNodeTypeSpecificParameters) } else { self.cacheNodeTypeSpecificParameters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
+            case parameters = "Parameters"
+            case marker = "Marker"
+            case cacheNodeTypeSpecificParameters = "CacheNodeTypeSpecificParameters"
         }
     }
 
     public struct NotificationConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "TopicArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicStatus", required: false, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: false, type: .string)
         ]
         /// The current state of the topic.
         public let topicStatus: String?
@@ -2247,23 +2092,22 @@ extension Elasticache {
             self.topicArn = topicArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.topicStatus = dictionary["TopicStatus"] as? String
-            self.topicArn = dictionary["TopicArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case topicStatus = "TopicStatus"
+            case topicArn = "TopicArn"
         }
     }
 
     public struct DescribeReservedCacheNodesOfferingsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "Duration", required: false, type: .string), 
-            AWSShapeProperty(label: "OfferingType", required: false, type: .string), 
-            AWSShapeProperty(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductDescription", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .string), 
+            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "ProductDescription", required: false, type: .string)
         ]
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int32?
@@ -2290,22 +2134,21 @@ extension Elasticache {
             self.productDescription = productDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            self.cacheNodeType = dictionary["CacheNodeType"] as? String
-            self.duration = dictionary["Duration"] as? String
-            self.offeringType = dictionary["OfferingType"] as? String
-            self.reservedCacheNodesOfferingId = dictionary["ReservedCacheNodesOfferingId"] as? String
-            self.productDescription = dictionary["ProductDescription"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case cacheNodeType = "CacheNodeType"
+            case duration = "Duration"
+            case offeringType = "OfferingType"
+            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
+            case productDescription = "ProductDescription"
         }
     }
 
     public struct CreateCacheParameterGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheParameterGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroup", required: false, type: .structure)
         ]
         public let cacheParameterGroup: CacheParameterGroup?
 
@@ -2313,46 +2156,45 @@ extension Elasticache {
             self.cacheParameterGroup = cacheParameterGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheParameterGroup = dictionary["CacheParameterGroup"] as? [String: Any] { self.cacheParameterGroup = try Elasticache.CacheParameterGroup(dictionary: cacheParameterGroup) } else { self.cacheParameterGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroup = "CacheParameterGroup"
         }
     }
 
     public struct Snapshot: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Port", required: false, type: .integer), 
-            AWSShapeProperty(label: "CacheClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheClusterCreateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NumCacheNodes", required: false, type: .integer), 
-            AWSShapeProperty(label: "AutomaticFailover", required: false, type: .enum), 
-            AWSShapeProperty(label: "TopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotSource", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotName", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheParameterGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "NumNodeGroups", required: false, type: .integer), 
-            AWSShapeProperty(label: "ReplicationGroupDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredAvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "NodeSnapshots", required: false, type: .structure), 
-            AWSShapeProperty(label: "Engine", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheSubnetGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotRetentionLimit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NumCacheNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "AutomaticFailover", required: false, type: .enum), 
+            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotStatus", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotSource", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotName", required: false, type: .string), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "NumNodeGroups", required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicationGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "NodeSnapshots", required: false, type: .structure), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer)
         ]
         /// The port number used by each cache nodes in the source cache cluster.
         public let port: Int32?
         /// The user-supplied identifier of the source cache cluster.
         public let cacheClusterId: String?
         /// The date and time when the source cache cluster was created.
-        public let cacheClusterCreateTime: String?
+        public let cacheClusterCreateTime: Double?
         /// The number of cache nodes in the source cache cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
         public let numCacheNodes: Int32?
         /// Indicates the status of Multi-AZ for the source replication group.  ElastiCache Multi-AZ replication groups are not supported on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.   
@@ -2396,7 +2238,7 @@ extension Elasticache {
         /// For an automatic snapshot, the number of days for which ElastiCache retains the snapshot before deleting it. For manual snapshots, this field reflects the SnapshotRetentionLimit for the source cache cluster when the snapshot was created. This field is otherwise ignored: Manual snapshots do not expire, and can only be deleted using the DeleteSnapshot operation.   Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int32?
 
-        public init(port: Int32? = nil, cacheClusterId: String? = nil, cacheClusterCreateTime: String? = nil, numCacheNodes: Int32? = nil, automaticFailover: AutomaticFailoverStatus? = nil, topicArn: String? = nil, snapshotStatus: String? = nil, snapshotSource: String? = nil, snapshotName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, vpcId: String? = nil, cacheParameterGroupName: String? = nil, replicationGroupId: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String? = nil, preferredAvailabilityZone: String? = nil, cacheNodeType: String? = nil, nodeSnapshots: NodeSnapshotList? = nil, engine: String? = nil, cacheSubnetGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, snapshotRetentionLimit: Int32? = nil) {
+        public init(port: Int32? = nil, cacheClusterId: String? = nil, cacheClusterCreateTime: Double? = nil, numCacheNodes: Int32? = nil, automaticFailover: AutomaticFailoverStatus? = nil, topicArn: String? = nil, snapshotStatus: String? = nil, snapshotSource: String? = nil, snapshotName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, vpcId: String? = nil, cacheParameterGroupName: String? = nil, replicationGroupId: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String? = nil, preferredAvailabilityZone: String? = nil, cacheNodeType: String? = nil, nodeSnapshots: NodeSnapshotList? = nil, engine: String? = nil, cacheSubnetGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, snapshotRetentionLimit: Int32? = nil) {
             self.port = port
             self.cacheClusterId = cacheClusterId
             self.cacheClusterCreateTime = cacheClusterCreateTime
@@ -2423,40 +2265,39 @@ extension Elasticache {
             self.snapshotRetentionLimit = snapshotRetentionLimit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.port = dictionary["Port"] as? Int32
-            self.cacheClusterId = dictionary["CacheClusterId"] as? String
-            self.cacheClusterCreateTime = dictionary["CacheClusterCreateTime"] as? String
-            self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
-            if let automaticFailover = dictionary["AutomaticFailover"] as? String { self.automaticFailover = AutomaticFailoverStatus(rawValue: automaticFailover) } else { self.automaticFailover = nil }
-            self.topicArn = dictionary["TopicArn"] as? String
-            self.snapshotStatus = dictionary["SnapshotStatus"] as? String
-            self.snapshotSource = dictionary["SnapshotSource"] as? String
-            self.snapshotName = dictionary["SnapshotName"] as? String
-            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
-            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            self.vpcId = dictionary["VpcId"] as? String
-            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
-            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
-            self.numNodeGroups = dictionary["NumNodeGroups"] as? Int32
-            self.replicationGroupDescription = dictionary["ReplicationGroupDescription"] as? String
-            self.preferredAvailabilityZone = dictionary["PreferredAvailabilityZone"] as? String
-            self.cacheNodeType = dictionary["CacheNodeType"] as? String
-            if let nodeSnapshots = dictionary["NodeSnapshots"] as? [String: Any] { self.nodeSnapshots = try Elasticache.NodeSnapshotList(dictionary: nodeSnapshots) } else { self.nodeSnapshots = nil }
-            self.engine = dictionary["Engine"] as? String
-            self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case port = "Port"
+            case cacheClusterId = "CacheClusterId"
+            case cacheClusterCreateTime = "CacheClusterCreateTime"
+            case numCacheNodes = "NumCacheNodes"
+            case automaticFailover = "AutomaticFailover"
+            case topicArn = "TopicArn"
+            case snapshotStatus = "SnapshotStatus"
+            case snapshotSource = "SnapshotSource"
+            case snapshotName = "SnapshotName"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case snapshotWindow = "SnapshotWindow"
+            case engineVersion = "EngineVersion"
+            case vpcId = "VpcId"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+            case replicationGroupId = "ReplicationGroupId"
+            case numNodeGroups = "NumNodeGroups"
+            case replicationGroupDescription = "ReplicationGroupDescription"
+            case preferredAvailabilityZone = "PreferredAvailabilityZone"
+            case cacheNodeType = "CacheNodeType"
+            case nodeSnapshots = "NodeSnapshots"
+            case engine = "Engine"
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
         }
     }
 
     public struct DeleteCacheClusterMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheClusterId", required: true, type: .string), 
-            AWSShapeProperty(label: "FinalSnapshotIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "FinalSnapshotIdentifier", required: false, type: .string)
         ]
         /// The cache cluster identifier for the cluster to be deleted. This parameter is not case sensitive.
         public let cacheClusterId: String
@@ -2468,18 +2309,16 @@ extension Elasticache {
             self.finalSnapshotIdentifier = finalSnapshotIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cacheClusterId = dictionary["CacheClusterId"] as? String else { throw InitializableError.missingRequiredParam("CacheClusterId") }
-            self.cacheClusterId = cacheClusterId
-            self.finalSnapshotIdentifier = dictionary["FinalSnapshotIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cacheClusterId = "CacheClusterId"
+            case finalSnapshotIdentifier = "FinalSnapshotIdentifier"
         }
     }
 
     public struct AllowedNodeTypeModificationsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScaleUpModifications", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScaleUpModifications", required: false, type: .list)
         ]
         /// A string list, each element of which specifies a cache node type which you can use to scale your cache cluster or replication group. When scaling up a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
         public let scaleUpModifications: [String]?
@@ -2488,16 +2327,15 @@ extension Elasticache {
             self.scaleUpModifications = scaleUpModifications
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.scaleUpModifications = dictionary["ScaleUpModifications"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case scaleUpModifications = "ScaleUpModifications"
         }
     }
 
     public struct DeleteSnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
 
@@ -2505,16 +2343,15 @@ extension Elasticache {
             self.snapshot = snapshot
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Elasticache.Snapshot(dictionary: snapshot) } else { self.snapshot = nil }
+        private enum CodingKeys: String, CodingKey {
+            case snapshot = "Snapshot"
         }
     }
 
     public struct TagList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tag", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
 
@@ -2522,21 +2359,16 @@ extension Elasticache {
             self.tag = tag
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tag = dictionary["Tag"] as? [[String: Any]] {
-                self.tag = try tag.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tag = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tag = "Tag"
         }
     }
 
     public struct ReplicationGroupPendingModifiedValues: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrimaryClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "AutomaticFailoverStatus", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PrimaryClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "AutomaticFailoverStatus", required: false, type: .enum)
         ]
         /// The primary cluster ID that is applied immediately (if --apply-immediately was specified), or during the next maintenance window.
         public let primaryClusterId: String?
@@ -2548,17 +2380,16 @@ extension Elasticache {
             self.automaticFailoverStatus = automaticFailoverStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.primaryClusterId = dictionary["PrimaryClusterId"] as? String
-            if let automaticFailoverStatus = dictionary["AutomaticFailoverStatus"] as? String { self.automaticFailoverStatus = PendingAutomaticFailoverStatus(rawValue: automaticFailoverStatus) } else { self.automaticFailoverStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case primaryClusterId = "PrimaryClusterId"
+            case automaticFailoverStatus = "AutomaticFailoverStatus"
         }
     }
 
     public struct ClusterIdList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterId", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: false, type: .list)
         ]
         public let clusterId: [String]?
 
@@ -2566,17 +2397,16 @@ extension Elasticache {
             self.clusterId = clusterId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clusterId = dictionary["ClusterId"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
         }
     }
 
     public struct ReplicationGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationGroups", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroups", required: false, type: .structure)
         ]
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -2588,19 +2418,18 @@ extension Elasticache {
             self.replicationGroups = replicationGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let replicationGroups = dictionary["ReplicationGroups"] as? [String: Any] { self.replicationGroups = try Elasticache.ReplicationGroupList(dictionary: replicationGroups) } else { self.replicationGroups = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case replicationGroups = "ReplicationGroups"
         }
     }
 
     public struct DescribeCacheSubnetGroupsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSubnetGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// The name of the cache subnet group to return details for.
         public let cacheSubnetGroupName: String?
@@ -2615,19 +2444,18 @@ extension Elasticache {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
         }
     }
 
     public struct ReservedCacheNodesOfferingMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ReservedCacheNodesOfferings", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedCacheNodesOfferings", required: false, type: .structure)
         ]
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -2639,17 +2467,16 @@ extension Elasticache {
             self.reservedCacheNodesOfferings = reservedCacheNodesOfferings
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let reservedCacheNodesOfferings = dictionary["ReservedCacheNodesOfferings"] as? [String: Any] { self.reservedCacheNodesOfferings = try Elasticache.ReservedCacheNodesOfferingList(dictionary: reservedCacheNodesOfferings) } else { self.reservedCacheNodesOfferings = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case reservedCacheNodesOfferings = "ReservedCacheNodesOfferings"
         }
     }
 
     public struct CacheNodeTypeSpecificParametersList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheNodeTypeSpecificParameter", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeTypeSpecificParameter", required: false, type: .list)
         ]
         public let cacheNodeTypeSpecificParameter: [CacheNodeTypeSpecificParameter]?
 
@@ -2657,23 +2484,18 @@ extension Elasticache {
             self.cacheNodeTypeSpecificParameter = cacheNodeTypeSpecificParameter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheNodeTypeSpecificParameter = dictionary["CacheNodeTypeSpecificParameter"] as? [[String: Any]] {
-                self.cacheNodeTypeSpecificParameter = try cacheNodeTypeSpecificParameter.map({ try CacheNodeTypeSpecificParameter(dictionary: $0) })
-            } else { 
-                self.cacheNodeTypeSpecificParameter = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeTypeSpecificParameter = "CacheNodeTypeSpecificParameter"
         }
     }
 
     public struct NodeGroupConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Slots", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicaAvailabilityZones", required: false, type: .structure), 
-            AWSShapeProperty(label: "PrimaryAvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicaCount", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Slots", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicaAvailabilityZones", required: false, type: .structure), 
+            AWSShapeMember(label: "PrimaryAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicaCount", required: false, type: .integer)
         ]
         /// A string that specifies the keyspace for a particular node group. Keyspaces range from 0 to 16,383. The string is in the format startkey-endkey. Example: "0-3999" 
         public let slots: String?
@@ -2691,19 +2513,18 @@ extension Elasticache {
             self.replicaCount = replicaCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.slots = dictionary["Slots"] as? String
-            if let replicaAvailabilityZones = dictionary["ReplicaAvailabilityZones"] as? [String: Any] { self.replicaAvailabilityZones = try Elasticache.AvailabilityZonesList(dictionary: replicaAvailabilityZones) } else { self.replicaAvailabilityZones = nil }
-            self.primaryAvailabilityZone = dictionary["PrimaryAvailabilityZone"] as? String
-            self.replicaCount = dictionary["ReplicaCount"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case slots = "Slots"
+            case replicaAvailabilityZones = "ReplicaAvailabilityZones"
+            case primaryAvailabilityZone = "PrimaryAvailabilityZone"
+            case replicaCount = "ReplicaCount"
         }
     }
 
     public struct CacheParameterGroupNameMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheParameterGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string)
         ]
         /// The name of the cache parameter group.
         public let cacheParameterGroupName: String?
@@ -2712,16 +2533,15 @@ extension Elasticache {
             self.cacheParameterGroupName = cacheParameterGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroupName = "CacheParameterGroupName"
         }
     }
 
     public struct CreateSnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
 
@@ -2729,17 +2549,16 @@ extension Elasticache {
             self.snapshot = snapshot
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Elasticache.Snapshot(dictionary: snapshot) } else { self.snapshot = nil }
+        private enum CodingKeys: String, CodingKey {
+            case snapshot = "Snapshot"
         }
     }
 
     public struct CreateCacheSecurityGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSecurityGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
         ]
         /// A name for the cache security group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters. Cannot be the word "Default". Example: mysecuritygroup 
         public let cacheSecurityGroupName: String
@@ -2751,15 +2570,13 @@ extension Elasticache {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSecurityGroupName") }
-            self.cacheSecurityGroupName = cacheSecurityGroupName
-            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
-            self.description = description
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroupName = "CacheSecurityGroupName"
+            case description = "Description"
         }
     }
 
-    public enum SourceType: String, CustomStringConvertible {
+    public enum SourceType: String, CustomStringConvertible, Codable {
         case cache_cluster = "cache-cluster"
         case cache_parameter_group = "cache-parameter-group"
         case cache_security_group = "cache-security-group"
@@ -2770,16 +2587,15 @@ extension Elasticache {
 
     public struct DescribeReservedCacheNodesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "ReservedCacheNodeId", required: false, type: .string), 
-            AWSShapeProperty(label: "Duration", required: false, type: .string), 
-            AWSShapeProperty(label: "OfferingType", required: false, type: .string), 
-            AWSShapeProperty(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductDescription", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedCacheNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .string), 
+            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedCacheNodesOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "ProductDescription", required: false, type: .string)
         ]
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int32?
@@ -2809,19 +2625,19 @@ extension Elasticache {
             self.productDescription = productDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            self.cacheNodeType = dictionary["CacheNodeType"] as? String
-            self.reservedCacheNodeId = dictionary["ReservedCacheNodeId"] as? String
-            self.duration = dictionary["Duration"] as? String
-            self.offeringType = dictionary["OfferingType"] as? String
-            self.reservedCacheNodesOfferingId = dictionary["ReservedCacheNodesOfferingId"] as? String
-            self.productDescription = dictionary["ProductDescription"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case cacheNodeType = "CacheNodeType"
+            case reservedCacheNodeId = "ReservedCacheNodeId"
+            case duration = "Duration"
+            case offeringType = "OfferingType"
+            case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
+            case productDescription = "ProductDescription"
         }
     }
 
-    public enum AZMode: String, CustomStringConvertible {
+    public enum AZMode: String, CustomStringConvertible, Codable {
         case single_az = "single-az"
         case cross_az = "cross-az"
         public var description: String { return self.rawValue }
@@ -2829,14 +2645,13 @@ extension Elasticache {
 
     public struct DescribeCacheEngineVersionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "CacheParameterGroupFamily", required: false, type: .string), 
-            AWSShapeProperty(label: "Engine", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultOnly", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheParameterGroupFamily", required: false, type: .string), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int32?
@@ -2860,21 +2675,20 @@ extension Elasticache {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.cacheParameterGroupFamily = dictionary["CacheParameterGroupFamily"] as? String
-            self.engine = dictionary["Engine"] as? String
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            self.defaultOnly = dictionary["DefaultOnly"] as? Bool
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
+            case engine = "Engine"
+            case engineVersion = "EngineVersion"
+            case defaultOnly = "DefaultOnly"
+            case marker = "Marker"
         }
     }
 
     public struct ModifyCacheSubnetGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSubnetGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSubnetGroup", required: false, type: .structure)
         ]
         public let cacheSubnetGroup: CacheSubnetGroup?
 
@@ -2882,22 +2696,21 @@ extension Elasticache {
             self.cacheSubnetGroup = cacheSubnetGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheSubnetGroup = dictionary["CacheSubnetGroup"] as? [String: Any] { self.cacheSubnetGroup = try Elasticache.CacheSubnetGroup(dictionary: cacheSubnetGroup) } else { self.cacheSubnetGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cacheSubnetGroup = "CacheSubnetGroup"
         }
     }
 
     public struct NodeSnapshot: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeGroupConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "CacheNodeId", required: false, type: .string), 
-            AWSShapeProperty(label: "NodeGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotCreateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CacheNodeCreateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CacheClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheSize", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeGroupConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "NodeGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CacheNodeCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheSize", required: false, type: .string)
         ]
         /// The configuration for the source node group (shard).
         public let nodeGroupConfiguration: NodeGroupConfiguration?
@@ -2906,15 +2719,15 @@ extension Elasticache {
         /// A unique identifier for the source node group (shard).
         public let nodeGroupId: String?
         /// The date and time when the source node's metadata and cache data set was obtained for the snapshot.
-        public let snapshotCreateTime: String?
+        public let snapshotCreateTime: Double?
         /// The date and time when the cache node was created in the source cache cluster.
-        public let cacheNodeCreateTime: String?
+        public let cacheNodeCreateTime: Double?
         /// A unique identifier for the source cache cluster.
         public let cacheClusterId: String?
         /// The size of the cache on the source cache node.
         public let cacheSize: String?
 
-        public init(nodeGroupConfiguration: NodeGroupConfiguration? = nil, cacheNodeId: String? = nil, nodeGroupId: String? = nil, snapshotCreateTime: String? = nil, cacheNodeCreateTime: String? = nil, cacheClusterId: String? = nil, cacheSize: String? = nil) {
+        public init(nodeGroupConfiguration: NodeGroupConfiguration? = nil, cacheNodeId: String? = nil, nodeGroupId: String? = nil, snapshotCreateTime: Double? = nil, cacheNodeCreateTime: Double? = nil, cacheClusterId: String? = nil, cacheSize: String? = nil) {
             self.nodeGroupConfiguration = nodeGroupConfiguration
             self.cacheNodeId = cacheNodeId
             self.nodeGroupId = nodeGroupId
@@ -2924,47 +2737,46 @@ extension Elasticache {
             self.cacheSize = cacheSize
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let nodeGroupConfiguration = dictionary["NodeGroupConfiguration"] as? [String: Any] { self.nodeGroupConfiguration = try Elasticache.NodeGroupConfiguration(dictionary: nodeGroupConfiguration) } else { self.nodeGroupConfiguration = nil }
-            self.cacheNodeId = dictionary["CacheNodeId"] as? String
-            self.nodeGroupId = dictionary["NodeGroupId"] as? String
-            self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? String
-            self.cacheNodeCreateTime = dictionary["CacheNodeCreateTime"] as? String
-            self.cacheClusterId = dictionary["CacheClusterId"] as? String
-            self.cacheSize = dictionary["CacheSize"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nodeGroupConfiguration = "NodeGroupConfiguration"
+            case cacheNodeId = "CacheNodeId"
+            case nodeGroupId = "NodeGroupId"
+            case snapshotCreateTime = "SnapshotCreateTime"
+            case cacheNodeCreateTime = "CacheNodeCreateTime"
+            case cacheClusterId = "CacheClusterId"
+            case cacheSize = "CacheSize"
         }
     }
 
     public struct CreateReplicationGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotArns", required: false, type: .structure), 
-            AWSShapeProperty(label: "CacheSecurityGroupNames", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReplicasPerNodeGroup", required: false, type: .integer), 
-            AWSShapeProperty(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NodeGroupConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationGroupId", required: true, type: .string), 
-            AWSShapeProperty(label: "PrimaryClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "AutomaticFailoverEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SnapshotRetentionLimit", required: false, type: .integer), 
-            AWSShapeProperty(label: "PreferredCacheClusterAZs", required: false, type: .structure), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "NumCacheClusters", required: false, type: .integer), 
-            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotName", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationTopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheSubnetGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheParameterGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "NumNodeGroups", required: false, type: .integer), 
-            AWSShapeProperty(label: "ReplicationGroupDescription", required: true, type: .string), 
-            AWSShapeProperty(label: "Engine", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "AuthToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotArns", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicasPerNodeGroup", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "NodeGroupConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "PrimaryClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "AutomaticFailoverEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "PreferredCacheClusterAZs", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "NumCacheClusters", required: false, type: .integer), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "SnapshotName", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "NumNodeGroups", required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicationGroupDescription", required: true, type: .string), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "AuthToken", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
         /// A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new replication group will have the number of node groups (console: shards) specified by the parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration regardless of the number of ARNs specified here.  This parameter is only valid if the Engine parameter is redis.  Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb 
         public let snapshotArns: SnapshotArnsList?
@@ -3048,44 +2860,41 @@ extension Elasticache {
             self.port = port
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshotArns = dictionary["SnapshotArns"] as? [String: Any] { self.snapshotArns = try Elasticache.SnapshotArnsList(dictionary: snapshotArns) } else { self.snapshotArns = nil }
-            if let cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String: Any] { self.cacheSecurityGroupNames = try Elasticache.CacheSecurityGroupNameList(dictionary: cacheSecurityGroupNames) } else { self.cacheSecurityGroupNames = nil }
-            self.replicasPerNodeGroup = dictionary["ReplicasPerNodeGroup"] as? Int32
-            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
-            if let nodeGroupConfiguration = dictionary["NodeGroupConfiguration"] as? [String: Any] { self.nodeGroupConfiguration = try Elasticache.NodeGroupConfigurationList(dictionary: nodeGroupConfiguration) } else { self.nodeGroupConfiguration = nil }
-            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            guard let replicationGroupId = dictionary["ReplicationGroupId"] as? String else { throw InitializableError.missingRequiredParam("ReplicationGroupId") }
-            self.replicationGroupId = replicationGroupId
-            self.primaryClusterId = dictionary["PrimaryClusterId"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.automaticFailoverEnabled = dictionary["AutomaticFailoverEnabled"] as? Bool
-            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
-            if let preferredCacheClusterAZs = dictionary["PreferredCacheClusterAZs"] as? [String: Any] { self.preferredCacheClusterAZs = try Elasticache.AvailabilityZonesList(dictionary: preferredCacheClusterAZs) } else { self.preferredCacheClusterAZs = nil }
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Elasticache.TagList(dictionary: tags) } else { self.tags = nil }
-            self.numCacheClusters = dictionary["NumCacheClusters"] as? Int32
-            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String: Any] { self.securityGroupIds = try Elasticache.SecurityGroupIdsList(dictionary: securityGroupIds) } else { self.securityGroupIds = nil }
-            self.snapshotName = dictionary["SnapshotName"] as? String
-            self.notificationTopicArn = dictionary["NotificationTopicArn"] as? String
-            self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
-            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
-            self.numNodeGroups = dictionary["NumNodeGroups"] as? Int32
-            guard let replicationGroupDescription = dictionary["ReplicationGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("ReplicationGroupDescription") }
-            self.replicationGroupDescription = replicationGroupDescription
-            self.engine = dictionary["Engine"] as? String
-            self.cacheNodeType = dictionary["CacheNodeType"] as? String
-            self.authToken = dictionary["AuthToken"] as? String
-            self.port = dictionary["Port"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case snapshotArns = "SnapshotArns"
+            case cacheSecurityGroupNames = "CacheSecurityGroupNames"
+            case replicasPerNodeGroup = "ReplicasPerNodeGroup"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case nodeGroupConfiguration = "NodeGroupConfiguration"
+            case snapshotWindow = "SnapshotWindow"
+            case engineVersion = "EngineVersion"
+            case replicationGroupId = "ReplicationGroupId"
+            case primaryClusterId = "PrimaryClusterId"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case automaticFailoverEnabled = "AutomaticFailoverEnabled"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
+            case preferredCacheClusterAZs = "PreferredCacheClusterAZs"
+            case tags = "Tags"
+            case numCacheClusters = "NumCacheClusters"
+            case securityGroupIds = "SecurityGroupIds"
+            case snapshotName = "SnapshotName"
+            case notificationTopicArn = "NotificationTopicArn"
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+            case numNodeGroups = "NumNodeGroups"
+            case replicationGroupDescription = "ReplicationGroupDescription"
+            case engine = "Engine"
+            case cacheNodeType = "CacheNodeType"
+            case authToken = "AuthToken"
+            case port = "Port"
         }
     }
 
     public struct CacheEngineVersionMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheEngineVersions", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CacheEngineVersions", required: false, type: .structure)
         ]
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -3097,17 +2906,16 @@ extension Elasticache {
             self.cacheEngineVersions = cacheEngineVersions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let cacheEngineVersions = dictionary["CacheEngineVersions"] as? [String: Any] { self.cacheEngineVersions = try Elasticache.CacheEngineVersionList(dictionary: cacheEngineVersions) } else { self.cacheEngineVersions = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case cacheEngineVersions = "CacheEngineVersions"
         }
     }
 
     public struct CacheSecurityGroups: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSecurityGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .list)
         ]
         public let cacheSecurityGroup: [CacheSecurityGroup]?
 
@@ -3115,21 +2923,16 @@ extension Elasticache {
             self.cacheSecurityGroup = cacheSecurityGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheSecurityGroup = dictionary["CacheSecurityGroup"] as? [[String: Any]] {
-                self.cacheSecurityGroup = try cacheSecurityGroup.map({ try CacheSecurityGroup(dictionary: $0) })
-            } else { 
-                self.cacheSecurityGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroup = "CacheSecurityGroup"
         }
     }
 
     public struct SecurityGroupMembership: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecurityGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
         ]
         /// The identifier of the cache security group.
         public let securityGroupId: String?
@@ -3141,21 +2944,20 @@ extension Elasticache {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.securityGroupId = dictionary["SecurityGroupId"] as? String
-            self.status = dictionary["Status"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupId = "SecurityGroupId"
+            case status = "Status"
         }
     }
 
     public struct DescribeCacheClustersMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "ShowCacheClustersNotInReplicationGroups", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ShowCacheNodeInfo", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheClusterId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ShowCacheClustersNotInReplicationGroups", required: false, type: .boolean), 
+            AWSShapeMember(label: "ShowCacheNodeInfo", required: false, type: .boolean), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string)
         ]
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int32?
@@ -3176,23 +2978,22 @@ extension Elasticache {
             self.cacheClusterId = cacheClusterId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.showCacheClustersNotInReplicationGroups = dictionary["ShowCacheClustersNotInReplicationGroups"] as? Bool
-            self.showCacheNodeInfo = dictionary["ShowCacheNodeInfo"] as? Bool
-            self.marker = dictionary["Marker"] as? String
-            self.cacheClusterId = dictionary["CacheClusterId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case showCacheClustersNotInReplicationGroups = "ShowCacheClustersNotInReplicationGroups"
+            case showCacheNodeInfo = "ShowCacheNodeInfo"
+            case marker = "Marker"
+            case cacheClusterId = "CacheClusterId"
         }
     }
 
     public struct CacheSubnetGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subnets", required: false, type: .structure), 
-            AWSShapeProperty(label: "CacheSubnetGroupDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheSubnetGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnets", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheSubnetGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheSubnetGroupName", required: false, type: .string)
         ]
         /// A list of subnets associated with the cache subnet group.
         public let subnets: SubnetList?
@@ -3210,20 +3011,19 @@ extension Elasticache {
             self.cacheSubnetGroupName = cacheSubnetGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let subnets = dictionary["Subnets"] as? [String: Any] { self.subnets = try Elasticache.SubnetList(dictionary: subnets) } else { self.subnets = nil }
-            self.cacheSubnetGroupDescription = dictionary["CacheSubnetGroupDescription"] as? String
-            self.vpcId = dictionary["VpcId"] as? String
-            self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnets = "Subnets"
+            case cacheSubnetGroupDescription = "CacheSubnetGroupDescription"
+            case vpcId = "VpcId"
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
         }
     }
 
     public struct RebootCacheClusterMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheClusterId", required: true, type: .string), 
-            AWSShapeProperty(label: "CacheNodeIdsToReboot", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "CacheNodeIdsToReboot", required: true, type: .structure)
         ]
         /// The cache cluster identifier. This parameter is stored as a lowercase string.
         public let cacheClusterId: String
@@ -3235,21 +3035,18 @@ extension Elasticache {
             self.cacheNodeIdsToReboot = cacheNodeIdsToReboot
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cacheClusterId = dictionary["CacheClusterId"] as? String else { throw InitializableError.missingRequiredParam("CacheClusterId") }
-            self.cacheClusterId = cacheClusterId
-            guard let cacheNodeIdsToReboot = dictionary["CacheNodeIdsToReboot"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CacheNodeIdsToReboot") }
-            self.cacheNodeIdsToReboot = try Elasticache.CacheNodeIdsList(dictionary: cacheNodeIdsToReboot)
+        private enum CodingKeys: String, CodingKey {
+            case cacheClusterId = "CacheClusterId"
+            case cacheNodeIdsToReboot = "CacheNodeIdsToReboot"
         }
     }
 
     public struct AuthorizeCacheSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EC2SecurityGroupOwnerId", required: true, type: .string), 
-            AWSShapeProperty(label: "CacheSecurityGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "EC2SecurityGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: true, type: .string), 
+            AWSShapeMember(label: "CacheSecurityGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupName", required: true, type: .string)
         ]
         /// The AWS account number of the Amazon EC2 security group owner. Note that this is not the same thing as an AWS access key ID - you must provide a valid AWS account number for this parameter.
         public let eC2SecurityGroupOwnerId: String
@@ -3264,24 +3061,20 @@ extension Elasticache {
             self.eC2SecurityGroupName = eC2SecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String else { throw InitializableError.missingRequiredParam("EC2SecurityGroupOwnerId") }
-            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
-            guard let cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSecurityGroupName") }
-            self.cacheSecurityGroupName = cacheSecurityGroupName
-            guard let eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("EC2SecurityGroupName") }
-            self.eC2SecurityGroupName = eC2SecurityGroupName
+        private enum CodingKeys: String, CodingKey {
+            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case cacheSecurityGroupName = "CacheSecurityGroupName"
+            case eC2SecurityGroupName = "EC2SecurityGroupName"
         }
     }
 
     public struct CacheSecurityGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSecurityGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "EC2SecurityGroups", required: false, type: .structure), 
-            AWSShapeProperty(label: "OwnerId", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "OwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The name of the cache security group.
         public let cacheSecurityGroupName: String?
@@ -3299,19 +3092,18 @@ extension Elasticache {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String
-            if let eC2SecurityGroups = dictionary["EC2SecurityGroups"] as? [String: Any] { self.eC2SecurityGroups = try Elasticache.EC2SecurityGroupList(dictionary: eC2SecurityGroups) } else { self.eC2SecurityGroups = nil }
-            self.ownerId = dictionary["OwnerId"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroupName = "CacheSecurityGroupName"
+            case eC2SecurityGroups = "EC2SecurityGroups"
+            case ownerId = "OwnerId"
+            case description = "Description"
         }
     }
 
     public struct CacheParameterGroupList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheParameterGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroup", required: false, type: .list)
         ]
         public let cacheParameterGroup: [CacheParameterGroup]?
 
@@ -3319,20 +3111,15 @@ extension Elasticache {
             self.cacheParameterGroup = cacheParameterGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheParameterGroup = dictionary["CacheParameterGroup"] as? [[String: Any]] {
-                self.cacheParameterGroup = try cacheParameterGroup.map({ try CacheParameterGroup(dictionary: $0) })
-            } else { 
-                self.cacheParameterGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroup = "CacheParameterGroup"
         }
     }
 
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The name of the Availability Zone.
         public let name: String?
@@ -3341,16 +3128,15 @@ extension Elasticache {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct DeleteCacheParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheParameterGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroupName", required: true, type: .string)
         ]
         /// The name of the cache parameter group to delete.  The specified cache security group must not be associated with any cache clusters. 
         public let cacheParameterGroupName: String
@@ -3359,17 +3145,15 @@ extension Elasticache {
             self.cacheParameterGroupName = cacheParameterGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupName") }
-            self.cacheParameterGroupName = cacheParameterGroupName
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroupName = "CacheParameterGroupName"
         }
     }
 
     public struct SnapshotArnsList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotArn", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotArn", required: false, type: .list)
         ]
         public let snapshotArn: [String]?
 
@@ -3377,16 +3161,15 @@ extension Elasticache {
             self.snapshotArn = snapshotArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snapshotArn = dictionary["SnapshotArn"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case snapshotArn = "SnapshotArn"
         }
     }
 
     public struct CreateCacheSecurityGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSecurityGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .structure)
         ]
         public let cacheSecurityGroup: CacheSecurityGroup?
 
@@ -3394,16 +3177,15 @@ extension Elasticache {
             self.cacheSecurityGroup = cacheSecurityGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheSecurityGroup = dictionary["CacheSecurityGroup"] as? [String: Any] { self.cacheSecurityGroup = try Elasticache.CacheSecurityGroup(dictionary: cacheSecurityGroup) } else { self.cacheSecurityGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroup = "CacheSecurityGroup"
         }
     }
 
     public struct CreateReplicationGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
         ]
         public let replicationGroup: ReplicationGroup?
 
@@ -3411,16 +3193,15 @@ extension Elasticache {
             self.replicationGroup = replicationGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationGroup = dictionary["ReplicationGroup"] as? [String: Any] { self.replicationGroup = try Elasticache.ReplicationGroup(dictionary: replicationGroup) } else { self.replicationGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroup = "ReplicationGroup"
         }
     }
 
     public struct AuthorizeCacheSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSecurityGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroup", required: false, type: .structure)
         ]
         public let cacheSecurityGroup: CacheSecurityGroup?
 
@@ -3428,16 +3209,15 @@ extension Elasticache {
             self.cacheSecurityGroup = cacheSecurityGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheSecurityGroup = dictionary["CacheSecurityGroup"] as? [String: Any] { self.cacheSecurityGroup = try Elasticache.CacheSecurityGroup(dictionary: cacheSecurityGroup) } else { self.cacheSecurityGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroup = "CacheSecurityGroup"
         }
     }
 
     public struct EC2SecurityGroupList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EC2SecurityGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2SecurityGroup", required: false, type: .list)
         ]
         public let eC2SecurityGroup: [EC2SecurityGroup]?
 
@@ -3445,20 +3225,15 @@ extension Elasticache {
             self.eC2SecurityGroup = eC2SecurityGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eC2SecurityGroup = dictionary["EC2SecurityGroup"] as? [[String: Any]] {
-                self.eC2SecurityGroup = try eC2SecurityGroup.map({ try EC2SecurityGroup(dictionary: $0) })
-            } else { 
-                self.eC2SecurityGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case eC2SecurityGroup = "EC2SecurityGroup"
         }
     }
 
     public struct ParameterNameValueList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterNameValue", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterNameValue", required: false, type: .list)
         ]
         public let parameterNameValue: [ParameterNameValue]?
 
@@ -3466,20 +3241,15 @@ extension Elasticache {
             self.parameterNameValue = parameterNameValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameterNameValue = dictionary["ParameterNameValue"] as? [[String: Any]] {
-                self.parameterNameValue = try parameterNameValue.map({ try ParameterNameValue(dictionary: $0) })
-            } else { 
-                self.parameterNameValue = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case parameterNameValue = "ParameterNameValue"
         }
     }
 
     public struct NodeSnapshotList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeSnapshot", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeSnapshot", required: false, type: .list)
         ]
         public let nodeSnapshot: [NodeSnapshot]?
 
@@ -3487,22 +3257,17 @@ extension Elasticache {
             self.nodeSnapshot = nodeSnapshot
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let nodeSnapshot = dictionary["NodeSnapshot"] as? [[String: Any]] {
-                self.nodeSnapshot = try nodeSnapshot.map({ try NodeSnapshot(dictionary: $0) })
-            } else { 
-                self.nodeSnapshot = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nodeSnapshot = "NodeSnapshot"
         }
     }
 
     public struct CacheParameterGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheParameterGroupFamily", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheParameterGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroupFamily", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 
         public let cacheParameterGroupFamily: String?
@@ -3517,18 +3282,17 @@ extension Elasticache {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cacheParameterGroupFamily = dictionary["CacheParameterGroupFamily"] as? String
-            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+            case description = "Description"
         }
     }
 
     public struct SubnetList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subnet", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnet", required: false, type: .list)
         ]
         public let subnet: [Subnet]?
 
@@ -3536,22 +3300,17 @@ extension Elasticache {
             self.subnet = subnet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let subnet = dictionary["Subnet"] as? [[String: Any]] {
-                self.subnet = try subnet.map({ try Subnet(dictionary: $0) })
-            } else { 
-                self.subnet = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case subnet = "Subnet"
         }
     }
 
     public struct CreateCacheParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheParameterGroupFamily", required: true, type: .string), 
-            AWSShapeProperty(label: "CacheParameterGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheParameterGroupFamily", required: true, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
         ]
         /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 
         public let cacheParameterGroupFamily: String
@@ -3566,25 +3325,21 @@ extension Elasticache {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cacheParameterGroupFamily = dictionary["CacheParameterGroupFamily"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupFamily") }
-            self.cacheParameterGroupFamily = cacheParameterGroupFamily
-            guard let cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupName") }
-            self.cacheParameterGroupName = cacheParameterGroupName
-            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
-            self.description = description
+        private enum CodingKeys: String, CodingKey {
+            case cacheParameterGroupFamily = "CacheParameterGroupFamily"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+            case description = "Description"
         }
     }
 
     public struct NodeGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeGroupMembers", required: false, type: .structure), 
-            AWSShapeProperty(label: "Slots", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "NodeGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "PrimaryEndpoint", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeGroupMembers", required: false, type: .structure), 
+            AWSShapeMember(label: "Slots", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "NodeGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "PrimaryEndpoint", required: false, type: .structure)
         ]
         /// A list containing information about individual nodes within the node group (shard).
         public let nodeGroupMembers: NodeGroupMemberList?
@@ -3605,20 +3360,19 @@ extension Elasticache {
             self.primaryEndpoint = primaryEndpoint
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let nodeGroupMembers = dictionary["NodeGroupMembers"] as? [String: Any] { self.nodeGroupMembers = try Elasticache.NodeGroupMemberList(dictionary: nodeGroupMembers) } else { self.nodeGroupMembers = nil }
-            self.slots = dictionary["Slots"] as? String
-            self.status = dictionary["Status"] as? String
-            self.nodeGroupId = dictionary["NodeGroupId"] as? String
-            if let primaryEndpoint = dictionary["PrimaryEndpoint"] as? [String: Any] { self.primaryEndpoint = try Elasticache.Endpoint(dictionary: primaryEndpoint) } else { self.primaryEndpoint = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nodeGroupMembers = "NodeGroupMembers"
+            case slots = "Slots"
+            case status = "Status"
+            case nodeGroupId = "NodeGroupId"
+            case primaryEndpoint = "PrimaryEndpoint"
         }
     }
 
     public struct DeleteSnapshotMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotName", required: true, type: .string)
         ]
         /// The name of the snapshot to be deleted.
         public let snapshotName: String
@@ -3627,17 +3381,15 @@ extension Elasticache {
             self.snapshotName = snapshotName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let snapshotName = dictionary["SnapshotName"] as? String else { throw InitializableError.missingRequiredParam("SnapshotName") }
-            self.snapshotName = snapshotName
+        private enum CodingKeys: String, CodingKey {
+            case snapshotName = "SnapshotName"
         }
     }
 
     public struct CacheSecurityGroupNameList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSecurityGroupName", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroupName", required: false, type: .list)
         ]
         public let cacheSecurityGroupName: [String]?
 
@@ -3645,16 +3397,15 @@ extension Elasticache {
             self.cacheSecurityGroupName = cacheSecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroupName = "CacheSecurityGroupName"
         }
     }
 
     public struct TagListMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagList", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: false, type: .structure)
         ]
         /// A list of cost allocation tags as key-value pairs.
         public let tagList: TagList?
@@ -3663,18 +3414,17 @@ extension Elasticache {
             self.tagList = tagList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagList = dictionary["TagList"] as? [String: Any] { self.tagList = try Elasticache.TagList(dictionary: tagList) } else { self.tagList = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tagList = "TagList"
         }
     }
 
     public struct DeleteReplicationGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RetainPrimaryCluster", required: false, type: .boolean), 
-            AWSShapeProperty(label: "FinalSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationGroupId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RetainPrimaryCluster", required: false, type: .boolean), 
+            AWSShapeMember(label: "FinalSnapshotIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string)
         ]
         /// If set to true, all of the read replicas are deleted, but the primary node is retained.
         public let retainPrimaryCluster: Bool?
@@ -3689,19 +3439,17 @@ extension Elasticache {
             self.replicationGroupId = replicationGroupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.retainPrimaryCluster = dictionary["RetainPrimaryCluster"] as? Bool
-            self.finalSnapshotIdentifier = dictionary["FinalSnapshotIdentifier"] as? String
-            guard let replicationGroupId = dictionary["ReplicationGroupId"] as? String else { throw InitializableError.missingRequiredParam("ReplicationGroupId") }
-            self.replicationGroupId = replicationGroupId
+        private enum CodingKeys: String, CodingKey {
+            case retainPrimaryCluster = "RetainPrimaryCluster"
+            case finalSnapshotIdentifier = "FinalSnapshotIdentifier"
+            case replicationGroupId = "ReplicationGroupId"
         }
     }
 
     public struct AvailabilityZonesList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .list)
         ]
         public let availabilityZone: [String]?
 
@@ -3709,16 +3457,15 @@ extension Elasticache {
             self.availabilityZone = availabilityZone
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.availabilityZone = dictionary["AvailabilityZone"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
         }
     }
 
     public struct ModifyReplicationGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
         ]
         public let replicationGroup: ReplicationGroup?
 
@@ -3726,17 +3473,16 @@ extension Elasticache {
             self.replicationGroup = replicationGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationGroup = dictionary["ReplicationGroup"] as? [String: Any] { self.replicationGroup = try Elasticache.ReplicationGroup(dictionary: replicationGroup) } else { self.replicationGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroup = "ReplicationGroup"
         }
     }
 
     public struct ReservedCacheNodeMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ReservedCacheNodes", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedCacheNodes", required: false, type: .structure)
         ]
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -3748,19 +3494,18 @@ extension Elasticache {
             self.reservedCacheNodes = reservedCacheNodes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let reservedCacheNodes = dictionary["ReservedCacheNodes"] as? [String: Any] { self.reservedCacheNodes = try Elasticache.ReservedCacheNodeList(dictionary: reservedCacheNodes) } else { self.reservedCacheNodes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case reservedCacheNodes = "ReservedCacheNodes"
         }
     }
 
     public struct DescribeReplicationGroupsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationGroupId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string)
         ]
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int32?
@@ -3775,18 +3520,17 @@ extension Elasticache {
             self.replicationGroupId = replicationGroupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case replicationGroupId = "ReplicationGroupId"
         }
     }
 
     public struct DeleteCacheSecurityGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSecurityGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroupName", required: true, type: .string)
         ]
         /// The name of the cache security group to delete.  You cannot delete the default security group. 
         public let cacheSecurityGroupName: String
@@ -3795,19 +3539,17 @@ extension Elasticache {
             self.cacheSecurityGroupName = cacheSecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSecurityGroupName") }
-            self.cacheSecurityGroupName = cacheSecurityGroupName
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroupName = "CacheSecurityGroupName"
         }
     }
 
     public struct CreateCacheSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSubnetGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "SubnetIds", required: true, type: .structure), 
-            AWSShapeProperty(label: "CacheSubnetGroupDescription", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSubnetGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: true, type: .structure), 
+            AWSShapeMember(label: "CacheSubnetGroupDescription", required: true, type: .string)
         ]
         /// A name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup 
         public let cacheSubnetGroupName: String
@@ -3822,21 +3564,17 @@ extension Elasticache {
             self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSubnetGroupName") }
-            self.cacheSubnetGroupName = cacheSubnetGroupName
-            guard let subnetIds = dictionary["SubnetIds"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SubnetIds") }
-            self.subnetIds = try Elasticache.SubnetIdentifierList(dictionary: subnetIds)
-            guard let cacheSubnetGroupDescription = dictionary["CacheSubnetGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("CacheSubnetGroupDescription") }
-            self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
+        private enum CodingKeys: String, CodingKey {
+            case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case subnetIds = "SubnetIds"
+            case cacheSubnetGroupDescription = "CacheSubnetGroupDescription"
         }
     }
 
     public struct NodeGroupConfigurationList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeGroupConfiguration", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeGroupConfiguration", required: false, type: .list)
         ]
         public let nodeGroupConfiguration: [NodeGroupConfiguration]?
 
@@ -3844,23 +3582,18 @@ extension Elasticache {
             self.nodeGroupConfiguration = nodeGroupConfiguration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let nodeGroupConfiguration = dictionary["NodeGroupConfiguration"] as? [[String: Any]] {
-                self.nodeGroupConfiguration = try nodeGroupConfiguration.map({ try NodeGroupConfiguration(dictionary: $0) })
-            } else { 
-                self.nodeGroupConfiguration = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nodeGroupConfiguration = "NodeGroupConfiguration"
         }
     }
 
     public struct PendingModifiedValues: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "NumCacheNodes", required: false, type: .integer), 
-            AWSShapeProperty(label: "CacheNodeIdsToRemove", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "NumCacheNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheNodeIdsToRemove", required: false, type: .structure)
         ]
         /// The cache node type that this cache cluster or replication group is scaled to.
         public let cacheNodeType: String?
@@ -3878,19 +3611,18 @@ extension Elasticache {
             self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cacheNodeType = dictionary["CacheNodeType"] as? String
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
-            if let cacheNodeIdsToRemove = dictionary["CacheNodeIdsToRemove"] as? [String: Any] { self.cacheNodeIdsToRemove = try Elasticache.CacheNodeIdsList(dictionary: cacheNodeIdsToRemove) } else { self.cacheNodeIdsToRemove = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeType = "CacheNodeType"
+            case engineVersion = "EngineVersion"
+            case numCacheNodes = "NumCacheNodes"
+            case cacheNodeIdsToRemove = "CacheNodeIdsToRemove"
         }
     }
 
     public struct CacheNodeIdsList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheNodeId", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeId", required: false, type: .list)
         ]
         public let cacheNodeId: [String]?
 
@@ -3898,33 +3630,32 @@ extension Elasticache {
             self.cacheNodeId = cacheNodeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cacheNodeId = dictionary["CacheNodeId"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeId = "CacheNodeId"
         }
     }
 
     public struct ModifyReplicationGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSecurityGroupNames", required: false, type: .structure), 
-            AWSShapeProperty(label: "NotificationTopicStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .structure), 
-            AWSShapeProperty(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NotificationTopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshottingClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationGroupId", required: true, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheParameterGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationGroupDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "NodeGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "PrimaryClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "AutomaticFailoverEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SnapshotRetentionLimit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSecurityGroupNames", required: false, type: .structure), 
+            AWSShapeMember(label: "NotificationTopicStatus", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshottingClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotWindow", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "NodeGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "PrimaryClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "AutomaticFailoverEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SnapshotRetentionLimit", required: false, type: .integer)
         ]
         /// A list of cache security group names to authorize for the clusters in this replication group. This change is asynchronously applied as soon as possible. This parameter can be used only with replication group containing cache clusters running outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be Default.
         public let cacheSecurityGroupNames: CacheSecurityGroupNameList?
@@ -3984,36 +3715,34 @@ extension Elasticache {
             self.snapshotRetentionLimit = snapshotRetentionLimit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String: Any] { self.cacheSecurityGroupNames = try Elasticache.CacheSecurityGroupNameList(dictionary: cacheSecurityGroupNames) } else { self.cacheSecurityGroupNames = nil }
-            self.notificationTopicStatus = dictionary["NotificationTopicStatus"] as? String
-            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String: Any] { self.securityGroupIds = try Elasticache.SecurityGroupIdsList(dictionary: securityGroupIds) } else { self.securityGroupIds = nil }
-            self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
-            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
-            self.notificationTopicArn = dictionary["NotificationTopicArn"] as? String
-            self.snapshottingClusterId = dictionary["SnapshottingClusterId"] as? String
-            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            guard let replicationGroupId = dictionary["ReplicationGroupId"] as? String else { throw InitializableError.missingRequiredParam("ReplicationGroupId") }
-            self.replicationGroupId = replicationGroupId
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
-            self.replicationGroupDescription = dictionary["ReplicationGroupDescription"] as? String
-            self.nodeGroupId = dictionary["NodeGroupId"] as? String
-            self.cacheNodeType = dictionary["CacheNodeType"] as? String
-            self.primaryClusterId = dictionary["PrimaryClusterId"] as? String
-            self.automaticFailoverEnabled = dictionary["AutomaticFailoverEnabled"] as? Bool
-            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case cacheSecurityGroupNames = "CacheSecurityGroupNames"
+            case notificationTopicStatus = "NotificationTopicStatus"
+            case securityGroupIds = "SecurityGroupIds"
+            case applyImmediately = "ApplyImmediately"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case notificationTopicArn = "NotificationTopicArn"
+            case snapshottingClusterId = "SnapshottingClusterId"
+            case snapshotWindow = "SnapshotWindow"
+            case engineVersion = "EngineVersion"
+            case replicationGroupId = "ReplicationGroupId"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case cacheParameterGroupName = "CacheParameterGroupName"
+            case replicationGroupDescription = "ReplicationGroupDescription"
+            case nodeGroupId = "NodeGroupId"
+            case cacheNodeType = "CacheNodeType"
+            case primaryClusterId = "PrimaryClusterId"
+            case automaticFailoverEnabled = "AutomaticFailoverEnabled"
+            case snapshotRetentionLimit = "SnapshotRetentionLimit"
         }
     }
 
     public struct DescribeCacheSecurityGroupsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "CacheSecurityGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheSecurityGroupName", required: false, type: .string)
         ]
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -4028,26 +3757,25 @@ extension Elasticache {
             self.cacheSecurityGroupName = cacheSecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case cacheSecurityGroupName = "CacheSecurityGroupName"
         }
     }
 
     public struct CacheNodeTypeSpecificParameter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheNodeTypeSpecificValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "AllowedValues", required: false, type: .string), 
-            AWSShapeProperty(label: "DataType", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterName", required: false, type: .string), 
-            AWSShapeProperty(label: "Source", required: false, type: .string), 
-            AWSShapeProperty(label: "IsModifiable", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MinimumEngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ChangeType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeTypeSpecificValues", required: false, type: .structure), 
+            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
+            AWSShapeMember(label: "DataType", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "IsModifiable", required: false, type: .boolean), 
+            AWSShapeMember(label: "MinimumEngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeType", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// A list of cache node types and their corresponding values for this parameter.
         public let cacheNodeTypeSpecificValues: CacheNodeTypeSpecificValueList?
@@ -4080,24 +3808,23 @@ extension Elasticache {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheNodeTypeSpecificValues = dictionary["CacheNodeTypeSpecificValues"] as? [String: Any] { self.cacheNodeTypeSpecificValues = try Elasticache.CacheNodeTypeSpecificValueList(dictionary: cacheNodeTypeSpecificValues) } else { self.cacheNodeTypeSpecificValues = nil }
-            self.allowedValues = dictionary["AllowedValues"] as? String
-            self.dataType = dictionary["DataType"] as? String
-            self.parameterName = dictionary["ParameterName"] as? String
-            self.source = dictionary["Source"] as? String
-            self.isModifiable = dictionary["IsModifiable"] as? Bool
-            self.minimumEngineVersion = dictionary["MinimumEngineVersion"] as? String
-            if let changeType = dictionary["ChangeType"] as? String { self.changeType = ChangeType(rawValue: changeType) } else { self.changeType = nil }
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeTypeSpecificValues = "CacheNodeTypeSpecificValues"
+            case allowedValues = "AllowedValues"
+            case dataType = "DataType"
+            case parameterName = "ParameterName"
+            case source = "Source"
+            case isModifiable = "IsModifiable"
+            case minimumEngineVersion = "MinimumEngineVersion"
+            case changeType = "ChangeType"
+            case description = "Description"
         }
     }
 
     public struct PurchaseReservedCacheNodesOfferingResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedCacheNode", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedCacheNode", required: false, type: .structure)
         ]
         public let reservedCacheNode: ReservedCacheNode?
 
@@ -4105,18 +3832,17 @@ extension Elasticache {
             self.reservedCacheNode = reservedCacheNode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let reservedCacheNode = dictionary["ReservedCacheNode"] as? [String: Any] { self.reservedCacheNode = try Elasticache.ReservedCacheNode(dictionary: reservedCacheNode) } else { self.reservedCacheNode = nil }
+        private enum CodingKeys: String, CodingKey {
+            case reservedCacheNode = "ReservedCacheNode"
         }
     }
 
     public struct DescribeCacheParameterGroupsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "CacheParameterGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "CacheParameterGroupName", required: false, type: .string)
         ]
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -4131,18 +3857,17 @@ extension Elasticache {
             self.cacheParameterGroupName = cacheParameterGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case cacheParameterGroupName = "CacheParameterGroupName"
         }
     }
 
     public struct ParametersList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameter", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameter", required: false, type: .list)
         ]
         public let parameter: [Parameter]?
 
@@ -4150,20 +3875,15 @@ extension Elasticache {
             self.parameter = parameter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameter = dictionary["Parameter"] as? [[String: Any]] {
-                self.parameter = try parameter.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameter = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case parameter = "Parameter"
         }
     }
 
     public struct CreateCacheSubnetGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheSubnetGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheSubnetGroup", required: false, type: .structure)
         ]
         public let cacheSubnetGroup: CacheSubnetGroup?
 
@@ -4171,8 +3891,8 @@ extension Elasticache {
             self.cacheSubnetGroup = cacheSubnetGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheSubnetGroup = dictionary["CacheSubnetGroup"] as? [String: Any] { self.cacheSubnetGroup = try Elasticache.CacheSubnetGroup(dictionary: cacheSubnetGroup) } else { self.cacheSubnetGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cacheSubnetGroup = "CacheSubnetGroup"
         }
     }
 

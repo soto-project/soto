@@ -29,7 +29,7 @@ import AWSSDKSwiftCore
 
 extension Marketplacecommerceanalytics {
 
-    public enum DataSetType: String, CustomStringConvertible {
+    public enum DataSetType: String, CustomStringConvertible, Codable {
         case customer_subscriber_hourly_monthly_subscriptions = "customer_subscriber_hourly_monthly_subscriptions"
         case customer_subscriber_annual_subscriptions = "customer_subscriber_annual_subscriptions"
         case daily_business_usage_by_instance_type = "daily_business_usage_by_instance_type"
@@ -54,7 +54,7 @@ extension Marketplacecommerceanalytics {
         public var description: String { return self.rawValue }
     }
 
-    public enum SupportDataSetType: String, CustomStringConvertible {
+    public enum SupportDataSetType: String, CustomStringConvertible, Codable {
         case customer_support_contacts_data = "customer_support_contacts_data"
         case test_customer_support_contacts_data = "test_customer_support_contacts_data"
         public var description: String { return self.rawValue }
@@ -62,15 +62,14 @@ extension Marketplacecommerceanalytics {
 
     public struct GenerateDataSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "snsTopicArn", required: true, type: .string), 
-            AWSShapeProperty(label: "dataSetType", required: true, type: .enum), 
-            AWSShapeProperty(label: "destinationS3Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "customerDefinedValues", required: false, type: .map), 
-            AWSShapeProperty(label: "destinationS3BucketName", required: true, type: .string), 
-            AWSShapeProperty(label: "roleNameArn", required: true, type: .string), 
-            AWSShapeProperty(label: "dataSetPublicationDate", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "snsTopicArn", required: true, type: .string), 
+            AWSShapeMember(label: "dataSetType", required: true, type: .enum), 
+            AWSShapeMember(label: "destinationS3Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "customerDefinedValues", required: false, type: .map), 
+            AWSShapeMember(label: "destinationS3BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "roleNameArn", required: true, type: .string), 
+            AWSShapeMember(label: "dataSetPublicationDate", required: true, type: .timestamp)
         ]
         /// Amazon Resource Name (ARN) for the SNS Topic that will be notified when the data set has been published or if an error has occurred.
         public let snsTopicArn: String
@@ -85,9 +84,9 @@ extension Marketplacecommerceanalytics {
         /// The Amazon Resource Name (ARN) of the Role with an attached permissions policy to interact with the provided AWS services.
         public let roleNameArn: String
         /// The date a data set was published. For daily data sets, provide a date with day-level granularity for the desired day. For weekly data sets, provide a date with day-level granularity within the desired week (the day value will be ignored). For monthly data sets, provide a date with month-level granularity for the desired month (the day value will be ignored).
-        public let dataSetPublicationDate: String
+        public let dataSetPublicationDate: Double
 
-        public init(snsTopicArn: String, dataSetType: DataSetType, destinationS3Prefix: String? = nil, customerDefinedValues: [String: String]? = nil, destinationS3BucketName: String, roleNameArn: String, dataSetPublicationDate: String) {
+        public init(snsTopicArn: String, dataSetType: DataSetType, destinationS3Prefix: String? = nil, customerDefinedValues: [String: String]? = nil, destinationS3BucketName: String, roleNameArn: String, dataSetPublicationDate: Double) {
             self.snsTopicArn = snsTopicArn
             self.dataSetType = dataSetType
             self.destinationS3Prefix = destinationS3Prefix
@@ -97,31 +96,21 @@ extension Marketplacecommerceanalytics {
             self.dataSetPublicationDate = dataSetPublicationDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let snsTopicArn = dictionary["snsTopicArn"] as? String else { throw InitializableError.missingRequiredParam("snsTopicArn") }
-            self.snsTopicArn = snsTopicArn
-            guard let rawdataSetType = dictionary["dataSetType"] as? String, let dataSetType = DataSetType(rawValue: rawdataSetType) else { throw InitializableError.missingRequiredParam("dataSetType") }
-            self.dataSetType = dataSetType
-            self.destinationS3Prefix = dictionary["destinationS3Prefix"] as? String
-            if let customerDefinedValues = dictionary["customerDefinedValues"] as? [String: String] {
-                self.customerDefinedValues = customerDefinedValues
-            } else { 
-                self.customerDefinedValues = nil
-            }
-            guard let destinationS3BucketName = dictionary["destinationS3BucketName"] as? String else { throw InitializableError.missingRequiredParam("destinationS3BucketName") }
-            self.destinationS3BucketName = destinationS3BucketName
-            guard let roleNameArn = dictionary["roleNameArn"] as? String else { throw InitializableError.missingRequiredParam("roleNameArn") }
-            self.roleNameArn = roleNameArn
-            guard let dataSetPublicationDate = dictionary["dataSetPublicationDate"] as? String else { throw InitializableError.missingRequiredParam("dataSetPublicationDate") }
-            self.dataSetPublicationDate = dataSetPublicationDate
+        private enum CodingKeys: String, CodingKey {
+            case snsTopicArn = "snsTopicArn"
+            case dataSetType = "dataSetType"
+            case destinationS3Prefix = "destinationS3Prefix"
+            case customerDefinedValues = "customerDefinedValues"
+            case destinationS3BucketName = "destinationS3BucketName"
+            case roleNameArn = "roleNameArn"
+            case dataSetPublicationDate = "dataSetPublicationDate"
         }
     }
 
     public struct StartSupportDataExportResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "dataSetRequestId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dataSetRequestId", required: false, type: .string)
         ]
         /// A unique identifier representing a specific request to the StartSupportDataExport operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?
@@ -130,22 +119,21 @@ extension Marketplacecommerceanalytics {
             self.dataSetRequestId = dataSetRequestId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dataSetRequestId = dictionary["dataSetRequestId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dataSetRequestId = "dataSetRequestId"
         }
     }
 
     public struct StartSupportDataExportRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "snsTopicArn", required: true, type: .string), 
-            AWSShapeProperty(label: "dataSetType", required: true, type: .enum), 
-            AWSShapeProperty(label: "destinationS3Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "customerDefinedValues", required: false, type: .map), 
-            AWSShapeProperty(label: "destinationS3BucketName", required: true, type: .string), 
-            AWSShapeProperty(label: "fromDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "roleNameArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "snsTopicArn", required: true, type: .string), 
+            AWSShapeMember(label: "dataSetType", required: true, type: .enum), 
+            AWSShapeMember(label: "destinationS3Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "customerDefinedValues", required: false, type: .map), 
+            AWSShapeMember(label: "destinationS3BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "fromDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "roleNameArn", required: true, type: .string)
         ]
         /// Amazon Resource Name (ARN) for the SNS Topic that will be notified when the data set has been published or if an error has occurred.
         public let snsTopicArn: String
@@ -158,11 +146,11 @@ extension Marketplacecommerceanalytics {
         /// The name (friendly name, not ARN) of the destination S3 bucket.
         public let destinationS3BucketName: String
         /// The start date from which to retrieve the data set in UTC. This parameter only affects the customer_support_contacts_data data set type.
-        public let fromDate: String
+        public let fromDate: Double
         /// The Amazon Resource Name (ARN) of the Role with an attached permissions policy to interact with the provided AWS services.
         public let roleNameArn: String
 
-        public init(snsTopicArn: String, dataSetType: SupportDataSetType, destinationS3Prefix: String? = nil, customerDefinedValues: [String: String]? = nil, destinationS3BucketName: String, fromDate: String, roleNameArn: String) {
+        public init(snsTopicArn: String, dataSetType: SupportDataSetType, destinationS3Prefix: String? = nil, customerDefinedValues: [String: String]? = nil, destinationS3BucketName: String, fromDate: Double, roleNameArn: String) {
             self.snsTopicArn = snsTopicArn
             self.dataSetType = dataSetType
             self.destinationS3Prefix = destinationS3Prefix
@@ -172,31 +160,21 @@ extension Marketplacecommerceanalytics {
             self.roleNameArn = roleNameArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let snsTopicArn = dictionary["snsTopicArn"] as? String else { throw InitializableError.missingRequiredParam("snsTopicArn") }
-            self.snsTopicArn = snsTopicArn
-            guard let rawdataSetType = dictionary["dataSetType"] as? String, let dataSetType = SupportDataSetType(rawValue: rawdataSetType) else { throw InitializableError.missingRequiredParam("dataSetType") }
-            self.dataSetType = dataSetType
-            self.destinationS3Prefix = dictionary["destinationS3Prefix"] as? String
-            if let customerDefinedValues = dictionary["customerDefinedValues"] as? [String: String] {
-                self.customerDefinedValues = customerDefinedValues
-            } else { 
-                self.customerDefinedValues = nil
-            }
-            guard let destinationS3BucketName = dictionary["destinationS3BucketName"] as? String else { throw InitializableError.missingRequiredParam("destinationS3BucketName") }
-            self.destinationS3BucketName = destinationS3BucketName
-            guard let fromDate = dictionary["fromDate"] as? String else { throw InitializableError.missingRequiredParam("fromDate") }
-            self.fromDate = fromDate
-            guard let roleNameArn = dictionary["roleNameArn"] as? String else { throw InitializableError.missingRequiredParam("roleNameArn") }
-            self.roleNameArn = roleNameArn
+        private enum CodingKeys: String, CodingKey {
+            case snsTopicArn = "snsTopicArn"
+            case dataSetType = "dataSetType"
+            case destinationS3Prefix = "destinationS3Prefix"
+            case customerDefinedValues = "customerDefinedValues"
+            case destinationS3BucketName = "destinationS3BucketName"
+            case fromDate = "fromDate"
+            case roleNameArn = "roleNameArn"
         }
     }
 
     public struct GenerateDataSetResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "dataSetRequestId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dataSetRequestId", required: false, type: .string)
         ]
         /// A unique identifier representing a specific request to the GenerateDataSet operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?
@@ -205,8 +183,8 @@ extension Marketplacecommerceanalytics {
             self.dataSetRequestId = dataSetRequestId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dataSetRequestId = dictionary["dataSetRequestId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dataSetRequestId = "dataSetRequestId"
         }
     }
 

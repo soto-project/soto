@@ -31,9 +31,8 @@ extension Gamelift {
 
     public struct DeleteFleetInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet to be deleted.
         public let fleetId: String
@@ -42,20 +41,18 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
-            self.fleetId = fleetId
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
         }
     }
 
     public struct UpdateFleetCapacityInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MinSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "MaxSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "DesiredInstances", required: false, type: .integer), 
-            AWSShapeProperty(label: "FleetId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MinSize", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
+            AWSShapeMember(label: "DesiredInstances", required: false, type: .integer), 
+            AWSShapeMember(label: "FleetId", required: true, type: .string)
         ]
         /// Minimum value allowed for the fleet's instance count. Default if not set is 0.
         public let minSize: Int32?
@@ -73,25 +70,23 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.minSize = dictionary["MinSize"] as? Int32
-            self.maxSize = dictionary["MaxSize"] as? Int32
-            self.desiredInstances = dictionary["DesiredInstances"] as? Int32
-            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
-            self.fleetId = fleetId
+        private enum CodingKeys: String, CodingKey {
+            case minSize = "MinSize"
+            case maxSize = "MaxSize"
+            case desiredInstances = "DesiredInstances"
+            case fleetId = "FleetId"
         }
     }
 
     public struct DescribePlayerSessionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlayerId", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerSessionStatusFilter", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerSessionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlayerId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerSessionStatusFilter", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerSessionId", required: false, type: .string)
         ]
         /// Unique identifier for a player to retrieve player sessions for.
         public let playerId: String?
@@ -115,26 +110,25 @@ extension Gamelift {
             self.playerSessionId = playerSessionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.playerId = dictionary["PlayerId"] as? String
-            self.limit = dictionary["Limit"] as? Int32
-            self.gameSessionId = dictionary["GameSessionId"] as? String
-            self.playerSessionStatusFilter = dictionary["PlayerSessionStatusFilter"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.playerSessionId = dictionary["PlayerSessionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case playerId = "PlayerId"
+            case limit = "Limit"
+            case gameSessionId = "GameSessionId"
+            case playerSessionStatusFilter = "PlayerSessionStatusFilter"
+            case nextToken = "NextToken"
+            case playerSessionId = "PlayerSessionId"
         }
     }
 
     public struct SearchGameSessionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SortExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "FilterExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
-            AWSShapeProperty(label: "AliasId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortExpression", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "AliasId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Instructions on how to sort the search results. If no sort expression is included, the request returns results in random order. A sort expression consists of the following elements:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, creationTimeMillis, playerSessionCount, maximumSessions, hasAvailablePlayerSessions.    Order -- Valid sort orders are ASC (ascending) and DESC (descending).   For example, this sort expression returns the oldest active sessions first: "SortExpression": "creationTimeMillis ASC". Results with a null value for the sort operand are returned at the end of the list.
         public let sortExpression: String?
@@ -158,21 +152,20 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sortExpression = dictionary["SortExpression"] as? String
-            self.limit = dictionary["Limit"] as? Int32
-            self.filterExpression = dictionary["FilterExpression"] as? String
-            self.fleetId = dictionary["FleetId"] as? String
-            self.aliasId = dictionary["AliasId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sortExpression = "SortExpression"
+            case limit = "Limit"
+            case filterExpression = "FilterExpression"
+            case fleetId = "FleetId"
+            case aliasId = "AliasId"
+            case nextToken = "NextToken"
         }
     }
 
     public struct PutScalingPolicyOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
         public let name: String?
@@ -181,12 +174,12 @@ extension Gamelift {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
-    public enum EventCode: String, CustomStringConvertible {
+    public enum EventCode: String, CustomStringConvertible, Codable {
         case generic_event = "GENERIC_EVENT"
         case fleet_created = "FLEET_CREATED"
         case fleet_deleted = "FLEET_DELETED"
@@ -221,17 +214,16 @@ extension Gamelift {
 
     public struct ScalingPolicy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Threshold", required: false, type: .double), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "MetricName", required: false, type: .enum), 
-            AWSShapeProperty(label: "EvaluationPeriods", required: false, type: .integer), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "ScalingAdjustment", required: false, type: .integer), 
-            AWSShapeProperty(label: "ComparisonOperator", required: false, type: .enum), 
-            AWSShapeProperty(label: "ScalingAdjustmentType", required: false, type: .enum), 
-            AWSShapeProperty(label: "FleetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Threshold", required: false, type: .double), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "MetricName", required: false, type: .enum), 
+            AWSShapeMember(label: "EvaluationPeriods", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
+            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "ScalingAdjustmentType", required: false, type: .enum), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
         /// Metric value used to trigger a scaling event.
         public let threshold: Double?
@@ -264,24 +256,23 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.threshold = dictionary["Threshold"] as? Double
-            if let status = dictionary["Status"] as? String { self.status = ScalingStatusType(rawValue: status) } else { self.status = nil }
-            if let metricName = dictionary["MetricName"] as? String { self.metricName = MetricName(rawValue: metricName) } else { self.metricName = nil }
-            self.evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32
-            self.name = dictionary["Name"] as? String
-            self.scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32
-            if let comparisonOperator = dictionary["ComparisonOperator"] as? String { self.comparisonOperator = ComparisonOperatorType(rawValue: comparisonOperator) } else { self.comparisonOperator = nil }
-            if let scalingAdjustmentType = dictionary["ScalingAdjustmentType"] as? String { self.scalingAdjustmentType = ScalingAdjustmentType(rawValue: scalingAdjustmentType) } else { self.scalingAdjustmentType = nil }
-            self.fleetId = dictionary["FleetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case threshold = "Threshold"
+            case status = "Status"
+            case metricName = "MetricName"
+            case evaluationPeriods = "EvaluationPeriods"
+            case name = "Name"
+            case scalingAdjustment = "ScalingAdjustment"
+            case comparisonOperator = "ComparisonOperator"
+            case scalingAdjustmentType = "ScalingAdjustmentType"
+            case fleetId = "FleetId"
         }
     }
 
     public struct GetGameSessionLogUrlOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PreSignedUrl", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PreSignedUrl", required: false, type: .string)
         ]
         /// Location of the requested game session logs, available for download.
         public let preSignedUrl: String?
@@ -290,12 +281,12 @@ extension Gamelift {
             self.preSignedUrl = preSignedUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.preSignedUrl = dictionary["PreSignedUrl"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case preSignedUrl = "PreSignedUrl"
         }
     }
 
-    public enum ScalingStatusType: String, CustomStringConvertible {
+    public enum ScalingStatusType: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case update_requested = "UPDATE_REQUESTED"
         case updating = "UPDATING"
@@ -308,15 +299,14 @@ extension Gamelift {
 
     public struct Build: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "OperatingSystem", required: false, type: .enum), 
-            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SizeOnDisk", required: false, type: .long), 
-            AWSShapeProperty(label: "BuildId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SizeOnDisk", required: false, type: .long), 
+            AWSShapeMember(label: "BuildId", required: false, type: .string)
         ]
         /// Current status of the build. Possible build statuses include the following:    INITIALIZED – A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY – The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED – The game build upload failed. You cannot create new fleets for this build.   
         public let status: BuildStatus?
@@ -327,13 +317,13 @@ extension Gamelift {
         /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build.
         public let operatingSystem: OperatingSystem?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: String?
+        public let creationTime: Double?
         /// File size of the uploaded game build, expressed in bytes. When the build status is INITIALIZED, this value is 0.
         public let sizeOnDisk: Int64?
         /// Unique identifier for a build.
         public let buildId: String?
 
-        public init(status: BuildStatus? = nil, name: String? = nil, version: String? = nil, operatingSystem: OperatingSystem? = nil, creationTime: String? = nil, sizeOnDisk: Int64? = nil, buildId: String? = nil) {
+        public init(status: BuildStatus? = nil, name: String? = nil, version: String? = nil, operatingSystem: OperatingSystem? = nil, creationTime: Double? = nil, sizeOnDisk: Int64? = nil, buildId: String? = nil) {
             self.status = status
             self.name = name
             self.version = version
@@ -343,22 +333,21 @@ extension Gamelift {
             self.buildId = buildId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = BuildStatus(rawValue: status) } else { self.status = nil }
-            self.name = dictionary["Name"] as? String
-            self.version = dictionary["Version"] as? String
-            if let operatingSystem = dictionary["OperatingSystem"] as? String { self.operatingSystem = OperatingSystem(rawValue: operatingSystem) } else { self.operatingSystem = nil }
-            self.creationTime = dictionary["CreationTime"] as? String
-            self.sizeOnDisk = dictionary["SizeOnDisk"] as? Int64
-            self.buildId = dictionary["BuildId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case name = "Name"
+            case version = "Version"
+            case operatingSystem = "OperatingSystem"
+            case creationTime = "CreationTime"
+            case sizeOnDisk = "SizeOnDisk"
+            case buildId = "BuildId"
         }
     }
 
     public struct DescribeBuildInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BuildId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BuildId", required: true, type: .string)
         ]
         /// Unique identifier for a build to retrieve properties for.
         public let buildId: String
@@ -367,17 +356,15 @@ extension Gamelift {
             self.buildId = buildId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let buildId = dictionary["BuildId"] as? String else { throw InitializableError.missingRequiredParam("BuildId") }
-            self.buildId = buildId
+        private enum CodingKeys: String, CodingKey {
+            case buildId = "BuildId"
         }
     }
 
     public struct DescribeFleetPortSettingsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet to retrieve port settings for.
         public let fleetId: String
@@ -386,18 +373,16 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
-            self.fleetId = fleetId
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
         }
     }
 
     public struct DescribeFleetUtilizationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "FleetUtilization", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "FleetUtilization", required: false, type: .list)
         ]
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
@@ -409,21 +394,16 @@ extension Gamelift {
             self.fleetUtilization = fleetUtilization
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let fleetUtilization = dictionary["FleetUtilization"] as? [[String: Any]] {
-                self.fleetUtilization = try fleetUtilization.map({ try FleetUtilization(dictionary: $0) })
-            } else { 
-                self.fleetUtilization = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case fleetUtilization = "FleetUtilization"
         }
     }
 
     public struct UpdateGameSessionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSession", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSession", required: false, type: .structure)
         ]
         /// Object that contains the updated game session metadata.
         public let gameSession: GameSession?
@@ -432,12 +412,12 @@ extension Gamelift {
             self.gameSession = gameSession
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let gameSession = dictionary["GameSession"] as? [String: Any] { self.gameSession = try Gamelift.GameSession(dictionary: gameSession) } else { self.gameSession = nil }
+        private enum CodingKeys: String, CodingKey {
+            case gameSession = "GameSession"
         }
     }
 
-    public enum EC2InstanceType: String, CustomStringConvertible {
+    public enum EC2InstanceType: String, CustomStringConvertible, Codable {
         case t2_micro = "t2.micro"
         case t2_small = "t2.small"
         case t2_medium = "t2.medium"
@@ -471,9 +451,8 @@ extension Gamelift {
 
     public struct ResolveAliasOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
         /// Fleet identifier that is associated with the requested alias.
         public let fleetId: String?
@@ -482,16 +461,15 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fleetId = dictionary["FleetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
         }
     }
 
     public struct DescribeAliasInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AliasId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet alias. Specify the alias you want to retrieve.
         public let aliasId: String
@@ -500,20 +478,18 @@ extension Gamelift {
             self.aliasId = aliasId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aliasId = dictionary["AliasId"] as? String else { throw InitializableError.missingRequiredParam("AliasId") }
-            self.aliasId = aliasId
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
         }
     }
 
     public struct UpdateGameSessionQueueInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Destinations", required: false, type: .list), 
-            AWSShapeProperty(label: "TimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "PlayerLatencyPolicies", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", required: false, type: .list), 
+            AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "PlayerLatencyPolicies", required: false, type: .list)
         ]
         /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order. When updating this list, provide a complete list of destinations.
         public let destinations: [GameSessionQueueDestination]?
@@ -531,24 +507,15 @@ extension Gamelift {
             self.playerLatencyPolicies = playerLatencyPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let destinations = dictionary["Destinations"] as? [[String: Any]] {
-                self.destinations = try destinations.map({ try GameSessionQueueDestination(dictionary: $0) })
-            } else { 
-                self.destinations = nil
-            }
-            self.timeoutInSeconds = dictionary["TimeoutInSeconds"] as? Int32
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let playerLatencyPolicies = dictionary["PlayerLatencyPolicies"] as? [[String: Any]] {
-                self.playerLatencyPolicies = try playerLatencyPolicies.map({ try PlayerLatencyPolicy(dictionary: $0) })
-            } else { 
-                self.playerLatencyPolicies = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "Destinations"
+            case timeoutInSeconds = "TimeoutInSeconds"
+            case name = "Name"
+            case playerLatencyPolicies = "PlayerLatencyPolicies"
         }
     }
 
-    public enum MetricName: String, CustomStringConvertible {
+    public enum MetricName: String, CustomStringConvertible, Codable {
         case activatinggamesessions = "ActivatingGameSessions"
         case activegamesessions = "ActiveGameSessions"
         case activeinstances = "ActiveInstances"
@@ -565,9 +532,8 @@ extension Gamelift {
 
     public struct DescribeGameSessionPlacementOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionPlacement", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionPlacement", required: false, type: .structure)
         ]
         /// Object that describes the requested game session placement.
         public let gameSessionPlacement: GameSessionPlacement?
@@ -576,33 +542,32 @@ extension Gamelift {
             self.gameSessionPlacement = gameSessionPlacement
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let gameSessionPlacement = dictionary["GameSessionPlacement"] as? [String: Any] { self.gameSessionPlacement = try Gamelift.GameSessionPlacement(dictionary: gameSessionPlacement) } else { self.gameSessionPlacement = nil }
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionPlacement = "GameSessionPlacement"
         }
     }
 
     public struct GameSession: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TerminationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeProperty(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "IpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatorId", required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerSessionCreationPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "GameProperties", required: false, type: .list), 
-            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
-            AWSShapeProperty(label: "CurrentPlayerSessionCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TerminationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerSessionCreationPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "CurrentPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let terminationTime: String?
+        public let terminationTime: Double?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: String?
+        public let creationTime: Double?
         /// Unique identifier for the game session. A game session ID has the following format: arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;.
         public let gameSessionId: String?
         /// Maximum number of players that can be connected simultaneously to the game session.
@@ -626,7 +591,7 @@ extension Gamelift {
         /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
         public let port: Int32?
 
-        public init(terminationTime: String? = nil, creationTime: String? = nil, gameSessionId: String? = nil, maximumPlayerSessionCount: Int32? = nil, status: GameSessionStatus? = nil, name: String? = nil, ipAddress: String? = nil, creatorId: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, gameProperties: [GameProperty]? = nil, fleetId: String? = nil, currentPlayerSessionCount: Int32? = nil, port: Int32? = nil) {
+        public init(terminationTime: Double? = nil, creationTime: Double? = nil, gameSessionId: String? = nil, maximumPlayerSessionCount: Int32? = nil, status: GameSessionStatus? = nil, name: String? = nil, ipAddress: String? = nil, creatorId: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, gameProperties: [GameProperty]? = nil, fleetId: String? = nil, currentPlayerSessionCount: Int32? = nil, port: Int32? = nil) {
             self.terminationTime = terminationTime
             self.creationTime = creationTime
             self.gameSessionId = gameSessionId
@@ -642,33 +607,28 @@ extension Gamelift {
             self.port = port
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.terminationTime = dictionary["TerminationTime"] as? String
-            self.creationTime = dictionary["CreationTime"] as? String
-            self.gameSessionId = dictionary["GameSessionId"] as? String
-            self.maximumPlayerSessionCount = dictionary["MaximumPlayerSessionCount"] as? Int32
-            if let status = dictionary["Status"] as? String { self.status = GameSessionStatus(rawValue: status) } else { self.status = nil }
-            self.name = dictionary["Name"] as? String
-            self.ipAddress = dictionary["IpAddress"] as? String
-            self.creatorId = dictionary["CreatorId"] as? String
-            if let playerSessionCreationPolicy = dictionary["PlayerSessionCreationPolicy"] as? String { self.playerSessionCreationPolicy = PlayerSessionCreationPolicy(rawValue: playerSessionCreationPolicy) } else { self.playerSessionCreationPolicy = nil }
-            if let gameProperties = dictionary["GameProperties"] as? [[String: Any]] {
-                self.gameProperties = try gameProperties.map({ try GameProperty(dictionary: $0) })
-            } else { 
-                self.gameProperties = nil
-            }
-            self.fleetId = dictionary["FleetId"] as? String
-            self.currentPlayerSessionCount = dictionary["CurrentPlayerSessionCount"] as? Int32
-            self.port = dictionary["Port"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case terminationTime = "TerminationTime"
+            case creationTime = "CreationTime"
+            case gameSessionId = "GameSessionId"
+            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
+            case status = "Status"
+            case name = "Name"
+            case ipAddress = "IpAddress"
+            case creatorId = "CreatorId"
+            case playerSessionCreationPolicy = "PlayerSessionCreationPolicy"
+            case gameProperties = "GameProperties"
+            case fleetId = "FleetId"
+            case currentPlayerSessionCount = "CurrentPlayerSessionCount"
+            case port = "Port"
         }
     }
 
     public struct ListBuildsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Builds", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Builds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Collection of build records that match the request.
         public let builds: [Build]?
@@ -680,17 +640,13 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let builds = dictionary["Builds"] as? [[String: Any]] {
-                self.builds = try builds.map({ try Build(dictionary: $0) })
-            } else { 
-                self.builds = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case builds = "Builds"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum ComparisonOperatorType: String, CustomStringConvertible {
+    public enum ComparisonOperatorType: String, CustomStringConvertible, Codable {
         case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
         case greaterthanthreshold = "GreaterThanThreshold"
         case lessthanthreshold = "LessThanThreshold"
@@ -700,10 +656,9 @@ extension Gamelift {
 
     public struct DescribeScalingPoliciesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ScalingPolicies", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list)
         ]
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
@@ -715,35 +670,30 @@ extension Gamelift {
             self.scalingPolicies = scalingPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let scalingPolicies = dictionary["ScalingPolicies"] as? [[String: Any]] {
-                self.scalingPolicies = try scalingPolicies.map({ try ScalingPolicy(dictionary: $0) })
-            } else { 
-                self.scalingPolicies = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scalingPolicies = "ScalingPolicies"
         }
     }
 
     public struct GameSessionPlacement: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlacedPlayerSessions", required: false, type: .list), 
-            AWSShapeProperty(label: "GameSessionRegion", required: false, type: .string), 
-            AWSShapeProperty(label: "PlacementId", required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerLatencies", required: false, type: .list), 
-            AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeProperty(label: "GameSessionName", required: false, type: .string), 
-            AWSShapeProperty(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "GameSessionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "IpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "GameSessionQueueName", required: false, type: .string), 
-            AWSShapeProperty(label: "GameProperties", required: false, type: .list), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlacedPlayerSessions", required: false, type: .list), 
+            AWSShapeMember(label: "GameSessionRegion", required: false, type: .string), 
+            AWSShapeMember(label: "PlacementId", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerLatencies", required: false, type: .list), 
+            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionName", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "GameSessionArn", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "GameSessionQueueName", required: false, type: .string), 
+            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
         /// Collection of information on player sessions created in response to the game session placement request. These player sessions are created only once a new game session is successfully placed (placement status is Fulfilled). This information includes the player ID (as provided in the placement request) and the corresponding player session ID. Retrieve full player sessions by calling DescribePlayerSessions with the player session ID.
         public let placedPlayerSessions: [PlacedPlayerSession]?
@@ -760,7 +710,7 @@ extension Gamelift {
         /// Maximum number of players that can be connected simultaneously to the game session.
         public let maximumPlayerSessionCount: Int32?
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let startTime: String?
+        public let startTime: Double?
         /// Current status of the game session placement request.    PENDING – The placement request is currently in the queue waiting to be processed.    FULFILLED – A new game session and player sessions (if requested) have been successfully created. Values for GameSessionArn and GameSessionRegion are available.     CANCELLED – The placement request was canceled with a call to StopGameSessionPlacement.    TIMED_OUT – A new game session was not successfully created before the time limit expired. You can resubmit the placement request as needed.  
         public let status: GameSessionPlacementState?
         /// Identifier for the game session created by this placement request. This value is set once the new game session is placed (placement status is Fulfilled). This identifier is unique across all regions. You can use this value as a GameSessionId value as needed.
@@ -768,7 +718,7 @@ extension Gamelift {
         /// IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is Fulfilled). 
         public let ipAddress: String?
         /// Time stamp indicating when this request was completed, canceled, or timed out.
-        public let endTime: String?
+        public let endTime: Double?
         /// Descriptive label that is associated with queue. Queue names must be unique within each region.
         public let gameSessionQueueName: String?
         /// Set of developer-defined properties for a game session. These properties are passed to the server process hosting the game session.
@@ -776,7 +726,7 @@ extension Gamelift {
         /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is Fulfilled).
         public let port: Int32?
 
-        public init(placedPlayerSessions: [PlacedPlayerSession]? = nil, gameSessionRegion: String? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, gameSessionId: String? = nil, gameSessionName: String? = nil, maximumPlayerSessionCount: Int32? = nil, startTime: String? = nil, status: GameSessionPlacementState? = nil, gameSessionArn: String? = nil, ipAddress: String? = nil, endTime: String? = nil, gameSessionQueueName: String? = nil, gameProperties: [GameProperty]? = nil, port: Int32? = nil) {
+        public init(placedPlayerSessions: [PlacedPlayerSession]? = nil, gameSessionRegion: String? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, gameSessionId: String? = nil, gameSessionName: String? = nil, maximumPlayerSessionCount: Int32? = nil, startTime: Double? = nil, status: GameSessionPlacementState? = nil, gameSessionArn: String? = nil, ipAddress: String? = nil, endTime: Double? = nil, gameSessionQueueName: String? = nil, gameProperties: [GameProperty]? = nil, port: Int32? = nil) {
             self.placedPlayerSessions = placedPlayerSessions
             self.gameSessionRegion = gameSessionRegion
             self.placementId = placementId
@@ -794,44 +744,31 @@ extension Gamelift {
             self.port = port
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let placedPlayerSessions = dictionary["PlacedPlayerSessions"] as? [[String: Any]] {
-                self.placedPlayerSessions = try placedPlayerSessions.map({ try PlacedPlayerSession(dictionary: $0) })
-            } else { 
-                self.placedPlayerSessions = nil
-            }
-            self.gameSessionRegion = dictionary["GameSessionRegion"] as? String
-            self.placementId = dictionary["PlacementId"] as? String
-            if let playerLatencies = dictionary["PlayerLatencies"] as? [[String: Any]] {
-                self.playerLatencies = try playerLatencies.map({ try PlayerLatency(dictionary: $0) })
-            } else { 
-                self.playerLatencies = nil
-            }
-            self.gameSessionId = dictionary["GameSessionId"] as? String
-            self.gameSessionName = dictionary["GameSessionName"] as? String
-            self.maximumPlayerSessionCount = dictionary["MaximumPlayerSessionCount"] as? Int32
-            self.startTime = dictionary["StartTime"] as? String
-            if let status = dictionary["Status"] as? String { self.status = GameSessionPlacementState(rawValue: status) } else { self.status = nil }
-            self.gameSessionArn = dictionary["GameSessionArn"] as? String
-            self.ipAddress = dictionary["IpAddress"] as? String
-            self.endTime = dictionary["EndTime"] as? String
-            self.gameSessionQueueName = dictionary["GameSessionQueueName"] as? String
-            if let gameProperties = dictionary["GameProperties"] as? [[String: Any]] {
-                self.gameProperties = try gameProperties.map({ try GameProperty(dictionary: $0) })
-            } else { 
-                self.gameProperties = nil
-            }
-            self.port = dictionary["Port"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case placedPlayerSessions = "PlacedPlayerSessions"
+            case gameSessionRegion = "GameSessionRegion"
+            case placementId = "PlacementId"
+            case playerLatencies = "PlayerLatencies"
+            case gameSessionId = "GameSessionId"
+            case gameSessionName = "GameSessionName"
+            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
+            case startTime = "StartTime"
+            case status = "Status"
+            case gameSessionArn = "GameSessionArn"
+            case ipAddress = "IpAddress"
+            case endTime = "EndTime"
+            case gameSessionQueueName = "GameSessionQueueName"
+            case gameProperties = "GameProperties"
+            case port = "Port"
         }
     }
 
     public struct ListBuildsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Build status to filter results by. To retrieve all builds, leave this parameter empty. Possible build statuses include the following:    INITIALIZED – A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY – The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED – The game build upload failed. You cannot create new fleets for this build.   
         public let status: BuildStatus?
@@ -846,20 +783,19 @@ extension Gamelift {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = BuildStatus(rawValue: status) } else { self.status = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case nextToken = "NextToken"
+            case limit = "Limit"
         }
     }
 
     public struct RuntimeConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionActivationTimeoutSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "ServerProcesses", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxConcurrentGameSessionActivations", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionActivationTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "ServerProcesses", required: false, type: .list), 
+            AWSShapeMember(label: "MaxConcurrentGameSessionActivations", required: false, type: .integer)
         ]
         /// Maximum amount of time (in seconds) that a game session can remain in status ACTIVATING. If the game session is not active before the timeout, activation is terminated and the game session status is changed to TERMINATED.
         public let gameSessionActivationTimeoutSeconds: Int32?
@@ -874,28 +810,23 @@ extension Gamelift {
             self.maxConcurrentGameSessionActivations = maxConcurrentGameSessionActivations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gameSessionActivationTimeoutSeconds = dictionary["GameSessionActivationTimeoutSeconds"] as? Int32
-            if let serverProcesses = dictionary["ServerProcesses"] as? [[String: Any]] {
-                self.serverProcesses = try serverProcesses.map({ try ServerProcess(dictionary: $0) })
-            } else { 
-                self.serverProcesses = nil
-            }
-            self.maxConcurrentGameSessionActivations = dictionary["MaxConcurrentGameSessionActivations"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionActivationTimeoutSeconds = "GameSessionActivationTimeoutSeconds"
+            case serverProcesses = "ServerProcesses"
+            case maxConcurrentGameSessionActivations = "MaxConcurrentGameSessionActivations"
         }
     }
 
     public struct Instance: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "IpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "OperatingSystem", required: false, type: .enum), 
-            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "FleetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
         /// Current status of the instance. Possible statuses include the following:    PENDING – The instance is in the process of being created and launching server processes as defined in the fleet's run-time configuration.     ACTIVE – The instance has been successfully created and at least one server process has successfully launched and reported back to Amazon GameLift that it is ready to host a game session. The instance is now considered ready to host game sessions.     TERMINATING – The instance is in the process of shutting down. This may happen to reduce capacity during a scaling down event or to recycle resources in the event of a problem.  
         public let status: InstanceStatus?
@@ -906,13 +837,13 @@ extension Gamelift {
         /// Operating system that is running on this instance. 
         public let operatingSystem: OperatingSystem?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: String?
+        public let creationTime: Double?
         /// EC2 instance type that defines the computing resources of this instance. 
         public let `type`: EC2InstanceType?
         /// Unique identifier for a fleet that the instance is in.
         public let fleetId: String?
 
-        public init(status: InstanceStatus? = nil, instanceId: String? = nil, ipAddress: String? = nil, operatingSystem: OperatingSystem? = nil, creationTime: String? = nil, type: EC2InstanceType? = nil, fleetId: String? = nil) {
+        public init(status: InstanceStatus? = nil, instanceId: String? = nil, ipAddress: String? = nil, operatingSystem: OperatingSystem? = nil, creationTime: Double? = nil, type: EC2InstanceType? = nil, fleetId: String? = nil) {
             self.status = status
             self.instanceId = instanceId
             self.ipAddress = ipAddress
@@ -922,24 +853,23 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = InstanceStatus(rawValue: status) } else { self.status = nil }
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.ipAddress = dictionary["IpAddress"] as? String
-            if let operatingSystem = dictionary["OperatingSystem"] as? String { self.operatingSystem = OperatingSystem(rawValue: operatingSystem) } else { self.operatingSystem = nil }
-            self.creationTime = dictionary["CreationTime"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = EC2InstanceType(rawValue: `type`) } else { self.`type` = nil }
-            self.fleetId = dictionary["FleetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case instanceId = "InstanceId"
+            case ipAddress = "IpAddress"
+            case operatingSystem = "OperatingSystem"
+            case creationTime = "CreationTime"
+            case `type` = "Type"
+            case fleetId = "FleetId"
         }
     }
 
     public struct EC2InstanceLimit: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentInstances", required: false, type: .integer), 
-            AWSShapeProperty(label: "EC2InstanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceLimit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentInstances", required: false, type: .integer), 
+            AWSShapeMember(label: "EC2InstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceLimit", required: false, type: .integer)
         ]
         /// Number of instances of the specified type that are currently in use by this AWS account.
         public let currentInstances: Int32?
@@ -954,27 +884,23 @@ extension Gamelift {
             self.instanceLimit = instanceLimit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.currentInstances = dictionary["CurrentInstances"] as? Int32
-            if let eC2InstanceType = dictionary["EC2InstanceType"] as? String { self.eC2InstanceType = EC2InstanceType(rawValue: eC2InstanceType) } else { self.eC2InstanceType = nil }
-            self.instanceLimit = dictionary["InstanceLimit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case currentInstances = "CurrentInstances"
+            case eC2InstanceType = "EC2InstanceType"
+            case instanceLimit = "InstanceLimit"
         }
     }
 
     public struct DeleteGameSessionQueueOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeFleetAttributesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetAttributes", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Collection of objects containing attribute metadata for each requested fleet ID.
         public let fleetAttributes: [FleetAttributes]?
@@ -986,21 +912,16 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let fleetAttributes = dictionary["FleetAttributes"] as? [[String: Any]] {
-                self.fleetAttributes = try fleetAttributes.map({ try FleetAttributes(dictionary: $0) })
-            } else { 
-                self.fleetAttributes = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fleetAttributes = "FleetAttributes"
+            case nextToken = "NextToken"
         }
     }
 
     public struct GetInstanceAccessOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceAccess", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceAccess", required: false, type: .structure)
         ]
         /// Object that contains connection information for a fleet instance, including IP address and access credentials.
         public let instanceAccess: InstanceAccess?
@@ -1009,16 +930,15 @@ extension Gamelift {
             self.instanceAccess = instanceAccess
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceAccess = dictionary["InstanceAccess"] as? [String: Any] { self.instanceAccess = try Gamelift.InstanceAccess(dictionary: instanceAccess) } else { self.instanceAccess = nil }
+        private enum CodingKeys: String, CodingKey {
+            case instanceAccess = "InstanceAccess"
         }
     }
 
     public struct StartGameSessionPlacementOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionPlacement", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionPlacement", required: false, type: .structure)
         ]
         /// Object that describes the newly created game session placement. This object includes all the information provided in the request, as well as start/end time stamps and placement status. 
         public let gameSessionPlacement: GameSessionPlacement?
@@ -1027,16 +947,15 @@ extension Gamelift {
             self.gameSessionPlacement = gameSessionPlacement
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let gameSessionPlacement = dictionary["GameSessionPlacement"] as? [String: Any] { self.gameSessionPlacement = try Gamelift.GameSessionPlacement(dictionary: gameSessionPlacement) } else { self.gameSessionPlacement = nil }
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionPlacement = "GameSessionPlacement"
         }
     }
 
     public struct CreateGameSessionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSession", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSession", required: false, type: .structure)
         ]
         /// Object that describes the newly created game session record.
         public let gameSession: GameSession?
@@ -1045,19 +964,18 @@ extension Gamelift {
             self.gameSession = gameSession
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let gameSession = dictionary["GameSession"] as? [String: Any] { self.gameSession = try Gamelift.GameSession(dictionary: gameSession) } else { self.gameSession = nil }
+        private enum CodingKeys: String, CodingKey {
+            case gameSession = "GameSession"
         }
     }
 
     public struct ListAliasesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoutingStrategyType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoutingStrategyType", required: false, type: .enum), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Type of routing to filter results on. Use this parameter to retrieve only aliases of a certain type. To retrieve all aliases, leave this parameter empty. Possible routing types include the following:    SIMPLE – The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL – The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.  
         public let routingStrategyType: RoutingStrategyType?
@@ -1075,19 +993,18 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let routingStrategyType = dictionary["RoutingStrategyType"] as? String { self.routingStrategyType = RoutingStrategyType(rawValue: routingStrategyType) } else { self.routingStrategyType = nil }
-            self.limit = dictionary["Limit"] as? Int32
-            self.name = dictionary["Name"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case routingStrategyType = "RoutingStrategyType"
+            case limit = "Limit"
+            case name = "Name"
+            case nextToken = "NextToken"
         }
     }
 
     public struct UpdateRuntimeConfigurationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuntimeConfiguration", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure)
         ]
         /// The run-time configuration currently in force. If the update was successful, this object matches the one in the request.
         public let runtimeConfiguration: RuntimeConfiguration?
@@ -1096,16 +1013,15 @@ extension Gamelift {
             self.runtimeConfiguration = runtimeConfiguration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let runtimeConfiguration = dictionary["RuntimeConfiguration"] as? [String: Any] { self.runtimeConfiguration = try Gamelift.RuntimeConfiguration(dictionary: runtimeConfiguration) } else { self.runtimeConfiguration = nil }
+        private enum CodingKeys: String, CodingKey {
+            case runtimeConfiguration = "RuntimeConfiguration"
         }
     }
 
     public struct RequestUploadCredentialsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BuildId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BuildId", required: true, type: .string)
         ]
         /// Unique identifier for a build to get credentials for.
         public let buildId: String
@@ -1114,13 +1030,12 @@ extension Gamelift {
             self.buildId = buildId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let buildId = dictionary["BuildId"] as? String else { throw InitializableError.missingRequiredParam("BuildId") }
-            self.buildId = buildId
+        private enum CodingKeys: String, CodingKey {
+            case buildId = "BuildId"
         }
     }
 
-    public enum PlayerSessionStatus: String, CustomStringConvertible {
+    public enum PlayerSessionStatus: String, CustomStringConvertible, Codable {
         case reserved = "RESERVED"
         case active = "ACTIVE"
         case completed = "COMPLETED"
@@ -1130,9 +1045,8 @@ extension Gamelift {
 
     public struct StopGameSessionPlacementInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlacementId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlacementId", required: true, type: .string)
         ]
         /// Unique identifier for a game session placement to cancel.
         public let placementId: String
@@ -1141,28 +1055,26 @@ extension Gamelift {
             self.placementId = placementId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let placementId = dictionary["PlacementId"] as? String else { throw InitializableError.missingRequiredParam("PlacementId") }
-            self.placementId = placementId
+        private enum CodingKeys: String, CodingKey {
+            case placementId = "PlacementId"
         }
     }
 
     public struct CreateFleetInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "EC2InstanceType", required: true, type: .enum), 
-            AWSShapeProperty(label: "BuildId", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerLaunchParameters", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "EC2InboundPermissions", required: false, type: .list), 
-            AWSShapeProperty(label: "RuntimeConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "LogPaths", required: false, type: .list), 
-            AWSShapeProperty(label: "ServerLaunchPath", required: false, type: .string), 
-            AWSShapeProperty(label: "MetricGroups", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "EC2InstanceType", required: true, type: .enum), 
+            AWSShapeMember(label: "BuildId", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ServerLaunchParameters", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "EC2InboundPermissions", required: false, type: .list), 
+            AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "LogPaths", required: false, type: .list), 
+            AWSShapeMember(label: "ServerLaunchPath", required: false, type: .string), 
+            AWSShapeMember(label: "MetricGroups", required: false, type: .list)
         ]
         /// Policy that limits the number of game sessions an individual player can create over a span of time for this fleet.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
@@ -1204,36 +1116,28 @@ extension Gamelift {
             self.metricGroups = metricGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resourceCreationLimitPolicy = dictionary["ResourceCreationLimitPolicy"] as? [String: Any] { self.resourceCreationLimitPolicy = try Gamelift.ResourceCreationLimitPolicy(dictionary: resourceCreationLimitPolicy) } else { self.resourceCreationLimitPolicy = nil }
-            guard let rawEC2InstanceType = dictionary["EC2InstanceType"] as? String, let eC2InstanceType = EC2InstanceType(rawValue: rawEC2InstanceType) else { throw InitializableError.missingRequiredParam("EC2InstanceType") }
-            self.eC2InstanceType = eC2InstanceType
-            guard let buildId = dictionary["BuildId"] as? String else { throw InitializableError.missingRequiredParam("BuildId") }
-            self.buildId = buildId
-            self.description = dictionary["Description"] as? String
-            self.serverLaunchParameters = dictionary["ServerLaunchParameters"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let newGameSessionProtectionPolicy = dictionary["NewGameSessionProtectionPolicy"] as? String { self.newGameSessionProtectionPolicy = ProtectionPolicy(rawValue: newGameSessionProtectionPolicy) } else { self.newGameSessionProtectionPolicy = nil }
-            if let eC2InboundPermissions = dictionary["EC2InboundPermissions"] as? [[String: Any]] {
-                self.eC2InboundPermissions = try eC2InboundPermissions.map({ try IpPermission(dictionary: $0) })
-            } else { 
-                self.eC2InboundPermissions = nil
-            }
-            if let runtimeConfiguration = dictionary["RuntimeConfiguration"] as? [String: Any] { self.runtimeConfiguration = try Gamelift.RuntimeConfiguration(dictionary: runtimeConfiguration) } else { self.runtimeConfiguration = nil }
-            self.logPaths = dictionary["LogPaths"] as? [String]
-            self.serverLaunchPath = dictionary["ServerLaunchPath"] as? String
-            self.metricGroups = dictionary["MetricGroups"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
+            case eC2InstanceType = "EC2InstanceType"
+            case buildId = "BuildId"
+            case description = "Description"
+            case serverLaunchParameters = "ServerLaunchParameters"
+            case name = "Name"
+            case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
+            case eC2InboundPermissions = "EC2InboundPermissions"
+            case runtimeConfiguration = "RuntimeConfiguration"
+            case logPaths = "LogPaths"
+            case serverLaunchPath = "ServerLaunchPath"
+            case metricGroups = "MetricGroups"
         }
     }
 
     public struct UpdateBuildInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BuildId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BuildId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
         /// Unique identifier for a build to update.
         public let buildId: String
@@ -1248,19 +1152,17 @@ extension Gamelift {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let buildId = dictionary["BuildId"] as? String else { throw InitializableError.missingRequiredParam("BuildId") }
-            self.buildId = buildId
-            self.name = dictionary["Name"] as? String
-            self.version = dictionary["Version"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case buildId = "BuildId"
+            case name = "Name"
+            case version = "Version"
         }
     }
 
     public struct ResolveAliasInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AliasId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: true, type: .string)
         ]
         /// Unique identifier for the alias you want to resolve.
         public let aliasId: String
@@ -1269,19 +1171,17 @@ extension Gamelift {
             self.aliasId = aliasId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aliasId = dictionary["AliasId"] as? String else { throw InitializableError.missingRequiredParam("AliasId") }
-            self.aliasId = aliasId
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
         }
     }
 
     public struct PlayerLatency: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlayerId", required: false, type: .string), 
-            AWSShapeProperty(label: "RegionIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "LatencyInMilliseconds", required: false, type: .float)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlayerId", required: false, type: .string), 
+            AWSShapeMember(label: "RegionIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "LatencyInMilliseconds", required: false, type: .float)
         ]
         /// Unique identifier for a player associated with the latency data.
         public let playerId: String?
@@ -1296,20 +1196,19 @@ extension Gamelift {
             self.latencyInMilliseconds = latencyInMilliseconds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.playerId = dictionary["PlayerId"] as? String
-            self.regionIdentifier = dictionary["RegionIdentifier"] as? String
-            self.latencyInMilliseconds = dictionary["LatencyInMilliseconds"] as? Float
+        private enum CodingKeys: String, CodingKey {
+            case playerId = "PlayerId"
+            case regionIdentifier = "RegionIdentifier"
+            case latencyInMilliseconds = "LatencyInMilliseconds"
         }
     }
 
     public struct CreatePlayerSessionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionId", required: true, type: .string), 
-            AWSShapeProperty(label: "PlayerIds", required: true, type: .list), 
-            AWSShapeProperty(label: "PlayerDataMap", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionId", required: true, type: .string), 
+            AWSShapeMember(label: "PlayerIds", required: true, type: .list), 
+            AWSShapeMember(label: "PlayerDataMap", required: false, type: .map)
         ]
         /// Unique identifier for the game session to add players to.
         public let gameSessionId: String
@@ -1324,24 +1223,17 @@ extension Gamelift {
             self.playerDataMap = playerDataMap
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gameSessionId = dictionary["GameSessionId"] as? String else { throw InitializableError.missingRequiredParam("GameSessionId") }
-            self.gameSessionId = gameSessionId
-            guard let playerIds = dictionary["PlayerIds"] as? [String] else { throw InitializableError.missingRequiredParam("PlayerIds") }
-            self.playerIds = playerIds
-            if let playerDataMap = dictionary["PlayerDataMap"] as? [String: String] {
-                self.playerDataMap = playerDataMap
-            } else { 
-                self.playerDataMap = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionId = "GameSessionId"
+            case playerIds = "PlayerIds"
+            case playerDataMap = "PlayerDataMap"
         }
     }
 
     public struct DescribeFleetPortSettingsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InboundPermissions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InboundPermissions", required: false, type: .list)
         ]
         /// Object that contains port settings for the requested fleet ID.
         public let inboundPermissions: [IpPermission]?
@@ -1350,20 +1242,15 @@ extension Gamelift {
             self.inboundPermissions = inboundPermissions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let inboundPermissions = dictionary["InboundPermissions"] as? [[String: Any]] {
-                self.inboundPermissions = try inboundPermissions.map({ try IpPermission(dictionary: $0) })
-            } else { 
-                self.inboundPermissions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case inboundPermissions = "InboundPermissions"
         }
     }
 
     public struct DeleteAliasInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AliasId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet alias. Specify the alias you want to delete.
         public let aliasId: String
@@ -1372,19 +1259,17 @@ extension Gamelift {
             self.aliasId = aliasId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aliasId = dictionary["AliasId"] as? String else { throw InitializableError.missingRequiredParam("AliasId") }
-            self.aliasId = aliasId
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
         }
     }
 
     public struct DescribeGameSessionQueuesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Names", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Names", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// List of queue names to retrieve information for. To request settings for all queues, leave this parameter empty.
         public let names: [String]?
@@ -1399,33 +1284,32 @@ extension Gamelift {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.names = dictionary["Names"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case names = "Names"
+            case nextToken = "NextToken"
+            case limit = "Limit"
         }
     }
 
     public struct Alias: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "RoutingStrategy", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AliasArn", required: false, type: .string), 
-            AWSShapeProperty(label: "AliasId", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RoutingStrategy", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AliasArn", required: false, type: .string), 
+            AWSShapeMember(label: "AliasId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Time stamp indicating when this data object was last modified. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let lastUpdatedTime: String?
+        public let lastUpdatedTime: Double?
         /// Alias configuration for the alias, including routing type and settings.
         public let routingStrategy: RoutingStrategy?
         /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
         public let name: String?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: String?
+        public let creationTime: Double?
         /// Unique identifier for an alias; alias ARNs are unique across all regions.
         public let aliasArn: String?
         /// Unique identifier for an alias; alias IDs are unique within a region.
@@ -1433,7 +1317,7 @@ extension Gamelift {
         /// Human-readable description of an alias.
         public let description: String?
 
-        public init(lastUpdatedTime: String? = nil, routingStrategy: RoutingStrategy? = nil, name: String? = nil, creationTime: String? = nil, aliasArn: String? = nil, aliasId: String? = nil, description: String? = nil) {
+        public init(lastUpdatedTime: Double? = nil, routingStrategy: RoutingStrategy? = nil, name: String? = nil, creationTime: Double? = nil, aliasArn: String? = nil, aliasId: String? = nil, description: String? = nil) {
             self.lastUpdatedTime = lastUpdatedTime
             self.routingStrategy = routingStrategy
             self.name = name
@@ -1443,24 +1327,23 @@ extension Gamelift {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastUpdatedTime = dictionary["LastUpdatedTime"] as? String
-            if let routingStrategy = dictionary["RoutingStrategy"] as? [String: Any] { self.routingStrategy = try Gamelift.RoutingStrategy(dictionary: routingStrategy) } else { self.routingStrategy = nil }
-            self.name = dictionary["Name"] as? String
-            self.creationTime = dictionary["CreationTime"] as? String
-            self.aliasArn = dictionary["AliasArn"] as? String
-            self.aliasId = dictionary["AliasId"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedTime = "LastUpdatedTime"
+            case routingStrategy = "RoutingStrategy"
+            case name = "Name"
+            case creationTime = "CreationTime"
+            case aliasArn = "AliasArn"
+            case aliasId = "AliasId"
+            case description = "Description"
         }
     }
 
     public struct CreatePlayerSessionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionId", required: true, type: .string), 
-            AWSShapeProperty(label: "PlayerData", required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionId", required: true, type: .string), 
+            AWSShapeMember(label: "PlayerData", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerId", required: true, type: .string)
         ]
         /// Unique identifier for the game session to add a player to.
         public let gameSessionId: String
@@ -1475,25 +1358,22 @@ extension Gamelift {
             self.playerId = playerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gameSessionId = dictionary["GameSessionId"] as? String else { throw InitializableError.missingRequiredParam("GameSessionId") }
-            self.gameSessionId = gameSessionId
-            self.playerData = dictionary["PlayerData"] as? String
-            guard let playerId = dictionary["PlayerId"] as? String else { throw InitializableError.missingRequiredParam("PlayerId") }
-            self.playerId = playerId
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionId = "GameSessionId"
+            case playerData = "PlayerData"
+            case playerId = "PlayerId"
         }
     }
 
     public struct Event: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PreSignedLogUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "EventCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "EventTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EventId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PreSignedLogUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "EventCode", required: false, type: .enum), 
+            AWSShapeMember(label: "EventTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EventId", required: false, type: .string)
         ]
         /// Location of stored logs with additional detail related to the event, useful for debugging issues. The URL is valid for 15 minutes. Fleet creation logs can also be accessed through the Amazon GameLift console.
         public let preSignedLogUrl: String?
@@ -1504,11 +1384,11 @@ extension Gamelift {
         /// Type of event being logged. The following events are currently in use:   General events:    GENERIC_EVENT – An unspecified event has occurred.     Fleet creation events:    FLEET_CREATED – A fleet record was successfully created with a status of NEW. Event messaging includes the fleet ID.    FLEET_STATE_DOWNLOADING – Fleet status changed from NEW to DOWNLOADING. The compressed build has started downloading to a fleet instance for installation.    FLEET_BINARY_DOWNLOAD_FAILED – The build failed to download to the fleet instance.    FLEET_CREATION_EXTRACTING_BUILD – The game server build was successfully downloaded to an instance, and the build files are now being extracted from the uploaded build and saved to an instance. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl).    FLEET_CREATION_RUNNING_INSTALLER – The game server build files were successfully extracted, and the Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed sucessfully. Access the logs by using the URL in PreSignedLogUrl).     FLEET_CREATION_VALIDATING_RUNTIME_CONFIG – The build process was successful, and the Amazon GameLift is now verifying that the game server launch path(s), which are specified in the fleet's run-time configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the run-time configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl). Once the game server is launched, failures and crashes are logged; these logs can be downloaded from the Amazon GameLift console.     FLEET_STATE_VALIDATING – Fleet status changed from DOWNLOADING to VALIDATING.    FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND – Validation of the run-time validation failed because the executable specified in a launch path does not exist on the instance.    FLEET_STATE_BUILDING – Fleet status changed from VALIDATING to BUILDING.    FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE – Validation of the runtime validation failed because the executable specified in a launch path failed to run on the fleet instance.    FLEET_STATE_ACTIVATING – Fleet status changed from BUILDING to ACTIVATING.     FLEET_ACTIVATION_FAILED - The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. A possible reason for failure is that the game server is not reporting "process ready" to the Amazon GameLift service.    FLEET_STATE_ACTIVE – The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.     Other fleet events:    FLEET_SCALING_EVENT – A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.    FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED – A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.     FLEET_DELETED – A request to delete a fleet was initiated.    
         public let eventCode: EventCode?
         /// Time stamp indicating when this event occurred. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let eventTime: String?
+        public let eventTime: Double?
         /// Unique identifier for a fleet event.
         public let eventId: String?
 
-        public init(preSignedLogUrl: String? = nil, message: String? = nil, resourceId: String? = nil, eventCode: EventCode? = nil, eventTime: String? = nil, eventId: String? = nil) {
+        public init(preSignedLogUrl: String? = nil, message: String? = nil, resourceId: String? = nil, eventCode: EventCode? = nil, eventTime: Double? = nil, eventId: String? = nil) {
             self.preSignedLogUrl = preSignedLogUrl
             self.message = message
             self.resourceId = resourceId
@@ -1517,21 +1397,20 @@ extension Gamelift {
             self.eventId = eventId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.preSignedLogUrl = dictionary["PreSignedLogUrl"] as? String
-            self.message = dictionary["Message"] as? String
-            self.resourceId = dictionary["ResourceId"] as? String
-            if let eventCode = dictionary["EventCode"] as? String { self.eventCode = EventCode(rawValue: eventCode) } else { self.eventCode = nil }
-            self.eventTime = dictionary["EventTime"] as? String
-            self.eventId = dictionary["EventId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case preSignedLogUrl = "PreSignedLogUrl"
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case eventCode = "EventCode"
+            case eventTime = "EventTime"
+            case eventId = "EventId"
         }
     }
 
     public struct UpdateGameSessionQueueOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionQueue", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionQueue", required: false, type: .structure)
         ]
         /// Object that describes the newly updated game session queue.
         public let gameSessionQueue: GameSessionQueue?
@@ -1540,12 +1419,12 @@ extension Gamelift {
             self.gameSessionQueue = gameSessionQueue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let gameSessionQueue = dictionary["GameSessionQueue"] as? [String: Any] { self.gameSessionQueue = try Gamelift.GameSessionQueue(dictionary: gameSessionQueue) } else { self.gameSessionQueue = nil }
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionQueue = "GameSessionQueue"
         }
     }
 
-    public enum ProtectionPolicy: String, CustomStringConvertible {
+    public enum ProtectionPolicy: String, CustomStringConvertible, Codable {
         case noprotection = "NoProtection"
         case fullprotection = "FullProtection"
         public var description: String { return self.rawValue }
@@ -1553,9 +1432,8 @@ extension Gamelift {
 
     public struct GameSessionQueueDestination: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DestinationArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationArn", required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) assigned to fleet or fleet alias. ARNs, which include a fleet ID or alias ID and a region name, provide a unique identifier across all regions. 
         public let destinationArn: String?
@@ -1564,17 +1442,16 @@ extension Gamelift {
             self.destinationArn = destinationArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.destinationArn = dictionary["DestinationArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case destinationArn = "DestinationArn"
         }
     }
 
     public struct DesiredPlayerSession: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlayerData", required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlayerData", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerId", required: false, type: .string)
         ]
         /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
         public let playerData: String?
@@ -1586,19 +1463,18 @@ extension Gamelift {
             self.playerId = playerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.playerData = dictionary["PlayerData"] as? String
-            self.playerId = dictionary["PlayerId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case playerData = "PlayerData"
+            case playerId = "PlayerId"
         }
     }
 
     public struct DescribeFleetUtilizationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetIds", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetIds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Unique identifier for a fleet(s) to retrieve utilization data for. To request utilization data for all fleets, leave this parameter empty.
         public let fleetIds: [String]?
@@ -1613,20 +1489,19 @@ extension Gamelift {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fleetIds = dictionary["FleetIds"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case fleetIds = "FleetIds"
+            case nextToken = "NextToken"
+            case limit = "Limit"
         }
     }
 
     public struct CreateAliasInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoutingStrategy", required: true, type: .structure), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoutingStrategy", required: true, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Object that specifies the fleet and routing type to use for the alias.
         public let routingStrategy: RoutingStrategy
@@ -1641,21 +1516,18 @@ extension Gamelift {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let routingStrategy = dictionary["RoutingStrategy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RoutingStrategy") }
-            self.routingStrategy = try Gamelift.RoutingStrategy(dictionary: routingStrategy)
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case routingStrategy = "RoutingStrategy"
+            case name = "Name"
+            case description = "Description"
         }
     }
 
     public struct ResourceCreationLimitPolicy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NewGameSessionsPerCreator", required: false, type: .integer), 
-            AWSShapeProperty(label: "PolicyPeriodInMinutes", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NewGameSessionsPerCreator", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyPeriodInMinutes", required: false, type: .integer)
         ]
         /// Maximum number of game sessions that an individual can create during the policy period. 
         public let newGameSessionsPerCreator: Int32?
@@ -1667,24 +1539,23 @@ extension Gamelift {
             self.policyPeriodInMinutes = policyPeriodInMinutes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.newGameSessionsPerCreator = dictionary["NewGameSessionsPerCreator"] as? Int32
-            self.policyPeriodInMinutes = dictionary["PolicyPeriodInMinutes"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case newGameSessionsPerCreator = "NewGameSessionsPerCreator"
+            case policyPeriodInMinutes = "PolicyPeriodInMinutes"
         }
     }
 
     public struct PutScalingPolicyInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Threshold", required: true, type: .double), 
-            AWSShapeProperty(label: "MetricName", required: true, type: .enum), 
-            AWSShapeProperty(label: "EvaluationPeriods", required: true, type: .integer), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "ScalingAdjustment", required: true, type: .integer), 
-            AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeProperty(label: "ScalingAdjustmentType", required: true, type: .enum), 
-            AWSShapeProperty(label: "FleetId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Threshold", required: true, type: .double), 
+            AWSShapeMember(label: "MetricName", required: true, type: .enum), 
+            AWSShapeMember(label: "EvaluationPeriods", required: true, type: .integer), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ScalingAdjustment", required: true, type: .integer), 
+            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeMember(label: "ScalingAdjustmentType", required: true, type: .enum), 
+            AWSShapeMember(label: "FleetId", required: true, type: .string)
         ]
         /// Metric value used to trigger a scaling event.
         public let threshold: Double
@@ -1714,32 +1585,23 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let threshold = dictionary["Threshold"] as? Double else { throw InitializableError.missingRequiredParam("Threshold") }
-            self.threshold = threshold
-            guard let rawMetricName = dictionary["MetricName"] as? String, let metricName = MetricName(rawValue: rawMetricName) else { throw InitializableError.missingRequiredParam("MetricName") }
-            self.metricName = metricName
-            guard let evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32 else { throw InitializableError.missingRequiredParam("EvaluationPeriods") }
-            self.evaluationPeriods = evaluationPeriods
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32 else { throw InitializableError.missingRequiredParam("ScalingAdjustment") }
-            self.scalingAdjustment = scalingAdjustment
-            guard let rawComparisonOperator = dictionary["ComparisonOperator"] as? String, let comparisonOperator = ComparisonOperatorType(rawValue: rawComparisonOperator) else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
-            self.comparisonOperator = comparisonOperator
-            guard let rawScalingAdjustmentType = dictionary["ScalingAdjustmentType"] as? String, let scalingAdjustmentType = ScalingAdjustmentType(rawValue: rawScalingAdjustmentType) else { throw InitializableError.missingRequiredParam("ScalingAdjustmentType") }
-            self.scalingAdjustmentType = scalingAdjustmentType
-            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
-            self.fleetId = fleetId
+        private enum CodingKeys: String, CodingKey {
+            case threshold = "Threshold"
+            case metricName = "MetricName"
+            case evaluationPeriods = "EvaluationPeriods"
+            case name = "Name"
+            case scalingAdjustment = "ScalingAdjustment"
+            case comparisonOperator = "ComparisonOperator"
+            case scalingAdjustmentType = "ScalingAdjustmentType"
+            case fleetId = "FleetId"
         }
     }
 
     public struct PlacedPlayerSession: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlayerSessionId", required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlayerSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerId", required: false, type: .string)
         ]
         /// Unique identifier for a player session.
         public let playerSessionId: String?
@@ -1751,17 +1613,16 @@ extension Gamelift {
             self.playerId = playerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.playerSessionId = dictionary["PlayerSessionId"] as? String
-            self.playerId = dictionary["PlayerId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case playerSessionId = "PlayerSessionId"
+            case playerId = "PlayerId"
         }
     }
 
     public struct DeleteBuildInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BuildId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BuildId", required: true, type: .string)
         ]
         /// Unique identifier for a build to delete.
         public let buildId: String
@@ -1770,13 +1631,12 @@ extension Gamelift {
             self.buildId = buildId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let buildId = dictionary["BuildId"] as? String else { throw InitializableError.missingRequiredParam("BuildId") }
-            self.buildId = buildId
+        private enum CodingKeys: String, CodingKey {
+            case buildId = "BuildId"
         }
     }
 
-    public enum IpProtocol: String, CustomStringConvertible {
+    public enum IpProtocol: String, CustomStringConvertible, Codable {
         case tcp = "TCP"
         case udp = "UDP"
         public var description: String { return self.rawValue }
@@ -1784,9 +1644,8 @@ extension Gamelift {
 
     public struct UpdateFleetAttributesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
         /// Unique identifier for a fleet that was updated.
         public let fleetId: String?
@@ -1795,21 +1654,20 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fleetId = dictionary["FleetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
         }
     }
 
     public struct DescribeGameSessionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatusFilter", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
-            AWSShapeProperty(label: "AliasId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StatusFilter", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "AliasId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING, and TERMINATING (the last two are transitory). 
         public let statusFilter: String?
@@ -1833,21 +1691,20 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.statusFilter = dictionary["StatusFilter"] as? String
-            self.limit = dictionary["Limit"] as? Int32
-            self.gameSessionId = dictionary["GameSessionId"] as? String
-            self.fleetId = dictionary["FleetId"] as? String
-            self.aliasId = dictionary["AliasId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case statusFilter = "StatusFilter"
+            case limit = "Limit"
+            case gameSessionId = "GameSessionId"
+            case fleetId = "FleetId"
+            case aliasId = "AliasId"
+            case nextToken = "NextToken"
         }
     }
 
     public struct CreateFleetOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetAttributes", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetAttributes", required: false, type: .structure)
         ]
         /// Properties for the newly created fleet.
         public let fleetAttributes: FleetAttributes?
@@ -1856,20 +1713,19 @@ extension Gamelift {
             self.fleetAttributes = fleetAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let fleetAttributes = dictionary["FleetAttributes"] as? [String: Any] { self.fleetAttributes = try Gamelift.FleetAttributes(dictionary: fleetAttributes) } else { self.fleetAttributes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case fleetAttributes = "FleetAttributes"
         }
     }
 
     public struct GameSessionQueue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Destinations", required: false, type: .list), 
-            AWSShapeProperty(label: "TimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "GameSessionQueueArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerLatencyPolicies", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", required: false, type: .list), 
+            AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "GameSessionQueueArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerLatencyPolicies", required: false, type: .list)
         ]
         /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
         public let destinations: [GameSessionQueueDestination]?
@@ -1890,29 +1746,20 @@ extension Gamelift {
             self.playerLatencyPolicies = playerLatencyPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let destinations = dictionary["Destinations"] as? [[String: Any]] {
-                self.destinations = try destinations.map({ try GameSessionQueueDestination(dictionary: $0) })
-            } else { 
-                self.destinations = nil
-            }
-            self.timeoutInSeconds = dictionary["TimeoutInSeconds"] as? Int32
-            self.gameSessionQueueArn = dictionary["GameSessionQueueArn"] as? String
-            self.name = dictionary["Name"] as? String
-            if let playerLatencyPolicies = dictionary["PlayerLatencyPolicies"] as? [[String: Any]] {
-                self.playerLatencyPolicies = try playerLatencyPolicies.map({ try PlayerLatencyPolicy(dictionary: $0) })
-            } else { 
-                self.playerLatencyPolicies = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "Destinations"
+            case timeoutInSeconds = "TimeoutInSeconds"
+            case gameSessionQueueArn = "GameSessionQueueArn"
+            case name = "Name"
+            case playerLatencyPolicies = "PlayerLatencyPolicies"
         }
     }
 
     public struct DescribeFleetCapacityOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "FleetCapacity", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "FleetCapacity", required: false, type: .list)
         ]
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
@@ -1924,26 +1771,21 @@ extension Gamelift {
             self.fleetCapacity = fleetCapacity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let fleetCapacity = dictionary["FleetCapacity"] as? [[String: Any]] {
-                self.fleetCapacity = try fleetCapacity.map({ try FleetCapacity(dictionary: $0) })
-            } else { 
-                self.fleetCapacity = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case fleetCapacity = "FleetCapacity"
         }
     }
 
     public struct DescribeGameSessionDetailsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatusFilter", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
-            AWSShapeProperty(label: "AliasId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StatusFilter", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "AliasId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING and TERMINATING (the last two are transitory). 
         public let statusFilter: String?
@@ -1967,23 +1809,22 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.statusFilter = dictionary["StatusFilter"] as? String
-            self.limit = dictionary["Limit"] as? Int32
-            self.gameSessionId = dictionary["GameSessionId"] as? String
-            self.fleetId = dictionary["FleetId"] as? String
-            self.aliasId = dictionary["AliasId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case statusFilter = "StatusFilter"
+            case limit = "Limit"
+            case gameSessionId = "GameSessionId"
+            case fleetId = "FleetId"
+            case aliasId = "AliasId"
+            case nextToken = "NextToken"
         }
     }
 
     public struct UpdateFleetPortSettingsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InboundPermissionAuthorizations", required: false, type: .list), 
-            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
-            AWSShapeProperty(label: "InboundPermissionRevocations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InboundPermissionAuthorizations", required: false, type: .list), 
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "InboundPermissionRevocations", required: false, type: .list)
         ]
         /// Collection of port settings to be added to the fleet record.
         public let inboundPermissionAuthorizations: [IpPermission]?
@@ -1998,28 +1839,18 @@ extension Gamelift {
             self.inboundPermissionRevocations = inboundPermissionRevocations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let inboundPermissionAuthorizations = dictionary["InboundPermissionAuthorizations"] as? [[String: Any]] {
-                self.inboundPermissionAuthorizations = try inboundPermissionAuthorizations.map({ try IpPermission(dictionary: $0) })
-            } else { 
-                self.inboundPermissionAuthorizations = nil
-            }
-            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
-            self.fleetId = fleetId
-            if let inboundPermissionRevocations = dictionary["InboundPermissionRevocations"] as? [[String: Any]] {
-                self.inboundPermissionRevocations = try inboundPermissionRevocations.map({ try IpPermission(dictionary: $0) })
-            } else { 
-                self.inboundPermissionRevocations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case inboundPermissionAuthorizations = "InboundPermissionAuthorizations"
+            case fleetId = "FleetId"
+            case inboundPermissionRevocations = "InboundPermissionRevocations"
         }
     }
 
     public struct InstanceCredentials: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "Secret", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "Secret", required: false, type: .string)
         ]
         /// User login string.
         public let userName: String?
@@ -2031,19 +1862,18 @@ extension Gamelift {
             self.secret = secret
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.userName = dictionary["UserName"] as? String
-            self.secret = dictionary["Secret"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case secret = "Secret"
         }
     }
 
     public struct DescribeFleetCapacityInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetIds", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetIds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Unique identifier for a fleet(s) to retrieve capacity information for. To request capacity information for all fleets, leave this parameter empty.
         public let fleetIds: [String]?
@@ -2058,20 +1888,19 @@ extension Gamelift {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fleetIds = dictionary["FleetIds"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case fleetIds = "FleetIds"
+            case nextToken = "NextToken"
+            case limit = "Limit"
         }
     }
 
     public struct ServerProcess: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .string), 
-            AWSShapeProperty(label: "LaunchPath", required: true, type: .string), 
-            AWSShapeProperty(label: "ConcurrentExecutions", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchPath", required: true, type: .string), 
+            AWSShapeMember(label: "ConcurrentExecutions", required: true, type: .integer)
         ]
         /// Optional list of parameters to pass to the server executable on launch.
         public let parameters: String?
@@ -2086,21 +1915,18 @@ extension Gamelift {
             self.concurrentExecutions = concurrentExecutions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parameters = dictionary["Parameters"] as? String
-            guard let launchPath = dictionary["LaunchPath"] as? String else { throw InitializableError.missingRequiredParam("LaunchPath") }
-            self.launchPath = launchPath
-            guard let concurrentExecutions = dictionary["ConcurrentExecutions"] as? Int32 else { throw InitializableError.missingRequiredParam("ConcurrentExecutions") }
-            self.concurrentExecutions = concurrentExecutions
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case launchPath = "LaunchPath"
+            case concurrentExecutions = "ConcurrentExecutions"
         }
     }
 
     public struct RequestUploadCredentialsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StorageLocation", required: false, type: .structure), 
-            AWSShapeProperty(label: "UploadCredentials", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "UploadCredentials", required: false, type: .structure)
         ]
         /// Amazon S3 path and key, identifying where the game build files are stored.
         public let storageLocation: S3Location?
@@ -2112,13 +1938,13 @@ extension Gamelift {
             self.uploadCredentials = uploadCredentials
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let storageLocation = dictionary["StorageLocation"] as? [String: Any] { self.storageLocation = try Gamelift.S3Location(dictionary: storageLocation) } else { self.storageLocation = nil }
-            if let uploadCredentials = dictionary["UploadCredentials"] as? [String: Any] { self.uploadCredentials = try Gamelift.AwsCredentials(dictionary: uploadCredentials) } else { self.uploadCredentials = nil }
+        private enum CodingKeys: String, CodingKey {
+            case storageLocation = "StorageLocation"
+            case uploadCredentials = "UploadCredentials"
         }
     }
 
-    public enum InstanceStatus: String, CustomStringConvertible {
+    public enum InstanceStatus: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case active = "ACTIVE"
         case terminating = "TERMINATING"
@@ -2127,10 +1953,9 @@ extension Gamelift {
 
     public struct GameProperty: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// TBD
         public let value: String
@@ -2142,15 +1967,13 @@ extension Gamelift {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
-    public enum BuildStatus: String, CustomStringConvertible {
+    public enum BuildStatus: String, CustomStringConvertible, Codable {
         case initialized = "INITIALIZED"
         case ready = "READY"
         case failed = "FAILED"
@@ -2159,9 +1982,8 @@ extension Gamelift {
 
     public struct UpdateBuildOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Build", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Build", required: false, type: .structure)
         ]
         /// Object that contains the updated build record.
         public let build: Build?
@@ -2170,18 +1992,17 @@ extension Gamelift {
             self.build = build
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let build = dictionary["Build"] as? [String: Any] { self.build = try Gamelift.Build(dictionary: build) } else { self.build = nil }
+        private enum CodingKeys: String, CodingKey {
+            case build = "Build"
         }
     }
 
     public struct DescribeFleetAttributesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetIds", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetIds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Unique identifier for a fleet(s) to retrieve attributes for. To request attributes for all fleets, leave this parameter empty.
         public let fleetIds: [String]?
@@ -2196,18 +2017,17 @@ extension Gamelift {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fleetIds = dictionary["FleetIds"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case fleetIds = "FleetIds"
+            case nextToken = "NextToken"
+            case limit = "Limit"
         }
     }
 
     public struct DescribeEC2InstanceLimitsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EC2InstanceType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2InstanceType", required: false, type: .enum)
         ]
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions. Leave this parameter blank to retrieve limits for all types.
         public let eC2InstanceType: EC2InstanceType?
@@ -2216,16 +2036,15 @@ extension Gamelift {
             self.eC2InstanceType = eC2InstanceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eC2InstanceType = dictionary["EC2InstanceType"] as? String { self.eC2InstanceType = EC2InstanceType(rawValue: eC2InstanceType) } else { self.eC2InstanceType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eC2InstanceType = "EC2InstanceType"
         }
     }
 
     public struct CreatePlayerSessionsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlayerSessions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlayerSessions", required: false, type: .list)
         ]
         /// Collection of player session objects created for the added players.
         public let playerSessions: [PlayerSession]?
@@ -2234,20 +2053,15 @@ extension Gamelift {
             self.playerSessions = playerSessions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let playerSessions = dictionary["PlayerSessions"] as? [[String: Any]] {
-                self.playerSessions = try playerSessions.map({ try PlayerSession(dictionary: $0) })
-            } else { 
-                self.playerSessions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case playerSessions = "PlayerSessions"
         }
     }
 
     public struct GetGameSessionLogUrlInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionId", required: true, type: .string)
         ]
         /// Unique identifier for the game session to get logs for.
         public let gameSessionId: String
@@ -2256,17 +2070,15 @@ extension Gamelift {
             self.gameSessionId = gameSessionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gameSessionId = dictionary["GameSessionId"] as? String else { throw InitializableError.missingRequiredParam("GameSessionId") }
-            self.gameSessionId = gameSessionId
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionId = "GameSessionId"
         }
     }
 
     public struct DescribeEC2InstanceLimitsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EC2InstanceLimits", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2InstanceLimits", required: false, type: .list)
         ]
         /// Object that contains the maximum number of instances for the specified instance type.
         public let eC2InstanceLimits: [EC2InstanceLimit]?
@@ -2275,26 +2087,21 @@ extension Gamelift {
             self.eC2InstanceLimits = eC2InstanceLimits
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eC2InstanceLimits = dictionary["EC2InstanceLimits"] as? [[String: Any]] {
-                self.eC2InstanceLimits = try eC2InstanceLimits.map({ try EC2InstanceLimit(dictionary: $0) })
-            } else { 
-                self.eC2InstanceLimits = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case eC2InstanceLimits = "EC2InstanceLimits"
         }
     }
 
     public struct EC2InstanceCounts: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TERMINATING", required: false, type: .integer), 
-            AWSShapeProperty(label: "MINIMUM", required: false, type: .integer), 
-            AWSShapeProperty(label: "PENDING", required: false, type: .integer), 
-            AWSShapeProperty(label: "MAXIMUM", required: false, type: .integer), 
-            AWSShapeProperty(label: "IDLE", required: false, type: .integer), 
-            AWSShapeProperty(label: "DESIRED", required: false, type: .integer), 
-            AWSShapeProperty(label: "ACTIVE", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TERMINATING", required: false, type: .integer), 
+            AWSShapeMember(label: "MINIMUM", required: false, type: .integer), 
+            AWSShapeMember(label: "PENDING", required: false, type: .integer), 
+            AWSShapeMember(label: "MAXIMUM", required: false, type: .integer), 
+            AWSShapeMember(label: "IDLE", required: false, type: .integer), 
+            AWSShapeMember(label: "DESIRED", required: false, type: .integer), 
+            AWSShapeMember(label: "ACTIVE", required: false, type: .integer)
         ]
         /// Number of instances in the fleet that are no longer active but haven't yet been terminated.
         public let tERMINATING: Int32?
@@ -2321,23 +2128,22 @@ extension Gamelift {
             self.aCTIVE = aCTIVE
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tERMINATING = dictionary["TERMINATING"] as? Int32
-            self.mINIMUM = dictionary["MINIMUM"] as? Int32
-            self.pENDING = dictionary["PENDING"] as? Int32
-            self.mAXIMUM = dictionary["MAXIMUM"] as? Int32
-            self.iDLE = dictionary["IDLE"] as? Int32
-            self.dESIRED = dictionary["DESIRED"] as? Int32
-            self.aCTIVE = dictionary["ACTIVE"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case tERMINATING = "TERMINATING"
+            case mINIMUM = "MINIMUM"
+            case pENDING = "PENDING"
+            case mAXIMUM = "MAXIMUM"
+            case iDLE = "IDLE"
+            case dESIRED = "DESIRED"
+            case aCTIVE = "ACTIVE"
         }
     }
 
     public struct DescribePlayerSessionsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerSessions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerSessions", required: false, type: .list)
         ]
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
@@ -2349,23 +2155,18 @@ extension Gamelift {
             self.playerSessions = playerSessions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let playerSessions = dictionary["PlayerSessions"] as? [[String: Any]] {
-                self.playerSessions = try playerSessions.map({ try PlayerSession(dictionary: $0) })
-            } else { 
-                self.playerSessions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case playerSessions = "PlayerSessions"
         }
     }
 
     public struct FleetCapacity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceCounts", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceCounts", required: false, type: .structure)
         ]
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
         public let instanceType: EC2InstanceType?
@@ -2380,19 +2181,18 @@ extension Gamelift {
             self.instanceCounts = instanceCounts
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceType = dictionary["InstanceType"] as? String { self.instanceType = EC2InstanceType(rawValue: instanceType) } else { self.instanceType = nil }
-            self.fleetId = dictionary["FleetId"] as? String
-            if let instanceCounts = dictionary["InstanceCounts"] as? [String: Any] { self.instanceCounts = try Gamelift.EC2InstanceCounts(dictionary: instanceCounts) } else { self.instanceCounts = nil }
+        private enum CodingKeys: String, CodingKey {
+            case instanceType = "InstanceType"
+            case fleetId = "FleetId"
+            case instanceCounts = "InstanceCounts"
         }
     }
 
     public struct GameSessionDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProtectionPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "GameSession", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProtectionPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "GameSession", required: false, type: .structure)
         ]
         /// Current status of protection for the game session.    NoProtection – The game session can be terminated during a scale-down event.    FullProtection – If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
         public let protectionPolicy: ProtectionPolicy?
@@ -2404,20 +2204,19 @@ extension Gamelift {
             self.gameSession = gameSession
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let protectionPolicy = dictionary["ProtectionPolicy"] as? String { self.protectionPolicy = ProtectionPolicy(rawValue: protectionPolicy) } else { self.protectionPolicy = nil }
-            if let gameSession = dictionary["GameSession"] as? [String: Any] { self.gameSession = try Gamelift.GameSession(dictionary: gameSession) } else { self.gameSession = nil }
+        private enum CodingKeys: String, CodingKey {
+            case protectionPolicy = "ProtectionPolicy"
+            case gameSession = "GameSession"
         }
     }
 
     public struct CreateBuildInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OperatingSystem", required: false, type: .enum), 
-            AWSShapeProperty(label: "StorageLocation", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
         /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system.
         public let operatingSystem: OperatingSystem?
@@ -2435,20 +2234,19 @@ extension Gamelift {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operatingSystem = dictionary["OperatingSystem"] as? String { self.operatingSystem = OperatingSystem(rawValue: operatingSystem) } else { self.operatingSystem = nil }
-            if let storageLocation = dictionary["StorageLocation"] as? [String: Any] { self.storageLocation = try Gamelift.S3Location(dictionary: storageLocation) } else { self.storageLocation = nil }
-            self.name = dictionary["Name"] as? String
-            self.version = dictionary["Version"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case operatingSystem = "OperatingSystem"
+            case storageLocation = "StorageLocation"
+            case name = "Name"
+            case version = "Version"
         }
     }
 
     public struct DescribeInstancesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Instances", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Instances", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Collection of objects containing properties for each instance returned.
         public let instances: [Instance]?
@@ -2460,24 +2258,19 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instances = dictionary["Instances"] as? [[String: Any]] {
-                self.instances = try instances.map({ try Instance(dictionary: $0) })
-            } else { 
-                self.instances = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case instances = "Instances"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DescribeInstancesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
@@ -2495,22 +2288,20 @@ extension Gamelift {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.limit = dictionary["Limit"] as? Int32
-            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
-            self.fleetId = fleetId
-            self.nextToken = dictionary["NextToken"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case fleetId = "FleetId"
+            case nextToken = "NextToken"
+            case instanceId = "InstanceId"
         }
     }
 
     public struct AwsCredentials: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccessKeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "SecretAccessKey", required: false, type: .string), 
-            AWSShapeProperty(label: "SessionToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "SecretAccessKey", required: false, type: .string), 
+            AWSShapeMember(label: "SessionToken", required: false, type: .string)
         ]
         /// Access key for an AWS account.
         public let accessKeyId: String?
@@ -2525,20 +2316,19 @@ extension Gamelift {
             self.sessionToken = sessionToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.accessKeyId = dictionary["AccessKeyId"] as? String
-            self.secretAccessKey = dictionary["SecretAccessKey"] as? String
-            self.sessionToken = dictionary["SessionToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "AccessKeyId"
+            case secretAccessKey = "SecretAccessKey"
+            case sessionToken = "SessionToken"
         }
     }
 
     public struct ListFleetsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BuildId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BuildId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Unique identifier for a build to return fleets for. Use this parameter to return only fleets using the specified build. To retrieve all fleets, leave this parameter empty.
         public let buildId: String?
@@ -2553,19 +2343,18 @@ extension Gamelift {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.buildId = dictionary["BuildId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case buildId = "BuildId"
+            case nextToken = "NextToken"
+            case limit = "Limit"
         }
     }
 
     public struct DeleteScalingPolicyInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// Unique identifier for a fleet to be deleted.
         public let fleetId: String
@@ -2577,15 +2366,13 @@ extension Gamelift {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
-            self.fleetId = fleetId
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case name = "Name"
         }
     }
 
-    public enum GameSessionStatus: String, CustomStringConvertible {
+    public enum GameSessionStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case activating = "ACTIVATING"
         case terminated = "TERMINATED"
@@ -2596,18 +2383,17 @@ extension Gamelift {
 
     public struct PlayerSession: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "PlayerSessionId", required: false, type: .string), 
-            AWSShapeProperty(label: "IpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "PlayerData", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TerminationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "PlayerId", required: false, type: .string), 
-            AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "PlayerSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "PlayerData", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TerminationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PlayerId", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
         /// Current status of the player session. Possible player session statuses include the following:    RESERVED – The player session request has been received, but the player has not yet connected to the server process and/or been validated.     ACTIVE – The player has been validated by the server process and is currently connected.    COMPLETED – The player connection has been dropped.    TIMEDOUT – A player session request was received, but the player did not connect and/or was not validated within the time-out limit (60 seconds).  
         public let status: PlayerSessionStatus?
@@ -2618,9 +2404,9 @@ extension Gamelift {
         /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game. 
         public let playerData: String?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: String?
+        public let creationTime: Double?
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let terminationTime: String?
+        public let terminationTime: Double?
         /// Unique identifier for a player that is associated with this player session.
         public let playerId: String?
         /// Unique identifier for the game session that the player session is connected to.
@@ -2630,7 +2416,7 @@ extension Gamelift {
         /// Port number for the game session. To connect to a Amazon GameLift server process, an app needs both the IP address and port number.
         public let port: Int32?
 
-        public init(status: PlayerSessionStatus? = nil, playerSessionId: String? = nil, ipAddress: String? = nil, playerData: String? = nil, creationTime: String? = nil, terminationTime: String? = nil, playerId: String? = nil, gameSessionId: String? = nil, fleetId: String? = nil, port: Int32? = nil) {
+        public init(status: PlayerSessionStatus? = nil, playerSessionId: String? = nil, ipAddress: String? = nil, playerData: String? = nil, creationTime: Double? = nil, terminationTime: Double? = nil, playerId: String? = nil, gameSessionId: String? = nil, fleetId: String? = nil, port: Int32? = nil) {
             self.status = status
             self.playerSessionId = playerSessionId
             self.ipAddress = ipAddress
@@ -2643,29 +2429,28 @@ extension Gamelift {
             self.port = port
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = PlayerSessionStatus(rawValue: status) } else { self.status = nil }
-            self.playerSessionId = dictionary["PlayerSessionId"] as? String
-            self.ipAddress = dictionary["IpAddress"] as? String
-            self.playerData = dictionary["PlayerData"] as? String
-            self.creationTime = dictionary["CreationTime"] as? String
-            self.terminationTime = dictionary["TerminationTime"] as? String
-            self.playerId = dictionary["PlayerId"] as? String
-            self.gameSessionId = dictionary["GameSessionId"] as? String
-            self.fleetId = dictionary["FleetId"] as? String
-            self.port = dictionary["Port"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case playerSessionId = "PlayerSessionId"
+            case ipAddress = "IpAddress"
+            case playerData = "PlayerData"
+            case creationTime = "CreationTime"
+            case terminationTime = "TerminationTime"
+            case playerId = "PlayerId"
+            case gameSessionId = "GameSessionId"
+            case fleetId = "FleetId"
+            case port = "Port"
         }
     }
 
     public struct FleetUtilization: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "ActiveServerProcessCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "ActiveGameSessionCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "CurrentPlayerSessionCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "FleetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ActiveServerProcessCount", required: false, type: .integer), 
+            AWSShapeMember(label: "ActiveGameSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CurrentPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
         /// Maximum players allowed across all game sessions currently being hosted on all instances in the fleet.
         public let maximumPlayerSessionCount: Int32?
@@ -2686,21 +2471,20 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maximumPlayerSessionCount = dictionary["MaximumPlayerSessionCount"] as? Int32
-            self.activeServerProcessCount = dictionary["ActiveServerProcessCount"] as? Int32
-            self.activeGameSessionCount = dictionary["ActiveGameSessionCount"] as? Int32
-            self.currentPlayerSessionCount = dictionary["CurrentPlayerSessionCount"] as? Int32
-            self.fleetId = dictionary["FleetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
+            case activeServerProcessCount = "ActiveServerProcessCount"
+            case activeGameSessionCount = "ActiveGameSessionCount"
+            case currentPlayerSessionCount = "CurrentPlayerSessionCount"
+            case fleetId = "FleetId"
         }
     }
 
     public struct DescribeGameSessionQueuesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionQueues", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionQueues", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Collection of objects that describes the requested game session queues.
         public let gameSessionQueues: [GameSessionQueue]?
@@ -2712,22 +2496,17 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let gameSessionQueues = dictionary["GameSessionQueues"] as? [[String: Any]] {
-                self.gameSessionQueues = try gameSessionQueues.map({ try GameSessionQueue(dictionary: $0) })
-            } else { 
-                self.gameSessionQueues = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionQueues = "GameSessionQueues"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DescribeGameSessionsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Collection of objects containing game session properties for each session matching the request.
         public let gameSessions: [GameSession]?
@@ -2739,17 +2518,13 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let gameSessions = dictionary["GameSessions"] as? [[String: Any]] {
-                self.gameSessions = try gameSessions.map({ try GameSession(dictionary: $0) })
-            } else { 
-                self.gameSessions = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gameSessions = "GameSessions"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum OperatingSystem: String, CustomStringConvertible {
+    public enum OperatingSystem: String, CustomStringConvertible, Codable {
         case windows_2012 = "WINDOWS_2012"
         case amazon_linux = "AMAZON_LINUX"
         public var description: String { return self.rawValue }
@@ -2757,18 +2532,17 @@ extension Gamelift {
 
     public struct DescribeFleetEventsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
-        public let startTime: String?
+        public let startTime: Double?
         /// Most recent date to retrieve event logs for. If no end time is specified, this call returns entries from the specified start time up to the present. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
-        public let endTime: String?
+        public let endTime: Double?
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
         /// Unique identifier for a fleet to get event logs for.
@@ -2776,7 +2550,7 @@ extension Gamelift {
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
         public let nextToken: String?
 
-        public init(startTime: String? = nil, endTime: String? = nil, limit: Int32? = nil, fleetId: String, nextToken: String? = nil) {
+        public init(startTime: Double? = nil, endTime: Double? = nil, limit: Int32? = nil, fleetId: String, nextToken: String? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.limit = limit
@@ -2784,17 +2558,16 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.endTime = dictionary["EndTime"] as? String
-            self.limit = dictionary["Limit"] as? Int32
-            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
-            self.fleetId = fleetId
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case endTime = "EndTime"
+            case limit = "Limit"
+            case fleetId = "FleetId"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum FleetStatus: String, CustomStringConvertible {
+    public enum FleetStatus: String, CustomStringConvertible, Codable {
         case new = "NEW"
         case downloading = "DOWNLOADING"
         case validating = "VALIDATING"
@@ -2807,7 +2580,7 @@ extension Gamelift {
         public var description: String { return self.rawValue }
     }
 
-    public enum GameSessionPlacementState: String, CustomStringConvertible {
+    public enum GameSessionPlacementState: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case fulfilled = "FULFILLED"
         case cancelled = "CANCELLED"
@@ -2817,11 +2590,10 @@ extension Gamelift {
 
     public struct S3Location: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// Amazon S3 bucket identifier. This is the name of your S3 bucket.
         public let bucket: String?
@@ -2836,25 +2608,24 @@ extension Gamelift {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.bucket = dictionary["Bucket"] as? String
-            self.roleArn = dictionary["RoleArn"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case roleArn = "RoleArn"
+            case key = "Key"
         }
     }
 
     public struct CreateGameSessionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "IdempotencyToken", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatorId", required: false, type: .string), 
-            AWSShapeProperty(label: "GameProperties", required: false, type: .list), 
-            AWSShapeProperty(label: "AliasId", required: false, type: .string), 
-            AWSShapeProperty(label: "GameSessionId", required: false, type: .string), 
-            AWSShapeProperty(label: "MaximumPlayerSessionCount", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
+            AWSShapeMember(label: "CreatorId", required: false, type: .string), 
+            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
+            AWSShapeMember(label: "AliasId", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumPlayerSessionCount", required: true, type: .integer)
         ]
         /// Unique identifier for a fleet to create a game session in. Each request must reference either a fleet ID or alias ID, but not both.
         public let fleetId: String?
@@ -2884,32 +2655,26 @@ extension Gamelift {
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fleetId = dictionary["FleetId"] as? String
-            self.name = dictionary["Name"] as? String
-            self.idempotencyToken = dictionary["IdempotencyToken"] as? String
-            self.creatorId = dictionary["CreatorId"] as? String
-            if let gameProperties = dictionary["GameProperties"] as? [[String: Any]] {
-                self.gameProperties = try gameProperties.map({ try GameProperty(dictionary: $0) })
-            } else { 
-                self.gameProperties = nil
-            }
-            self.aliasId = dictionary["AliasId"] as? String
-            self.gameSessionId = dictionary["GameSessionId"] as? String
-            guard let maximumPlayerSessionCount = dictionary["MaximumPlayerSessionCount"] as? Int32 else { throw InitializableError.missingRequiredParam("MaximumPlayerSessionCount") }
-            self.maximumPlayerSessionCount = maximumPlayerSessionCount
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case name = "Name"
+            case idempotencyToken = "IdempotencyToken"
+            case creatorId = "CreatorId"
+            case gameProperties = "GameProperties"
+            case aliasId = "AliasId"
+            case gameSessionId = "GameSessionId"
+            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
         }
     }
 
     public struct UpdateGameSessionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlayerSessionCreationPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "ProtectionPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "GameSessionId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "MaximumPlayerSessionCount", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlayerSessionCreationPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "ProtectionPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "GameSessionId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumPlayerSessionCount", required: false, type: .integer)
         ]
         /// Policy determining whether or not the game session accepts new players.
         public let playerSessionCreationPolicy: PlayerSessionCreationPolicy?
@@ -2930,23 +2695,21 @@ extension Gamelift {
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let playerSessionCreationPolicy = dictionary["PlayerSessionCreationPolicy"] as? String { self.playerSessionCreationPolicy = PlayerSessionCreationPolicy(rawValue: playerSessionCreationPolicy) } else { self.playerSessionCreationPolicy = nil }
-            if let protectionPolicy = dictionary["ProtectionPolicy"] as? String { self.protectionPolicy = ProtectionPolicy(rawValue: protectionPolicy) } else { self.protectionPolicy = nil }
-            guard let gameSessionId = dictionary["GameSessionId"] as? String else { throw InitializableError.missingRequiredParam("GameSessionId") }
-            self.gameSessionId = gameSessionId
-            self.name = dictionary["Name"] as? String
-            self.maximumPlayerSessionCount = dictionary["MaximumPlayerSessionCount"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case playerSessionCreationPolicy = "PlayerSessionCreationPolicy"
+            case protectionPolicy = "ProtectionPolicy"
+            case gameSessionId = "GameSessionId"
+            case name = "Name"
+            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
         }
     }
 
     public struct CreateBuildOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StorageLocation", required: false, type: .structure), 
-            AWSShapeProperty(label: "UploadCredentials", required: false, type: .structure), 
-            AWSShapeProperty(label: "Build", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StorageLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "UploadCredentials", required: false, type: .structure), 
+            AWSShapeMember(label: "Build", required: false, type: .structure)
         ]
         /// Amazon S3 location specified in the request.
         public let storageLocation: S3Location?
@@ -2961,39 +2724,38 @@ extension Gamelift {
             self.build = build
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let storageLocation = dictionary["StorageLocation"] as? [String: Any] { self.storageLocation = try Gamelift.S3Location(dictionary: storageLocation) } else { self.storageLocation = nil }
-            if let uploadCredentials = dictionary["UploadCredentials"] as? [String: Any] { self.uploadCredentials = try Gamelift.AwsCredentials(dictionary: uploadCredentials) } else { self.uploadCredentials = nil }
-            if let build = dictionary["Build"] as? [String: Any] { self.build = try Gamelift.Build(dictionary: build) } else { self.build = nil }
+        private enum CodingKeys: String, CodingKey {
+            case storageLocation = "StorageLocation"
+            case uploadCredentials = "UploadCredentials"
+            case build = "Build"
         }
     }
 
     public struct FleetAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TerminationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "FleetArn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "LogPaths", required: false, type: .list), 
-            AWSShapeProperty(label: "ServerLaunchPath", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "MetricGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "BuildId", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerLaunchParameters", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "OperatingSystem", required: false, type: .enum), 
-            AWSShapeProperty(label: "FleetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TerminationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FleetArn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "LogPaths", required: false, type: .list), 
+            AWSShapeMember(label: "ServerLaunchPath", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "MetricGroups", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "BuildId", required: false, type: .string), 
+            AWSShapeMember(label: "ServerLaunchParameters", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let terminationTime: String?
+        public let terminationTime: Double?
         /// Identifier for a fleet that is unique across all regions.
         public let fleetArn: String?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: String?
+        public let creationTime: Double?
         /// Type of game session protection to set for all new instances started in the fleet.    NoProtection – The game session can be terminated during a scale-down event.    FullProtection – If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
         /// Location of default log files. When a server process is shut down, Amazon GameLift captures and stores any log files in this location. These logs are in addition to game session logs; see more on game session logs in the Amazon GameLift Developer Guide. If no default log path for a fleet is specified, Amazon GameLift automatically uploads logs that are stored on each instance at C:\game\logs (for Windows) or /local/game/logs (for Linux). Use the Amazon GameLift console to access stored logs. 
@@ -3019,7 +2781,7 @@ extension Gamelift {
         /// Unique identifier for a fleet.
         public let fleetId: String?
 
-        public init(terminationTime: String? = nil, fleetArn: String? = nil, creationTime: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, logPaths: [String]? = nil, serverLaunchPath: String? = nil, description: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, metricGroups: [String]? = nil, status: FleetStatus? = nil, buildId: String? = nil, serverLaunchParameters: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, fleetId: String? = nil) {
+        public init(terminationTime: Double? = nil, fleetArn: String? = nil, creationTime: Double? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, logPaths: [String]? = nil, serverLaunchPath: String? = nil, description: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, metricGroups: [String]? = nil, status: FleetStatus? = nil, buildId: String? = nil, serverLaunchParameters: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, fleetId: String? = nil) {
             self.terminationTime = terminationTime
             self.fleetArn = fleetArn
             self.creationTime = creationTime
@@ -3037,34 +2799,33 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.terminationTime = dictionary["TerminationTime"] as? String
-            self.fleetArn = dictionary["FleetArn"] as? String
-            self.creationTime = dictionary["CreationTime"] as? String
-            if let newGameSessionProtectionPolicy = dictionary["NewGameSessionProtectionPolicy"] as? String { self.newGameSessionProtectionPolicy = ProtectionPolicy(rawValue: newGameSessionProtectionPolicy) } else { self.newGameSessionProtectionPolicy = nil }
-            self.logPaths = dictionary["LogPaths"] as? [String]
-            self.serverLaunchPath = dictionary["ServerLaunchPath"] as? String
-            self.description = dictionary["Description"] as? String
-            if let resourceCreationLimitPolicy = dictionary["ResourceCreationLimitPolicy"] as? [String: Any] { self.resourceCreationLimitPolicy = try Gamelift.ResourceCreationLimitPolicy(dictionary: resourceCreationLimitPolicy) } else { self.resourceCreationLimitPolicy = nil }
-            self.metricGroups = dictionary["MetricGroups"] as? [String]
-            if let status = dictionary["Status"] as? String { self.status = FleetStatus(rawValue: status) } else { self.status = nil }
-            self.buildId = dictionary["BuildId"] as? String
-            self.serverLaunchParameters = dictionary["ServerLaunchParameters"] as? String
-            self.name = dictionary["Name"] as? String
-            if let operatingSystem = dictionary["OperatingSystem"] as? String { self.operatingSystem = OperatingSystem(rawValue: operatingSystem) } else { self.operatingSystem = nil }
-            self.fleetId = dictionary["FleetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case terminationTime = "TerminationTime"
+            case fleetArn = "FleetArn"
+            case creationTime = "CreationTime"
+            case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
+            case logPaths = "LogPaths"
+            case serverLaunchPath = "ServerLaunchPath"
+            case description = "Description"
+            case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
+            case metricGroups = "MetricGroups"
+            case status = "Status"
+            case buildId = "BuildId"
+            case serverLaunchParameters = "ServerLaunchParameters"
+            case name = "Name"
+            case operatingSystem = "OperatingSystem"
+            case fleetId = "FleetId"
         }
     }
 
     public struct InstanceAccess: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OperatingSystem", required: false, type: .enum), 
-            AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
-            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "IpAddress", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperatingSystem", required: false, type: .enum), 
+            AWSShapeMember(label: "Credentials", required: false, type: .structure), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string)
         ]
         /// Operating system that is running on the instance.
         public let operatingSystem: OperatingSystem?
@@ -3085,20 +2846,19 @@ extension Gamelift {
             self.ipAddress = ipAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let operatingSystem = dictionary["OperatingSystem"] as? String { self.operatingSystem = OperatingSystem(rawValue: operatingSystem) } else { self.operatingSystem = nil }
-            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try Gamelift.InstanceCredentials(dictionary: credentials) } else { self.credentials = nil }
-            self.fleetId = dictionary["FleetId"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.ipAddress = dictionary["IpAddress"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case operatingSystem = "OperatingSystem"
+            case credentials = "Credentials"
+            case fleetId = "FleetId"
+            case instanceId = "InstanceId"
+            case ipAddress = "IpAddress"
         }
     }
 
     public struct StopGameSessionPlacementOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionPlacement", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionPlacement", required: false, type: .structure)
         ]
         /// Object that describes the canceled game session placement, with Cancelled status and an end time stamp. 
         public let gameSessionPlacement: GameSessionPlacement?
@@ -3107,12 +2867,12 @@ extension Gamelift {
             self.gameSessionPlacement = gameSessionPlacement
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let gameSessionPlacement = dictionary["GameSessionPlacement"] as? [String: Any] { self.gameSessionPlacement = try Gamelift.GameSessionPlacement(dictionary: gameSessionPlacement) } else { self.gameSessionPlacement = nil }
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionPlacement = "GameSessionPlacement"
         }
     }
 
-    public enum RoutingStrategyType: String, CustomStringConvertible {
+    public enum RoutingStrategyType: String, CustomStringConvertible, Codable {
         case simple = "SIMPLE"
         case terminal = "TERMINAL"
         public var description: String { return self.rawValue }
@@ -3120,9 +2880,8 @@ extension Gamelift {
 
     public struct CreateGameSessionQueueOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessionQueue", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessionQueue", required: false, type: .structure)
         ]
         /// Object that describes the newly created game session queue.
         public let gameSessionQueue: GameSessionQueue?
@@ -3131,16 +2890,15 @@ extension Gamelift {
             self.gameSessionQueue = gameSessionQueue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let gameSessionQueue = dictionary["GameSessionQueue"] as? [String: Any] { self.gameSessionQueue = try Gamelift.GameSessionQueue(dictionary: gameSessionQueue) } else { self.gameSessionQueue = nil }
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionQueue = "GameSessionQueue"
         }
     }
 
     public struct CreatePlayerSessionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlayerSession", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlayerSession", required: false, type: .structure)
         ]
         /// Object that describes the newly created player session record.
         public let playerSession: PlayerSession?
@@ -3149,17 +2907,16 @@ extension Gamelift {
             self.playerSession = playerSession
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let playerSession = dictionary["PlayerSession"] as? [String: Any] { self.playerSession = try Gamelift.PlayerSession(dictionary: playerSession) } else { self.playerSession = nil }
+        private enum CodingKeys: String, CodingKey {
+            case playerSession = "PlayerSession"
         }
     }
 
     public struct DescribeGameSessionDetailsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "GameSessionDetails", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "GameSessionDetails", required: false, type: .list)
         ]
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
@@ -3171,27 +2928,22 @@ extension Gamelift {
             self.gameSessionDetails = gameSessionDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let gameSessionDetails = dictionary["GameSessionDetails"] as? [[String: Any]] {
-                self.gameSessionDetails = try gameSessionDetails.map({ try GameSessionDetail(dictionary: $0) })
-            } else { 
-                self.gameSessionDetails = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case gameSessionDetails = "GameSessionDetails"
         }
     }
 
     public struct StartGameSessionPlacementInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DesiredPlayerSessions", required: false, type: .list), 
-            AWSShapeProperty(label: "PlacementId", required: true, type: .string), 
-            AWSShapeProperty(label: "PlayerLatencies", required: false, type: .list), 
-            AWSShapeProperty(label: "GameSessionQueueName", required: true, type: .string), 
-            AWSShapeProperty(label: "GameProperties", required: false, type: .list), 
-            AWSShapeProperty(label: "GameSessionName", required: false, type: .string), 
-            AWSShapeProperty(label: "MaximumPlayerSessionCount", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DesiredPlayerSessions", required: false, type: .list), 
+            AWSShapeMember(label: "PlacementId", required: true, type: .string), 
+            AWSShapeMember(label: "PlayerLatencies", required: false, type: .list), 
+            AWSShapeMember(label: "GameSessionQueueName", required: true, type: .string), 
+            AWSShapeMember(label: "GameProperties", required: false, type: .list), 
+            AWSShapeMember(label: "GameSessionName", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumPlayerSessionCount", required: true, type: .integer)
         ]
         /// Set of information on each player to create a player session for.
         public let desiredPlayerSessions: [DesiredPlayerSession]?
@@ -3218,37 +2970,21 @@ extension Gamelift {
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let desiredPlayerSessions = dictionary["DesiredPlayerSessions"] as? [[String: Any]] {
-                self.desiredPlayerSessions = try desiredPlayerSessions.map({ try DesiredPlayerSession(dictionary: $0) })
-            } else { 
-                self.desiredPlayerSessions = nil
-            }
-            guard let placementId = dictionary["PlacementId"] as? String else { throw InitializableError.missingRequiredParam("PlacementId") }
-            self.placementId = placementId
-            if let playerLatencies = dictionary["PlayerLatencies"] as? [[String: Any]] {
-                self.playerLatencies = try playerLatencies.map({ try PlayerLatency(dictionary: $0) })
-            } else { 
-                self.playerLatencies = nil
-            }
-            guard let gameSessionQueueName = dictionary["GameSessionQueueName"] as? String else { throw InitializableError.missingRequiredParam("GameSessionQueueName") }
-            self.gameSessionQueueName = gameSessionQueueName
-            if let gameProperties = dictionary["GameProperties"] as? [[String: Any]] {
-                self.gameProperties = try gameProperties.map({ try GameProperty(dictionary: $0) })
-            } else { 
-                self.gameProperties = nil
-            }
-            self.gameSessionName = dictionary["GameSessionName"] as? String
-            guard let maximumPlayerSessionCount = dictionary["MaximumPlayerSessionCount"] as? Int32 else { throw InitializableError.missingRequiredParam("MaximumPlayerSessionCount") }
-            self.maximumPlayerSessionCount = maximumPlayerSessionCount
+        private enum CodingKeys: String, CodingKey {
+            case desiredPlayerSessions = "DesiredPlayerSessions"
+            case placementId = "PlacementId"
+            case playerLatencies = "PlayerLatencies"
+            case gameSessionQueueName = "GameSessionQueueName"
+            case gameProperties = "GameProperties"
+            case gameSessionName = "GameSessionName"
+            case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
         }
     }
 
     public struct CreateAliasOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Alias", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Alias", required: false, type: .structure)
         ]
         /// Object that describes the newly created alias record.
         public let alias: Alias?
@@ -3257,19 +2993,18 @@ extension Gamelift {
             self.alias = alias
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let alias = dictionary["Alias"] as? [String: Any] { self.alias = try Gamelift.Alias(dictionary: alias) } else { self.alias = nil }
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
         }
     }
 
     public struct DescribeScalingPoliciesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatusFilter", required: false, type: .enum), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StatusFilter", required: false, type: .enum), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Scaling policy status to filter results on. A scaling policy is only in force when in an ACTIVE status.    ACTIVE – The scaling policy is currently in force.    UPDATEREQUESTED – A request to update the scaling policy has been received.    UPDATING – A change is being made to the scaling policy.    DELETEREQUESTED – A request to delete the scaling policy has been received.    DELETING – The scaling policy is being deleted.    DELETED – The scaling policy has been deleted.    ERROR – An error occurred in creating the policy. It should be removed and recreated.  
         public let statusFilter: ScalingStatusType?
@@ -3287,20 +3022,18 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let statusFilter = dictionary["StatusFilter"] as? String { self.statusFilter = ScalingStatusType(rawValue: statusFilter) } else { self.statusFilter = nil }
-            self.limit = dictionary["Limit"] as? Int32
-            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
-            self.fleetId = fleetId
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case statusFilter = "StatusFilter"
+            case limit = "Limit"
+            case fleetId = "FleetId"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DescribeBuildOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Build", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Build", required: false, type: .structure)
         ]
         /// Set of properties describing the requested build.
         public let build: Build?
@@ -3309,16 +3042,15 @@ extension Gamelift {
             self.build = build
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let build = dictionary["Build"] as? [String: Any] { self.build = try Gamelift.Build(dictionary: build) } else { self.build = nil }
+        private enum CodingKeys: String, CodingKey {
+            case build = "Build"
         }
     }
 
     public struct UpdateFleetCapacityOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
         /// Unique identifier for a fleet that was updated.
         public let fleetId: String?
@@ -3327,21 +3059,20 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fleetId = dictionary["FleetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
         }
     }
 
     public struct UpdateFleetAttributesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "MetricGroups", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceCreationLimitPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "NewGameSessionProtectionPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "MetricGroups", required: false, type: .list)
         ]
         /// Policy that limits the number of game sessions an individual player can create over a span of time. 
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
@@ -3365,22 +3096,20 @@ extension Gamelift {
             self.metricGroups = metricGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resourceCreationLimitPolicy = dictionary["ResourceCreationLimitPolicy"] as? [String: Any] { self.resourceCreationLimitPolicy = try Gamelift.ResourceCreationLimitPolicy(dictionary: resourceCreationLimitPolicy) } else { self.resourceCreationLimitPolicy = nil }
-            if let newGameSessionProtectionPolicy = dictionary["NewGameSessionProtectionPolicy"] as? String { self.newGameSessionProtectionPolicy = ProtectionPolicy(rawValue: newGameSessionProtectionPolicy) } else { self.newGameSessionProtectionPolicy = nil }
-            self.description = dictionary["Description"] as? String
-            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
-            self.fleetId = fleetId
-            self.name = dictionary["Name"] as? String
-            self.metricGroups = dictionary["MetricGroups"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
+            case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
+            case description = "Description"
+            case fleetId = "FleetId"
+            case name = "Name"
+            case metricGroups = "MetricGroups"
         }
     }
 
     public struct DeleteGameSessionQueueInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// Descriptive label that is associated with queue. Queue names must be unique within each region.
         public let name: String
@@ -3389,18 +3118,16 @@ extension Gamelift {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct ListAliasesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Aliases", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Aliases", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Collection of alias records that match the list request.
         public let aliases: [Alias]?
@@ -3412,24 +3139,19 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let aliases = dictionary["Aliases"] as? [[String: Any]] {
-                self.aliases = try aliases.map({ try Alias(dictionary: $0) })
-            } else { 
-                self.aliases = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case aliases = "Aliases"
+            case nextToken = "NextToken"
         }
     }
 
     public struct IpPermission: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FromPort", required: true, type: .integer), 
-            AWSShapeProperty(label: "ToPort", required: true, type: .integer), 
-            AWSShapeProperty(label: "Protocol", required: true, type: .enum), 
-            AWSShapeProperty(label: "IpRange", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FromPort", required: true, type: .integer), 
+            AWSShapeMember(label: "ToPort", required: true, type: .integer), 
+            AWSShapeMember(label: "Protocol", required: true, type: .enum), 
+            AWSShapeMember(label: "IpRange", required: true, type: .string)
         ]
         /// Starting value for a range of allowed port numbers.
         public let fromPort: Int32
@@ -3447,24 +3169,19 @@ extension Gamelift {
             self.ipRange = ipRange
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let fromPort = dictionary["FromPort"] as? Int32 else { throw InitializableError.missingRequiredParam("FromPort") }
-            self.fromPort = fromPort
-            guard let toPort = dictionary["ToPort"] as? Int32 else { throw InitializableError.missingRequiredParam("ToPort") }
-            self.toPort = toPort
-            guard let rawProtocol = dictionary["Protocol"] as? String, let `protocol` = IpProtocol(rawValue: rawProtocol) else { throw InitializableError.missingRequiredParam("Protocol") }
-            self.`protocol` = `protocol`
-            guard let ipRange = dictionary["IpRange"] as? String else { throw InitializableError.missingRequiredParam("IpRange") }
-            self.ipRange = ipRange
+        private enum CodingKeys: String, CodingKey {
+            case fromPort = "FromPort"
+            case toPort = "ToPort"
+            case `protocol` = "Protocol"
+            case ipRange = "IpRange"
         }
     }
 
     public struct DescribeFleetEventsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Events", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Events", required: false, type: .list)
         ]
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
@@ -3476,21 +3193,16 @@ extension Gamelift {
             self.events = events
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let events = dictionary["Events"] as? [[String: Any]] {
-                self.events = try events.map({ try Event(dictionary: $0) })
-            } else { 
-                self.events = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case events = "Events"
         }
     }
 
     public struct DescribeAliasOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Alias", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Alias", required: false, type: .structure)
         ]
         /// Object that contains the requested alias.
         public let alias: Alias?
@@ -3499,17 +3211,16 @@ extension Gamelift {
             self.alias = alias
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let alias = dictionary["Alias"] as? [String: Any] { self.alias = try Gamelift.Alias(dictionary: alias) } else { self.alias = nil }
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
         }
     }
 
     public struct GetInstanceAccessInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet that contains the instance you want access to. The fleet can be in any of the following statuses: ACTIVATING, ACTIVE, or ERROR. Fleets with an ERROR status may be accessible for a short time before they are deleted.
         public let fleetId: String
@@ -3521,15 +3232,13 @@ extension Gamelift {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
-            self.fleetId = fleetId
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case instanceId = "InstanceId"
         }
     }
 
-    public enum ScalingAdjustmentType: String, CustomStringConvertible {
+    public enum ScalingAdjustmentType: String, CustomStringConvertible, Codable {
         case changeincapacity = "ChangeInCapacity"
         case exactcapacity = "ExactCapacity"
         case percentchangeincapacity = "PercentChangeInCapacity"
@@ -3538,9 +3247,8 @@ extension Gamelift {
 
     public struct DescribeRuntimeConfigurationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string)
         ]
         /// Unique identifier for a fleet to get the run-time configuration for.
         public let fleetId: String
@@ -3549,13 +3257,12 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
-            self.fleetId = fleetId
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
         }
     }
 
-    public enum PlayerSessionCreationPolicy: String, CustomStringConvertible {
+    public enum PlayerSessionCreationPolicy: String, CustomStringConvertible, Codable {
         case accept_all = "ACCEPT_ALL"
         case deny_all = "DENY_ALL"
         public var description: String { return self.rawValue }
@@ -3563,9 +3270,8 @@ extension Gamelift {
 
     public struct DescribeGameSessionPlacementInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlacementId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlacementId", required: true, type: .string)
         ]
         /// Unique identifier for a game session placement to retrieve.
         public let placementId: String
@@ -3574,19 +3280,17 @@ extension Gamelift {
             self.placementId = placementId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let placementId = dictionary["PlacementId"] as? String else { throw InitializableError.missingRequiredParam("PlacementId") }
-            self.placementId = placementId
+        private enum CodingKeys: String, CodingKey {
+            case placementId = "PlacementId"
         }
     }
 
     public struct RoutingStrategy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "FleetId", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "FleetId", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// Type of routing strategy. Possible routing types include the following:    SIMPLE – The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL – The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.  
         public let `type`: RoutingStrategyType?
@@ -3601,21 +3305,20 @@ extension Gamelift {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = RoutingStrategyType(rawValue: `type`) } else { self.`type` = nil }
-            self.fleetId = dictionary["FleetId"] as? String
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case fleetId = "FleetId"
+            case message = "Message"
         }
     }
 
     public struct UpdateAliasInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "AliasId", required: true, type: .string), 
-            AWSShapeProperty(label: "RoutingStrategy", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "AliasId", required: true, type: .string), 
+            AWSShapeMember(label: "RoutingStrategy", required: false, type: .structure)
         ]
         /// Human-readable description of an alias.
         public let description: String?
@@ -3633,21 +3336,19 @@ extension Gamelift {
             self.routingStrategy = routingStrategy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            self.name = dictionary["Name"] as? String
-            guard let aliasId = dictionary["AliasId"] as? String else { throw InitializableError.missingRequiredParam("AliasId") }
-            self.aliasId = aliasId
-            if let routingStrategy = dictionary["RoutingStrategy"] as? [String: Any] { self.routingStrategy = try Gamelift.RoutingStrategy(dictionary: routingStrategy) } else { self.routingStrategy = nil }
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case aliasId = "AliasId"
+            case routingStrategy = "RoutingStrategy"
         }
     }
 
     public struct PlayerLatencyPolicy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyDurationSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "MaximumIndividualPlayerLatencyMilliseconds", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyDurationSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaximumIndividualPlayerLatencyMilliseconds", required: false, type: .integer)
         ]
         /// The length of time, in seconds, that the policy is enforced while placing a new game session. A null value for this property means that the policy is enforced until the queue times out.
         public let policyDurationSeconds: Int32?
@@ -3659,17 +3360,16 @@ extension Gamelift {
             self.maximumIndividualPlayerLatencyMilliseconds = maximumIndividualPlayerLatencyMilliseconds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyDurationSeconds = dictionary["PolicyDurationSeconds"] as? Int32
-            self.maximumIndividualPlayerLatencyMilliseconds = dictionary["MaximumIndividualPlayerLatencyMilliseconds"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case policyDurationSeconds = "PolicyDurationSeconds"
+            case maximumIndividualPlayerLatencyMilliseconds = "MaximumIndividualPlayerLatencyMilliseconds"
         }
     }
 
     public struct UpdateFleetPortSettingsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
         /// Unique identifier for a fleet that was updated.
         public let fleetId: String?
@@ -3678,17 +3378,16 @@ extension Gamelift {
             self.fleetId = fleetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fleetId = dictionary["FleetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
         }
     }
 
     public struct UpdateRuntimeConfigurationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FleetId", required: true, type: .string), 
-            AWSShapeProperty(label: "RuntimeConfiguration", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FleetId", required: true, type: .string), 
+            AWSShapeMember(label: "RuntimeConfiguration", required: true, type: .structure)
         ]
         /// Unique identifier for a fleet to update run-time configuration for.
         public let fleetId: String
@@ -3700,22 +3399,19 @@ extension Gamelift {
             self.runtimeConfiguration = runtimeConfiguration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let fleetId = dictionary["FleetId"] as? String else { throw InitializableError.missingRequiredParam("FleetId") }
-            self.fleetId = fleetId
-            guard let runtimeConfiguration = dictionary["RuntimeConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RuntimeConfiguration") }
-            self.runtimeConfiguration = try Gamelift.RuntimeConfiguration(dictionary: runtimeConfiguration)
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case runtimeConfiguration = "RuntimeConfiguration"
         }
     }
 
     public struct CreateGameSessionQueueInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Destinations", required: false, type: .list), 
-            AWSShapeProperty(label: "TimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "PlayerLatencyPolicies", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", required: false, type: .list), 
+            AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "PlayerLatencyPolicies", required: false, type: .list)
         ]
         /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
         public let destinations: [GameSessionQueueDestination]?
@@ -3733,29 +3429,19 @@ extension Gamelift {
             self.playerLatencyPolicies = playerLatencyPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let destinations = dictionary["Destinations"] as? [[String: Any]] {
-                self.destinations = try destinations.map({ try GameSessionQueueDestination(dictionary: $0) })
-            } else { 
-                self.destinations = nil
-            }
-            self.timeoutInSeconds = dictionary["TimeoutInSeconds"] as? Int32
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let playerLatencyPolicies = dictionary["PlayerLatencyPolicies"] as? [[String: Any]] {
-                self.playerLatencyPolicies = try playerLatencyPolicies.map({ try PlayerLatencyPolicy(dictionary: $0) })
-            } else { 
-                self.playerLatencyPolicies = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "Destinations"
+            case timeoutInSeconds = "TimeoutInSeconds"
+            case name = "Name"
+            case playerLatencyPolicies = "PlayerLatencyPolicies"
         }
     }
 
     public struct SearchGameSessionsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GameSessions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GameSessions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Collection of objects containing game session properties for each session matching the request.
         public let gameSessions: [GameSession]?
@@ -3767,21 +3453,16 @@ extension Gamelift {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let gameSessions = dictionary["GameSessions"] as? [[String: Any]] {
-                self.gameSessions = try gameSessions.map({ try GameSession(dictionary: $0) })
-            } else { 
-                self.gameSessions = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gameSessions = "GameSessions"
+            case nextToken = "NextToken"
         }
     }
 
     public struct UpdateAliasOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Alias", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Alias", required: false, type: .structure)
         ]
         /// Object that contains the updated alias configuration.
         public let alias: Alias?
@@ -3790,16 +3471,15 @@ extension Gamelift {
             self.alias = alias
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let alias = dictionary["Alias"] as? [String: Any] { self.alias = try Gamelift.Alias(dictionary: alias) } else { self.alias = nil }
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
         }
     }
 
     public struct DescribeRuntimeConfigurationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuntimeConfiguration", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure)
         ]
         /// Instructions describing how server processes should be launched and maintained on each instance in the fleet.
         public let runtimeConfiguration: RuntimeConfiguration?
@@ -3808,17 +3488,16 @@ extension Gamelift {
             self.runtimeConfiguration = runtimeConfiguration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let runtimeConfiguration = dictionary["RuntimeConfiguration"] as? [String: Any] { self.runtimeConfiguration = try Gamelift.RuntimeConfiguration(dictionary: runtimeConfiguration) } else { self.runtimeConfiguration = nil }
+        private enum CodingKeys: String, CodingKey {
+            case runtimeConfiguration = "RuntimeConfiguration"
         }
     }
 
     public struct ListFleetsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "FleetIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "FleetIds", required: false, type: .list)
         ]
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
@@ -3830,9 +3509,9 @@ extension Gamelift {
             self.fleetIds = fleetIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.fleetIds = dictionary["FleetIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case fleetIds = "FleetIds"
         }
     }
 

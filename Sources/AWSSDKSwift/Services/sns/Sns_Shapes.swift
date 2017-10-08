@@ -31,10 +31,9 @@ extension Sns {
 
     public struct SetPlatformApplicationAttributesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlatformApplicationArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformApplicationArn", required: true, type: .string), 
+            AWSShapeMember(label: "Attributes", required: true, type: .map)
         ]
         /// PlatformApplicationArn for SetPlatformApplicationAttributes action.
         public let platformApplicationArn: String
@@ -46,20 +45,17 @@ extension Sns {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let platformApplicationArn = dictionary["PlatformApplicationArn"] as? String else { throw InitializableError.missingRequiredParam("PlatformApplicationArn") }
-            self.platformApplicationArn = platformApplicationArn
-            guard let attributes = dictionary["Attributes"] as? [String: String] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = attributes
+        private enum CodingKeys: String, CodingKey {
+            case platformApplicationArn = "PlatformApplicationArn"
+            case attributes = "Attributes"
         }
     }
 
     public struct RemovePermissionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Label", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: true, type: .string), 
+            AWSShapeMember(label: "Label", required: true, type: .string)
         ]
         /// The ARN of the topic whose access control policy you wish to modify.
         public let topicArn: String
@@ -71,20 +67,17 @@ extension Sns {
             self.label = label
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
-            self.topicArn = topicArn
-            guard let label = dictionary["Label"] as? String else { throw InitializableError.missingRequiredParam("Label") }
-            self.label = label
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
+            case label = "Label"
         }
     }
 
     public struct ListSubscriptionsByTopicInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicArn", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The ARN of the topic for which you wish to find subscriptions.
         public let topicArn: String
@@ -96,18 +89,16 @@ extension Sns {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
-            self.topicArn = topicArn
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ListPhoneNumbersOptedOutInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A NextToken string is used when you call the ListPhoneNumbersOptedOut action to retrieve additional records that are available after the first page of results.
         public let nextToken: String?
@@ -116,16 +107,15 @@ extension Sns {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
         }
     }
 
     public struct PublishResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MessageId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageId", required: false, type: .string)
         ]
         /// Unique identifier assigned to the published message. Length Constraint: Maximum 100 characters
         public let messageId: String?
@@ -134,17 +124,16 @@ extension Sns {
             self.messageId = messageId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.messageId = dictionary["MessageId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
         }
     }
 
     public struct ListEndpointsByPlatformApplicationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformApplicationArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformApplicationArn", required: true, type: .string)
         ]
         /// NextToken string is used when calling ListEndpointsByPlatformApplication action to retrieve additional records that are available after the first page results.
         public let nextToken: String?
@@ -156,18 +145,16 @@ extension Sns {
             self.platformApplicationArn = platformApplicationArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let platformApplicationArn = dictionary["PlatformApplicationArn"] as? String else { throw InitializableError.missingRequiredParam("PlatformApplicationArn") }
-            self.platformApplicationArn = platformApplicationArn
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case platformApplicationArn = "PlatformApplicationArn"
         }
     }
 
     public struct OptInPhoneNumberInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "phoneNumber", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "phoneNumber", required: true, type: .string)
         ]
         /// The phone number to opt in.
         public let phoneNumber: String
@@ -176,21 +163,19 @@ extension Sns {
             self.phoneNumber = phoneNumber
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let phoneNumber = dictionary["phoneNumber"] as? String else { throw InitializableError.missingRequiredParam("phoneNumber") }
-            self.phoneNumber = phoneNumber
+        private enum CodingKeys: String, CodingKey {
+            case phoneNumber = "phoneNumber"
         }
     }
 
     public struct Subscription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Owner", required: false, type: .string), 
-            AWSShapeProperty(label: "SubscriptionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Protocol", required: false, type: .string), 
-            AWSShapeProperty(label: "Endpoint", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Protocol", required: false, type: .string), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .string)
         ]
         /// The ARN of the subscription's topic.
         public let topicArn: String?
@@ -211,23 +196,22 @@ extension Sns {
             self.endpoint = endpoint
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.topicArn = dictionary["TopicArn"] as? String
-            self.owner = dictionary["Owner"] as? String
-            self.subscriptionArn = dictionary["SubscriptionArn"] as? String
-            self.`protocol` = dictionary["Protocol"] as? String
-            self.endpoint = dictionary["Endpoint"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
+            case owner = "Owner"
+            case subscriptionArn = "SubscriptionArn"
+            case `protocol` = "Protocol"
+            case endpoint = "Endpoint"
         }
     }
 
     public struct AddPermissionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicArn", required: true, type: .string), 
-            AWSShapeProperty(label: "AWSAccountId", required: true, type: .list), 
-            AWSShapeProperty(label: "ActionName", required: true, type: .list), 
-            AWSShapeProperty(label: "Label", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: true, type: .string), 
+            AWSShapeMember(label: "AWSAccountId", required: true, type: .list), 
+            AWSShapeMember(label: "ActionName", required: true, type: .list), 
+            AWSShapeMember(label: "Label", required: true, type: .string)
         ]
         /// The ARN of the topic whose access control policy you wish to modify.
         public let topicArn: String
@@ -245,23 +229,18 @@ extension Sns {
             self.label = label
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
-            self.topicArn = topicArn
-            guard let aWSAccountId = dictionary["AWSAccountId"] as? [String] else { throw InitializableError.missingRequiredParam("AWSAccountId") }
-            self.aWSAccountId = aWSAccountId
-            guard let actionName = dictionary["ActionName"] as? [String] else { throw InitializableError.missingRequiredParam("ActionName") }
-            self.actionName = actionName
-            guard let label = dictionary["Label"] as? String else { throw InitializableError.missingRequiredParam("Label") }
-            self.label = label
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
+            case aWSAccountId = "AWSAccountId"
+            case actionName = "ActionName"
+            case label = "Label"
         }
     }
 
     public struct ListTopicsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Token returned by the previous ListTopics request.
         public let nextToken: String?
@@ -270,17 +249,16 @@ extension Sns {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
         }
     }
 
     public struct Endpoint: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndpointArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map)
         ]
         /// EndpointArn for mobile app and device.
         public let endpointArn: String?
@@ -292,21 +270,16 @@ extension Sns {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.endpointArn = dictionary["EndpointArn"] as? String
-            if let attributes = dictionary["Attributes"] as? [String: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
+            case attributes = "Attributes"
         }
     }
 
     public struct UnsubscribeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubscriptionArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionArn", required: true, type: .string)
         ]
         /// The ARN of the subscription to be deleted.
         public let subscriptionArn: String
@@ -315,18 +288,16 @@ extension Sns {
             self.subscriptionArn = subscriptionArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subscriptionArn = dictionary["SubscriptionArn"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionArn") }
-            self.subscriptionArn = subscriptionArn
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionArn = "SubscriptionArn"
         }
     }
 
     public struct SetEndpointAttributesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "Attributes", required: true, type: .map)
         ]
         /// EndpointArn used for SetEndpointAttributes action.
         public let endpointArn: String
@@ -338,20 +309,17 @@ extension Sns {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
-            self.endpointArn = endpointArn
-            guard let attributes = dictionary["Attributes"] as? [String: String] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = attributes
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
+            case attributes = "Attributes"
         }
     }
 
     public struct PlatformApplication: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlatformApplicationArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformApplicationArn", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map)
         ]
         /// PlatformApplicationArn for platform application object.
         public let platformApplicationArn: String?
@@ -363,21 +331,16 @@ extension Sns {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.platformApplicationArn = dictionary["PlatformApplicationArn"] as? String
-            if let attributes = dictionary["Attributes"] as? [String: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case platformApplicationArn = "PlatformApplicationArn"
+            case attributes = "Attributes"
         }
     }
 
     public struct GetSubscriptionAttributesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubscriptionArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionArn", required: true, type: .string)
         ]
         /// The ARN of the subscription whose properties you want to get.
         public let subscriptionArn: String
@@ -386,19 +349,17 @@ extension Sns {
             self.subscriptionArn = subscriptionArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subscriptionArn = dictionary["SubscriptionArn"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionArn") }
-            self.subscriptionArn = subscriptionArn
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionArn = "SubscriptionArn"
         }
     }
 
     public struct SetSubscriptionAttributesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
-            AWSShapeProperty(label: "AttributeValue", required: false, type: .string), 
-            AWSShapeProperty(label: "SubscriptionArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "AttributeValue", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionArn", required: true, type: .string)
         ]
         /// The name of the attribute you want to set. Only a subset of the subscriptions attributes are mutable. Valid values: DeliveryPolicy | RawMessageDelivery 
         public let attributeName: String
@@ -413,20 +374,17 @@ extension Sns {
             self.subscriptionArn = subscriptionArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
-            self.attributeName = attributeName
-            self.attributeValue = dictionary["AttributeValue"] as? String
-            guard let subscriptionArn = dictionary["SubscriptionArn"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionArn") }
-            self.subscriptionArn = subscriptionArn
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case attributeValue = "AttributeValue"
+            case subscriptionArn = "SubscriptionArn"
         }
     }
 
     public struct GetSMSAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributes", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: false, type: .map)
         ]
         /// The SMS attribute names and their values.
         public let attributes: [String: String]?
@@ -435,23 +393,18 @@ extension Sns {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["attributes"] as? [String: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
         }
     }
 
     public struct CreatePlatformEndpointInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomUserData", required: false, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "Token", required: true, type: .string), 
-            AWSShapeProperty(label: "PlatformApplicationArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomUserData", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "Token", required: true, type: .string), 
+            AWSShapeMember(label: "PlatformApplicationArn", required: true, type: .string)
         ]
         /// Arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.
         public let customUserData: String?
@@ -469,25 +422,18 @@ extension Sns {
             self.platformApplicationArn = platformApplicationArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.customUserData = dictionary["CustomUserData"] as? String
-            if let attributes = dictionary["Attributes"] as? [String: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
-            guard let token = dictionary["Token"] as? String else { throw InitializableError.missingRequiredParam("Token") }
-            self.token = token
-            guard let platformApplicationArn = dictionary["PlatformApplicationArn"] as? String else { throw InitializableError.missingRequiredParam("PlatformApplicationArn") }
-            self.platformApplicationArn = platformApplicationArn
+        private enum CodingKeys: String, CodingKey {
+            case customUserData = "CustomUserData"
+            case attributes = "Attributes"
+            case token = "Token"
+            case platformApplicationArn = "PlatformApplicationArn"
         }
     }
 
     public struct GetEndpointAttributesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
         /// EndpointArn for GetEndpointAttributes input.
         public let endpointArn: String
@@ -496,18 +442,16 @@ extension Sns {
             self.endpointArn = endpointArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
-            self.endpointArn = endpointArn
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
         }
     }
 
     public struct ListTopicsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Topics", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Topics", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of topic ARNs.
         public let topics: [Topic]?
@@ -519,21 +463,16 @@ extension Sns {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let topics = dictionary["Topics"] as? [[String: Any]] {
-                self.topics = try topics.map({ try Topic(dictionary: $0) })
-            } else { 
-                self.topics = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case topics = "Topics"
+            case nextToken = "NextToken"
         }
     }
 
     public struct GetPlatformApplicationAttributesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlatformApplicationArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformApplicationArn", required: true, type: .string)
         ]
         /// PlatformApplicationArn for GetPlatformApplicationAttributesInput.
         public let platformApplicationArn: String
@@ -542,17 +481,15 @@ extension Sns {
             self.platformApplicationArn = platformApplicationArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let platformApplicationArn = dictionary["PlatformApplicationArn"] as? String else { throw InitializableError.missingRequiredParam("PlatformApplicationArn") }
-            self.platformApplicationArn = platformApplicationArn
+        private enum CodingKeys: String, CodingKey {
+            case platformApplicationArn = "PlatformApplicationArn"
         }
     }
 
     public struct GetPlatformApplicationAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attributes", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map)
         ]
         /// Attributes include the following:    EventEndpointCreated -- Topic ARN to which EndpointCreated event notifications should be sent.    EventEndpointDeleted -- Topic ARN to which EndpointDeleted event notifications should be sent.    EventEndpointUpdated -- Topic ARN to which EndpointUpdate event notifications should be sent.    EventDeliveryFailure -- Topic ARN to which DeliveryFailure event notifications should be sent upon Direct Publish delivery failure (permanent) to one of the application's endpoints.  
         public let attributes: [String: String]?
@@ -561,20 +498,15 @@ extension Sns {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attributes"] as? [String: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
         }
     }
 
     public struct GetTopicAttributesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: true, type: .string)
         ]
         /// The ARN of the topic whose properties you want to get.
         public let topicArn: String
@@ -583,19 +515,17 @@ extension Sns {
             self.topicArn = topicArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
-            self.topicArn = topicArn
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
         }
     }
 
     public struct CreatePlatformApplicationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: true, type: .map), 
-            AWSShapeProperty(label: "Platform", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Attributes", required: true, type: .map), 
+            AWSShapeMember(label: "Platform", required: true, type: .string)
         ]
         /// Application names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long.
         public let name: String
@@ -610,21 +540,17 @@ extension Sns {
             self.platform = platform
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let attributes = dictionary["Attributes"] as? [String: String] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = attributes
-            guard let platform = dictionary["Platform"] as? String else { throw InitializableError.missingRequiredParam("Platform") }
-            self.platform = platform
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case attributes = "Attributes"
+            case platform = "Platform"
         }
     }
 
     public struct CreatePlatformApplicationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlatformApplicationArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformApplicationArn", required: false, type: .string)
         ]
         /// PlatformApplicationArn is returned.
         public let platformApplicationArn: String?
@@ -633,16 +559,15 @@ extension Sns {
             self.platformApplicationArn = platformApplicationArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.platformApplicationArn = dictionary["PlatformApplicationArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case platformApplicationArn = "PlatformApplicationArn"
         }
     }
 
     public struct DeleteTopicInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: true, type: .string)
         ]
         /// The ARN of the topic you want to delete.
         public let topicArn: String
@@ -651,18 +576,16 @@ extension Sns {
             self.topicArn = topicArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
-            self.topicArn = topicArn
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
         }
     }
 
     public struct ListEndpointsByPlatformApplicationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Endpoints", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Endpoints", required: false, type: .list)
         ]
         /// NextToken string is returned when calling ListEndpointsByPlatformApplication action if additional records are available after the first page results.
         public let nextToken: String?
@@ -674,22 +597,17 @@ extension Sns {
             self.endpoints = endpoints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let endpoints = dictionary["Endpoints"] as? [[String: Any]] {
-                self.endpoints = try endpoints.map({ try Endpoint(dictionary: $0) })
-            } else { 
-                self.endpoints = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case endpoints = "Endpoints"
         }
     }
 
     public struct ListPhoneNumbersOptedOutResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "phoneNumbers", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "phoneNumbers", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A list of phone numbers that are opted out of receiving SMS messages. The list is paginated, and each page can contain up to 100 phone numbers.
         public let phoneNumbers: [String]?
@@ -701,17 +619,16 @@ extension Sns {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.phoneNumbers = dictionary["phoneNumbers"] as? [String]
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case phoneNumbers = "phoneNumbers"
+            case nextToken = "nextToken"
         }
     }
 
     public struct CheckIfPhoneNumberIsOptedOutResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "isOptedOut", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "isOptedOut", required: false, type: .boolean)
         ]
         /// Indicates whether the phone number is opted out:    true – The phone number is opted out, meaning you cannot publish SMS messages to it.    false – The phone number is opted in, meaning you can publish SMS messages to it.  
         public let isOptedOut: Bool?
@@ -720,16 +637,15 @@ extension Sns {
             self.isOptedOut = isOptedOut
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.isOptedOut = dictionary["isOptedOut"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case isOptedOut = "isOptedOut"
         }
     }
 
     public struct ConfirmSubscriptionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubscriptionArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionArn", required: false, type: .string)
         ]
         /// The ARN of the created subscription.
         public let subscriptionArn: String?
@@ -738,16 +654,15 @@ extension Sns {
             self.subscriptionArn = subscriptionArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subscriptionArn = dictionary["SubscriptionArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionArn = "SubscriptionArn"
         }
     }
 
     public struct SubscribeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubscriptionArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionArn", required: false, type: .string)
         ]
         /// The ARN of the subscription, if the service was able to create a subscription immediately (without requiring endpoint owner confirmation).
         public let subscriptionArn: String?
@@ -756,17 +671,16 @@ extension Sns {
             self.subscriptionArn = subscriptionArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subscriptionArn = dictionary["SubscriptionArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionArn = "SubscriptionArn"
         }
     }
 
     public struct ListSubscriptionsByTopicResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Subscriptions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Subscriptions", required: false, type: .list)
         ]
         /// Token to pass along to the next ListSubscriptionsByTopic request. This element is returned if there are more subscriptions to retrieve.
         public let nextToken: String?
@@ -778,22 +692,17 @@ extension Sns {
             self.subscriptions = subscriptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let subscriptions = dictionary["Subscriptions"] as? [[String: Any]] {
-                self.subscriptions = try subscriptions.map({ try Subscription(dictionary: $0) })
-            } else { 
-                self.subscriptions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case subscriptions = "Subscriptions"
         }
     }
 
     public struct ListSubscriptionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Subscriptions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Subscriptions", required: false, type: .list)
         ]
         /// Token to pass along to the next ListSubscriptions request. This element is returned if there are more subscriptions to retrieve.
         public let nextToken: String?
@@ -805,23 +714,18 @@ extension Sns {
             self.subscriptions = subscriptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let subscriptions = dictionary["Subscriptions"] as? [[String: Any]] {
-                self.subscriptions = try subscriptions.map({ try Subscription(dictionary: $0) })
-            } else { 
-                self.subscriptions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case subscriptions = "Subscriptions"
         }
     }
 
     public struct MessageAttributeValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataType", required: true, type: .string), 
-            AWSShapeProperty(label: "BinaryValue", required: false, type: .blob), 
-            AWSShapeProperty(label: "StringValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataType", required: true, type: .string), 
+            AWSShapeMember(label: "BinaryValue", required: false, type: .blob), 
+            AWSShapeMember(label: "StringValue", required: false, type: .string)
         ]
         /// Amazon SNS supports the following logical data types: String, Number, and Binary. For more information, see Message Attribute Data Types.
         public let dataType: String
@@ -836,20 +740,18 @@ extension Sns {
             self.stringValue = stringValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let dataType = dictionary["DataType"] as? String else { throw InitializableError.missingRequiredParam("DataType") }
-            self.dataType = dataType
-            self.binaryValue = dictionary["BinaryValue"] as? Data
-            self.stringValue = dictionary["StringValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dataType = "DataType"
+            case binaryValue = "BinaryValue"
+            case stringValue = "StringValue"
         }
     }
 
     public struct ListPlatformApplicationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformApplications", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformApplications", required: false, type: .list)
         ]
         /// NextToken string is returned when calling ListPlatformApplications action if additional records are available after the first page results.
         public let nextToken: String?
@@ -861,23 +763,18 @@ extension Sns {
             self.platformApplications = platformApplications
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let platformApplications = dictionary["PlatformApplications"] as? [[String: Any]] {
-                self.platformApplications = try platformApplications.map({ try PlatformApplication(dictionary: $0) })
-            } else { 
-                self.platformApplications = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case platformApplications = "PlatformApplications"
         }
     }
 
     public struct ConfirmSubscriptionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthenticateOnUnsubscribe", required: false, type: .string), 
-            AWSShapeProperty(label: "TopicArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Token", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticateOnUnsubscribe", required: false, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: true, type: .string), 
+            AWSShapeMember(label: "Token", required: true, type: .string)
         ]
         /// Disallows unauthenticated unsubscribes of the subscription. If the value of this parameter is true and the request has an AWS signature, then only the topic owner and the subscription owner can unsubscribe the endpoint. The unsubscribe action requires AWS authentication. 
         public let authenticateOnUnsubscribe: String?
@@ -892,20 +789,17 @@ extension Sns {
             self.token = token
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.authenticateOnUnsubscribe = dictionary["AuthenticateOnUnsubscribe"] as? String
-            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
-            self.topicArn = topicArn
-            guard let token = dictionary["Token"] as? String else { throw InitializableError.missingRequiredParam("Token") }
-            self.token = token
+        private enum CodingKeys: String, CodingKey {
+            case authenticateOnUnsubscribe = "AuthenticateOnUnsubscribe"
+            case topicArn = "TopicArn"
+            case token = "Token"
         }
     }
 
     public struct ListSubscriptionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Token returned by the previous ListSubscriptions request.
         public let nextToken: String?
@@ -914,16 +808,15 @@ extension Sns {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
         }
     }
 
     public struct Topic: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: false, type: .string)
         ]
         /// The topic's ARN.
         public let topicArn: String?
@@ -932,24 +825,20 @@ extension Sns {
             self.topicArn = topicArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.topicArn = dictionary["TopicArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
         }
     }
 
     public struct OptInPhoneNumberResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct SetSMSAttributesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributes", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: true, type: .map)
         ]
         /// The default settings for sending SMS messages from your account. You can set values for the following attribute names:  MonthlySpendLimit – The maximum amount in USD that you are willing to spend each month to send SMS messages. When Amazon SNS determines that sending an SMS message would incur a cost that exceeds this limit, it stops sending SMS messages within minutes.  Amazon SNS stops sending SMS messages within minutes of the limit being crossed. During that interval, if you continue to send SMS messages, you will incur costs that exceed your limit.  By default, the spend limit is set to the maximum allowed by Amazon SNS. If you want to exceed the maximum, contact AWS Support or your AWS sales representative for a service limit increase.  DeliveryStatusIAMRole – The ARN of the IAM role that allows Amazon SNS to write logs about SMS deliveries in CloudWatch Logs. For each SMS message that you send, Amazon SNS writes a log that includes the message price, the success or failure status, the reason for failure (if the message failed), the message dwell time, and other information.  DeliveryStatusSuccessSamplingRate – The percentage of successful SMS deliveries for which Amazon SNS will write logs in CloudWatch Logs. The value can be an integer from 0 - 100. For example, to write logs only for failed deliveries, set this value to 0. To write logs for 10% of your successful deliveries, set it to 10.  DefaultSenderID – A string, such as your business brand, that is displayed as the sender on the receiving device. Support for sender IDs varies by country. The sender ID can be 1 - 11 alphanumeric characters, and it must contain at least one letter.  DefaultSMSType – The type of SMS message that you will send by default. You can assign the following values:    Promotional – (Default) Noncritical messages, such as marketing messages. Amazon SNS optimizes the message delivery to incur the lowest cost.    Transactional – Critical messages that support customer transactions, such as one-time passcodes for multi-factor authentication. Amazon SNS optimizes the message delivery to achieve the highest reliability.    UsageReportS3Bucket – The name of the Amazon S3 bucket to receive daily SMS usage reports from Amazon SNS. Each day, Amazon SNS will deliver a usage report as a CSV file to the bucket. The report includes the following information for each SMS message that was successfully delivered by your account:   Time that the message was published (in UTC)   Message ID   Destination phone number   Message type   Delivery status   Message price (in USD)   Part number (a message is split into multiple parts if it is too long for a single message)   Total number of parts   To receive the report, the bucket must have a policy that allows the Amazon SNS service principle to perform the s3:PutObject and s3:GetBucketLocation actions. For an example bucket policy and usage report, see Monitoring SMS Activity in the Amazon SNS Developer Guide.
         public let attributes: [String: String]
@@ -958,19 +847,17 @@ extension Sns {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attributes = dictionary["attributes"] as? [String: String] else { throw InitializableError.missingRequiredParam("attributes") }
-            self.attributes = attributes
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
         }
     }
 
     public struct SubscribeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Endpoint", required: false, type: .string), 
-            AWSShapeProperty(label: "TopicArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Protocol", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: true, type: .string), 
+            AWSShapeMember(label: "Protocol", required: true, type: .string)
         ]
         /// The endpoint that you want to receive notifications. Endpoints vary by protocol:   For the http protocol, the endpoint is an URL beginning with "http://"   For the https protocol, the endpoint is a URL beginning with "https://"   For the email protocol, the endpoint is an email address   For the email-json protocol, the endpoint is an email address   For the sms protocol, the endpoint is a phone number of an SMS-enabled device   For the sqs protocol, the endpoint is the ARN of an Amazon SQS queue   For the application protocol, the endpoint is the EndpointArn of a mobile app and device.   For the lambda protocol, the endpoint is the ARN of an AWS Lambda function.  
         public let endpoint: String?
@@ -985,20 +872,17 @@ extension Sns {
             self.`protocol` = `protocol`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.endpoint = dictionary["Endpoint"] as? String
-            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
-            self.topicArn = topicArn
-            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
-            self.`protocol` = `protocol`
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+            case topicArn = "TopicArn"
+            case `protocol` = "Protocol"
         }
     }
 
     public struct GetTopicAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attributes", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map)
         ]
         /// A map of the topic's attributes. Attributes in this map include the following:    TopicArn -- the topic's ARN    Owner -- the AWS account ID of the topic's owner    Policy -- the JSON serialization of the topic's access control policy    DisplayName -- the human-readable name used in the "From" field for notifications to email and email-json endpoints    SubscriptionsPending -- the number of subscriptions pending confirmation on this topic    SubscriptionsConfirmed -- the number of confirmed subscriptions on this topic    SubscriptionsDeleted -- the number of deleted subscriptions on this topic    DeliveryPolicy -- the JSON serialization of the topic's delivery policy    EffectiveDeliveryPolicy -- the JSON serialization of the effective delivery policy that takes into account system defaults  
         public let attributes: [String: String]?
@@ -1007,20 +891,15 @@ extension Sns {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attributes"] as? [String: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
         }
     }
 
     public struct CreateTopicResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) assigned to the created topic.
         public let topicArn: String?
@@ -1029,16 +908,15 @@ extension Sns {
             self.topicArn = topicArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.topicArn = dictionary["TopicArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
         }
     }
 
     public struct CreateEndpointResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndpointArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: false, type: .string)
         ]
         /// EndpointArn returned from CreateEndpoint action.
         public let endpointArn: String?
@@ -1047,22 +925,21 @@ extension Sns {
             self.endpointArn = endpointArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.endpointArn = dictionary["EndpointArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
         }
     }
 
     public struct PublishInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MessageAttributes", required: false, type: .map), 
-            AWSShapeProperty(label: "PhoneNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: true, type: .string), 
-            AWSShapeProperty(label: "TargetArn", required: false, type: .string), 
-            AWSShapeProperty(label: "MessageStructure", required: false, type: .string), 
-            AWSShapeProperty(label: "TopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Subject", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageAttributes", required: false, type: .map), 
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: true, type: .string), 
+            AWSShapeMember(label: "TargetArn", required: false, type: .string), 
+            AWSShapeMember(label: "MessageStructure", required: false, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "Subject", required: false, type: .string)
         ]
         /// Message attributes for Publish action.
         public let messageAttributes: [String: MessageAttributeValue]?
@@ -1089,32 +966,21 @@ extension Sns {
             self.subject = subject
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let messageAttributes = dictionary["MessageAttributes"] as? [String: Any] {
-                var messageAttributesDict: [String: MessageAttributeValue] = [:]
-                for (key, value) in messageAttributes {
-                    guard let messageAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    messageAttributesDict[key] = try MessageAttributeValue(dictionary: messageAttributeValueDict)
-                }
-                self.messageAttributes = messageAttributesDict
-            } else { 
-                self.messageAttributes = nil
-            }
-            self.phoneNumber = dictionary["PhoneNumber"] as? String
-            guard let message = dictionary["Message"] as? String else { throw InitializableError.missingRequiredParam("Message") }
-            self.message = message
-            self.targetArn = dictionary["TargetArn"] as? String
-            self.messageStructure = dictionary["MessageStructure"] as? String
-            self.topicArn = dictionary["TopicArn"] as? String
-            self.subject = dictionary["Subject"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case messageAttributes = "MessageAttributes"
+            case phoneNumber = "PhoneNumber"
+            case message = "Message"
+            case targetArn = "TargetArn"
+            case messageStructure = "MessageStructure"
+            case topicArn = "TopicArn"
+            case subject = "Subject"
         }
     }
 
     public struct CheckIfPhoneNumberIsOptedOutInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "phoneNumber", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "phoneNumber", required: true, type: .string)
         ]
         /// The phone number for which you want to check the opt out status.
         public let phoneNumber: String
@@ -1123,17 +989,15 @@ extension Sns {
             self.phoneNumber = phoneNumber
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let phoneNumber = dictionary["phoneNumber"] as? String else { throw InitializableError.missingRequiredParam("phoneNumber") }
-            self.phoneNumber = phoneNumber
+        private enum CodingKeys: String, CodingKey {
+            case phoneNumber = "phoneNumber"
         }
     }
 
     public struct GetEndpointAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attributes", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map)
         ]
         /// Attributes include the following:    CustomUserData -- arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.    Enabled -- flag that enables/disables delivery to the endpoint. Amazon SNS will set this to false when a notification service indicates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token.    Token -- device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification service when an app and mobile device are registered with the notification service.  
         public let attributes: [String: String]?
@@ -1142,20 +1006,15 @@ extension Sns {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attributes"] as? [String: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
         }
     }
 
     public struct DeleteEndpointInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
         /// EndpointArn of endpoint to delete.
         public let endpointArn: String
@@ -1164,27 +1023,22 @@ extension Sns {
             self.endpointArn = endpointArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
-            self.endpointArn = endpointArn
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
         }
     }
 
     public struct SetSMSAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct SetTopicAttributesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
-            AWSShapeProperty(label: "TopicArn", required: true, type: .string), 
-            AWSShapeProperty(label: "AttributeValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: true, type: .string), 
+            AWSShapeMember(label: "AttributeValue", required: false, type: .string)
         ]
         /// The name of the attribute you want to set. Only a subset of the topic's attributes are mutable. Valid values: Policy | DisplayName | DeliveryPolicy 
         public let attributeName: String
@@ -1199,20 +1053,17 @@ extension Sns {
             self.attributeValue = attributeValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
-            self.attributeName = attributeName
-            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
-            self.topicArn = topicArn
-            self.attributeValue = dictionary["AttributeValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case topicArn = "TopicArn"
+            case attributeValue = "AttributeValue"
         }
     }
 
     public struct GetSMSAttributesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: false, type: .list)
         ]
         /// A list of the individual attribute names, such as MonthlySpendLimit, for which you want values. For all attribute names, see SetSMSAttributes. If you don't use this parameter, Amazon SNS returns all SMS attributes.
         public let attributes: [String]?
@@ -1221,16 +1072,15 @@ extension Sns {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attributes = dictionary["attributes"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
         }
     }
 
     public struct CreateTopicInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the topic you want to create. Constraints: Topic names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, and hyphens, and must be between 1 and 256 characters long.
         public let name: String
@@ -1239,17 +1089,15 @@ extension Sns {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct ListPlatformApplicationsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// NextToken string is used when calling ListPlatformApplications action to retrieve additional records that are available after the first page results.
         public let nextToken: String?
@@ -1258,16 +1106,15 @@ extension Sns {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
         }
     }
 
     public struct GetSubscriptionAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attributes", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map)
         ]
         /// A map of the subscription's attributes. Attributes in this map include the following:    SubscriptionArn -- the subscription's ARN    TopicArn -- the topic ARN that the subscription is associated with    Owner -- the AWS account ID of the subscription's owner    ConfirmationWasAuthenticated -- true if the subscription confirmation request was authenticated    DeliveryPolicy -- the JSON serialization of the subscription's delivery policy    EffectiveDeliveryPolicy -- the JSON serialization of the effective delivery policy that takes into account the topic delivery policy and account system defaults  
         public let attributes: [String: String]?
@@ -1276,20 +1123,15 @@ extension Sns {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attributes"] as? [String: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
         }
     }
 
     public struct DeletePlatformApplicationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlatformApplicationArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformApplicationArn", required: true, type: .string)
         ]
         /// PlatformApplicationArn of platform application object to delete.
         public let platformApplicationArn: String
@@ -1298,9 +1140,8 @@ extension Sns {
             self.platformApplicationArn = platformApplicationArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let platformApplicationArn = dictionary["PlatformApplicationArn"] as? String else { throw InitializableError.missingRequiredParam("PlatformApplicationArn") }
-            self.platformApplicationArn = platformApplicationArn
+        private enum CodingKeys: String, CodingKey {
+            case platformApplicationArn = "PlatformApplicationArn"
         }
     }
 

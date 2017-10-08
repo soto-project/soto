@@ -31,12 +31,11 @@ extension Ecr {
 
     public struct DescribeRepositoriesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "repositoryNames", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "repositoryNames", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
         ]
         /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable.
         public let maxResults: Int32?
@@ -54,20 +53,19 @@ extension Ecr {
             self.registryId = registryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.repositoryNames = dictionary["repositoryNames"] as? [String]
-            self.nextToken = dictionary["nextToken"] as? String
-            self.registryId = dictionary["registryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case repositoryNames = "repositoryNames"
+            case nextToken = "nextToken"
+            case registryId = "registryId"
         }
     }
 
     public struct ListImagesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "imageIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "imageIds", required: false, type: .list)
         ]
         /// The nextToken value to include in a future ListImages request. When the results of a ListImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -79,50 +77,44 @@ extension Ecr {
             self.imageIds = imageIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let imageIds = dictionary["imageIds"] as? [[String: Any]] {
-                self.imageIds = try imageIds.map({ try ImageIdentifier(dictionary: $0) })
-            } else { 
-                self.imageIds = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case imageIds = "imageIds"
         }
     }
 
     public struct AuthorizationData: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "authorizationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "expiresAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "proxyEndpoint", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorizationToken", required: false, type: .string), 
+            AWSShapeMember(label: "expiresAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "proxyEndpoint", required: false, type: .string)
         ]
         /// A base64-encoded string that contains authorization data for the specified Amazon ECR registry. When the string is decoded, it is presented in the format user:password for private registry authentication using docker login.
         public let authorizationToken: String?
         /// The Unix time in seconds and milliseconds when the authorization token expires. Authorization tokens are valid for 12 hours.
-        public let expiresAt: String?
+        public let expiresAt: Double?
         /// The registry URL to use for this authorization token in a docker login command. The Amazon ECR registry URL format is https://aws_account_id.dkr.ecr.region.amazonaws.com. For example, https://012345678910.dkr.ecr.us-east-1.amazonaws.com.. 
         public let proxyEndpoint: String?
 
-        public init(authorizationToken: String? = nil, expiresAt: String? = nil, proxyEndpoint: String? = nil) {
+        public init(authorizationToken: String? = nil, expiresAt: Double? = nil, proxyEndpoint: String? = nil) {
             self.authorizationToken = authorizationToken
             self.expiresAt = expiresAt
             self.proxyEndpoint = proxyEndpoint
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.authorizationToken = dictionary["authorizationToken"] as? String
-            self.expiresAt = dictionary["expiresAt"] as? String
-            self.proxyEndpoint = dictionary["proxyEndpoint"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case authorizationToken = "authorizationToken"
+            case expiresAt = "expiresAt"
+            case proxyEndpoint = "proxyEndpoint"
         }
     }
 
     public struct BatchDeleteImageResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failures", required: false, type: .list), 
-            AWSShapeProperty(label: "imageIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failures", required: false, type: .list), 
+            AWSShapeMember(label: "imageIds", required: false, type: .list)
         ]
         /// Any failures associated with the call.
         public let failures: [ImageFailure]?
@@ -134,26 +126,17 @@ extension Ecr {
             self.imageIds = imageIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failures = dictionary["failures"] as? [[String: Any]] {
-                self.failures = try failures.map({ try ImageFailure(dictionary: $0) })
-            } else { 
-                self.failures = nil
-            }
-            if let imageIds = dictionary["imageIds"] as? [[String: Any]] {
-                self.imageIds = try imageIds.map({ try ImageIdentifier(dictionary: $0) })
-            } else { 
-                self.imageIds = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failures = "failures"
+            case imageIds = "imageIds"
         }
     }
 
     public struct DescribeImagesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "imageDetails", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "imageDetails", required: false, type: .list)
         ]
         /// The nextToken value to include in a future DescribeImages request. When the results of a DescribeImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -165,21 +148,16 @@ extension Ecr {
             self.imageDetails = imageDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let imageDetails = dictionary["imageDetails"] as? [[String: Any]] {
-                self.imageDetails = try imageDetails.map({ try ImageDetail(dictionary: $0) })
-            } else { 
-                self.imageDetails = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case imageDetails = "imageDetails"
         }
     }
 
     public struct DeleteRepositoryResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repository", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repository", required: false, type: .structure)
         ]
         /// The repository that was deleted.
         public let repository: Repository?
@@ -188,19 +166,18 @@ extension Ecr {
             self.repository = repository
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let repository = dictionary["repository"] as? [String: Any] { self.repository = try Ecr.Repository(dictionary: repository) } else { self.repository = nil }
+        private enum CodingKeys: String, CodingKey {
+            case repository = "repository"
         }
     }
 
     public struct Layer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "layerSize", required: false, type: .long), 
-            AWSShapeProperty(label: "layerAvailability", required: false, type: .enum), 
-            AWSShapeProperty(label: "mediaType", required: false, type: .string), 
-            AWSShapeProperty(label: "layerDigest", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "layerSize", required: false, type: .long), 
+            AWSShapeMember(label: "layerAvailability", required: false, type: .enum), 
+            AWSShapeMember(label: "mediaType", required: false, type: .string), 
+            AWSShapeMember(label: "layerDigest", required: false, type: .string)
         ]
         /// The size, in bytes, of the image layer.
         public let layerSize: Int64?
@@ -218,24 +195,23 @@ extension Ecr {
             self.layerDigest = layerDigest
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.layerSize = dictionary["layerSize"] as? Int64
-            if let layerAvailability = dictionary["layerAvailability"] as? String { self.layerAvailability = LayerAvailability(rawValue: layerAvailability) } else { self.layerAvailability = nil }
-            self.mediaType = dictionary["mediaType"] as? String
-            self.layerDigest = dictionary["layerDigest"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case layerSize = "layerSize"
+            case layerAvailability = "layerAvailability"
+            case mediaType = "mediaType"
+            case layerDigest = "layerDigest"
         }
     }
 
     public struct DescribeImagesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "imageIds", required: false, type: .list), 
-            AWSShapeProperty(label: "filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "imageIds", required: false, type: .list), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
         ]
         /// The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable.
         public let maxResults: Int32?
@@ -259,27 +235,21 @@ extension Ecr {
             self.registryId = registryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
-            if let imageIds = dictionary["imageIds"] as? [[String: Any]] {
-                self.imageIds = try imageIds.map({ try ImageIdentifier(dictionary: $0) })
-            } else { 
-                self.imageIds = nil
-            }
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Ecr.DescribeImagesFilter(dictionary: filter) } else { self.filter = nil }
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
-            self.registryId = dictionary["registryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case imageIds = "imageIds"
+            case filter = "filter"
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
         }
     }
 
     public struct ImageIdentifier: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "imageTag", required: false, type: .string), 
-            AWSShapeProperty(label: "imageDigest", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageTag", required: false, type: .string), 
+            AWSShapeMember(label: "imageDigest", required: false, type: .string)
         ]
         /// The tag used for the image.
         public let imageTag: String?
@@ -291,19 +261,18 @@ extension Ecr {
             self.imageDigest = imageDigest
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.imageTag = dictionary["imageTag"] as? String
-            self.imageDigest = dictionary["imageDigest"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case imageTag = "imageTag"
+            case imageDigest = "imageDigest"
         }
     }
 
     public struct DeleteRepositoryPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyText", required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyText", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
         /// The JSON repository policy that was deleted from the repository.
         public let policyText: String?
@@ -318,20 +287,19 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyText = dictionary["policyText"] as? String
-            self.registryId = dictionary["registryId"] as? String
-            self.repositoryName = dictionary["repositoryName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyText = "policyText"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct LayerFailure: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "layerDigest", required: false, type: .string), 
-            AWSShapeProperty(label: "failureCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "failureReason", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "layerDigest", required: false, type: .string), 
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string)
         ]
         /// The layer digest associated with the failure.
         public let layerDigest: String?
@@ -346,20 +314,19 @@ extension Ecr {
             self.failureReason = failureReason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.layerDigest = dictionary["layerDigest"] as? String
-            if let failureCode = dictionary["failureCode"] as? String { self.failureCode = LayerFailureCode(rawValue: failureCode) } else { self.failureCode = nil }
-            self.failureReason = dictionary["failureReason"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case layerDigest = "layerDigest"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
         }
     }
 
     public struct ImageFailure: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "imageId", required: false, type: .structure), 
-            AWSShapeProperty(label: "failureCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "failureReason", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageId", required: false, type: .structure), 
+            AWSShapeMember(label: "failureCode", required: false, type: .enum), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string)
         ]
         /// The image ID associated with the failure.
         public let imageId: ImageIdentifier?
@@ -374,19 +341,18 @@ extension Ecr {
             self.failureReason = failureReason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let imageId = dictionary["imageId"] as? [String: Any] { self.imageId = try Ecr.ImageIdentifier(dictionary: imageId) } else { self.imageId = nil }
-            if let failureCode = dictionary["failureCode"] as? String { self.failureCode = ImageFailureCode(rawValue: failureCode) } else { self.failureCode = nil }
-            self.failureReason = dictionary["failureReason"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "imageId"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
         }
     }
 
     public struct BatchGetImageResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failures", required: false, type: .list), 
-            AWSShapeProperty(label: "images", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failures", required: false, type: .list), 
+            AWSShapeMember(label: "images", required: false, type: .list)
         ]
         /// Any failures associated with the call.
         public let failures: [ImageFailure]?
@@ -398,21 +364,13 @@ extension Ecr {
             self.images = images
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failures = dictionary["failures"] as? [[String: Any]] {
-                self.failures = try failures.map({ try ImageFailure(dictionary: $0) })
-            } else { 
-                self.failures = nil
-            }
-            if let images = dictionary["images"] as? [[String: Any]] {
-                self.images = try images.map({ try Image(dictionary: $0) })
-            } else { 
-                self.images = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failures = "failures"
+            case images = "images"
         }
     }
 
-    public enum LayerAvailability: String, CustomStringConvertible {
+    public enum LayerAvailability: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
@@ -420,11 +378,10 @@ extension Ecr {
 
     public struct SetRepositoryPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyText", required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyText", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
         /// The JSON repository policy text applied to the repository.
         public let policyText: String?
@@ -439,18 +396,17 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyText = dictionary["policyText"] as? String
-            self.registryId = dictionary["registryId"] as? String
-            self.repositoryName = dictionary["repositoryName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyText = "policyText"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct GetAuthorizationTokenRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "registryIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registryIds", required: false, type: .list)
         ]
         /// A list of AWS account IDs that are associated with the registries for which to get authorization tokens. If you do not specify a registry, the default registry is assumed.
         public let registryIds: [String]?
@@ -459,12 +415,12 @@ extension Ecr {
             self.registryIds = registryIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.registryIds = dictionary["registryIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case registryIds = "registryIds"
         }
     }
 
-    public enum LayerFailureCode: String, CustomStringConvertible {
+    public enum LayerFailureCode: String, CustomStringConvertible, Codable {
         case invalidlayerdigest = "InvalidLayerDigest"
         case missinglayerdigest = "MissingLayerDigest"
         public var description: String { return self.rawValue }
@@ -472,14 +428,13 @@ extension Ecr {
 
     public struct ImageDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "imageSizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
-            AWSShapeProperty(label: "imageDigest", required: false, type: .string), 
-            AWSShapeProperty(label: "imageTags", required: false, type: .list), 
-            AWSShapeProperty(label: "imagePushedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "imageDigest", required: false, type: .string), 
+            AWSShapeMember(label: "imageTags", required: false, type: .list), 
+            AWSShapeMember(label: "imagePushedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
         ]
         /// The size, in bytes, of the image in the repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
         public let imageSizeInBytes: Int64?
@@ -490,11 +445,11 @@ extension Ecr {
         /// The list of tags associated with this image.
         public let imageTags: [String]?
         /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository. 
-        public let imagePushedAt: String?
+        public let imagePushedAt: Double?
         /// The AWS account ID associated with the registry to which this image belongs.
         public let registryId: String?
 
-        public init(imageSizeInBytes: Int64? = nil, repositoryName: String? = nil, imageDigest: String? = nil, imageTags: [String]? = nil, imagePushedAt: String? = nil, registryId: String? = nil) {
+        public init(imageSizeInBytes: Int64? = nil, repositoryName: String? = nil, imageDigest: String? = nil, imageTags: [String]? = nil, imagePushedAt: Double? = nil, registryId: String? = nil) {
             self.imageSizeInBytes = imageSizeInBytes
             self.repositoryName = repositoryName
             self.imageDigest = imageDigest
@@ -503,21 +458,20 @@ extension Ecr {
             self.registryId = registryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.imageSizeInBytes = dictionary["imageSizeInBytes"] as? Int64
-            self.repositoryName = dictionary["repositoryName"] as? String
-            self.imageDigest = dictionary["imageDigest"] as? String
-            self.imageTags = dictionary["imageTags"] as? [String]
-            self.imagePushedAt = dictionary["imagePushedAt"] as? String
-            self.registryId = dictionary["registryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case imageSizeInBytes = "imageSizeInBytes"
+            case repositoryName = "repositoryName"
+            case imageDigest = "imageDigest"
+            case imageTags = "imageTags"
+            case imagePushedAt = "imagePushedAt"
+            case registryId = "registryId"
         }
     }
 
     public struct GetAuthorizationTokenResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "authorizationData", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorizationData", required: false, type: .list)
         ]
         /// A list of authorization token data objects that correspond to the registryIds values in the request.
         public let authorizationData: [AuthorizationData]?
@@ -526,21 +480,16 @@ extension Ecr {
             self.authorizationData = authorizationData
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let authorizationData = dictionary["authorizationData"] as? [[String: Any]] {
-                self.authorizationData = try authorizationData.map({ try AuthorizationData(dictionary: $0) })
-            } else { 
-                self.authorizationData = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case authorizationData = "authorizationData"
         }
     }
 
     public struct InitiateLayerUploadResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uploadId", required: false, type: .string), 
-            AWSShapeProperty(label: "partSize", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "uploadId", required: false, type: .string), 
+            AWSShapeMember(label: "partSize", required: false, type: .long)
         ]
         /// The upload ID for the layer upload. This parameter is passed to further UploadLayerPart and CompleteLayerUpload operations.
         public let uploadId: String?
@@ -552,20 +501,19 @@ extension Ecr {
             self.partSize = partSize
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.uploadId = dictionary["uploadId"] as? String
-            self.partSize = dictionary["partSize"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case uploadId = "uploadId"
+            case partSize = "partSize"
         }
     }
 
     public struct BatchGetImageRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "acceptedMediaTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "imageIds", required: true, type: .list), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "acceptedMediaTypes", required: false, type: .list), 
+            AWSShapeMember(label: "imageIds", required: true, type: .list), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
         ]
         /// The accepted media types for the request. Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | application/vnd.oci.image.manifest.v1+json 
         public let acceptedMediaTypes: [String]?
@@ -583,22 +531,19 @@ extension Ecr {
             self.registryId = registryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acceptedMediaTypes = dictionary["acceptedMediaTypes"] as? [String]
-            guard let imageIds = dictionary["imageIds"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("imageIds") }
-            self.imageIds = try imageIds.map({ try ImageIdentifier(dictionary: $0) })
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
-            self.registryId = dictionary["registryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case acceptedMediaTypes = "acceptedMediaTypes"
+            case imageIds = "imageIds"
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
         }
     }
 
     public struct DeleteRepositoryPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The AWS account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -610,19 +555,17 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.registryId = dictionary["registryId"] as? String
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct GetDownloadUrlForLayerResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "layerDigest", required: false, type: .string), 
-            AWSShapeProperty(label: "downloadUrl", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "layerDigest", required: false, type: .string), 
+            AWSShapeMember(label: "downloadUrl", required: false, type: .string)
         ]
         /// The digest of the image layer to download.
         public let layerDigest: String?
@@ -634,20 +577,19 @@ extension Ecr {
             self.downloadUrl = downloadUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.layerDigest = dictionary["layerDigest"] as? String
-            self.downloadUrl = dictionary["downloadUrl"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case layerDigest = "layerDigest"
+            case downloadUrl = "downloadUrl"
         }
     }
 
     public struct Image: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "imageManifest", required: false, type: .string), 
-            AWSShapeProperty(label: "imageId", required: false, type: .structure), 
-            AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageManifest", required: false, type: .string), 
+            AWSShapeMember(label: "imageId", required: false, type: .structure), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
         ]
         /// The image manifest associated with the image.
         public let imageManifest: String?
@@ -665,19 +607,18 @@ extension Ecr {
             self.registryId = registryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.imageManifest = dictionary["imageManifest"] as? String
-            if let imageId = dictionary["imageId"] as? [String: Any] { self.imageId = try Ecr.ImageIdentifier(dictionary: imageId) } else { self.imageId = nil }
-            self.repositoryName = dictionary["repositoryName"] as? String
-            self.registryId = dictionary["registryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case imageManifest = "imageManifest"
+            case imageId = "imageId"
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
         }
     }
 
     public struct CreateRepositoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
         public let repositoryName: String
@@ -686,19 +627,17 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct GetRepositoryPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyText", required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyText", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
         /// The JSON repository policy text associated with the repository.
         public let policyText: String?
@@ -713,20 +652,19 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyText = dictionary["policyText"] as? String
-            self.registryId = dictionary["registryId"] as? String
-            self.repositoryName = dictionary["repositoryName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyText = "policyText"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct GetDownloadUrlForLayerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "layerDigest", required: true, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "layerDigest", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The digest of the image layer to download.
         public let layerDigest: String
@@ -741,20 +679,17 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let layerDigest = dictionary["layerDigest"] as? String else { throw InitializableError.missingRequiredParam("layerDigest") }
-            self.layerDigest = layerDigest
-            self.registryId = dictionary["registryId"] as? String
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case layerDigest = "layerDigest"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct ListImagesFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tagStatus", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tagStatus", required: false, type: .enum)
         ]
         /// The tag status with which to filter your ListImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public let tagStatus: TagStatus?
@@ -763,19 +698,18 @@ extension Ecr {
             self.tagStatus = tagStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagStatus = dictionary["tagStatus"] as? String { self.tagStatus = TagStatus(rawValue: tagStatus) } else { self.tagStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tagStatus = "tagStatus"
         }
     }
 
     public struct SetRepositoryPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "force", required: false, type: .boolean), 
-            AWSShapeProperty(label: "policyText", required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "force", required: false, type: .boolean), 
+            AWSShapeMember(label: "policyText", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
         ]
         /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
         public let force: Bool?
@@ -793,21 +727,18 @@ extension Ecr {
             self.registryId = registryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.force = dictionary["force"] as? Bool
-            guard let policyText = dictionary["policyText"] as? String else { throw InitializableError.missingRequiredParam("policyText") }
-            self.policyText = policyText
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
-            self.registryId = dictionary["registryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case force = "force"
+            case policyText = "policyText"
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
         }
     }
 
     public struct CreateRepositoryResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repository", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repository", required: false, type: .structure)
         ]
         /// The repository that was created.
         public let repository: Repository?
@@ -816,18 +747,17 @@ extension Ecr {
             self.repository = repository
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let repository = dictionary["repository"] as? [String: Any] { self.repository = try Ecr.Repository(dictionary: repository) } else { self.repository = nil }
+        private enum CodingKeys: String, CodingKey {
+            case repository = "repository"
         }
     }
 
     public struct BatchCheckLayerAvailabilityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "layerDigests", required: true, type: .list), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "layerDigests", required: true, type: .list), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The digests of the image layers to check.
         public let layerDigests: [String]
@@ -842,21 +772,18 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let layerDigests = dictionary["layerDigests"] as? [String] else { throw InitializableError.missingRequiredParam("layerDigests") }
-            self.layerDigests = layerDigests
-            self.registryId = dictionary["registryId"] as? String
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case layerDigests = "layerDigests"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct GetRepositoryPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -868,21 +795,19 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.registryId = dictionary["registryId"] as? String
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct UploadLayerPartResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uploadId", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "lastByteReceived", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "uploadId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "lastByteReceived", required: false, type: .long)
         ]
         /// The upload ID associated with the request.
         public let uploadId: String?
@@ -900,20 +825,19 @@ extension Ecr {
             self.lastByteReceived = lastByteReceived
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.uploadId = dictionary["uploadId"] as? String
-            self.repositoryName = dictionary["repositoryName"] as? String
-            self.registryId = dictionary["registryId"] as? String
-            self.lastByteReceived = dictionary["lastByteReceived"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case uploadId = "uploadId"
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
+            case lastByteReceived = "lastByteReceived"
         }
     }
 
     public struct BatchCheckLayerAvailabilityResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failures", required: false, type: .list), 
-            AWSShapeProperty(label: "layers", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failures", required: false, type: .list), 
+            AWSShapeMember(label: "layers", required: false, type: .list)
         ]
         /// Any failures associated with the call.
         public let failures: [LayerFailure]?
@@ -925,28 +849,19 @@ extension Ecr {
             self.layers = layers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failures = dictionary["failures"] as? [[String: Any]] {
-                self.failures = try failures.map({ try LayerFailure(dictionary: $0) })
-            } else { 
-                self.failures = nil
-            }
-            if let layers = dictionary["layers"] as? [[String: Any]] {
-                self.layers = try layers.map({ try Layer(dictionary: $0) })
-            } else { 
-                self.layers = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failures = "failures"
+            case layers = "layers"
         }
     }
 
     public struct PutImageRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "imageTag", required: false, type: .string), 
-            AWSShapeProperty(label: "imageManifest", required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageTag", required: false, type: .string), 
+            AWSShapeMember(label: "imageManifest", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
         ]
         /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or OCI formats.
         public let imageTag: String?
@@ -964,22 +879,19 @@ extension Ecr {
             self.registryId = registryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.imageTag = dictionary["imageTag"] as? String
-            guard let imageManifest = dictionary["imageManifest"] as? String else { throw InitializableError.missingRequiredParam("imageManifest") }
-            self.imageManifest = imageManifest
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
-            self.registryId = dictionary["registryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case imageTag = "imageTag"
+            case imageManifest = "imageManifest"
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
         }
     }
 
     public struct DescribeRepositoriesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositories", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositories", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A list of repository objects corresponding to valid repositories.
         public let repositories: [Repository]?
@@ -991,22 +903,17 @@ extension Ecr {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let repositories = dictionary["repositories"] as? [[String: Any]] {
-                self.repositories = try repositories.map({ try Repository(dictionary: $0) })
-            } else { 
-                self.repositories = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case repositories = "repositories"
+            case nextToken = "nextToken"
         }
     }
 
     public struct InitiateLayerUploadRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The AWS account ID associated with the registry that you intend to upload layers to. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -1018,14 +925,13 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.registryId = dictionary["registryId"] as? String
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
-    public enum ImageFailureCode: String, CustomStringConvertible {
+    public enum ImageFailureCode: String, CustomStringConvertible, Codable {
         case invalidimagedigest = "InvalidImageDigest"
         case invalidimagetag = "InvalidImageTag"
         case imagetagdoesnotmatchdigest = "ImageTagDoesNotMatchDigest"
@@ -1036,11 +942,10 @@ extension Ecr {
 
     public struct DeleteRepositoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "force", required: false, type: .boolean), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "force", required: false, type: .boolean), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// Force the deletion of the repository if it contains images.
         public let force: Bool?
@@ -1055,19 +960,17 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.force = dictionary["force"] as? Bool
-            self.registryId = dictionary["registryId"] as? String
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case force = "force"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct PutImageResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "image", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "image", required: false, type: .structure)
         ]
         /// Details of the image uploaded.
         public let image: Image?
@@ -1076,20 +979,19 @@ extension Ecr {
             self.image = image
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let image = dictionary["image"] as? [String: Any] { self.image = try Ecr.Image(dictionary: image) } else { self.image = nil }
+        private enum CodingKeys: String, CodingKey {
+            case image = "image"
         }
     }
 
     public struct Repository: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryUri", required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "repositoryArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryUri", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "repositoryArn", required: false, type: .string)
         ]
         /// The name of the repository.
         public let repositoryName: String?
@@ -1098,11 +1000,11 @@ extension Ecr {
         /// The AWS account ID associated with the registry that contains the repository.
         public let registryId: String?
         /// The date and time, in JavaScript date/time format, when the repository was created.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, the AWS account ID of the repository owner, the repository namespace, and then the repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
         public let repositoryArn: String?
 
-        public init(repositoryName: String? = nil, repositoryUri: String? = nil, registryId: String? = nil, createdAt: String? = nil, repositoryArn: String? = nil) {
+        public init(repositoryName: String? = nil, repositoryUri: String? = nil, registryId: String? = nil, createdAt: Double? = nil, repositoryArn: String? = nil) {
             self.repositoryName = repositoryName
             self.repositoryUri = repositoryUri
             self.registryId = registryId
@@ -1110,22 +1012,21 @@ extension Ecr {
             self.repositoryArn = repositoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.repositoryName = dictionary["repositoryName"] as? String
-            self.repositoryUri = dictionary["repositoryUri"] as? String
-            self.registryId = dictionary["registryId"] as? String
-            self.createdAt = dictionary["createdAt"] as? String
-            self.repositoryArn = dictionary["repositoryArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case repositoryUri = "repositoryUri"
+            case registryId = "registryId"
+            case createdAt = "createdAt"
+            case repositoryArn = "repositoryArn"
         }
     }
 
     public struct BatchDeleteImageRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "imageIds", required: true, type: .list), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "imageIds", required: true, type: .list), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The AWS account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -1140,23 +1041,20 @@ extension Ecr {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.registryId = dictionary["registryId"] as? String
-            guard let imageIds = dictionary["imageIds"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("imageIds") }
-            self.imageIds = try imageIds.map({ try ImageIdentifier(dictionary: $0) })
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "registryId"
+            case imageIds = "imageIds"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct CompleteLayerUploadResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uploadId", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "layerDigest", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "uploadId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "layerDigest", required: false, type: .string)
         ]
         /// The upload ID associated with the layer.
         public let uploadId: String?
@@ -1174,24 +1072,23 @@ extension Ecr {
             self.layerDigest = layerDigest
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.uploadId = dictionary["uploadId"] as? String
-            self.repositoryName = dictionary["repositoryName"] as? String
-            self.registryId = dictionary["registryId"] as? String
-            self.layerDigest = dictionary["layerDigest"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case uploadId = "uploadId"
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
+            case layerDigest = "layerDigest"
         }
     }
 
     public struct UploadLayerPartRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uploadId", required: true, type: .string), 
-            AWSShapeProperty(label: "layerPartBlob", required: true, type: .blob), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
-            AWSShapeProperty(label: "partLastByte", required: true, type: .long), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "partFirstByte", required: true, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "uploadId", required: true, type: .string), 
+            AWSShapeMember(label: "layerPartBlob", required: true, type: .blob), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "partLastByte", required: true, type: .long), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "partFirstByte", required: true, type: .long)
         ]
         /// The upload ID from a previous InitiateLayerUpload operation to associate with the layer part upload.
         public let uploadId: String
@@ -1215,29 +1112,23 @@ extension Ecr {
             self.partFirstByte = partFirstByte
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
-            self.uploadId = uploadId
-            guard let layerPartBlob = dictionary["layerPartBlob"] as? Data else { throw InitializableError.missingRequiredParam("layerPartBlob") }
-            self.layerPartBlob = layerPartBlob
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
-            guard let partLastByte = dictionary["partLastByte"] as? Int64 else { throw InitializableError.missingRequiredParam("partLastByte") }
-            self.partLastByte = partLastByte
-            self.registryId = dictionary["registryId"] as? String
-            guard let partFirstByte = dictionary["partFirstByte"] as? Int64 else { throw InitializableError.missingRequiredParam("partFirstByte") }
-            self.partFirstByte = partFirstByte
+        private enum CodingKeys: String, CodingKey {
+            case uploadId = "uploadId"
+            case layerPartBlob = "layerPartBlob"
+            case repositoryName = "repositoryName"
+            case partLastByte = "partLastByte"
+            case registryId = "registryId"
+            case partFirstByte = "partFirstByte"
         }
     }
 
     public struct CompleteLayerUploadRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uploadId", required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string), 
-            AWSShapeProperty(label: "layerDigests", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "uploadId", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "layerDigests", required: true, type: .list)
         ]
         /// The upload ID from a previous InitiateLayerUpload operation to associate with the image layer.
         public let uploadId: String
@@ -1255,18 +1146,15 @@ extension Ecr {
             self.layerDigests = layerDigests
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
-            self.uploadId = uploadId
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
-            self.registryId = dictionary["registryId"] as? String
-            guard let layerDigests = dictionary["layerDigests"] as? [String] else { throw InitializableError.missingRequiredParam("layerDigests") }
-            self.layerDigests = layerDigests
+        private enum CodingKeys: String, CodingKey {
+            case uploadId = "uploadId"
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
+            case layerDigests = "layerDigests"
         }
     }
 
-    public enum TagStatus: String, CustomStringConvertible {
+    public enum TagStatus: String, CustomStringConvertible, Codable {
         case tagged = "TAGGED"
         case untagged = "UNTAGGED"
         public var description: String { return self.rawValue }
@@ -1274,9 +1162,8 @@ extension Ecr {
 
     public struct DescribeImagesFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tagStatus", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tagStatus", required: false, type: .enum)
         ]
         /// The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public let tagStatus: TagStatus?
@@ -1285,20 +1172,19 @@ extension Ecr {
             self.tagStatus = tagStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagStatus = dictionary["tagStatus"] as? String { self.tagStatus = TagStatus(rawValue: tagStatus) } else { self.tagStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tagStatus = "tagStatus"
         }
     }
 
     public struct ListImagesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
-            AWSShapeProperty(label: "registryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string)
         ]
         /// The filter key and value with which to filter your ListImages results.
         public let filter: ListImagesFilter?
@@ -1319,13 +1205,12 @@ extension Ecr {
             self.registryId = registryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Ecr.ListImagesFilter(dictionary: filter) } else { self.filter = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
-            self.registryId = dictionary["registryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case repositoryName = "repositoryName"
+            case registryId = "registryId"
         }
     }
 

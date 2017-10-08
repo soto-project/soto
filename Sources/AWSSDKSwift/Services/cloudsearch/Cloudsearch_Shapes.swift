@@ -31,9 +31,8 @@ extension Cloudsearch {
 
     public struct DescribeScalingParametersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         public let domainName: String
 
@@ -41,22 +40,20 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct IntOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceField", required: false, type: .string), 
-            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SortEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceField", required: false, type: .string), 
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .long)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -80,22 +77,21 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
-            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
-            self.sourceField = dictionary["SourceField"] as? String
-            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
-            self.sortEnabled = dictionary["SortEnabled"] as? Bool
-            self.defaultValue = dictionary["DefaultValue"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case facetEnabled = "FacetEnabled"
+            case sourceField = "SourceField"
+            case searchEnabled = "SearchEnabled"
+            case sortEnabled = "SortEnabled"
+            case defaultValue = "DefaultValue"
         }
     }
 
     public struct ExpressionStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", required: true, type: .structure), 
-            AWSShapeProperty(label: "Status", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
         /// The expression that is evaluated for sorting while processing a search request.
         public let options: Expression
@@ -106,19 +102,16 @@ extension Cloudsearch {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
-            self.options = try Cloudsearch.Expression(dictionary: options)
-            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = try Cloudsearch.OptionStatus(dictionary: status)
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
     public struct DescribeScalingParametersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScalingParameters", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScalingParameters", required: true, type: .structure)
         ]
         public let scalingParameters: ScalingParametersStatus
 
@@ -126,19 +119,17 @@ extension Cloudsearch {
             self.scalingParameters = scalingParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scalingParameters = dictionary["ScalingParameters"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ScalingParameters") }
-            self.scalingParameters = try Cloudsearch.ScalingParametersStatus(dictionary: scalingParameters)
+        private enum CodingKeys: String, CodingKey {
+            case scalingParameters = "ScalingParameters"
         }
     }
 
     public struct AnalysisScheme: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisSchemeLanguage", required: true, type: .enum), 
-            AWSShapeProperty(label: "AnalysisSchemeName", required: true, type: .string), 
-            AWSShapeProperty(label: "AnalysisOptions", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalysisSchemeLanguage", required: true, type: .enum), 
+            AWSShapeMember(label: "AnalysisSchemeName", required: true, type: .string), 
+            AWSShapeMember(label: "AnalysisOptions", required: false, type: .structure)
         ]
         public let analysisSchemeLanguage: AnalysisSchemeLanguage
         public let analysisSchemeName: String
@@ -150,21 +141,18 @@ extension Cloudsearch {
             self.analysisOptions = analysisOptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawAnalysisSchemeLanguage = dictionary["AnalysisSchemeLanguage"] as? String, let analysisSchemeLanguage = AnalysisSchemeLanguage(rawValue: rawAnalysisSchemeLanguage) else { throw InitializableError.missingRequiredParam("AnalysisSchemeLanguage") }
-            self.analysisSchemeLanguage = analysisSchemeLanguage
-            guard let analysisSchemeName = dictionary["AnalysisSchemeName"] as? String else { throw InitializableError.missingRequiredParam("AnalysisSchemeName") }
-            self.analysisSchemeName = analysisSchemeName
-            if let analysisOptions = dictionary["AnalysisOptions"] as? [String: Any] { self.analysisOptions = try Cloudsearch.AnalysisOptions(dictionary: analysisOptions) } else { self.analysisOptions = nil }
+        private enum CodingKeys: String, CodingKey {
+            case analysisSchemeLanguage = "AnalysisSchemeLanguage"
+            case analysisSchemeName = "AnalysisSchemeName"
+            case analysisOptions = "AnalysisOptions"
         }
     }
 
     public struct DeleteIndexFieldRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexFieldName", required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexFieldName", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the index field your want to remove from the domain's indexing options.
         public let indexFieldName: String
@@ -175,19 +163,16 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let indexFieldName = dictionary["IndexFieldName"] as? String else { throw InitializableError.missingRequiredParam("IndexFieldName") }
-            self.indexFieldName = indexFieldName
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case indexFieldName = "IndexFieldName"
+            case domainName = "DomainName"
         }
     }
 
     public struct DeleteExpressionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Expression", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Expression", required: true, type: .structure)
         ]
         /// The status of the expression being deleted.
         public let expression: ExpressionStatus
@@ -196,22 +181,20 @@ extension Cloudsearch {
             self.expression = expression
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let expression = dictionary["Expression"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Expression") }
-            self.expression = try Cloudsearch.ExpressionStatus(dictionary: expression)
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
         }
     }
 
     public struct LiteralOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceField", required: false, type: .string), 
-            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SortEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceField", required: false, type: .string), 
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -234,23 +217,22 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
-            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
-            self.sourceField = dictionary["SourceField"] as? String
-            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
-            self.sortEnabled = dictionary["SortEnabled"] as? Bool
-            self.defaultValue = dictionary["DefaultValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case facetEnabled = "FacetEnabled"
+            case sourceField = "SourceField"
+            case searchEnabled = "SearchEnabled"
+            case sortEnabled = "SortEnabled"
+            case defaultValue = "DefaultValue"
         }
     }
 
     public struct DescribeAnalysisSchemesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisSchemeNames", required: false, type: .list), 
-            AWSShapeProperty(label: "Deployed", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalysisSchemeNames", required: false, type: .list), 
+            AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The analysis schemes you want to describe.
         public let analysisSchemeNames: [String]?
@@ -265,36 +247,34 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.analysisSchemeNames = dictionary["AnalysisSchemeNames"] as? [String]
-            self.deployed = dictionary["Deployed"] as? Bool
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case analysisSchemeNames = "AnalysisSchemeNames"
+            case deployed = "Deployed"
+            case domainName = "DomainName"
         }
     }
 
     public struct OptionStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UpdateVersion", required: false, type: .integer), 
-            AWSShapeProperty(label: "PendingDeletion", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CreationDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "State", required: true, type: .enum), 
-            AWSShapeProperty(label: "UpdateDate", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UpdateVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "PendingDeletion", required: false, type: .boolean), 
+            AWSShapeMember(label: "CreationDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "State", required: true, type: .enum), 
+            AWSShapeMember(label: "UpdateDate", required: true, type: .timestamp)
         ]
         /// A unique integer that indicates when this option was last updated.
         public let updateVersion: Int32?
         /// Indicates that the option will be deleted once processing is complete.
         public let pendingDeletion: Bool?
         /// A timestamp for when this option was created.
-        public let creationDate: String
+        public let creationDate: Double
         /// The state of processing a change to an option. Possible values:   RequiresIndexDocuments: the option's latest value will not be deployed until IndexDocuments has been called and indexing is complete.  Processing: the option's latest value is in the process of being activated.   Active: the option's latest value is completely deployed.  FailedToValidate: the option value is not compatible with the domain's data and cannot be used to index the data. You must either modify the option value or update or remove the incompatible documents. 
         public let state: OptionState
         /// A timestamp for when this option was last updated.
-        public let updateDate: String
+        public let updateDate: Double
 
-        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: String, state: OptionState, updateDate: String) {
+        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: Double, state: OptionState, updateDate: Double) {
             self.updateVersion = updateVersion
             self.pendingDeletion = pendingDeletion
             self.creationDate = creationDate
@@ -302,23 +282,19 @@ extension Cloudsearch {
             self.updateDate = updateDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.updateVersion = dictionary["UpdateVersion"] as? Int32
-            self.pendingDeletion = dictionary["PendingDeletion"] as? Bool
-            guard let creationDate = dictionary["CreationDate"] as? String else { throw InitializableError.missingRequiredParam("CreationDate") }
-            self.creationDate = creationDate
-            guard let rawState = dictionary["State"] as? String, let state = OptionState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
-            self.state = state
-            guard let updateDate = dictionary["UpdateDate"] as? String else { throw InitializableError.missingRequiredParam("UpdateDate") }
-            self.updateDate = updateDate
+        private enum CodingKeys: String, CodingKey {
+            case updateVersion = "UpdateVersion"
+            case pendingDeletion = "PendingDeletion"
+            case creationDate = "CreationDate"
+            case state = "State"
+            case updateDate = "UpdateDate"
         }
     }
 
     public struct DescribeDomainsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainNames", required: false, type: .list)
         ]
         /// The names of the domains you want to include in the response.
         public let domainNames: [String]?
@@ -327,16 +303,15 @@ extension Cloudsearch {
             self.domainNames = domainNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.domainNames = dictionary["DomainNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case domainNames = "DomainNames"
         }
     }
 
     public struct UpdateServiceAccessPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccessPolicies", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessPolicies", required: true, type: .structure)
         ]
         /// The access rules configured for the domain.
         public let accessPolicies: AccessPoliciesStatus
@@ -345,21 +320,19 @@ extension Cloudsearch {
             self.accessPolicies = accessPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accessPolicies = dictionary["AccessPolicies"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AccessPolicies") }
-            self.accessPolicies = try Cloudsearch.AccessPoliciesStatus(dictionary: accessPolicies)
+        private enum CodingKeys: String, CodingKey {
+            case accessPolicies = "AccessPolicies"
         }
     }
 
     public struct DoubleArrayOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceFields", required: false, type: .string), 
-            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .double)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -380,32 +353,31 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
-            self.sourceFields = dictionary["SourceFields"] as? String
-            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
-            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
-            self.defaultValue = dictionary["DefaultValue"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case sourceFields = "SourceFields"
+            case facetEnabled = "FacetEnabled"
+            case searchEnabled = "SearchEnabled"
+            case defaultValue = "DefaultValue"
         }
     }
 
     public struct DomainStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limits", required: false, type: .structure), 
-            AWSShapeProperty(label: "Processing", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Created", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ARN", required: false, type: .string), 
-            AWSShapeProperty(label: "DocService", required: false, type: .structure), 
-            AWSShapeProperty(label: "RequiresIndexDocuments", required: true, type: .boolean), 
-            AWSShapeProperty(label: "SearchService", required: false, type: .structure), 
-            AWSShapeProperty(label: "SearchPartitionCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "SearchInstanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "SearchInstanceCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Deleted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DomainId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limits", required: false, type: .structure), 
+            AWSShapeMember(label: "Processing", required: false, type: .boolean), 
+            AWSShapeMember(label: "Created", required: false, type: .boolean), 
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
+            AWSShapeMember(label: "DocService", required: false, type: .structure), 
+            AWSShapeMember(label: "RequiresIndexDocuments", required: true, type: .boolean), 
+            AWSShapeMember(label: "SearchService", required: false, type: .structure), 
+            AWSShapeMember(label: "SearchPartitionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "SearchInstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "SearchInstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Deleted", required: false, type: .boolean), 
+            AWSShapeMember(label: "DomainId", required: true, type: .string)
         ]
         public let limits: Limits?
         /// True if processing is being done to activate the current domain configuration.
@@ -446,27 +418,24 @@ extension Cloudsearch {
             self.domainId = domainId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Cloudsearch.Limits(dictionary: limits) } else { self.limits = nil }
-            self.processing = dictionary["Processing"] as? Bool
-            self.created = dictionary["Created"] as? Bool
-            self.aRN = dictionary["ARN"] as? String
-            if let docService = dictionary["DocService"] as? [String: Any] { self.docService = try Cloudsearch.ServiceEndpoint(dictionary: docService) } else { self.docService = nil }
-            guard let requiresIndexDocuments = dictionary["RequiresIndexDocuments"] as? Bool else { throw InitializableError.missingRequiredParam("RequiresIndexDocuments") }
-            self.requiresIndexDocuments = requiresIndexDocuments
-            if let searchService = dictionary["SearchService"] as? [String: Any] { self.searchService = try Cloudsearch.ServiceEndpoint(dictionary: searchService) } else { self.searchService = nil }
-            self.searchPartitionCount = dictionary["SearchPartitionCount"] as? Int32
-            self.searchInstanceType = dictionary["SearchInstanceType"] as? String
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            self.searchInstanceCount = dictionary["SearchInstanceCount"] as? Int32
-            self.deleted = dictionary["Deleted"] as? Bool
-            guard let domainId = dictionary["DomainId"] as? String else { throw InitializableError.missingRequiredParam("DomainId") }
-            self.domainId = domainId
+        private enum CodingKeys: String, CodingKey {
+            case limits = "Limits"
+            case processing = "Processing"
+            case created = "Created"
+            case aRN = "ARN"
+            case docService = "DocService"
+            case requiresIndexDocuments = "RequiresIndexDocuments"
+            case searchService = "SearchService"
+            case searchPartitionCount = "SearchPartitionCount"
+            case searchInstanceType = "SearchInstanceType"
+            case domainName = "DomainName"
+            case searchInstanceCount = "SearchInstanceCount"
+            case deleted = "Deleted"
+            case domainId = "DomainId"
         }
     }
 
-    public enum AlgorithmicStemming: String, CustomStringConvertible {
+    public enum AlgorithmicStemming: String, CustomStringConvertible, Codable {
         case none = "none"
         case minimal = "minimal"
         case light = "light"
@@ -476,9 +445,8 @@ extension Cloudsearch {
 
     public struct UpdateScalingParametersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScalingParameters", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScalingParameters", required: true, type: .structure)
         ]
         public let scalingParameters: ScalingParametersStatus
 
@@ -486,17 +454,15 @@ extension Cloudsearch {
             self.scalingParameters = scalingParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scalingParameters = dictionary["ScalingParameters"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ScalingParameters") }
-            self.scalingParameters = try Cloudsearch.ScalingParametersStatus(dictionary: scalingParameters)
+        private enum CodingKeys: String, CodingKey {
+            case scalingParameters = "ScalingParameters"
         }
     }
 
     public struct ListDomainNamesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainNames", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainNames", required: false, type: .map)
         ]
         /// The names of the search domains owned by an account.
         public let domainNames: [String: String]?
@@ -505,21 +471,16 @@ extension Cloudsearch {
             self.domainNames = domainNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let domainNames = dictionary["DomainNames"] as? [String: String] {
-                self.domainNames = domainNames
-            } else { 
-                self.domainNames = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case domainNames = "DomainNames"
         }
     }
 
     public struct DescribeAvailabilityOptionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Deployed", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -531,18 +492,16 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deployed = dictionary["Deployed"] as? Bool
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case deployed = "Deployed"
+            case domainName = "DomainName"
         }
     }
 
     public struct DeleteIndexFieldResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexField", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexField", required: true, type: .structure)
         ]
         /// The status of the index field being deleted.
         public let indexField: IndexFieldStatus
@@ -551,18 +510,16 @@ extension Cloudsearch {
             self.indexField = indexField
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let indexField = dictionary["IndexField"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexField") }
-            self.indexField = try Cloudsearch.IndexFieldStatus(dictionary: indexField)
+        private enum CodingKeys: String, CodingKey {
+            case indexField = "IndexField"
         }
     }
 
     public struct DefineSuggesterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Suggester", required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Suggester", required: true, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         public let suggester: Suggester
         public let domainName: String
@@ -572,21 +529,18 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let suggester = dictionary["Suggester"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Suggester") }
-            self.suggester = try Cloudsearch.Suggester(dictionary: suggester)
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case suggester = "Suggester"
+            case domainName = "DomainName"
         }
     }
 
     public struct DescribeIndexFieldsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Deployed", required: false, type: .boolean), 
-            AWSShapeProperty(label: "FieldNames", required: false, type: .list), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
+            AWSShapeMember(label: "FieldNames", required: false, type: .list), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -601,15 +555,14 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deployed = dictionary["Deployed"] as? Bool
-            self.fieldNames = dictionary["FieldNames"] as? [String]
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case deployed = "Deployed"
+            case fieldNames = "FieldNames"
+            case domainName = "DomainName"
         }
     }
 
-    public enum PartitionInstanceType: String, CustomStringConvertible {
+    public enum PartitionInstanceType: String, CustomStringConvertible, Codable {
         case search_m1_small = "search.m1.small"
         case search_m1_large = "search.m1.large"
         case search_m2_xlarge = "search.m2.xlarge"
@@ -623,9 +576,8 @@ extension Cloudsearch {
 
     public struct DeleteDomainResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainStatus", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
         ]
         public let domainStatus: DomainStatus?
 
@@ -633,12 +585,12 @@ extension Cloudsearch {
             self.domainStatus = domainStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Cloudsearch.DomainStatus(dictionary: domainStatus) } else { self.domainStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case domainStatus = "DomainStatus"
         }
     }
 
-    public enum SuggesterFuzzyMatching: String, CustomStringConvertible {
+    public enum SuggesterFuzzyMatching: String, CustomStringConvertible, Codable {
         case none = "none"
         case low = "low"
         case high = "high"
@@ -647,10 +599,9 @@ extension Cloudsearch {
 
     public struct Suggester: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SuggesterName", required: true, type: .string), 
-            AWSShapeProperty(label: "DocumentSuggesterOptions", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SuggesterName", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentSuggesterOptions", required: true, type: .structure)
         ]
         public let suggesterName: String
         public let documentSuggesterOptions: DocumentSuggesterOptions
@@ -660,21 +611,18 @@ extension Cloudsearch {
             self.documentSuggesterOptions = documentSuggesterOptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let suggesterName = dictionary["SuggesterName"] as? String else { throw InitializableError.missingRequiredParam("SuggesterName") }
-            self.suggesterName = suggesterName
-            guard let documentSuggesterOptions = dictionary["DocumentSuggesterOptions"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DocumentSuggesterOptions") }
-            self.documentSuggesterOptions = try Cloudsearch.DocumentSuggesterOptions(dictionary: documentSuggesterOptions)
+        private enum CodingKeys: String, CodingKey {
+            case suggesterName = "SuggesterName"
+            case documentSuggesterOptions = "DocumentSuggesterOptions"
         }
     }
 
     public struct ScalingParameters: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DesiredReplicationCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "DesiredInstanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "DesiredPartitionCount", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DesiredReplicationCount", required: false, type: .integer), 
+            AWSShapeMember(label: "DesiredInstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "DesiredPartitionCount", required: false, type: .integer)
         ]
         /// The number of replicas you want to preconfigure for each index partition.
         public let desiredReplicationCount: Int32?
@@ -689,19 +637,18 @@ extension Cloudsearch {
             self.desiredPartitionCount = desiredPartitionCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.desiredReplicationCount = dictionary["DesiredReplicationCount"] as? Int32
-            if let desiredInstanceType = dictionary["DesiredInstanceType"] as? String { self.desiredInstanceType = PartitionInstanceType(rawValue: desiredInstanceType) } else { self.desiredInstanceType = nil }
-            self.desiredPartitionCount = dictionary["DesiredPartitionCount"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case desiredReplicationCount = "DesiredReplicationCount"
+            case desiredInstanceType = "DesiredInstanceType"
+            case desiredPartitionCount = "DesiredPartitionCount"
         }
     }
 
     public struct DescribeServiceAccessPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Deployed", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -713,18 +660,16 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deployed = dictionary["Deployed"] as? Bool
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case deployed = "Deployed"
+            case domainName = "DomainName"
         }
     }
 
     public struct CreateDomainResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainStatus", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
         ]
         public let domainStatus: DomainStatus?
 
@@ -732,18 +677,17 @@ extension Cloudsearch {
             self.domainStatus = domainStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Cloudsearch.DomainStatus(dictionary: domainStatus) } else { self.domainStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case domainStatus = "DomainStatus"
         }
     }
 
     public struct DocumentSuggesterOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SortExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "FuzzyMatching", required: false, type: .enum), 
-            AWSShapeProperty(label: "SourceField", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortExpression", required: false, type: .string), 
+            AWSShapeMember(label: "FuzzyMatching", required: false, type: .enum), 
+            AWSShapeMember(label: "SourceField", required: true, type: .string)
         ]
         /// An expression that computes a score for each suggestion to control how they are sorted. The scores are rounded to the nearest integer, with a floor of 0 and a ceiling of 2^31-1. A document's relevance score is not computed for suggestions, so sort expressions cannot reference the _score value. To sort suggestions using a numeric field or existing expression, simply specify the name of the field or expression. If no expression is configured for the suggester, the suggestions are sorted with the closest matches listed first.
         public let sortExpression: String?
@@ -758,20 +702,18 @@ extension Cloudsearch {
             self.sourceField = sourceField
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sortExpression = dictionary["SortExpression"] as? String
-            if let fuzzyMatching = dictionary["FuzzyMatching"] as? String { self.fuzzyMatching = SuggesterFuzzyMatching(rawValue: fuzzyMatching) } else { self.fuzzyMatching = nil }
-            guard let sourceField = dictionary["SourceField"] as? String else { throw InitializableError.missingRequiredParam("SourceField") }
-            self.sourceField = sourceField
+        private enum CodingKeys: String, CodingKey {
+            case sortExpression = "SortExpression"
+            case fuzzyMatching = "FuzzyMatching"
+            case sourceField = "SourceField"
         }
     }
 
     public struct DefineExpressionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "Expression", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "Expression", required: true, type: .structure)
         ]
         public let domainName: String
         public let expression: Expression
@@ -781,23 +723,20 @@ extension Cloudsearch {
             self.expression = expression
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            guard let expression = dictionary["Expression"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Expression") }
-            self.expression = try Cloudsearch.Expression(dictionary: expression)
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case expression = "Expression"
         }
     }
 
     public struct TextArrayOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisScheme", required: false, type: .string), 
-            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceFields", required: false, type: .string), 
-            AWSShapeProperty(label: "HighlightEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalysisScheme", required: false, type: .string), 
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
+            AWSShapeMember(label: "HighlightEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
         ]
         /// The name of an analysis scheme for a text-array field.
         public let analysisScheme: String?
@@ -818,20 +757,19 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.analysisScheme = dictionary["AnalysisScheme"] as? String
-            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
-            self.sourceFields = dictionary["SourceFields"] as? String
-            self.highlightEnabled = dictionary["HighlightEnabled"] as? Bool
-            self.defaultValue = dictionary["DefaultValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case analysisScheme = "AnalysisScheme"
+            case returnEnabled = "ReturnEnabled"
+            case sourceFields = "SourceFields"
+            case highlightEnabled = "HighlightEnabled"
+            case defaultValue = "DefaultValue"
         }
     }
 
     public struct DescribeDomainsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainStatusList", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainStatusList", required: true, type: .list)
         ]
         public let domainStatusList: [DomainStatus]
 
@@ -839,17 +777,15 @@ extension Cloudsearch {
             self.domainStatusList = domainStatusList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainStatusList = dictionary["DomainStatusList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("DomainStatusList") }
-            self.domainStatusList = try domainStatusList.map({ try DomainStatus(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case domainStatusList = "DomainStatusList"
         }
     }
 
     public struct DeleteSuggesterResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Suggester", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Suggester", required: true, type: .structure)
         ]
         /// The status of the suggester being deleted.
         public let suggester: SuggesterStatus
@@ -858,18 +794,16 @@ extension Cloudsearch {
             self.suggester = suggester
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let suggester = dictionary["Suggester"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Suggester") }
-            self.suggester = try Cloudsearch.SuggesterStatus(dictionary: suggester)
+        private enum CodingKeys: String, CodingKey {
+            case suggester = "Suggester"
         }
     }
 
     public struct DefineIndexFieldRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexField", required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexField", required: true, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The index field and field options you want to configure. 
         public let indexField: IndexField
@@ -880,15 +814,13 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let indexField = dictionary["IndexField"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexField") }
-            self.indexField = try Cloudsearch.IndexField(dictionary: indexField)
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case indexField = "IndexField"
+            case domainName = "DomainName"
         }
     }
 
-    public enum IndexFieldType: String, CustomStringConvertible {
+    public enum IndexFieldType: String, CustomStringConvertible, Codable {
         case int = "int"
         case double = "double"
         case literal = "literal"
@@ -905,10 +837,9 @@ extension Cloudsearch {
 
     public struct DefineAnalysisSchemeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisScheme", required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalysisScheme", required: true, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         public let analysisScheme: AnalysisScheme
         public let domainName: String
@@ -918,19 +849,16 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let analysisScheme = dictionary["AnalysisScheme"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AnalysisScheme") }
-            self.analysisScheme = try Cloudsearch.AnalysisScheme(dictionary: analysisScheme)
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case analysisScheme = "AnalysisScheme"
+            case domainName = "DomainName"
         }
     }
 
     public struct DeleteDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain you want to permanently delete.
         public let domainName: String
@@ -939,17 +867,15 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct IndexDocumentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         public let domainName: String
 
@@ -957,18 +883,16 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct DeleteExpressionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExpressionName", required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExpressionName", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the Expression to delete.
         public let expressionName: String
@@ -979,20 +903,17 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let expressionName = dictionary["ExpressionName"] as? String else { throw InitializableError.missingRequiredParam("ExpressionName") }
-            self.expressionName = expressionName
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case expressionName = "ExpressionName"
+            case domainName = "DomainName"
         }
     }
 
     public struct IndexFieldStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", required: true, type: .structure), 
-            AWSShapeProperty(label: "Status", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
         public let options: IndexField
         public let status: OptionStatus
@@ -1002,20 +923,17 @@ extension Cloudsearch {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
-            self.options = try Cloudsearch.IndexField(dictionary: options)
-            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = try Cloudsearch.OptionStatus(dictionary: status)
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
     public struct DeleteAnalysisSchemeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisSchemeName", required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalysisSchemeName", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the analysis scheme you want to delete.
         public let analysisSchemeName: String
@@ -1026,20 +944,17 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let analysisSchemeName = dictionary["AnalysisSchemeName"] as? String else { throw InitializableError.missingRequiredParam("AnalysisSchemeName") }
-            self.analysisSchemeName = analysisSchemeName
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case analysisSchemeName = "AnalysisSchemeName"
+            case domainName = "DomainName"
         }
     }
 
     public struct ScalingParametersStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", required: true, type: .structure), 
-            AWSShapeProperty(label: "Status", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
         public let options: ScalingParameters
         public let status: OptionStatus
@@ -1049,23 +964,20 @@ extension Cloudsearch {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
-            self.options = try Cloudsearch.ScalingParameters(dictionary: options)
-            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = try Cloudsearch.OptionStatus(dictionary: status)
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
     public struct AnalysisOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StemmingDictionary", required: false, type: .string), 
-            AWSShapeProperty(label: "JapaneseTokenizationDictionary", required: false, type: .string), 
-            AWSShapeProperty(label: "Stopwords", required: false, type: .string), 
-            AWSShapeProperty(label: "AlgorithmicStemming", required: false, type: .enum), 
-            AWSShapeProperty(label: "Synonyms", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StemmingDictionary", required: false, type: .string), 
+            AWSShapeMember(label: "JapaneseTokenizationDictionary", required: false, type: .string), 
+            AWSShapeMember(label: "Stopwords", required: false, type: .string), 
+            AWSShapeMember(label: "AlgorithmicStemming", required: false, type: .enum), 
+            AWSShapeMember(label: "Synonyms", required: false, type: .string)
         ]
         /// A JSON object that contains a collection of string:value pairs that each map a term to its stem. For example, {"term1": "stem1", "term2": "stem2", "term3": "stem3"}. The stemming dictionary is applied in addition to any algorithmic stemming. This enables you to override the results of the algorithmic stemming to correct specific cases of overstemming or understemming. The maximum size of a stemming dictionary is 500 KB.
         public let stemmingDictionary: String?
@@ -1086,21 +998,20 @@ extension Cloudsearch {
             self.synonyms = synonyms
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stemmingDictionary = dictionary["StemmingDictionary"] as? String
-            self.japaneseTokenizationDictionary = dictionary["JapaneseTokenizationDictionary"] as? String
-            self.stopwords = dictionary["Stopwords"] as? String
-            if let algorithmicStemming = dictionary["AlgorithmicStemming"] as? String { self.algorithmicStemming = AlgorithmicStemming(rawValue: algorithmicStemming) } else { self.algorithmicStemming = nil }
-            self.synonyms = dictionary["Synonyms"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stemmingDictionary = "StemmingDictionary"
+            case japaneseTokenizationDictionary = "JapaneseTokenizationDictionary"
+            case stopwords = "Stopwords"
+            case algorithmicStemming = "AlgorithmicStemming"
+            case synonyms = "Synonyms"
         }
     }
 
     public struct UpdateServiceAccessPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccessPolicies", required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessPolicies", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The access rules you want to configure. These rules replace any existing rules. 
         public let accessPolicies: String
@@ -1111,23 +1022,20 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accessPolicies = dictionary["AccessPolicies"] as? String else { throw InitializableError.missingRequiredParam("AccessPolicies") }
-            self.accessPolicies = accessPolicies
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case accessPolicies = "AccessPolicies"
+            case domainName = "DomainName"
         }
     }
 
     public struct DateArrayOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceFields", required: false, type: .string), 
-            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -1148,20 +1056,19 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
-            self.sourceFields = dictionary["SourceFields"] as? String
-            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
-            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
-            self.defaultValue = dictionary["DefaultValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case sourceFields = "SourceFields"
+            case facetEnabled = "FacetEnabled"
+            case searchEnabled = "SearchEnabled"
+            case defaultValue = "DefaultValue"
         }
     }
 
     public struct DeleteAnalysisSchemeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisScheme", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalysisScheme", required: true, type: .structure)
         ]
         /// The status of the analysis scheme being deleted.
         public let analysisScheme: AnalysisSchemeStatus
@@ -1170,17 +1077,15 @@ extension Cloudsearch {
             self.analysisScheme = analysisScheme
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let analysisScheme = dictionary["AnalysisScheme"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AnalysisScheme") }
-            self.analysisScheme = try Cloudsearch.AnalysisSchemeStatus(dictionary: analysisScheme)
+        private enum CodingKeys: String, CodingKey {
+            case analysisScheme = "AnalysisScheme"
         }
     }
 
     public struct BuildSuggestersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FieldNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldNames", required: false, type: .list)
         ]
         public let fieldNames: [String]?
 
@@ -1188,17 +1093,16 @@ extension Cloudsearch {
             self.fieldNames = fieldNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fieldNames = dictionary["FieldNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case fieldNames = "FieldNames"
         }
     }
 
     public struct AnalysisSchemeStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", required: true, type: .structure), 
-            AWSShapeProperty(label: "Status", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
         public let options: AnalysisScheme
         public let status: OptionStatus
@@ -1208,20 +1112,17 @@ extension Cloudsearch {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
-            self.options = try Cloudsearch.AnalysisScheme(dictionary: options)
-            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = try Cloudsearch.OptionStatus(dictionary: status)
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
     public struct AccessPoliciesStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", required: true, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
         public let options: String
         public let status: OptionStatus
@@ -1231,24 +1132,21 @@ extension Cloudsearch {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let options = dictionary["Options"] as? String else { throw InitializableError.missingRequiredParam("Options") }
-            self.options = options
-            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = try Cloudsearch.OptionStatus(dictionary: status)
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
     public struct TextOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisScheme", required: false, type: .string), 
-            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceField", required: false, type: .string), 
-            AWSShapeProperty(label: "HighlightEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SortEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalysisScheme", required: false, type: .string), 
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceField", required: false, type: .string), 
+            AWSShapeMember(label: "HighlightEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
         ]
         /// The name of an analysis scheme for a text field.
         public let analysisScheme: String?
@@ -1271,21 +1169,20 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.analysisScheme = dictionary["AnalysisScheme"] as? String
-            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
-            self.sourceField = dictionary["SourceField"] as? String
-            self.highlightEnabled = dictionary["HighlightEnabled"] as? Bool
-            self.sortEnabled = dictionary["SortEnabled"] as? Bool
-            self.defaultValue = dictionary["DefaultValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case analysisScheme = "AnalysisScheme"
+            case returnEnabled = "ReturnEnabled"
+            case sourceField = "SourceField"
+            case highlightEnabled = "HighlightEnabled"
+            case sortEnabled = "SortEnabled"
+            case defaultValue = "DefaultValue"
         }
     }
 
     public struct IndexDocumentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FieldNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldNames", required: false, type: .list)
         ]
         /// The names of the fields that are currently being indexed.
         public let fieldNames: [String]?
@@ -1294,16 +1191,15 @@ extension Cloudsearch {
             self.fieldNames = fieldNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fieldNames = dictionary["FieldNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case fieldNames = "FieldNames"
         }
     }
 
     public struct DefineExpressionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Expression", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Expression", required: true, type: .structure)
         ]
         public let expression: ExpressionStatus
 
@@ -1311,17 +1207,15 @@ extension Cloudsearch {
             self.expression = expression
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let expression = dictionary["Expression"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Expression") }
-            self.expression = try Cloudsearch.ExpressionStatus(dictionary: expression)
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
         }
     }
 
     public struct UpdateAvailabilityOptionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityOptions", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityOptions", required: false, type: .structure)
         ]
         /// The newly-configured availability options. Indicates whether Multi-AZ is enabled for the domain. 
         public let availabilityOptions: AvailabilityOptionsStatus?
@@ -1330,20 +1224,19 @@ extension Cloudsearch {
             self.availabilityOptions = availabilityOptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let availabilityOptions = dictionary["AvailabilityOptions"] as? [String: Any] { self.availabilityOptions = try Cloudsearch.AvailabilityOptionsStatus(dictionary: availabilityOptions) } else { self.availabilityOptions = nil }
+        private enum CodingKeys: String, CodingKey {
+            case availabilityOptions = "AvailabilityOptions"
         }
     }
 
     public struct LiteralArrayOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceFields", required: false, type: .string), 
-            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -1364,24 +1257,23 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
-            self.sourceFields = dictionary["SourceFields"] as? String
-            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
-            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
-            self.defaultValue = dictionary["DefaultValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case sourceFields = "SourceFields"
+            case facetEnabled = "FacetEnabled"
+            case searchEnabled = "SearchEnabled"
+            case defaultValue = "DefaultValue"
         }
     }
 
     public struct IntArrayOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceFields", required: false, type: .string), 
-            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceFields", required: false, type: .string), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .long)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -1402,20 +1294,19 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
-            self.sourceFields = dictionary["SourceFields"] as? String
-            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
-            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
-            self.defaultValue = dictionary["DefaultValue"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case sourceFields = "SourceFields"
+            case facetEnabled = "FacetEnabled"
+            case searchEnabled = "SearchEnabled"
+            case defaultValue = "DefaultValue"
         }
     }
 
     public struct DescribeAnalysisSchemesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisSchemes", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalysisSchemes", required: true, type: .list)
         ]
         /// The analysis scheme descriptions.
         public let analysisSchemes: [AnalysisSchemeStatus]
@@ -1424,17 +1315,15 @@ extension Cloudsearch {
             self.analysisSchemes = analysisSchemes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let analysisSchemes = dictionary["AnalysisSchemes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("AnalysisSchemes") }
-            self.analysisSchemes = try analysisSchemes.map({ try AnalysisSchemeStatus(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case analysisSchemes = "AnalysisSchemes"
         }
     }
 
     public struct DescribeExpressionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Expressions", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Expressions", required: true, type: .list)
         ]
         /// The expressions configured for the domain.
         public let expressions: [ExpressionStatus]
@@ -1443,18 +1332,16 @@ extension Cloudsearch {
             self.expressions = expressions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let expressions = dictionary["Expressions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Expressions") }
-            self.expressions = try expressions.map({ try ExpressionStatus(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case expressions = "Expressions"
         }
     }
 
     public struct Expression: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExpressionValue", required: true, type: .string), 
-            AWSShapeProperty(label: "ExpressionName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExpressionValue", required: true, type: .string), 
+            AWSShapeMember(label: "ExpressionName", required: true, type: .string)
         ]
         public let expressionValue: String
         public let expressionName: String
@@ -1464,20 +1351,17 @@ extension Cloudsearch {
             self.expressionName = expressionName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let expressionValue = dictionary["ExpressionValue"] as? String else { throw InitializableError.missingRequiredParam("ExpressionValue") }
-            self.expressionValue = expressionValue
-            guard let expressionName = dictionary["ExpressionName"] as? String else { throw InitializableError.missingRequiredParam("ExpressionName") }
-            self.expressionName = expressionName
+        private enum CodingKeys: String, CodingKey {
+            case expressionValue = "ExpressionValue"
+            case expressionName = "ExpressionName"
         }
     }
 
     public struct SuggesterStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", required: true, type: .structure), 
-            AWSShapeProperty(label: "Status", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
         public let options: Suggester
         public let status: OptionStatus
@@ -1487,21 +1371,18 @@ extension Cloudsearch {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
-            self.options = try Cloudsearch.Suggester(dictionary: options)
-            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = try Cloudsearch.OptionStatus(dictionary: status)
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
     public struct DescribeSuggestersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Deployed", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SuggesterNames", required: false, type: .list), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
+            AWSShapeMember(label: "SuggesterNames", required: false, type: .list), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -1516,31 +1397,29 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deployed = dictionary["Deployed"] as? Bool
-            self.suggesterNames = dictionary["SuggesterNames"] as? [String]
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case deployed = "Deployed"
+            case suggesterNames = "SuggesterNames"
+            case domainName = "DomainName"
         }
     }
 
     public struct IndexField: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IntOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "DateOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "TextArrayOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "DoubleOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "LiteralArrayOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "IntArrayOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "IndexFieldType", required: true, type: .enum), 
-            AWSShapeProperty(label: "IndexFieldName", required: true, type: .string), 
-            AWSShapeProperty(label: "DateArrayOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "LiteralOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "LatLonOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "TextOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "DoubleArrayOptions", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IntOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "DateOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "TextArrayOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "DoubleOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "LiteralArrayOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "IntArrayOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "IndexFieldType", required: true, type: .enum), 
+            AWSShapeMember(label: "IndexFieldName", required: true, type: .string), 
+            AWSShapeMember(label: "DateArrayOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "LiteralOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "LatLonOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "TextOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "DoubleArrayOptions", required: false, type: .structure)
         ]
         public let intOptions: IntOptions?
         public let dateOptions: DateOptions?
@@ -1573,35 +1452,32 @@ extension Cloudsearch {
             self.doubleArrayOptions = doubleArrayOptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let intOptions = dictionary["IntOptions"] as? [String: Any] { self.intOptions = try Cloudsearch.IntOptions(dictionary: intOptions) } else { self.intOptions = nil }
-            if let dateOptions = dictionary["DateOptions"] as? [String: Any] { self.dateOptions = try Cloudsearch.DateOptions(dictionary: dateOptions) } else { self.dateOptions = nil }
-            if let textArrayOptions = dictionary["TextArrayOptions"] as? [String: Any] { self.textArrayOptions = try Cloudsearch.TextArrayOptions(dictionary: textArrayOptions) } else { self.textArrayOptions = nil }
-            if let doubleOptions = dictionary["DoubleOptions"] as? [String: Any] { self.doubleOptions = try Cloudsearch.DoubleOptions(dictionary: doubleOptions) } else { self.doubleOptions = nil }
-            if let literalArrayOptions = dictionary["LiteralArrayOptions"] as? [String: Any] { self.literalArrayOptions = try Cloudsearch.LiteralArrayOptions(dictionary: literalArrayOptions) } else { self.literalArrayOptions = nil }
-            if let intArrayOptions = dictionary["IntArrayOptions"] as? [String: Any] { self.intArrayOptions = try Cloudsearch.IntArrayOptions(dictionary: intArrayOptions) } else { self.intArrayOptions = nil }
-            guard let rawIndexFieldType = dictionary["IndexFieldType"] as? String, let indexFieldType = IndexFieldType(rawValue: rawIndexFieldType) else { throw InitializableError.missingRequiredParam("IndexFieldType") }
-            self.indexFieldType = indexFieldType
-            guard let indexFieldName = dictionary["IndexFieldName"] as? String else { throw InitializableError.missingRequiredParam("IndexFieldName") }
-            self.indexFieldName = indexFieldName
-            if let dateArrayOptions = dictionary["DateArrayOptions"] as? [String: Any] { self.dateArrayOptions = try Cloudsearch.DateArrayOptions(dictionary: dateArrayOptions) } else { self.dateArrayOptions = nil }
-            if let literalOptions = dictionary["LiteralOptions"] as? [String: Any] { self.literalOptions = try Cloudsearch.LiteralOptions(dictionary: literalOptions) } else { self.literalOptions = nil }
-            if let latLonOptions = dictionary["LatLonOptions"] as? [String: Any] { self.latLonOptions = try Cloudsearch.LatLonOptions(dictionary: latLonOptions) } else { self.latLonOptions = nil }
-            if let textOptions = dictionary["TextOptions"] as? [String: Any] { self.textOptions = try Cloudsearch.TextOptions(dictionary: textOptions) } else { self.textOptions = nil }
-            if let doubleArrayOptions = dictionary["DoubleArrayOptions"] as? [String: Any] { self.doubleArrayOptions = try Cloudsearch.DoubleArrayOptions(dictionary: doubleArrayOptions) } else { self.doubleArrayOptions = nil }
+        private enum CodingKeys: String, CodingKey {
+            case intOptions = "IntOptions"
+            case dateOptions = "DateOptions"
+            case textArrayOptions = "TextArrayOptions"
+            case doubleOptions = "DoubleOptions"
+            case literalArrayOptions = "LiteralArrayOptions"
+            case intArrayOptions = "IntArrayOptions"
+            case indexFieldType = "IndexFieldType"
+            case indexFieldName = "IndexFieldName"
+            case dateArrayOptions = "DateArrayOptions"
+            case literalOptions = "LiteralOptions"
+            case latLonOptions = "LatLonOptions"
+            case textOptions = "TextOptions"
+            case doubleArrayOptions = "DoubleArrayOptions"
         }
     }
 
     public struct LatLonOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceField", required: false, type: .string), 
-            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SortEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceField", required: false, type: .string), 
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -1624,17 +1500,17 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
-            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
-            self.sourceField = dictionary["SourceField"] as? String
-            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
-            self.sortEnabled = dictionary["SortEnabled"] as? Bool
-            self.defaultValue = dictionary["DefaultValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case facetEnabled = "FacetEnabled"
+            case sourceField = "SourceField"
+            case searchEnabled = "SearchEnabled"
+            case sortEnabled = "SortEnabled"
+            case defaultValue = "DefaultValue"
         }
     }
 
-    public enum AnalysisSchemeLanguage: String, CustomStringConvertible {
+    public enum AnalysisSchemeLanguage: String, CustomStringConvertible, Codable {
         case ar = "ar"
         case bg = "bg"
         case ca = "ca"
@@ -1675,11 +1551,10 @@ extension Cloudsearch {
 
     public struct DescribeExpressionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Deployed", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ExpressionNames", required: false, type: .list), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExpressionNames", required: false, type: .list), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public let deployed: Bool?
@@ -1694,24 +1569,22 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deployed = dictionary["Deployed"] as? Bool
-            self.expressionNames = dictionary["ExpressionNames"] as? [String]
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case deployed = "Deployed"
+            case expressionNames = "ExpressionNames"
+            case domainName = "DomainName"
         }
     }
 
     public struct DoubleOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceField", required: false, type: .string), 
-            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SortEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceField", required: false, type: .string), 
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .double)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -1735,26 +1608,25 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
-            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
-            self.sourceField = dictionary["SourceField"] as? String
-            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
-            self.sortEnabled = dictionary["SortEnabled"] as? Bool
-            self.defaultValue = dictionary["DefaultValue"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case facetEnabled = "FacetEnabled"
+            case sourceField = "SourceField"
+            case searchEnabled = "SearchEnabled"
+            case sortEnabled = "SortEnabled"
+            case defaultValue = "DefaultValue"
         }
     }
 
     public struct DateOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "FacetEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceField", required: false, type: .string), 
-            AWSShapeProperty(label: "SearchEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SortEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceField", required: false, type: .string), 
+            AWSShapeMember(label: "SearchEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SortEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string)
         ]
         /// Whether the contents of the field can be returned in the search results.
         public let returnEnabled: Bool?
@@ -1777,22 +1649,21 @@ extension Cloudsearch {
             self.defaultValue = defaultValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.returnEnabled = dictionary["ReturnEnabled"] as? Bool
-            self.facetEnabled = dictionary["FacetEnabled"] as? Bool
-            self.sourceField = dictionary["SourceField"] as? String
-            self.searchEnabled = dictionary["SearchEnabled"] as? Bool
-            self.sortEnabled = dictionary["SortEnabled"] as? Bool
-            self.defaultValue = dictionary["DefaultValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case returnEnabled = "ReturnEnabled"
+            case facetEnabled = "FacetEnabled"
+            case sourceField = "SourceField"
+            case searchEnabled = "SearchEnabled"
+            case sortEnabled = "SortEnabled"
+            case defaultValue = "DefaultValue"
         }
     }
 
     public struct UpdateAvailabilityOptionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MultiAZ", required: true, type: .boolean), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiAZ", required: true, type: .boolean), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// You expand an existing search domain to a second Availability Zone by setting the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to downgrade the domain to a single Availability Zone by setting the Multi-AZ option to false. 
         public let multiAZ: Bool
@@ -1803,19 +1674,16 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let multiAZ = dictionary["MultiAZ"] as? Bool else { throw InitializableError.missingRequiredParam("MultiAZ") }
-            self.multiAZ = multiAZ
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case multiAZ = "MultiAZ"
+            case domainName = "DomainName"
         }
     }
 
     public struct DescribeServiceAccessPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccessPolicies", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessPolicies", required: true, type: .structure)
         ]
         /// The access rules configured for the domain specified in the request.
         public let accessPolicies: AccessPoliciesStatus
@@ -1824,17 +1692,15 @@ extension Cloudsearch {
             self.accessPolicies = accessPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accessPolicies = dictionary["AccessPolicies"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AccessPolicies") }
-            self.accessPolicies = try Cloudsearch.AccessPoliciesStatus(dictionary: accessPolicies)
+        private enum CodingKeys: String, CodingKey {
+            case accessPolicies = "AccessPolicies"
         }
     }
 
     public struct BuildSuggestersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         public let domainName: String
 
@@ -1842,18 +1708,16 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct AvailabilityOptionsStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Status", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .boolean), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
         /// The availability options configured for the domain.
         public let options: Bool
@@ -1864,19 +1728,16 @@ extension Cloudsearch {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let options = dictionary["Options"] as? Bool else { throw InitializableError.missingRequiredParam("Options") }
-            self.options = options
-            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = try Cloudsearch.OptionStatus(dictionary: status)
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
     public struct ServiceEndpoint: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Endpoint", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Endpoint", required: false, type: .string)
         ]
         public let endpoint: String?
 
@@ -1884,17 +1745,16 @@ extension Cloudsearch {
             self.endpoint = endpoint
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.endpoint = dictionary["Endpoint"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
         }
     }
 
     public struct DeleteSuggesterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SuggesterName", required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SuggesterName", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// Specifies the name of the suggester you want to delete.
         public let suggesterName: String
@@ -1905,20 +1765,17 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let suggesterName = dictionary["SuggesterName"] as? String else { throw InitializableError.missingRequiredParam("SuggesterName") }
-            self.suggesterName = suggesterName
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case suggesterName = "SuggesterName"
+            case domainName = "DomainName"
         }
     }
 
     public struct Limits: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaximumReplicationCount", required: true, type: .integer), 
-            AWSShapeProperty(label: "MaximumPartitionCount", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaximumReplicationCount", required: true, type: .integer), 
+            AWSShapeMember(label: "MaximumPartitionCount", required: true, type: .integer)
         ]
         public let maximumReplicationCount: Int32
         public let maximumPartitionCount: Int32
@@ -1928,19 +1785,16 @@ extension Cloudsearch {
             self.maximumPartitionCount = maximumPartitionCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let maximumReplicationCount = dictionary["MaximumReplicationCount"] as? Int32 else { throw InitializableError.missingRequiredParam("MaximumReplicationCount") }
-            self.maximumReplicationCount = maximumReplicationCount
-            guard let maximumPartitionCount = dictionary["MaximumPartitionCount"] as? Int32 else { throw InitializableError.missingRequiredParam("MaximumPartitionCount") }
-            self.maximumPartitionCount = maximumPartitionCount
+        private enum CodingKeys: String, CodingKey {
+            case maximumReplicationCount = "MaximumReplicationCount"
+            case maximumPartitionCount = "MaximumPartitionCount"
         }
     }
 
     public struct DescribeIndexFieldsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexFields", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexFields", required: true, type: .list)
         ]
         /// The index fields configured for the domain.
         public let indexFields: [IndexFieldStatus]
@@ -1949,18 +1803,16 @@ extension Cloudsearch {
             self.indexFields = indexFields
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let indexFields = dictionary["IndexFields"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("IndexFields") }
-            self.indexFields = try indexFields.map({ try IndexFieldStatus(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case indexFields = "IndexFields"
         }
     }
 
     public struct UpdateScalingParametersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScalingParameters", required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScalingParameters", required: true, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         public let scalingParameters: ScalingParameters
         public let domainName: String
@@ -1970,19 +1822,16 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scalingParameters = dictionary["ScalingParameters"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ScalingParameters") }
-            self.scalingParameters = try Cloudsearch.ScalingParameters(dictionary: scalingParameters)
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case scalingParameters = "ScalingParameters"
+            case domainName = "DomainName"
         }
     }
 
     public struct DefineAnalysisSchemeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AnalysisScheme", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnalysisScheme", required: true, type: .structure)
         ]
         public let analysisScheme: AnalysisSchemeStatus
 
@@ -1990,17 +1839,15 @@ extension Cloudsearch {
             self.analysisScheme = analysisScheme
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let analysisScheme = dictionary["AnalysisScheme"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AnalysisScheme") }
-            self.analysisScheme = try Cloudsearch.AnalysisSchemeStatus(dictionary: analysisScheme)
+        private enum CodingKeys: String, CodingKey {
+            case analysisScheme = "AnalysisScheme"
         }
     }
 
     public struct DefineSuggesterResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Suggester", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Suggester", required: true, type: .structure)
         ]
         public let suggester: SuggesterStatus
 
@@ -2008,17 +1855,15 @@ extension Cloudsearch {
             self.suggester = suggester
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let suggester = dictionary["Suggester"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Suggester") }
-            self.suggester = try Cloudsearch.SuggesterStatus(dictionary: suggester)
+        private enum CodingKeys: String, CodingKey {
+            case suggester = "Suggester"
         }
     }
 
     public struct DefineIndexFieldResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexField", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexField", required: true, type: .structure)
         ]
         public let indexField: IndexFieldStatus
 
@@ -2026,17 +1871,15 @@ extension Cloudsearch {
             self.indexField = indexField
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let indexField = dictionary["IndexField"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexField") }
-            self.indexField = try Cloudsearch.IndexFieldStatus(dictionary: indexField)
+        private enum CodingKeys: String, CodingKey {
+            case indexField = "IndexField"
         }
     }
 
     public struct DescribeSuggestersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Suggesters", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Suggesters", required: true, type: .list)
         ]
         /// The suggesters configured for the domain specified in the request.
         public let suggesters: [SuggesterStatus]
@@ -2045,13 +1888,12 @@ extension Cloudsearch {
             self.suggesters = suggesters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let suggesters = dictionary["Suggesters"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Suggesters") }
-            self.suggesters = try suggesters.map({ try SuggesterStatus(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case suggesters = "Suggesters"
         }
     }
 
-    public enum OptionState: String, CustomStringConvertible {
+    public enum OptionState: String, CustomStringConvertible, Codable {
         case requiresindexdocuments = "RequiresIndexDocuments"
         case processing = "Processing"
         case active = "Active"
@@ -2061,9 +1903,8 @@ extension Cloudsearch {
 
     public struct DescribeAvailabilityOptionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityOptions", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityOptions", required: false, type: .structure)
         ]
         /// The availability options configured for the domain. Indicates whether Multi-AZ is enabled for the domain. 
         public let availabilityOptions: AvailabilityOptionsStatus?
@@ -2072,16 +1913,15 @@ extension Cloudsearch {
             self.availabilityOptions = availabilityOptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let availabilityOptions = dictionary["AvailabilityOptions"] as? [String: Any] { self.availabilityOptions = try Cloudsearch.AvailabilityOptionsStatus(dictionary: availabilityOptions) } else { self.availabilityOptions = nil }
+        private enum CodingKeys: String, CodingKey {
+            case availabilityOptions = "AvailabilityOptions"
         }
     }
 
     public struct CreateDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// A name for the domain you are creating. Allowed characters are a-z (lower-case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and be at least 3 and no more than 28 characters long.
         public let domainName: String
@@ -2090,9 +1930,8 @@ extension Cloudsearch {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 

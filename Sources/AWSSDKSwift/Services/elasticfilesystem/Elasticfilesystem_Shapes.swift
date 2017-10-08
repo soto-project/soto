@@ -31,11 +31,10 @@ extension Elasticfilesystem {
 
     public struct DescribeFileSystemsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileSystems", required: false, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystems", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// Array of file system descriptions.
         public let fileSystems: [FileSystemDescription]?
@@ -50,24 +49,19 @@ extension Elasticfilesystem {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let fileSystems = dictionary["FileSystems"] as? [[String: Any]] {
-                self.fileSystems = try fileSystems.map({ try FileSystemDescription(dictionary: $0) })
-            } else { 
-                self.fileSystems = nil
-            }
-            self.marker = dictionary["Marker"] as? String
-            self.nextMarker = dictionary["NextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fileSystems = "FileSystems"
+            case marker = "Marker"
+            case nextMarker = "NextMarker"
         }
     }
 
     public struct DescribeTagsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: true, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// If the request included a Marker, the response returns that value in this field.
         public let marker: String?
@@ -82,20 +76,18 @@ extension Elasticfilesystem {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
-            self.nextMarker = dictionary["NextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case tags = "Tags"
+            case nextMarker = "NextMarker"
         }
     }
 
     public struct CreateTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
         /// ID of the file system whose tags you want to modify (String). This operation modifies the tags only, not the file system.
         public let fileSystemId: String
@@ -107,22 +99,19 @@ extension Elasticfilesystem {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
-            self.fileSystemId = fileSystemId
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemId = "FileSystemId"
+            case tags = "Tags"
         }
     }
 
     public struct DescribeMountTargetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
-            AWSShapeProperty(label: "FileSystemId", location: .querystring(locationName: "FileSystemId"), required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "MountTargetId", location: .querystring(locationName: "MountTargetId"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
+            AWSShapeMember(label: "FileSystemId", location: .querystring(locationName: "FileSystemId"), required: false, type: .string), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MountTargetId", location: .querystring(locationName: "MountTargetId"), required: false, type: .string)
         ]
         /// (Optional) Maximum number of mount targets to return in the response. It must be an integer with a value greater than zero.
         public let maxItems: Int32?
@@ -140,22 +129,21 @@ extension Elasticfilesystem {
             self.mountTargetId = mountTargetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            self.fileSystemId = dictionary["FileSystemId"] as? String
-            self.marker = dictionary["Marker"] as? String
-            self.mountTargetId = dictionary["MountTargetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case fileSystemId = "FileSystemId"
+            case marker = "Marker"
+            case mountTargetId = "MountTargetId"
         }
     }
 
     public struct DescribeFileSystemsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
-            AWSShapeProperty(label: "FileSystemId", location: .querystring(locationName: "FileSystemId"), required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "CreationToken", location: .querystring(locationName: "CreationToken"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
+            AWSShapeMember(label: "FileSystemId", location: .querystring(locationName: "FileSystemId"), required: false, type: .string), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "CreationToken", location: .querystring(locationName: "CreationToken"), required: false, type: .string)
         ]
         /// (Optional) Specifies the maximum number of file systems to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon EFS returns is the minimum of the MaxItems parameter specified in the request and the service's internal maximum number of items per page. 
         public let maxItems: Int32?
@@ -173,19 +161,18 @@ extension Elasticfilesystem {
             self.creationToken = creationToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            self.fileSystemId = dictionary["FileSystemId"] as? String
-            self.marker = dictionary["Marker"] as? String
-            self.creationToken = dictionary["CreationToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case fileSystemId = "FileSystemId"
+            case marker = "Marker"
+            case creationToken = "CreationToken"
         }
     }
 
     public struct DescribeMountTargetSecurityGroupsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecurityGroups", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroups", required: true, type: .list)
         ]
         /// Array of security groups.
         public let securityGroups: [String]
@@ -194,13 +181,12 @@ extension Elasticfilesystem {
             self.securityGroups = securityGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let securityGroups = dictionary["SecurityGroups"] as? [String] else { throw InitializableError.missingRequiredParam("SecurityGroups") }
-            self.securityGroups = securityGroups
+        private enum CodingKeys: String, CodingKey {
+            case securityGroups = "SecurityGroups"
         }
     }
 
-    public enum LifeCycleState: String, CustomStringConvertible {
+    public enum LifeCycleState: String, CustomStringConvertible, Codable {
         case creating = "creating"
         case available = "available"
         case deleting = "deleting"
@@ -210,10 +196,9 @@ extension Elasticfilesystem {
 
     public struct DeleteTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// ID of the file system whose tags you want to delete (String).
         public let fileSystemId: String
@@ -225,21 +210,18 @@ extension Elasticfilesystem {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
-            self.fileSystemId = fileSystemId
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemId = "FileSystemId"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct DescribeTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
         ]
         /// (Optional) Opaque pagination token returned from a previous DescribeTags operation (String). If present, it specifies to continue the list from where the previous call left off.
         public let marker: String?
@@ -254,20 +236,18 @@ extension Elasticfilesystem {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
-            self.fileSystemId = fileSystemId
-            self.maxItems = dictionary["MaxItems"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case fileSystemId = "FileSystemId"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct ModifyMountTargetSecurityGroupsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string), 
-            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list)
         ]
         /// ID of the mount target whose security groups you want to modify.
         public let mountTargetId: String
@@ -279,19 +259,17 @@ extension Elasticfilesystem {
             self.securityGroups = securityGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let mountTargetId = dictionary["MountTargetId"] as? String else { throw InitializableError.missingRequiredParam("MountTargetId") }
-            self.mountTargetId = mountTargetId
-            self.securityGroups = dictionary["SecurityGroups"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case mountTargetId = "MountTargetId"
+            case securityGroups = "SecurityGroups"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// Value of the tag key.
         public let value: String
@@ -303,21 +281,18 @@ extension Elasticfilesystem {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct DescribeMountTargetsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MountTargets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MountTargets", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// If the request included the Marker, the response returns that value in this field.
         public let marker: String?
@@ -332,22 +307,17 @@ extension Elasticfilesystem {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let mountTargets = dictionary["MountTargets"] as? [[String: Any]] {
-                self.mountTargets = try mountTargets.map({ try MountTargetDescription(dictionary: $0) })
-            } else { 
-                self.mountTargets = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case mountTargets = "MountTargets"
+            case nextMarker = "NextMarker"
         }
     }
 
     public struct DeleteMountTargetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string)
         ]
         /// ID of the mount target to delete (String).
         public let mountTargetId: String
@@ -356,17 +326,15 @@ extension Elasticfilesystem {
             self.mountTargetId = mountTargetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let mountTargetId = dictionary["MountTargetId"] as? String else { throw InitializableError.missingRequiredParam("MountTargetId") }
-            self.mountTargetId = mountTargetId
+        private enum CodingKeys: String, CodingKey {
+            case mountTargetId = "MountTargetId"
         }
     }
 
     public struct DeleteFileSystemRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string)
         ]
         /// ID of the file system you want to delete.
         public let fileSystemId: String
@@ -375,18 +343,16 @@ extension Elasticfilesystem {
             self.fileSystemId = fileSystemId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
-            self.fileSystemId = fileSystemId
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemId = "FileSystemId"
         }
     }
 
     public struct CreateFileSystemRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PerformanceMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "CreationToken", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PerformanceMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationToken", required: true, type: .string)
         ]
         /// The PerformanceMode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. This can't be changed after the file system has been created.
         public let performanceMode: PerformanceMode?
@@ -398,42 +364,38 @@ extension Elasticfilesystem {
             self.creationToken = creationToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let performanceMode = dictionary["PerformanceMode"] as? String { self.performanceMode = PerformanceMode(rawValue: performanceMode) } else { self.performanceMode = nil }
-            guard let creationToken = dictionary["CreationToken"] as? String else { throw InitializableError.missingRequiredParam("CreationToken") }
-            self.creationToken = creationToken
+        private enum CodingKeys: String, CodingKey {
+            case performanceMode = "PerformanceMode"
+            case creationToken = "CreationToken"
         }
     }
 
     public struct FileSystemSize: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .long), 
-            AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .long), 
+            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp)
         ]
         /// Latest known metered size (in bytes) of data stored in the file system.
         public let value: Int64
         /// Time at which the size of data, returned in the Value field, was determined. The value is the integer number of seconds since 1970-01-01T00:00:00Z.
-        public let timestamp: String?
+        public let timestamp: Double?
 
-        public init(value: Int64, timestamp: String? = nil) {
+        public init(value: Int64, timestamp: Double? = nil) {
             self.value = value
             self.timestamp = timestamp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? Int64 else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            self.timestamp = dictionary["Timestamp"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case timestamp = "Timestamp"
         }
     }
 
     public struct DescribeMountTargetSecurityGroupsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string)
         ]
         /// ID of the mount target whose security groups you want to retrieve.
         public let mountTargetId: String
@@ -442,13 +404,12 @@ extension Elasticfilesystem {
             self.mountTargetId = mountTargetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let mountTargetId = dictionary["MountTargetId"] as? String else { throw InitializableError.missingRequiredParam("MountTargetId") }
-            self.mountTargetId = mountTargetId
+        private enum CodingKeys: String, CodingKey {
+            case mountTargetId = "MountTargetId"
         }
     }
 
-    public enum PerformanceMode: String, CustomStringConvertible {
+    public enum PerformanceMode: String, CustomStringConvertible, Codable {
         case generalpurpose = "generalPurpose"
         case maxio = "maxIO"
         public var description: String { return self.rawValue }
@@ -456,12 +417,11 @@ extension Elasticfilesystem {
 
     public struct CreateMountTargetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "FileSystemId", required: true, type: .string), 
-            AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
-            AWSShapeProperty(label: "IpAddress", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: true, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string)
         ]
         /// Up to five VPC security group IDs, of the form sg-xxxxxxxx. These must be for the same VPC as subnet specified.
         public let securityGroups: [String]?
@@ -479,29 +439,26 @@ extension Elasticfilesystem {
             self.ipAddress = ipAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.securityGroups = dictionary["SecurityGroups"] as? [String]
-            guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
-            self.fileSystemId = fileSystemId
-            guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
-            self.subnetId = subnetId
-            self.ipAddress = dictionary["IpAddress"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case securityGroups = "SecurityGroups"
+            case fileSystemId = "FileSystemId"
+            case subnetId = "SubnetId"
+            case ipAddress = "IpAddress"
         }
     }
 
     public struct FileSystemDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationToken", required: true, type: .string), 
-            AWSShapeProperty(label: "SizeInBytes", required: true, type: .structure), 
-            AWSShapeProperty(label: "FileSystemId", required: true, type: .string), 
-            AWSShapeProperty(label: "LifeCycleState", required: true, type: .enum), 
-            AWSShapeProperty(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "PerformanceMode", required: true, type: .enum), 
-            AWSShapeProperty(label: "NumberOfMountTargets", required: true, type: .integer), 
-            AWSShapeProperty(label: "OwnerId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CreationToken", required: true, type: .string), 
+            AWSShapeMember(label: "SizeInBytes", required: true, type: .structure), 
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "LifeCycleState", required: true, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "PerformanceMode", required: true, type: .enum), 
+            AWSShapeMember(label: "NumberOfMountTargets", required: true, type: .integer), 
+            AWSShapeMember(label: "OwnerId", required: true, type: .string)
         ]
         /// You can add tags to a file system, including a Name tag. For more information, see CreateTags. If the file system has a Name tag, Amazon EFS returns the value in this field. 
         public let name: String?
@@ -514,7 +471,7 @@ extension Elasticfilesystem {
         /// Lifecycle phase of the file system.
         public let lifeCycleState: LifeCycleState
         /// Time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
-        public let creationTime: String
+        public let creationTime: Double
         /// The PerformanceMode of the file system.
         public let performanceMode: PerformanceMode
         /// Current number of mount targets that the file system has. For more information, see CreateMountTarget.
@@ -522,7 +479,7 @@ extension Elasticfilesystem {
         /// AWS account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
         public let ownerId: String
 
-        public init(name: String? = nil, creationToken: String, sizeInBytes: FileSystemSize, fileSystemId: String, lifeCycleState: LifeCycleState, creationTime: String, performanceMode: PerformanceMode, numberOfMountTargets: Int32, ownerId: String) {
+        public init(name: String? = nil, creationToken: String, sizeInBytes: FileSystemSize, fileSystemId: String, lifeCycleState: LifeCycleState, creationTime: Double, performanceMode: PerformanceMode, numberOfMountTargets: Int32, ownerId: String) {
             self.name = name
             self.creationToken = creationToken
             self.sizeInBytes = sizeInBytes
@@ -534,38 +491,29 @@ extension Elasticfilesystem {
             self.ownerId = ownerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            guard let creationToken = dictionary["CreationToken"] as? String else { throw InitializableError.missingRequiredParam("CreationToken") }
-            self.creationToken = creationToken
-            guard let sizeInBytes = dictionary["SizeInBytes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SizeInBytes") }
-            self.sizeInBytes = try Elasticfilesystem.FileSystemSize(dictionary: sizeInBytes)
-            guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
-            self.fileSystemId = fileSystemId
-            guard let rawLifeCycleState = dictionary["LifeCycleState"] as? String, let lifeCycleState = LifeCycleState(rawValue: rawLifeCycleState) else { throw InitializableError.missingRequiredParam("LifeCycleState") }
-            self.lifeCycleState = lifeCycleState
-            guard let creationTime = dictionary["CreationTime"] as? String else { throw InitializableError.missingRequiredParam("CreationTime") }
-            self.creationTime = creationTime
-            guard let rawPerformanceMode = dictionary["PerformanceMode"] as? String, let performanceMode = PerformanceMode(rawValue: rawPerformanceMode) else { throw InitializableError.missingRequiredParam("PerformanceMode") }
-            self.performanceMode = performanceMode
-            guard let numberOfMountTargets = dictionary["NumberOfMountTargets"] as? Int32 else { throw InitializableError.missingRequiredParam("NumberOfMountTargets") }
-            self.numberOfMountTargets = numberOfMountTargets
-            guard let ownerId = dictionary["OwnerId"] as? String else { throw InitializableError.missingRequiredParam("OwnerId") }
-            self.ownerId = ownerId
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case creationToken = "CreationToken"
+            case sizeInBytes = "SizeInBytes"
+            case fileSystemId = "FileSystemId"
+            case lifeCycleState = "LifeCycleState"
+            case creationTime = "CreationTime"
+            case performanceMode = "PerformanceMode"
+            case numberOfMountTargets = "NumberOfMountTargets"
+            case ownerId = "OwnerId"
         }
     }
 
     public struct MountTargetDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "MountTargetId", required: true, type: .string), 
-            AWSShapeProperty(label: "IpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "FileSystemId", required: true, type: .string), 
-            AWSShapeProperty(label: "LifeCycleState", required: true, type: .enum), 
-            AWSShapeProperty(label: "OwnerId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetId", required: true, type: .string), 
+            AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "MountTargetId", required: true, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "LifeCycleState", required: true, type: .enum), 
+            AWSShapeMember(label: "OwnerId", required: false, type: .string)
         ]
         /// ID of the mount target's subnet.
         public let subnetId: String
@@ -592,18 +540,14 @@ extension Elasticfilesystem {
             self.ownerId = ownerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
-            self.subnetId = subnetId
-            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
-            guard let mountTargetId = dictionary["MountTargetId"] as? String else { throw InitializableError.missingRequiredParam("MountTargetId") }
-            self.mountTargetId = mountTargetId
-            self.ipAddress = dictionary["IpAddress"] as? String
-            guard let fileSystemId = dictionary["FileSystemId"] as? String else { throw InitializableError.missingRequiredParam("FileSystemId") }
-            self.fileSystemId = fileSystemId
-            guard let rawLifeCycleState = dictionary["LifeCycleState"] as? String, let lifeCycleState = LifeCycleState(rawValue: rawLifeCycleState) else { throw InitializableError.missingRequiredParam("LifeCycleState") }
-            self.lifeCycleState = lifeCycleState
-            self.ownerId = dictionary["OwnerId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetId = "SubnetId"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case mountTargetId = "MountTargetId"
+            case ipAddress = "IpAddress"
+            case fileSystemId = "FileSystemId"
+            case lifeCycleState = "LifeCycleState"
+            case ownerId = "OwnerId"
         }
     }
 

@@ -29,12 +29,12 @@ import AWSSDKSwiftCore
 
 extension Cur {
 
-    public enum ReportFormat: String, CustomStringConvertible {
+    public enum ReportFormat: String, CustomStringConvertible, Codable {
         case textorcsv = "textORcsv"
         public var description: String { return self.rawValue }
     }
 
-    public enum AdditionalArtifact: String, CustomStringConvertible {
+    public enum AdditionalArtifact: String, CustomStringConvertible, Codable {
         case redshift = "REDSHIFT"
         case quicksight = "QUICKSIGHT"
         public var description: String { return self.rawValue }
@@ -42,10 +42,9 @@ extension Cur {
 
     public struct DescribeReportDefinitionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ReportDefinitions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ReportDefinitions", required: false, type: .list)
         ]
         public let nextToken: String?
         public let reportDefinitions: [ReportDefinition]?
@@ -55,17 +54,13 @@ extension Cur {
             self.reportDefinitions = reportDefinitions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let reportDefinitions = dictionary["ReportDefinitions"] as? [[String: Any]] {
-                self.reportDefinitions = try reportDefinitions.map({ try ReportDefinition(dictionary: $0) })
-            } else { 
-                self.reportDefinitions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case reportDefinitions = "ReportDefinitions"
         }
     }
 
-    public enum CompressionFormat: String, CustomStringConvertible {
+    public enum CompressionFormat: String, CustomStringConvertible, Codable {
         case zip = "ZIP"
         case gzip = "GZIP"
         public var description: String { return self.rawValue }
@@ -73,9 +68,8 @@ extension Cur {
 
     public struct DeleteReportDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResponseMessage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResponseMessage", required: false, type: .string)
         ]
         public let responseMessage: String?
 
@@ -83,32 +77,28 @@ extension Cur {
             self.responseMessage = responseMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.responseMessage = dictionary["ResponseMessage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case responseMessage = "ResponseMessage"
         }
     }
 
     public struct PutReportDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ReportDefinition: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeUnit", required: true, type: .enum), 
-            AWSShapeProperty(label: "Format", required: true, type: .enum), 
-            AWSShapeProperty(label: "Compression", required: true, type: .enum), 
-            AWSShapeProperty(label: "ReportName", required: true, type: .string), 
-            AWSShapeProperty(label: "S3Region", required: true, type: .enum), 
-            AWSShapeProperty(label: "AdditionalArtifacts", required: false, type: .list), 
-            AWSShapeProperty(label: "AdditionalSchemaElements", required: true, type: .list), 
-            AWSShapeProperty(label: "S3Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "S3Prefix", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimeUnit", required: true, type: .enum), 
+            AWSShapeMember(label: "Format", required: true, type: .enum), 
+            AWSShapeMember(label: "Compression", required: true, type: .enum), 
+            AWSShapeMember(label: "ReportName", required: true, type: .string), 
+            AWSShapeMember(label: "S3Region", required: true, type: .enum), 
+            AWSShapeMember(label: "AdditionalArtifacts", required: false, type: .list), 
+            AWSShapeMember(label: "AdditionalSchemaElements", required: true, type: .list), 
+            AWSShapeMember(label: "S3Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "S3Prefix", required: true, type: .string)
         ]
         public let timeUnit: TimeUnit
         public let format: ReportFormat
@@ -132,28 +122,20 @@ extension Cur {
             self.s3Prefix = s3Prefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawTimeUnit = dictionary["TimeUnit"] as? String, let timeUnit = TimeUnit(rawValue: rawTimeUnit) else { throw InitializableError.missingRequiredParam("TimeUnit") }
-            self.timeUnit = timeUnit
-            guard let rawFormat = dictionary["Format"] as? String, let format = ReportFormat(rawValue: rawFormat) else { throw InitializableError.missingRequiredParam("Format") }
-            self.format = format
-            guard let rawCompression = dictionary["Compression"] as? String, let compression = CompressionFormat(rawValue: rawCompression) else { throw InitializableError.missingRequiredParam("Compression") }
-            self.compression = compression
-            guard let reportName = dictionary["ReportName"] as? String else { throw InitializableError.missingRequiredParam("ReportName") }
-            self.reportName = reportName
-            guard let rawS3Region = dictionary["S3Region"] as? String, let s3Region = AWSRegion(rawValue: rawS3Region) else { throw InitializableError.missingRequiredParam("S3Region") }
-            self.s3Region = s3Region
-            if let additionalArtifacts = dictionary["AdditionalArtifacts"] as? [String] { self.additionalArtifacts = additionalArtifacts.flatMap({ AdditionalArtifact(rawValue: $0)}) } else { self.additionalArtifacts = nil }
-            guard let additionalSchemaElements = dictionary["AdditionalSchemaElements"] as? [String] else { throw InitializableError.missingRequiredParam("AdditionalSchemaElements") }
-            self.additionalSchemaElements = additionalSchemaElements.flatMap({ SchemaElement(rawValue: $0)})
-            guard let s3Bucket = dictionary["S3Bucket"] as? String else { throw InitializableError.missingRequiredParam("S3Bucket") }
-            self.s3Bucket = s3Bucket
-            guard let s3Prefix = dictionary["S3Prefix"] as? String else { throw InitializableError.missingRequiredParam("S3Prefix") }
-            self.s3Prefix = s3Prefix
+        private enum CodingKeys: String, CodingKey {
+            case timeUnit = "TimeUnit"
+            case format = "Format"
+            case compression = "Compression"
+            case reportName = "ReportName"
+            case s3Region = "S3Region"
+            case additionalArtifacts = "AdditionalArtifacts"
+            case additionalSchemaElements = "AdditionalSchemaElements"
+            case s3Bucket = "S3Bucket"
+            case s3Prefix = "S3Prefix"
         }
     }
 
-    public enum AWSRegion: String, CustomStringConvertible {
+    public enum AWSRegion: String, CustomStringConvertible, Codable {
         case us_east_1 = "us-east-1"
         case us_west_1 = "us-west-1"
         case us_west_2 = "us-west-2"
@@ -167,9 +149,8 @@ extension Cur {
 
     public struct PutReportDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReportDefinition", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReportDefinition", required: true, type: .structure)
         ]
         public let reportDefinition: ReportDefinition
 
@@ -177,29 +158,27 @@ extension Cur {
             self.reportDefinition = reportDefinition
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let reportDefinition = dictionary["ReportDefinition"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ReportDefinition") }
-            self.reportDefinition = try Cur.ReportDefinition(dictionary: reportDefinition)
+        private enum CodingKeys: String, CodingKey {
+            case reportDefinition = "ReportDefinition"
         }
     }
 
-    public enum TimeUnit: String, CustomStringConvertible {
+    public enum TimeUnit: String, CustomStringConvertible, Codable {
         case hourly = "HOURLY"
         case daily = "DAILY"
         public var description: String { return self.rawValue }
     }
 
-    public enum SchemaElement: String, CustomStringConvertible {
+    public enum SchemaElement: String, CustomStringConvertible, Codable {
         case resources = "RESOURCES"
         public var description: String { return self.rawValue }
     }
 
     public struct DescribeReportDefinitionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         public let nextToken: String?
         public let maxResults: Int32?
@@ -209,17 +188,16 @@ extension Cur {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DeleteReportDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReportName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReportName", required: false, type: .string)
         ]
         public let reportName: String?
 
@@ -227,8 +205,8 @@ extension Cur {
             self.reportName = reportName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.reportName = dictionary["ReportName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case reportName = "ReportName"
         }
     }
 

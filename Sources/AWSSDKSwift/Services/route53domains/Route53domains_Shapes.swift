@@ -31,9 +31,8 @@ extension Route53domains {
 
     public struct GetOperationDetailRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
         /// The identifier for the operation for which you want to get the status. Amazon Route 53 returned the identifier in the response to the original request.
         public let operationId: String
@@ -42,17 +41,15 @@ extension Route53domains {
             self.operationId = operationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
-            self.operationId = operationId
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
         }
     }
 
     public struct ResendContactReachabilityEmailRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", required: false, type: .string)
         ]
         /// The name of the domain for which you want Amazon Route 53 to resend a confirmation email to the registrant contact.
         public let domainName: String?
@@ -61,17 +58,16 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.domainName = dictionary["domainName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
         }
     }
 
     public struct ListOperationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
         /// For an initial request for a list of operations, omit this element. If the number of operations that are not yet complete is greater than the value that you specified for MaxItems, you can use Marker to return additional operations. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
         public let marker: String?
@@ -83,19 +79,18 @@ extension Route53domains {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct RenewDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentExpiryYear", required: true, type: .integer), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "DurationInYears", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentExpiryYear", required: true, type: .integer), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "DurationInYears", required: false, type: .integer)
         ]
         /// The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain.
         public let currentExpiryYear: Int32
@@ -110,16 +105,14 @@ extension Route53domains {
             self.durationInYears = durationInYears
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let currentExpiryYear = dictionary["CurrentExpiryYear"] as? Int32 else { throw InitializableError.missingRequiredParam("CurrentExpiryYear") }
-            self.currentExpiryYear = currentExpiryYear
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            self.durationInYears = dictionary["DurationInYears"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case currentExpiryYear = "CurrentExpiryYear"
+            case domainName = "DomainName"
+            case durationInYears = "DurationInYears"
         }
     }
 
-    public enum OperationStatus: String, CustomStringConvertible {
+    public enum OperationStatus: String, CustomStringConvertible, Codable {
         case submitted = "SUBMITTED"
         case in_progress = "IN_PROGRESS"
         case error = "ERROR"
@@ -130,9 +123,8 @@ extension Route53domains {
 
     public struct GetDomainSuggestionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SuggestionsList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SuggestionsList", required: false, type: .list)
         ]
         /// A list of possible domain names. If you specified true for OnlyAvailable in the request, the list contains only domains that are available for registration.
         public let suggestionsList: [DomainSuggestion]?
@@ -141,21 +133,16 @@ extension Route53domains {
             self.suggestionsList = suggestionsList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let suggestionsList = dictionary["SuggestionsList"] as? [[String: Any]] {
-                self.suggestionsList = try suggestionsList.map({ try DomainSuggestion(dictionary: $0) })
-            } else { 
-                self.suggestionsList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case suggestionsList = "SuggestionsList"
         }
     }
 
     public struct ListDomainsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Domains", required: true, type: .list), 
-            AWSShapeProperty(label: "NextPageMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domains", required: true, type: .list), 
+            AWSShapeMember(label: "NextPageMarker", required: false, type: .string)
         ]
         /// A summary of domains.
         public let domains: [DomainSummary]
@@ -167,18 +154,16 @@ extension Route53domains {
             self.nextPageMarker = nextPageMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domains = dictionary["Domains"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Domains") }
-            self.domains = try domains.map({ try DomainSummary(dictionary: $0) })
-            self.nextPageMarker = dictionary["NextPageMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case domains = "Domains"
+            case nextPageMarker = "NextPageMarker"
         }
     }
 
     public struct RegisterDomainResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -187,13 +172,12 @@ extension Route53domains {
             self.operationId = operationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
-            self.operationId = operationId
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
         }
     }
 
-    public enum DomainAvailability: String, CustomStringConvertible {
+    public enum DomainAvailability: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case available_reserved = "AVAILABLE_RESERVED"
         case available_preorder = "AVAILABLE_PREORDER"
@@ -207,12 +191,11 @@ extension Route53domains {
 
     public struct UpdateDomainContactPrivacyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TechPrivacy", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "RegistrantPrivacy", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AdminPrivacy", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TechPrivacy", required: false, type: .boolean), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "RegistrantPrivacy", required: false, type: .boolean), 
+            AWSShapeMember(label: "AdminPrivacy", required: false, type: .boolean)
         ]
         /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
         public let techPrivacy: Bool?
@@ -230,21 +213,19 @@ extension Route53domains {
             self.adminPrivacy = adminPrivacy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.techPrivacy = dictionary["TechPrivacy"] as? Bool
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            self.registrantPrivacy = dictionary["RegistrantPrivacy"] as? Bool
-            self.adminPrivacy = dictionary["AdminPrivacy"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case techPrivacy = "TechPrivacy"
+            case domainName = "DomainName"
+            case registrantPrivacy = "RegistrantPrivacy"
+            case adminPrivacy = "AdminPrivacy"
         }
     }
 
     public struct ListDomainsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
         /// For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current AWS account is greater than the value that you specified for MaxItems, you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Constraints: The marker must match the value specified in the previous request.
         public let marker: String?
@@ -256,17 +237,16 @@ extension Route53domains {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct EnableDomainTransferLockResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -275,19 +255,17 @@ extension Route53domains {
             self.operationId = operationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
-            self.operationId = operationId
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
         }
     }
 
     public struct GetDomainSuggestionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OnlyAvailable", required: true, type: .boolean), 
-            AWSShapeProperty(label: "SuggestionCount", required: true, type: .integer), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OnlyAvailable", required: true, type: .boolean), 
+            AWSShapeMember(label: "SuggestionCount", required: true, type: .integer), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// If OnlyAvailable is true, Amazon Route 53 returns only domain names that are available. If OnlyAvailable is false, Amazon Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, you can call checkDomainAvailability for each suggestion.
         public let onlyAvailable: Bool
@@ -302,17 +280,14 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let onlyAvailable = dictionary["OnlyAvailable"] as? Bool else { throw InitializableError.missingRequiredParam("OnlyAvailable") }
-            self.onlyAvailable = onlyAvailable
-            guard let suggestionCount = dictionary["SuggestionCount"] as? Int32 else { throw InitializableError.missingRequiredParam("SuggestionCount") }
-            self.suggestionCount = suggestionCount
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case onlyAvailable = "OnlyAvailable"
+            case suggestionCount = "SuggestionCount"
+            case domainName = "DomainName"
         }
     }
 
-    public enum ExtraParamName: String, CustomStringConvertible {
+    public enum ExtraParamName: String, CustomStringConvertible, Codable {
         case duns_number = "DUNS_NUMBER"
         case brand_number = "BRAND_NUMBER"
         case birth_department = "BIRTH_DEPARTMENT"
@@ -339,17 +314,13 @@ extension Route53domains {
 
     public struct DeleteTagsForDomainResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct RetrieveDomainAuthCodeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthCode", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthCode", required: true, type: .string)
         ]
         /// The authorization code for the domain.
         public let authCode: String
@@ -358,18 +329,16 @@ extension Route53domains {
             self.authCode = authCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let authCode = dictionary["AuthCode"] as? String else { throw InitializableError.missingRequiredParam("AuthCode") }
-            self.authCode = authCode
+        private enum CodingKeys: String, CodingKey {
+            case authCode = "AuthCode"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The value of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each value can be 0-256 characters long.
         public let value: String?
@@ -381,23 +350,22 @@ extension Route53domains {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct DomainSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Expiry", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "AutoRenew", required: false, type: .boolean), 
-            AWSShapeProperty(label: "TransferLock", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Expiry", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "AutoRenew", required: false, type: .boolean), 
+            AWSShapeMember(label: "TransferLock", required: false, type: .boolean)
         ]
         /// Expiration date of the domain in Coordinated Universal Time (UTC).
-        public let expiry: String?
+        public let expiry: Double?
         /// The name of the domain that the summary information applies to.
         public let domainName: String
         /// Indicates whether the domain is automatically renewed upon expiration.
@@ -405,23 +373,22 @@ extension Route53domains {
         /// Indicates whether a domain is locked from unauthorized transfer to another party.
         public let transferLock: Bool?
 
-        public init(expiry: String? = nil, domainName: String, autoRenew: Bool? = nil, transferLock: Bool? = nil) {
+        public init(expiry: Double? = nil, domainName: String, autoRenew: Bool? = nil, transferLock: Bool? = nil) {
             self.expiry = expiry
             self.domainName = domainName
             self.autoRenew = autoRenew
             self.transferLock = transferLock
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.expiry = dictionary["Expiry"] as? String
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            self.autoRenew = dictionary["AutoRenew"] as? Bool
-            self.transferLock = dictionary["TransferLock"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case expiry = "Expiry"
+            case domainName = "DomainName"
+            case autoRenew = "AutoRenew"
+            case transferLock = "TransferLock"
         }
     }
 
-    public enum ContactType: String, CustomStringConvertible {
+    public enum ContactType: String, CustomStringConvertible, Codable {
         case person = "PERSON"
         case company = "COMPANY"
         case association = "ASSOCIATION"
@@ -432,9 +399,8 @@ extension Route53domains {
 
     public struct CheckDomainAvailabilityResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Availability", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Availability", required: true, type: .enum)
         ]
         /// Whether the domain name is available for registering.  You can only register domains designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
         public let availability: DomainAvailability
@@ -443,17 +409,15 @@ extension Route53domains {
             self.availability = availability
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawAvailability = dictionary["Availability"] as? String, let availability = DomainAvailability(rawValue: rawAvailability) else { throw InitializableError.missingRequiredParam("Availability") }
-            self.availability = availability
+        private enum CodingKeys: String, CodingKey {
+            case availability = "Availability"
         }
     }
 
     public struct TransferDomainResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -462,13 +426,12 @@ extension Route53domains {
             self.operationId = operationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
-            self.operationId = operationId
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
         }
     }
 
-    public enum ReachabilityStatus: String, CustomStringConvertible {
+    public enum ReachabilityStatus: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case done = "DONE"
         case expired = "EXPIRED"
@@ -477,10 +440,9 @@ extension Route53domains {
 
     public struct DomainSuggestion: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: false, type: .string), 
-            AWSShapeProperty(label: "Availability", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "Availability", required: false, type: .string)
         ]
         /// A suggested domain name.
         public let domainName: String?
@@ -492,18 +454,17 @@ extension Route53domains {
             self.availability = availability
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.domainName = dictionary["DomainName"] as? String
-            self.availability = dictionary["Availability"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case availability = "Availability"
         }
     }
 
     public struct ListOperationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Operations", required: true, type: .list), 
-            AWSShapeProperty(label: "NextPageMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Operations", required: true, type: .list), 
+            AWSShapeMember(label: "NextPageMarker", required: false, type: .string)
         ]
         /// Lists summaries of the operations.
         public let operations: [OperationSummary]
@@ -515,31 +476,29 @@ extension Route53domains {
             self.nextPageMarker = nextPageMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let operations = dictionary["Operations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Operations") }
-            self.operations = try operations.map({ try OperationSummary(dictionary: $0) })
-            self.nextPageMarker = dictionary["NextPageMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case operations = "Operations"
+            case nextPageMarker = "NextPageMarker"
         }
     }
 
     public struct ContactDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AddressLine1", required: false, type: .string), 
-            AWSShapeProperty(label: "Email", required: false, type: .string), 
-            AWSShapeProperty(label: "PhoneNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "OrganizationName", required: false, type: .string), 
-            AWSShapeProperty(label: "State", required: false, type: .string), 
-            AWSShapeProperty(label: "LastName", required: false, type: .string), 
-            AWSShapeProperty(label: "ContactType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ZipCode", required: false, type: .string), 
-            AWSShapeProperty(label: "Fax", required: false, type: .string), 
-            AWSShapeProperty(label: "ExtraParams", required: false, type: .list), 
-            AWSShapeProperty(label: "FirstName", required: false, type: .string), 
-            AWSShapeProperty(label: "City", required: false, type: .string), 
-            AWSShapeProperty(label: "CountryCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "AddressLine2", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddressLine1", required: false, type: .string), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationName", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "LastName", required: false, type: .string), 
+            AWSShapeMember(label: "ContactType", required: false, type: .enum), 
+            AWSShapeMember(label: "ZipCode", required: false, type: .string), 
+            AWSShapeMember(label: "Fax", required: false, type: .string), 
+            AWSShapeMember(label: "ExtraParams", required: false, type: .list), 
+            AWSShapeMember(label: "FirstName", required: false, type: .string), 
+            AWSShapeMember(label: "City", required: false, type: .string), 
+            AWSShapeMember(label: "CountryCode", required: false, type: .enum), 
+            AWSShapeMember(label: "AddressLine2", required: false, type: .string)
         ]
         /// First line of the contact's address.
         public let addressLine1: String?
@@ -587,42 +546,34 @@ extension Route53domains {
             self.addressLine2 = addressLine2
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.addressLine1 = dictionary["AddressLine1"] as? String
-            self.email = dictionary["Email"] as? String
-            self.phoneNumber = dictionary["PhoneNumber"] as? String
-            self.organizationName = dictionary["OrganizationName"] as? String
-            self.state = dictionary["State"] as? String
-            self.lastName = dictionary["LastName"] as? String
-            if let contactType = dictionary["ContactType"] as? String { self.contactType = ContactType(rawValue: contactType) } else { self.contactType = nil }
-            self.zipCode = dictionary["ZipCode"] as? String
-            self.fax = dictionary["Fax"] as? String
-            if let extraParams = dictionary["ExtraParams"] as? [[String: Any]] {
-                self.extraParams = try extraParams.map({ try ExtraParam(dictionary: $0) })
-            } else { 
-                self.extraParams = nil
-            }
-            self.firstName = dictionary["FirstName"] as? String
-            self.city = dictionary["City"] as? String
-            if let countryCode = dictionary["CountryCode"] as? String { self.countryCode = CountryCode(rawValue: countryCode) } else { self.countryCode = nil }
-            self.addressLine2 = dictionary["AddressLine2"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case addressLine1 = "AddressLine1"
+            case email = "Email"
+            case phoneNumber = "PhoneNumber"
+            case organizationName = "OrganizationName"
+            case state = "State"
+            case lastName = "LastName"
+            case contactType = "ContactType"
+            case zipCode = "ZipCode"
+            case fax = "Fax"
+            case extraParams = "ExtraParams"
+            case firstName = "FirstName"
+            case city = "City"
+            case countryCode = "CountryCode"
+            case addressLine2 = "AddressLine2"
         }
     }
 
     public struct EnableDomainAutoRenewResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ViewBillingResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BillingRecords", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BillingRecords", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageMarker", required: false, type: .string)
         ]
         /// A summary of billing records.
         public let billingRecords: [BillingRecord]?
@@ -634,21 +585,16 @@ extension Route53domains {
             self.nextPageMarker = nextPageMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let billingRecords = dictionary["BillingRecords"] as? [[String: Any]] {
-                self.billingRecords = try billingRecords.map({ try BillingRecord(dictionary: $0) })
-            } else { 
-                self.billingRecords = nil
-            }
-            self.nextPageMarker = dictionary["NextPageMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case billingRecords = "BillingRecords"
+            case nextPageMarker = "NextPageMarker"
         }
     }
 
     public struct UpdateDomainNameserversResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -657,17 +603,15 @@ extension Route53domains {
             self.operationId = operationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
-            self.operationId = operationId
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
         }
     }
 
     public struct ListTagsForDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The domain for which you want to get a list of tags.
         public let domainName: String
@@ -676,17 +620,15 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct ListTagsForDomainResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagList", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: true, type: .list)
         ]
         /// A list of the tags that are associated with the specified domain.
         public let tagList: [Tag]
@@ -695,25 +637,20 @@ extension Route53domains {
             self.tagList = tagList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tagList = dictionary["TagList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TagList") }
-            self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case tagList = "TagList"
         }
     }
 
     public struct UpdateTagsForDomainResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct GetDomainDetailRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain that you want to get detailed information about.
         public let domainName: String
@@ -722,28 +659,26 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct TransferDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdnLangCode", required: false, type: .string), 
-            AWSShapeProperty(label: "AdminContact", required: true, type: .structure), 
-            AWSShapeProperty(label: "DurationInYears", required: true, type: .integer), 
-            AWSShapeProperty(label: "RegistrantContact", required: true, type: .structure), 
-            AWSShapeProperty(label: "Nameservers", required: false, type: .list), 
-            AWSShapeProperty(label: "TechContact", required: true, type: .structure), 
-            AWSShapeProperty(label: "PrivacyProtectTechContact", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PrivacyProtectRegistrantContact", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PrivacyProtectAdminContact", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "AutoRenew", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AuthCode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdnLangCode", required: false, type: .string), 
+            AWSShapeMember(label: "AdminContact", required: true, type: .structure), 
+            AWSShapeMember(label: "DurationInYears", required: true, type: .integer), 
+            AWSShapeMember(label: "RegistrantContact", required: true, type: .structure), 
+            AWSShapeMember(label: "Nameservers", required: false, type: .list), 
+            AWSShapeMember(label: "TechContact", required: true, type: .structure), 
+            AWSShapeMember(label: "PrivacyProtectTechContact", required: false, type: .boolean), 
+            AWSShapeMember(label: "PrivacyProtectRegistrantContact", required: false, type: .boolean), 
+            AWSShapeMember(label: "PrivacyProtectAdminContact", required: false, type: .boolean), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "AutoRenew", required: false, type: .boolean), 
+            AWSShapeMember(label: "AuthCode", required: false, type: .string)
         ]
         /// Reserved for future use.
         public let idnLangCode: String?
@@ -785,36 +720,26 @@ extension Route53domains {
             self.authCode = authCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.idnLangCode = dictionary["IdnLangCode"] as? String
-            guard let adminContact = dictionary["AdminContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AdminContact") }
-            self.adminContact = try Route53domains.ContactDetail(dictionary: adminContact)
-            guard let durationInYears = dictionary["DurationInYears"] as? Int32 else { throw InitializableError.missingRequiredParam("DurationInYears") }
-            self.durationInYears = durationInYears
-            guard let registrantContact = dictionary["RegistrantContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RegistrantContact") }
-            self.registrantContact = try Route53domains.ContactDetail(dictionary: registrantContact)
-            if let nameservers = dictionary["Nameservers"] as? [[String: Any]] {
-                self.nameservers = try nameservers.map({ try Nameserver(dictionary: $0) })
-            } else { 
-                self.nameservers = nil
-            }
-            guard let techContact = dictionary["TechContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TechContact") }
-            self.techContact = try Route53domains.ContactDetail(dictionary: techContact)
-            self.privacyProtectTechContact = dictionary["PrivacyProtectTechContact"] as? Bool
-            self.privacyProtectRegistrantContact = dictionary["PrivacyProtectRegistrantContact"] as? Bool
-            self.privacyProtectAdminContact = dictionary["PrivacyProtectAdminContact"] as? Bool
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            self.autoRenew = dictionary["AutoRenew"] as? Bool
-            self.authCode = dictionary["AuthCode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case idnLangCode = "IdnLangCode"
+            case adminContact = "AdminContact"
+            case durationInYears = "DurationInYears"
+            case registrantContact = "RegistrantContact"
+            case nameservers = "Nameservers"
+            case techContact = "TechContact"
+            case privacyProtectTechContact = "PrivacyProtectTechContact"
+            case privacyProtectRegistrantContact = "PrivacyProtectRegistrantContact"
+            case privacyProtectAdminContact = "PrivacyProtectAdminContact"
+            case domainName = "DomainName"
+            case autoRenew = "AutoRenew"
+            case authCode = "AuthCode"
         }
     }
 
     public struct EnableDomainTransferLockRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain that you want to set the transfer lock for.
         public let domainName: String
@@ -823,18 +748,16 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct UpdateTagsForDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagsToUpdate", required: false, type: .list), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagsToUpdate", required: false, type: .list), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// A list of the tag keys and values that you want to add or update. If you specify a key that already exists, the corresponding value will be replaced.
         public let tagsToUpdate: [Tag]?
@@ -846,23 +769,17 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagsToUpdate = dictionary["TagsToUpdate"] as? [[String: Any]] {
-                self.tagsToUpdate = try tagsToUpdate.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tagsToUpdate = nil
-            }
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case tagsToUpdate = "TagsToUpdate"
+            case domainName = "DomainName"
         }
     }
 
     public struct GetContactReachabilityStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainName", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
         ]
         /// The domain name for which you requested the reachability status.
         public let domainName: String?
@@ -874,18 +791,17 @@ extension Route53domains {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.domainName = dictionary["domainName"] as? String
-            if let status = dictionary["status"] as? String { self.status = ReachabilityStatus(rawValue: status) } else { self.status = nil }
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
+            case status = "status"
         }
     }
 
     public struct DeleteTagsForDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagsToDelete", required: true, type: .list), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagsToDelete", required: true, type: .list), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// A list of tag keys to delete.
         public let tagsToDelete: [String]
@@ -897,19 +813,16 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tagsToDelete = dictionary["TagsToDelete"] as? [String] else { throw InitializableError.missingRequiredParam("TagsToDelete") }
-            self.tagsToDelete = tagsToDelete
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case tagsToDelete = "TagsToDelete"
+            case domainName = "DomainName"
         }
     }
 
     public struct GetContactReachabilityStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainName", required: false, type: .string)
         ]
         /// The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid.
         public let domainName: String?
@@ -918,17 +831,16 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.domainName = dictionary["domainName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
         }
     }
 
     public struct ExtraParam: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .enum)
         ]
         /// Values corresponding to the additional parameter names required by some top-level domains.
         public let value: String
@@ -940,24 +852,21 @@ extension Route53domains {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let rawName = dictionary["Name"] as? String, let name = ExtraParamName(rawValue: rawName) else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
         }
     }
 
     public struct GetOperationDetailResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "OperationId", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "SubmittedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "DomainName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "OperationId", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "SubmittedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string)
         ]
         /// The current status of the requested operation in the system.
         public let status: OperationStatus?
@@ -966,13 +875,13 @@ extension Route53domains {
         /// Detailed information on the status including possible errors.
         public let message: String?
         /// The date when the request was submitted.
-        public let submittedDate: String?
+        public let submittedDate: Double?
         /// The type of operation that was requested.
         public let `type`: OperationType?
         /// The name of a domain.
         public let domainName: String?
 
-        public init(status: OperationStatus? = nil, operationId: String? = nil, message: String? = nil, submittedDate: String? = nil, type: OperationType? = nil, domainName: String? = nil) {
+        public init(status: OperationStatus? = nil, operationId: String? = nil, message: String? = nil, submittedDate: Double? = nil, type: OperationType? = nil, domainName: String? = nil) {
             self.status = status
             self.operationId = operationId
             self.message = message
@@ -981,21 +890,20 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = OperationStatus(rawValue: status) } else { self.status = nil }
-            self.operationId = dictionary["OperationId"] as? String
-            self.message = dictionary["Message"] as? String
-            self.submittedDate = dictionary["SubmittedDate"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = OperationType(rawValue: `type`) } else { self.`type` = nil }
-            self.domainName = dictionary["DomainName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case operationId = "OperationId"
+            case message = "Message"
+            case submittedDate = "SubmittedDate"
+            case `type` = "Type"
+            case domainName = "DomainName"
         }
     }
 
     public struct EnableDomainAutoRenewRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain that you want to enable automatic renewal for.
         public let domainName: String
@@ -1004,18 +912,16 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct Nameserver: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GlueIps", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlueIps", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// Glue IP address of a name server entry. Glue IP addresses are required only when the name of the name server is a subdomain of the domain. For example, if your domain is example.com and the name server for the domain is ns.example.com, you need to specify the IP address for ns.example.com. Constraints: The list can contain only one IPv4 and one IPv6 address.
         public let glueIps: [String]?
@@ -1027,18 +933,16 @@ extension Route53domains {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.glueIps = dictionary["GlueIps"] as? [String]
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case glueIps = "GlueIps"
+            case name = "Name"
         }
     }
 
     public struct RetrieveDomainAuthCodeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain that you want to get an authorization code for.
         public let domainName: String
@@ -1047,24 +951,22 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct BillingRecord: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BillDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InvoiceId", required: false, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: false, type: .string), 
-            AWSShapeProperty(label: "Operation", required: false, type: .enum), 
-            AWSShapeProperty(label: "Price", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BillDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InvoiceId", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "Operation", required: false, type: .enum), 
+            AWSShapeMember(label: "Price", required: false, type: .double)
         ]
         /// The date that the operation was billed, in Unix format.
-        public let billDate: String?
+        public let billDate: Double?
         /// The ID of the invoice that is associated with the billing record.
         public let invoiceId: String?
         /// The name of the domain that the billing record applies to. If the domain name contains characters other than a-z, 0-9, and - (hyphen), such as an internationalized domain name, then this value is in Punycode. For more information, see DNS Domain Name Format in the Amazon Route 53 Developer Guidezzz.
@@ -1074,7 +976,7 @@ extension Route53domains {
         /// The price that you were charged for the operation, in US dollars. Example value: 12.0
         public let price: Double?
 
-        public init(billDate: String? = nil, invoiceId: String? = nil, domainName: String? = nil, operation: OperationType? = nil, price: Double? = nil) {
+        public init(billDate: Double? = nil, invoiceId: String? = nil, domainName: String? = nil, operation: OperationType? = nil, price: Double? = nil) {
             self.billDate = billDate
             self.invoiceId = invoiceId
             self.domainName = domainName
@@ -1082,29 +984,28 @@ extension Route53domains {
             self.price = price
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.billDate = dictionary["BillDate"] as? String
-            self.invoiceId = dictionary["InvoiceId"] as? String
-            self.domainName = dictionary["DomainName"] as? String
-            if let operation = dictionary["Operation"] as? String { self.operation = OperationType(rawValue: operation) } else { self.operation = nil }
-            self.price = dictionary["Price"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case billDate = "BillDate"
+            case invoiceId = "InvoiceId"
+            case domainName = "DomainName"
+            case operation = "Operation"
+            case price = "Price"
         }
     }
 
     public struct RegisterDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdnLangCode", required: false, type: .string), 
-            AWSShapeProperty(label: "AdminContact", required: true, type: .structure), 
-            AWSShapeProperty(label: "DurationInYears", required: true, type: .integer), 
-            AWSShapeProperty(label: "RegistrantContact", required: true, type: .structure), 
-            AWSShapeProperty(label: "TechContact", required: true, type: .structure), 
-            AWSShapeProperty(label: "PrivacyProtectTechContact", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PrivacyProtectRegistrantContact", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "PrivacyProtectAdminContact", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AutoRenew", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdnLangCode", required: false, type: .string), 
+            AWSShapeMember(label: "AdminContact", required: true, type: .structure), 
+            AWSShapeMember(label: "DurationInYears", required: true, type: .integer), 
+            AWSShapeMember(label: "RegistrantContact", required: true, type: .structure), 
+            AWSShapeMember(label: "TechContact", required: true, type: .structure), 
+            AWSShapeMember(label: "PrivacyProtectTechContact", required: false, type: .boolean), 
+            AWSShapeMember(label: "PrivacyProtectRegistrantContact", required: false, type: .boolean), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "PrivacyProtectAdminContact", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoRenew", required: false, type: .boolean)
         ]
         /// Reserved for future use.
         public let idnLangCode: String?
@@ -1140,32 +1041,26 @@ extension Route53domains {
             self.autoRenew = autoRenew
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.idnLangCode = dictionary["IdnLangCode"] as? String
-            guard let adminContact = dictionary["AdminContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AdminContact") }
-            self.adminContact = try Route53domains.ContactDetail(dictionary: adminContact)
-            guard let durationInYears = dictionary["DurationInYears"] as? Int32 else { throw InitializableError.missingRequiredParam("DurationInYears") }
-            self.durationInYears = durationInYears
-            guard let registrantContact = dictionary["RegistrantContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RegistrantContact") }
-            self.registrantContact = try Route53domains.ContactDetail(dictionary: registrantContact)
-            guard let techContact = dictionary["TechContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TechContact") }
-            self.techContact = try Route53domains.ContactDetail(dictionary: techContact)
-            self.privacyProtectTechContact = dictionary["PrivacyProtectTechContact"] as? Bool
-            self.privacyProtectRegistrantContact = dictionary["PrivacyProtectRegistrantContact"] as? Bool
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            self.privacyProtectAdminContact = dictionary["PrivacyProtectAdminContact"] as? Bool
-            self.autoRenew = dictionary["AutoRenew"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case idnLangCode = "IdnLangCode"
+            case adminContact = "AdminContact"
+            case durationInYears = "DurationInYears"
+            case registrantContact = "RegistrantContact"
+            case techContact = "TechContact"
+            case privacyProtectTechContact = "PrivacyProtectTechContact"
+            case privacyProtectRegistrantContact = "PrivacyProtectRegistrantContact"
+            case domainName = "DomainName"
+            case privacyProtectAdminContact = "PrivacyProtectAdminContact"
+            case autoRenew = "AutoRenew"
         }
     }
 
     public struct ResendContactReachabilityEmailResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "isAlreadyVerified", required: false, type: .boolean), 
-            AWSShapeProperty(label: "emailAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "domainName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "isAlreadyVerified", required: false, type: .boolean), 
+            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "domainName", required: false, type: .string)
         ]
         ///  True if the email address for the registrant contact has already been verified, and false otherwise. If the email address has already been verified, we don't send another confirmation email.
         public let isAlreadyVerified: Bool?
@@ -1180,14 +1075,14 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.isAlreadyVerified = dictionary["isAlreadyVerified"] as? Bool
-            self.emailAddress = dictionary["emailAddress"] as? String
-            self.domainName = dictionary["domainName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case isAlreadyVerified = "isAlreadyVerified"
+            case emailAddress = "emailAddress"
+            case domainName = "domainName"
         }
     }
 
-    public enum OperationType: String, CustomStringConvertible {
+    public enum OperationType: String, CustomStringConvertible, Codable {
         case register_domain = "REGISTER_DOMAIN"
         case delete_domain = "DELETE_DOMAIN"
         case transfer_in_domain = "TRANSFER_IN_DOMAIN"
@@ -1200,9 +1095,8 @@ extension Route53domains {
 
     public struct DisableDomainAutoRenewRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain that you want to disable automatic renewal for.
         public let domainName: String
@@ -1211,37 +1105,35 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct GetDomainDetailResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RegistryDomainId", required: false, type: .string), 
-            AWSShapeProperty(label: "Reseller", required: false, type: .string), 
-            AWSShapeProperty(label: "RegistrantContact", required: true, type: .structure), 
-            AWSShapeProperty(label: "StatusList", required: false, type: .list), 
-            AWSShapeProperty(label: "TechContact", required: true, type: .structure), 
-            AWSShapeProperty(label: "ExpirationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "RegistrarName", required: false, type: .string), 
-            AWSShapeProperty(label: "TechPrivacy", required: false, type: .boolean), 
-            AWSShapeProperty(label: "RegistrarUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AbuseContactEmail", required: false, type: .string), 
-            AWSShapeProperty(label: "AdminPrivacy", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AbuseContactPhone", required: false, type: .string), 
-            AWSShapeProperty(label: "AdminContact", required: true, type: .structure), 
-            AWSShapeProperty(label: "UpdatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "WhoIsServer", required: false, type: .string), 
-            AWSShapeProperty(label: "Nameservers", required: true, type: .list), 
-            AWSShapeProperty(label: "DnsSec", required: false, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "RegistrantPrivacy", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AutoRenew", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RegistryDomainId", required: false, type: .string), 
+            AWSShapeMember(label: "Reseller", required: false, type: .string), 
+            AWSShapeMember(label: "RegistrantContact", required: true, type: .structure), 
+            AWSShapeMember(label: "StatusList", required: false, type: .list), 
+            AWSShapeMember(label: "TechContact", required: true, type: .structure), 
+            AWSShapeMember(label: "ExpirationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RegistrarName", required: false, type: .string), 
+            AWSShapeMember(label: "TechPrivacy", required: false, type: .boolean), 
+            AWSShapeMember(label: "RegistrarUrl", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AbuseContactEmail", required: false, type: .string), 
+            AWSShapeMember(label: "AdminPrivacy", required: false, type: .boolean), 
+            AWSShapeMember(label: "AbuseContactPhone", required: false, type: .string), 
+            AWSShapeMember(label: "AdminContact", required: true, type: .structure), 
+            AWSShapeMember(label: "UpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "WhoIsServer", required: false, type: .string), 
+            AWSShapeMember(label: "Nameservers", required: true, type: .list), 
+            AWSShapeMember(label: "DnsSec", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "RegistrantPrivacy", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoRenew", required: false, type: .boolean)
         ]
         /// Reserved for future use.
         public let registryDomainId: String?
@@ -1254,7 +1146,7 @@ extension Route53domains {
         /// Provides details about the domain technical contact.
         public let techContact: ContactDetail
         /// The date when the registration for the domain is set to expire. The date format is Unix time.
-        public let expirationDate: String?
+        public let expirationDate: Double?
         /// Name of the registrar of the domain as identified in the registry. Amazon Route 53 domains are registered by registrar Gandi. The value is "GANDI SAS". 
         public let registrarName: String?
         /// Specifies whether contact information for the tech contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
@@ -1262,7 +1154,7 @@ extension Route53domains {
         /// Web address of the registrar.
         public let registrarUrl: String?
         /// The date when the domain was created as found in the response to a WHOIS query. The date format is Unix time.
-        public let creationDate: String?
+        public let creationDate: Double?
         /// Email address to contact to report incorrect contact information for a domain, to report that the domain is being used to send spam, to report that someone is cybersquatting on a domain name, or report some other type of abuse.
         public let abuseContactEmail: String?
         /// Specifies whether contact information for the admin contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
@@ -1272,7 +1164,7 @@ extension Route53domains {
         /// Provides details about the domain administrative contact.
         public let adminContact: ContactDetail
         /// The last updated date of the domain as found in the response to a WHOIS query. The date format is Unix time.
-        public let updatedDate: String?
+        public let updatedDate: Double?
         /// The fully qualified name of the WHOIS server that can answer the WHOIS query for the domain.
         public let whoIsServer: String?
         /// The name of the domain.
@@ -1286,7 +1178,7 @@ extension Route53domains {
         /// Specifies whether the domain registration is set to renew automatically.
         public let autoRenew: Bool?
 
-        public init(registryDomainId: String? = nil, reseller: String? = nil, registrantContact: ContactDetail, statusList: [String]? = nil, techContact: ContactDetail, expirationDate: String? = nil, registrarName: String? = nil, techPrivacy: Bool? = nil, registrarUrl: String? = nil, creationDate: String? = nil, abuseContactEmail: String? = nil, adminPrivacy: Bool? = nil, abuseContactPhone: String? = nil, adminContact: ContactDetail, updatedDate: String? = nil, whoIsServer: String? = nil, nameservers: [Nameserver], dnsSec: String? = nil, domainName: String, registrantPrivacy: Bool? = nil, autoRenew: Bool? = nil) {
+        public init(registryDomainId: String? = nil, reseller: String? = nil, registrantContact: ContactDetail, statusList: [String]? = nil, techContact: ContactDetail, expirationDate: Double? = nil, registrarName: String? = nil, techPrivacy: Bool? = nil, registrarUrl: String? = nil, creationDate: Double? = nil, abuseContactEmail: String? = nil, adminPrivacy: Bool? = nil, abuseContactPhone: String? = nil, adminContact: ContactDetail, updatedDate: Double? = nil, whoIsServer: String? = nil, nameservers: [Nameserver], dnsSec: String? = nil, domainName: String, registrantPrivacy: Bool? = nil, autoRenew: Bool? = nil) {
             self.registryDomainId = registryDomainId
             self.reseller = reseller
             self.registrantContact = registrantContact
@@ -1310,41 +1202,35 @@ extension Route53domains {
             self.autoRenew = autoRenew
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.registryDomainId = dictionary["RegistryDomainId"] as? String
-            self.reseller = dictionary["Reseller"] as? String
-            guard let registrantContact = dictionary["RegistrantContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RegistrantContact") }
-            self.registrantContact = try Route53domains.ContactDetail(dictionary: registrantContact)
-            self.statusList = dictionary["StatusList"] as? [String]
-            guard let techContact = dictionary["TechContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TechContact") }
-            self.techContact = try Route53domains.ContactDetail(dictionary: techContact)
-            self.expirationDate = dictionary["ExpirationDate"] as? String
-            self.registrarName = dictionary["RegistrarName"] as? String
-            self.techPrivacy = dictionary["TechPrivacy"] as? Bool
-            self.registrarUrl = dictionary["RegistrarUrl"] as? String
-            self.creationDate = dictionary["CreationDate"] as? String
-            self.abuseContactEmail = dictionary["AbuseContactEmail"] as? String
-            self.adminPrivacy = dictionary["AdminPrivacy"] as? Bool
-            self.abuseContactPhone = dictionary["AbuseContactPhone"] as? String
-            guard let adminContact = dictionary["AdminContact"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AdminContact") }
-            self.adminContact = try Route53domains.ContactDetail(dictionary: adminContact)
-            self.updatedDate = dictionary["UpdatedDate"] as? String
-            self.whoIsServer = dictionary["WhoIsServer"] as? String
-            guard let nameservers = dictionary["Nameservers"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Nameservers") }
-            self.nameservers = try nameservers.map({ try Nameserver(dictionary: $0) })
-            self.dnsSec = dictionary["DnsSec"] as? String
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            self.registrantPrivacy = dictionary["RegistrantPrivacy"] as? Bool
-            self.autoRenew = dictionary["AutoRenew"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case registryDomainId = "RegistryDomainId"
+            case reseller = "Reseller"
+            case registrantContact = "RegistrantContact"
+            case statusList = "StatusList"
+            case techContact = "TechContact"
+            case expirationDate = "ExpirationDate"
+            case registrarName = "RegistrarName"
+            case techPrivacy = "TechPrivacy"
+            case registrarUrl = "RegistrarUrl"
+            case creationDate = "CreationDate"
+            case abuseContactEmail = "AbuseContactEmail"
+            case adminPrivacy = "AdminPrivacy"
+            case abuseContactPhone = "AbuseContactPhone"
+            case adminContact = "AdminContact"
+            case updatedDate = "UpdatedDate"
+            case whoIsServer = "WhoIsServer"
+            case nameservers = "Nameservers"
+            case dnsSec = "DnsSec"
+            case domainName = "DomainName"
+            case registrantPrivacy = "RegistrantPrivacy"
+            case autoRenew = "AutoRenew"
         }
     }
 
     public struct DisableDomainTransferLockRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain that you want to remove the transfer lock for.
         public let domainName: String
@@ -1353,17 +1239,15 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct RenewDomainResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
         /// The identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -1372,54 +1256,47 @@ extension Route53domains {
             self.operationId = operationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
-            self.operationId = operationId
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
         }
     }
 
     public struct OperationSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .enum), 
-            AWSShapeProperty(label: "OperationId", required: true, type: .string), 
-            AWSShapeProperty(label: "SubmittedDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Type", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "OperationId", required: true, type: .string), 
+            AWSShapeMember(label: "SubmittedDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
         /// The current status of the requested operation in the system.
         public let status: OperationStatus
         /// Identifier returned to track the requested action.
         public let operationId: String
         /// The date when the request was submitted.
-        public let submittedDate: String
+        public let submittedDate: Double
         /// Type of the action requested.
         public let `type`: OperationType
 
-        public init(status: OperationStatus, operationId: String, submittedDate: String, type: OperationType) {
+        public init(status: OperationStatus, operationId: String, submittedDate: Double, type: OperationType) {
             self.status = status
             self.operationId = operationId
             self.submittedDate = submittedDate
             self.`type` = `type`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawStatus = dictionary["Status"] as? String, let status = OperationStatus(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
-            self.operationId = operationId
-            guard let submittedDate = dictionary["SubmittedDate"] as? String else { throw InitializableError.missingRequiredParam("SubmittedDate") }
-            self.submittedDate = submittedDate
-            guard let rawType = dictionary["Type"] as? String, let `type` = OperationType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case operationId = "OperationId"
+            case submittedDate = "SubmittedDate"
+            case `type` = "Type"
         }
     }
 
     public struct UpdateDomainContactPrivacyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -1428,26 +1305,21 @@ extension Route53domains {
             self.operationId = operationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
-            self.operationId = operationId
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
         }
     }
 
     public struct DisableDomainAutoRenewResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CheckDomainAvailabilityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdnLangCode", required: false, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdnLangCode", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// Reserved for future use.
         public let idnLangCode: String?
@@ -1459,18 +1331,16 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.idnLangCode = dictionary["IdnLangCode"] as? String
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case idnLangCode = "IdnLangCode"
+            case domainName = "DomainName"
         }
     }
 
     public struct UpdateDomainContactResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -1479,53 +1349,50 @@ extension Route53domains {
             self.operationId = operationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
-            self.operationId = operationId
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
         }
     }
 
     public struct ViewBillingRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "Start", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "End", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "Start", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "End", required: false, type: .timestamp)
         ]
         /// The number of billing records to be returned. Default: 20
         public let maxItems: Int32?
         /// The beginning date and time for the time period for which you want a list of billing records. Specify the date in Unix time format.
-        public let start: String?
+        public let start: Double?
         /// For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current AWS account during the specified period is greater than the value that you specified for MaxItems, you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.  Constraints: The marker must match the value of NextPageMarker that was returned in the previous response.
         public let marker: String?
         /// The end date and time for the time period for which you want a list of billing records. Specify the date in Unix time format.
-        public let end: String?
+        public let end: Double?
 
-        public init(maxItems: Int32? = nil, start: String? = nil, marker: String? = nil, end: String? = nil) {
+        public init(maxItems: Int32? = nil, start: Double? = nil, marker: String? = nil, end: Double? = nil) {
             self.maxItems = maxItems
             self.start = start
             self.marker = marker
             self.end = end
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            self.start = dictionary["Start"] as? String
-            self.marker = dictionary["Marker"] as? String
-            self.end = dictionary["End"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case start = "Start"
+            case marker = "Marker"
+            case end = "End"
         }
     }
 
     public struct UpdateDomainContactRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AdminContact", required: false, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "RegistrantContact", required: false, type: .structure), 
-            AWSShapeProperty(label: "TechContact", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdminContact", required: false, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "RegistrantContact", required: false, type: .structure), 
+            AWSShapeMember(label: "TechContact", required: false, type: .structure)
         ]
         /// Provides detailed contact information.
         public let adminContact: ContactDetail?
@@ -1543,22 +1410,20 @@ extension Route53domains {
             self.techContact = techContact
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let adminContact = dictionary["AdminContact"] as? [String: Any] { self.adminContact = try Route53domains.ContactDetail(dictionary: adminContact) } else { self.adminContact = nil }
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            if let registrantContact = dictionary["RegistrantContact"] as? [String: Any] { self.registrantContact = try Route53domains.ContactDetail(dictionary: registrantContact) } else { self.registrantContact = nil }
-            if let techContact = dictionary["TechContact"] as? [String: Any] { self.techContact = try Route53domains.ContactDetail(dictionary: techContact) } else { self.techContact = nil }
+        private enum CodingKeys: String, CodingKey {
+            case adminContact = "AdminContact"
+            case domainName = "DomainName"
+            case registrantContact = "RegistrantContact"
+            case techContact = "TechContact"
         }
     }
 
     public struct UpdateDomainNameserversRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FIAuthKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Nameservers", required: true, type: .list), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FIAuthKey", required: false, type: .string), 
+            AWSShapeMember(label: "Nameservers", required: true, type: .list), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The authorization key for .fi domains
         public let fIAuthKey: String?
@@ -1573,20 +1438,17 @@ extension Route53domains {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fIAuthKey = dictionary["FIAuthKey"] as? String
-            guard let nameservers = dictionary["Nameservers"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Nameservers") }
-            self.nameservers = try nameservers.map({ try Nameserver(dictionary: $0) })
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case fIAuthKey = "FIAuthKey"
+            case nameservers = "Nameservers"
+            case domainName = "DomainName"
         }
     }
 
     public struct DisableDomainTransferLockResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OperationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OperationId", required: true, type: .string)
         ]
         /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
@@ -1595,13 +1457,12 @@ extension Route53domains {
             self.operationId = operationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let operationId = dictionary["OperationId"] as? String else { throw InitializableError.missingRequiredParam("OperationId") }
-            self.operationId = operationId
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
         }
     }
 
-    public enum CountryCode: String, CustomStringConvertible {
+    public enum CountryCode: String, CustomStringConvertible, Codable {
         case ad = "AD"
         case ae = "AE"
         case af = "AF"

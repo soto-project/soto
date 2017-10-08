@@ -31,11 +31,10 @@ extension Ecs {
 
     public struct VersionInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "agentHash", required: false, type: .string), 
-            AWSShapeProperty(label: "dockerVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "agentVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentHash", required: false, type: .string), 
+            AWSShapeMember(label: "dockerVersion", required: false, type: .string), 
+            AWSShapeMember(label: "agentVersion", required: false, type: .string)
         ]
         /// The Git commit hash for the Amazon ECS container agent build on the amazon-ecs-agent  GitHub repository.
         public let agentHash: String?
@@ -50,27 +49,26 @@ extension Ecs {
             self.agentVersion = agentVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.agentHash = dictionary["agentHash"] as? String
-            self.dockerVersion = dictionary["dockerVersion"] as? String
-            self.agentVersion = dictionary["agentVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case agentHash = "agentHash"
+            case dockerVersion = "dockerVersion"
+            case agentVersion = "agentVersion"
         }
     }
 
     public struct CreateServiceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "desiredCount", required: true, type: .integer), 
-            AWSShapeProperty(label: "clientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "placementStrategy", required: false, type: .list), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeProperty(label: "serviceName", required: true, type: .string), 
-            AWSShapeProperty(label: "deploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "taskDefinition", required: true, type: .string), 
-            AWSShapeProperty(label: "loadBalancers", required: false, type: .list), 
-            AWSShapeProperty(label: "role", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "desiredCount", required: true, type: .integer), 
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "placementStrategy", required: false, type: .list), 
+            AWSShapeMember(label: "cluster", required: false, type: .string), 
+            AWSShapeMember(label: "placementConstraints", required: false, type: .list), 
+            AWSShapeMember(label: "serviceName", required: true, type: .string), 
+            AWSShapeMember(label: "deploymentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "taskDefinition", required: true, type: .string), 
+            AWSShapeMember(label: "loadBalancers", required: false, type: .list), 
+            AWSShapeMember(label: "role", required: false, type: .string)
         ]
         /// The number of instantiations of the specified task definition to place and keep running on your cluster.
         public let desiredCount: Int32
@@ -106,41 +104,25 @@ extension Ecs {
             self.role = role
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let desiredCount = dictionary["desiredCount"] as? Int32 else { throw InitializableError.missingRequiredParam("desiredCount") }
-            self.desiredCount = desiredCount
-            self.clientToken = dictionary["clientToken"] as? String
-            if let placementStrategy = dictionary["placementStrategy"] as? [[String: Any]] {
-                self.placementStrategy = try placementStrategy.map({ try PlacementStrategy(dictionary: $0) })
-            } else { 
-                self.placementStrategy = nil
-            }
-            self.cluster = dictionary["cluster"] as? String
-            if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
-                self.placementConstraints = try placementConstraints.map({ try PlacementConstraint(dictionary: $0) })
-            } else { 
-                self.placementConstraints = nil
-            }
-            guard let serviceName = dictionary["serviceName"] as? String else { throw InitializableError.missingRequiredParam("serviceName") }
-            self.serviceName = serviceName
-            if let deploymentConfiguration = dictionary["deploymentConfiguration"] as? [String: Any] { self.deploymentConfiguration = try Ecs.DeploymentConfiguration(dictionary: deploymentConfiguration) } else { self.deploymentConfiguration = nil }
-            guard let taskDefinition = dictionary["taskDefinition"] as? String else { throw InitializableError.missingRequiredParam("taskDefinition") }
-            self.taskDefinition = taskDefinition
-            if let loadBalancers = dictionary["loadBalancers"] as? [[String: Any]] {
-                self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
-            } else { 
-                self.loadBalancers = nil
-            }
-            self.role = dictionary["role"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case desiredCount = "desiredCount"
+            case clientToken = "clientToken"
+            case placementStrategy = "placementStrategy"
+            case cluster = "cluster"
+            case placementConstraints = "placementConstraints"
+            case serviceName = "serviceName"
+            case deploymentConfiguration = "deploymentConfiguration"
+            case taskDefinition = "taskDefinition"
+            case loadBalancers = "loadBalancers"
+            case role = "role"
         }
     }
 
     public struct DescribeContainerInstancesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerInstances", required: false, type: .list), 
-            AWSShapeProperty(label: "failures", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "containerInstances", required: false, type: .list), 
+            AWSShapeMember(label: "failures", required: false, type: .list)
         ]
         /// The list of container instances.
         public let containerInstances: [ContainerInstance]?
@@ -152,32 +134,23 @@ extension Ecs {
             self.failures = failures
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let containerInstances = dictionary["containerInstances"] as? [[String: Any]] {
-                self.containerInstances = try containerInstances.map({ try ContainerInstance(dictionary: $0) })
-            } else { 
-                self.containerInstances = nil
-            }
-            if let failures = dictionary["failures"] as? [[String: Any]] {
-                self.failures = try failures.map({ try Failure(dictionary: $0) })
-            } else { 
-                self.failures = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case containerInstances = "containerInstances"
+            case failures = "failures"
         }
     }
 
     public struct Deployment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "desiredCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "updatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "pendingCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "taskDefinition", required: false, type: .string), 
-            AWSShapeProperty(label: "runningCount", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "desiredCount", required: false, type: .integer), 
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "updatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "pendingCount", required: false, type: .integer), 
+            AWSShapeMember(label: "taskDefinition", required: false, type: .string), 
+            AWSShapeMember(label: "runningCount", required: false, type: .integer)
         ]
         /// The most recent desired count of tasks that was specified for the service to deploy or maintain.
         public let desiredCount: Int32?
@@ -186,9 +159,9 @@ extension Ecs {
         /// The ID of the deployment.
         public let id: String?
         /// The Unix timestamp for when the service was created.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The Unix timestamp for when the service was last updated.
-        public let updatedAt: String?
+        public let updatedAt: Double?
         /// The number of tasks in the deployment that are in the PENDING status.
         public let pendingCount: Int32?
         /// The most recent task definition that was specified for the service to use.
@@ -196,7 +169,7 @@ extension Ecs {
         /// The number of tasks in the deployment that are in the RUNNING status.
         public let runningCount: Int32?
 
-        public init(desiredCount: Int32? = nil, status: String? = nil, id: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, pendingCount: Int32? = nil, taskDefinition: String? = nil, runningCount: Int32? = nil) {
+        public init(desiredCount: Int32? = nil, status: String? = nil, id: String? = nil, createdAt: Double? = nil, updatedAt: Double? = nil, pendingCount: Int32? = nil, taskDefinition: String? = nil, runningCount: Int32? = nil) {
             self.desiredCount = desiredCount
             self.status = status
             self.id = id
@@ -207,19 +180,19 @@ extension Ecs {
             self.runningCount = runningCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.desiredCount = dictionary["desiredCount"] as? Int32
-            self.status = dictionary["status"] as? String
-            self.id = dictionary["id"] as? String
-            self.createdAt = dictionary["createdAt"] as? String
-            self.updatedAt = dictionary["updatedAt"] as? String
-            self.pendingCount = dictionary["pendingCount"] as? Int32
-            self.taskDefinition = dictionary["taskDefinition"] as? String
-            self.runningCount = dictionary["runningCount"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case desiredCount = "desiredCount"
+            case status = "status"
+            case id = "id"
+            case createdAt = "createdAt"
+            case updatedAt = "updatedAt"
+            case pendingCount = "pendingCount"
+            case taskDefinition = "taskDefinition"
+            case runningCount = "runningCount"
         }
     }
 
-    public enum NetworkMode: String, CustomStringConvertible {
+    public enum NetworkMode: String, CustomStringConvertible, Codable {
         case bridge = "bridge"
         case host = "host"
         case none = "none"
@@ -228,9 +201,8 @@ extension Ecs {
 
     public struct SubmitContainerStateChangeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "acknowledgment", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "acknowledgment", required: false, type: .string)
         ]
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
@@ -239,16 +211,15 @@ extension Ecs {
             self.acknowledgment = acknowledgment
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acknowledgment = dictionary["acknowledgment"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case acknowledgment = "acknowledgment"
         }
     }
 
     public struct DeleteAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: false, type: .list)
         ]
         /// A list of attribute objects that were successfully deleted from your resource.
         public let attributes: [Attribute]?
@@ -257,32 +228,27 @@ extension Ecs {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
         }
     }
 
     public struct ContainerInstance: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pendingTasksCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "versionInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "ec2InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "registeredResources", required: false, type: .list), 
-            AWSShapeProperty(label: "agentConnected", required: false, type: .boolean), 
-            AWSShapeProperty(label: "agentUpdateStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "registeredAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "remainingResources", required: false, type: .list), 
-            AWSShapeProperty(label: "attributes", required: false, type: .list), 
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "runningTasksCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "version", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pendingTasksCount", required: false, type: .integer), 
+            AWSShapeMember(label: "versionInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "ec2InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "registeredResources", required: false, type: .list), 
+            AWSShapeMember(label: "agentConnected", required: false, type: .boolean), 
+            AWSShapeMember(label: "agentUpdateStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "registeredAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "remainingResources", required: false, type: .list), 
+            AWSShapeMember(label: "attributes", required: false, type: .list), 
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "containerInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "runningTasksCount", required: false, type: .integer), 
+            AWSShapeMember(label: "version", required: false, type: .long)
         ]
         /// The number of tasks on the container instance that are in the PENDING status.
         public let pendingTasksCount: Int32?
@@ -297,7 +263,7 @@ extension Ecs {
         /// The status of the most recent agent update. If an update has never been requested, this value is NULL.
         public let agentUpdateStatus: AgentUpdateStatus?
         /// The Unix timestamp for when the container instance was registered.
-        public let registeredAt: String?
+        public let registeredAt: Double?
         /// For most resource types, this parameter describes the remaining resources of the container instance that are available for new tasks. For port resource types, this parameter describes the ports that are reserved by the Amazon ECS container agent and any containers that have reserved port mappings; any port that is not specified here is available for new tasks.
         public let remainingResources: [Resource]?
         /// The attributes set for the container instance, either by the Amazon ECS container agent at instance registration or manually with the PutAttributes operation.
@@ -311,7 +277,7 @@ extension Ecs {
         /// The version counter for the container instance. Every time a container instance experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS container instance state with CloudWatch events, you can compare the version of a container instance reported by the Amazon ECS APIs with the version reported in CloudWatch events for the container instance (inside the detail object) to verify that the version in your event stream is current.
         public let version: Int64?
 
-        public init(pendingTasksCount: Int32? = nil, versionInfo: VersionInfo? = nil, ec2InstanceId: String? = nil, registeredResources: [Resource]? = nil, agentConnected: Bool? = nil, agentUpdateStatus: AgentUpdateStatus? = nil, registeredAt: String? = nil, remainingResources: [Resource]? = nil, attributes: [Attribute]? = nil, status: String? = nil, containerInstanceArn: String? = nil, runningTasksCount: Int32? = nil, version: Int64? = nil) {
+        public init(pendingTasksCount: Int32? = nil, versionInfo: VersionInfo? = nil, ec2InstanceId: String? = nil, registeredResources: [Resource]? = nil, agentConnected: Bool? = nil, agentUpdateStatus: AgentUpdateStatus? = nil, registeredAt: Double? = nil, remainingResources: [Resource]? = nil, attributes: [Attribute]? = nil, status: String? = nil, containerInstanceArn: String? = nil, runningTasksCount: Int32? = nil, version: Int64? = nil) {
             self.pendingTasksCount = pendingTasksCount
             self.versionInfo = versionInfo
             self.ec2InstanceId = ec2InstanceId
@@ -327,40 +293,27 @@ extension Ecs {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pendingTasksCount = dictionary["pendingTasksCount"] as? Int32
-            if let versionInfo = dictionary["versionInfo"] as? [String: Any] { self.versionInfo = try Ecs.VersionInfo(dictionary: versionInfo) } else { self.versionInfo = nil }
-            self.ec2InstanceId = dictionary["ec2InstanceId"] as? String
-            if let registeredResources = dictionary["registeredResources"] as? [[String: Any]] {
-                self.registeredResources = try registeredResources.map({ try Resource(dictionary: $0) })
-            } else { 
-                self.registeredResources = nil
-            }
-            self.agentConnected = dictionary["agentConnected"] as? Bool
-            if let agentUpdateStatus = dictionary["agentUpdateStatus"] as? String { self.agentUpdateStatus = AgentUpdateStatus(rawValue: agentUpdateStatus) } else { self.agentUpdateStatus = nil }
-            self.registeredAt = dictionary["registeredAt"] as? String
-            if let remainingResources = dictionary["remainingResources"] as? [[String: Any]] {
-                self.remainingResources = try remainingResources.map({ try Resource(dictionary: $0) })
-            } else { 
-                self.remainingResources = nil
-            }
-            if let attributes = dictionary["attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
-            self.status = dictionary["status"] as? String
-            self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
-            self.runningTasksCount = dictionary["runningTasksCount"] as? Int32
-            self.version = dictionary["version"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case pendingTasksCount = "pendingTasksCount"
+            case versionInfo = "versionInfo"
+            case ec2InstanceId = "ec2InstanceId"
+            case registeredResources = "registeredResources"
+            case agentConnected = "agentConnected"
+            case agentUpdateStatus = "agentUpdateStatus"
+            case registeredAt = "registeredAt"
+            case remainingResources = "remainingResources"
+            case attributes = "attributes"
+            case status = "status"
+            case containerInstanceArn = "containerInstanceArn"
+            case runningTasksCount = "runningTasksCount"
+            case version = "version"
         }
     }
 
     public struct StopTaskResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "task", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "task", required: false, type: .structure)
         ]
         /// The task that was stopped.
         public let task: Task?
@@ -369,17 +322,16 @@ extension Ecs {
             self.task = task
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let task = dictionary["task"] as? [String: Any] { self.task = try Ecs.Task(dictionary: task) } else { self.task = nil }
+        private enum CodingKeys: String, CodingKey {
+            case task = "task"
         }
     }
 
     public struct ListTaskDefinitionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskDefinitionArns", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskDefinitionArns", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The list of task definition Amazon Resource Name (ARN) entries for the ListTaskDefinitions request.
         public let taskDefinitionArns: [String]?
@@ -391,18 +343,17 @@ extension Ecs {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.taskDefinitionArns = dictionary["taskDefinitionArns"] as? [String]
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case taskDefinitionArns = "taskDefinitionArns"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DeploymentConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maximumPercent", required: false, type: .integer), 
-            AWSShapeProperty(label: "minimumHealthyPercent", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maximumPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "minimumHealthyPercent", required: false, type: .integer)
         ]
         /// The upper limit (as a percentage of the service's desiredCount) of the number of tasks that are allowed in the RUNNING or PENDING state in a service during a deployment. The maximum number of tasks during a deployment is the desiredCount multiplied by maximumPercent/100, rounded down to the nearest integer value.
         public let maximumPercent: Int32?
@@ -414,19 +365,18 @@ extension Ecs {
             self.minimumHealthyPercent = minimumHealthyPercent
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maximumPercent = dictionary["maximumPercent"] as? Int32
-            self.minimumHealthyPercent = dictionary["minimumHealthyPercent"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case maximumPercent = "maximumPercent"
+            case minimumHealthyPercent = "minimumHealthyPercent"
         }
     }
 
     public struct UpdateContainerInstancesStateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerInstances", required: true, type: .list), 
-            AWSShapeProperty(label: "status", required: true, type: .enum), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "containerInstances", required: true, type: .list), 
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "cluster", required: false, type: .string)
         ]
         /// A list of container instance IDs or full Amazon Resource Name (ARN) entries.
         public let containerInstances: [String]
@@ -441,20 +391,17 @@ extension Ecs {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let containerInstances = dictionary["containerInstances"] as? [String] else { throw InitializableError.missingRequiredParam("containerInstances") }
-            self.containerInstances = containerInstances
-            guard let rawstatus = dictionary["status"] as? String, let status = ContainerInstanceStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
-            self.cluster = dictionary["cluster"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case containerInstances = "containerInstances"
+            case status = "status"
+            case cluster = "cluster"
         }
     }
 
     public struct UpdateContainerAgentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerInstance", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "containerInstance", required: false, type: .structure)
         ]
         /// The container instance for which the container agent was updated.
         public let containerInstance: ContainerInstance?
@@ -463,12 +410,12 @@ extension Ecs {
             self.containerInstance = containerInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let containerInstance = dictionary["containerInstance"] as? [String: Any] { self.containerInstance = try Ecs.ContainerInstance(dictionary: containerInstance) } else { self.containerInstance = nil }
+        private enum CodingKeys: String, CodingKey {
+            case containerInstance = "containerInstance"
         }
     }
 
-    public enum DesiredStatus: String, CustomStringConvertible {
+    public enum DesiredStatus: String, CustomStringConvertible, Codable {
         case running = "RUNNING"
         case pending = "PENDING"
         case stopped = "STOPPED"
@@ -477,10 +424,9 @@ extension Ecs {
 
     public struct VolumeFrom: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sourceContainer", required: false, type: .string), 
-            AWSShapeProperty(label: "readOnly", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sourceContainer", required: false, type: .string), 
+            AWSShapeMember(label: "readOnly", required: false, type: .boolean)
         ]
         /// The name of another container within the same task definition to mount volumes from.
         public let sourceContainer: String?
@@ -492,17 +438,16 @@ extension Ecs {
             self.readOnly = readOnly
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourceContainer = dictionary["sourceContainer"] as? String
-            self.readOnly = dictionary["readOnly"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case sourceContainer = "sourceContainer"
+            case readOnly = "readOnly"
         }
     }
 
     public struct CreateClusterResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cluster", required: false, type: .structure)
         ]
         /// The full description of your new cluster.
         public let cluster: Cluster?
@@ -511,16 +456,15 @@ extension Ecs {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["cluster"] as? [String: Any] { self.cluster = try Ecs.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
         }
     }
 
     public struct DeleteServiceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "service", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "service", required: false, type: .structure)
         ]
         /// The full description of the deleted service.
         public let service: Service?
@@ -529,16 +473,15 @@ extension Ecs {
             self.service = service
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let service = dictionary["service"] as? [String: Any] { self.service = try Ecs.Service(dictionary: service) } else { self.service = nil }
+        private enum CodingKeys: String, CodingKey {
+            case service = "service"
         }
     }
 
     public struct HostVolumeProperties: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sourcePath", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sourcePath", required: false, type: .string)
         ]
         /// The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
         public let sourcePath: String?
@@ -547,17 +490,16 @@ extension Ecs {
             self.sourcePath = sourcePath
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourcePath = dictionary["sourcePath"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sourcePath = "sourcePath"
         }
     }
 
     public struct TaskDefinitionPlacementConstraint: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "expression", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "expression", required: false, type: .string)
         ]
         /// The type of constraint. The DistinctInstance constraint ensures that each task in a particular group is running on a different container instance. The MemberOf constraint restricts selection to be from a group of valid candidates.
         public let `type`: TaskDefinitionPlacementConstraintType?
@@ -569,18 +511,17 @@ extension Ecs {
             self.expression = expression
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["type"] as? String { self.`type` = TaskDefinitionPlacementConstraintType(rawValue: `type`) } else { self.`type` = nil }
-            self.expression = dictionary["expression"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case expression = "expression"
         }
     }
 
     public struct DescribeTasksResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failures", required: false, type: .list), 
-            AWSShapeProperty(label: "tasks", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failures", required: false, type: .list), 
+            AWSShapeMember(label: "tasks", required: false, type: .list)
         ]
         /// Any failures associated with the call.
         public let failures: [Failure]?
@@ -592,31 +533,22 @@ extension Ecs {
             self.tasks = tasks
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failures = dictionary["failures"] as? [[String: Any]] {
-                self.failures = try failures.map({ try Failure(dictionary: $0) })
-            } else { 
-                self.failures = nil
-            }
-            if let tasks = dictionary["tasks"] as? [[String: Any]] {
-                self.tasks = try tasks.map({ try Task(dictionary: $0) })
-            } else { 
-                self.tasks = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failures = "failures"
+            case tasks = "tasks"
         }
     }
 
-    public enum TaskDefinitionPlacementConstraintType: String, CustomStringConvertible {
+    public enum TaskDefinitionPlacementConstraintType: String, CustomStringConvertible, Codable {
         case memberof = "memberOf"
         public var description: String { return self.rawValue }
     }
 
     public struct ListClustersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
         /// The nextToken value returned from a previous paginated ListClusters request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
@@ -628,13 +560,13 @@ extension Ecs {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
-    public enum TaskDefinitionFamilyStatus: String, CustomStringConvertible {
+    public enum TaskDefinitionFamilyStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         case all = "ALL"
@@ -643,10 +575,9 @@ extension Ecs {
 
     public struct LogConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "options", required: false, type: .map), 
-            AWSShapeProperty(label: "logDriver", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "options", required: false, type: .map), 
+            AWSShapeMember(label: "logDriver", required: true, type: .enum)
         ]
         /// The configuration options to send to the log driver. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version" 
         public let options: [String: String]?
@@ -658,23 +589,17 @@ extension Ecs {
             self.logDriver = logDriver
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let options = dictionary["options"] as? [String: String] {
-                self.options = options
-            } else { 
-                self.options = nil
-            }
-            guard let rawlogDriver = dictionary["logDriver"] as? String, let logDriver = LogDriver(rawValue: rawlogDriver) else { throw InitializableError.missingRequiredParam("logDriver") }
-            self.logDriver = logDriver
+        private enum CodingKeys: String, CodingKey {
+            case options = "options"
+            case logDriver = "logDriver"
         }
     }
 
     public struct DiscoverPollEndpointResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "telemetryEndpoint", required: false, type: .string), 
-            AWSShapeProperty(label: "endpoint", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "telemetryEndpoint", required: false, type: .string), 
+            AWSShapeMember(label: "endpoint", required: false, type: .string)
         ]
         /// The telemetry endpoint for the Amazon ECS agent.
         public let telemetryEndpoint: String?
@@ -686,19 +611,18 @@ extension Ecs {
             self.endpoint = endpoint
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.telemetryEndpoint = dictionary["telemetryEndpoint"] as? String
-            self.endpoint = dictionary["endpoint"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case telemetryEndpoint = "telemetryEndpoint"
+            case endpoint = "endpoint"
         }
     }
 
     public struct MountPoint: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "readOnly", required: false, type: .boolean), 
-            AWSShapeProperty(label: "sourceVolume", required: false, type: .string), 
-            AWSShapeProperty(label: "containerPath", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "readOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "sourceVolume", required: false, type: .string), 
+            AWSShapeMember(label: "containerPath", required: false, type: .string)
         ]
         /// If this value is true, the container has read-only access to the volume. If this value is false, then the container can write to the volume. The default value is false.
         public let readOnly: Bool?
@@ -713,19 +637,18 @@ extension Ecs {
             self.containerPath = containerPath
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.readOnly = dictionary["readOnly"] as? Bool
-            self.sourceVolume = dictionary["sourceVolume"] as? String
-            self.containerPath = dictionary["containerPath"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case readOnly = "readOnly"
+            case sourceVolume = "sourceVolume"
+            case containerPath = "containerPath"
         }
     }
 
     public struct ListContainerInstancesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstanceArns", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "containerInstanceArns", required: false, type: .list)
         ]
         /// The nextToken value to include in a future ListContainerInstances request. When the results of a ListContainerInstances request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -737,13 +660,13 @@ extension Ecs {
             self.containerInstanceArns = containerInstanceArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.containerInstanceArns = dictionary["containerInstanceArns"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case containerInstanceArns = "containerInstanceArns"
         }
     }
 
-    public enum PlacementConstraintType: String, CustomStringConvertible {
+    public enum PlacementConstraintType: String, CustomStringConvertible, Codable {
         case distinctinstance = "distinctInstance"
         case memberof = "memberOf"
         public var description: String { return self.rawValue }
@@ -751,9 +674,8 @@ extension Ecs {
 
     public struct DeleteClusterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cluster", required: true, type: .string)
         ]
         /// The short name or full Amazon Resource Name (ARN) of the cluster to delete.
         public let cluster: String
@@ -762,42 +684,40 @@ extension Ecs {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cluster = dictionary["cluster"] as? String else { throw InitializableError.missingRequiredParam("cluster") }
-            self.cluster = cluster
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
         }
     }
 
     public struct ContainerDefinition: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "memoryReservation", required: false, type: .integer), 
-            AWSShapeProperty(label: "portMappings", required: false, type: .list), 
-            AWSShapeProperty(label: "cpu", required: false, type: .integer), 
-            AWSShapeProperty(label: "readonlyRootFilesystem", required: false, type: .boolean), 
-            AWSShapeProperty(label: "mountPoints", required: false, type: .list), 
-            AWSShapeProperty(label: "memory", required: false, type: .integer), 
-            AWSShapeProperty(label: "disableNetworking", required: false, type: .boolean), 
-            AWSShapeProperty(label: "dockerLabels", required: false, type: .map), 
-            AWSShapeProperty(label: "image", required: false, type: .string), 
-            AWSShapeProperty(label: "command", required: false, type: .list), 
-            AWSShapeProperty(label: "hostname", required: false, type: .string), 
-            AWSShapeProperty(label: "volumesFrom", required: false, type: .list), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "user", required: false, type: .string), 
-            AWSShapeProperty(label: "essential", required: false, type: .boolean), 
-            AWSShapeProperty(label: "workingDirectory", required: false, type: .string), 
-            AWSShapeProperty(label: "dnsServers", required: false, type: .list), 
-            AWSShapeProperty(label: "logConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "ulimits", required: false, type: .list), 
-            AWSShapeProperty(label: "dockerSecurityOptions", required: false, type: .list), 
-            AWSShapeProperty(label: "environment", required: false, type: .list), 
-            AWSShapeProperty(label: "entryPoint", required: false, type: .list), 
-            AWSShapeProperty(label: "privileged", required: false, type: .boolean), 
-            AWSShapeProperty(label: "dnsSearchDomains", required: false, type: .list), 
-            AWSShapeProperty(label: "links", required: false, type: .list), 
-            AWSShapeProperty(label: "extraHosts", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "memoryReservation", required: false, type: .integer), 
+            AWSShapeMember(label: "portMappings", required: false, type: .list), 
+            AWSShapeMember(label: "cpu", required: false, type: .integer), 
+            AWSShapeMember(label: "readonlyRootFilesystem", required: false, type: .boolean), 
+            AWSShapeMember(label: "mountPoints", required: false, type: .list), 
+            AWSShapeMember(label: "memory", required: false, type: .integer), 
+            AWSShapeMember(label: "disableNetworking", required: false, type: .boolean), 
+            AWSShapeMember(label: "dockerLabels", required: false, type: .map), 
+            AWSShapeMember(label: "image", required: false, type: .string), 
+            AWSShapeMember(label: "command", required: false, type: .list), 
+            AWSShapeMember(label: "hostname", required: false, type: .string), 
+            AWSShapeMember(label: "volumesFrom", required: false, type: .list), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "user", required: false, type: .string), 
+            AWSShapeMember(label: "essential", required: false, type: .boolean), 
+            AWSShapeMember(label: "workingDirectory", required: false, type: .string), 
+            AWSShapeMember(label: "dnsServers", required: false, type: .list), 
+            AWSShapeMember(label: "logConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ulimits", required: false, type: .list), 
+            AWSShapeMember(label: "dockerSecurityOptions", required: false, type: .list), 
+            AWSShapeMember(label: "environment", required: false, type: .list), 
+            AWSShapeMember(label: "entryPoint", required: false, type: .list), 
+            AWSShapeMember(label: "privileged", required: false, type: .boolean), 
+            AWSShapeMember(label: "dnsSearchDomains", required: false, type: .list), 
+            AWSShapeMember(label: "links", required: false, type: .list), 
+            AWSShapeMember(label: "extraHosts", required: false, type: .list)
         ]
         /// The soft limit (in MiB) of memory to reserve for the container. When system memory is under heavy contention, Docker attempts to keep the container memory to this soft limit; however, your container can consume more memory when it needs to, up to either the hard limit specified with the memory parameter (if applicable), or all of the available memory on the container instance, whichever comes first. This parameter maps to MemoryReservation in the Create a container section of the Docker Remote API and the --memory-reservation option to docker run. You must specify a non-zero integer for one or both of memory or memoryReservation in container definitions. If you specify both, memory must be greater than memoryReservation. If you specify memoryReservation, then that value is subtracted from the available memory resources for the container instance on which the container is placed; otherwise, the value of memory is used. For example, if your container normally uses 128 MiB of memory, but occasionally bursts to 256 MiB of memory for short periods of time, you can set a memoryReservation of 128 MiB, and a memory hard limit of 300 MiB. This configuration would allow the container to only reserve 128 MiB of memory from the remaining resources on the container instance, but also allow the container to consume more memory resources when needed.
         public let memoryReservation: Int32?
@@ -881,70 +801,41 @@ extension Ecs {
             self.extraHosts = extraHosts
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.memoryReservation = dictionary["memoryReservation"] as? Int32
-            if let portMappings = dictionary["portMappings"] as? [[String: Any]] {
-                self.portMappings = try portMappings.map({ try PortMapping(dictionary: $0) })
-            } else { 
-                self.portMappings = nil
-            }
-            self.cpu = dictionary["cpu"] as? Int32
-            self.readonlyRootFilesystem = dictionary["readonlyRootFilesystem"] as? Bool
-            if let mountPoints = dictionary["mountPoints"] as? [[String: Any]] {
-                self.mountPoints = try mountPoints.map({ try MountPoint(dictionary: $0) })
-            } else { 
-                self.mountPoints = nil
-            }
-            self.memory = dictionary["memory"] as? Int32
-            self.disableNetworking = dictionary["disableNetworking"] as? Bool
-            if let dockerLabels = dictionary["dockerLabels"] as? [String: String] {
-                self.dockerLabels = dockerLabels
-            } else { 
-                self.dockerLabels = nil
-            }
-            self.image = dictionary["image"] as? String
-            self.command = dictionary["command"] as? [String]
-            self.hostname = dictionary["hostname"] as? String
-            if let volumesFrom = dictionary["volumesFrom"] as? [[String: Any]] {
-                self.volumesFrom = try volumesFrom.map({ try VolumeFrom(dictionary: $0) })
-            } else { 
-                self.volumesFrom = nil
-            }
-            self.name = dictionary["name"] as? String
-            self.user = dictionary["user"] as? String
-            self.essential = dictionary["essential"] as? Bool
-            self.workingDirectory = dictionary["workingDirectory"] as? String
-            self.dnsServers = dictionary["dnsServers"] as? [String]
-            if let logConfiguration = dictionary["logConfiguration"] as? [String: Any] { self.logConfiguration = try Ecs.LogConfiguration(dictionary: logConfiguration) } else { self.logConfiguration = nil }
-            if let ulimits = dictionary["ulimits"] as? [[String: Any]] {
-                self.ulimits = try ulimits.map({ try Ulimit(dictionary: $0) })
-            } else { 
-                self.ulimits = nil
-            }
-            self.dockerSecurityOptions = dictionary["dockerSecurityOptions"] as? [String]
-            if let environment = dictionary["environment"] as? [[String: Any]] {
-                self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
-            } else { 
-                self.environment = nil
-            }
-            self.entryPoint = dictionary["entryPoint"] as? [String]
-            self.privileged = dictionary["privileged"] as? Bool
-            self.dnsSearchDomains = dictionary["dnsSearchDomains"] as? [String]
-            self.links = dictionary["links"] as? [String]
-            if let extraHosts = dictionary["extraHosts"] as? [[String: Any]] {
-                self.extraHosts = try extraHosts.map({ try HostEntry(dictionary: $0) })
-            } else { 
-                self.extraHosts = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case memoryReservation = "memoryReservation"
+            case portMappings = "portMappings"
+            case cpu = "cpu"
+            case readonlyRootFilesystem = "readonlyRootFilesystem"
+            case mountPoints = "mountPoints"
+            case memory = "memory"
+            case disableNetworking = "disableNetworking"
+            case dockerLabels = "dockerLabels"
+            case image = "image"
+            case command = "command"
+            case hostname = "hostname"
+            case volumesFrom = "volumesFrom"
+            case name = "name"
+            case user = "user"
+            case essential = "essential"
+            case workingDirectory = "workingDirectory"
+            case dnsServers = "dnsServers"
+            case logConfiguration = "logConfiguration"
+            case ulimits = "ulimits"
+            case dockerSecurityOptions = "dockerSecurityOptions"
+            case environment = "environment"
+            case entryPoint = "entryPoint"
+            case privileged = "privileged"
+            case dnsSearchDomains = "dnsSearchDomains"
+            case links = "links"
+            case extraHosts = "extraHosts"
         }
     }
 
     public struct DeleteServiceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "service", required: true, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "service", required: true, type: .string), 
+            AWSShapeMember(label: "cluster", required: false, type: .string)
         ]
         /// The name of the service to delete.
         public let service: String
@@ -956,14 +847,13 @@ extension Ecs {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let service = dictionary["service"] as? String else { throw InitializableError.missingRequiredParam("service") }
-            self.service = service
-            self.cluster = dictionary["cluster"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case service = "service"
+            case cluster = "cluster"
         }
     }
 
-    public enum SortOrder: String, CustomStringConvertible {
+    public enum SortOrder: String, CustomStringConvertible, Codable {
         case asc = "ASC"
         case desc = "DESC"
         public var description: String { return self.rawValue }
@@ -971,12 +861,11 @@ extension Ecs {
 
     public struct Attribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "value", required: false, type: .string), 
-            AWSShapeProperty(label: "targetId", required: false, type: .string), 
-            AWSShapeProperty(label: "targetType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string), 
+            AWSShapeMember(label: "targetId", required: false, type: .string), 
+            AWSShapeMember(label: "targetType", required: false, type: .enum)
         ]
         /// The name of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, and periods are allowed.
         public let name: String
@@ -994,16 +883,15 @@ extension Ecs {
             self.targetType = targetType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.value = dictionary["value"] as? String
-            self.targetId = dictionary["targetId"] as? String
-            if let targetType = dictionary["targetType"] as? String { self.targetType = TargetType(rawValue: targetType) } else { self.targetType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+            case targetId = "targetId"
+            case targetType = "targetType"
         }
     }
 
-    public enum PlacementStrategyType: String, CustomStringConvertible {
+    public enum PlacementStrategyType: String, CustomStringConvertible, Codable {
         case random = "random"
         case spread = "spread"
         case binpack = "binpack"
@@ -1012,11 +900,10 @@ extension Ecs {
 
     public struct StopTaskRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "task", required: true, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "task", required: true, type: .string), 
+            AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "cluster", required: false, type: .string)
         ]
         /// The task ID or full Amazon Resource Name (ARN) entry of the task to stop.
         public let task: String
@@ -1031,20 +918,18 @@ extension Ecs {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let task = dictionary["task"] as? String else { throw InitializableError.missingRequiredParam("task") }
-            self.task = task
-            self.reason = dictionary["reason"] as? String
-            self.cluster = dictionary["cluster"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case task = "task"
+            case reason = "reason"
+            case cluster = "cluster"
         }
     }
 
     public struct DescribeClustersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "clusters", required: false, type: .list), 
-            AWSShapeProperty(label: "failures", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clusters", required: false, type: .list), 
+            AWSShapeMember(label: "failures", required: false, type: .list)
         ]
         /// The list of clusters.
         public let clusters: [Cluster]?
@@ -1056,30 +941,21 @@ extension Ecs {
             self.failures = failures
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusters = dictionary["clusters"] as? [[String: Any]] {
-                self.clusters = try clusters.map({ try Cluster(dictionary: $0) })
-            } else { 
-                self.clusters = nil
-            }
-            if let failures = dictionary["failures"] as? [[String: Any]] {
-                self.failures = try failures.map({ try Failure(dictionary: $0) })
-            } else { 
-                self.failures = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case clusters = "clusters"
+            case failures = "failures"
         }
     }
 
     public struct Resource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "longValue", required: false, type: .long), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "doubleValue", required: false, type: .double), 
-            AWSShapeProperty(label: "type", required: false, type: .string), 
-            AWSShapeProperty(label: "integerValue", required: false, type: .integer), 
-            AWSShapeProperty(label: "stringSetValue", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "longValue", required: false, type: .long), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "doubleValue", required: false, type: .double), 
+            AWSShapeMember(label: "type", required: false, type: .string), 
+            AWSShapeMember(label: "integerValue", required: false, type: .integer), 
+            AWSShapeMember(label: "stringSetValue", required: false, type: .list)
         ]
         /// When the longValue type is set, the value of the resource must be an extended precision floating-point type.
         public let longValue: Int64?
@@ -1103,26 +979,25 @@ extension Ecs {
             self.stringSetValue = stringSetValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.longValue = dictionary["longValue"] as? Int64
-            self.name = dictionary["name"] as? String
-            self.doubleValue = dictionary["doubleValue"] as? Double
-            self.`type` = dictionary["type"] as? String
-            self.integerValue = dictionary["integerValue"] as? Int32
-            self.stringSetValue = dictionary["stringSetValue"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case longValue = "longValue"
+            case name = "name"
+            case doubleValue = "doubleValue"
+            case `type` = "type"
+            case integerValue = "integerValue"
+            case stringSetValue = "stringSetValue"
         }
     }
 
     public struct RegisterTaskDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeProperty(label: "containerDefinitions", required: true, type: .list), 
-            AWSShapeProperty(label: "family", required: true, type: .string), 
-            AWSShapeProperty(label: "networkMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "taskRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "volumes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "placementConstraints", required: false, type: .list), 
+            AWSShapeMember(label: "containerDefinitions", required: true, type: .list), 
+            AWSShapeMember(label: "family", required: true, type: .string), 
+            AWSShapeMember(label: "networkMode", required: false, type: .enum), 
+            AWSShapeMember(label: "taskRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "volumes", required: false, type: .list)
         ]
         /// An array of placement constraint objects to use for the task. You can specify a maximum of 10 constraints per task (this limit includes constraints in the task definition and those specified at run time).
         public let placementConstraints: [TaskDefinitionPlacementConstraint]?
@@ -1146,32 +1021,21 @@ extension Ecs {
             self.volumes = volumes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
-                self.placementConstraints = try placementConstraints.map({ try TaskDefinitionPlacementConstraint(dictionary: $0) })
-            } else { 
-                self.placementConstraints = nil
-            }
-            guard let containerDefinitions = dictionary["containerDefinitions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("containerDefinitions") }
-            self.containerDefinitions = try containerDefinitions.map({ try ContainerDefinition(dictionary: $0) })
-            guard let family = dictionary["family"] as? String else { throw InitializableError.missingRequiredParam("family") }
-            self.family = family
-            if let networkMode = dictionary["networkMode"] as? String { self.networkMode = NetworkMode(rawValue: networkMode) } else { self.networkMode = nil }
-            self.taskRoleArn = dictionary["taskRoleArn"] as? String
-            if let volumes = dictionary["volumes"] as? [[String: Any]] {
-                self.volumes = try volumes.map({ try Volume(dictionary: $0) })
-            } else { 
-                self.volumes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case placementConstraints = "placementConstraints"
+            case containerDefinitions = "containerDefinitions"
+            case family = "family"
+            case networkMode = "networkMode"
+            case taskRoleArn = "taskRoleArn"
+            case volumes = "volumes"
         }
     }
 
     public struct ListTaskDefinitionFamiliesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "families", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "families", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The list of task definition family names that match the ListTaskDefinitionFamilies request.
         public let families: [String]?
@@ -1183,27 +1047,26 @@ extension Ecs {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.families = dictionary["families"] as? [String]
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case families = "families"
+            case nextToken = "nextToken"
         }
     }
 
-    public enum TargetType: String, CustomStringConvertible {
+    public enum TargetType: String, CustomStringConvertible, Codable {
         case container_instance = "container-instance"
         public var description: String { return self.rawValue }
     }
 
     public struct ContainerOverride: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "memoryReservation", required: false, type: .integer), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "environment", required: false, type: .list), 
-            AWSShapeProperty(label: "command", required: false, type: .list), 
-            AWSShapeProperty(label: "cpu", required: false, type: .integer), 
-            AWSShapeProperty(label: "memory", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "memoryReservation", required: false, type: .integer), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "environment", required: false, type: .list), 
+            AWSShapeMember(label: "command", required: false, type: .list), 
+            AWSShapeMember(label: "cpu", required: false, type: .integer), 
+            AWSShapeMember(label: "memory", required: false, type: .integer)
         ]
         /// The soft limit (in MiB) of memory to reserve for the container, instead of the default value from the task definition. You must also specify a container name.
         public let memoryReservation: Int32?
@@ -1227,25 +1090,20 @@ extension Ecs {
             self.memory = memory
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.memoryReservation = dictionary["memoryReservation"] as? Int32
-            self.name = dictionary["name"] as? String
-            if let environment = dictionary["environment"] as? [[String: Any]] {
-                self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
-            } else { 
-                self.environment = nil
-            }
-            self.command = dictionary["command"] as? [String]
-            self.cpu = dictionary["cpu"] as? Int32
-            self.memory = dictionary["memory"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case memoryReservation = "memoryReservation"
+            case name = "name"
+            case environment = "environment"
+            case command = "command"
+            case cpu = "cpu"
+            case memory = "memory"
         }
     }
 
     public struct DeregisterTaskDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskDefinition", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskDefinition", required: true, type: .string)
         ]
         /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to deregister. You must specify a revision.
         public let taskDefinition: String
@@ -1254,24 +1112,22 @@ extension Ecs {
             self.taskDefinition = taskDefinition
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let taskDefinition = dictionary["taskDefinition"] as? String else { throw InitializableError.missingRequiredParam("taskDefinition") }
-            self.taskDefinition = taskDefinition
+        private enum CodingKeys: String, CodingKey {
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct ListTasksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstance", required: false, type: .string), 
-            AWSShapeProperty(label: "family", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "serviceName", required: false, type: .string), 
-            AWSShapeProperty(label: "desiredStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "startedBy", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "containerInstance", required: false, type: .string), 
+            AWSShapeMember(label: "family", required: false, type: .string), 
+            AWSShapeMember(label: "cluster", required: false, type: .string), 
+            AWSShapeMember(label: "serviceName", required: false, type: .string), 
+            AWSShapeMember(label: "desiredStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "startedBy", required: false, type: .string)
         ]
         /// The nextToken value returned from a previous paginated ListTasks request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
@@ -1301,24 +1157,23 @@ extension Ecs {
             self.startedBy = startedBy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.containerInstance = dictionary["containerInstance"] as? String
-            self.family = dictionary["family"] as? String
-            self.cluster = dictionary["cluster"] as? String
-            self.serviceName = dictionary["serviceName"] as? String
-            if let desiredStatus = dictionary["desiredStatus"] as? String { self.desiredStatus = DesiredStatus(rawValue: desiredStatus) } else { self.desiredStatus = nil }
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.startedBy = dictionary["startedBy"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case containerInstance = "containerInstance"
+            case family = "family"
+            case cluster = "cluster"
+            case serviceName = "serviceName"
+            case desiredStatus = "desiredStatus"
+            case maxResults = "maxResults"
+            case startedBy = "startedBy"
         }
     }
 
     public struct PutAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "attributes", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cluster", required: false, type: .string), 
+            AWSShapeMember(label: "attributes", required: true, type: .list)
         ]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -1330,33 +1185,31 @@ extension Ecs {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cluster = dictionary["cluster"] as? String
-            guard let attributes = dictionary["attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("attributes") }
-            self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+            case attributes = "attributes"
         }
     }
 
     public struct Service: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "clusterArn", required: false, type: .string), 
-            AWSShapeProperty(label: "placementStrategy", required: false, type: .list), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "serviceName", required: false, type: .string), 
-            AWSShapeProperty(label: "pendingCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "deployments", required: false, type: .list), 
-            AWSShapeProperty(label: "loadBalancers", required: false, type: .list), 
-            AWSShapeProperty(label: "events", required: false, type: .list), 
-            AWSShapeProperty(label: "serviceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "desiredCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeProperty(label: "deploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "taskDefinition", required: false, type: .string), 
-            AWSShapeProperty(label: "runningCount", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "clusterArn", required: false, type: .string), 
+            AWSShapeMember(label: "placementStrategy", required: false, type: .list), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "serviceName", required: false, type: .string), 
+            AWSShapeMember(label: "pendingCount", required: false, type: .integer), 
+            AWSShapeMember(label: "deployments", required: false, type: .list), 
+            AWSShapeMember(label: "loadBalancers", required: false, type: .list), 
+            AWSShapeMember(label: "events", required: false, type: .list), 
+            AWSShapeMember(label: "serviceArn", required: false, type: .string), 
+            AWSShapeMember(label: "desiredCount", required: false, type: .integer), 
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "placementConstraints", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "taskDefinition", required: false, type: .string), 
+            AWSShapeMember(label: "runningCount", required: false, type: .integer)
         ]
         /// The Amazon Resource Name (ARN) of the IAM role associated with the service that allows the Amazon ECS container agent to register container instances with an Elastic Load Balancing load balancer.
         public let roleArn: String?
@@ -1365,7 +1218,7 @@ extension Ecs {
         /// The placement strategy that determines how tasks for the service are placed.
         public let placementStrategy: [PlacementStrategy]?
         /// The Unix timestamp for when the service was created.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. Service names must be unique within a cluster, but you can have similarly named services in multiple clusters within a region or across multiple regions.
         public let serviceName: String?
         /// The number of tasks in the cluster that are in the PENDING state.
@@ -1391,7 +1244,7 @@ extension Ecs {
         /// The number of tasks in the cluster that are in the RUNNING state.
         public let runningCount: Int32?
 
-        public init(roleArn: String? = nil, clusterArn: String? = nil, placementStrategy: [PlacementStrategy]? = nil, createdAt: String? = nil, serviceName: String? = nil, pendingCount: Int32? = nil, deployments: [Deployment]? = nil, loadBalancers: [LoadBalancer]? = nil, events: [ServiceEvent]? = nil, serviceArn: String? = nil, desiredCount: Int32? = nil, status: String? = nil, placementConstraints: [PlacementConstraint]? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, taskDefinition: String? = nil, runningCount: Int32? = nil) {
+        public init(roleArn: String? = nil, clusterArn: String? = nil, placementStrategy: [PlacementStrategy]? = nil, createdAt: Double? = nil, serviceName: String? = nil, pendingCount: Int32? = nil, deployments: [Deployment]? = nil, loadBalancers: [LoadBalancer]? = nil, events: [ServiceEvent]? = nil, serviceArn: String? = nil, desiredCount: Int32? = nil, status: String? = nil, placementConstraints: [PlacementConstraint]? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, taskDefinition: String? = nil, runningCount: Int32? = nil) {
             self.roleArn = roleArn
             self.clusterArn = clusterArn
             self.placementStrategy = placementStrategy
@@ -1410,55 +1263,34 @@ extension Ecs {
             self.runningCount = runningCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleArn = dictionary["roleArn"] as? String
-            self.clusterArn = dictionary["clusterArn"] as? String
-            if let placementStrategy = dictionary["placementStrategy"] as? [[String: Any]] {
-                self.placementStrategy = try placementStrategy.map({ try PlacementStrategy(dictionary: $0) })
-            } else { 
-                self.placementStrategy = nil
-            }
-            self.createdAt = dictionary["createdAt"] as? String
-            self.serviceName = dictionary["serviceName"] as? String
-            self.pendingCount = dictionary["pendingCount"] as? Int32
-            if let deployments = dictionary["deployments"] as? [[String: Any]] {
-                self.deployments = try deployments.map({ try Deployment(dictionary: $0) })
-            } else { 
-                self.deployments = nil
-            }
-            if let loadBalancers = dictionary["loadBalancers"] as? [[String: Any]] {
-                self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
-            } else { 
-                self.loadBalancers = nil
-            }
-            if let events = dictionary["events"] as? [[String: Any]] {
-                self.events = try events.map({ try ServiceEvent(dictionary: $0) })
-            } else { 
-                self.events = nil
-            }
-            self.serviceArn = dictionary["serviceArn"] as? String
-            self.desiredCount = dictionary["desiredCount"] as? Int32
-            self.status = dictionary["status"] as? String
-            if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
-                self.placementConstraints = try placementConstraints.map({ try PlacementConstraint(dictionary: $0) })
-            } else { 
-                self.placementConstraints = nil
-            }
-            if let deploymentConfiguration = dictionary["deploymentConfiguration"] as? [String: Any] { self.deploymentConfiguration = try Ecs.DeploymentConfiguration(dictionary: deploymentConfiguration) } else { self.deploymentConfiguration = nil }
-            self.taskDefinition = dictionary["taskDefinition"] as? String
-            self.runningCount = dictionary["runningCount"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case clusterArn = "clusterArn"
+            case placementStrategy = "placementStrategy"
+            case createdAt = "createdAt"
+            case serviceName = "serviceName"
+            case pendingCount = "pendingCount"
+            case deployments = "deployments"
+            case loadBalancers = "loadBalancers"
+            case events = "events"
+            case serviceArn = "serviceArn"
+            case desiredCount = "desiredCount"
+            case status = "status"
+            case placementConstraints = "placementConstraints"
+            case deploymentConfiguration = "deploymentConfiguration"
+            case taskDefinition = "taskDefinition"
+            case runningCount = "runningCount"
         }
     }
 
     public struct UpdateServiceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "service", required: true, type: .string), 
-            AWSShapeProperty(label: "desiredCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "deploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "taskDefinition", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "service", required: true, type: .string), 
+            AWSShapeMember(label: "desiredCount", required: false, type: .integer), 
+            AWSShapeMember(label: "deploymentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "taskDefinition", required: false, type: .string), 
+            AWSShapeMember(label: "cluster", required: false, type: .string)
         ]
         /// The name of the service to update.
         public let service: String
@@ -1479,21 +1311,19 @@ extension Ecs {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let service = dictionary["service"] as? String else { throw InitializableError.missingRequiredParam("service") }
-            self.service = service
-            self.desiredCount = dictionary["desiredCount"] as? Int32
-            if let deploymentConfiguration = dictionary["deploymentConfiguration"] as? [String: Any] { self.deploymentConfiguration = try Ecs.DeploymentConfiguration(dictionary: deploymentConfiguration) } else { self.deploymentConfiguration = nil }
-            self.taskDefinition = dictionary["taskDefinition"] as? String
-            self.cluster = dictionary["cluster"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case service = "service"
+            case desiredCount = "desiredCount"
+            case deploymentConfiguration = "deploymentConfiguration"
+            case taskDefinition = "taskDefinition"
+            case cluster = "cluster"
         }
     }
 
     public struct DescribeTaskDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskDefinition", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskDefinition", required: false, type: .structure)
         ]
         /// The full task definition description.
         public let taskDefinition: TaskDefinition?
@@ -1502,17 +1332,16 @@ extension Ecs {
             self.taskDefinition = taskDefinition
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let taskDefinition = dictionary["taskDefinition"] as? [String: Any] { self.taskDefinition = try Ecs.TaskDefinition(dictionary: taskDefinition) } else { self.taskDefinition = nil }
+        private enum CodingKeys: String, CodingKey {
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct DiscoverPollEndpointRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstance", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cluster", required: false, type: .string), 
+            AWSShapeMember(label: "containerInstance", required: false, type: .string)
         ]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that the container instance belongs to.
         public let cluster: String?
@@ -1524,18 +1353,17 @@ extension Ecs {
             self.containerInstance = containerInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cluster = dictionary["cluster"] as? String
-            self.containerInstance = dictionary["containerInstance"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+            case containerInstance = "containerInstance"
         }
     }
 
     public struct StartTaskResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failures", required: false, type: .list), 
-            AWSShapeProperty(label: "tasks", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failures", required: false, type: .list), 
+            AWSShapeMember(label: "tasks", required: false, type: .list)
         ]
         /// Any failures associated with the call.
         public let failures: [Failure]?
@@ -1547,26 +1375,17 @@ extension Ecs {
             self.tasks = tasks
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failures = dictionary["failures"] as? [[String: Any]] {
-                self.failures = try failures.map({ try Failure(dictionary: $0) })
-            } else { 
-                self.failures = nil
-            }
-            if let tasks = dictionary["tasks"] as? [[String: Any]] {
-                self.tasks = try tasks.map({ try Task(dictionary: $0) })
-            } else { 
-                self.tasks = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failures = "failures"
+            case tasks = "tasks"
         }
     }
 
     public struct DeleteAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "attributes", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cluster", required: false, type: .string), 
+            AWSShapeMember(label: "attributes", required: true, type: .list)
         ]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to delete attributes. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -1578,22 +1397,20 @@ extension Ecs {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cluster = dictionary["cluster"] as? String
-            guard let attributes = dictionary["attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("attributes") }
-            self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+            case attributes = "attributes"
         }
     }
 
     public struct ListContainerInstancesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "filter", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "filter", required: false, type: .string), 
+            AWSShapeMember(label: "cluster", required: false, type: .string)
         ]
         /// Filters the container instances by status. For example, if you specify the DRAINING status, the results include only container instances that have been set to DRAINING using UpdateContainerInstancesState. If you do not specify this parameter, the default is to include container instances set to ACTIVE and DRAINING.
         public let status: ContainerInstanceStatus?
@@ -1614,16 +1431,16 @@ extension Ecs {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? String { self.status = ContainerInstanceStatus(rawValue: status) } else { self.status = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.filter = dictionary["filter"] as? String
-            self.cluster = dictionary["cluster"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case filter = "filter"
+            case cluster = "cluster"
         }
     }
 
-    public enum TransportProtocol: String, CustomStringConvertible {
+    public enum TransportProtocol: String, CustomStringConvertible, Codable {
         case tcp = "tcp"
         case udp = "udp"
         public var description: String { return self.rawValue }
@@ -1631,10 +1448,9 @@ extension Ecs {
 
     public struct Volume: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "host", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "host", required: false, type: .structure)
         ]
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public let name: String?
@@ -1646,19 +1462,18 @@ extension Ecs {
             self.host = host
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            if let host = dictionary["host"] as? [String: Any] { self.host = try Ecs.HostVolumeProperties(dictionary: host) } else { self.host = nil }
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case host = "host"
         }
     }
 
     public struct PortMapping: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "containerPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "hostPort", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "containerPort", required: false, type: .integer), 
+            AWSShapeMember(label: "hostPort", required: false, type: .integer)
         ]
         /// The protocol used for the port mapping. Valid values are tcp and udp. The default is tcp.
         public let `protocol`: TransportProtocol?
@@ -1673,20 +1488,19 @@ extension Ecs {
             self.hostPort = hostPort
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `protocol` = dictionary["protocol"] as? String { self.`protocol` = TransportProtocol(rawValue: `protocol`) } else { self.`protocol` = nil }
-            self.containerPort = dictionary["containerPort"] as? Int32
-            self.hostPort = dictionary["hostPort"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case `protocol` = "protocol"
+            case containerPort = "containerPort"
+            case hostPort = "hostPort"
         }
     }
 
     public struct Ulimit: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "softLimit", required: true, type: .integer), 
-            AWSShapeProperty(label: "name", required: true, type: .enum), 
-            AWSShapeProperty(label: "hardLimit", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "softLimit", required: true, type: .integer), 
+            AWSShapeMember(label: "name", required: true, type: .enum), 
+            AWSShapeMember(label: "hardLimit", required: true, type: .integer)
         ]
         /// The soft limit for the ulimit type.
         public let softLimit: Int32
@@ -1701,22 +1515,18 @@ extension Ecs {
             self.hardLimit = hardLimit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let softLimit = dictionary["softLimit"] as? Int32 else { throw InitializableError.missingRequiredParam("softLimit") }
-            self.softLimit = softLimit
-            guard let rawname = dictionary["name"] as? String, let name = UlimitName(rawValue: rawname) else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let hardLimit = dictionary["hardLimit"] as? Int32 else { throw InitializableError.missingRequiredParam("hardLimit") }
-            self.hardLimit = hardLimit
+        private enum CodingKeys: String, CodingKey {
+            case softLimit = "softLimit"
+            case name = "name"
+            case hardLimit = "hardLimit"
         }
     }
 
     public struct DescribeServicesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "services", required: false, type: .list), 
-            AWSShapeProperty(label: "failures", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "services", required: false, type: .list), 
+            AWSShapeMember(label: "failures", required: false, type: .list)
         ]
         /// The list of services described.
         public let services: [Service]?
@@ -1728,31 +1538,22 @@ extension Ecs {
             self.failures = failures
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let services = dictionary["services"] as? [[String: Any]] {
-                self.services = try services.map({ try Service(dictionary: $0) })
-            } else { 
-                self.services = nil
-            }
-            if let failures = dictionary["failures"] as? [[String: Any]] {
-                self.failures = try failures.map({ try Failure(dictionary: $0) })
-            } else { 
-                self.failures = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case services = "services"
+            case failures = "failures"
         }
     }
 
     public struct Container: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "networkBindings", required: false, type: .list), 
-            AWSShapeProperty(label: "containerArn", required: false, type: .string), 
-            AWSShapeProperty(label: "exitCode", required: false, type: .integer), 
-            AWSShapeProperty(label: "taskArn", required: false, type: .string), 
-            AWSShapeProperty(label: "lastStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "networkBindings", required: false, type: .list), 
+            AWSShapeMember(label: "containerArn", required: false, type: .string), 
+            AWSShapeMember(label: "exitCode", required: false, type: .integer), 
+            AWSShapeMember(label: "taskArn", required: false, type: .string), 
+            AWSShapeMember(label: "lastStatus", required: false, type: .string)
         ]
         /// The name of the container.
         public let name: String?
@@ -1779,26 +1580,21 @@ extension Ecs {
             self.lastStatus = lastStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.reason = dictionary["reason"] as? String
-            if let networkBindings = dictionary["networkBindings"] as? [[String: Any]] {
-                self.networkBindings = try networkBindings.map({ try NetworkBinding(dictionary: $0) })
-            } else { 
-                self.networkBindings = nil
-            }
-            self.containerArn = dictionary["containerArn"] as? String
-            self.exitCode = dictionary["exitCode"] as? Int32
-            self.taskArn = dictionary["taskArn"] as? String
-            self.lastStatus = dictionary["lastStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case reason = "reason"
+            case networkBindings = "networkBindings"
+            case containerArn = "containerArn"
+            case exitCode = "exitCode"
+            case taskArn = "taskArn"
+            case lastStatus = "lastStatus"
         }
     }
 
     public struct DescribeTaskDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskDefinition", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskDefinition", required: true, type: .string)
         ]
         /// The family for the latest ACTIVE revision, family and revision (family:revision) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.
         public let taskDefinition: String
@@ -1807,20 +1603,18 @@ extension Ecs {
             self.taskDefinition = taskDefinition
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let taskDefinition = dictionary["taskDefinition"] as? String else { throw InitializableError.missingRequiredParam("taskDefinition") }
-            self.taskDefinition = taskDefinition
+        private enum CodingKeys: String, CodingKey {
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct LoadBalancer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "targetGroupArn", required: false, type: .string), 
-            AWSShapeProperty(label: "loadBalancerName", required: false, type: .string), 
-            AWSShapeProperty(label: "containerPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "containerName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "targetGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "loadBalancerName", required: false, type: .string), 
+            AWSShapeMember(label: "containerPort", required: false, type: .integer), 
+            AWSShapeMember(label: "containerName", required: false, type: .string)
         ]
         /// The full Amazon Resource Name (ARN) of the Elastic Load Balancing target group associated with a service.
         public let targetGroupArn: String?
@@ -1838,20 +1632,19 @@ extension Ecs {
             self.containerName = containerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.targetGroupArn = dictionary["targetGroupArn"] as? String
-            self.loadBalancerName = dictionary["loadBalancerName"] as? String
-            self.containerPort = dictionary["containerPort"] as? Int32
-            self.containerName = dictionary["containerName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case targetGroupArn = "targetGroupArn"
+            case loadBalancerName = "loadBalancerName"
+            case containerPort = "containerPort"
+            case containerName = "containerName"
         }
     }
 
     public struct UpdateContainerInstancesStateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerInstances", required: false, type: .list), 
-            AWSShapeProperty(label: "failures", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "containerInstances", required: false, type: .list), 
+            AWSShapeMember(label: "failures", required: false, type: .list)
         ]
         /// The list of container instances.
         public let containerInstances: [ContainerInstance]?
@@ -1863,31 +1656,22 @@ extension Ecs {
             self.failures = failures
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let containerInstances = dictionary["containerInstances"] as? [[String: Any]] {
-                self.containerInstances = try containerInstances.map({ try ContainerInstance(dictionary: $0) })
-            } else { 
-                self.containerInstances = nil
-            }
-            if let failures = dictionary["failures"] as? [[String: Any]] {
-                self.failures = try failures.map({ try Failure(dictionary: $0) })
-            } else { 
-                self.failures = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case containerInstances = "containerInstances"
+            case failures = "failures"
         }
     }
 
     public struct Cluster: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "pendingTasksCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "clusterArn", required: false, type: .string), 
-            AWSShapeProperty(label: "clusterName", required: false, type: .string), 
-            AWSShapeProperty(label: "registeredContainerInstancesCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "runningTasksCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "activeServicesCount", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "pendingTasksCount", required: false, type: .integer), 
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "clusterArn", required: false, type: .string), 
+            AWSShapeMember(label: "clusterName", required: false, type: .string), 
+            AWSShapeMember(label: "registeredContainerInstancesCount", required: false, type: .integer), 
+            AWSShapeMember(label: "runningTasksCount", required: false, type: .integer), 
+            AWSShapeMember(label: "activeServicesCount", required: false, type: .integer)
         ]
         /// The number of tasks in the cluster that are in the PENDING state.
         public let pendingTasksCount: Int32?
@@ -1914,27 +1698,26 @@ extension Ecs {
             self.activeServicesCount = activeServicesCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pendingTasksCount = dictionary["pendingTasksCount"] as? Int32
-            self.status = dictionary["status"] as? String
-            self.clusterArn = dictionary["clusterArn"] as? String
-            self.clusterName = dictionary["clusterName"] as? String
-            self.registeredContainerInstancesCount = dictionary["registeredContainerInstancesCount"] as? Int32
-            self.runningTasksCount = dictionary["runningTasksCount"] as? Int32
-            self.activeServicesCount = dictionary["activeServicesCount"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case pendingTasksCount = "pendingTasksCount"
+            case status = "status"
+            case clusterArn = "clusterArn"
+            case clusterName = "clusterName"
+            case registeredContainerInstancesCount = "registeredContainerInstancesCount"
+            case runningTasksCount = "runningTasksCount"
+            case activeServicesCount = "activeServicesCount"
         }
     }
 
     public struct StartTaskRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "overrides", required: false, type: .structure), 
-            AWSShapeProperty(label: "taskDefinition", required: true, type: .string), 
-            AWSShapeProperty(label: "containerInstances", required: true, type: .list), 
-            AWSShapeProperty(label: "startedBy", required: false, type: .string), 
-            AWSShapeProperty(label: "group", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "overrides", required: false, type: .structure), 
+            AWSShapeMember(label: "taskDefinition", required: true, type: .string), 
+            AWSShapeMember(label: "containerInstances", required: true, type: .list), 
+            AWSShapeMember(label: "startedBy", required: false, type: .string), 
+            AWSShapeMember(label: "group", required: false, type: .string), 
+            AWSShapeMember(label: "cluster", required: false, type: .string)
         ]
         /// A list of container overrides in JSON format that specify the name of a container in the specified task definition and the overrides it should receive. You can override the default command for a container (that is specified in the task definition or Docker image) with a command override. You can also override existing environment variables (that are specified in the task definition or Docker image) on a container or add new environment variables to it with an environment override.  A total of 8192 characters are allowed for overrides. This limit includes the JSON formatting characters of the override structure. 
         public let overrides: TaskOverride?
@@ -1958,32 +1741,29 @@ extension Ecs {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let overrides = dictionary["overrides"] as? [String: Any] { self.overrides = try Ecs.TaskOverride(dictionary: overrides) } else { self.overrides = nil }
-            guard let taskDefinition = dictionary["taskDefinition"] as? String else { throw InitializableError.missingRequiredParam("taskDefinition") }
-            self.taskDefinition = taskDefinition
-            guard let containerInstances = dictionary["containerInstances"] as? [String] else { throw InitializableError.missingRequiredParam("containerInstances") }
-            self.containerInstances = containerInstances
-            self.startedBy = dictionary["startedBy"] as? String
-            self.group = dictionary["group"] as? String
-            self.cluster = dictionary["cluster"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case overrides = "overrides"
+            case taskDefinition = "taskDefinition"
+            case containerInstances = "containerInstances"
+            case startedBy = "startedBy"
+            case group = "group"
+            case cluster = "cluster"
         }
     }
 
     public struct TaskDefinition: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revision", required: false, type: .integer), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "requiresAttributes", required: false, type: .list), 
-            AWSShapeProperty(label: "family", required: false, type: .string), 
-            AWSShapeProperty(label: "volumes", required: false, type: .list), 
-            AWSShapeProperty(label: "taskRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "networkMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeProperty(label: "containerDefinitions", required: false, type: .list), 
-            AWSShapeProperty(label: "taskDefinitionArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revision", required: false, type: .integer), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "requiresAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "family", required: false, type: .string), 
+            AWSShapeMember(label: "volumes", required: false, type: .list), 
+            AWSShapeMember(label: "taskRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "networkMode", required: false, type: .enum), 
+            AWSShapeMember(label: "placementConstraints", required: false, type: .list), 
+            AWSShapeMember(label: "containerDefinitions", required: false, type: .list), 
+            AWSShapeMember(label: "taskDefinitionArn", required: false, type: .string)
         ]
         /// The revision of the task in a particular family. The revision is a version number of a task definition in a family. When you register a task definition for the first time, the revision is 1; each time you register a new revision of a task definition in the same family, the revision value always increases by one (even if you have deregistered previous revisions in this family).
         public let revision: Int32?
@@ -2019,42 +1799,25 @@ extension Ecs {
             self.taskDefinitionArn = taskDefinitionArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.revision = dictionary["revision"] as? Int32
-            if let status = dictionary["status"] as? String { self.status = TaskDefinitionStatus(rawValue: status) } else { self.status = nil }
-            if let requiresAttributes = dictionary["requiresAttributes"] as? [[String: Any]] {
-                self.requiresAttributes = try requiresAttributes.map({ try Attribute(dictionary: $0) })
-            } else { 
-                self.requiresAttributes = nil
-            }
-            self.family = dictionary["family"] as? String
-            if let volumes = dictionary["volumes"] as? [[String: Any]] {
-                self.volumes = try volumes.map({ try Volume(dictionary: $0) })
-            } else { 
-                self.volumes = nil
-            }
-            self.taskRoleArn = dictionary["taskRoleArn"] as? String
-            if let networkMode = dictionary["networkMode"] as? String { self.networkMode = NetworkMode(rawValue: networkMode) } else { self.networkMode = nil }
-            if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
-                self.placementConstraints = try placementConstraints.map({ try TaskDefinitionPlacementConstraint(dictionary: $0) })
-            } else { 
-                self.placementConstraints = nil
-            }
-            if let containerDefinitions = dictionary["containerDefinitions"] as? [[String: Any]] {
-                self.containerDefinitions = try containerDefinitions.map({ try ContainerDefinition(dictionary: $0) })
-            } else { 
-                self.containerDefinitions = nil
-            }
-            self.taskDefinitionArn = dictionary["taskDefinitionArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case revision = "revision"
+            case status = "status"
+            case requiresAttributes = "requiresAttributes"
+            case family = "family"
+            case volumes = "volumes"
+            case taskRoleArn = "taskRoleArn"
+            case networkMode = "networkMode"
+            case placementConstraints = "placementConstraints"
+            case containerDefinitions = "containerDefinitions"
+            case taskDefinitionArn = "taskDefinitionArn"
         }
     }
 
     public struct HostEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "hostname", required: true, type: .string), 
-            AWSShapeProperty(label: "ipAddress", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "hostname", required: true, type: .string), 
+            AWSShapeMember(label: "ipAddress", required: true, type: .string)
         ]
         /// The hostname to use in the /etc/hosts entry.
         public let hostname: String
@@ -2066,20 +1829,17 @@ extension Ecs {
             self.ipAddress = ipAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hostname = dictionary["hostname"] as? String else { throw InitializableError.missingRequiredParam("hostname") }
-            self.hostname = hostname
-            guard let ipAddress = dictionary["ipAddress"] as? String else { throw InitializableError.missingRequiredParam("ipAddress") }
-            self.ipAddress = ipAddress
+        private enum CodingKeys: String, CodingKey {
+            case hostname = "hostname"
+            case ipAddress = "ipAddress"
         }
     }
 
     public struct PlacementStrategy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "field", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "field", required: false, type: .string)
         ]
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
         public let `type`: PlacementStrategyType?
@@ -2091,19 +1851,19 @@ extension Ecs {
             self.field = field
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["type"] as? String { self.`type` = PlacementStrategyType(rawValue: `type`) } else { self.`type` = nil }
-            self.field = dictionary["field"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case field = "field"
         }
     }
 
-    public enum TaskDefinitionStatus: String, CustomStringConvertible {
+    public enum TaskDefinitionStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum LogDriver: String, CustomStringConvertible {
+    public enum LogDriver: String, CustomStringConvertible, Codable {
         case json_file = "json-file"
         case syslog = "syslog"
         case journald = "journald"
@@ -2114,7 +1874,7 @@ extension Ecs {
         public var description: String { return self.rawValue }
     }
 
-    public enum UlimitName: String, CustomStringConvertible {
+    public enum UlimitName: String, CustomStringConvertible, Codable {
         case core = "core"
         case cpu = "cpu"
         case data = "data"
@@ -2135,37 +1895,35 @@ extension Ecs {
 
     public struct ServiceEvent: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "message", required: false, type: .string)
         ]
         /// The ID string of the event.
         public let id: String?
         /// The Unix timestamp for when the event was triggered.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The event message.
         public let message: String?
 
-        public init(id: String? = nil, createdAt: String? = nil, message: String? = nil) {
+        public init(id: String? = nil, createdAt: Double? = nil, message: String? = nil) {
             self.id = id
             self.createdAt = createdAt
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.id = dictionary["id"] as? String
-            self.createdAt = dictionary["createdAt"] as? String
-            self.message = dictionary["message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case createdAt = "createdAt"
+            case message = "message"
         }
     }
 
     public struct SubmitTaskStateChangeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "acknowledgment", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "acknowledgment", required: false, type: .string)
         ]
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
@@ -2174,16 +1932,15 @@ extension Ecs {
             self.acknowledgment = acknowledgment
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acknowledgment = dictionary["acknowledgment"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case acknowledgment = "acknowledgment"
         }
     }
 
     public struct UpdateServiceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "service", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "service", required: false, type: .structure)
         ]
         /// The full description of your service following the update call.
         public let service: Service?
@@ -2192,16 +1949,15 @@ extension Ecs {
             self.service = service
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let service = dictionary["service"] as? [String: Any] { self.service = try Ecs.Service(dictionary: service) } else { self.service = nil }
+        private enum CodingKeys: String, CodingKey {
+            case service = "service"
         }
     }
 
     public struct CreateClusterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "clusterName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clusterName", required: false, type: .string)
         ]
         /// The name of your cluster. If you do not specify a name for your cluster, you create a cluster named default. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
         public let clusterName: String?
@@ -2210,19 +1966,18 @@ extension Ecs {
             self.clusterName = clusterName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clusterName = dictionary["clusterName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "clusterName"
         }
     }
 
     public struct SubmitTaskStateChangeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "task", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "cluster", required: false, type: .string), 
+            AWSShapeMember(label: "task", required: false, type: .string)
         ]
         /// The status of the state change request.
         public let status: String?
@@ -2240,19 +1995,18 @@ extension Ecs {
             self.task = task
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["status"] as? String
-            self.reason = dictionary["reason"] as? String
-            self.cluster = dictionary["cluster"] as? String
-            self.task = dictionary["task"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case reason = "reason"
+            case cluster = "cluster"
+            case task = "task"
         }
     }
 
     public struct RegisterTaskDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskDefinition", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskDefinition", required: false, type: .structure)
         ]
         /// The full description of the registered task definition.
         public let taskDefinition: TaskDefinition?
@@ -2261,16 +2015,15 @@ extension Ecs {
             self.taskDefinition = taskDefinition
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let taskDefinition = dictionary["taskDefinition"] as? [String: Any] { self.taskDefinition = try Ecs.TaskDefinition(dictionary: taskDefinition) } else { self.taskDefinition = nil }
+        private enum CodingKeys: String, CodingKey {
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct CreateServiceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "service", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "service", required: false, type: .structure)
         ]
         /// The full description of your service following the create call.
         public let service: Service?
@@ -2279,18 +2032,17 @@ extension Ecs {
             self.service = service
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let service = dictionary["service"] as? [String: Any] { self.service = try Ecs.Service(dictionary: service) } else { self.service = nil }
+        private enum CodingKeys: String, CodingKey {
+            case service = "service"
         }
     }
 
     public struct DeregisterContainerInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "force", required: false, type: .boolean), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstance", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "force", required: false, type: .boolean), 
+            AWSShapeMember(label: "cluster", required: false, type: .string), 
+            AWSShapeMember(label: "containerInstance", required: true, type: .string)
         ]
         /// Forces the deregistration of the container instance. If you have tasks running on the container instance when you deregister it with the force option, these tasks remain running until you terminate the instance or the tasks stop through some other means, but they are orphaned (no longer monitored or accounted for by Amazon ECS). If an orphaned task on your container instance is part of an Amazon ECS service, then the service scheduler starts another copy of that task, on a different container instance if possible.  Any containers in orphaned service tasks that are registered with a Classic load balancer or an Application load balancer target group are deregistered, and they will begin connection draining according to the settings on the load balancer or target group.
         public let force: Bool?
@@ -2305,15 +2057,14 @@ extension Ecs {
             self.containerInstance = containerInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.force = dictionary["force"] as? Bool
-            self.cluster = dictionary["cluster"] as? String
-            guard let containerInstance = dictionary["containerInstance"] as? String else { throw InitializableError.missingRequiredParam("containerInstance") }
-            self.containerInstance = containerInstance
+        private enum CodingKeys: String, CodingKey {
+            case force = "force"
+            case cluster = "cluster"
+            case containerInstance = "containerInstance"
         }
     }
 
-    public enum AgentUpdateStatus: String, CustomStringConvertible {
+    public enum AgentUpdateStatus: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case staging = "STAGING"
         case staged = "STAGED"
@@ -2323,7 +2074,7 @@ extension Ecs {
         public var description: String { return self.rawValue }
     }
 
-    public enum ContainerInstanceStatus: String, CustomStringConvertible {
+    public enum ContainerInstanceStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case draining = "DRAINING"
         public var description: String { return self.rawValue }
@@ -2331,9 +2082,8 @@ extension Ecs {
 
     public struct DeregisterContainerInstanceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerInstance", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "containerInstance", required: false, type: .structure)
         ]
         /// The container instance that was deregistered.
         public let containerInstance: ContainerInstance?
@@ -2342,17 +2092,16 @@ extension Ecs {
             self.containerInstance = containerInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let containerInstance = dictionary["containerInstance"] as? [String: Any] { self.containerInstance = try Ecs.ContainerInstance(dictionary: containerInstance) } else { self.containerInstance = nil }
+        private enum CodingKeys: String, CodingKey {
+            case containerInstance = "containerInstance"
         }
     }
 
     public struct DescribeTasksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "tasks", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cluster", required: false, type: .string), 
+            AWSShapeMember(label: "tasks", required: true, type: .list)
         ]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to describe. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -2364,18 +2113,16 @@ extension Ecs {
             self.tasks = tasks
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cluster = dictionary["cluster"] as? String
-            guard let tasks = dictionary["tasks"] as? [String] else { throw InitializableError.missingRequiredParam("tasks") }
-            self.tasks = tasks
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+            case tasks = "tasks"
         }
     }
 
     public struct DeleteClusterResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cluster", required: false, type: .structure)
         ]
         /// The full description of the deleted cluster.
         public let cluster: Cluster?
@@ -2384,16 +2131,15 @@ extension Ecs {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["cluster"] as? [String: Any] { self.cluster = try Ecs.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
         }
     }
 
     public struct DeregisterTaskDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskDefinition", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskDefinition", required: false, type: .structure)
         ]
         /// The full description of the deregistered task.
         public let taskDefinition: TaskDefinition?
@@ -2402,20 +2148,19 @@ extension Ecs {
             self.taskDefinition = taskDefinition
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let taskDefinition = dictionary["taskDefinition"] as? [String: Any] { self.taskDefinition = try Ecs.TaskDefinition(dictionary: taskDefinition) } else { self.taskDefinition = nil }
+        private enum CodingKeys: String, CodingKey {
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct ListTaskDefinitionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "familyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "sort", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "familyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "sort", required: false, type: .enum)
         ]
         /// The full family name with which to filter the ListTaskDefinitions results. Specifying a familyPrefix limits the listed task definitions to task definition revisions that belong to that family.
         public let familyPrefix: String?
@@ -2436,20 +2181,19 @@ extension Ecs {
             self.sort = sort
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.familyPrefix = dictionary["familyPrefix"] as? String
-            if let status = dictionary["status"] as? String { self.status = TaskDefinitionStatus(rawValue: status) } else { self.status = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            if let sort = dictionary["sort"] as? String { self.sort = SortOrder(rawValue: sort) } else { self.sort = nil }
+        private enum CodingKeys: String, CodingKey {
+            case familyPrefix = "familyPrefix"
+            case status = "status"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case sort = "sort"
         }
     }
 
     public struct RegisterContainerInstanceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerInstance", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "containerInstance", required: false, type: .structure)
         ]
         /// The container instance that was registered.
         public let containerInstance: ContainerInstance?
@@ -2458,17 +2202,16 @@ extension Ecs {
             self.containerInstance = containerInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let containerInstance = dictionary["containerInstance"] as? [String: Any] { self.containerInstance = try Ecs.ContainerInstance(dictionary: containerInstance) } else { self.containerInstance = nil }
+        private enum CodingKeys: String, CodingKey {
+            case containerInstance = "containerInstance"
         }
     }
 
     public struct DescribeServicesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "services", required: true, type: .list), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "services", required: true, type: .list), 
+            AWSShapeMember(label: "cluster", required: false, type: .string)
         ]
         /// A list of services to describe. You may specify up to 10 services to describe in a single operation.
         public let services: [String]
@@ -2480,25 +2223,23 @@ extension Ecs {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let services = dictionary["services"] as? [String] else { throw InitializableError.missingRequiredParam("services") }
-            self.services = services
-            self.cluster = dictionary["cluster"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case services = "services"
+            case cluster = "cluster"
         }
     }
 
     public struct RunTaskRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "overrides", required: false, type: .structure), 
-            AWSShapeProperty(label: "placementStrategy", required: false, type: .list), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "count", required: false, type: .integer), 
-            AWSShapeProperty(label: "placementConstraints", required: false, type: .list), 
-            AWSShapeProperty(label: "startedBy", required: false, type: .string), 
-            AWSShapeProperty(label: "taskDefinition", required: true, type: .string), 
-            AWSShapeProperty(label: "group", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "overrides", required: false, type: .structure), 
+            AWSShapeMember(label: "placementStrategy", required: false, type: .list), 
+            AWSShapeMember(label: "cluster", required: false, type: .string), 
+            AWSShapeMember(label: "count", required: false, type: .integer), 
+            AWSShapeMember(label: "placementConstraints", required: false, type: .list), 
+            AWSShapeMember(label: "startedBy", required: false, type: .string), 
+            AWSShapeMember(label: "taskDefinition", required: true, type: .string), 
+            AWSShapeMember(label: "group", required: false, type: .string)
         ]
         /// A list of container overrides in JSON format that specify the name of a container in the specified task definition and the overrides it should receive. You can override the default command for a container (that is specified in the task definition or Docker image) with a command override. You can also override existing environment variables (that are specified in the task definition or Docker image) on a container or add new environment variables to it with an environment override.  A total of 8192 characters are allowed for overrides. This limit includes the JSON formatting characters of the override structure. 
         public let overrides: TaskOverride?
@@ -2528,37 +2269,27 @@ extension Ecs {
             self.group = group
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let overrides = dictionary["overrides"] as? [String: Any] { self.overrides = try Ecs.TaskOverride(dictionary: overrides) } else { self.overrides = nil }
-            if let placementStrategy = dictionary["placementStrategy"] as? [[String: Any]] {
-                self.placementStrategy = try placementStrategy.map({ try PlacementStrategy(dictionary: $0) })
-            } else { 
-                self.placementStrategy = nil
-            }
-            self.cluster = dictionary["cluster"] as? String
-            self.count = dictionary["count"] as? Int32
-            if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
-                self.placementConstraints = try placementConstraints.map({ try PlacementConstraint(dictionary: $0) })
-            } else { 
-                self.placementConstraints = nil
-            }
-            self.startedBy = dictionary["startedBy"] as? String
-            guard let taskDefinition = dictionary["taskDefinition"] as? String else { throw InitializableError.missingRequiredParam("taskDefinition") }
-            self.taskDefinition = taskDefinition
-            self.group = dictionary["group"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case overrides = "overrides"
+            case placementStrategy = "placementStrategy"
+            case cluster = "cluster"
+            case count = "count"
+            case placementConstraints = "placementConstraints"
+            case startedBy = "startedBy"
+            case taskDefinition = "taskDefinition"
+            case group = "group"
         }
     }
 
     public struct ListAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributeValue", required: false, type: .string), 
-            AWSShapeProperty(label: "targetType", required: true, type: .enum), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "attributeName", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributeValue", required: false, type: .string), 
+            AWSShapeMember(label: "targetType", required: true, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "attributeName", required: false, type: .string), 
+            AWSShapeMember(label: "cluster", required: false, type: .string)
         ]
         /// The value of the attribute with which to filter results. You must also specify an attribute name to use this parameter.
         public let attributeValue: String?
@@ -2582,23 +2313,21 @@ extension Ecs {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attributeValue = dictionary["attributeValue"] as? String
-            guard let rawtargetType = dictionary["targetType"] as? String, let targetType = TargetType(rawValue: rawtargetType) else { throw InitializableError.missingRequiredParam("targetType") }
-            self.targetType = targetType
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.attributeName = dictionary["attributeName"] as? String
-            self.cluster = dictionary["cluster"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attributeValue = "attributeValue"
+            case targetType = "targetType"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case attributeName = "attributeName"
+            case cluster = "cluster"
         }
     }
 
     public struct PlacementConstraint: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "expression", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "expression", required: false, type: .string)
         ]
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict selection to a group of valid candidates. Note that distinctInstance is not supported in task definitions.
         public let `type`: PlacementConstraintType?
@@ -2610,18 +2339,17 @@ extension Ecs {
             self.expression = expression
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["type"] as? String { self.`type` = PlacementConstraintType(rawValue: `type`) } else { self.`type` = nil }
-            self.expression = dictionary["expression"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case expression = "expression"
         }
     }
 
     public struct TaskOverride: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerOverrides", required: false, type: .list), 
-            AWSShapeProperty(label: "taskRoleArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "containerOverrides", required: false, type: .list), 
+            AWSShapeMember(label: "taskRoleArn", required: false, type: .string)
         ]
         /// One or more container overrides sent to a task.
         public let containerOverrides: [ContainerOverride]?
@@ -2633,22 +2361,17 @@ extension Ecs {
             self.taskRoleArn = taskRoleArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let containerOverrides = dictionary["containerOverrides"] as? [[String: Any]] {
-                self.containerOverrides = try containerOverrides.map({ try ContainerOverride(dictionary: $0) })
-            } else { 
-                self.containerOverrides = nil
-            }
-            self.taskRoleArn = dictionary["taskRoleArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case containerOverrides = "containerOverrides"
+            case taskRoleArn = "taskRoleArn"
         }
     }
 
     public struct ListTasksResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "taskArns", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "taskArns", required: false, type: .list)
         ]
         /// The nextToken value to include in a future ListTasks request. When the results of a ListTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -2660,18 +2383,17 @@ extension Ecs {
             self.taskArns = taskArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.taskArns = dictionary["taskArns"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case taskArns = "taskArns"
         }
     }
 
     public struct ListAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributes", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A list of attribute objects that meet the criteria of the request.
         public let attributes: [Attribute]?
@@ -2683,23 +2405,18 @@ extension Ecs {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListServicesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "cluster", required: false, type: .string)
         ]
         /// The nextToken value returned from a previous paginated ListServices request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
@@ -2714,18 +2431,17 @@ extension Ecs {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.cluster = dictionary["cluster"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case cluster = "cluster"
         }
     }
 
     public struct PutAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: false, type: .list)
         ]
         /// The attributes applied to your resource.
         public let attributes: [Attribute]?
@@ -2734,26 +2450,21 @@ extension Ecs {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
         }
     }
 
     public struct RegisterContainerInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "versionInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "attributes", required: false, type: .list), 
-            AWSShapeProperty(label: "containerInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "totalResources", required: false, type: .list), 
-            AWSShapeProperty(label: "instanceIdentityDocumentSignature", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceIdentityDocument", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "versionInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "attributes", required: false, type: .list), 
+            AWSShapeMember(label: "containerInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "cluster", required: false, type: .string), 
+            AWSShapeMember(label: "totalResources", required: false, type: .list), 
+            AWSShapeMember(label: "instanceIdentityDocumentSignature", required: false, type: .string), 
+            AWSShapeMember(label: "instanceIdentityDocument", required: false, type: .string)
         ]
         /// The version information for the Amazon ECS container agent and Docker daemon running on the container instance.
         public let versionInfo: VersionInfo?
@@ -2780,53 +2491,44 @@ extension Ecs {
             self.instanceIdentityDocument = instanceIdentityDocument
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let versionInfo = dictionary["versionInfo"] as? [String: Any] { self.versionInfo = try Ecs.VersionInfo(dictionary: versionInfo) } else { self.versionInfo = nil }
-            if let attributes = dictionary["attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
-            self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
-            self.cluster = dictionary["cluster"] as? String
-            if let totalResources = dictionary["totalResources"] as? [[String: Any]] {
-                self.totalResources = try totalResources.map({ try Resource(dictionary: $0) })
-            } else { 
-                self.totalResources = nil
-            }
-            self.instanceIdentityDocumentSignature = dictionary["instanceIdentityDocumentSignature"] as? String
-            self.instanceIdentityDocument = dictionary["instanceIdentityDocument"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case versionInfo = "versionInfo"
+            case attributes = "attributes"
+            case containerInstanceArn = "containerInstanceArn"
+            case cluster = "cluster"
+            case totalResources = "totalResources"
+            case instanceIdentityDocumentSignature = "instanceIdentityDocumentSignature"
+            case instanceIdentityDocument = "instanceIdentityDocument"
         }
     }
 
     public struct Task: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "clusterArn", required: false, type: .string), 
-            AWSShapeProperty(label: "overrides", required: false, type: .structure), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "startedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "desiredStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "taskDefinitionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "containers", required: false, type: .list), 
-            AWSShapeProperty(label: "stoppedReason", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "stoppedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "version", required: false, type: .long), 
-            AWSShapeProperty(label: "taskArn", required: false, type: .string), 
-            AWSShapeProperty(label: "startedBy", required: false, type: .string), 
-            AWSShapeProperty(label: "group", required: false, type: .string), 
-            AWSShapeProperty(label: "lastStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clusterArn", required: false, type: .string), 
+            AWSShapeMember(label: "overrides", required: false, type: .structure), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "startedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "desiredStatus", required: false, type: .string), 
+            AWSShapeMember(label: "taskDefinitionArn", required: false, type: .string), 
+            AWSShapeMember(label: "containers", required: false, type: .list), 
+            AWSShapeMember(label: "stoppedReason", required: false, type: .string), 
+            AWSShapeMember(label: "containerInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "stoppedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "version", required: false, type: .long), 
+            AWSShapeMember(label: "taskArn", required: false, type: .string), 
+            AWSShapeMember(label: "startedBy", required: false, type: .string), 
+            AWSShapeMember(label: "group", required: false, type: .string), 
+            AWSShapeMember(label: "lastStatus", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the cluster that hosts the task.
         public let clusterArn: String?
         /// One or more container overrides.
         public let overrides: TaskOverride?
         /// The Unix timestamp for when the task was created (the task entered the PENDING state).
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The Unix timestamp for when the task was started (the task transitioned from the PENDING state to the RUNNING state).
-        public let startedAt: String?
+        public let startedAt: Double?
         /// The desired status of the task.
         public let desiredStatus: String?
         /// The Amazon Resource Name (ARN) of the task definition that creates the task.
@@ -2838,7 +2540,7 @@ extension Ecs {
         /// The Amazon Resource Name (ARN) of the container instances that host the task.
         public let containerInstanceArn: String?
         /// The Unix timestamp for when the task was stopped (the task transitioned from the RUNNING state to the STOPPED state).
-        public let stoppedAt: String?
+        public let stoppedAt: Double?
         /// The version counter for the task. Every time a task experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS task state with CloudWatch events, you can compare the version of a task reported by the Amazon ECS APIs with the version reported in CloudWatch events for the task (inside the detail object) to verify that the version in your event stream is current.
         public let version: Int64?
         /// The Amazon Resource Name (ARN) of the task.
@@ -2850,7 +2552,7 @@ extension Ecs {
         /// The last known status of the task.
         public let lastStatus: String?
 
-        public init(clusterArn: String? = nil, overrides: TaskOverride? = nil, createdAt: String? = nil, startedAt: String? = nil, desiredStatus: String? = nil, taskDefinitionArn: String? = nil, containers: [Container]? = nil, stoppedReason: String? = nil, containerInstanceArn: String? = nil, stoppedAt: String? = nil, version: Int64? = nil, taskArn: String? = nil, startedBy: String? = nil, group: String? = nil, lastStatus: String? = nil) {
+        public init(clusterArn: String? = nil, overrides: TaskOverride? = nil, createdAt: Double? = nil, startedAt: Double? = nil, desiredStatus: String? = nil, taskDefinitionArn: String? = nil, containers: [Container]? = nil, stoppedReason: String? = nil, containerInstanceArn: String? = nil, stoppedAt: Double? = nil, version: Int64? = nil, taskArn: String? = nil, startedBy: String? = nil, group: String? = nil, lastStatus: String? = nil) {
             self.clusterArn = clusterArn
             self.overrides = overrides
             self.createdAt = createdAt
@@ -2868,35 +2570,30 @@ extension Ecs {
             self.lastStatus = lastStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clusterArn = dictionary["clusterArn"] as? String
-            if let overrides = dictionary["overrides"] as? [String: Any] { self.overrides = try Ecs.TaskOverride(dictionary: overrides) } else { self.overrides = nil }
-            self.createdAt = dictionary["createdAt"] as? String
-            self.startedAt = dictionary["startedAt"] as? String
-            self.desiredStatus = dictionary["desiredStatus"] as? String
-            self.taskDefinitionArn = dictionary["taskDefinitionArn"] as? String
-            if let containers = dictionary["containers"] as? [[String: Any]] {
-                self.containers = try containers.map({ try Container(dictionary: $0) })
-            } else { 
-                self.containers = nil
-            }
-            self.stoppedReason = dictionary["stoppedReason"] as? String
-            self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
-            self.stoppedAt = dictionary["stoppedAt"] as? String
-            self.version = dictionary["version"] as? Int64
-            self.taskArn = dictionary["taskArn"] as? String
-            self.startedBy = dictionary["startedBy"] as? String
-            self.group = dictionary["group"] as? String
-            self.lastStatus = dictionary["lastStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case overrides = "overrides"
+            case createdAt = "createdAt"
+            case startedAt = "startedAt"
+            case desiredStatus = "desiredStatus"
+            case taskDefinitionArn = "taskDefinitionArn"
+            case containers = "containers"
+            case stoppedReason = "stoppedReason"
+            case containerInstanceArn = "containerInstanceArn"
+            case stoppedAt = "stoppedAt"
+            case version = "version"
+            case taskArn = "taskArn"
+            case startedBy = "startedBy"
+            case group = "group"
+            case lastStatus = "lastStatus"
         }
     }
 
     public struct UpdateContainerAgentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstance", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cluster", required: false, type: .string), 
+            AWSShapeMember(label: "containerInstance", required: true, type: .string)
         ]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that your container instance is running on. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
@@ -2908,19 +2605,17 @@ extension Ecs {
             self.containerInstance = containerInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cluster = dictionary["cluster"] as? String
-            guard let containerInstance = dictionary["containerInstance"] as? String else { throw InitializableError.missingRequiredParam("containerInstance") }
-            self.containerInstance = containerInstance
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+            case containerInstance = "containerInstance"
         }
     }
 
     public struct ListClustersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "clusterArns", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clusterArns", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The list of full Amazon Resource Name (ARN) entries for each cluster associated with your account.
         public let clusterArns: [String]?
@@ -2932,17 +2627,16 @@ extension Ecs {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clusterArns = dictionary["clusterArns"] as? [String]
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clusterArns = "clusterArns"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeClustersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "clusters", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clusters", required: false, type: .list)
         ]
         /// A list of up to 100 cluster names or full cluster Amazon Resource Name (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
         public let clusters: [String]?
@@ -2951,17 +2645,16 @@ extension Ecs {
             self.clusters = clusters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clusters = dictionary["clusters"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case clusters = "clusters"
         }
     }
 
     public struct RunTaskResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failures", required: false, type: .list), 
-            AWSShapeProperty(label: "tasks", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failures", required: false, type: .list), 
+            AWSShapeMember(label: "tasks", required: false, type: .list)
         ]
         /// Any failures associated with the call.
         public let failures: [Failure]?
@@ -2973,26 +2666,17 @@ extension Ecs {
             self.tasks = tasks
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failures = dictionary["failures"] as? [[String: Any]] {
-                self.failures = try failures.map({ try Failure(dictionary: $0) })
-            } else { 
-                self.failures = nil
-            }
-            if let tasks = dictionary["tasks"] as? [[String: Any]] {
-                self.tasks = try tasks.map({ try Task(dictionary: $0) })
-            } else { 
-                self.tasks = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failures = "failures"
+            case tasks = "tasks"
         }
     }
 
     public struct ListServicesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "serviceArns", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "serviceArns", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The list of full Amazon Resource Name (ARN) entries for each service associated with the specified cluster.
         public let serviceArns: [String]?
@@ -3004,18 +2688,17 @@ extension Ecs {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.serviceArns = dictionary["serviceArns"] as? [String]
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case serviceArns = "serviceArns"
+            case nextToken = "nextToken"
         }
     }
 
     public struct KeyValuePair: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "value", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
         ]
         /// The name of the key value pair. For environment variables, this is the name of the environment variable.
         public let name: String?
@@ -3027,23 +2710,22 @@ extension Ecs {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.value = dictionary["value"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
         }
     }
 
     public struct SubmitContainerStateChangeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "networkBindings", required: false, type: .list), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string), 
-            AWSShapeProperty(label: "exitCode", required: false, type: .integer), 
-            AWSShapeProperty(label: "task", required: false, type: .string), 
-            AWSShapeProperty(label: "containerName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "networkBindings", required: false, type: .list), 
+            AWSShapeMember(label: "cluster", required: false, type: .string), 
+            AWSShapeMember(label: "exitCode", required: false, type: .integer), 
+            AWSShapeMember(label: "task", required: false, type: .string), 
+            AWSShapeMember(label: "containerName", required: false, type: .string)
         ]
         /// The status of the state change request.
         public let status: String?
@@ -3070,29 +2752,24 @@ extension Ecs {
             self.containerName = containerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["status"] as? String
-            self.reason = dictionary["reason"] as? String
-            if let networkBindings = dictionary["networkBindings"] as? [[String: Any]] {
-                self.networkBindings = try networkBindings.map({ try NetworkBinding(dictionary: $0) })
-            } else { 
-                self.networkBindings = nil
-            }
-            self.cluster = dictionary["cluster"] as? String
-            self.exitCode = dictionary["exitCode"] as? Int32
-            self.task = dictionary["task"] as? String
-            self.containerName = dictionary["containerName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case reason = "reason"
+            case networkBindings = "networkBindings"
+            case cluster = "cluster"
+            case exitCode = "exitCode"
+            case task = "task"
+            case containerName = "containerName"
         }
     }
 
     public struct ListTaskDefinitionFamiliesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "familyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "familyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
         /// The familyPrefix is a string that is used to filter the results of ListTaskDefinitionFamilies. If you specify a familyPrefix, only task definition family names that begin with the familyPrefix string are returned.
         public let familyPrefix: String?
@@ -3110,22 +2787,21 @@ extension Ecs {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.familyPrefix = dictionary["familyPrefix"] as? String
-            if let status = dictionary["status"] as? String { self.status = TaskDefinitionFamilyStatus(rawValue: status) } else { self.status = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case familyPrefix = "familyPrefix"
+            case status = "status"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct NetworkBinding: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "hostPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "containerPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "bindIP", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "hostPort", required: false, type: .integer), 
+            AWSShapeMember(label: "protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "containerPort", required: false, type: .integer), 
+            AWSShapeMember(label: "bindIP", required: false, type: .string)
         ]
         /// The port number on the host that is used with the network binding.
         public let hostPort: Int32?
@@ -3143,20 +2819,19 @@ extension Ecs {
             self.bindIP = bindIP
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.hostPort = dictionary["hostPort"] as? Int32
-            if let `protocol` = dictionary["protocol"] as? String { self.`protocol` = TransportProtocol(rawValue: `protocol`) } else { self.`protocol` = nil }
-            self.containerPort = dictionary["containerPort"] as? Int32
-            self.bindIP = dictionary["bindIP"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case hostPort = "hostPort"
+            case `protocol` = "protocol"
+            case containerPort = "containerPort"
+            case bindIP = "bindIP"
         }
     }
 
     public struct Failure: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The reason for the failure.
         public let reason: String?
@@ -3168,18 +2843,17 @@ extension Ecs {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.reason = dictionary["reason"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+            case arn = "arn"
         }
     }
 
     public struct DescribeContainerInstancesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "containerInstances", required: true, type: .list), 
-            AWSShapeProperty(label: "cluster", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "containerInstances", required: true, type: .list), 
+            AWSShapeMember(label: "cluster", required: false, type: .string)
         ]
         /// A list of container instance IDs or full Amazon Resource Name (ARN) entries.
         public let containerInstances: [String]
@@ -3191,10 +2865,9 @@ extension Ecs {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let containerInstances = dictionary["containerInstances"] as? [String] else { throw InitializableError.missingRequiredParam("containerInstances") }
-            self.containerInstances = containerInstances
-            self.cluster = dictionary["cluster"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case containerInstances = "containerInstances"
+            case cluster = "cluster"
         }
     }
 

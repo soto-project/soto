@@ -31,10 +31,9 @@ extension States {
 
     public struct StateEnteredEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string)
         ]
         /// The name of the state.
         public let name: String
@@ -46,71 +45,61 @@ extension States {
             self.input = input
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.input = dictionary["input"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case input = "input"
         }
     }
 
     public struct SendTaskHeartbeatOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct StopExecutionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stopDate", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stopDate", required: true, type: .timestamp)
         ]
         /// The date the execution was stopped.
-        public let stopDate: String
+        public let stopDate: Double
 
-        public init(stopDate: String) {
+        public init(stopDate: Double) {
             self.stopDate = stopDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stopDate = dictionary["stopDate"] as? String else { throw InitializableError.missingRequiredParam("stopDate") }
-            self.stopDate = stopDate
+        private enum CodingKeys: String, CodingKey {
+            case stopDate = "stopDate"
         }
     }
 
     public struct CreateActivityOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityArn", required: true, type: .string), 
-            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activityArn", required: true, type: .string), 
+            AWSShapeMember(label: "creationDate", required: true, type: .timestamp)
         ]
         /// The Amazon Resource Name (ARN) that identifies the created activity.
         public let activityArn: String
         /// The date the activity was created.
-        public let creationDate: String
+        public let creationDate: Double
 
-        public init(activityArn: String, creationDate: String) {
+        public init(activityArn: String, creationDate: Double) {
             self.activityArn = activityArn
             self.creationDate = creationDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let activityArn = dictionary["activityArn"] as? String else { throw InitializableError.missingRequiredParam("activityArn") }
-            self.activityArn = activityArn
-            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
-            self.creationDate = creationDate
+        private enum CodingKeys: String, CodingKey {
+            case activityArn = "activityArn"
+            case creationDate = "creationDate"
         }
     }
 
     public struct ListActivitiesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The maximum number of results that will be returned per call. nextToken can be used to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maxResults: Int32?
@@ -122,18 +111,17 @@ extension States {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetExecutionHistoryOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "events", required: true, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "events", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The list of events that occurred in the execution.
         public let events: [HistoryEvent]
@@ -145,19 +133,17 @@ extension States {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let events = dictionary["events"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("events") }
-            self.events = try events.map({ try HistoryEvent(dictionary: $0) })
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case events = "events"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ActivityFailedEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", required: false, type: .string), 
-            AWSShapeProperty(label: "error", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -169,84 +155,75 @@ extension States {
             self.error = error
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cause = dictionary["cause"] as? String
-            self.error = dictionary["error"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct ActivityListItem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityArn", required: true, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activityArn", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "creationDate", required: true, type: .timestamp)
         ]
         /// The Amazon Resource Name (ARN) that identifies the activity.
         public let activityArn: String
         /// The name of the activity.
         public let name: String
         /// The date the activity was created.
-        public let creationDate: String
+        public let creationDate: Double
 
-        public init(activityArn: String, name: String, creationDate: String) {
+        public init(activityArn: String, name: String, creationDate: Double) {
             self.activityArn = activityArn
             self.name = name
             self.creationDate = creationDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let activityArn = dictionary["activityArn"] as? String else { throw InitializableError.missingRequiredParam("activityArn") }
-            self.activityArn = activityArn
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
-            self.creationDate = creationDate
+        private enum CodingKeys: String, CodingKey {
+            case activityArn = "activityArn"
+            case name = "name"
+            case creationDate = "creationDate"
         }
     }
 
     public struct DescribeActivityOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityArn", required: true, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activityArn", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "creationDate", required: true, type: .timestamp)
         ]
         /// The Amazon Resource Name (ARN) that identifies the activity.
         public let activityArn: String
         /// The name of the activity.
         public let name: String
         /// The date the activity was created.
-        public let creationDate: String
+        public let creationDate: Double
 
-        public init(activityArn: String, name: String, creationDate: String) {
+        public init(activityArn: String, name: String, creationDate: Double) {
             self.activityArn = activityArn
             self.name = name
             self.creationDate = creationDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let activityArn = dictionary["activityArn"] as? String else { throw InitializableError.missingRequiredParam("activityArn") }
-            self.activityArn = activityArn
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
-            self.creationDate = creationDate
+        private enum CodingKeys: String, CodingKey {
+            case activityArn = "activityArn"
+            case name = "name"
+            case creationDate = "creationDate"
         }
     }
 
     public struct ExecutionListItem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: true, type: .enum), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeProperty(label: "startDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "stopDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "executionArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "startDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "stopDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "executionArn", required: true, type: .string)
         ]
         /// The current status of the execution.
         public let status: ExecutionStatus
@@ -255,13 +232,13 @@ extension States {
         /// The Amazon Resource Name (ARN) of the executed state machine.
         public let stateMachineArn: String
         /// The date the execution started.
-        public let startDate: String
+        public let startDate: Double
         /// If the execution already ended, the date the execution stopped.
-        public let stopDate: String?
+        public let stopDate: Double?
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
 
-        public init(status: ExecutionStatus, name: String, stateMachineArn: String, startDate: String, stopDate: String? = nil, executionArn: String) {
+        public init(status: ExecutionStatus, name: String, stateMachineArn: String, startDate: Double, stopDate: Double? = nil, executionArn: String) {
             self.status = status
             self.name = name
             self.stateMachineArn = stateMachineArn
@@ -270,28 +247,22 @@ extension States {
             self.executionArn = executionArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawstatus = dictionary["status"] as? String, let status = ExecutionStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
-            self.stateMachineArn = stateMachineArn
-            guard let startDate = dictionary["startDate"] as? String else { throw InitializableError.missingRequiredParam("startDate") }
-            self.startDate = startDate
-            self.stopDate = dictionary["stopDate"] as? String
-            guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }
-            self.executionArn = executionArn
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case name = "name"
+            case stateMachineArn = "stateMachineArn"
+            case startDate = "startDate"
+            case stopDate = "stopDate"
+            case executionArn = "executionArn"
         }
     }
 
     public struct StartExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
         ]
         /// The name of the execution. This name must be unique for your AWS account and region.
         public let name: String?
@@ -306,23 +277,19 @@ extension States {
             self.stateMachineArn = stateMachineArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.input = dictionary["input"] as? String
-            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
-            self.stateMachineArn = stateMachineArn
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case input = "input"
+            case stateMachineArn = "stateMachineArn"
         }
     }
 
     public struct DeleteActivityOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum HistoryEventType: String, CustomStringConvertible {
+    public enum HistoryEventType: String, CustomStringConvertible, Codable {
         case activityfailed = "ActivityFailed"
         case activityschedulefailed = "ActivityScheduleFailed"
         case activityscheduled = "ActivityScheduled"
@@ -359,14 +326,13 @@ extension States {
 
     public struct DescribeStateMachineOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "definition", required: true, type: .string), 
-            AWSShapeProperty(label: "roleArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "definition", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
         ]
         /// The current status of the state machine.
         public let status: StateMachineStatus?
@@ -375,13 +341,13 @@ extension States {
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         public let stateMachineArn: String
         /// The date the state machine was created.
-        public let creationDate: String
+        public let creationDate: Double
         /// The Amazon States Language definition of the state machine.
         public let definition: String
         /// The Amazon Resource Name (ARN) of the IAM role used for executing this state machine.
         public let roleArn: String
 
-        public init(status: StateMachineStatus? = nil, name: String, stateMachineArn: String, creationDate: String, definition: String, roleArn: String) {
+        public init(status: StateMachineStatus? = nil, name: String, stateMachineArn: String, creationDate: Double, definition: String, roleArn: String) {
             self.status = status
             self.name = name
             self.stateMachineArn = stateMachineArn
@@ -390,27 +356,21 @@ extension States {
             self.roleArn = roleArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? String { self.status = StateMachineStatus(rawValue: status) } else { self.status = nil }
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
-            self.stateMachineArn = stateMachineArn
-            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
-            self.creationDate = creationDate
-            guard let definition = dictionary["definition"] as? String else { throw InitializableError.missingRequiredParam("definition") }
-            self.definition = definition
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case name = "name"
+            case stateMachineArn = "stateMachineArn"
+            case creationDate = "creationDate"
+            case definition = "definition"
+            case roleArn = "roleArn"
         }
     }
 
     public struct LambdaFunctionStartFailedEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", required: false, type: .string), 
-            AWSShapeProperty(label: "error", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -422,18 +382,17 @@ extension States {
             self.error = error
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cause = dictionary["cause"] as? String
-            self.error = dictionary["error"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct ActivityTimedOutEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", required: false, type: .string), 
-            AWSShapeProperty(label: "error", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
@@ -445,64 +404,60 @@ extension States {
             self.error = error
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cause = dictionary["cause"] as? String
-            self.error = dictionary["error"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct StartExecutionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "startDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "executionArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "startDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "executionArn", required: true, type: .string)
         ]
         /// The date the execution was started.
-        public let startDate: String
+        public let startDate: Double
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
 
-        public init(startDate: String, executionArn: String) {
+        public init(startDate: Double, executionArn: String) {
             self.startDate = startDate
             self.executionArn = executionArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let startDate = dictionary["startDate"] as? String else { throw InitializableError.missingRequiredParam("startDate") }
-            self.startDate = startDate
-            guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }
-            self.executionArn = executionArn
+        private enum CodingKeys: String, CodingKey {
+            case startDate = "startDate"
+            case executionArn = "executionArn"
         }
     }
 
     public struct HistoryEvent: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaFunctionSucceededEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionFailedEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "executionSucceededEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityFailedEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "executionTimedOutEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionTimedOutEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "executionAbortedEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "executionFailedEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityScheduledEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityStartedEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "stateEnteredEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "executionStartedEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityScheduleFailedEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "timestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "previousEventId", required: false, type: .long), 
-            AWSShapeProperty(label: "id", required: true, type: .long), 
-            AWSShapeProperty(label: "activityTimedOutEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionScheduledEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "activitySucceededEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "stateExitedEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionScheduleFailedEventDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionStartFailedEventDetails", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lambdaFunctionSucceededEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaFunctionFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "executionSucceededEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "activityFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "executionTimedOutEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaFunctionTimedOutEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "executionAbortedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "executionFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "activityScheduledEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "activityStartedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "stateEnteredEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "executionStartedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "activityScheduleFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "timestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "previousEventId", required: false, type: .long), 
+            AWSShapeMember(label: "id", required: true, type: .long), 
+            AWSShapeMember(label: "activityTimedOutEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaFunctionScheduledEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "activitySucceededEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "stateExitedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaFunctionScheduleFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaFunctionStartFailedEventDetails", required: false, type: .structure)
         ]
         public let lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails?
         public let lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails?
@@ -520,7 +475,7 @@ extension States {
         public let executionStartedEventDetails: ExecutionStartedEventDetails?
         public let activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails?
         /// The date the event occured.
-        public let timestamp: String
+        public let timestamp: Double
         /// The id of the previous event.
         public let previousEventId: Int64?
         /// The id of the event. Events are numbered sequentially, starting at one.
@@ -532,7 +487,7 @@ extension States {
         public let lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails?
         public let lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails?
 
-        public init(lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, activityFailedEventDetails: ActivityFailedEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, type: HistoryEventType, stateEnteredEventDetails: StateEnteredEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, timestamp: String, previousEventId: Int64? = nil, id: Int64, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil) {
+        public init(lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, activityFailedEventDetails: ActivityFailedEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, type: HistoryEventType, stateEnteredEventDetails: StateEnteredEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, timestamp: Double, previousEventId: Int64? = nil, id: Int64, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil) {
             self.lambdaFunctionSucceededEventDetails = lambdaFunctionSucceededEventDetails
             self.lambdaFunctionFailedEventDetails = lambdaFunctionFailedEventDetails
             self.executionSucceededEventDetails = executionSucceededEventDetails
@@ -558,42 +513,38 @@ extension States {
             self.lambdaFunctionStartFailedEventDetails = lambdaFunctionStartFailedEventDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let lambdaFunctionSucceededEventDetails = dictionary["lambdaFunctionSucceededEventDetails"] as? [String: Any] { self.lambdaFunctionSucceededEventDetails = try States.LambdaFunctionSucceededEventDetails(dictionary: lambdaFunctionSucceededEventDetails) } else { self.lambdaFunctionSucceededEventDetails = nil }
-            if let lambdaFunctionFailedEventDetails = dictionary["lambdaFunctionFailedEventDetails"] as? [String: Any] { self.lambdaFunctionFailedEventDetails = try States.LambdaFunctionFailedEventDetails(dictionary: lambdaFunctionFailedEventDetails) } else { self.lambdaFunctionFailedEventDetails = nil }
-            if let executionSucceededEventDetails = dictionary["executionSucceededEventDetails"] as? [String: Any] { self.executionSucceededEventDetails = try States.ExecutionSucceededEventDetails(dictionary: executionSucceededEventDetails) } else { self.executionSucceededEventDetails = nil }
-            if let activityFailedEventDetails = dictionary["activityFailedEventDetails"] as? [String: Any] { self.activityFailedEventDetails = try States.ActivityFailedEventDetails(dictionary: activityFailedEventDetails) } else { self.activityFailedEventDetails = nil }
-            if let executionTimedOutEventDetails = dictionary["executionTimedOutEventDetails"] as? [String: Any] { self.executionTimedOutEventDetails = try States.ExecutionTimedOutEventDetails(dictionary: executionTimedOutEventDetails) } else { self.executionTimedOutEventDetails = nil }
-            if let lambdaFunctionTimedOutEventDetails = dictionary["lambdaFunctionTimedOutEventDetails"] as? [String: Any] { self.lambdaFunctionTimedOutEventDetails = try States.LambdaFunctionTimedOutEventDetails(dictionary: lambdaFunctionTimedOutEventDetails) } else { self.lambdaFunctionTimedOutEventDetails = nil }
-            if let executionAbortedEventDetails = dictionary["executionAbortedEventDetails"] as? [String: Any] { self.executionAbortedEventDetails = try States.ExecutionAbortedEventDetails(dictionary: executionAbortedEventDetails) } else { self.executionAbortedEventDetails = nil }
-            if let executionFailedEventDetails = dictionary["executionFailedEventDetails"] as? [String: Any] { self.executionFailedEventDetails = try States.ExecutionFailedEventDetails(dictionary: executionFailedEventDetails) } else { self.executionFailedEventDetails = nil }
-            if let activityScheduledEventDetails = dictionary["activityScheduledEventDetails"] as? [String: Any] { self.activityScheduledEventDetails = try States.ActivityScheduledEventDetails(dictionary: activityScheduledEventDetails) } else { self.activityScheduledEventDetails = nil }
-            if let activityStartedEventDetails = dictionary["activityStartedEventDetails"] as? [String: Any] { self.activityStartedEventDetails = try States.ActivityStartedEventDetails(dictionary: activityStartedEventDetails) } else { self.activityStartedEventDetails = nil }
-            guard let rawtype = dictionary["type"] as? String, let `type` = HistoryEventType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            if let stateEnteredEventDetails = dictionary["stateEnteredEventDetails"] as? [String: Any] { self.stateEnteredEventDetails = try States.StateEnteredEventDetails(dictionary: stateEnteredEventDetails) } else { self.stateEnteredEventDetails = nil }
-            if let executionStartedEventDetails = dictionary["executionStartedEventDetails"] as? [String: Any] { self.executionStartedEventDetails = try States.ExecutionStartedEventDetails(dictionary: executionStartedEventDetails) } else { self.executionStartedEventDetails = nil }
-            if let activityScheduleFailedEventDetails = dictionary["activityScheduleFailedEventDetails"] as? [String: Any] { self.activityScheduleFailedEventDetails = try States.ActivityScheduleFailedEventDetails(dictionary: activityScheduleFailedEventDetails) } else { self.activityScheduleFailedEventDetails = nil }
-            guard let timestamp = dictionary["timestamp"] as? String else { throw InitializableError.missingRequiredParam("timestamp") }
-            self.timestamp = timestamp
-            self.previousEventId = dictionary["previousEventId"] as? Int64
-            guard let id = dictionary["id"] as? Int64 else { throw InitializableError.missingRequiredParam("id") }
-            self.id = id
-            if let activityTimedOutEventDetails = dictionary["activityTimedOutEventDetails"] as? [String: Any] { self.activityTimedOutEventDetails = try States.ActivityTimedOutEventDetails(dictionary: activityTimedOutEventDetails) } else { self.activityTimedOutEventDetails = nil }
-            if let lambdaFunctionScheduledEventDetails = dictionary["lambdaFunctionScheduledEventDetails"] as? [String: Any] { self.lambdaFunctionScheduledEventDetails = try States.LambdaFunctionScheduledEventDetails(dictionary: lambdaFunctionScheduledEventDetails) } else { self.lambdaFunctionScheduledEventDetails = nil }
-            if let activitySucceededEventDetails = dictionary["activitySucceededEventDetails"] as? [String: Any] { self.activitySucceededEventDetails = try States.ActivitySucceededEventDetails(dictionary: activitySucceededEventDetails) } else { self.activitySucceededEventDetails = nil }
-            if let stateExitedEventDetails = dictionary["stateExitedEventDetails"] as? [String: Any] { self.stateExitedEventDetails = try States.StateExitedEventDetails(dictionary: stateExitedEventDetails) } else { self.stateExitedEventDetails = nil }
-            if let lambdaFunctionScheduleFailedEventDetails = dictionary["lambdaFunctionScheduleFailedEventDetails"] as? [String: Any] { self.lambdaFunctionScheduleFailedEventDetails = try States.LambdaFunctionScheduleFailedEventDetails(dictionary: lambdaFunctionScheduleFailedEventDetails) } else { self.lambdaFunctionScheduleFailedEventDetails = nil }
-            if let lambdaFunctionStartFailedEventDetails = dictionary["lambdaFunctionStartFailedEventDetails"] as? [String: Any] { self.lambdaFunctionStartFailedEventDetails = try States.LambdaFunctionStartFailedEventDetails(dictionary: lambdaFunctionStartFailedEventDetails) } else { self.lambdaFunctionStartFailedEventDetails = nil }
+        private enum CodingKeys: String, CodingKey {
+            case lambdaFunctionSucceededEventDetails = "lambdaFunctionSucceededEventDetails"
+            case lambdaFunctionFailedEventDetails = "lambdaFunctionFailedEventDetails"
+            case executionSucceededEventDetails = "executionSucceededEventDetails"
+            case activityFailedEventDetails = "activityFailedEventDetails"
+            case executionTimedOutEventDetails = "executionTimedOutEventDetails"
+            case lambdaFunctionTimedOutEventDetails = "lambdaFunctionTimedOutEventDetails"
+            case executionAbortedEventDetails = "executionAbortedEventDetails"
+            case executionFailedEventDetails = "executionFailedEventDetails"
+            case activityScheduledEventDetails = "activityScheduledEventDetails"
+            case activityStartedEventDetails = "activityStartedEventDetails"
+            case `type` = "type"
+            case stateEnteredEventDetails = "stateEnteredEventDetails"
+            case executionStartedEventDetails = "executionStartedEventDetails"
+            case activityScheduleFailedEventDetails = "activityScheduleFailedEventDetails"
+            case timestamp = "timestamp"
+            case previousEventId = "previousEventId"
+            case id = "id"
+            case activityTimedOutEventDetails = "activityTimedOutEventDetails"
+            case lambdaFunctionScheduledEventDetails = "lambdaFunctionScheduledEventDetails"
+            case activitySucceededEventDetails = "activitySucceededEventDetails"
+            case stateExitedEventDetails = "stateExitedEventDetails"
+            case lambdaFunctionScheduleFailedEventDetails = "lambdaFunctionScheduleFailedEventDetails"
+            case lambdaFunctionStartFailedEventDetails = "lambdaFunctionStartFailedEventDetails"
         }
     }
 
     public struct ListActivitiesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activities", required: true, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activities", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The list of activities.
         public let activities: [ActivityListItem]
@@ -605,27 +556,22 @@ extension States {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let activities = dictionary["activities"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("activities") }
-            self.activities = try activities.map({ try ActivityListItem(dictionary: $0) })
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case activities = "activities"
+            case nextToken = "nextToken"
         }
     }
 
     public struct SendTaskFailureOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListStateMachinesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The maximum number of results that will be returned per call. nextToken can be used to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maxResults: Int32?
@@ -637,18 +583,17 @@ extension States {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListExecutionsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "executions", required: true, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "executions", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The list of matching executions.
         public let executions: [ExecutionListItem]
@@ -660,20 +605,18 @@ extension States {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let executions = dictionary["executions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("executions") }
-            self.executions = try executions.map({ try ExecutionListItem(dictionary: $0) })
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case executions = "executions"
+            case nextToken = "nextToken"
         }
     }
 
     public struct CreateStateMachineInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "definition", required: true, type: .string), 
-            AWSShapeProperty(label: "roleArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "definition", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
         ]
         /// The name of the state machine. This name must be unique for your AWS account and region.
         public let name: String
@@ -688,21 +631,17 @@ extension States {
             self.roleArn = roleArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let definition = dictionary["definition"] as? String else { throw InitializableError.missingRequiredParam("definition") }
-            self.definition = definition
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case definition = "definition"
+            case roleArn = "roleArn"
         }
     }
 
     public struct SendTaskHeartbeatInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskToken", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskToken", required: true, type: .string)
         ]
         /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTask::taskToken).
         public let taskToken: String
@@ -711,18 +650,16 @@ extension States {
             self.taskToken = taskToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let taskToken = dictionary["taskToken"] as? String else { throw InitializableError.missingRequiredParam("taskToken") }
-            self.taskToken = taskToken
+        private enum CodingKeys: String, CodingKey {
+            case taskToken = "taskToken"
         }
     }
 
     public struct ActivityScheduleFailedEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", required: false, type: .string), 
-            AWSShapeProperty(label: "error", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -734,13 +671,13 @@ extension States {
             self.error = error
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cause = dictionary["cause"] as? String
-            self.error = dictionary["error"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cause = "cause"
+            case error = "error"
         }
     }
 
-    public enum StateMachineStatus: String, CustomStringConvertible {
+    public enum StateMachineStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
@@ -748,9 +685,8 @@ extension States {
 
     public struct ActivitySucceededEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "output", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "output", required: false, type: .string)
         ]
         /// The JSON data output by the activity task.
         public let output: String?
@@ -759,18 +695,17 @@ extension States {
             self.output = output
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.output = dictionary["output"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case output = "output"
         }
     }
 
     public struct SendTaskFailureInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
-            AWSShapeProperty(label: "cause", required: false, type: .string), 
-            AWSShapeProperty(label: "error", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskToken", required: true, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string)
         ]
         /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTask::taskToken).
         public let taskToken: String
@@ -785,20 +720,18 @@ extension States {
             self.error = error
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let taskToken = dictionary["taskToken"] as? String else { throw InitializableError.missingRequiredParam("taskToken") }
-            self.taskToken = taskToken
-            self.cause = dictionary["cause"] as? String
-            self.error = dictionary["error"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case taskToken = "taskToken"
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct GetActivityTaskInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "workerName", required: false, type: .string), 
-            AWSShapeProperty(label: "activityArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "workerName", required: false, type: .string), 
+            AWSShapeMember(label: "activityArn", required: true, type: .string)
         ]
         /// An arbitrary name may be provided in order to identify the worker that the task is assigned to. This name will be used when it is logged in the execution history.
         public let workerName: String?
@@ -810,18 +743,16 @@ extension States {
             self.activityArn = activityArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.workerName = dictionary["workerName"] as? String
-            guard let activityArn = dictionary["activityArn"] as? String else { throw InitializableError.missingRequiredParam("activityArn") }
-            self.activityArn = activityArn
+        private enum CodingKeys: String, CodingKey {
+            case workerName = "workerName"
+            case activityArn = "activityArn"
         }
     }
 
     public struct DescribeActivityInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activityArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the activity to describe.
         public let activityArn: String
@@ -830,19 +761,17 @@ extension States {
             self.activityArn = activityArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let activityArn = dictionary["activityArn"] as? String else { throw InitializableError.missingRequiredParam("activityArn") }
-            self.activityArn = activityArn
+        private enum CodingKeys: String, CodingKey {
+            case activityArn = "activityArn"
         }
     }
 
     public struct LambdaFunctionScheduledEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "timeoutInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "resource", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "timeoutInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "resource", required: true, type: .string)
         ]
         /// The maximum allowed duration of the lambda function.
         public let timeoutInSeconds: Int64?
@@ -857,28 +786,23 @@ extension States {
             self.resource = resource
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.timeoutInSeconds = dictionary["timeoutInSeconds"] as? Int64
-            self.input = dictionary["input"] as? String
-            guard let resource = dictionary["resource"] as? String else { throw InitializableError.missingRequiredParam("resource") }
-            self.resource = resource
+        private enum CodingKeys: String, CodingKey {
+            case timeoutInSeconds = "timeoutInSeconds"
+            case input = "input"
+            case resource = "resource"
         }
     }
 
     public struct DeleteStateMachineOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct GetActivityTaskOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskToken", required: false, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskToken", required: false, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string)
         ]
         /// A token that identifies the scheduled task. This token must be copied and included in subsequent calls to SendTaskHeartbeat, SendTaskSuccess or SendTaskFailure in order to report the progress or completion of the task.
         public let taskToken: String?
@@ -890,18 +814,17 @@ extension States {
             self.input = input
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.taskToken = dictionary["taskToken"] as? String
-            self.input = dictionary["input"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case taskToken = "taskToken"
+            case input = "input"
         }
     }
 
     public struct StateExitedEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "output", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "output", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// The JSON output data of the state.
         public let output: String?
@@ -913,14 +836,13 @@ extension States {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.output = dictionary["output"] as? String
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case output = "output"
+            case name = "name"
         }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible {
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
         case running = "RUNNING"
         case succeeded = "SUCCEEDED"
         case failed = "FAILED"
@@ -931,9 +853,8 @@ extension States {
 
     public struct LambdaFunctionSucceededEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "output", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "output", required: false, type: .string)
         ]
         /// The JSON data output by the lambda function.
         public let output: String?
@@ -942,19 +863,18 @@ extension States {
             self.output = output
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.output = dictionary["output"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case output = "output"
         }
     }
 
     public struct ActivityScheduledEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "timeoutInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "heartbeatInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "resource", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "timeoutInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "heartbeatInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "resource", required: true, type: .string)
         ]
         /// The maximum allowed duration of the activity task.
         public let timeoutInSeconds: Int64?
@@ -972,45 +892,40 @@ extension States {
             self.resource = resource
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.timeoutInSeconds = dictionary["timeoutInSeconds"] as? Int64
-            self.input = dictionary["input"] as? String
-            self.heartbeatInSeconds = dictionary["heartbeatInSeconds"] as? Int64
-            guard let resource = dictionary["resource"] as? String else { throw InitializableError.missingRequiredParam("resource") }
-            self.resource = resource
+        private enum CodingKeys: String, CodingKey {
+            case timeoutInSeconds = "timeoutInSeconds"
+            case input = "input"
+            case heartbeatInSeconds = "heartbeatInSeconds"
+            case resource = "resource"
         }
     }
 
     public struct CreateStateMachineOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "creationDate", required: true, type: .timestamp)
         ]
         /// The Amazon Resource Name (ARN) that identifies the created state machine.
         public let stateMachineArn: String
         /// The date the state machine was created.
-        public let creationDate: String
+        public let creationDate: Double
 
-        public init(stateMachineArn: String, creationDate: String) {
+        public init(stateMachineArn: String, creationDate: Double) {
             self.stateMachineArn = stateMachineArn
             self.creationDate = creationDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
-            self.stateMachineArn = stateMachineArn
-            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
-            self.creationDate = creationDate
+        private enum CodingKeys: String, CodingKey {
+            case stateMachineArn = "stateMachineArn"
+            case creationDate = "creationDate"
         }
     }
 
     public struct DescribeExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "executionArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "executionArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the execution to describe.
         public let executionArn: String
@@ -1019,17 +934,15 @@ extension States {
             self.executionArn = executionArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }
-            self.executionArn = executionArn
+        private enum CodingKeys: String, CodingKey {
+            case executionArn = "executionArn"
         }
     }
 
     public struct DeleteActivityInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activityArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the activity to delete.
         public let activityArn: String
@@ -1038,17 +951,15 @@ extension States {
             self.activityArn = activityArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let activityArn = dictionary["activityArn"] as? String else { throw InitializableError.missingRequiredParam("activityArn") }
-            self.activityArn = activityArn
+        private enum CodingKeys: String, CodingKey {
+            case activityArn = "activityArn"
         }
     }
 
     public struct DeleteStateMachineInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the state machine to delete.
         public let stateMachineArn: String
@@ -1057,17 +968,15 @@ extension States {
             self.stateMachineArn = stateMachineArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
-            self.stateMachineArn = stateMachineArn
+        private enum CodingKeys: String, CodingKey {
+            case stateMachineArn = "stateMachineArn"
         }
     }
 
     public struct DescribeStateMachineInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the state machine to describe.
         public let stateMachineArn: String
@@ -1076,18 +985,16 @@ extension States {
             self.stateMachineArn = stateMachineArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
-            self.stateMachineArn = stateMachineArn
+        private enum CodingKeys: String, CodingKey {
+            case stateMachineArn = "stateMachineArn"
         }
     }
 
     public struct SendTaskSuccessInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "output", required: true, type: .string), 
-            AWSShapeProperty(label: "taskToken", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "output", required: true, type: .string), 
+            AWSShapeMember(label: "taskToken", required: true, type: .string)
         ]
         /// The JSON output of the task.
         public let output: String
@@ -1099,20 +1006,17 @@ extension States {
             self.taskToken = taskToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let output = dictionary["output"] as? String else { throw InitializableError.missingRequiredParam("output") }
-            self.output = output
-            guard let taskToken = dictionary["taskToken"] as? String else { throw InitializableError.missingRequiredParam("taskToken") }
-            self.taskToken = taskToken
+        private enum CodingKeys: String, CodingKey {
+            case output = "output"
+            case taskToken = "taskToken"
         }
     }
 
     public struct LambdaFunctionScheduleFailedEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", required: false, type: .string), 
-            AWSShapeProperty(label: "error", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1124,18 +1028,17 @@ extension States {
             self.error = error
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cause = dictionary["cause"] as? String
-            self.error = dictionary["error"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct ExecutionFailedEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", required: false, type: .string), 
-            AWSShapeProperty(label: "error", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1147,18 +1050,17 @@ extension States {
             self.error = error
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cause = dictionary["cause"] as? String
-            self.error = dictionary["error"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct ListStateMachinesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "stateMachines", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "stateMachines", required: true, type: .list)
         ]
         /// If a nextToken is returned, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
         public let nextToken: String?
@@ -1169,18 +1071,16 @@ extension States {
             self.stateMachines = stateMachines
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let stateMachines = dictionary["stateMachines"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("stateMachines") }
-            self.stateMachines = try stateMachines.map({ try StateMachineListItem(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case stateMachines = "stateMachines"
         }
     }
 
     public struct CreateActivityInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// The name of the activity to create. This name must be unique for your AWS account and region.
         public let name: String
@@ -1189,20 +1089,18 @@ extension States {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct ListExecutionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "statusFilter", required: false, type: .enum), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "statusFilter", required: false, type: .enum), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// If specified, only list the executions whose current execution status matches the given filter.
         public let statusFilter: ExecutionStatus?
@@ -1220,21 +1118,19 @@ extension States {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let statusFilter = dictionary["statusFilter"] as? String { self.statusFilter = ExecutionStatus(rawValue: statusFilter) } else { self.statusFilter = nil }
-            self.maxResults = dictionary["maxResults"] as? Int32
-            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
-            self.stateMachineArn = stateMachineArn
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case statusFilter = "statusFilter"
+            case maxResults = "maxResults"
+            case stateMachineArn = "stateMachineArn"
+            case nextToken = "nextToken"
         }
     }
 
     public struct LambdaFunctionTimedOutEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", required: false, type: .string), 
-            AWSShapeProperty(label: "error", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
@@ -1246,20 +1142,19 @@ extension States {
             self.error = error
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cause = dictionary["cause"] as? String
-            self.error = dictionary["error"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct GetExecutionHistoryInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "executionArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeMember(label: "executionArn", required: true, type: .string)
         ]
         /// If a nextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
         public let nextToken: String?
@@ -1277,21 +1172,19 @@ extension States {
             self.executionArn = executionArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.reverseOrder = dictionary["reverseOrder"] as? Bool
-            guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }
-            self.executionArn = executionArn
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case reverseOrder = "reverseOrder"
+            case executionArn = "executionArn"
         }
     }
 
     public struct ExecutionStartedEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM role used for executing AWS Lambda tasks.
         public let roleArn: String?
@@ -1303,18 +1196,17 @@ extension States {
             self.input = input
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleArn = dictionary["roleArn"] as? String
-            self.input = dictionary["input"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case input = "input"
         }
     }
 
     public struct LambdaFunctionFailedEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", required: false, type: .string), 
-            AWSShapeProperty(label: "error", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1326,17 +1218,16 @@ extension States {
             self.error = error
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cause = dictionary["cause"] as? String
-            self.error = dictionary["error"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct ActivityStartedEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "workerName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "workerName", required: false, type: .string)
         ]
         /// The name of the worker that the task was assigned to. These names are provided by the workers when calling GetActivityTask.
         public let workerName: String?
@@ -1345,56 +1236,48 @@ extension States {
             self.workerName = workerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.workerName = dictionary["workerName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case workerName = "workerName"
         }
     }
 
     public struct StateMachineListItem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "creationDate", required: true, type: .timestamp)
         ]
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         public let stateMachineArn: String
         /// The name of the state machine.
         public let name: String
         /// The date the state machine was created.
-        public let creationDate: String
+        public let creationDate: Double
 
-        public init(stateMachineArn: String, name: String, creationDate: String) {
+        public init(stateMachineArn: String, name: String, creationDate: Double) {
             self.stateMachineArn = stateMachineArn
             self.name = name
             self.creationDate = creationDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
-            self.stateMachineArn = stateMachineArn
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
-            self.creationDate = creationDate
+        private enum CodingKeys: String, CodingKey {
+            case stateMachineArn = "stateMachineArn"
+            case name = "name"
+            case creationDate = "creationDate"
         }
     }
 
     public struct SendTaskSuccessOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ExecutionTimedOutEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", required: false, type: .string), 
-            AWSShapeProperty(label: "error", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
@@ -1406,18 +1289,17 @@ extension States {
             self.error = error
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cause = dictionary["cause"] as? String
-            self.error = dictionary["error"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct ExecutionAbortedEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cause", required: false, type: .string), 
-            AWSShapeProperty(label: "error", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cause", required: false, type: .string), 
+            AWSShapeMember(label: "error", required: false, type: .string)
         ]
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
@@ -1429,17 +1311,16 @@ extension States {
             self.error = error
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cause = dictionary["cause"] as? String
-            self.error = dictionary["error"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct ExecutionSucceededEventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "output", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "output", required: false, type: .string)
         ]
         /// The JSON data output by the execution.
         public let output: String?
@@ -1448,32 +1329,31 @@ extension States {
             self.output = output
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.output = dictionary["output"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case output = "output"
         }
     }
 
     public struct DescribeExecutionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: true, type: .enum), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "stopDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "startDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "output", required: false, type: .string), 
-            AWSShapeProperty(label: "executionArn", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: true, type: .string), 
-            AWSShapeProperty(label: "stateMachineArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "stopDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "startDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "output", required: false, type: .string), 
+            AWSShapeMember(label: "executionArn", required: true, type: .string), 
+            AWSShapeMember(label: "input", required: true, type: .string), 
+            AWSShapeMember(label: "stateMachineArn", required: true, type: .string)
         ]
         /// The current status of the execution.
         public let status: ExecutionStatus
         /// The name of the execution.
         public let name: String?
         /// If the execution has already ended, the date the execution stopped.
-        public let stopDate: String?
+        public let stopDate: Double?
         /// The date the execution was started.
-        public let startDate: String
+        public let startDate: Double
         /// The JSON output data of the execution.
         public let output: String?
         /// The Amazon Resource Name (ARN) that identifies the execution.
@@ -1483,7 +1363,7 @@ extension States {
         /// The Amazon Resource Name (ARN) of the executed stated machine.
         public let stateMachineArn: String
 
-        public init(status: ExecutionStatus, name: String? = nil, stopDate: String? = nil, startDate: String, output: String? = nil, executionArn: String, input: String, stateMachineArn: String) {
+        public init(status: ExecutionStatus, name: String? = nil, stopDate: Double? = nil, startDate: Double, output: String? = nil, executionArn: String, input: String, stateMachineArn: String) {
             self.status = status
             self.name = name
             self.stopDate = stopDate
@@ -1494,30 +1374,24 @@ extension States {
             self.stateMachineArn = stateMachineArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawstatus = dictionary["status"] as? String, let status = ExecutionStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
-            self.name = dictionary["name"] as? String
-            self.stopDate = dictionary["stopDate"] as? String
-            guard let startDate = dictionary["startDate"] as? String else { throw InitializableError.missingRequiredParam("startDate") }
-            self.startDate = startDate
-            self.output = dictionary["output"] as? String
-            guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }
-            self.executionArn = executionArn
-            guard let input = dictionary["input"] as? String else { throw InitializableError.missingRequiredParam("input") }
-            self.input = input
-            guard let stateMachineArn = dictionary["stateMachineArn"] as? String else { throw InitializableError.missingRequiredParam("stateMachineArn") }
-            self.stateMachineArn = stateMachineArn
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case name = "name"
+            case stopDate = "stopDate"
+            case startDate = "startDate"
+            case output = "output"
+            case executionArn = "executionArn"
+            case input = "input"
+            case stateMachineArn = "stateMachineArn"
         }
     }
 
     public struct StopExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "error", required: false, type: .string), 
-            AWSShapeProperty(label: "executionArn", required: true, type: .string), 
-            AWSShapeProperty(label: "cause", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "error", required: false, type: .string), 
+            AWSShapeMember(label: "executionArn", required: true, type: .string), 
+            AWSShapeMember(label: "cause", required: false, type: .string)
         ]
         /// An arbitrary error code that identifies the cause of the termination.
         public let error: String?
@@ -1532,11 +1406,10 @@ extension States {
             self.cause = cause
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.error = dictionary["error"] as? String
-            guard let executionArn = dictionary["executionArn"] as? String else { throw InitializableError.missingRequiredParam("executionArn") }
-            self.executionArn = executionArn
-            self.cause = dictionary["cause"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case executionArn = "executionArn"
+            case cause = "cause"
         }
     }
 

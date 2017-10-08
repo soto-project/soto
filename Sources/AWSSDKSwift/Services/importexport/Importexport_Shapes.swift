@@ -31,11 +31,10 @@ extension Importexport {
 
     public struct ListJobsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxJobs", required: false, type: .integer), 
-            AWSShapeProperty(label: "APIVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxJobs", required: false, type: .integer), 
+            AWSShapeMember(label: "APIVersion", required: false, type: .string)
         ]
         public let marker: String?
         public let maxJobs: Int32?
@@ -47,22 +46,21 @@ extension Importexport {
             self.aPIVersion = aPIVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxJobs = dictionary["MaxJobs"] as? Int32
-            self.aPIVersion = dictionary["APIVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxJobs = "MaxJobs"
+            case aPIVersion = "APIVersion"
         }
     }
 
     public struct CreateJobInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobType", required: true, type: .enum), 
-            AWSShapeProperty(label: "ManifestAddendum", required: false, type: .string), 
-            AWSShapeProperty(label: "Manifest", required: true, type: .string), 
-            AWSShapeProperty(label: "APIVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ValidateOnly", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobType", required: true, type: .enum), 
+            AWSShapeMember(label: "ManifestAddendum", required: false, type: .string), 
+            AWSShapeMember(label: "Manifest", required: true, type: .string), 
+            AWSShapeMember(label: "APIVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ValidateOnly", required: true, type: .boolean)
         ]
         public let jobType: JobType
         public let manifestAddendum: String?
@@ -78,34 +76,30 @@ extension Importexport {
             self.validateOnly = validateOnly
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawJobType = dictionary["JobType"] as? String, let jobType = JobType(rawValue: rawJobType) else { throw InitializableError.missingRequiredParam("JobType") }
-            self.jobType = jobType
-            self.manifestAddendum = dictionary["ManifestAddendum"] as? String
-            guard let manifest = dictionary["Manifest"] as? String else { throw InitializableError.missingRequiredParam("Manifest") }
-            self.manifest = manifest
-            self.aPIVersion = dictionary["APIVersion"] as? String
-            guard let validateOnly = dictionary["ValidateOnly"] as? Bool else { throw InitializableError.missingRequiredParam("ValidateOnly") }
-            self.validateOnly = validateOnly
+        private enum CodingKeys: String, CodingKey {
+            case jobType = "JobType"
+            case manifestAddendum = "ManifestAddendum"
+            case manifest = "Manifest"
+            case aPIVersion = "APIVersion"
+            case validateOnly = "ValidateOnly"
         }
     }
 
     public struct GetShippingLabelInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stateOrProvince", required: false, type: .string), 
-            AWSShapeProperty(label: "city", required: false, type: .string), 
-            AWSShapeProperty(label: "postalCode", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "phoneNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "street3", required: false, type: .string), 
-            AWSShapeProperty(label: "jobIds", required: true, type: .list), 
-            AWSShapeProperty(label: "APIVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "street2", required: false, type: .string), 
-            AWSShapeProperty(label: "street1", required: false, type: .string), 
-            AWSShapeProperty(label: "company", required: false, type: .string), 
-            AWSShapeProperty(label: "country", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stateOrProvince", required: false, type: .string), 
+            AWSShapeMember(label: "city", required: false, type: .string), 
+            AWSShapeMember(label: "postalCode", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "phoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "street3", required: false, type: .string), 
+            AWSShapeMember(label: "jobIds", required: true, type: .list), 
+            AWSShapeMember(label: "APIVersion", required: false, type: .string), 
+            AWSShapeMember(label: "street2", required: false, type: .string), 
+            AWSShapeMember(label: "street1", required: false, type: .string), 
+            AWSShapeMember(label: "company", required: false, type: .string), 
+            AWSShapeMember(label: "country", required: false, type: .string)
         ]
         public let stateOrProvince: String?
         public let city: String?
@@ -135,29 +129,27 @@ extension Importexport {
             self.country = country
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stateOrProvince = dictionary["stateOrProvince"] as? String
-            self.city = dictionary["city"] as? String
-            self.postalCode = dictionary["postalCode"] as? String
-            self.name = dictionary["name"] as? String
-            self.phoneNumber = dictionary["phoneNumber"] as? String
-            self.street3 = dictionary["street3"] as? String
-            guard let jobIds = dictionary["jobIds"] as? [String] else { throw InitializableError.missingRequiredParam("jobIds") }
-            self.jobIds = jobIds
-            self.aPIVersion = dictionary["APIVersion"] as? String
-            self.street2 = dictionary["street2"] as? String
-            self.street1 = dictionary["street1"] as? String
-            self.company = dictionary["company"] as? String
-            self.country = dictionary["country"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stateOrProvince = "stateOrProvince"
+            case city = "city"
+            case postalCode = "postalCode"
+            case name = "name"
+            case phoneNumber = "phoneNumber"
+            case street3 = "street3"
+            case jobIds = "jobIds"
+            case aPIVersion = "APIVersion"
+            case street2 = "street2"
+            case street1 = "street1"
+            case company = "company"
+            case country = "country"
         }
     }
 
     public struct GetStatusInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobId", required: true, type: .string), 
-            AWSShapeProperty(label: "APIVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "APIVersion", required: false, type: .string)
         ]
         public let jobId: String
         public let aPIVersion: String?
@@ -167,23 +159,21 @@ extension Importexport {
             self.aPIVersion = aPIVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
-            self.jobId = jobId
-            self.aPIVersion = dictionary["APIVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case aPIVersion = "APIVersion"
         }
     }
 
     public struct CreateJobOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ArtifactList", required: false, type: .list), 
-            AWSShapeProperty(label: "SignatureFileContents", required: false, type: .string), 
-            AWSShapeProperty(label: "WarningMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "Signature", required: false, type: .string), 
-            AWSShapeProperty(label: "JobId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobType", required: false, type: .enum), 
+            AWSShapeMember(label: "ArtifactList", required: false, type: .list), 
+            AWSShapeMember(label: "SignatureFileContents", required: false, type: .string), 
+            AWSShapeMember(label: "WarningMessage", required: false, type: .string), 
+            AWSShapeMember(label: "Signature", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
         public let jobType: JobType?
         public let artifactList: [Artifact]?
@@ -201,21 +191,17 @@ extension Importexport {
             self.jobId = jobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
-            if let artifactList = dictionary["ArtifactList"] as? [[String: Any]] {
-                self.artifactList = try artifactList.map({ try Artifact(dictionary: $0) })
-            } else { 
-                self.artifactList = nil
-            }
-            self.signatureFileContents = dictionary["SignatureFileContents"] as? String
-            self.warningMessage = dictionary["WarningMessage"] as? String
-            self.signature = dictionary["Signature"] as? String
-            self.jobId = dictionary["JobId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case jobType = "JobType"
+            case artifactList = "ArtifactList"
+            case signatureFileContents = "SignatureFileContents"
+            case warningMessage = "WarningMessage"
+            case signature = "Signature"
+            case jobId = "JobId"
         }
     }
 
-    public enum JobType: String, CustomStringConvertible {
+    public enum JobType: String, CustomStringConvertible, Codable {
         case `import` = "Import"
         case export = "Export"
         public var description: String { return self.rawValue }
@@ -223,10 +209,9 @@ extension Importexport {
 
     public struct GetShippingLabelOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Warning", required: false, type: .string), 
-            AWSShapeProperty(label: "ShippingLabelURL", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Warning", required: false, type: .string), 
+            AWSShapeMember(label: "ShippingLabelURL", required: false, type: .string)
         ]
         public let warning: String?
         public let shippingLabelURL: String?
@@ -236,19 +221,18 @@ extension Importexport {
             self.shippingLabelURL = shippingLabelURL
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.warning = dictionary["Warning"] as? String
-            self.shippingLabelURL = dictionary["ShippingLabelURL"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case warning = "Warning"
+            case shippingLabelURL = "ShippingLabelURL"
         }
     }
 
     public struct UpdateJobOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Success", required: false, type: .boolean), 
-            AWSShapeProperty(label: "WarningMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ArtifactList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Success", required: false, type: .boolean), 
+            AWSShapeMember(label: "WarningMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ArtifactList", required: false, type: .list)
         ]
         public let success: Bool?
         public let warningMessage: String?
@@ -260,26 +244,21 @@ extension Importexport {
             self.artifactList = artifactList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.success = dictionary["Success"] as? Bool
-            self.warningMessage = dictionary["WarningMessage"] as? String
-            if let artifactList = dictionary["ArtifactList"] as? [[String: Any]] {
-                self.artifactList = try artifactList.map({ try Artifact(dictionary: $0) })
-            } else { 
-                self.artifactList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case success = "Success"
+            case warningMessage = "WarningMessage"
+            case artifactList = "ArtifactList"
         }
     }
 
     public struct UpdateJobInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobType", required: true, type: .enum), 
-            AWSShapeProperty(label: "APIVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Manifest", required: true, type: .string), 
-            AWSShapeProperty(label: "JobId", required: true, type: .string), 
-            AWSShapeProperty(label: "ValidateOnly", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobType", required: true, type: .enum), 
+            AWSShapeMember(label: "APIVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Manifest", required: true, type: .string), 
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "ValidateOnly", required: true, type: .boolean)
         ]
         public let jobType: JobType
         public let aPIVersion: String?
@@ -295,74 +274,68 @@ extension Importexport {
             self.validateOnly = validateOnly
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawJobType = dictionary["JobType"] as? String, let jobType = JobType(rawValue: rawJobType) else { throw InitializableError.missingRequiredParam("JobType") }
-            self.jobType = jobType
-            self.aPIVersion = dictionary["APIVersion"] as? String
-            guard let manifest = dictionary["Manifest"] as? String else { throw InitializableError.missingRequiredParam("Manifest") }
-            self.manifest = manifest
-            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
-            self.jobId = jobId
-            guard let validateOnly = dictionary["ValidateOnly"] as? Bool else { throw InitializableError.missingRequiredParam("ValidateOnly") }
-            self.validateOnly = validateOnly
+        private enum CodingKeys: String, CodingKey {
+            case jobType = "JobType"
+            case aPIVersion = "APIVersion"
+            case manifest = "Manifest"
+            case jobId = "JobId"
+            case validateOnly = "ValidateOnly"
         }
     }
 
     public struct Job: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobType", required: false, type: .enum), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "JobId", required: false, type: .string), 
-            AWSShapeProperty(label: "IsCanceled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobType", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "IsCanceled", required: false, type: .boolean)
         ]
         public let jobType: JobType?
-        public let creationDate: String?
+        public let creationDate: Double?
         public let jobId: String?
         public let isCanceled: Bool?
 
-        public init(jobType: JobType? = nil, creationDate: String? = nil, jobId: String? = nil, isCanceled: Bool? = nil) {
+        public init(jobType: JobType? = nil, creationDate: Double? = nil, jobId: String? = nil, isCanceled: Bool? = nil) {
             self.jobType = jobType
             self.creationDate = creationDate
             self.jobId = jobId
             self.isCanceled = isCanceled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
-            self.creationDate = dictionary["CreationDate"] as? String
-            self.jobId = dictionary["JobId"] as? String
-            self.isCanceled = dictionary["IsCanceled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case jobType = "JobType"
+            case creationDate = "CreationDate"
+            case jobId = "JobId"
+            case isCanceled = "IsCanceled"
         }
     }
 
     public struct GetStatusOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Carrier", required: false, type: .string), 
-            AWSShapeProperty(label: "ArtifactList", required: false, type: .list), 
-            AWSShapeProperty(label: "Signature", required: false, type: .string), 
-            AWSShapeProperty(label: "ProgressMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CurrentManifest", required: false, type: .string), 
-            AWSShapeProperty(label: "TrackingNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "ProgressCode", required: false, type: .string), 
-            AWSShapeProperty(label: "JobId", required: false, type: .string), 
-            AWSShapeProperty(label: "LogKey", required: false, type: .string), 
-            AWSShapeProperty(label: "SignatureFileContents", required: false, type: .string), 
-            AWSShapeProperty(label: "LocationMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "JobType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ErrorCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "LogBucket", required: false, type: .string), 
-            AWSShapeProperty(label: "LocationCode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Carrier", required: false, type: .string), 
+            AWSShapeMember(label: "ArtifactList", required: false, type: .list), 
+            AWSShapeMember(label: "Signature", required: false, type: .string), 
+            AWSShapeMember(label: "ProgressMessage", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CurrentManifest", required: false, type: .string), 
+            AWSShapeMember(label: "TrackingNumber", required: false, type: .string), 
+            AWSShapeMember(label: "ProgressCode", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "LogKey", required: false, type: .string), 
+            AWSShapeMember(label: "SignatureFileContents", required: false, type: .string), 
+            AWSShapeMember(label: "LocationMessage", required: false, type: .string), 
+            AWSShapeMember(label: "JobType", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorCount", required: false, type: .integer), 
+            AWSShapeMember(label: "LogBucket", required: false, type: .string), 
+            AWSShapeMember(label: "LocationCode", required: false, type: .string)
         ]
         public let carrier: String?
         public let artifactList: [Artifact]?
         public let signature: String?
         public let progressMessage: String?
-        public let creationDate: String?
+        public let creationDate: Double?
         public let currentManifest: String?
         public let trackingNumber: String?
         public let progressCode: String?
@@ -375,7 +348,7 @@ extension Importexport {
         public let logBucket: String?
         public let locationCode: String?
 
-        public init(carrier: String? = nil, artifactList: [Artifact]? = nil, signature: String? = nil, progressMessage: String? = nil, creationDate: String? = nil, currentManifest: String? = nil, trackingNumber: String? = nil, progressCode: String? = nil, jobId: String? = nil, logKey: String? = nil, signatureFileContents: String? = nil, locationMessage: String? = nil, jobType: JobType? = nil, errorCount: Int32? = nil, logBucket: String? = nil, locationCode: String? = nil) {
+        public init(carrier: String? = nil, artifactList: [Artifact]? = nil, signature: String? = nil, progressMessage: String? = nil, creationDate: Double? = nil, currentManifest: String? = nil, trackingNumber: String? = nil, progressCode: String? = nil, jobId: String? = nil, logKey: String? = nil, signatureFileContents: String? = nil, locationMessage: String? = nil, jobType: JobType? = nil, errorCount: Int32? = nil, logBucket: String? = nil, locationCode: String? = nil) {
             self.carrier = carrier
             self.artifactList = artifactList
             self.signature = signature
@@ -394,36 +367,31 @@ extension Importexport {
             self.locationCode = locationCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.carrier = dictionary["Carrier"] as? String
-            if let artifactList = dictionary["ArtifactList"] as? [[String: Any]] {
-                self.artifactList = try artifactList.map({ try Artifact(dictionary: $0) })
-            } else { 
-                self.artifactList = nil
-            }
-            self.signature = dictionary["Signature"] as? String
-            self.progressMessage = dictionary["ProgressMessage"] as? String
-            self.creationDate = dictionary["CreationDate"] as? String
-            self.currentManifest = dictionary["CurrentManifest"] as? String
-            self.trackingNumber = dictionary["TrackingNumber"] as? String
-            self.progressCode = dictionary["ProgressCode"] as? String
-            self.jobId = dictionary["JobId"] as? String
-            self.logKey = dictionary["LogKey"] as? String
-            self.signatureFileContents = dictionary["SignatureFileContents"] as? String
-            self.locationMessage = dictionary["LocationMessage"] as? String
-            if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
-            self.errorCount = dictionary["ErrorCount"] as? Int32
-            self.logBucket = dictionary["LogBucket"] as? String
-            self.locationCode = dictionary["LocationCode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case carrier = "Carrier"
+            case artifactList = "ArtifactList"
+            case signature = "Signature"
+            case progressMessage = "ProgressMessage"
+            case creationDate = "CreationDate"
+            case currentManifest = "CurrentManifest"
+            case trackingNumber = "TrackingNumber"
+            case progressCode = "ProgressCode"
+            case jobId = "JobId"
+            case logKey = "LogKey"
+            case signatureFileContents = "SignatureFileContents"
+            case locationMessage = "LocationMessage"
+            case jobType = "JobType"
+            case errorCount = "ErrorCount"
+            case logBucket = "LogBucket"
+            case locationCode = "LocationCode"
         }
     }
 
     public struct ListJobsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Jobs", required: false, type: .list), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Jobs", required: false, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
         ]
         public let jobs: [Job]?
         public let isTruncated: Bool?
@@ -433,22 +401,17 @@ extension Importexport {
             self.isTruncated = isTruncated
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let jobs = dictionary["Jobs"] as? [[String: Any]] {
-                self.jobs = try jobs.map({ try Job(dictionary: $0) })
-            } else { 
-                self.jobs = nil
-            }
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "Jobs"
+            case isTruncated = "IsTruncated"
         }
     }
 
     public struct Artifact: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "URL", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "URL", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         public let uRL: String?
         public let description: String?
@@ -458,18 +421,17 @@ extension Importexport {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.uRL = dictionary["URL"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case uRL = "URL"
+            case description = "Description"
         }
     }
 
     public struct CancelJobInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobId", required: true, type: .string), 
-            AWSShapeProperty(label: "APIVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "APIVersion", required: false, type: .string)
         ]
         public let jobId: String
         public let aPIVersion: String?
@@ -479,18 +441,16 @@ extension Importexport {
             self.aPIVersion = aPIVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
-            self.jobId = jobId
-            self.aPIVersion = dictionary["APIVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case aPIVersion = "APIVersion"
         }
     }
 
     public struct CancelJobOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Success", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Success", required: false, type: .boolean)
         ]
         public let success: Bool?
 
@@ -498,8 +458,8 @@ extension Importexport {
             self.success = success
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.success = dictionary["Success"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case success = "Success"
         }
     }
 

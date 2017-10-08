@@ -31,10 +31,9 @@ extension Resourcegroupstaggingapi {
 
     public struct UntagResourcesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list), 
-            AWSShapeProperty(label: "ResourceARNList", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagKeys", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceARNList", required: true, type: .list)
         ]
         /// A list of the tag keys that you want to remove from the specified resources.
         public let tagKeys: [String]
@@ -46,20 +45,17 @@ extension Resourcegroupstaggingapi {
             self.resourceARNList = resourceARNList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
-            guard let resourceARNList = dictionary["ResourceARNList"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceARNList") }
-            self.resourceARNList = resourceARNList
+        private enum CodingKeys: String, CodingKey {
+            case tagKeys = "TagKeys"
+            case resourceARNList = "ResourceARNList"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public let value: String
@@ -71,20 +67,17 @@ extension Resourcegroupstaggingapi {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct TagFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String?
@@ -96,19 +89,18 @@ extension Resourcegroupstaggingapi {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["Key"] as? String
-            self.values = dictionary["Values"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
         }
     }
 
     public struct FailureInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "StatusCode", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusCode", required: false, type: .integer)
         ]
         /// The message of the common error.
         public let errorMessage: String?
@@ -123,14 +115,14 @@ extension Resourcegroupstaggingapi {
             self.statusCode = statusCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.errorMessage = dictionary["ErrorMessage"] as? String
-            if let errorCode = dictionary["ErrorCode"] as? String { self.errorCode = ErrorCode(rawValue: errorCode) } else { self.errorCode = nil }
-            self.statusCode = dictionary["StatusCode"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case errorCode = "ErrorCode"
+            case statusCode = "StatusCode"
         }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible {
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
         case internalserviceexception = "InternalServiceException"
         case invalidparameterexception = "InvalidParameterException"
         public var description: String { return self.rawValue }
@@ -138,10 +130,9 @@ extension Resourcegroupstaggingapi {
 
     public struct ResourceTagMapping: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// An array of resource ARN(s).
         public let resourceARN: String?
@@ -153,21 +144,16 @@ extension Resourcegroupstaggingapi {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceARN = dictionary["ResourceARN"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
         }
     }
 
     public struct UntagResourcesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailedResourcesMap", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedResourcesMap", required: false, type: .map)
         ]
         /// Details of resources that could not be untagged. An error code, status code, and error message are returned for each failed item.
         public let failedResourcesMap: [String: FailureInfo]?
@@ -176,26 +162,16 @@ extension Resourcegroupstaggingapi {
             self.failedResourcesMap = failedResourcesMap
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failedResourcesMap = dictionary["FailedResourcesMap"] as? [String: Any] {
-                var failedResourcesMapDict: [String: FailureInfo] = [:]
-                for (key, value) in failedResourcesMap {
-                    guard let failureInfoDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    failedResourcesMapDict[key] = try FailureInfo(dictionary: failureInfoDict)
-                }
-                self.failedResourcesMap = failedResourcesMapDict
-            } else { 
-                self.failedResourcesMap = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failedResourcesMap = "FailedResourcesMap"
         }
     }
 
     public struct GetTagValuesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// A string that indicates that additional data is available. Leave this value empty for your initial request. If the response includes a PaginationToken, use that string for this value to request an additional page of data.
         public let paginationToken: String?
@@ -207,19 +183,17 @@ extension Resourcegroupstaggingapi {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.paginationToken = dictionary["PaginationToken"] as? String
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case paginationToken = "PaginationToken"
+            case key = "Key"
         }
     }
 
     public struct TagResourcesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: true, type: .map), 
-            AWSShapeProperty(label: "ResourceARNList", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .map), 
+            AWSShapeMember(label: "ResourceARNList", required: true, type: .list)
         ]
         /// The tags that you want to add to the specified resources. A tag consists of a key and a value that you define.
         public let tags: [String: String]
@@ -231,20 +205,17 @@ extension Resourcegroupstaggingapi {
             self.resourceARNList = resourceARNList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [String: String] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = tags
-            guard let resourceARNList = dictionary["ResourceARNList"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceARNList") }
-            self.resourceARNList = resourceARNList
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case resourceARNList = "ResourceARNList"
         }
     }
 
     public struct GetTagValuesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "TagValues", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
+            AWSShapeMember(label: "TagValues", required: false, type: .list)
         ]
         /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
         public let paginationToken: String?
@@ -256,18 +227,17 @@ extension Resourcegroupstaggingapi {
             self.tagValues = tagValues
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.paginationToken = dictionary["PaginationToken"] as? String
-            self.tagValues = dictionary["TagValues"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case paginationToken = "PaginationToken"
+            case tagValues = "TagValues"
         }
     }
 
     public struct GetResourcesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceTagMappingList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceTagMappingList", required: false, type: .list)
         ]
         /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
         public let paginationToken: String?
@@ -279,21 +249,16 @@ extension Resourcegroupstaggingapi {
             self.resourceTagMappingList = resourceTagMappingList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.paginationToken = dictionary["PaginationToken"] as? String
-            if let resourceTagMappingList = dictionary["ResourceTagMappingList"] as? [[String: Any]] {
-                self.resourceTagMappingList = try resourceTagMappingList.map({ try ResourceTagMapping(dictionary: $0) })
-            } else { 
-                self.resourceTagMappingList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case paginationToken = "PaginationToken"
+            case resourceTagMappingList = "ResourceTagMappingList"
         }
     }
 
     public struct GetTagKeysInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PaginationToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string)
         ]
         /// A string that indicates that additional data is available. Leave this value empty for your initial request. If the response includes a PaginationToken, use that string for this value to request an additional page of data.
         public let paginationToken: String?
@@ -302,20 +267,19 @@ extension Resourcegroupstaggingapi {
             self.paginationToken = paginationToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.paginationToken = dictionary["PaginationToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case paginationToken = "PaginationToken"
         }
     }
 
     public struct GetResourcesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "TagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "TagsPerPage", required: false, type: .integer), 
-            AWSShapeProperty(label: "ResourcesPerPage", required: false, type: .integer), 
-            AWSShapeProperty(label: "ResourceTypeFilters", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
+            AWSShapeMember(label: "TagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "TagsPerPage", required: false, type: .integer), 
+            AWSShapeMember(label: "ResourcesPerPage", required: false, type: .integer), 
+            AWSShapeMember(label: "ResourceTypeFilters", required: false, type: .list)
         ]
         /// A string that indicates that additional data is available. Leave this value empty for your initial request. If the response includes a PaginationToken, use that string for this value to request an additional page of data.
         public let paginationToken: String?
@@ -336,25 +300,20 @@ extension Resourcegroupstaggingapi {
             self.resourceTypeFilters = resourceTypeFilters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.paginationToken = dictionary["PaginationToken"] as? String
-            if let tagFilters = dictionary["TagFilters"] as? [[String: Any]] {
-                self.tagFilters = try tagFilters.map({ try TagFilter(dictionary: $0) })
-            } else { 
-                self.tagFilters = nil
-            }
-            self.tagsPerPage = dictionary["TagsPerPage"] as? Int32
-            self.resourcesPerPage = dictionary["ResourcesPerPage"] as? Int32
-            self.resourceTypeFilters = dictionary["ResourceTypeFilters"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case paginationToken = "PaginationToken"
+            case tagFilters = "TagFilters"
+            case tagsPerPage = "TagsPerPage"
+            case resourcesPerPage = "ResourcesPerPage"
+            case resourceTypeFilters = "ResourceTypeFilters"
         }
     }
 
     public struct GetTagKeysOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PaginationToken", required: false, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: false, type: .list)
         ]
         /// A string that indicates that the response contains more data than can be returned in a single response. To receive additional data, specify this string for the PaginationToken value in a subsequent request.
         public let paginationToken: String?
@@ -366,17 +325,16 @@ extension Resourcegroupstaggingapi {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.paginationToken = dictionary["PaginationToken"] as? String
-            self.tagKeys = dictionary["TagKeys"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case paginationToken = "PaginationToken"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct TagResourcesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailedResourcesMap", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedResourcesMap", required: false, type: .map)
         ]
         /// Details of resources that could not be tagged. An error code, status code, and error message are returned for each failed item.
         public let failedResourcesMap: [String: FailureInfo]?
@@ -385,17 +343,8 @@ extension Resourcegroupstaggingapi {
             self.failedResourcesMap = failedResourcesMap
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failedResourcesMap = dictionary["FailedResourcesMap"] as? [String: Any] {
-                var failedResourcesMapDict: [String: FailureInfo] = [:]
-                for (key, value) in failedResourcesMap {
-                    guard let failureInfoDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    failedResourcesMapDict[key] = try FailureInfo(dictionary: failureInfoDict)
-                }
-                self.failedResourcesMap = failedResourcesMapDict
-            } else { 
-                self.failedResourcesMap = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failedResourcesMap = "FailedResourcesMap"
         }
     }
 

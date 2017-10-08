@@ -31,10 +31,9 @@ extension Servicecatalog {
 
     public struct CreateTagOptionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// The TagOption value.
         public let value: String
@@ -46,21 +45,18 @@ extension Servicecatalog {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct DeletePortfolioShareInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
         /// The account ID associated with the share to delete.
         public let accountId: String
@@ -75,22 +71,19 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
-            self.portfolioId = portfolioId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case portfolioId = "PortfolioId"
+            case acceptLanguage = "AcceptLanguage"
         }
     }
 
     public struct DisassociatePrincipalFromPortfolioInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrincipalARN", required: true, type: .string), 
-            AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PrincipalARN", required: true, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
         /// The ARN representing the principal (IAM user, role, or group).
         public let principalARN: String
@@ -105,16 +98,14 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let principalARN = dictionary["PrincipalARN"] as? String else { throw InitializableError.missingRequiredParam("PrincipalARN") }
-            self.principalARN = principalARN
-            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
-            self.portfolioId = portfolioId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case principalARN = "PrincipalARN"
+            case portfolioId = "PortfolioId"
+            case acceptLanguage = "AcceptLanguage"
         }
     }
 
-    public enum ProductViewFilterBy: String, CustomStringConvertible {
+    public enum ProductViewFilterBy: String, CustomStringConvertible, Codable {
         case fulltextsearch = "FullTextSearch"
         case owner = "Owner"
         case producttype = "ProductType"
@@ -124,10 +115,9 @@ extension Servicecatalog {
 
     public struct DeletePortfolioInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -139,21 +129,19 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
         }
     }
 
     public struct DescribeProvisioningParametersOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagOptions", required: false, type: .list), 
-            AWSShapeProperty(label: "ConstraintSummaries", required: false, type: .list), 
-            AWSShapeProperty(label: "UsageInstructions", required: false, type: .list), 
-            AWSShapeProperty(label: "ProvisioningArtifactParameters", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagOptions", required: false, type: .list), 
+            AWSShapeMember(label: "ConstraintSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "UsageInstructions", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisioningArtifactParameters", required: false, type: .list)
         ]
         /// List of TagOptions associated with the provisioned provisioning parameters.
         public let tagOptions: [TagOptionSummary]?
@@ -171,36 +159,19 @@ extension Servicecatalog {
             self.provisioningArtifactParameters = provisioningArtifactParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagOptions = dictionary["TagOptions"] as? [[String: Any]] {
-                self.tagOptions = try tagOptions.map({ try TagOptionSummary(dictionary: $0) })
-            } else { 
-                self.tagOptions = nil
-            }
-            if let constraintSummaries = dictionary["ConstraintSummaries"] as? [[String: Any]] {
-                self.constraintSummaries = try constraintSummaries.map({ try ConstraintSummary(dictionary: $0) })
-            } else { 
-                self.constraintSummaries = nil
-            }
-            if let usageInstructions = dictionary["UsageInstructions"] as? [[String: Any]] {
-                self.usageInstructions = try usageInstructions.map({ try UsageInstruction(dictionary: $0) })
-            } else { 
-                self.usageInstructions = nil
-            }
-            if let provisioningArtifactParameters = dictionary["ProvisioningArtifactParameters"] as? [[String: Any]] {
-                self.provisioningArtifactParameters = try provisioningArtifactParameters.map({ try ProvisioningArtifactParameter(dictionary: $0) })
-            } else { 
-                self.provisioningArtifactParameters = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tagOptions = "TagOptions"
+            case constraintSummaries = "ConstraintSummaries"
+            case usageInstructions = "UsageInstructions"
+            case provisioningArtifactParameters = "ProvisioningArtifactParameters"
         }
     }
 
     public struct DescribeProvisionedProductInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -212,21 +183,19 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
         }
     }
 
     public struct ProvisioningArtifactProperties: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Info", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Info", required: true, type: .map)
         ]
         /// The text description of the provisioning artifact properties.
         public let description: String?
@@ -244,23 +213,21 @@ extension Servicecatalog {
             self.info = info
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = ProvisioningArtifactType(rawValue: `type`) } else { self.`type` = nil }
-            self.name = dictionary["Name"] as? String
-            guard let info = dictionary["Info"] as? [String: String] else { throw InitializableError.missingRequiredParam("Info") }
-            self.info = info
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case `type` = "Type"
+            case name = "Name"
+            case info = "Info"
         }
     }
 
     public struct DescribeProductAsAdminOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagOptions", required: false, type: .list), 
-            AWSShapeProperty(label: "ProvisioningArtifactSummaries", required: false, type: .list), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "ProductViewDetail", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagOptions", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisioningArtifactSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure)
         ]
         /// List of TagOptions associated with the product.
         public let tagOptions: [TagOptionDetail]?
@@ -278,32 +245,19 @@ extension Servicecatalog {
             self.productViewDetail = productViewDetail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagOptions = dictionary["TagOptions"] as? [[String: Any]] {
-                self.tagOptions = try tagOptions.map({ try TagOptionDetail(dictionary: $0) })
-            } else { 
-                self.tagOptions = nil
-            }
-            if let provisioningArtifactSummaries = dictionary["ProvisioningArtifactSummaries"] as? [[String: Any]] {
-                self.provisioningArtifactSummaries = try provisioningArtifactSummaries.map({ try ProvisioningArtifactSummary(dictionary: $0) })
-            } else { 
-                self.provisioningArtifactSummaries = nil
-            }
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            if let productViewDetail = dictionary["ProductViewDetail"] as? [String: Any] { self.productViewDetail = try Servicecatalog.ProductViewDetail(dictionary: productViewDetail) } else { self.productViewDetail = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tagOptions = "TagOptions"
+            case provisioningArtifactSummaries = "ProvisioningArtifactSummaries"
+            case tags = "Tags"
+            case productViewDetail = "ProductViewDetail"
         }
     }
 
     public struct ListPortfolioAccessOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AccountIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "AccountIds", required: false, type: .list)
         ]
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextPageToken: String?
@@ -315,20 +269,19 @@ extension Servicecatalog {
             self.accountIds = accountIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageToken = dictionary["NextPageToken"] as? String
-            self.accountIds = dictionary["AccountIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case accountIds = "AccountIds"
         }
     }
 
     public struct ListResourcesForTagOptionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagOptionId", required: true, type: .string), 
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagOptionId", required: true, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// Identifier of the TagOption.
         public let tagOptionId: String
@@ -346,27 +299,25 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tagOptionId = dictionary["TagOptionId"] as? String else { throw InitializableError.missingRequiredParam("TagOptionId") }
-            self.tagOptionId = tagOptionId
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.resourceType = dictionary["ResourceType"] as? String
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tagOptionId = "TagOptionId"
+            case pageSize = "PageSize"
+            case resourceType = "ResourceType"
+            case pageToken = "PageToken"
         }
     }
 
-    public enum PrincipalType: String, CustomStringConvertible {
+    public enum PrincipalType: String, CustomStringConvertible, Codable {
         case iam = "IAM"
         public var description: String { return self.rawValue }
     }
 
     public struct CreateProductOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "ProductViewDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "ProvisioningArtifactDetail", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure)
         ]
         /// Tags successfully associated with the new product.
         public let tags: [Tag]?
@@ -381,23 +332,18 @@ extension Servicecatalog {
             self.provisioningArtifactDetail = provisioningArtifactDetail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            if let productViewDetail = dictionary["ProductViewDetail"] as? [String: Any] { self.productViewDetail = try Servicecatalog.ProductViewDetail(dictionary: productViewDetail) } else { self.productViewDetail = nil }
-            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) } else { self.provisioningArtifactDetail = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case productViewDetail = "ProductViewDetail"
+            case provisioningArtifactDetail = "ProvisioningArtifactDetail"
         }
     }
 
     public struct UsageInstruction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "Value", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
         ]
         /// The usage instruction type for the value.
         public let `type`: String?
@@ -409,17 +355,16 @@ extension Servicecatalog {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.`type` = dictionary["Type"] as? String
-            self.value = dictionary["Value"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case value = "Value"
         }
     }
 
     public struct DescribeTagOptionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagOptionDetail", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
         ]
         /// The resulting detailed TagOption information.
         public let tagOptionDetail: TagOptionDetail?
@@ -428,18 +373,17 @@ extension Servicecatalog {
             self.tagOptionDetail = tagOptionDetail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagOptionDetail = dictionary["TagOptionDetail"] as? [String: Any] { self.tagOptionDetail = try Servicecatalog.TagOptionDetail(dictionary: tagOptionDetail) } else { self.tagOptionDetail = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tagOptionDetail = "TagOptionDetail"
         }
     }
 
     public struct CreatePortfolioShareInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
         /// The account ID with which to share the portfolio.
         public let accountId: String
@@ -454,21 +398,18 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
-            self.portfolioId = portfolioId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case portfolioId = "PortfolioId"
+            case acceptLanguage = "AcceptLanguage"
         }
     }
 
     public struct DescribeConstraintInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -480,19 +421,17 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
         }
     }
 
     public struct ScanProvisionedProductsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProvisionedProducts", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisionedProducts", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// A list of ProvisionedProduct detail objects.
         public let provisionedProducts: [ProvisionedProductDetail]?
@@ -504,22 +443,17 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let provisionedProducts = dictionary["ProvisionedProducts"] as? [[String: Any]] {
-                self.provisionedProducts = try provisionedProducts.map({ try ProvisionedProductDetail(dictionary: $0) })
-            } else { 
-                self.provisionedProducts = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case provisionedProducts = "ProvisionedProducts"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct DescribeProductViewOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProductViewSummary", required: false, type: .structure), 
-            AWSShapeProperty(label: "ProvisioningArtifacts", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "ProvisioningArtifacts", required: false, type: .list)
         ]
         /// The summary metadata about the specified product.
         public let productViewSummary: ProductViewSummary?
@@ -531,24 +465,19 @@ extension Servicecatalog {
             self.provisioningArtifacts = provisioningArtifacts
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) } else { self.productViewSummary = nil }
-            if let provisioningArtifacts = dictionary["ProvisioningArtifacts"] as? [[String: Any]] {
-                self.provisioningArtifacts = try provisioningArtifacts.map({ try ProvisioningArtifact(dictionary: $0) })
-            } else { 
-                self.provisioningArtifacts = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case productViewSummary = "ProductViewSummary"
+            case provisioningArtifacts = "ProvisioningArtifacts"
         }
     }
 
     public struct ConstraintDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConstraintId", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "Owner", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConstraintId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The identifier of the constraint.
         public let constraintId: String?
@@ -566,20 +495,19 @@ extension Servicecatalog {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.constraintId = dictionary["ConstraintId"] as? String
-            self.`type` = dictionary["Type"] as? String
-            self.owner = dictionary["Owner"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case constraintId = "ConstraintId"
+            case `type` = "Type"
+            case owner = "Owner"
+            case description = "Description"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// The desired value for this key.
         public let value: String
@@ -591,20 +519,17 @@ extension Servicecatalog {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct UpdatePortfolioOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PortfolioDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The resulting detailed portfolio information.
         public let portfolioDetail: PortfolioDetail?
@@ -616,22 +541,17 @@ extension Servicecatalog {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let portfolioDetail = dictionary["PortfolioDetail"] as? [String: Any] { self.portfolioDetail = try Servicecatalog.PortfolioDetail(dictionary: portfolioDetail) } else { self.portfolioDetail = nil }
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case portfolioDetail = "PortfolioDetail"
+            case tags = "Tags"
         }
     }
 
     public struct DescribeProductInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -643,19 +563,17 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
         }
     }
 
     public struct ListRecordHistoryOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordDetails", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordDetails", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// A list of record detail objects, listed in reverse chronological order.
         public let recordDetails: [RecordDetail]?
@@ -667,24 +585,19 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let recordDetails = dictionary["RecordDetails"] as? [[String: Any]] {
-                self.recordDetails = try recordDetails.map({ try RecordDetail(dictionary: $0) })
-            } else { 
-                self.recordDetails = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case recordDetails = "RecordDetails"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct ScanProvisionedProductsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "AccessLevelFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "AccessLevelFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
@@ -702,24 +615,23 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            if let accessLevelFilter = dictionary["AccessLevelFilter"] as? [String: Any] { self.accessLevelFilter = try Servicecatalog.AccessLevelFilter(dictionary: accessLevelFilter) } else { self.accessLevelFilter = nil }
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case acceptLanguage = "AcceptLanguage"
+            case accessLevelFilter = "AccessLevelFilter"
+            case pageToken = "PageToken"
         }
     }
 
     public struct CreatePortfolioInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "ProviderName", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "DisplayName", required: true, type: .string), 
-            AWSShapeProperty(label: "IdempotencyToken", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ProviderName", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "DisplayName", required: true, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string)
         ]
         /// The text description of the portfolio.
         public let description: String?
@@ -743,29 +655,21 @@ extension Servicecatalog {
             self.idempotencyToken = idempotencyToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            guard let providerName = dictionary["ProviderName"] as? String else { throw InitializableError.missingRequiredParam("ProviderName") }
-            self.providerName = providerName
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            guard let displayName = dictionary["DisplayName"] as? String else { throw InitializableError.missingRequiredParam("DisplayName") }
-            self.displayName = displayName
-            guard let idempotencyToken = dictionary["IdempotencyToken"] as? String else { throw InitializableError.missingRequiredParam("IdempotencyToken") }
-            self.idempotencyToken = idempotencyToken
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case providerName = "ProviderName"
+            case acceptLanguage = "AcceptLanguage"
+            case tags = "Tags"
+            case displayName = "DisplayName"
+            case idempotencyToken = "IdempotencyToken"
         }
     }
 
     public struct TagOptionSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
         /// The TagOptionSummary key.
         public let key: String?
@@ -777,18 +681,17 @@ extension Servicecatalog {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["Key"] as? String
-            self.values = dictionary["Values"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
         }
     }
 
     public struct ListRecordHistorySearchFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The filter value for Key.
         public let value: String?
@@ -800,19 +703,18 @@ extension Servicecatalog {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct ListPortfoliosInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
@@ -827,27 +729,23 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case acceptLanguage = "AcceptLanguage"
+            case pageToken = "PageToken"
         }
     }
 
     public struct AcceptPortfolioShareOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListLaunchPathsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LaunchPathSummaries", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LaunchPathSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// List of launch path information summaries for the specified PageToken.
         public let launchPathSummaries: [LaunchPathSummary]?
@@ -859,22 +757,17 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let launchPathSummaries = dictionary["LaunchPathSummaries"] as? [[String: Any]] {
-                self.launchPathSummaries = try launchPathSummaries.map({ try LaunchPathSummary(dictionary: $0) })
-            } else { 
-                self.launchPathSummaries = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case launchPathSummaries = "LaunchPathSummaries"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct ListConstraintsForPortfolioOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConstraintDetails", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConstraintDetails", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// List of detailed constraint information objects.
         public let constraintDetails: [ConstraintDetail]?
@@ -886,22 +779,17 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let constraintDetails = dictionary["ConstraintDetails"] as? [[String: Any]] {
-                self.constraintDetails = try constraintDetails.map({ try ConstraintDetail(dictionary: $0) })
-            } else { 
-                self.constraintDetails = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case constraintDetails = "ConstraintDetails"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct UpdateProductOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "ProductViewDetail", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure)
         ]
         /// Tags associated with the product.
         public let tags: [Tag]?
@@ -913,28 +801,23 @@ extension Servicecatalog {
             self.productViewDetail = productViewDetail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            if let productViewDetail = dictionary["ProductViewDetail"] as? [String: Any] { self.productViewDetail = try Servicecatalog.ProductViewDetail(dictionary: productViewDetail) } else { self.productViewDetail = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case productViewDetail = "ProductViewDetail"
         }
     }
 
     public struct SearchProductsAsAdminInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SortBy", required: false, type: .enum), 
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductSource", required: false, type: .enum), 
-            AWSShapeProperty(label: "PortfolioId", required: false, type: .string), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeProperty(label: "Filters", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ProductSource", required: false, type: .enum), 
+            AWSShapeMember(label: "PortfolioId", required: false, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "Filters", required: false, type: .map)
         ]
         /// The sort field specifier. If no value is specified, results are not sorted.
         public let sortBy: ProductViewSortBy?
@@ -964,40 +847,30 @@ extension Servicecatalog {
             self.filters = filters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let sortBy = dictionary["SortBy"] as? String { self.sortBy = ProductViewSortBy(rawValue: sortBy) } else { self.sortBy = nil }
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            if let productSource = dictionary["ProductSource"] as? String { self.productSource = ProductSource(rawValue: productSource) } else { self.productSource = nil }
-            self.portfolioId = dictionary["PortfolioId"] as? String
-            self.pageToken = dictionary["PageToken"] as? String
-            if let sortOrder = dictionary["SortOrder"] as? String { self.sortOrder = SortOrder(rawValue: sortOrder) } else { self.sortOrder = nil }
-            if let filters = dictionary["Filters"] as? [String: Any] {
-                var filtersDict: [ProductViewFilterBy: [String]] = [:]
-                for (key, value) in filters {
-                    guard let productViewFilterValues = value as? [String] else { throw InitializableError.convertingError }
-                    filtersDict[ProductViewFilterBy(rawValue: key)!] = productViewFilterValues
-                }
-                self.filters = filtersDict
-            } else { 
-                self.filters = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case pageSize = "PageSize"
+            case acceptLanguage = "AcceptLanguage"
+            case productSource = "ProductSource"
+            case portfolioId = "PortfolioId"
+            case pageToken = "PageToken"
+            case sortOrder = "SortOrder"
+            case filters = "Filters"
         }
     }
 
     public struct ProvisionProductInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProvisioningArtifactId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationArns", required: false, type: .list), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "ProvisionToken", required: true, type: .string), 
-            AWSShapeProperty(label: "PathId", required: false, type: .string), 
-            AWSShapeProperty(label: "ProvisioningParameters", required: false, type: .list), 
-            AWSShapeProperty(label: "ProductId", required: true, type: .string), 
-            AWSShapeProperty(label: "ProvisionedProductName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationArns", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisionToken", required: true, type: .string), 
+            AWSShapeMember(label: "PathId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductName", required: true, type: .string)
         ]
         /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String
@@ -1030,38 +903,25 @@ extension Servicecatalog {
             self.provisionedProductName = provisionedProductName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String else { throw InitializableError.missingRequiredParam("ProvisioningArtifactId") }
-            self.provisioningArtifactId = provisioningArtifactId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            self.notificationArns = dictionary["NotificationArns"] as? [String]
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            guard let provisionToken = dictionary["ProvisionToken"] as? String else { throw InitializableError.missingRequiredParam("ProvisionToken") }
-            self.provisionToken = provisionToken
-            self.pathId = dictionary["PathId"] as? String
-            if let provisioningParameters = dictionary["ProvisioningParameters"] as? [[String: Any]] {
-                self.provisioningParameters = try provisioningParameters.map({ try ProvisioningParameter(dictionary: $0) })
-            } else { 
-                self.provisioningParameters = nil
-            }
-            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
-            self.productId = productId
-            guard let provisionedProductName = dictionary["ProvisionedProductName"] as? String else { throw InitializableError.missingRequiredParam("ProvisionedProductName") }
-            self.provisionedProductName = provisionedProductName
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case acceptLanguage = "AcceptLanguage"
+            case notificationArns = "NotificationArns"
+            case tags = "Tags"
+            case provisionToken = "ProvisionToken"
+            case pathId = "PathId"
+            case provisioningParameters = "ProvisioningParameters"
+            case productId = "ProductId"
+            case provisionedProductName = "ProvisionedProductName"
         }
     }
 
     public struct UpdateProvisioningParameter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "UsePreviousValue", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "UsePreviousValue", required: false, type: .boolean)
         ]
         /// The value to use for updating the product provisioning. Any constraints on this value can be found in the ProvisioningArtifactParameter parameter for Key.
         public let value: String?
@@ -1076,14 +936,14 @@ extension Servicecatalog {
             self.usePreviousValue = usePreviousValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
-            self.usePreviousValue = dictionary["UsePreviousValue"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
+            case usePreviousValue = "UsePreviousValue"
         }
     }
 
-    public enum ProvisionedProductStatus: String, CustomStringConvertible {
+    public enum ProvisionedProductStatus: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case under_change = "UNDER_CHANGE"
         case tainted = "TAINTED"
@@ -1093,15 +953,14 @@ extension Servicecatalog {
 
     public struct CreateConstraintInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeProperty(label: "Parameters", required: true, type: .string), 
-            AWSShapeProperty(label: "IdempotencyToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Type", required: true, type: .string), 
-            AWSShapeProperty(label: "ProductId", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "Parameters", required: true, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -1128,23 +987,18 @@ extension Servicecatalog {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
-            self.portfolioId = portfolioId
-            guard let parameters = dictionary["Parameters"] as? String else { throw InitializableError.missingRequiredParam("Parameters") }
-            self.parameters = parameters
-            guard let idempotencyToken = dictionary["IdempotencyToken"] as? String else { throw InitializableError.missingRequiredParam("IdempotencyToken") }
-            self.idempotencyToken = idempotencyToken
-            guard let `type` = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
-            self.productId = productId
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case portfolioId = "PortfolioId"
+            case parameters = "Parameters"
+            case idempotencyToken = "IdempotencyToken"
+            case `type` = "Type"
+            case productId = "ProductId"
+            case description = "Description"
         }
     }
 
-    public enum ProductType: String, CustomStringConvertible {
+    public enum ProductType: String, CustomStringConvertible, Codable {
         case cloud_formation_template = "CLOUD_FORMATION_TEMPLATE"
         case marketplace = "MARKETPLACE"
         public var description: String { return self.rawValue }
@@ -1152,12 +1006,11 @@ extension Servicecatalog {
 
     public struct LaunchPathSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConstraintSummaries", required: false, type: .list), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConstraintSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// List of constraints on the portfolio-product relationship.
         public let constraintSummaries: [ConstraintSummary]?
@@ -1175,42 +1028,30 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let constraintSummaries = dictionary["ConstraintSummaries"] as? [[String: Any]] {
-                self.constraintSummaries = try constraintSummaries.map({ try ConstraintSummary(dictionary: $0) })
-            } else { 
-                self.constraintSummaries = nil
-            }
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.name = dictionary["Name"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case constraintSummaries = "ConstraintSummaries"
+            case tags = "Tags"
+            case name = "Name"
+            case id = "Id"
         }
     }
 
     public struct AssociatePrincipalWithPortfolioOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdateProvisionedProductInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProvisioningArtifactId", required: false, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "UpdateToken", required: true, type: .string), 
-            AWSShapeProperty(label: "ProvisionedProductId", required: false, type: .string), 
-            AWSShapeProperty(label: "PathId", required: false, type: .string), 
-            AWSShapeProperty(label: "ProvisioningParameters", required: false, type: .list), 
-            AWSShapeProperty(label: "ProductId", required: false, type: .string), 
-            AWSShapeProperty(label: "ProvisionedProductName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "UpdateToken", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
+            AWSShapeMember(label: "PathId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisioningParameters", required: false, type: .list), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string)
         ]
         /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String?
@@ -1240,49 +1081,37 @@ extension Servicecatalog {
             self.provisionedProductName = provisionedProductName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let updateToken = dictionary["UpdateToken"] as? String else { throw InitializableError.missingRequiredParam("UpdateToken") }
-            self.updateToken = updateToken
-            self.provisionedProductId = dictionary["ProvisionedProductId"] as? String
-            self.pathId = dictionary["PathId"] as? String
-            if let provisioningParameters = dictionary["ProvisioningParameters"] as? [[String: Any]] {
-                self.provisioningParameters = try provisioningParameters.map({ try UpdateProvisioningParameter(dictionary: $0) })
-            } else { 
-                self.provisioningParameters = nil
-            }
-            self.productId = dictionary["ProductId"] as? String
-            self.provisionedProductName = dictionary["ProvisionedProductName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case acceptLanguage = "AcceptLanguage"
+            case updateToken = "UpdateToken"
+            case provisionedProductId = "ProvisionedProductId"
+            case pathId = "PathId"
+            case provisioningParameters = "ProvisioningParameters"
+            case productId = "ProductId"
+            case provisionedProductName = "ProvisionedProductName"
         }
     }
 
     public struct CreatePortfolioShareOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DisassociateProductFromPortfolioOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ProvisioningArtifactParameter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterType", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterConstraints", required: false, type: .structure), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .string), 
-            AWSShapeProperty(label: "IsNoEcho", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ParameterKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterType", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterConstraints", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "IsNoEcho", required: false, type: .boolean), 
+            AWSShapeMember(label: "ParameterKey", required: false, type: .string)
         ]
         /// The parameter type.
         public let parameterType: String?
@@ -1306,22 +1135,21 @@ extension Servicecatalog {
             self.parameterKey = parameterKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parameterType = dictionary["ParameterType"] as? String
-            self.description = dictionary["Description"] as? String
-            if let parameterConstraints = dictionary["ParameterConstraints"] as? [String: Any] { self.parameterConstraints = try Servicecatalog.ParameterConstraints(dictionary: parameterConstraints) } else { self.parameterConstraints = nil }
-            self.defaultValue = dictionary["DefaultValue"] as? String
-            self.isNoEcho = dictionary["IsNoEcho"] as? Bool
-            self.parameterKey = dictionary["ParameterKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameterType = "ParameterType"
+            case description = "Description"
+            case parameterConstraints = "ParameterConstraints"
+            case defaultValue = "DefaultValue"
+            case isNoEcho = "IsNoEcho"
+            case parameterKey = "ParameterKey"
         }
     }
 
     public struct ListPrincipalsForPortfolioOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Principals", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Principals", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// The IAM principals (users or roles) associated with the portfolio.
         public let principals: [Principal]?
@@ -1333,24 +1161,19 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let principals = dictionary["Principals"] as? [[String: Any]] {
-                self.principals = try principals.map({ try Principal(dictionary: $0) })
-            } else { 
-                self.principals = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case principals = "Principals"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct DescribeRecordInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
@@ -1368,21 +1191,19 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.pageToken = dictionary["PageToken"] as? String
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case pageToken = "PageToken"
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
         }
     }
 
     public struct ListPortfoliosForProductOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PortfolioDetails", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioDetails", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// List of detailed portfolio information objects.
         public let portfolioDetails: [PortfolioDetail]?
@@ -1394,23 +1215,18 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let portfolioDetails = dictionary["PortfolioDetails"] as? [[String: Any]] {
-                self.portfolioDetails = try portfolioDetails.map({ try PortfolioDetail(dictionary: $0) })
-            } else { 
-                self.portfolioDetails = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case portfolioDetails = "PortfolioDetails"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct CreateConstraintOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConstraintDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "ConstraintParameters", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConstraintDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
         ]
         /// The resulting detailed constraint information.
         public let constraintDetail: ConstraintDetail?
@@ -1425,21 +1241,20 @@ extension Servicecatalog {
             self.constraintParameters = constraintParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) } else { self.constraintDetail = nil }
-            if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
-            self.constraintParameters = dictionary["ConstraintParameters"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case constraintDetail = "ConstraintDetail"
+            case status = "Status"
+            case constraintParameters = "ConstraintParameters"
         }
     }
 
     public struct ProductViewDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "ProductARN", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductViewSummary", required: false, type: .structure), 
-            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ProductARN", required: false, type: .string), 
+            AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp)
         ]
         /// Current status of the product.  AVAILABLE - Product is available for use.  CREATING - Creation of product started, not ready for use.  FAILED - Action on product failed.
         public let status: Status?
@@ -1448,31 +1263,30 @@ extension Servicecatalog {
         /// The summary metadata about the specified product view.
         public let productViewSummary: ProductViewSummary?
         /// The UTC timestamp of the creation time.
-        public let createdTime: String?
+        public let createdTime: Double?
 
-        public init(status: Status? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, createdTime: String? = nil) {
+        public init(status: Status? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, createdTime: Double? = nil) {
             self.status = status
             self.productARN = productARN
             self.productViewSummary = productViewSummary
             self.createdTime = createdTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
-            self.productARN = dictionary["ProductARN"] as? String
-            if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) } else { self.productViewSummary = nil }
-            self.createdTime = dictionary["CreatedTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case productARN = "ProductARN"
+            case productViewSummary = "ProductViewSummary"
+            case createdTime = "CreatedTime"
         }
     }
 
     public struct DescribeProvisioningArtifactInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProvisioningArtifactId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Verbose", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ProductId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Verbose", required: false, type: .boolean), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string)
         ]
         /// The identifier of the provisioning artifact. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String
@@ -1490,24 +1304,21 @@ extension Servicecatalog {
             self.productId = productId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String else { throw InitializableError.missingRequiredParam("ProvisioningArtifactId") }
-            self.provisioningArtifactId = provisioningArtifactId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            self.verbose = dictionary["Verbose"] as? Bool
-            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
-            self.productId = productId
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case acceptLanguage = "AcceptLanguage"
+            case verbose = "Verbose"
+            case productId = "ProductId"
         }
     }
 
     public struct CreateProvisioningArtifactInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Parameters", required: true, type: .structure), 
-            AWSShapeProperty(label: "ProductId", required: true, type: .string), 
-            AWSShapeProperty(label: "IdempotencyToken", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: true, type: .structure), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string)
         ]
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -1525,24 +1336,20 @@ extension Servicecatalog {
             self.idempotencyToken = idempotencyToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let parameters = dictionary["Parameters"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Parameters") }
-            self.parameters = try Servicecatalog.ProvisioningArtifactProperties(dictionary: parameters)
-            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
-            self.productId = productId
-            guard let idempotencyToken = dictionary["IdempotencyToken"] as? String else { throw InitializableError.missingRequiredParam("IdempotencyToken") }
-            self.idempotencyToken = idempotencyToken
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case parameters = "Parameters"
+            case productId = "ProductId"
+            case idempotencyToken = "IdempotencyToken"
         }
     }
 
     public struct UpdateConstraintOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConstraintDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "ConstraintParameters", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConstraintDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
         ]
         /// The resulting detailed constraint information.
         public let constraintDetail: ConstraintDetail?
@@ -1557,14 +1364,14 @@ extension Servicecatalog {
             self.constraintParameters = constraintParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) } else { self.constraintDetail = nil }
-            if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
-            self.constraintParameters = dictionary["ConstraintParameters"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case constraintDetail = "ConstraintDetail"
+            case status = "Status"
+            case constraintParameters = "ConstraintParameters"
         }
     }
 
-    public enum ProvisioningArtifactType: String, CustomStringConvertible {
+    public enum ProvisioningArtifactType: String, CustomStringConvertible, Codable {
         case cloud_formation_template = "CLOUD_FORMATION_TEMPLATE"
         case marketplace_ami = "MARKETPLACE_AMI"
         case marketplace_car = "MARKETPLACE_CAR"
@@ -1573,11 +1380,10 @@ extension Servicecatalog {
 
     public struct DescribeRecordOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "RecordOutputs", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "RecordOutputs", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// Detailed record information for the specified product. 
         public let recordDetail: RecordDetail?
@@ -1592,22 +1398,17 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) } else { self.recordDetail = nil }
-            if let recordOutputs = dictionary["RecordOutputs"] as? [[String: Any]] {
-                self.recordOutputs = try recordOutputs.map({ try RecordOutput(dictionary: $0) })
-            } else { 
-                self.recordOutputs = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case recordDetail = "RecordDetail"
+            case recordOutputs = "RecordOutputs"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct UpdateProvisionedProductOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordDetail", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
         ]
         /// The detailed result of the UpdateProvisionedProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object that the request is modifying, and a list of any errors that the request encountered.
         public let recordDetail: RecordDetail?
@@ -1616,17 +1417,16 @@ extension Servicecatalog {
             self.recordDetail = recordDetail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) } else { self.recordDetail = nil }
+        private enum CodingKeys: String, CodingKey {
+            case recordDetail = "RecordDetail"
         }
     }
 
     public struct ListProvisioningArtifactsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProvisioningArtifactDetails", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactDetails", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// List of detailed provisioning artifact information objects.
         public let provisioningArtifactDetails: [ProvisioningArtifactDetail]?
@@ -1638,21 +1438,16 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let provisioningArtifactDetails = dictionary["ProvisioningArtifactDetails"] as? [[String: Any]] {
-                self.provisioningArtifactDetails = try provisioningArtifactDetails.map({ try ProvisioningArtifactDetail(dictionary: $0) })
-            } else { 
-                self.provisioningArtifactDetails = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactDetails = "ProvisioningArtifactDetails"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct TerminateProvisionedProductOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordDetail", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
         ]
         /// The detailed result of the TerminateProvisionedProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object that the request is modifying, and a list of any errors that the request encountered.
         public let recordDetail: RecordDetail?
@@ -1661,17 +1456,16 @@ extension Servicecatalog {
             self.recordDetail = recordDetail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) } else { self.recordDetail = nil }
+        private enum CodingKeys: String, CodingKey {
+            case recordDetail = "RecordDetail"
         }
     }
 
     public struct ProvisioningParameter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The value to use for provisioning. Any constraints on this value can be found in ProvisioningArtifactParameter for Key.
         public let value: String?
@@ -1683,19 +1477,18 @@ extension Servicecatalog {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct RecordOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OutputValue", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputValue", required: false, type: .string), 
+            AWSShapeMember(label: "OutputKey", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The output value.
         public let outputValue: String?
@@ -1710,51 +1503,49 @@ extension Servicecatalog {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.outputValue = dictionary["OutputValue"] as? String
-            self.outputKey = dictionary["OutputKey"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case outputValue = "OutputValue"
+            case outputKey = "OutputKey"
+            case description = "Description"
         }
     }
 
     public struct ProvisioningArtifact: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The text description of the artifact.
         public let description: String?
         /// The name of the artifact.
         public let name: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: String?
+        public let createdTime: Double?
         /// The identifier for the artifact. This is sometimes referred to as the product version.
         public let id: String?
 
-        public init(description: String? = nil, name: String? = nil, createdTime: String? = nil, id: String? = nil) {
+        public init(description: String? = nil, name: String? = nil, createdTime: Double? = nil, id: String? = nil) {
             self.description = description
             self.name = name
             self.createdTime = createdTime
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            self.name = dictionary["Name"] as? String
-            self.createdTime = dictionary["CreatedTime"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case createdTime = "CreatedTime"
+            case id = "Id"
         }
     }
 
     public struct DescribeProvisionedProductOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProvisionedProductDetail", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisionedProductDetail", required: false, type: .structure)
         ]
         /// Detailed provisioned product information.
         public let provisionedProductDetail: ProvisionedProductDetail?
@@ -1763,20 +1554,19 @@ extension Servicecatalog {
             self.provisionedProductDetail = provisionedProductDetail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let provisionedProductDetail = dictionary["ProvisionedProductDetail"] as? [String: Any] { self.provisionedProductDetail = try Servicecatalog.ProvisionedProductDetail(dictionary: provisionedProductDetail) } else { self.provisionedProductDetail = nil }
+        private enum CodingKeys: String, CodingKey {
+            case provisionedProductDetail = "ProvisionedProductDetail"
         }
     }
 
     public struct ProvisioningArtifactSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProvisioningArtifactMetadata", required: false, type: .map), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactMetadata", required: false, type: .map), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The provisioning artifact metadata. This data is used with products created by AWS Marketplace.
         public let provisioningArtifactMetadata: [String: String]?
@@ -1785,11 +1575,11 @@ extension Servicecatalog {
         /// The name of the provisioning artifact.
         public let name: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: String?
+        public let createdTime: Double?
         /// The identifier of the provisioning artifact.
         public let id: String?
 
-        public init(provisioningArtifactMetadata: [String: String]? = nil, description: String? = nil, name: String? = nil, createdTime: String? = nil, id: String? = nil) {
+        public init(provisioningArtifactMetadata: [String: String]? = nil, description: String? = nil, name: String? = nil, createdTime: Double? = nil, id: String? = nil) {
             self.provisioningArtifactMetadata = provisioningArtifactMetadata
             self.description = description
             self.name = name
@@ -1797,35 +1587,27 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let provisioningArtifactMetadata = dictionary["ProvisioningArtifactMetadata"] as? [String: String] {
-                self.provisioningArtifactMetadata = provisioningArtifactMetadata
-            } else { 
-                self.provisioningArtifactMetadata = nil
-            }
-            self.description = dictionary["Description"] as? String
-            self.name = dictionary["Name"] as? String
-            self.createdTime = dictionary["CreatedTime"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactMetadata = "ProvisioningArtifactMetadata"
+            case description = "Description"
+            case name = "Name"
+            case createdTime = "CreatedTime"
+            case id = "Id"
         }
     }
 
     public struct AssociateProductWithPortfolioOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListLaunchPathsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductId", required: true, type: .string), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
@@ -1843,22 +1625,20 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
-            self.productId = productId
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case acceptLanguage = "AcceptLanguage"
+            case productId = "ProductId"
+            case pageToken = "PageToken"
         }
     }
 
     public struct SearchProductsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProductViewAggregations", required: false, type: .map), 
-            AWSShapeProperty(label: "ProductViewSummaries", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductViewAggregations", required: false, type: .map), 
+            AWSShapeMember(label: "ProductViewSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// A list of the product view aggregation value objects.
         public let productViewAggregations: [String: [ProductViewAggregationValue]]?
@@ -1873,34 +1653,19 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let productViewAggregations = dictionary["ProductViewAggregations"] as? [String: Any] {
-                var productViewAggregationsDict: [String: [ProductViewAggregationValue]] = [:]
-                for (key, value) in productViewAggregations {
-                    guard let productViewAggregationValue = value as? [[String: Any]] else { throw InitializableError.convertingError }
-                    let productViewAggregationValueList: [ProductViewAggregationValue] = try productViewAggregationValue.map { try ProductViewAggregationValue(dictionary: $0) }
-                    productViewAggregationsDict[key] = productViewAggregationValueList
-                }
-                self.productViewAggregations = productViewAggregationsDict
-            } else { 
-                self.productViewAggregations = nil
-            }
-            if let productViewSummaries = dictionary["ProductViewSummaries"] as? [[String: Any]] {
-                self.productViewSummaries = try productViewSummaries.map({ try ProductViewSummary(dictionary: $0) })
-            } else { 
-                self.productViewSummaries = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case productViewAggregations = "ProductViewAggregations"
+            case productViewSummaries = "ProductViewSummaries"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct ListTagOptionsFilters: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Active", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Active", required: false, type: .boolean)
         ]
         /// The ListTagOptionsFilters value.
         public let value: String?
@@ -1915,26 +1680,22 @@ extension Servicecatalog {
             self.active = active
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
-            self.active = dictionary["Active"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
+            case active = "Active"
         }
     }
 
     public struct DeleteConstraintOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeTagOptionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The identifier of the TagOption.
         public let id: String
@@ -1943,26 +1704,21 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct DisassociatePrincipalFromPortfolioOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteConstraintInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -1974,19 +1730,17 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
         }
     }
 
     public struct DescribeProductViewInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -1998,20 +1752,18 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
         }
     }
 
     public struct DeleteProvisioningArtifactInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProvisioningArtifactId", required: true, type: .string), 
-            AWSShapeProperty(label: "ProductId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
         /// The identifier of the provisioning artifact for the delete request. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String
@@ -2026,20 +1778,17 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String else { throw InitializableError.missingRequiredParam("ProvisioningArtifactId") }
-            self.provisioningArtifactId = provisioningArtifactId
-            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
-            self.productId = productId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case productId = "ProductId"
+            case acceptLanguage = "AcceptLanguage"
         }
     }
 
     public struct ParameterConstraints: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AllowedValues", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowedValues", required: false, type: .list)
         ]
         /// The values that the administrator has allowed for the parameter.
         public let allowedValues: [String]?
@@ -2048,24 +1797,23 @@ extension Servicecatalog {
             self.allowedValues = allowedValues
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.allowedValues = dictionary["AllowedValues"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case allowedValues = "AllowedValues"
         }
     }
 
-    public enum ProductSource: String, CustomStringConvertible {
+    public enum ProductSource: String, CustomStringConvertible, Codable {
         case account = "ACCOUNT"
         public var description: String { return self.rawValue }
     }
 
     public struct ListPortfoliosForProductInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductId", required: true, type: .string), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
@@ -2083,25 +1831,23 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
-            self.productId = productId
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case acceptLanguage = "AcceptLanguage"
+            case productId = "ProductId"
+            case pageToken = "PageToken"
         }
     }
 
     public struct PortfolioDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
-            AWSShapeProperty(label: "ProviderName", required: false, type: .string), 
-            AWSShapeProperty(label: "ARN", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ProviderName", required: false, type: .string), 
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The name to use for display purposes.
         public let displayName: String?
@@ -2112,11 +1858,11 @@ extension Servicecatalog {
         /// The text description of the portfolio.
         public let description: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: String?
+        public let createdTime: Double?
         /// The identifier for the portfolio.
         public let id: String?
 
-        public init(displayName: String? = nil, providerName: String? = nil, aRN: String? = nil, description: String? = nil, createdTime: String? = nil, id: String? = nil) {
+        public init(displayName: String? = nil, providerName: String? = nil, aRN: String? = nil, description: String? = nil, createdTime: Double? = nil, id: String? = nil) {
             self.displayName = displayName
             self.providerName = providerName
             self.aRN = aRN
@@ -2125,21 +1871,20 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.displayName = dictionary["DisplayName"] as? String
-            self.providerName = dictionary["ProviderName"] as? String
-            self.aRN = dictionary["ARN"] as? String
-            self.description = dictionary["Description"] as? String
-            self.createdTime = dictionary["CreatedTime"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
+            case providerName = "ProviderName"
+            case aRN = "ARN"
+            case description = "Description"
+            case createdTime = "CreatedTime"
+            case id = "Id"
         }
     }
 
     public struct CreateTagOptionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagOptionDetail", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
         ]
         /// The resulting detailed TagOption information.
         public let tagOptionDetail: TagOptionDetail?
@@ -2148,19 +1893,18 @@ extension Servicecatalog {
             self.tagOptionDetail = tagOptionDetail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagOptionDetail = dictionary["TagOptionDetail"] as? [String: Any] { self.tagOptionDetail = try Servicecatalog.TagOptionDetail(dictionary: tagOptionDetail) } else { self.tagOptionDetail = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tagOptionDetail = "TagOptionDetail"
         }
     }
 
     public struct DescribeProvisioningParametersInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProvisioningArtifactId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductId", required: true, type: .string), 
-            AWSShapeProperty(label: "PathId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "PathId", required: false, type: .string)
         ]
         /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String
@@ -2178,22 +1922,19 @@ extension Servicecatalog {
             self.pathId = pathId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String else { throw InitializableError.missingRequiredParam("ProvisioningArtifactId") }
-            self.provisioningArtifactId = provisioningArtifactId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
-            self.productId = productId
-            self.pathId = dictionary["PathId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case acceptLanguage = "AcceptLanguage"
+            case productId = "ProductId"
+            case pathId = "PathId"
         }
     }
 
     public struct SearchProductsAsAdminOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProductViewDetails", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductViewDetails", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// List of detailed product view information objects.
         public let productViewDetails: [ProductViewDetail]?
@@ -2205,22 +1946,17 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let productViewDetails = dictionary["ProductViewDetails"] as? [[String: Any]] {
-                self.productViewDetails = try productViewDetails.map({ try ProductViewDetail(dictionary: $0) })
-            } else { 
-                self.productViewDetails = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case productViewDetails = "ProductViewDetails"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct ProductViewAggregationValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "ApproximateCount", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "ApproximateCount", required: false, type: .integer)
         ]
         /// The value of the product view aggregation.
         public let value: String?
@@ -2232,21 +1968,20 @@ extension Servicecatalog {
             self.approximateCount = approximateCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.approximateCount = dictionary["ApproximateCount"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case approximateCount = "ApproximateCount"
         }
     }
 
     public struct ResourceDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "ARN", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ARN", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Description of the resource.
         public let description: String?
@@ -2255,11 +1990,11 @@ extension Servicecatalog {
         /// Name of the resource.
         public let name: String?
         /// Creation time of the resource.
-        public let createdTime: String?
+        public let createdTime: Double?
         /// Identifier of the resource.
         public let id: String?
 
-        public init(description: String? = nil, aRN: String? = nil, name: String? = nil, createdTime: String? = nil, id: String? = nil) {
+        public init(description: String? = nil, aRN: String? = nil, name: String? = nil, createdTime: Double? = nil, id: String? = nil) {
             self.description = description
             self.aRN = aRN
             self.name = name
@@ -2267,22 +2002,21 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            self.aRN = dictionary["ARN"] as? String
-            self.name = dictionary["Name"] as? String
-            self.createdTime = dictionary["CreatedTime"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case aRN = "ARN"
+            case name = "Name"
+            case createdTime = "CreatedTime"
+            case id = "Id"
         }
     }
 
     public struct ListAcceptedPortfolioSharesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
@@ -2297,23 +2031,22 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case acceptLanguage = "AcceptLanguage"
+            case pageToken = "PageToken"
         }
     }
 
     public struct SearchProductsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "SortBy", required: false, type: .enum), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .map), 
-            AWSShapeProperty(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .map), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
@@ -2337,31 +2070,21 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            if let sortBy = dictionary["SortBy"] as? String { self.sortBy = ProductViewSortBy(rawValue: sortBy) } else { self.sortBy = nil }
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            if let filters = dictionary["Filters"] as? [String: Any] {
-                var filtersDict: [ProductViewFilterBy: [String]] = [:]
-                for (key, value) in filters {
-                    guard let productViewFilterValues = value as? [String] else { throw InitializableError.convertingError }
-                    filtersDict[ProductViewFilterBy(rawValue: key)!] = productViewFilterValues
-                }
-                self.filters = filtersDict
-            } else { 
-                self.filters = nil
-            }
-            if let sortOrder = dictionary["SortOrder"] as? String { self.sortOrder = SortOrder(rawValue: sortOrder) } else { self.sortOrder = nil }
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case sortBy = "SortBy"
+            case acceptLanguage = "AcceptLanguage"
+            case filters = "Filters"
+            case sortOrder = "SortOrder"
+            case pageToken = "PageToken"
         }
     }
 
     public struct RecordError: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The numeric value of the error.
         public let code: String?
@@ -2373,19 +2096,18 @@ extension Servicecatalog {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.code = dictionary["Code"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case description = "Description"
         }
     }
 
     public struct UpdateConstraintInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The updated text description of the constraint.
         public let description: String?
@@ -2400,27 +2122,25 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
         }
     }
 
     public struct ProvisionedProductDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "LastRecordId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "IdempotencyToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "LastRecordId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The current status of the ProvisionedProduct.  AVAILABLE - Stable state, ready to perform any operation. The most recent action request succeeded and completed.  UNDER_CHANGE - Transitive state, operations performed may or may not have valid results. Wait for an AVAILABLE status before performing operations.  TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.   ERROR - Something unexpected happened such that the provisioned product exists but the stack is not running. For example, CloudFormation received an invalid parameter value and could not launch the stack.
         public let status: ProvisionedProductStatus?
@@ -2437,11 +2157,11 @@ extension Servicecatalog {
         /// The current status message of the ProvisionedProduct.
         public let statusMessage: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: String?
+        public let createdTime: Double?
         /// The identifier of the ProvisionedProduct object.
         public let id: String?
 
-        public init(status: ProvisionedProductStatus? = nil, arn: String? = nil, lastRecordId: String? = nil, name: String? = nil, idempotencyToken: String? = nil, type: String? = nil, statusMessage: String? = nil, createdTime: String? = nil, id: String? = nil) {
+        public init(status: ProvisionedProductStatus? = nil, arn: String? = nil, lastRecordId: String? = nil, name: String? = nil, idempotencyToken: String? = nil, type: String? = nil, statusMessage: String? = nil, createdTime: Double? = nil, id: String? = nil) {
             self.status = status
             self.arn = arn
             self.lastRecordId = lastRecordId
@@ -2453,24 +2173,23 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = ProvisionedProductStatus(rawValue: status) } else { self.status = nil }
-            self.arn = dictionary["Arn"] as? String
-            self.lastRecordId = dictionary["LastRecordId"] as? String
-            self.name = dictionary["Name"] as? String
-            self.idempotencyToken = dictionary["IdempotencyToken"] as? String
-            self.`type` = dictionary["Type"] as? String
-            self.statusMessage = dictionary["StatusMessage"] as? String
-            self.createdTime = dictionary["CreatedTime"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case arn = "Arn"
+            case lastRecordId = "LastRecordId"
+            case name = "Name"
+            case idempotencyToken = "IdempotencyToken"
+            case `type` = "Type"
+            case statusMessage = "StatusMessage"
+            case createdTime = "CreatedTime"
+            case id = "Id"
         }
     }
 
     public struct ProvisionProductOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordDetail", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
         ]
         /// The detailed result of the ProvisionProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object of the request, and a list of any errors that the request encountered. 
         public let recordDetail: RecordDetail?
@@ -2479,17 +2198,16 @@ extension Servicecatalog {
             self.recordDetail = recordDetail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) } else { self.recordDetail = nil }
+        private enum CodingKeys: String, CodingKey {
+            case recordDetail = "RecordDetail"
         }
     }
 
     public struct DeleteProductInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -2501,19 +2219,17 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
         }
     }
 
     public struct ListResourcesForTagOptionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceDetails", required: false, type: .list), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceDetails", required: false, type: .list), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// The resulting detailed resource information.
         public let resourceDetails: [ResourceDetail]?
@@ -2525,22 +2241,17 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resourceDetails = dictionary["ResourceDetails"] as? [[String: Any]] {
-                self.resourceDetails = try resourceDetails.map({ try ResourceDetail(dictionary: $0) })
-            } else { 
-                self.resourceDetails = nil
-            }
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceDetails = "ResourceDetails"
+            case pageToken = "PageToken"
         }
     }
 
     public struct ListProvisioningArtifactsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProductId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
         /// The product identifier.
         public let productId: String
@@ -2552,22 +2263,20 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
-            self.productId = productId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case productId = "ProductId"
+            case acceptLanguage = "AcceptLanguage"
         }
     }
 
     public struct ListRecordHistoryInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "AccessLevelFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "SearchFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "AccessLevelFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "SearchFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
@@ -2588,23 +2297,22 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            if let accessLevelFilter = dictionary["AccessLevelFilter"] as? [String: Any] { self.accessLevelFilter = try Servicecatalog.AccessLevelFilter(dictionary: accessLevelFilter) } else { self.accessLevelFilter = nil }
-            if let searchFilter = dictionary["SearchFilter"] as? [String: Any] { self.searchFilter = try Servicecatalog.ListRecordHistorySearchFilter(dictionary: searchFilter) } else { self.searchFilter = nil }
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case acceptLanguage = "AcceptLanguage"
+            case accessLevelFilter = "AccessLevelFilter"
+            case searchFilter = "SearchFilter"
+            case pageToken = "PageToken"
         }
     }
 
     public struct AssociateProductWithPortfolioInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "SourcePortfolioId", required: false, type: .string), 
-            AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeProperty(label: "ProductId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "SourcePortfolioId", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string)
         ]
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -2622,31 +2330,28 @@ extension Servicecatalog {
             self.productId = productId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            self.sourcePortfolioId = dictionary["SourcePortfolioId"] as? String
-            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
-            self.portfolioId = portfolioId
-            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
-            self.productId = productId
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case sourcePortfolioId = "SourcePortfolioId"
+            case portfolioId = "PortfolioId"
+            case productId = "ProductId"
         }
     }
 
     public struct UpdateProductInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "RemoveTags", required: false, type: .list), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "SupportEmail", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Distributor", required: false, type: .string), 
-            AWSShapeProperty(label: "AddTags", required: false, type: .list), 
-            AWSShapeProperty(label: "SupportUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "Owner", required: false, type: .string), 
-            AWSShapeProperty(label: "SupportDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "RemoveTags", required: false, type: .list), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "SupportEmail", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Distributor", required: false, type: .string), 
+            AWSShapeMember(label: "AddTags", required: false, type: .list), 
+            AWSShapeMember(label: "SupportUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "SupportDescription", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The identifier of the product for the update request.
         public let id: String
@@ -2685,27 +2390,22 @@ extension Servicecatalog {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
-            self.removeTags = dictionary["RemoveTags"] as? [String]
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            self.supportEmail = dictionary["SupportEmail"] as? String
-            self.name = dictionary["Name"] as? String
-            self.distributor = dictionary["Distributor"] as? String
-            if let addTags = dictionary["AddTags"] as? [[String: Any]] {
-                self.addTags = try addTags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.addTags = nil
-            }
-            self.supportUrl = dictionary["SupportUrl"] as? String
-            self.owner = dictionary["Owner"] as? String
-            self.supportDescription = dictionary["SupportDescription"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case removeTags = "RemoveTags"
+            case acceptLanguage = "AcceptLanguage"
+            case supportEmail = "SupportEmail"
+            case name = "Name"
+            case distributor = "Distributor"
+            case addTags = "AddTags"
+            case supportUrl = "SupportUrl"
+            case owner = "Owner"
+            case supportDescription = "SupportDescription"
+            case description = "Description"
         }
     }
 
-    public enum ProductViewSortBy: String, CustomStringConvertible {
+    public enum ProductViewSortBy: String, CustomStringConvertible, Codable {
         case title = "Title"
         case versioncount = "VersionCount"
         case creationdate = "CreationDate"
@@ -2714,13 +2414,12 @@ extension Servicecatalog {
 
     public struct TerminateProvisionedProductInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IgnoreErrors", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "TerminateToken", required: true, type: .string), 
-            AWSShapeProperty(label: "ProvisionedProductId", required: false, type: .string), 
-            AWSShapeProperty(label: "ProvisionedProductName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IgnoreErrors", required: false, type: .boolean), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "TerminateToken", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string)
         ]
         /// If set to true, AWS Service Catalog stops managing the specified ProvisionedProduct object even if it cannot delete the underlying resources.
         public let ignoreErrors: Bool?
@@ -2741,17 +2440,16 @@ extension Servicecatalog {
             self.provisionedProductName = provisionedProductName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ignoreErrors = dictionary["IgnoreErrors"] as? Bool
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let terminateToken = dictionary["TerminateToken"] as? String else { throw InitializableError.missingRequiredParam("TerminateToken") }
-            self.terminateToken = terminateToken
-            self.provisionedProductId = dictionary["ProvisionedProductId"] as? String
-            self.provisionedProductName = dictionary["ProvisionedProductName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ignoreErrors = "IgnoreErrors"
+            case acceptLanguage = "AcceptLanguage"
+            case terminateToken = "TerminateToken"
+            case provisionedProductId = "ProvisionedProductId"
+            case provisionedProductName = "ProvisionedProductName"
         }
     }
 
-    public enum SortOrder: String, CustomStringConvertible {
+    public enum SortOrder: String, CustomStringConvertible, Codable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
@@ -2759,21 +2457,17 @@ extension Servicecatalog {
 
     public struct RejectPortfolioShareOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdateProvisioningArtifactInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProvisioningArtifactId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The identifier of the provisioning artifact for the update request. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String
@@ -2794,23 +2488,20 @@ extension Servicecatalog {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String else { throw InitializableError.missingRequiredParam("ProvisioningArtifactId") }
-            self.provisioningArtifactId = provisioningArtifactId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
-            self.productId = productId
-            self.name = dictionary["Name"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case acceptLanguage = "AcceptLanguage"
+            case productId = "ProductId"
+            case name = "Name"
+            case description = "Description"
         }
     }
 
     public struct CreatePortfolioOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PortfolioDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The resulting detailed portfolio information.
         public let portfolioDetail: PortfolioDetail?
@@ -2822,23 +2513,18 @@ extension Servicecatalog {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let portfolioDetail = dictionary["PortfolioDetail"] as? [String: Any] { self.portfolioDetail = try Servicecatalog.PortfolioDetail(dictionary: portfolioDetail) } else { self.portfolioDetail = nil }
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case portfolioDetail = "PortfolioDetail"
+            case tags = "Tags"
         }
     }
 
     public struct DescribePortfolioOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PortfolioDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "TagOptions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "TagOptions", required: false, type: .list)
         ]
         /// Detailed portfolio information.
         public let portfolioDetail: PortfolioDetail?
@@ -2853,22 +2539,14 @@ extension Servicecatalog {
             self.tagOptions = tagOptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let portfolioDetail = dictionary["PortfolioDetail"] as? [String: Any] { self.portfolioDetail = try Servicecatalog.PortfolioDetail(dictionary: portfolioDetail) } else { self.portfolioDetail = nil }
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            if let tagOptions = dictionary["TagOptions"] as? [[String: Any]] {
-                self.tagOptions = try tagOptions.map({ try TagOptionDetail(dictionary: $0) })
-            } else { 
-                self.tagOptions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case portfolioDetail = "PortfolioDetail"
+            case tags = "Tags"
+            case tagOptions = "TagOptions"
         }
     }
 
-    public enum AccessLevelFilterKey: String, CustomStringConvertible {
+    public enum AccessLevelFilterKey: String, CustomStringConvertible, Codable {
         case account = "Account"
         case role = "Role"
         case user = "User"
@@ -2877,10 +2555,9 @@ extension Servicecatalog {
 
     public struct AccessLevelFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .enum)
         ]
         /// Specifies the user to which the access level applies. A value of Self is currently supported.
         public let value: String?
@@ -2892,20 +2569,19 @@ extension Servicecatalog {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            if let key = dictionary["Key"] as? String { self.key = AccessLevelFilterKey(rawValue: key) } else { self.key = nil }
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct TagOptionDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Active", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Active", required: false, type: .boolean), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The TagOptionDetail key.
         public let key: String?
@@ -2923,20 +2599,19 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["Key"] as? String
-            self.value = dictionary["Value"] as? String
-            self.active = dictionary["Active"] as? Bool
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+            case active = "Active"
+            case id = "Id"
         }
     }
 
     public struct ConstraintSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The type of the constraint. 
         public let `type`: String?
@@ -2948,27 +2623,26 @@ extension Servicecatalog {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.`type` = dictionary["Type"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case description = "Description"
         }
     }
 
     public struct ProductViewSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HasDefaultPath", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ShortDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "SupportEmail", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Distributor", required: false, type: .string), 
-            AWSShapeProperty(label: "SupportUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "Owner", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductId", required: false, type: .string), 
-            AWSShapeProperty(label: "SupportDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HasDefaultPath", required: false, type: .boolean), 
+            AWSShapeMember(label: "ShortDescription", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "SupportEmail", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Distributor", required: false, type: .string), 
+            AWSShapeMember(label: "SupportUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "SupportDescription", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
         /// A value of false indicates that the product does not have a default path, while a value of true indicates that it does. If it's false, call ListLaunchPaths to disambiguate between paths. If true, ListLaunchPaths is not required, and the output of the ProductViewSummary operation can be used directly with DescribeProvisioningParameters.
         public let hasDefaultPath: Bool?
@@ -3007,22 +2681,22 @@ extension Servicecatalog {
             self.`type` = `type`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.hasDefaultPath = dictionary["HasDefaultPath"] as? Bool
-            self.shortDescription = dictionary["ShortDescription"] as? String
-            self.id = dictionary["Id"] as? String
-            self.supportEmail = dictionary["SupportEmail"] as? String
-            self.name = dictionary["Name"] as? String
-            self.distributor = dictionary["Distributor"] as? String
-            self.supportUrl = dictionary["SupportUrl"] as? String
-            self.owner = dictionary["Owner"] as? String
-            self.productId = dictionary["ProductId"] as? String
-            self.supportDescription = dictionary["SupportDescription"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = ProductType(rawValue: `type`) } else { self.`type` = nil }
+        private enum CodingKeys: String, CodingKey {
+            case hasDefaultPath = "HasDefaultPath"
+            case shortDescription = "ShortDescription"
+            case id = "Id"
+            case supportEmail = "SupportEmail"
+            case name = "Name"
+            case distributor = "Distributor"
+            case supportUrl = "SupportUrl"
+            case owner = "Owner"
+            case productId = "ProductId"
+            case supportDescription = "SupportDescription"
+            case `type` = "Type"
         }
     }
 
-    public enum RecordStatus: String, CustomStringConvertible {
+    public enum RecordStatus: String, CustomStringConvertible, Codable {
         case created = "CREATED"
         case in_progress = "IN_PROGRESS"
         case in_progress_in_error = "IN_PROGRESS_IN_ERROR"
@@ -3033,11 +2707,10 @@ extension Servicecatalog {
 
     public struct UpdateProvisioningArtifactOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "Info", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Info", required: false, type: .map)
         ]
         /// The status of the current request.
         public let status: Status?
@@ -3052,23 +2725,18 @@ extension Servicecatalog {
             self.info = info
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
-            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) } else { self.provisioningArtifactDetail = nil }
-            if let info = dictionary["Info"] as? [String: String] {
-                self.info = info
-            } else { 
-                self.info = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case provisioningArtifactDetail = "ProvisioningArtifactDetail"
+            case info = "Info"
         }
     }
 
     public struct RejectPortfolioShareInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
         /// The portfolio identifier.
         public let portfolioId: String
@@ -3080,19 +2748,17 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
-            self.portfolioId = portfolioId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case portfolioId = "PortfolioId"
+            case acceptLanguage = "AcceptLanguage"
         }
     }
 
     public struct ListTagOptionsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagOptionDetails", required: false, type: .list), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagOptionDetails", required: false, type: .list), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// The resulting detailed TagOption information.
         public let tagOptionDetails: [TagOptionDetail]?
@@ -3104,23 +2770,18 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagOptionDetails = dictionary["TagOptionDetails"] as? [[String: Any]] {
-                self.tagOptionDetails = try tagOptionDetails.map({ try TagOptionDetail(dictionary: $0) })
-            } else { 
-                self.tagOptionDetails = nil
-            }
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tagOptionDetails = "TagOptionDetails"
+            case pageToken = "PageToken"
         }
     }
 
     public struct DescribeConstraintOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConstraintDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "ConstraintParameters", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConstraintDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
         ]
         /// Detailed constraint information.
         public let constraintDetail: ConstraintDetail?
@@ -3135,14 +2796,14 @@ extension Servicecatalog {
             self.constraintParameters = constraintParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) } else { self.constraintDetail = nil }
-            if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
-            self.constraintParameters = dictionary["ConstraintParameters"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case constraintDetail = "ConstraintDetail"
+            case status = "Status"
+            case constraintParameters = "ConstraintParameters"
         }
     }
 
-    public enum Status: String, CustomStringConvertible {
+    public enum Status: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case failed = "FAILED"
@@ -3151,10 +2812,9 @@ extension Servicecatalog {
 
     public struct Principal: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrincipalARN", required: false, type: .string), 
-            AWSShapeProperty(label: "PrincipalType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PrincipalARN", required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalType", required: false, type: .enum)
         ]
         /// The ARN representing the principal (IAM user, role, or group).
         public let principalARN: String?
@@ -3166,19 +2826,18 @@ extension Servicecatalog {
             self.principalType = principalType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.principalARN = dictionary["PrincipalARN"] as? String
-            if let principalType = dictionary["PrincipalType"] as? String { self.principalType = PrincipalType(rawValue: principalType) } else { self.principalType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case principalARN = "PrincipalARN"
+            case principalType = "PrincipalType"
         }
     }
 
     public struct ListTagOptionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "Filters", required: false, type: .structure), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
@@ -3193,18 +2852,17 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Servicecatalog.ListTagOptionsFilters(dictionary: filters) } else { self.filters = nil }
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case filters = "Filters"
+            case pageToken = "PageToken"
         }
     }
 
     public struct UpdateTagOptionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagOptionDetail", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
         ]
         /// The resulting detailed TagOption information.
         public let tagOptionDetail: TagOptionDetail?
@@ -3213,20 +2871,19 @@ extension Servicecatalog {
             self.tagOptionDetail = tagOptionDetail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagOptionDetail = dictionary["TagOptionDetail"] as? [String: Any] { self.tagOptionDetail = try Servicecatalog.TagOptionDetail(dictionary: tagOptionDetail) } else { self.tagOptionDetail = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tagOptionDetail = "TagOptionDetail"
         }
     }
 
     public struct ProvisioningArtifactDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The text description of the provisioning artifact.
         public let description: String?
@@ -3235,11 +2892,11 @@ extension Servicecatalog {
         /// The name assigned to the provisioning artifact.
         public let name: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: String?
+        public let createdTime: Double?
         /// The identifier of the provisioning artifact. This is sometimes referred to as the product version.
         public let id: String?
 
-        public init(description: String? = nil, type: ProvisioningArtifactType? = nil, name: String? = nil, createdTime: String? = nil, id: String? = nil) {
+        public init(description: String? = nil, type: ProvisioningArtifactType? = nil, name: String? = nil, createdTime: Double? = nil, id: String? = nil) {
             self.description = description
             self.`type` = `type`
             self.name = name
@@ -3247,32 +2904,28 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = ProvisioningArtifactType(rawValue: `type`) } else { self.`type` = nil }
-            self.name = dictionary["Name"] as? String
-            self.createdTime = dictionary["CreatedTime"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case `type` = "Type"
+            case name = "Name"
+            case createdTime = "CreatedTime"
+            case id = "Id"
         }
     }
 
     public struct AssociateTagOptionWithResourceOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListConstraintsForPortfolioInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeProperty(label: "ProductId", required: false, type: .string), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
@@ -3293,23 +2946,21 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
-            self.portfolioId = portfolioId
-            self.productId = dictionary["ProductId"] as? String
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case acceptLanguage = "AcceptLanguage"
+            case portfolioId = "PortfolioId"
+            case productId = "ProductId"
+            case pageToken = "PageToken"
         }
     }
 
     public struct DisassociateProductFromPortfolioInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeProperty(label: "ProductId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "ProductId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
         /// The portfolio identifier.
         public let portfolioId: String
@@ -3324,29 +2975,23 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
-            self.portfolioId = portfolioId
-            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
-            self.productId = productId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case portfolioId = "PortfolioId"
+            case productId = "ProductId"
+            case acceptLanguage = "AcceptLanguage"
         }
     }
 
     public struct DeleteProductOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListPortfoliosOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PortfolioDetails", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioDetails", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// List of detailed portfolio information objects.
         public let portfolioDetails: [PortfolioDetail]?
@@ -3358,24 +3003,19 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let portfolioDetails = dictionary["PortfolioDetails"] as? [[String: Any]] {
-                self.portfolioDetails = try portfolioDetails.map({ try PortfolioDetail(dictionary: $0) })
-            } else { 
-                self.portfolioDetails = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case portfolioDetails = "PortfolioDetails"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct ListPrincipalsForPortfolioInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
@@ -3393,37 +3033,29 @@ extension Servicecatalog {
             self.pageToken = pageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
-            self.portfolioId = portfolioId
-            self.pageToken = dictionary["PageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case acceptLanguage = "AcceptLanguage"
+            case portfolioId = "PortfolioId"
+            case pageToken = "PageToken"
         }
     }
 
     public struct DeleteProvisioningArtifactOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeletePortfolioShareOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeProductOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProductViewSummary", required: false, type: .structure), 
-            AWSShapeProperty(label: "ProvisioningArtifacts", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "ProvisioningArtifacts", required: false, type: .list)
         ]
         /// The summary metadata about the specified product.
         public let productViewSummary: ProductViewSummary?
@@ -3435,38 +3067,33 @@ extension Servicecatalog {
             self.provisioningArtifacts = provisioningArtifacts
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) } else { self.productViewSummary = nil }
-            if let provisioningArtifacts = dictionary["ProvisioningArtifacts"] as? [[String: Any]] {
-                self.provisioningArtifacts = try provisioningArtifacts.map({ try ProvisioningArtifact(dictionary: $0) })
-            } else { 
-                self.provisioningArtifacts = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case productViewSummary = "ProductViewSummary"
+            case provisioningArtifacts = "ProvisioningArtifacts"
         }
     }
 
     public struct RecordDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProvisioningArtifactId", required: false, type: .string), 
-            AWSShapeProperty(label: "UpdatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ProvisionedProductName", required: false, type: .string), 
-            AWSShapeProperty(label: "PathId", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "RecordErrors", required: false, type: .list), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "ProvisionedProductId", required: false, type: .string), 
-            AWSShapeProperty(label: "RecordType", required: false, type: .string), 
-            AWSShapeProperty(label: "RecordId", required: false, type: .string), 
-            AWSShapeProperty(label: "ProvisionedProductType", required: false, type: .string), 
-            AWSShapeProperty(label: "RecordTags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
+            AWSShapeMember(label: "UpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string), 
+            AWSShapeMember(label: "PathId", required: false, type: .string), 
+            AWSShapeMember(label: "ProductId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RecordErrors", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
+            AWSShapeMember(label: "RecordType", required: false, type: .string), 
+            AWSShapeMember(label: "RecordId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductType", required: false, type: .string), 
+            AWSShapeMember(label: "RecordTags", required: false, type: .list)
         ]
         /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String?
         /// The time when the record for the ProvisionedProduct object was last updated.
-        public let updatedTime: String?
+        public let updatedTime: Double?
         /// The user-friendly name of the ProvisionedProduct object.
         public let provisionedProductName: String?
         /// The identifier of the path for this product's provisioning.
@@ -3474,7 +3101,7 @@ extension Servicecatalog {
         /// The product identifier.
         public let productId: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: String?
+        public let createdTime: Double?
         /// A list of errors that occurred while processing the request.
         public let recordErrors: [RecordError]?
         /// The status of the ProvisionedProduct object.  CREATED - Request created but the operation has not yet started.  IN_PROGRESS - The requested operation is in-progress.  IN_PROGRESS_IN_ERROR - The provisioned product is under change but the requested operation failed and some remediation is occurring. For example, a rollback.  SUCCEEDED - The requested operation has successfully completed.  FAILED - The requested operation has completed but has failed. Investigate using the error messages returned.
@@ -3490,7 +3117,7 @@ extension Servicecatalog {
         /// List of tags associated with this record.
         public let recordTags: [RecordTag]?
 
-        public init(provisioningArtifactId: String? = nil, updatedTime: String? = nil, provisionedProductName: String? = nil, pathId: String? = nil, productId: String? = nil, createdTime: String? = nil, recordErrors: [RecordError]? = nil, status: RecordStatus? = nil, provisionedProductId: String? = nil, recordType: String? = nil, recordId: String? = nil, provisionedProductType: String? = nil, recordTags: [RecordTag]? = nil) {
+        public init(provisioningArtifactId: String? = nil, updatedTime: Double? = nil, provisionedProductName: String? = nil, pathId: String? = nil, productId: String? = nil, createdTime: Double? = nil, recordErrors: [RecordError]? = nil, status: RecordStatus? = nil, provisionedProductId: String? = nil, recordType: String? = nil, recordId: String? = nil, provisionedProductType: String? = nil, recordTags: [RecordTag]? = nil) {
             self.provisioningArtifactId = provisioningArtifactId
             self.updatedTime = updatedTime
             self.provisionedProductName = provisionedProductName
@@ -3506,38 +3133,29 @@ extension Servicecatalog {
             self.recordTags = recordTags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String
-            self.updatedTime = dictionary["UpdatedTime"] as? String
-            self.provisionedProductName = dictionary["ProvisionedProductName"] as? String
-            self.pathId = dictionary["PathId"] as? String
-            self.productId = dictionary["ProductId"] as? String
-            self.createdTime = dictionary["CreatedTime"] as? String
-            if let recordErrors = dictionary["RecordErrors"] as? [[String: Any]] {
-                self.recordErrors = try recordErrors.map({ try RecordError(dictionary: $0) })
-            } else { 
-                self.recordErrors = nil
-            }
-            if let status = dictionary["Status"] as? String { self.status = RecordStatus(rawValue: status) } else { self.status = nil }
-            self.provisionedProductId = dictionary["ProvisionedProductId"] as? String
-            self.recordType = dictionary["RecordType"] as? String
-            self.recordId = dictionary["RecordId"] as? String
-            self.provisionedProductType = dictionary["ProvisionedProductType"] as? String
-            if let recordTags = dictionary["RecordTags"] as? [[String: Any]] {
-                self.recordTags = try recordTags.map({ try RecordTag(dictionary: $0) })
-            } else { 
-                self.recordTags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case provisioningArtifactId = "ProvisioningArtifactId"
+            case updatedTime = "UpdatedTime"
+            case provisionedProductName = "ProvisionedProductName"
+            case pathId = "PathId"
+            case productId = "ProductId"
+            case createdTime = "CreatedTime"
+            case recordErrors = "RecordErrors"
+            case status = "Status"
+            case provisionedProductId = "ProvisionedProductId"
+            case recordType = "RecordType"
+            case recordId = "RecordId"
+            case provisionedProductType = "ProvisionedProductType"
+            case recordTags = "RecordTags"
         }
     }
 
     public struct DescribeProvisioningArtifactOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "Info", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Info", required: false, type: .map)
         ]
         /// The status of the current request.
         public let status: Status?
@@ -3552,23 +3170,18 @@ extension Servicecatalog {
             self.info = info
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
-            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) } else { self.provisioningArtifactDetail = nil }
-            if let info = dictionary["Info"] as? [String: String] {
-                self.info = info
-            } else { 
-                self.info = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case provisioningArtifactDetail = "ProvisioningArtifactDetail"
+            case info = "Info"
         }
     }
 
     public struct DisassociateTagOptionFromResourceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "TagOptionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "TagOptionId", required: true, type: .string)
         ]
         /// Identifier of the resource from which to disassociate the TagOption.
         public let resourceId: String
@@ -3580,20 +3193,17 @@ extension Servicecatalog {
             self.tagOptionId = tagOptionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let tagOptionId = dictionary["TagOptionId"] as? String else { throw InitializableError.missingRequiredParam("TagOptionId") }
-            self.tagOptionId = tagOptionId
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tagOptionId = "TagOptionId"
         }
     }
 
     public struct AssociateTagOptionWithResourceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "TagOptionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "TagOptionId", required: true, type: .string)
         ]
         /// The resource identifier.
         public let resourceId: String
@@ -3605,28 +3215,22 @@ extension Servicecatalog {
             self.tagOptionId = tagOptionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let tagOptionId = dictionary["TagOptionId"] as? String else { throw InitializableError.missingRequiredParam("TagOptionId") }
-            self.tagOptionId = tagOptionId
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tagOptionId = "TagOptionId"
         }
     }
 
     public struct DisassociateTagOptionFromResourceOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct AcceptPortfolioShareInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
         /// The portfolio identifier.
         public let portfolioId: String
@@ -3638,19 +3242,17 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
-            self.portfolioId = portfolioId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case portfolioId = "PortfolioId"
+            case acceptLanguage = "AcceptLanguage"
         }
     }
 
     public struct RecordTag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The value for this tag.
         public let value: String?
@@ -3662,18 +3264,17 @@ extension Servicecatalog {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct ListAcceptedPortfolioSharesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PortfolioDetails", required: false, type: .list), 
-            AWSShapeProperty(label: "NextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioDetails", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
         /// List of detailed portfolio information objects.
         public let portfolioDetails: [PortfolioDetail]?
@@ -3685,27 +3286,22 @@ extension Servicecatalog {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let portfolioDetails = dictionary["PortfolioDetails"] as? [[String: Any]] {
-                self.portfolioDetails = try portfolioDetails.map({ try PortfolioDetail(dictionary: $0) })
-            } else { 
-                self.portfolioDetails = nil
-            }
-            self.nextPageToken = dictionary["NextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case portfolioDetails = "PortfolioDetails"
+            case nextPageToken = "NextPageToken"
         }
     }
 
     public struct UpdatePortfolioInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "RemoveTags", required: false, type: .list), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
-            AWSShapeProperty(label: "AddTags", required: false, type: .list), 
-            AWSShapeProperty(label: "ProviderName", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "RemoveTags", required: false, type: .list), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "AddTags", required: false, type: .list), 
+            AWSShapeMember(label: "ProviderName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The identifier of the portfolio for the update request.
         public let id: String
@@ -3732,38 +3328,29 @@ extension Servicecatalog {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
-            self.removeTags = dictionary["RemoveTags"] as? [String]
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            self.displayName = dictionary["DisplayName"] as? String
-            if let addTags = dictionary["AddTags"] as? [[String: Any]] {
-                self.addTags = try addTags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.addTags = nil
-            }
-            self.providerName = dictionary["ProviderName"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case removeTags = "RemoveTags"
+            case acceptLanguage = "AcceptLanguage"
+            case displayName = "DisplayName"
+            case addTags = "AddTags"
+            case providerName = "ProviderName"
+            case description = "Description"
         }
     }
 
     public struct DeletePortfolioOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct AssociatePrincipalWithPortfolioInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrincipalARN", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "PrincipalType", required: true, type: .enum), 
-            AWSShapeProperty(label: "PortfolioId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PrincipalARN", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalType", required: true, type: .enum), 
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string)
         ]
         /// The ARN representing the principal (IAM user, role, or group).
         public let principalARN: String
@@ -3781,23 +3368,19 @@ extension Servicecatalog {
             self.portfolioId = portfolioId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let principalARN = dictionary["PrincipalARN"] as? String else { throw InitializableError.missingRequiredParam("PrincipalARN") }
-            self.principalARN = principalARN
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let rawPrincipalType = dictionary["PrincipalType"] as? String, let principalType = PrincipalType(rawValue: rawPrincipalType) else { throw InitializableError.missingRequiredParam("PrincipalType") }
-            self.principalType = principalType
-            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
-            self.portfolioId = portfolioId
+        private enum CodingKeys: String, CodingKey {
+            case principalARN = "PrincipalARN"
+            case acceptLanguage = "AcceptLanguage"
+            case principalType = "PrincipalType"
+            case portfolioId = "PortfolioId"
         }
     }
 
     public struct DescribeProductAsAdminInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -3809,19 +3392,17 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
         }
     }
 
     public struct DescribePortfolioInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -3833,29 +3414,27 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case id = "Id"
         }
     }
 
     public struct CreateProductInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "SupportEmail", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Distributor", required: false, type: .string), 
-            AWSShapeProperty(label: "IdempotencyToken", required: true, type: .string), 
-            AWSShapeProperty(label: "ProductType", required: true, type: .enum), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "ProvisioningArtifactParameters", required: true, type: .structure), 
-            AWSShapeProperty(label: "SupportUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "Owner", required: true, type: .string), 
-            AWSShapeProperty(label: "SupportDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "SupportEmail", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Distributor", required: false, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
+            AWSShapeMember(label: "ProductType", required: true, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisioningArtifactParameters", required: true, type: .structure), 
+            AWSShapeMember(label: "SupportUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Owner", required: true, type: .string), 
+            AWSShapeMember(label: "SupportDescription", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -3897,38 +3476,28 @@ extension Servicecatalog {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            self.supportEmail = dictionary["SupportEmail"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.distributor = dictionary["Distributor"] as? String
-            guard let idempotencyToken = dictionary["IdempotencyToken"] as? String else { throw InitializableError.missingRequiredParam("IdempotencyToken") }
-            self.idempotencyToken = idempotencyToken
-            guard let rawProductType = dictionary["ProductType"] as? String, let productType = ProductType(rawValue: rawProductType) else { throw InitializableError.missingRequiredParam("ProductType") }
-            self.productType = productType
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            guard let provisioningArtifactParameters = dictionary["ProvisioningArtifactParameters"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ProvisioningArtifactParameters") }
-            self.provisioningArtifactParameters = try Servicecatalog.ProvisioningArtifactProperties(dictionary: provisioningArtifactParameters)
-            self.supportUrl = dictionary["SupportUrl"] as? String
-            guard let owner = dictionary["Owner"] as? String else { throw InitializableError.missingRequiredParam("Owner") }
-            self.owner = owner
-            self.supportDescription = dictionary["SupportDescription"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case supportEmail = "SupportEmail"
+            case name = "Name"
+            case distributor = "Distributor"
+            case idempotencyToken = "IdempotencyToken"
+            case productType = "ProductType"
+            case tags = "Tags"
+            case provisioningArtifactParameters = "ProvisioningArtifactParameters"
+            case supportUrl = "SupportUrl"
+            case owner = "Owner"
+            case supportDescription = "SupportDescription"
+            case description = "Description"
         }
     }
 
     public struct CreateProvisioningArtifactOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "Info", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "Info", required: false, type: .map)
         ]
         /// The status of the current request.
         public let status: Status?
@@ -3943,23 +3512,18 @@ extension Servicecatalog {
             self.info = info
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
-            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) } else { self.provisioningArtifactDetail = nil }
-            if let info = dictionary["Info"] as? [String: String] {
-                self.info = info
-            } else { 
-                self.info = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case provisioningArtifactDetail = "ProvisioningArtifactDetail"
+            case info = "Info"
         }
     }
 
     public struct ListPortfolioAccessInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
         /// The portfolio identifier.
         public let portfolioId: String
@@ -3971,20 +3535,18 @@ extension Servicecatalog {
             self.acceptLanguage = acceptLanguage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
-            self.portfolioId = portfolioId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case portfolioId = "PortfolioId"
+            case acceptLanguage = "AcceptLanguage"
         }
     }
 
     public struct UpdateTagOptionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Active", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Active", required: false, type: .boolean), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The updated value.
         public let value: String?
@@ -3999,11 +3561,10 @@ extension Servicecatalog {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.active = dictionary["Active"] as? Bool
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case active = "Active"
+            case id = "Id"
         }
     }
 

@@ -31,12 +31,11 @@ extension Redshift {
 
     public struct EventInfoMap: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Severity", required: false, type: .string), 
-            AWSShapeProperty(label: "EventId", required: false, type: .string), 
-            AWSShapeProperty(label: "EventDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "EventCategories", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Severity", required: false, type: .string), 
+            AWSShapeMember(label: "EventId", required: false, type: .string), 
+            AWSShapeMember(label: "EventDescription", required: false, type: .string), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .structure)
         ]
         /// The severity of the event. Values: ERROR, INFO
         public let severity: String?
@@ -54,19 +53,18 @@ extension Redshift {
             self.eventCategories = eventCategories
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.severity = dictionary["Severity"] as? String
-            self.eventId = dictionary["EventId"] as? String
-            self.eventDescription = dictionary["EventDescription"] as? String
-            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Redshift.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
+        private enum CodingKeys: String, CodingKey {
+            case severity = "Severity"
+            case eventId = "EventId"
+            case eventDescription = "EventDescription"
+            case eventCategories = "EventCategories"
         }
     }
 
     public struct DeleteClusterResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
 
@@ -74,17 +72,16 @@ extension Redshift {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct EventsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Events", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Events", required: false, type: .structure)
         ]
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
@@ -96,18 +93,17 @@ extension Redshift {
             self.events = events
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let events = dictionary["Events"] as? [String: Any] { self.events = try Redshift.EventList(dictionary: events) } else { self.events = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case events = "Events"
         }
     }
 
     public struct TaggedResourceListMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "TaggedResources", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "TaggedResources", required: false, type: .structure)
         ]
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
@@ -119,17 +115,16 @@ extension Redshift {
             self.taggedResources = taggedResources
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let taggedResources = dictionary["TaggedResources"] as? [String: Any] { self.taggedResources = try Redshift.TaggedResourceList(dictionary: taggedResources) } else { self.taggedResources = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case taggedResources = "TaggedResources"
         }
     }
 
     public struct RevokeClusterSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterSecurityGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSecurityGroup", required: false, type: .structure)
         ]
         public let clusterSecurityGroup: ClusterSecurityGroup?
 
@@ -137,19 +132,18 @@ extension Redshift {
             self.clusterSecurityGroup = clusterSecurityGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterSecurityGroup = dictionary["ClusterSecurityGroup"] as? [String: Any] { self.clusterSecurityGroup = try Redshift.ClusterSecurityGroup(dictionary: clusterSecurityGroup) } else { self.clusterSecurityGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case clusterSecurityGroup = "ClusterSecurityGroup"
         }
     }
 
     public struct AuthorizeClusterSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CIDRIP", required: false, type: .string), 
-            AWSShapeProperty(label: "EC2SecurityGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterSecurityGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CIDRIP", required: false, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterSecurityGroupName", required: true, type: .string)
         ]
         /// The IP range to be added the Amazon Redshift security group.
         public let cIDRIP: String?
@@ -167,25 +161,23 @@ extension Redshift {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cIDRIP = dictionary["CIDRIP"] as? String
-            self.eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String
-            self.eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String
-            guard let clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSecurityGroupName") }
-            self.clusterSecurityGroupName = clusterSecurityGroupName
+        private enum CodingKeys: String, CodingKey {
+            case cIDRIP = "CIDRIP"
+            case eC2SecurityGroupName = "EC2SecurityGroupName"
+            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case clusterSecurityGroupName = "ClusterSecurityGroupName"
         }
     }
 
     public struct GetClusterCredentialsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "DbGroups", required: false, type: .structure), 
-            AWSShapeProperty(label: "DbName", required: false, type: .string), 
-            AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "AutoCreate", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DbUser", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "DbGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "DbName", required: false, type: .string), 
+            AWSShapeMember(label: "DurationSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoCreate", required: false, type: .boolean), 
+            AWSShapeMember(label: "DbUser", required: true, type: .string)
         ]
         /// The unique identifier of the cluster that contains the database for which your are requesting credentials. This parameter is case sensitive.
         public let clusterIdentifier: String
@@ -209,24 +201,21 @@ extension Redshift {
             self.dbUser = dbUser
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
-            if let dbGroups = dictionary["DbGroups"] as? [String: Any] { self.dbGroups = try Redshift.DbGroupList(dictionary: dbGroups) } else { self.dbGroups = nil }
-            self.dbName = dictionary["DbName"] as? String
-            self.durationSeconds = dictionary["DurationSeconds"] as? Int32
-            self.autoCreate = dictionary["AutoCreate"] as? Bool
-            guard let dbUser = dictionary["DbUser"] as? String else { throw InitializableError.missingRequiredParam("DbUser") }
-            self.dbUser = dbUser
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case dbGroups = "DbGroups"
+            case dbName = "DbName"
+            case durationSeconds = "DurationSeconds"
+            case autoCreate = "AutoCreate"
+            case dbUser = "DbUser"
         }
     }
 
     public struct ClusterSecurityGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterSecurityGroups", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterSecurityGroups", required: false, type: .structure)
         ]
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
@@ -238,20 +227,19 @@ extension Redshift {
             self.clusterSecurityGroups = clusterSecurityGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String: Any] { self.clusterSecurityGroups = try Redshift.ClusterSecurityGroups(dictionary: clusterSecurityGroups) } else { self.clusterSecurityGroups = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case clusterSecurityGroups = "ClusterSecurityGroups"
         }
     }
 
     public struct DescribeTableRestoreStatusMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "TableRestoreRequestId", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "TableRestoreRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// The Amazon Redshift cluster that the table is being restored to.
         public let clusterIdentifier: String?
@@ -269,19 +257,18 @@ extension Redshift {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.tableRestoreRequestId = dictionary["TableRestoreRequestId"] as? String
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case maxRecords = "MaxRecords"
+            case tableRestoreRequestId = "TableRestoreRequestId"
+            case marker = "Marker"
         }
     }
 
     public struct RebootClusterResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
 
@@ -289,16 +276,15 @@ extension Redshift {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct DeleteHsmClientCertificateMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmClientCertificateIdentifier", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmClientCertificateIdentifier", required: true, type: .string)
         ]
         /// The identifier of the HSM client certificate to be deleted.
         public let hsmClientCertificateIdentifier: String
@@ -307,18 +293,16 @@ extension Redshift {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String else { throw InitializableError.missingRequiredParam("HsmClientCertificateIdentifier") }
-            self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
+        private enum CodingKeys: String, CodingKey {
+            case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
         }
     }
 
     public struct OrderableClusterOptionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "OrderableClusterOptions", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "OrderableClusterOptions", required: false, type: .structure)
         ]
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
@@ -330,17 +314,16 @@ extension Redshift {
             self.orderableClusterOptions = orderableClusterOptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let orderableClusterOptions = dictionary["OrderableClusterOptions"] as? [String: Any] { self.orderableClusterOptions = try Redshift.OrderableClusterOptionsList(dictionary: orderableClusterOptions) } else { self.orderableClusterOptions = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case orderableClusterOptions = "OrderableClusterOptions"
         }
     }
 
     public struct AccountsWithRestoreAccessList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountWithRestoreAccess", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountWithRestoreAccess", required: false, type: .list)
         ]
         public let accountWithRestoreAccess: [AccountWithRestoreAccess]?
 
@@ -348,20 +331,15 @@ extension Redshift {
             self.accountWithRestoreAccess = accountWithRestoreAccess
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let accountWithRestoreAccess = dictionary["AccountWithRestoreAccess"] as? [[String: Any]] {
-                self.accountWithRestoreAccess = try accountWithRestoreAccess.map({ try AccountWithRestoreAccess(dictionary: $0) })
-            } else { 
-                self.accountWithRestoreAccess = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case accountWithRestoreAccess = "AccountWithRestoreAccess"
         }
     }
 
     public struct ClusterList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .list)
         ]
         public let cluster: [Cluster]?
 
@@ -369,22 +347,17 @@ extension Redshift {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [[String: Any]] {
-                self.cluster = try cluster.map({ try Cluster(dictionary: $0) })
-            } else { 
-                self.cluster = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct AuthorizeSnapshotAccessMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotClusterIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "AccountWithRestoreAccess", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "AccountWithRestoreAccess", required: true, type: .string)
         ]
         /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public let snapshotClusterIdentifier: String?
@@ -399,16 +372,14 @@ extension Redshift {
             self.accountWithRestoreAccess = accountWithRestoreAccess
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snapshotClusterIdentifier = dictionary["SnapshotClusterIdentifier"] as? String
-            guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
-            self.snapshotIdentifier = snapshotIdentifier
-            guard let accountWithRestoreAccess = dictionary["AccountWithRestoreAccess"] as? String else { throw InitializableError.missingRequiredParam("AccountWithRestoreAccess") }
-            self.accountWithRestoreAccess = accountWithRestoreAccess
+        private enum CodingKeys: String, CodingKey {
+            case snapshotClusterIdentifier = "SnapshotClusterIdentifier"
+            case snapshotIdentifier = "SnapshotIdentifier"
+            case accountWithRestoreAccess = "AccountWithRestoreAccess"
         }
     }
 
-    public enum TableRestoreStatusType: String, CustomStringConvertible {
+    public enum TableRestoreStatusType: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case in_progress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
@@ -419,10 +390,9 @@ extension Redshift {
 
     public struct Endpoint: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Address", required: false, type: .string), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
         /// The DNS address of the Cluster.
         public let address: String?
@@ -434,17 +404,16 @@ extension Redshift {
             self.port = port
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.address = dictionary["Address"] as? String
-            self.port = dictionary["Port"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case port = "Port"
         }
     }
 
     public struct ReservedNodeList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedNode", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedNode", required: false, type: .list)
         ]
         public let reservedNode: [ReservedNode]?
 
@@ -452,20 +421,15 @@ extension Redshift {
             self.reservedNode = reservedNode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let reservedNode = dictionary["ReservedNode"] as? [[String: Any]] {
-                self.reservedNode = try reservedNode.map({ try ReservedNode(dictionary: $0) })
-            } else { 
-                self.reservedNode = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case reservedNode = "ReservedNode"
         }
     }
 
     public struct ClusterVersionList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterVersion", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterVersion", required: false, type: .list)
         ]
         public let clusterVersion: [ClusterVersion]?
 
@@ -473,20 +437,15 @@ extension Redshift {
             self.clusterVersion = clusterVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterVersion = dictionary["ClusterVersion"] as? [[String: Any]] {
-                self.clusterVersion = try clusterVersion.map({ try ClusterVersion(dictionary: $0) })
-            } else { 
-                self.clusterVersion = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case clusterVersion = "ClusterVersion"
         }
     }
 
     public struct ClusterParameterGroupStatusList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterParameterGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterParameterGroup", required: false, type: .list)
         ]
         public let clusterParameterGroup: [ClusterParameterGroupStatus]?
 
@@ -494,20 +453,15 @@ extension Redshift {
             self.clusterParameterGroup = clusterParameterGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterParameterGroup = dictionary["ClusterParameterGroup"] as? [[String: Any]] {
-                self.clusterParameterGroup = try clusterParameterGroup.map({ try ClusterParameterGroupStatus(dictionary: $0) })
-            } else { 
-                self.clusterParameterGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case clusterParameterGroup = "ClusterParameterGroup"
         }
     }
 
     public struct CreateClusterParameterGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterParameterGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterParameterGroup", required: false, type: .structure)
         ]
         public let clusterParameterGroup: ClusterParameterGroup?
 
@@ -515,17 +469,16 @@ extension Redshift {
             self.clusterParameterGroup = clusterParameterGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterParameterGroup = dictionary["ClusterParameterGroup"] as? [String: Any] { self.clusterParameterGroup = try Redshift.ClusterParameterGroup(dictionary: clusterParameterGroup) } else { self.clusterParameterGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case clusterParameterGroup = "ClusterParameterGroup"
         }
     }
 
     public struct HsmConfigurationMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmConfigurations", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "HsmConfigurations", required: false, type: .structure)
         ]
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
@@ -537,18 +490,17 @@ extension Redshift {
             self.hsmConfigurations = hsmConfigurations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let hsmConfigurations = dictionary["HsmConfigurations"] as? [String: Any] { self.hsmConfigurations = try Redshift.HsmConfigurationList(dictionary: hsmConfigurations) } else { self.hsmConfigurations = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case hsmConfigurations = "HsmConfigurations"
         }
     }
 
     public struct PurchaseReservedNodeOfferingMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedNodeOfferingId", required: true, type: .string), 
-            AWSShapeProperty(label: "NodeCount", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedNodeOfferingId", required: true, type: .string), 
+            AWSShapeMember(label: "NodeCount", required: false, type: .integer)
         ]
         /// The unique identifier of the reserved node offering you want to purchase.
         public let reservedNodeOfferingId: String
@@ -560,18 +512,16 @@ extension Redshift {
             self.nodeCount = nodeCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let reservedNodeOfferingId = dictionary["ReservedNodeOfferingId"] as? String else { throw InitializableError.missingRequiredParam("ReservedNodeOfferingId") }
-            self.reservedNodeOfferingId = reservedNodeOfferingId
-            self.nodeCount = dictionary["NodeCount"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case reservedNodeOfferingId = "ReservedNodeOfferingId"
+            case nodeCount = "NodeCount"
         }
     }
 
     public struct ModifySnapshotCopyRetentionPeriodResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
 
@@ -579,18 +529,17 @@ extension Redshift {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct HsmStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmConfigurationIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmClientCertificateIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "HsmConfigurationIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "HsmClientCertificateIdentifier", required: false, type: .string)
         ]
         /// Reports whether the Amazon Redshift cluster has finished applying any HSM settings changes specified in a modify cluster command. Values: active, applying
         public let status: String?
@@ -605,20 +554,19 @@ extension Redshift {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
-            self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
+            case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
         }
     }
 
     public struct ModifyClusterSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", required: true, type: .structure), 
-            AWSShapeProperty(label: "ClusterSubnetGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: true, type: .structure), 
+            AWSShapeMember(label: "ClusterSubnetGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request.
         public let subnetIds: SubnetIdentifierList
@@ -633,20 +581,17 @@ extension Redshift {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subnetIds = dictionary["SubnetIds"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SubnetIds") }
-            self.subnetIds = try Redshift.SubnetIdentifierList(dictionary: subnetIds)
-            guard let clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSubnetGroupName") }
-            self.clusterSubnetGroupName = clusterSubnetGroupName
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case clusterSubnetGroupName = "ClusterSubnetGroupName"
+            case description = "Description"
         }
     }
 
     public struct RestoreTableFromClusterSnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableRestoreStatus", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableRestoreStatus", required: false, type: .structure)
         ]
         public let tableRestoreStatus: TableRestoreStatus?
 
@@ -654,16 +599,15 @@ extension Redshift {
             self.tableRestoreStatus = tableRestoreStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tableRestoreStatus = dictionary["TableRestoreStatus"] as? [String: Any] { self.tableRestoreStatus = try Redshift.TableRestoreStatus(dictionary: tableRestoreStatus) } else { self.tableRestoreStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tableRestoreStatus = "TableRestoreStatus"
         }
     }
 
     public struct TableRestoreStatusList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableRestoreStatus", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableRestoreStatus", required: false, type: .list)
         ]
         public let tableRestoreStatus: [TableRestoreStatus]?
 
@@ -671,20 +615,15 @@ extension Redshift {
             self.tableRestoreStatus = tableRestoreStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tableRestoreStatus = dictionary["TableRestoreStatus"] as? [[String: Any]] {
-                self.tableRestoreStatus = try tableRestoreStatus.map({ try TableRestoreStatus(dictionary: $0) })
-            } else { 
-                self.tableRestoreStatus = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tableRestoreStatus = "TableRestoreStatus"
         }
     }
 
     public struct AuthorizeSnapshotAccessResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
 
@@ -692,21 +631,20 @@ extension Redshift {
             self.snapshot = snapshot
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Redshift.Snapshot(dictionary: snapshot) } else { self.snapshot = nil }
+        private enum CodingKeys: String, CodingKey {
+            case snapshot = "Snapshot"
         }
     }
 
     public struct ClusterSubnetGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetGroupStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "Subnets", required: false, type: .structure), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterSubnetGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetGroupStatus", required: false, type: .string), 
+            AWSShapeMember(label: "Subnets", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The status of the cluster subnet group. Possible values are Complete, Incomplete and Invalid. 
         public let subnetGroupStatus: String?
@@ -730,27 +668,26 @@ extension Redshift {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetGroupStatus = dictionary["SubnetGroupStatus"] as? String
-            if let subnets = dictionary["Subnets"] as? [String: Any] { self.subnets = try Redshift.SubnetList(dictionary: subnets) } else { self.subnets = nil }
-            self.vpcId = dictionary["VpcId"] as? String
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            self.clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetGroupStatus = "SubnetGroupStatus"
+            case subnets = "Subnets"
+            case vpcId = "VpcId"
+            case tags = "Tags"
+            case clusterSubnetGroupName = "ClusterSubnetGroupName"
+            case description = "Description"
         }
     }
 
     public struct CreateHsmConfigurationMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmPartitionName", required: true, type: .string), 
-            AWSShapeProperty(label: "HsmPartitionPassword", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "HsmServerPublicCertificate", required: true, type: .string), 
-            AWSShapeProperty(label: "HsmIpAddress", required: true, type: .string), 
-            AWSShapeProperty(label: "HsmConfigurationIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmPartitionName", required: true, type: .string), 
+            AWSShapeMember(label: "HsmPartitionPassword", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "HsmServerPublicCertificate", required: true, type: .string), 
+            AWSShapeMember(label: "HsmIpAddress", required: true, type: .string), 
+            AWSShapeMember(label: "HsmConfigurationIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
         ]
         /// The name of the partition in the HSM where the Amazon Redshift clusters will store their database encryption keys.
         public let hsmPartitionName: String
@@ -777,35 +714,28 @@ extension Redshift {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hsmPartitionName = dictionary["HsmPartitionName"] as? String else { throw InitializableError.missingRequiredParam("HsmPartitionName") }
-            self.hsmPartitionName = hsmPartitionName
-            guard let hsmPartitionPassword = dictionary["HsmPartitionPassword"] as? String else { throw InitializableError.missingRequiredParam("HsmPartitionPassword") }
-            self.hsmPartitionPassword = hsmPartitionPassword
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            guard let hsmServerPublicCertificate = dictionary["HsmServerPublicCertificate"] as? String else { throw InitializableError.missingRequiredParam("HsmServerPublicCertificate") }
-            self.hsmServerPublicCertificate = hsmServerPublicCertificate
-            guard let hsmIpAddress = dictionary["HsmIpAddress"] as? String else { throw InitializableError.missingRequiredParam("HsmIpAddress") }
-            self.hsmIpAddress = hsmIpAddress
-            guard let hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String else { throw InitializableError.missingRequiredParam("HsmConfigurationIdentifier") }
-            self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
-            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
-            self.description = description
+        private enum CodingKeys: String, CodingKey {
+            case hsmPartitionName = "HsmPartitionName"
+            case hsmPartitionPassword = "HsmPartitionPassword"
+            case tags = "Tags"
+            case hsmServerPublicCertificate = "HsmServerPublicCertificate"
+            case hsmIpAddress = "HsmIpAddress"
+            case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
+            case description = "Description"
         }
     }
 
     public struct RestoreTableFromClusterSnapshotMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceDatabaseName", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceTableName", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceSchemaName", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "TargetDatabaseName", required: false, type: .string), 
-            AWSShapeProperty(label: "NewTableName", required: true, type: .string), 
-            AWSShapeProperty(label: "TargetSchemaName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "SourceDatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "SourceTableName", required: true, type: .string), 
+            AWSShapeMember(label: "SourceSchemaName", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "TargetDatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "NewTableName", required: true, type: .string), 
+            AWSShapeMember(label: "TargetSchemaName", required: false, type: .string)
         ]
         /// The identifier of the snapshot to restore the table from. This snapshot must have been created from the Amazon Redshift cluster specified by the ClusterIdentifier parameter.
         public let snapshotIdentifier: String
@@ -835,28 +765,22 @@ extension Redshift {
             self.targetSchemaName = targetSchemaName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
-            self.snapshotIdentifier = snapshotIdentifier
-            guard let sourceDatabaseName = dictionary["SourceDatabaseName"] as? String else { throw InitializableError.missingRequiredParam("SourceDatabaseName") }
-            self.sourceDatabaseName = sourceDatabaseName
-            guard let sourceTableName = dictionary["SourceTableName"] as? String else { throw InitializableError.missingRequiredParam("SourceTableName") }
-            self.sourceTableName = sourceTableName
-            self.sourceSchemaName = dictionary["SourceSchemaName"] as? String
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
-            self.targetDatabaseName = dictionary["TargetDatabaseName"] as? String
-            guard let newTableName = dictionary["NewTableName"] as? String else { throw InitializableError.missingRequiredParam("NewTableName") }
-            self.newTableName = newTableName
-            self.targetSchemaName = dictionary["TargetSchemaName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case snapshotIdentifier = "SnapshotIdentifier"
+            case sourceDatabaseName = "SourceDatabaseName"
+            case sourceTableName = "SourceTableName"
+            case sourceSchemaName = "SourceSchemaName"
+            case clusterIdentifier = "ClusterIdentifier"
+            case targetDatabaseName = "TargetDatabaseName"
+            case newTableName = "NewTableName"
+            case targetSchemaName = "TargetSchemaName"
         }
     }
 
     public struct DisableSnapshotCopyResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
 
@@ -864,17 +788,16 @@ extension Redshift {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The value for the resource tag.
         public let value: String?
@@ -886,28 +809,27 @@ extension Redshift {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct ResizeProgressMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "EstimatedTimeToCompletionInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "TargetClusterType", required: false, type: .string), 
-            AWSShapeProperty(label: "AvgResizeRateInMegaBytesPerSecond", required: false, type: .double), 
-            AWSShapeProperty(label: "ProgressInMegaBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "ImportTablesInProgress", required: false, type: .list), 
-            AWSShapeProperty(label: "TotalResizeDataInMegaBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "ElapsedTimeInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "ImportTablesNotStarted", required: false, type: .list), 
-            AWSShapeProperty(label: "TargetNumberOfNodes", required: false, type: .integer), 
-            AWSShapeProperty(label: "TargetNodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "ImportTablesCompleted", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedTimeToCompletionInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "TargetClusterType", required: false, type: .string), 
+            AWSShapeMember(label: "AvgResizeRateInMegaBytesPerSecond", required: false, type: .double), 
+            AWSShapeMember(label: "ProgressInMegaBytes", required: false, type: .long), 
+            AWSShapeMember(label: "ImportTablesInProgress", required: false, type: .list), 
+            AWSShapeMember(label: "TotalResizeDataInMegaBytes", required: false, type: .long), 
+            AWSShapeMember(label: "ElapsedTimeInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "ImportTablesNotStarted", required: false, type: .list), 
+            AWSShapeMember(label: "TargetNumberOfNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "TargetNodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ImportTablesCompleted", required: false, type: .list)
         ]
         /// The status of the resize operation. Valid Values: NONE | IN_PROGRESS | FAILED | SUCCEEDED 
         public let status: String?
@@ -949,30 +871,29 @@ extension Redshift {
             self.importTablesCompleted = importTablesCompleted
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            self.estimatedTimeToCompletionInSeconds = dictionary["EstimatedTimeToCompletionInSeconds"] as? Int64
-            self.targetClusterType = dictionary["TargetClusterType"] as? String
-            self.avgResizeRateInMegaBytesPerSecond = dictionary["AvgResizeRateInMegaBytesPerSecond"] as? Double
-            self.progressInMegaBytes = dictionary["ProgressInMegaBytes"] as? Int64
-            self.importTablesInProgress = dictionary["ImportTablesInProgress"] as? [String]
-            self.totalResizeDataInMegaBytes = dictionary["TotalResizeDataInMegaBytes"] as? Int64
-            self.elapsedTimeInSeconds = dictionary["ElapsedTimeInSeconds"] as? Int64
-            self.importTablesNotStarted = dictionary["ImportTablesNotStarted"] as? [String]
-            self.targetNumberOfNodes = dictionary["TargetNumberOfNodes"] as? Int32
-            self.targetNodeType = dictionary["TargetNodeType"] as? String
-            self.importTablesCompleted = dictionary["ImportTablesCompleted"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case estimatedTimeToCompletionInSeconds = "EstimatedTimeToCompletionInSeconds"
+            case targetClusterType = "TargetClusterType"
+            case avgResizeRateInMegaBytesPerSecond = "AvgResizeRateInMegaBytesPerSecond"
+            case progressInMegaBytes = "ProgressInMegaBytes"
+            case importTablesInProgress = "ImportTablesInProgress"
+            case totalResizeDataInMegaBytes = "TotalResizeDataInMegaBytes"
+            case elapsedTimeInSeconds = "ElapsedTimeInSeconds"
+            case importTablesNotStarted = "ImportTablesNotStarted"
+            case targetNumberOfNodes = "TargetNumberOfNodes"
+            case targetNodeType = "TargetNodeType"
+            case importTablesCompleted = "ImportTablesCompleted"
         }
     }
 
     public struct OrderableClusterOption: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterType", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "NodeType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterType", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string)
         ]
         /// A list of availability zones for the orderable cluster.
         public let availabilityZones: AvailabilityZoneList?
@@ -990,26 +911,25 @@ extension Redshift {
             self.nodeType = nodeType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let availabilityZones = dictionary["AvailabilityZones"] as? [String: Any] { self.availabilityZones = try Redshift.AvailabilityZoneList(dictionary: availabilityZones) } else { self.availabilityZones = nil }
-            self.clusterType = dictionary["ClusterType"] as? String
-            self.clusterVersion = dictionary["ClusterVersion"] as? String
-            self.nodeType = dictionary["NodeType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case clusterType = "ClusterType"
+            case clusterVersion = "ClusterVersion"
+            case nodeType = "NodeType"
         }
     }
 
     public struct CreateEventSubscriptionMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Severity", required: false, type: .string), 
-            AWSShapeProperty(label: "SnsTopicArn", required: true, type: .string), 
-            AWSShapeProperty(label: "SubscriptionName", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "EventCategories", required: false, type: .structure), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceIds", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Severity", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicArn", required: true, type: .string), 
+            AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .structure), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "SourceIds", required: false, type: .structure)
         ]
         /// Specifies the Amazon Redshift event severity to be published by the event notification subscription. Values: ERROR, INFO
         public let severity: String?
@@ -1039,25 +959,22 @@ extension Redshift {
             self.sourceIds = sourceIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.severity = dictionary["Severity"] as? String
-            guard let snsTopicArn = dictionary["SnsTopicArn"] as? String else { throw InitializableError.missingRequiredParam("SnsTopicArn") }
-            self.snsTopicArn = snsTopicArn
-            guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
-            self.subscriptionName = subscriptionName
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Redshift.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
-            self.enabled = dictionary["Enabled"] as? Bool
-            self.sourceType = dictionary["SourceType"] as? String
-            if let sourceIds = dictionary["SourceIds"] as? [String: Any] { self.sourceIds = try Redshift.SourceIdsList(dictionary: sourceIds) } else { self.sourceIds = nil }
+        private enum CodingKeys: String, CodingKey {
+            case severity = "Severity"
+            case snsTopicArn = "SnsTopicArn"
+            case subscriptionName = "SubscriptionName"
+            case tags = "Tags"
+            case eventCategories = "EventCategories"
+            case enabled = "Enabled"
+            case sourceType = "SourceType"
+            case sourceIds = "SourceIds"
         }
     }
 
     public struct ClusterIamRoleList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIamRole", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIamRole", required: false, type: .list)
         ]
         public let clusterIamRole: [ClusterIamRole]?
 
@@ -1065,20 +982,15 @@ extension Redshift {
             self.clusterIamRole = clusterIamRole
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterIamRole = dictionary["ClusterIamRole"] as? [[String: Any]] {
-                self.clusterIamRole = try clusterIamRole.map({ try ClusterIamRole(dictionary: $0) })
-            } else { 
-                self.clusterIamRole = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case clusterIamRole = "ClusterIamRole"
         }
     }
 
     public struct EventCategoriesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventCategoriesMapList", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventCategoriesMapList", required: false, type: .structure)
         ]
         /// A list of event categories descriptions.
         public let eventCategoriesMapList: EventCategoriesMapList?
@@ -1087,17 +999,16 @@ extension Redshift {
             self.eventCategoriesMapList = eventCategoriesMapList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventCategoriesMapList = dictionary["EventCategoriesMapList"] as? [String: Any] { self.eventCategoriesMapList = try Redshift.EventCategoriesMapList(dictionary: eventCategoriesMapList) } else { self.eventCategoriesMapList = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eventCategoriesMapList = "EventCategoriesMapList"
         }
     }
 
     public struct RecurringCharge: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecurringChargeAmount", required: false, type: .double), 
-            AWSShapeProperty(label: "RecurringChargeFrequency", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecurringChargeAmount", required: false, type: .double), 
+            AWSShapeMember(label: "RecurringChargeFrequency", required: false, type: .string)
         ]
         /// The amount charged per the period of time specified by the recurring charge frequency.
         public let recurringChargeAmount: Double?
@@ -1109,17 +1020,16 @@ extension Redshift {
             self.recurringChargeFrequency = recurringChargeFrequency
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.recurringChargeAmount = dictionary["RecurringChargeAmount"] as? Double
-            self.recurringChargeFrequency = dictionary["RecurringChargeFrequency"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case recurringChargeAmount = "RecurringChargeAmount"
+            case recurringChargeFrequency = "RecurringChargeFrequency"
         }
     }
 
     public struct IPRangeList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IPRange", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IPRange", required: false, type: .list)
         ]
         public let iPRange: [IPRange]?
 
@@ -1127,21 +1037,16 @@ extension Redshift {
             self.iPRange = iPRange
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let iPRange = dictionary["IPRange"] as? [[String: Any]] {
-                self.iPRange = try iPRange.map({ try IPRange(dictionary: $0) })
-            } else { 
-                self.iPRange = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case iPRange = "IPRange"
         }
     }
 
     public struct HsmClientCertificateMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmClientCertificates", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "HsmClientCertificates", required: false, type: .structure)
         ]
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
@@ -1153,26 +1058,25 @@ extension Redshift {
             self.hsmClientCertificates = hsmClientCertificates
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let hsmClientCertificates = dictionary["HsmClientCertificates"] as? [String: Any] { self.hsmClientCertificates = try Redshift.HsmClientCertificateList(dictionary: hsmClientCertificates) } else { self.hsmClientCertificates = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case hsmClientCertificates = "HsmClientCertificates"
         }
     }
 
     public struct DescribeEventsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Duration", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer)
         ]
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z 
-        public let startTime: String?
+        public let startTime: Double?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeEvents request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
@@ -1180,13 +1084,13 @@ extension Redshift {
         /// The event source to retrieve events for. If no value is specified, all events are returned. Constraints: If SourceType is supplied, SourceIdentifier must also be provided.   Specify cluster when SourceIdentifier is a cluster identifier.   Specify cluster-security-group when SourceIdentifier is a cluster security group name.   Specify cluster-parameter-group when SourceIdentifier is a cluster parameter group name.   Specify cluster-snapshot when SourceIdentifier is a cluster snapshot identifier.  
         public let sourceType: SourceType?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z 
-        public let endTime: String?
+        public let endTime: Double?
         /// The identifier of the event source for which events will be returned. If this parameter is not specified, then all sources are included in the response. Constraints: If SourceIdentifier is supplied, SourceType must also be provided.   Specify a cluster identifier when SourceType is cluster.   Specify a cluster security group name when SourceType is cluster-security-group.   Specify a cluster parameter group name when SourceType is cluster-parameter-group.   Specify a cluster snapshot identifier when SourceType is cluster-snapshot.  
         public let sourceIdentifier: String?
         /// The number of minutes prior to the time of the request for which to retrieve events. For example, if the request is sent at 18:00 and you specify a duration of 60, then only events which have occurred after 17:00 will be returned. Default: 60 
         public let duration: Int32?
 
-        public init(startTime: String? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, endTime: String? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
+        public init(startTime: Double? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, endTime: Double? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.marker = marker
@@ -1196,25 +1100,24 @@ extension Redshift {
             self.duration = duration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
-            self.endTime = dictionary["EndTime"] as? String
-            self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
-            self.duration = dictionary["Duration"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case sourceType = "SourceType"
+            case endTime = "EndTime"
+            case sourceIdentifier = "SourceIdentifier"
+            case duration = "Duration"
         }
     }
 
     public struct EnableSnapshotCopyMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DestinationRegion", required: true, type: .string), 
-            AWSShapeProperty(label: "RetentionPeriod", required: false, type: .integer), 
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "SnapshotCopyGrantName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationRegion", required: true, type: .string), 
+            AWSShapeMember(label: "RetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "SnapshotCopyGrantName", required: false, type: .string)
         ]
         /// The destination region that you want to copy snapshots to. Constraints: Must be the name of a valid region. For more information, see Regions and Endpoints in the Amazon Web Services General Reference. 
         public let destinationRegion: String
@@ -1232,25 +1135,22 @@ extension Redshift {
             self.snapshotCopyGrantName = snapshotCopyGrantName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let destinationRegion = dictionary["DestinationRegion"] as? String else { throw InitializableError.missingRequiredParam("DestinationRegion") }
-            self.destinationRegion = destinationRegion
-            self.retentionPeriod = dictionary["RetentionPeriod"] as? Int32
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
-            self.snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case destinationRegion = "DestinationRegion"
+            case retentionPeriod = "RetentionPeriod"
+            case clusterIdentifier = "ClusterIdentifier"
+            case snapshotCopyGrantName = "SnapshotCopyGrantName"
         }
     }
 
     public struct DescribeClusterSecurityGroupsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "TagKeys", required: false, type: .structure), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterSecurityGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "TagValues", required: false, type: .structure), 
+            AWSShapeMember(label: "TagKeys", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterSecurityGroupName", required: false, type: .string)
         ]
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -1271,22 +1171,21 @@ extension Redshift {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
-            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
-            self.marker = dictionary["Marker"] as? String
-            self.clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case tagValues = "TagValues"
+            case tagKeys = "TagKeys"
+            case marker = "Marker"
+            case clusterSecurityGroupName = "ClusterSecurityGroupName"
         }
     }
 
     public struct CreateClusterSecurityGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterSecurityGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSecurityGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
         ]
         /// The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric characters or hyphens.   Must not be "Default".   Must be unique for all security groups that are created by your AWS account.   Example: examplesecuritygroup 
         public let clusterSecurityGroupName: String
@@ -1301,20 +1200,17 @@ extension Redshift {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSecurityGroupName") }
-            self.clusterSecurityGroupName = clusterSecurityGroupName
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
-            self.description = description
+        private enum CodingKeys: String, CodingKey {
+            case clusterSecurityGroupName = "ClusterSecurityGroupName"
+            case tags = "Tags"
+            case description = "Description"
         }
     }
 
     public struct VpcSecurityGroupIdList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcSecurityGroupId", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .list)
         ]
         public let vpcSecurityGroupId: [String]?
 
@@ -1322,20 +1218,19 @@ extension Redshift {
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.vpcSecurityGroupId = dictionary["VpcSecurityGroupId"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case vpcSecurityGroupId = "VpcSecurityGroupId"
         }
     }
 
     public struct DescribeHsmConfigurationsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmConfigurationIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "TagValues", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "HsmConfigurationIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: false, type: .structure)
         ]
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -1356,20 +1251,19 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
-            self.marker = dictionary["Marker"] as? String
-            self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
-            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case tagValues = "TagValues"
+            case marker = "Marker"
+            case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct EventList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Event", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Event", required: false, type: .list)
         ]
         public let event: [Event]?
 
@@ -1377,20 +1271,15 @@ extension Redshift {
             self.event = event
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let event = dictionary["Event"] as? [[String: Any]] {
-                self.event = try event.map({ try Event(dictionary: $0) })
-            } else { 
-                self.event = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case event = "Event"
         }
     }
 
     public struct DeleteClusterSnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
 
@@ -1398,16 +1287,15 @@ extension Redshift {
             self.snapshot = snapshot
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Redshift.Snapshot(dictionary: snapshot) } else { self.snapshot = nil }
+        private enum CodingKeys: String, CodingKey {
+            case snapshot = "Snapshot"
         }
     }
 
     public struct EventInfoMapList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventInfoMap", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventInfoMap", required: false, type: .list)
         ]
         public let eventInfoMap: [EventInfoMap]?
 
@@ -1415,23 +1303,18 @@ extension Redshift {
             self.eventInfoMap = eventInfoMap
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventInfoMap = dictionary["EventInfoMap"] as? [[String: Any]] {
-                self.eventInfoMap = try eventInfoMap.map({ try EventInfoMap(dictionary: $0) })
-            } else { 
-                self.eventInfoMap = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case eventInfoMap = "EventInfoMap"
         }
     }
 
     public struct ClusterParameterGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterGroupFamily", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterGroupFamily", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The name of the cluster parameter group.
         public let parameterGroupName: String?
@@ -1449,33 +1332,32 @@ extension Redshift {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parameterGroupName = dictionary["ParameterGroupName"] as? String
-            self.parameterGroupFamily = dictionary["ParameterGroupFamily"] as? String
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameterGroupName = "ParameterGroupName"
+            case parameterGroupFamily = "ParameterGroupFamily"
+            case tags = "Tags"
+            case description = "Description"
         }
     }
 
     public struct ReservedNode: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "RecurringCharges", required: false, type: .structure), 
-            AWSShapeProperty(label: "NodeCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "UsagePrice", required: false, type: .double), 
-            AWSShapeProperty(label: "State", required: false, type: .string), 
-            AWSShapeProperty(label: "NodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "ReservedNodeId", required: false, type: .string), 
-            AWSShapeProperty(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeProperty(label: "ReservedNodeOfferingId", required: false, type: .string), 
-            AWSShapeProperty(label: "Duration", required: false, type: .integer), 
-            AWSShapeProperty(label: "OfferingType", required: false, type: .string), 
-            AWSShapeProperty(label: "FixedPrice", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RecurringCharges", required: false, type: .structure), 
+            AWSShapeMember(label: "NodeCount", required: false, type: .integer), 
+            AWSShapeMember(label: "UsagePrice", required: false, type: .double), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedNodeOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
+            AWSShapeMember(label: "FixedPrice", required: false, type: .double)
         ]
         /// The time the reservation started. You purchase a reserved node offering for a duration. This is the start time of that duration.
-        public let startTime: String?
+        public let startTime: Double?
         /// The recurring charges for the reserved node.
         public let recurringCharges: RecurringChargeList?
         /// The number of reserved compute nodes.
@@ -1499,7 +1381,7 @@ extension Redshift {
         /// The fixed cost Amazon Redshift charges you for this reserved node.
         public let fixedPrice: Double?
 
-        public init(startTime: String? = nil, recurringCharges: RecurringChargeList? = nil, nodeCount: Int32? = nil, usagePrice: Double? = nil, state: String? = nil, nodeType: String? = nil, reservedNodeId: String? = nil, currencyCode: String? = nil, reservedNodeOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil) {
+        public init(startTime: Double? = nil, recurringCharges: RecurringChargeList? = nil, nodeCount: Int32? = nil, usagePrice: Double? = nil, state: String? = nil, nodeType: String? = nil, reservedNodeId: String? = nil, currencyCode: String? = nil, reservedNodeOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil) {
             self.startTime = startTime
             self.recurringCharges = recurringCharges
             self.nodeCount = nodeCount
@@ -1514,32 +1396,31 @@ extension Redshift {
             self.fixedPrice = fixedPrice
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            if let recurringCharges = dictionary["RecurringCharges"] as? [String: Any] { self.recurringCharges = try Redshift.RecurringChargeList(dictionary: recurringCharges) } else { self.recurringCharges = nil }
-            self.nodeCount = dictionary["NodeCount"] as? Int32
-            self.usagePrice = dictionary["UsagePrice"] as? Double
-            self.state = dictionary["State"] as? String
-            self.nodeType = dictionary["NodeType"] as? String
-            self.reservedNodeId = dictionary["ReservedNodeId"] as? String
-            self.currencyCode = dictionary["CurrencyCode"] as? String
-            self.reservedNodeOfferingId = dictionary["ReservedNodeOfferingId"] as? String
-            self.duration = dictionary["Duration"] as? Int32
-            self.offeringType = dictionary["OfferingType"] as? String
-            self.fixedPrice = dictionary["FixedPrice"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case recurringCharges = "RecurringCharges"
+            case nodeCount = "NodeCount"
+            case usagePrice = "UsagePrice"
+            case state = "State"
+            case nodeType = "NodeType"
+            case reservedNodeId = "ReservedNodeId"
+            case currencyCode = "CurrencyCode"
+            case reservedNodeOfferingId = "ReservedNodeOfferingId"
+            case duration = "Duration"
+            case offeringType = "OfferingType"
+            case fixedPrice = "FixedPrice"
         }
     }
 
     public struct RestoreStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotSizeInMegaBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "CurrentRestoreRateInMegaBytesPerSecond", required: false, type: .double), 
-            AWSShapeProperty(label: "EstimatedTimeToCompletionInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "ProgressInMegaBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "ElapsedTimeInSeconds", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotSizeInMegaBytes", required: false, type: .long), 
+            AWSShapeMember(label: "CurrentRestoreRateInMegaBytesPerSecond", required: false, type: .double), 
+            AWSShapeMember(label: "EstimatedTimeToCompletionInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "ProgressInMegaBytes", required: false, type: .long), 
+            AWSShapeMember(label: "ElapsedTimeInSeconds", required: false, type: .long)
         ]
         /// The status of the restore action. Returns starting, restoring, completed, or failed.
         public let status: String?
@@ -1563,42 +1444,41 @@ extension Redshift {
             self.elapsedTimeInSeconds = elapsedTimeInSeconds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            self.snapshotSizeInMegaBytes = dictionary["SnapshotSizeInMegaBytes"] as? Int64
-            self.currentRestoreRateInMegaBytesPerSecond = dictionary["CurrentRestoreRateInMegaBytesPerSecond"] as? Double
-            self.estimatedTimeToCompletionInSeconds = dictionary["EstimatedTimeToCompletionInSeconds"] as? Int64
-            self.progressInMegaBytes = dictionary["ProgressInMegaBytes"] as? Int64
-            self.elapsedTimeInSeconds = dictionary["ElapsedTimeInSeconds"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case snapshotSizeInMegaBytes = "SnapshotSizeInMegaBytes"
+            case currentRestoreRateInMegaBytesPerSecond = "CurrentRestoreRateInMegaBytesPerSecond"
+            case estimatedTimeToCompletionInSeconds = "EstimatedTimeToCompletionInSeconds"
+            case progressInMegaBytes = "ProgressInMegaBytes"
+            case elapsedTimeInSeconds = "ElapsedTimeInSeconds"
         }
     }
 
     public struct RestoreFromClusterSnapshotMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterSecurityGroups", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotClusterIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "OwnerAccount", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcSecurityGroupIds", required: false, type: .structure), 
-            AWSShapeProperty(label: "EnhancedVpcRouting", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "ClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
-            AWSShapeProperty(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeProperty(label: "HsmConfigurationIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "IamRoles", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "HsmClientCertificateIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "ElasticIp", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterSubnetGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "AdditionalInfo", required: false, type: .string), 
-            AWSShapeProperty(label: "AllowVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer), 
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "SnapshotClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "EnhancedVpcRouting", required: false, type: .boolean), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "ClusterParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "HsmConfigurationIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "IamRoles", required: false, type: .structure), 
+            AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "HsmClientCertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ElasticIp", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "AdditionalInfo", required: false, type: .string), 
+            AWSShapeMember(label: "AllowVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
         /// A list of security groups to be associated with this cluster. Default: The default cluster security group for Amazon Redshift. Cluster security groups only apply to clusters outside of VPCs.
         public let clusterSecurityGroups: ClusterSecurityGroupNameList?
@@ -1670,40 +1550,37 @@ extension Redshift {
             self.kmsKeyId = kmsKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String: Any] { self.clusterSecurityGroups = try Redshift.ClusterSecurityGroupNameList(dictionary: clusterSecurityGroups) } else { self.clusterSecurityGroups = nil }
-            self.snapshotClusterIdentifier = dictionary["SnapshotClusterIdentifier"] as? String
-            self.ownerAccount = dictionary["OwnerAccount"] as? String
-            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String: Any] { self.vpcSecurityGroupIds = try Redshift.VpcSecurityGroupIdList(dictionary: vpcSecurityGroupIds) } else { self.vpcSecurityGroupIds = nil }
-            self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
-            self.nodeType = dictionary["NodeType"] as? String
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
-            self.clusterParameterGroupName = dictionary["ClusterParameterGroupName"] as? String
-            self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            self.automatedSnapshotRetentionPeriod = dictionary["AutomatedSnapshotRetentionPeriod"] as? Int32
-            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
-            self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
-            if let iamRoles = dictionary["IamRoles"] as? [String: Any] { self.iamRoles = try Redshift.IamRoleArnList(dictionary: iamRoles) } else { self.iamRoles = nil }
-            guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
-            self.snapshotIdentifier = snapshotIdentifier
-            self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
-            self.elasticIp = dictionary["ElasticIp"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String
-            self.additionalInfo = dictionary["AdditionalInfo"] as? String
-            self.allowVersionUpgrade = dictionary["AllowVersionUpgrade"] as? Bool
-            self.port = dictionary["Port"] as? Int32
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clusterSecurityGroups = "ClusterSecurityGroups"
+            case snapshotClusterIdentifier = "SnapshotClusterIdentifier"
+            case ownerAccount = "OwnerAccount"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+            case enhancedVpcRouting = "EnhancedVpcRouting"
+            case nodeType = "NodeType"
+            case clusterIdentifier = "ClusterIdentifier"
+            case clusterParameterGroupName = "ClusterParameterGroupName"
+            case availabilityZone = "AvailabilityZone"
+            case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
+            case publiclyAccessible = "PubliclyAccessible"
+            case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
+            case iamRoles = "IamRoles"
+            case snapshotIdentifier = "SnapshotIdentifier"
+            case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
+            case elasticIp = "ElasticIp"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case clusterSubnetGroupName = "ClusterSubnetGroupName"
+            case additionalInfo = "AdditionalInfo"
+            case allowVersionUpgrade = "AllowVersionUpgrade"
+            case port = "Port"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
     public struct DeleteTagsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceName", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceName", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .structure)
         ]
         /// The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For example, arn:aws:redshift:us-east-1:123456789:cluster:t1. 
         public let resourceName: String
@@ -1715,19 +1592,16 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
-            self.resourceName = resourceName
-            guard let tagKeys = dictionary["TagKeys"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys)
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "ResourceName"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct RebootClusterMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
         ]
         /// The cluster identifier.
         public let clusterIdentifier: String
@@ -1736,18 +1610,16 @@ extension Redshift {
             self.clusterIdentifier = clusterIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
         }
     }
 
     public struct ReservedNodesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ReservedNodes", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedNodes", required: false, type: .structure)
         ]
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
@@ -1759,17 +1631,16 @@ extension Redshift {
             self.reservedNodes = reservedNodes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let reservedNodes = dictionary["ReservedNodes"] as? [String: Any] { self.reservedNodes = try Redshift.ReservedNodeList(dictionary: reservedNodes) } else { self.reservedNodes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case reservedNodes = "ReservedNodes"
         }
     }
 
     public struct DescribeLoggingStatusMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
         ]
         /// The identifier of the cluster from which to get the logging status. Example: examplecluster 
         public let clusterIdentifier: String
@@ -1778,19 +1649,17 @@ extension Redshift {
             self.clusterIdentifier = clusterIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
         }
     }
 
     public struct ResetClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .structure), 
-            AWSShapeProperty(label: "ResetAllParameters", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ParameterGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
+            AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean), 
+            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
         ]
         /// An array of names of parameters to be reset. If ResetAllParameters option is not used, then at least one parameter name must be supplied.  Constraints: A maximum of 20 parameters can be reset in a single request.
         public let parameters: ParametersList?
@@ -1805,19 +1674,17 @@ extension Redshift {
             self.parameterGroupName = parameterGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [String: Any] { self.parameters = try Redshift.ParametersList(dictionary: parameters) } else { self.parameters = nil }
-            self.resetAllParameters = dictionary["ResetAllParameters"] as? Bool
-            guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
-            self.parameterGroupName = parameterGroupName
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case resetAllParameters = "ResetAllParameters"
+            case parameterGroupName = "ParameterGroupName"
         }
     }
 
     public struct DeleteEventSubscriptionMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubscriptionName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
         ]
         /// The name of the Amazon Redshift event notification subscription to be deleted.
         public let subscriptionName: String
@@ -1826,20 +1693,18 @@ extension Redshift {
             self.subscriptionName = subscriptionName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
-            self.subscriptionName = subscriptionName
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionName = "SubscriptionName"
         }
     }
 
     public struct DescribeOrderableClusterOptionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "NodeType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string)
         ]
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -1857,19 +1722,18 @@ extension Redshift {
             self.nodeType = nodeType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.clusterVersion = dictionary["ClusterVersion"] as? String
-            self.marker = dictionary["Marker"] as? String
-            self.nodeType = dictionary["NodeType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case clusterVersion = "ClusterVersion"
+            case marker = "Marker"
+            case nodeType = "NodeType"
         }
     }
 
     public struct IamRoleArnList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamRoleArn", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamRoleArn", required: false, type: .list)
         ]
         public let iamRoleArn: [String]?
 
@@ -1877,16 +1741,15 @@ extension Redshift {
             self.iamRoleArn = iamRoleArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.iamRoleArn = dictionary["IamRoleArn"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case iamRoleArn = "IamRoleArn"
         }
     }
 
     public struct SourceIdsList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceId", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceId", required: false, type: .list)
         ]
         public let sourceId: [String]?
 
@@ -1894,18 +1757,17 @@ extension Redshift {
             self.sourceId = sourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourceId = dictionary["SourceId"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case sourceId = "SourceId"
         }
     }
 
     public struct ClusterVersion: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterParameterGroupFamily", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterParameterGroupFamily", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The version number used by the cluster.
         public let clusterVersion: String?
@@ -1920,18 +1782,17 @@ extension Redshift {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clusterVersion = dictionary["ClusterVersion"] as? String
-            self.clusterParameterGroupFamily = dictionary["ClusterParameterGroupFamily"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clusterVersion = "ClusterVersion"
+            case clusterParameterGroupFamily = "ClusterParameterGroupFamily"
+            case description = "Description"
         }
     }
 
     public struct SubnetIdentifierList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .list)
         ]
         public let subnetIdentifier: [String]?
 
@@ -1939,18 +1800,17 @@ extension Redshift {
             self.subnetIdentifier = subnetIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetIdentifier = dictionary["SubnetIdentifier"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case subnetIdentifier = "SubnetIdentifier"
         }
     }
 
     public struct Subnet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetAvailabilityZone", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubnetStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure), 
+            AWSShapeMember(label: "SubnetStatus", required: false, type: .string)
         ]
         /// The identifier of the subnet.
         public let subnetIdentifier: String?
@@ -1964,21 +1824,20 @@ extension Redshift {
             self.subnetStatus = subnetStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetIdentifier = dictionary["SubnetIdentifier"] as? String
-            if let subnetAvailabilityZone = dictionary["SubnetAvailabilityZone"] as? [String: Any] { self.subnetAvailabilityZone = try Redshift.AvailabilityZone(dictionary: subnetAvailabilityZone) } else { self.subnetAvailabilityZone = nil }
-            self.subnetStatus = dictionary["SubnetStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetIdentifier = "SubnetIdentifier"
+            case subnetAvailabilityZone = "SubnetAvailabilityZone"
+            case subnetStatus = "SubnetStatus"
         }
     }
 
     public struct EC2SecurityGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "EC2SecurityGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string)
         ]
         /// The status of the EC2 security group.
         public let status: String?
@@ -1996,27 +1855,26 @@ extension Redshift {
             self.eC2SecurityGroupName = eC2SecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            self.eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            self.eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case tags = "Tags"
+            case eC2SecurityGroupName = "EC2SecurityGroupName"
         }
     }
 
     public struct Parameter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterValue", required: false, type: .string), 
-            AWSShapeProperty(label: "AllowedValues", required: false, type: .string), 
-            AWSShapeProperty(label: "DataType", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterName", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplyType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Source", required: false, type: .string), 
-            AWSShapeProperty(label: "IsModifiable", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MinimumEngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
+            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
+            AWSShapeMember(label: "DataType", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
+            AWSShapeMember(label: "ApplyType", required: false, type: .enum), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "IsModifiable", required: false, type: .boolean), 
+            AWSShapeMember(label: "MinimumEngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The value of the parameter.
         public let parameterValue: String?
@@ -2049,55 +1907,53 @@ extension Redshift {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parameterValue = dictionary["ParameterValue"] as? String
-            self.allowedValues = dictionary["AllowedValues"] as? String
-            self.dataType = dictionary["DataType"] as? String
-            self.parameterName = dictionary["ParameterName"] as? String
-            if let applyType = dictionary["ApplyType"] as? String { self.applyType = ParameterApplyType(rawValue: applyType) } else { self.applyType = nil }
-            self.source = dictionary["Source"] as? String
-            self.isModifiable = dictionary["IsModifiable"] as? Bool
-            self.minimumEngineVersion = dictionary["MinimumEngineVersion"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameterValue = "ParameterValue"
+            case allowedValues = "AllowedValues"
+            case dataType = "DataType"
+            case parameterName = "ParameterName"
+            case applyType = "ApplyType"
+            case source = "Source"
+            case isModifiable = "IsModifiable"
+            case minimumEngineVersion = "MinimumEngineVersion"
+            case description = "Description"
         }
     }
 
     public struct ClusterCredentials: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DbPassword", required: false, type: .string), 
-            AWSShapeProperty(label: "DbUser", required: false, type: .string), 
-            AWSShapeProperty(label: "Expiration", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DbPassword", required: false, type: .string), 
+            AWSShapeMember(label: "DbUser", required: false, type: .string), 
+            AWSShapeMember(label: "Expiration", required: false, type: .timestamp)
         ]
         /// A temporary password that authorizes the user name returned by DbUser to log on to the database DbName. 
         public let dbPassword: String?
         /// A database user name that is authorized to log on to the database DbName using the password DbPassword. If the DbGroups parameter is specifed, DbUser is added to the listed groups for the current session. The user name is prefixed with IAM: for an existing user name or IAMA: if the user was auto-created. 
         public let dbUser: String?
         /// The date and time DbPassword expires.
-        public let expiration: String?
+        public let expiration: Double?
 
-        public init(dbPassword: String? = nil, dbUser: String? = nil, expiration: String? = nil) {
+        public init(dbPassword: String? = nil, dbUser: String? = nil, expiration: Double? = nil) {
             self.dbPassword = dbPassword
             self.dbUser = dbUser
             self.expiration = expiration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dbPassword = dictionary["DbPassword"] as? String
-            self.dbUser = dictionary["DbUser"] as? String
-            self.expiration = dictionary["Expiration"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dbPassword = "DbPassword"
+            case dbUser = "DbUser"
+            case expiration = "Expiration"
         }
     }
 
     public struct CreateClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "ParameterGroupFamily", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "ParameterGroupFamily", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
         ]
         /// The name of the cluster parameter group. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique withing your AWS account.    This value is stored as a lower-case string. 
         public let parameterGroupName: String
@@ -2115,26 +1971,22 @@ extension Redshift {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
-            self.parameterGroupName = parameterGroupName
-            guard let parameterGroupFamily = dictionary["ParameterGroupFamily"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupFamily") }
-            self.parameterGroupFamily = parameterGroupFamily
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
-            self.description = description
+        private enum CodingKeys: String, CodingKey {
+            case parameterGroupName = "ParameterGroupName"
+            case parameterGroupFamily = "ParameterGroupFamily"
+            case tags = "Tags"
+            case description = "Description"
         }
     }
 
     public struct DescribeHsmClientCertificatesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "HsmClientCertificateIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "TagValues", required: false, type: .structure), 
+            AWSShapeMember(label: "HsmClientCertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: false, type: .structure)
         ]
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -2155,20 +2007,19 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
-            self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
-            self.marker = dictionary["Marker"] as? String
-            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case tagValues = "TagValues"
+            case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
+            case marker = "Marker"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct DescribeResizeMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
         ]
         /// The unique identifier of a cluster whose resize progress you are requesting. This parameter is case-sensitive. By default, resize operations for all clusters defined for an AWS account are returned.
         public let clusterIdentifier: String
@@ -2177,18 +2028,16 @@ extension Redshift {
             self.clusterIdentifier = clusterIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
         }
     }
 
     public struct ClusterVersionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterVersions", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterVersions", required: false, type: .structure)
         ]
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
@@ -2200,17 +2049,16 @@ extension Redshift {
             self.clusterVersions = clusterVersions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let clusterVersions = dictionary["ClusterVersions"] as? [String: Any] { self.clusterVersions = try Redshift.ClusterVersionList(dictionary: clusterVersions) } else { self.clusterVersions = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case clusterVersions = "ClusterVersions"
         }
     }
 
     public struct ClusterSecurityGroups: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterSecurityGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSecurityGroup", required: false, type: .list)
         ]
         public let clusterSecurityGroup: [ClusterSecurityGroup]?
 
@@ -2218,26 +2066,21 @@ extension Redshift {
             self.clusterSecurityGroup = clusterSecurityGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterSecurityGroup = dictionary["ClusterSecurityGroup"] as? [[String: Any]] {
-                self.clusterSecurityGroup = try clusterSecurityGroup.map({ try ClusterSecurityGroup(dictionary: $0) })
-            } else { 
-                self.clusterSecurityGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case clusterSecurityGroup = "ClusterSecurityGroup"
         }
     }
 
     public struct Event: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Severity", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "EventId", required: false, type: .string), 
-            AWSShapeProperty(label: "EventCategories", required: false, type: .structure), 
-            AWSShapeProperty(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Date", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Severity", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "EventId", required: false, type: .string), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Date", required: false, type: .timestamp)
         ]
         /// The severity of the event. Values: ERROR, INFO
         public let severity: String?
@@ -2252,9 +2095,9 @@ extension Redshift {
         /// The identifier for the source of the event.
         public let sourceIdentifier: String?
         /// The date and time of the event.
-        public let date: String?
+        public let date: Double?
 
-        public init(severity: String? = nil, message: String? = nil, sourceType: SourceType? = nil, eventId: String? = nil, eventCategories: EventCategoriesList? = nil, sourceIdentifier: String? = nil, date: String? = nil) {
+        public init(severity: String? = nil, message: String? = nil, sourceType: SourceType? = nil, eventId: String? = nil, eventCategories: EventCategoriesList? = nil, sourceIdentifier: String? = nil, date: Double? = nil) {
             self.severity = severity
             self.message = message
             self.sourceType = sourceType
@@ -2264,22 +2107,21 @@ extension Redshift {
             self.date = date
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.severity = dictionary["Severity"] as? String
-            self.message = dictionary["Message"] as? String
-            if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
-            self.eventId = dictionary["EventId"] as? String
-            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Redshift.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
-            self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
-            self.date = dictionary["Date"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case severity = "Severity"
+            case message = "Message"
+            case sourceType = "SourceType"
+            case eventId = "EventId"
+            case eventCategories = "EventCategories"
+            case sourceIdentifier = "SourceIdentifier"
+            case date = "Date"
         }
     }
 
     public struct SnapshotList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Snapshot", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshot", required: false, type: .list)
         ]
         public let snapshot: [Snapshot]?
 
@@ -2287,27 +2129,22 @@ extension Redshift {
             self.snapshot = snapshot
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshot = dictionary["Snapshot"] as? [[String: Any]] {
-                self.snapshot = try snapshot.map({ try Snapshot(dictionary: $0) })
-            } else { 
-                self.snapshot = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case snapshot = "Snapshot"
         }
     }
 
     public struct ReservedNodeOffering: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecurringCharges", required: false, type: .structure), 
-            AWSShapeProperty(label: "UsagePrice", required: false, type: .double), 
-            AWSShapeProperty(label: "NodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeProperty(label: "ReservedNodeOfferingId", required: false, type: .string), 
-            AWSShapeProperty(label: "Duration", required: false, type: .integer), 
-            AWSShapeProperty(label: "OfferingType", required: false, type: .string), 
-            AWSShapeProperty(label: "FixedPrice", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecurringCharges", required: false, type: .structure), 
+            AWSShapeMember(label: "UsagePrice", required: false, type: .double), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedNodeOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
+            AWSShapeMember(label: "FixedPrice", required: false, type: .double)
         ]
         /// The charge to your account regardless of whether you are creating any clusters using the node offering. Recurring charges are only in effect for heavy-utilization reserved nodes.
         public let recurringCharges: RecurringChargeList?
@@ -2337,23 +2174,22 @@ extension Redshift {
             self.fixedPrice = fixedPrice
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let recurringCharges = dictionary["RecurringCharges"] as? [String: Any] { self.recurringCharges = try Redshift.RecurringChargeList(dictionary: recurringCharges) } else { self.recurringCharges = nil }
-            self.usagePrice = dictionary["UsagePrice"] as? Double
-            self.nodeType = dictionary["NodeType"] as? String
-            self.currencyCode = dictionary["CurrencyCode"] as? String
-            self.reservedNodeOfferingId = dictionary["ReservedNodeOfferingId"] as? String
-            self.duration = dictionary["Duration"] as? Int32
-            self.offeringType = dictionary["OfferingType"] as? String
-            self.fixedPrice = dictionary["FixedPrice"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case recurringCharges = "RecurringCharges"
+            case usagePrice = "UsagePrice"
+            case nodeType = "NodeType"
+            case currencyCode = "CurrencyCode"
+            case reservedNodeOfferingId = "ReservedNodeOfferingId"
+            case duration = "Duration"
+            case offeringType = "OfferingType"
+            case fixedPrice = "FixedPrice"
         }
     }
 
     public struct RevokeSnapshotAccessResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
 
@@ -2361,16 +2197,15 @@ extension Redshift {
             self.snapshot = snapshot
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Redshift.Snapshot(dictionary: snapshot) } else { self.snapshot = nil }
+        private enum CodingKeys: String, CodingKey {
+            case snapshot = "Snapshot"
         }
     }
 
     public struct CreateClusterResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
 
@@ -2378,17 +2213,16 @@ extension Redshift {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct EventCategoriesMap: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "Events", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "Events", required: false, type: .structure)
         ]
         /// The source type, such as cluster or cluster-snapshot, that the returned categories belong to.
         public let sourceType: String?
@@ -2400,30 +2234,29 @@ extension Redshift {
             self.events = events
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourceType = dictionary["SourceType"] as? String
-            if let events = dictionary["Events"] as? [String: Any] { self.events = try Redshift.EventInfoMapList(dictionary: events) } else { self.events = nil }
+        private enum CodingKeys: String, CodingKey {
+            case sourceType = "SourceType"
+            case events = "Events"
         }
     }
 
     public struct TableRestoreStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "ProgressInMegaBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "SourceSchemaName", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetDatabaseName", required: false, type: .string), 
-            AWSShapeProperty(label: "TotalDataInMegaBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "RequestTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TableRestoreRequestId", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "SnapshotIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceDatabaseName", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceTableName", required: false, type: .string), 
-            AWSShapeProperty(label: "NewTableName", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetSchemaName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "ProgressInMegaBytes", required: false, type: .long), 
+            AWSShapeMember(label: "SourceSchemaName", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "TargetDatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "TotalDataInMegaBytes", required: false, type: .long), 
+            AWSShapeMember(label: "RequestTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TableRestoreRequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "SnapshotIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SourceDatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "SourceTableName", required: false, type: .string), 
+            AWSShapeMember(label: "NewTableName", required: false, type: .string), 
+            AWSShapeMember(label: "TargetSchemaName", required: false, type: .string)
         ]
         /// A description of the status of the table restore request. Status values include SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS.
         public let message: String?
@@ -2438,7 +2271,7 @@ extension Redshift {
         /// The total amount of data to restore to the new table, in megabytes (MB).
         public let totalDataInMegaBytes: Int64?
         /// The time that the table restore request was made, in Universal Coordinated Time (UTC).
-        public let requestTime: String?
+        public let requestTime: Double?
         /// The unique identifier for the table restore request.
         public let tableRestoreRequestId: String?
         /// A value that describes the current state of the table restore request. Valid Values: SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS 
@@ -2454,7 +2287,7 @@ extension Redshift {
         /// The name of the schema to restore the table to.
         public let targetSchemaName: String?
 
-        public init(message: String? = nil, progressInMegaBytes: Int64? = nil, sourceSchemaName: String? = nil, clusterIdentifier: String? = nil, targetDatabaseName: String? = nil, totalDataInMegaBytes: Int64? = nil, requestTime: String? = nil, tableRestoreRequestId: String? = nil, status: TableRestoreStatusType? = nil, snapshotIdentifier: String? = nil, sourceDatabaseName: String? = nil, sourceTableName: String? = nil, newTableName: String? = nil, targetSchemaName: String? = nil) {
+        public init(message: String? = nil, progressInMegaBytes: Int64? = nil, sourceSchemaName: String? = nil, clusterIdentifier: String? = nil, targetDatabaseName: String? = nil, totalDataInMegaBytes: Int64? = nil, requestTime: Double? = nil, tableRestoreRequestId: String? = nil, status: TableRestoreStatusType? = nil, snapshotIdentifier: String? = nil, sourceDatabaseName: String? = nil, sourceTableName: String? = nil, newTableName: String? = nil, targetSchemaName: String? = nil) {
             self.message = message
             self.progressInMegaBytes = progressInMegaBytes
             self.sourceSchemaName = sourceSchemaName
@@ -2471,31 +2304,30 @@ extension Redshift {
             self.targetSchemaName = targetSchemaName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.message = dictionary["Message"] as? String
-            self.progressInMegaBytes = dictionary["ProgressInMegaBytes"] as? Int64
-            self.sourceSchemaName = dictionary["SourceSchemaName"] as? String
-            self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
-            self.targetDatabaseName = dictionary["TargetDatabaseName"] as? String
-            self.totalDataInMegaBytes = dictionary["TotalDataInMegaBytes"] as? Int64
-            self.requestTime = dictionary["RequestTime"] as? String
-            self.tableRestoreRequestId = dictionary["TableRestoreRequestId"] as? String
-            if let status = dictionary["Status"] as? String { self.status = TableRestoreStatusType(rawValue: status) } else { self.status = nil }
-            self.snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String
-            self.sourceDatabaseName = dictionary["SourceDatabaseName"] as? String
-            self.sourceTableName = dictionary["SourceTableName"] as? String
-            self.newTableName = dictionary["NewTableName"] as? String
-            self.targetSchemaName = dictionary["TargetSchemaName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case progressInMegaBytes = "ProgressInMegaBytes"
+            case sourceSchemaName = "SourceSchemaName"
+            case clusterIdentifier = "ClusterIdentifier"
+            case targetDatabaseName = "TargetDatabaseName"
+            case totalDataInMegaBytes = "TotalDataInMegaBytes"
+            case requestTime = "RequestTime"
+            case tableRestoreRequestId = "TableRestoreRequestId"
+            case status = "Status"
+            case snapshotIdentifier = "SnapshotIdentifier"
+            case sourceDatabaseName = "SourceDatabaseName"
+            case sourceTableName = "SourceTableName"
+            case newTableName = "NewTableName"
+            case targetSchemaName = "TargetSchemaName"
         }
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "SubscriptionName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "SubscriptionName", required: false, type: .string)
         ]
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeEventSubscriptions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
@@ -2510,18 +2342,17 @@ extension Redshift {
             self.subscriptionName = subscriptionName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.subscriptionName = dictionary["SubscriptionName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case subscriptionName = "SubscriptionName"
         }
     }
 
     public struct DescribeDefaultClusterParametersResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DefaultClusterParameters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultClusterParameters", required: false, type: .structure)
         ]
         public let defaultClusterParameters: DefaultClusterParameters?
 
@@ -2529,16 +2360,15 @@ extension Redshift {
             self.defaultClusterParameters = defaultClusterParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let defaultClusterParameters = dictionary["DefaultClusterParameters"] as? [String: Any] { self.defaultClusterParameters = try Redshift.DefaultClusterParameters(dictionary: defaultClusterParameters) } else { self.defaultClusterParameters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case defaultClusterParameters = "DefaultClusterParameters"
         }
     }
 
     public struct ModifyEventSubscriptionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSubscription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
         public let eventSubscription: EventSubscription?
 
@@ -2546,18 +2376,17 @@ extension Redshift {
             self.eventSubscription = eventSubscription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Redshift.EventSubscription(dictionary: eventSubscription) } else { self.eventSubscription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscription = "EventSubscription"
         }
     }
 
     public struct ClusterParameterGroupStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterParameterStatusList", required: false, type: .list), 
-            AWSShapeProperty(label: "ParameterApplyStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterParameterStatusList", required: false, type: .list), 
+            AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string)
         ]
         /// The list of parameter statuses.  For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
         public let clusterParameterStatusList: [ClusterParameterStatus]?
@@ -2572,25 +2401,20 @@ extension Redshift {
             self.parameterGroupName = parameterGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterParameterStatusList = dictionary["ClusterParameterStatusList"] as? [[String: Any]] {
-                self.clusterParameterStatusList = try clusterParameterStatusList.map({ try ClusterParameterStatus(dictionary: $0) })
-            } else { 
-                self.clusterParameterStatusList = nil
-            }
-            self.parameterApplyStatus = dictionary["ParameterApplyStatus"] as? String
-            self.parameterGroupName = dictionary["ParameterGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clusterParameterStatusList = "ClusterParameterStatusList"
+            case parameterApplyStatus = "ParameterApplyStatus"
+            case parameterGroupName = "ParameterGroupName"
         }
     }
 
     public struct CreateClusterSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", required: true, type: .structure), 
-            AWSShapeProperty(label: "ClusterSubnetGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: true, type: .structure), 
+            AWSShapeMember(label: "ClusterSubnetGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
         ]
         /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request.
         public let subnetIds: SubnetIdentifierList
@@ -2608,24 +2432,20 @@ extension Redshift {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subnetIds = dictionary["SubnetIds"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SubnetIds") }
-            self.subnetIds = try Redshift.SubnetIdentifierList(dictionary: subnetIds)
-            guard let clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSubnetGroupName") }
-            self.clusterSubnetGroupName = clusterSubnetGroupName
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
-            self.description = description
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case clusterSubnetGroupName = "ClusterSubnetGroupName"
+            case tags = "Tags"
+            case description = "Description"
         }
     }
 
     public struct CopyClusterSnapshotMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceSnapshotClusterIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetSnapshotIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "SourceSnapshotIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "SourceSnapshotClusterIdentifier", required: false, type: .string)
         ]
         /// The identifier given to the new manual snapshot. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for the AWS account that is making the request.  
         public let targetSnapshotIdentifier: String
@@ -2640,20 +2460,17 @@ extension Redshift {
             self.sourceSnapshotClusterIdentifier = sourceSnapshotClusterIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targetSnapshotIdentifier = dictionary["TargetSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("TargetSnapshotIdentifier") }
-            self.targetSnapshotIdentifier = targetSnapshotIdentifier
-            guard let sourceSnapshotIdentifier = dictionary["SourceSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceSnapshotIdentifier") }
-            self.sourceSnapshotIdentifier = sourceSnapshotIdentifier
-            self.sourceSnapshotClusterIdentifier = dictionary["SourceSnapshotClusterIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case targetSnapshotIdentifier = "TargetSnapshotIdentifier"
+            case sourceSnapshotIdentifier = "SourceSnapshotIdentifier"
+            case sourceSnapshotClusterIdentifier = "SourceSnapshotClusterIdentifier"
         }
     }
 
     public struct DeleteHsmConfigurationMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmConfigurationIdentifier", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmConfigurationIdentifier", required: true, type: .string)
         ]
         /// The identifier of the Amazon Redshift HSM configuration to be deleted.
         public let hsmConfigurationIdentifier: String
@@ -2662,17 +2479,15 @@ extension Redshift {
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String else { throw InitializableError.missingRequiredParam("HsmConfigurationIdentifier") }
-            self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
+        private enum CodingKeys: String, CodingKey {
+            case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
         }
     }
 
     public struct RestoreFromClusterSnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
 
@@ -2680,16 +2495,15 @@ extension Redshift {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct RestorableNodeTypeList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeType", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeType", required: false, type: .list)
         ]
         public let nodeType: [String]?
 
@@ -2697,19 +2511,18 @@ extension Redshift {
             self.nodeType = nodeType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nodeType = dictionary["NodeType"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nodeType = "NodeType"
         }
     }
 
     public struct DescribeClusterVersionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterParameterGroupFamily", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterParameterGroupFamily", required: false, type: .string)
         ]
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -2727,24 +2540,23 @@ extension Redshift {
             self.clusterParameterGroupFamily = clusterParameterGroupFamily
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.clusterVersion = dictionary["ClusterVersion"] as? String
-            self.marker = dictionary["Marker"] as? String
-            self.clusterParameterGroupFamily = dictionary["ClusterParameterGroupFamily"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case clusterVersion = "ClusterVersion"
+            case marker = "Marker"
+            case clusterParameterGroupFamily = "ClusterParameterGroupFamily"
         }
     }
 
     public struct LoggingStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastFailureMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "BucketName", required: false, type: .string), 
-            AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "LoggingEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "LastFailureTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastSuccessfulDeliveryTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
+            AWSShapeMember(label: "BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "LoggingEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "LastFailureTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastSuccessfulDeliveryTime", required: false, type: .timestamp)
         ]
         /// The message indicating that logs failed to be delivered.
         public let lastFailureMessage: String?
@@ -2755,11 +2567,11 @@ extension Redshift {
         ///  true if logging is on, false if logging is off.
         public let loggingEnabled: Bool?
         /// The last time when logs failed to be delivered.
-        public let lastFailureTime: String?
+        public let lastFailureTime: Double?
         /// The last time that logs were delivered.
-        public let lastSuccessfulDeliveryTime: String?
+        public let lastSuccessfulDeliveryTime: Double?
 
-        public init(lastFailureMessage: String? = nil, bucketName: String? = nil, s3KeyPrefix: String? = nil, loggingEnabled: Bool? = nil, lastFailureTime: String? = nil, lastSuccessfulDeliveryTime: String? = nil) {
+        public init(lastFailureMessage: String? = nil, bucketName: String? = nil, s3KeyPrefix: String? = nil, loggingEnabled: Bool? = nil, lastFailureTime: Double? = nil, lastSuccessfulDeliveryTime: Double? = nil) {
             self.lastFailureMessage = lastFailureMessage
             self.bucketName = bucketName
             self.s3KeyPrefix = s3KeyPrefix
@@ -2768,21 +2580,20 @@ extension Redshift {
             self.lastSuccessfulDeliveryTime = lastSuccessfulDeliveryTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastFailureMessage = dictionary["LastFailureMessage"] as? String
-            self.bucketName = dictionary["BucketName"] as? String
-            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
-            self.loggingEnabled = dictionary["LoggingEnabled"] as? Bool
-            self.lastFailureTime = dictionary["LastFailureTime"] as? String
-            self.lastSuccessfulDeliveryTime = dictionary["LastSuccessfulDeliveryTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lastFailureMessage = "LastFailureMessage"
+            case bucketName = "BucketName"
+            case s3KeyPrefix = "S3KeyPrefix"
+            case loggingEnabled = "LoggingEnabled"
+            case lastFailureTime = "LastFailureTime"
+            case lastSuccessfulDeliveryTime = "LastSuccessfulDeliveryTime"
         }
     }
 
     public struct EnableSnapshotCopyResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
 
@@ -2790,18 +2601,17 @@ extension Redshift {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct DeleteClusterMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "FinalClusterSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "SkipFinalClusterSnapshot", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "FinalClusterSnapshotIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SkipFinalClusterSnapshot", required: false, type: .boolean)
         ]
         /// The identifier of the cluster to be deleted. Constraints:   Must contain lowercase characters.   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let clusterIdentifier: String
@@ -2816,19 +2626,17 @@ extension Redshift {
             self.skipFinalClusterSnapshot = skipFinalClusterSnapshot
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
-            self.finalClusterSnapshotIdentifier = dictionary["FinalClusterSnapshotIdentifier"] as? String
-            self.skipFinalClusterSnapshot = dictionary["SkipFinalClusterSnapshot"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case finalClusterSnapshotIdentifier = "FinalClusterSnapshotIdentifier"
+            case skipFinalClusterSnapshot = "SkipFinalClusterSnapshot"
         }
     }
 
     public struct DeleteClusterSecurityGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterSecurityGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSecurityGroupName", required: true, type: .string)
         ]
         /// The name of the cluster security group to be deleted.
         public let clusterSecurityGroupName: String
@@ -2837,19 +2645,17 @@ extension Redshift {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSecurityGroupName") }
-            self.clusterSecurityGroupName = clusterSecurityGroupName
+        private enum CodingKeys: String, CodingKey {
+            case clusterSecurityGroupName = "ClusterSecurityGroupName"
         }
     }
 
     public struct DescribeReservedNodeOfferingsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "ReservedNodeOfferingId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ReservedNodeOfferingId", required: false, type: .string)
         ]
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeReservedNodeOfferings request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
@@ -2864,18 +2670,17 @@ extension Redshift {
             self.reservedNodeOfferingId = reservedNodeOfferingId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.reservedNodeOfferingId = dictionary["ReservedNodeOfferingId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case reservedNodeOfferingId = "ReservedNodeOfferingId"
         }
     }
 
     public struct ModifyClusterResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
 
@@ -2883,16 +2688,15 @@ extension Redshift {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct TagValueList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagValue", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagValue", required: false, type: .list)
         ]
         public let tagValue: [String]?
 
@@ -2900,17 +2704,16 @@ extension Redshift {
             self.tagValue = tagValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tagValue = dictionary["TagValue"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case tagValue = "TagValue"
         }
     }
 
     public struct EventSubscriptionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSubscriptionsList", required: false, type: .structure), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscriptionsList", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// A list of event subscriptions.
         public let eventSubscriptionsList: EventSubscriptionsList?
@@ -2922,18 +2725,17 @@ extension Redshift {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventSubscriptionsList = dictionary["EventSubscriptionsList"] as? [String: Any] { self.eventSubscriptionsList = try Redshift.EventSubscriptionsList(dictionary: eventSubscriptionsList) } else { self.eventSubscriptionsList = nil }
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscriptionsList = "EventSubscriptionsList"
+            case marker = "Marker"
         }
     }
 
     public struct ClusterParameterGroupNameMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterGroupStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterGroupStatus", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string)
         ]
         /// The status of the parameter group. For example, if you made a change to a parameter group name-value pair, then the change could be pending a reboot of an associated cluster.
         public let parameterGroupStatus: String?
@@ -2945,17 +2747,16 @@ extension Redshift {
             self.parameterGroupName = parameterGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parameterGroupStatus = dictionary["ParameterGroupStatus"] as? String
-            self.parameterGroupName = dictionary["ParameterGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameterGroupStatus = "ParameterGroupStatus"
+            case parameterGroupName = "ParameterGroupName"
         }
     }
 
     public struct EventSubscriptionsList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSubscription", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscription", required: false, type: .list)
         ]
         public let eventSubscription: [EventSubscription]?
 
@@ -2963,21 +2764,16 @@ extension Redshift {
             self.eventSubscription = eventSubscription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventSubscription = dictionary["EventSubscription"] as? [[String: Any]] {
-                self.eventSubscription = try eventSubscription.map({ try EventSubscription(dictionary: $0) })
-            } else { 
-                self.eventSubscription = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscription = "EventSubscription"
         }
     }
 
     public struct TableRestoreStatusMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableRestoreStatusDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableRestoreStatusDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// A list of status details for one or more table restore requests.
         public let tableRestoreStatusDetails: TableRestoreStatusList?
@@ -2989,17 +2785,16 @@ extension Redshift {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tableRestoreStatusDetails = dictionary["TableRestoreStatusDetails"] as? [String: Any] { self.tableRestoreStatusDetails = try Redshift.TableRestoreStatusList(dictionary: tableRestoreStatusDetails) } else { self.tableRestoreStatusDetails = nil }
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tableRestoreStatusDetails = "TableRestoreStatusDetails"
+            case marker = "Marker"
         }
     }
 
     public struct CreateEventSubscriptionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSubscription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
         public let eventSubscription: EventSubscription?
 
@@ -3007,16 +2802,15 @@ extension Redshift {
             self.eventSubscription = eventSubscription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Redshift.EventSubscription(dictionary: eventSubscription) } else { self.eventSubscription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscription = "EventSubscription"
         }
     }
 
     public struct ReservedNodeOfferingList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedNodeOffering", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedNodeOffering", required: false, type: .list)
         ]
         public let reservedNodeOffering: [ReservedNodeOffering]?
 
@@ -3024,21 +2818,16 @@ extension Redshift {
             self.reservedNodeOffering = reservedNodeOffering
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let reservedNodeOffering = dictionary["ReservedNodeOffering"] as? [[String: Any]] {
-                self.reservedNodeOffering = try reservedNodeOffering.map({ try ReservedNodeOffering(dictionary: $0) })
-            } else { 
-                self.reservedNodeOffering = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case reservedNodeOffering = "ReservedNodeOffering"
         }
     }
 
     public struct VpcSecurityGroupMembership: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcSecurityGroupId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
         ]
         /// The status of the VPC security group.
         public let status: String?
@@ -3050,19 +2839,18 @@ extension Redshift {
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            self.vpcSecurityGroupId = dictionary["VpcSecurityGroupId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case vpcSecurityGroupId = "VpcSecurityGroupId"
         }
     }
 
     public struct HsmClientCertificate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "HsmClientCertificatePublicKey", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmClientCertificateIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "HsmClientCertificatePublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "HsmClientCertificateIdentifier", required: false, type: .string)
         ]
         /// The list of tags for the HSM client certificate.
         public let tags: TagList?
@@ -3077,30 +2865,29 @@ extension Redshift {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            self.hsmClientCertificatePublicKey = dictionary["HsmClientCertificatePublicKey"] as? String
-            self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case hsmClientCertificatePublicKey = "HsmClientCertificatePublicKey"
+            case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
         }
     }
 
     public struct DescribeClusterSnapshotsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "SnapshotIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotType", required: false, type: .string), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "OwnerAccount", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "SnapshotIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "TagValues", required: false, type: .structure), 
+            AWSShapeMember(label: "SnapshotType", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OwnerAccount", required: false, type: .string)
         ]
         /// A value that requests only snapshots created at or after the specified time. The time value is specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2012-07-16T18:00:00Z 
-        public let startTime: String?
+        public let startTime: Double?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
         /// The snapshot identifier of the snapshot about which to return information.
@@ -3116,11 +2903,11 @@ extension Redshift {
         /// The type of snapshots for which you are requesting information. By default, snapshots of all types are returned. Valid Values: automated | manual 
         public let snapshotType: String?
         /// A time value that requests only snapshots created at or before the specified time. The time value is specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2012-07-16T18:00:00Z 
-        public let endTime: String?
+        public let endTime: Double?
         /// The AWS customer account used to create or copy the snapshot. Use this field to filter the results to snapshots owned by a particular account. To describe snapshots you own, either specify your AWS customer account, or do not specify the parameter.
         public let ownerAccount: String?
 
-        public init(startTime: String? = nil, maxRecords: Int32? = nil, snapshotIdentifier: String? = nil, marker: String? = nil, tagKeys: TagKeyList? = nil, clusterIdentifier: String? = nil, tagValues: TagValueList? = nil, snapshotType: String? = nil, endTime: String? = nil, ownerAccount: String? = nil) {
+        public init(startTime: Double? = nil, maxRecords: Int32? = nil, snapshotIdentifier: String? = nil, marker: String? = nil, tagKeys: TagKeyList? = nil, clusterIdentifier: String? = nil, tagValues: TagValueList? = nil, snapshotType: String? = nil, endTime: Double? = nil, ownerAccount: String? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.snapshotIdentifier = snapshotIdentifier
@@ -3133,25 +2920,24 @@ extension Redshift {
             self.ownerAccount = ownerAccount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String
-            self.marker = dictionary["Marker"] as? String
-            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
-            self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
-            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
-            self.snapshotType = dictionary["SnapshotType"] as? String
-            self.endTime = dictionary["EndTime"] as? String
-            self.ownerAccount = dictionary["OwnerAccount"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case maxRecords = "MaxRecords"
+            case snapshotIdentifier = "SnapshotIdentifier"
+            case marker = "Marker"
+            case tagKeys = "TagKeys"
+            case clusterIdentifier = "ClusterIdentifier"
+            case tagValues = "TagValues"
+            case snapshotType = "SnapshotType"
+            case endTime = "EndTime"
+            case ownerAccount = "OwnerAccount"
         }
     }
 
     public struct DeleteSnapshotCopyGrantMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotCopyGrantName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotCopyGrantName", required: true, type: .string)
         ]
         /// The name of the snapshot copy grant to delete.
         public let snapshotCopyGrantName: String
@@ -3160,18 +2946,16 @@ extension Redshift {
             self.snapshotCopyGrantName = snapshotCopyGrantName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String else { throw InitializableError.missingRequiredParam("SnapshotCopyGrantName") }
-            self.snapshotCopyGrantName = snapshotCopyGrantName
+        private enum CodingKeys: String, CodingKey {
+            case snapshotCopyGrantName = "SnapshotCopyGrantName"
         }
     }
 
     public struct ClusterParameterGroupsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterGroups", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterGroups", required: false, type: .structure)
         ]
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
@@ -3183,17 +2967,16 @@ extension Redshift {
             self.parameterGroups = parameterGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let parameterGroups = dictionary["ParameterGroups"] as? [String: Any] { self.parameterGroups = try Redshift.ParameterGroupList(dictionary: parameterGroups) } else { self.parameterGroups = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case parameterGroups = "ParameterGroups"
         }
     }
 
     public struct EventCategoriesList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventCategory", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventCategory", required: false, type: .list)
         ]
         public let eventCategory: [String]?
 
@@ -3201,18 +2984,17 @@ extension Redshift {
             self.eventCategory = eventCategory
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eventCategory = dictionary["EventCategory"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case eventCategory = "EventCategory"
         }
     }
 
     public struct DescribeDefaultClusterParametersMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "ParameterGroupFamily", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ParameterGroupFamily", required: true, type: .string)
         ]
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDefaultClusterParameters request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
@@ -3227,19 +3009,17 @@ extension Redshift {
             self.parameterGroupFamily = parameterGroupFamily
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            guard let parameterGroupFamily = dictionary["ParameterGroupFamily"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupFamily") }
-            self.parameterGroupFamily = parameterGroupFamily
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case parameterGroupFamily = "ParameterGroupFamily"
         }
     }
 
     public struct RecurringChargeList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecurringCharge", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecurringCharge", required: false, type: .list)
         ]
         public let recurringCharge: [RecurringCharge]?
 
@@ -3247,20 +3027,15 @@ extension Redshift {
             self.recurringCharge = recurringCharge
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let recurringCharge = dictionary["RecurringCharge"] as? [[String: Any]] {
-                self.recurringCharge = try recurringCharge.map({ try RecurringCharge(dictionary: $0) })
-            } else { 
-                self.recurringCharge = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case recurringCharge = "RecurringCharge"
         }
     }
 
     public struct CreateClusterSubnetGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterSubnetGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSubnetGroup", required: false, type: .structure)
         ]
         public let clusterSubnetGroup: ClusterSubnetGroup?
 
@@ -3268,16 +3043,15 @@ extension Redshift {
             self.clusterSubnetGroup = clusterSubnetGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterSubnetGroup = dictionary["ClusterSubnetGroup"] as? [String: Any] { self.clusterSubnetGroup = try Redshift.ClusterSubnetGroup(dictionary: clusterSubnetGroup) } else { self.clusterSubnetGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case clusterSubnetGroup = "ClusterSubnetGroup"
         }
     }
 
     public struct ModifyClusterIamRolesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
 
@@ -3285,17 +3059,16 @@ extension Redshift {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct ClusterSecurityGroupMembership: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterSecurityGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterSecurityGroupName", required: false, type: .string)
         ]
         /// The status of the cluster security group.
         public let status: String?
@@ -3307,13 +3080,13 @@ extension Redshift {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            self.clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case clusterSecurityGroupName = "ClusterSecurityGroupName"
         }
     }
 
-    public enum ParameterApplyType: String, CustomStringConvertible {
+    public enum ParameterApplyType: String, CustomStringConvertible, Codable {
         case `static` = "static"
         case dynamic = "dynamic"
         public var description: String { return self.rawValue }
@@ -3321,11 +3094,10 @@ extension Redshift {
 
     public struct DescribeReservedNodesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ReservedNodeId", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeReservedNodes request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
@@ -3340,18 +3112,17 @@ extension Redshift {
             self.maxRecords = maxRecords
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.reservedNodeId = dictionary["ReservedNodeId"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case reservedNodeId = "ReservedNodeId"
+            case maxRecords = "MaxRecords"
         }
     }
 
     public struct CopyClusterSnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
 
@@ -3359,21 +3130,20 @@ extension Redshift {
             self.snapshot = snapshot
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Redshift.Snapshot(dictionary: snapshot) } else { self.snapshot = nil }
+        private enum CodingKeys: String, CodingKey {
+            case snapshot = "Snapshot"
         }
     }
 
     public struct DescribeTagsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceName", required: false, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "TagValues", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceName", required: false, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: false, type: .structure)
         ]
         /// The maximum number or response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. 
         public let maxRecords: Int32?
@@ -3397,21 +3167,20 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
-            self.resourceType = dictionary["ResourceType"] as? String
-            self.marker = dictionary["Marker"] as? String
-            self.resourceName = dictionary["ResourceName"] as? String
-            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case tagValues = "TagValues"
+            case resourceType = "ResourceType"
+            case marker = "Marker"
+            case resourceName = "ResourceName"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct ClusterSubnetGroups: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterSubnetGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSubnetGroup", required: false, type: .list)
         ]
         public let clusterSubnetGroup: [ClusterSubnetGroup]?
 
@@ -3419,48 +3188,43 @@ extension Redshift {
             self.clusterSubnetGroup = clusterSubnetGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterSubnetGroup = dictionary["ClusterSubnetGroup"] as? [[String: Any]] {
-                self.clusterSubnetGroup = try clusterSubnetGroup.map({ try ClusterSubnetGroup(dictionary: $0) })
-            } else { 
-                self.clusterSubnetGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case clusterSubnetGroup = "ClusterSubnetGroup"
         }
     }
 
     public struct Snapshot: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActualIncrementalBackupSizeInMegaBytes", required: false, type: .double), 
-            AWSShapeProperty(label: "DBName", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Encrypted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CurrentBackupRateInMegaBytesPerSecond", required: false, type: .double), 
-            AWSShapeProperty(label: "OwnerAccount", required: false, type: .string), 
-            AWSShapeProperty(label: "BackupProgressInMegaBytes", required: false, type: .double), 
-            AWSShapeProperty(label: "RestorableNodeTypes", required: false, type: .structure), 
-            AWSShapeProperty(label: "EnhancedVpcRouting", required: false, type: .boolean), 
-            AWSShapeProperty(label: "EncryptedWithHSM", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ClusterIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "EstimatedSecondsToCompletion", required: false, type: .long), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotCreateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AccountsWithRestoreAccess", required: false, type: .structure), 
-            AWSShapeProperty(label: "NumberOfNodes", required: false, type: .integer), 
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceRegion", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "NodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotType", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterCreateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SnapshotIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeProperty(label: "TotalBackupSizeInMegaBytes", required: false, type: .double), 
-            AWSShapeProperty(label: "ElapsedTimeInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActualIncrementalBackupSizeInMegaBytes", required: false, type: .double), 
+            AWSShapeMember(label: "DBName", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "CurrentBackupRateInMegaBytesPerSecond", required: false, type: .double), 
+            AWSShapeMember(label: "OwnerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "BackupProgressInMegaBytes", required: false, type: .double), 
+            AWSShapeMember(label: "RestorableNodeTypes", required: false, type: .structure), 
+            AWSShapeMember(label: "EnhancedVpcRouting", required: false, type: .boolean), 
+            AWSShapeMember(label: "EncryptedWithHSM", required: false, type: .boolean), 
+            AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedSecondsToCompletion", required: false, type: .long), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AccountsWithRestoreAccess", required: false, type: .structure), 
+            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "SourceRegion", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotType", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SnapshotIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
+            AWSShapeMember(label: "TotalBackupSizeInMegaBytes", required: false, type: .double), 
+            AWSShapeMember(label: "ElapsedTimeInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
         /// The size of the incremental backup.
         public let actualIncrementalBackupSizeInMegaBytes: Double?
@@ -3493,7 +3257,7 @@ extension Redshift {
         /// The VPC identifier of the cluster if the snapshot is from a cluster in a VPC. Otherwise, this field is not in the output.
         public let vpcId: String?
         /// The time (UTC) when Amazon Redshift began the snapshot. A snapshot contains a copy of the cluster data as of this exact time.
-        public let snapshotCreateTime: String?
+        public let snapshotCreateTime: Double?
         /// A list of the AWS customer accounts authorized to restore the snapshot. Returns null if no accounts are authorized. Visible only to the snapshot owner. 
         public let accountsWithRestoreAccess: AccountsWithRestoreAccessList?
         /// The number of nodes in the cluster.
@@ -3509,7 +3273,7 @@ extension Redshift {
         /// The snapshot type. Snapshots created using CreateClusterSnapshot and CopyClusterSnapshot will be of type "manual". 
         public let snapshotType: String?
         /// The time (UTC) when the cluster was originally created.
-        public let clusterCreateTime: String?
+        public let clusterCreateTime: Double?
         /// The snapshot identifier that is provided in the request.
         public let snapshotIdentifier: String?
         /// The master user name for the cluster.
@@ -3521,7 +3285,7 @@ extension Redshift {
         /// The port that the cluster is listening on.
         public let port: Int32?
 
-        public init(actualIncrementalBackupSizeInMegaBytes: Double? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, ownerAccount: String? = nil, backupProgressInMegaBytes: Double? = nil, restorableNodeTypes: RestorableNodeTypeList? = nil, enhancedVpcRouting: Bool? = nil, encryptedWithHSM: Bool? = nil, clusterIdentifier: String? = nil, availabilityZone: String? = nil, status: String? = nil, estimatedSecondsToCompletion: Int64? = nil, vpcId: String? = nil, snapshotCreateTime: String? = nil, accountsWithRestoreAccess: AccountsWithRestoreAccessList? = nil, numberOfNodes: Int32? = nil, kmsKeyId: String? = nil, sourceRegion: String? = nil, tags: TagList? = nil, nodeType: String? = nil, snapshotType: String? = nil, clusterCreateTime: String? = nil, snapshotIdentifier: String? = nil, masterUsername: String? = nil, totalBackupSizeInMegaBytes: Double? = nil, elapsedTimeInSeconds: Int64? = nil, port: Int32? = nil) {
+        public init(actualIncrementalBackupSizeInMegaBytes: Double? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, ownerAccount: String? = nil, backupProgressInMegaBytes: Double? = nil, restorableNodeTypes: RestorableNodeTypeList? = nil, enhancedVpcRouting: Bool? = nil, encryptedWithHSM: Bool? = nil, clusterIdentifier: String? = nil, availabilityZone: String? = nil, status: String? = nil, estimatedSecondsToCompletion: Int64? = nil, vpcId: String? = nil, snapshotCreateTime: Double? = nil, accountsWithRestoreAccess: AccountsWithRestoreAccessList? = nil, numberOfNodes: Int32? = nil, kmsKeyId: String? = nil, sourceRegion: String? = nil, tags: TagList? = nil, nodeType: String? = nil, snapshotType: String? = nil, clusterCreateTime: Double? = nil, snapshotIdentifier: String? = nil, masterUsername: String? = nil, totalBackupSizeInMegaBytes: Double? = nil, elapsedTimeInSeconds: Int64? = nil, port: Int32? = nil) {
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
             self.dBName = dBName
             self.clusterVersion = clusterVersion
@@ -3553,54 +3317,53 @@ extension Redshift {
             self.port = port
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.actualIncrementalBackupSizeInMegaBytes = dictionary["ActualIncrementalBackupSizeInMegaBytes"] as? Double
-            self.dBName = dictionary["DBName"] as? String
-            self.clusterVersion = dictionary["ClusterVersion"] as? String
-            self.encrypted = dictionary["Encrypted"] as? Bool
-            self.currentBackupRateInMegaBytesPerSecond = dictionary["CurrentBackupRateInMegaBytesPerSecond"] as? Double
-            self.ownerAccount = dictionary["OwnerAccount"] as? String
-            self.backupProgressInMegaBytes = dictionary["BackupProgressInMegaBytes"] as? Double
-            if let restorableNodeTypes = dictionary["RestorableNodeTypes"] as? [String: Any] { self.restorableNodeTypes = try Redshift.RestorableNodeTypeList(dictionary: restorableNodeTypes) } else { self.restorableNodeTypes = nil }
-            self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
-            self.encryptedWithHSM = dictionary["EncryptedWithHSM"] as? Bool
-            self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
-            self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            self.status = dictionary["Status"] as? String
-            self.estimatedSecondsToCompletion = dictionary["EstimatedSecondsToCompletion"] as? Int64
-            self.vpcId = dictionary["VpcId"] as? String
-            self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? String
-            if let accountsWithRestoreAccess = dictionary["AccountsWithRestoreAccess"] as? [String: Any] { self.accountsWithRestoreAccess = try Redshift.AccountsWithRestoreAccessList(dictionary: accountsWithRestoreAccess) } else { self.accountsWithRestoreAccess = nil }
-            self.numberOfNodes = dictionary["NumberOfNodes"] as? Int32
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
-            self.sourceRegion = dictionary["SourceRegion"] as? String
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            self.nodeType = dictionary["NodeType"] as? String
-            self.snapshotType = dictionary["SnapshotType"] as? String
-            self.clusterCreateTime = dictionary["ClusterCreateTime"] as? String
-            self.snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String
-            self.masterUsername = dictionary["MasterUsername"] as? String
-            self.totalBackupSizeInMegaBytes = dictionary["TotalBackupSizeInMegaBytes"] as? Double
-            self.elapsedTimeInSeconds = dictionary["ElapsedTimeInSeconds"] as? Int64
-            self.port = dictionary["Port"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case actualIncrementalBackupSizeInMegaBytes = "ActualIncrementalBackupSizeInMegaBytes"
+            case dBName = "DBName"
+            case clusterVersion = "ClusterVersion"
+            case encrypted = "Encrypted"
+            case currentBackupRateInMegaBytesPerSecond = "CurrentBackupRateInMegaBytesPerSecond"
+            case ownerAccount = "OwnerAccount"
+            case backupProgressInMegaBytes = "BackupProgressInMegaBytes"
+            case restorableNodeTypes = "RestorableNodeTypes"
+            case enhancedVpcRouting = "EnhancedVpcRouting"
+            case encryptedWithHSM = "EncryptedWithHSM"
+            case clusterIdentifier = "ClusterIdentifier"
+            case availabilityZone = "AvailabilityZone"
+            case status = "Status"
+            case estimatedSecondsToCompletion = "EstimatedSecondsToCompletion"
+            case vpcId = "VpcId"
+            case snapshotCreateTime = "SnapshotCreateTime"
+            case accountsWithRestoreAccess = "AccountsWithRestoreAccess"
+            case numberOfNodes = "NumberOfNodes"
+            case kmsKeyId = "KmsKeyId"
+            case sourceRegion = "SourceRegion"
+            case tags = "Tags"
+            case nodeType = "NodeType"
+            case snapshotType = "SnapshotType"
+            case clusterCreateTime = "ClusterCreateTime"
+            case snapshotIdentifier = "SnapshotIdentifier"
+            case masterUsername = "MasterUsername"
+            case totalBackupSizeInMegaBytes = "TotalBackupSizeInMegaBytes"
+            case elapsedTimeInSeconds = "ElapsedTimeInSeconds"
+            case port = "Port"
         }
     }
 
     public struct EventSubscription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Severity", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceIdsList", required: false, type: .structure), 
-            AWSShapeProperty(label: "SourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "CustSubscriptionId", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomerAwsId", required: false, type: .string), 
-            AWSShapeProperty(label: "EventCategoriesList", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubscriptionCreationTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Severity", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SourceIdsList", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "CustSubscriptionId", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomerAwsId", required: false, type: .string), 
+            AWSShapeMember(label: "EventCategoriesList", required: false, type: .structure), 
+            AWSShapeMember(label: "SubscriptionCreationTime", required: false, type: .timestamp)
         ]
         /// The event severity specified in the Amazon Redshift event notification subscription. Values: ERROR, INFO
         public let severity: String?
@@ -3623,9 +3386,9 @@ extension Redshift {
         /// The list of Amazon Redshift event categories specified in the event notification subscription. Values: Configuration, Management, Monitoring, Security
         public let eventCategoriesList: EventCategoriesList?
         /// The date and time the Amazon Redshift event notification subscription was created.
-        public let subscriptionCreationTime: String?
+        public let subscriptionCreationTime: Double?
 
-        public init(severity: String? = nil, status: String? = nil, snsTopicArn: String? = nil, sourceIdsList: SourceIdsList? = nil, sourceType: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, tags: TagList? = nil, customerAwsId: String? = nil, eventCategoriesList: EventCategoriesList? = nil, subscriptionCreationTime: String? = nil) {
+        public init(severity: String? = nil, status: String? = nil, snsTopicArn: String? = nil, sourceIdsList: SourceIdsList? = nil, sourceType: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, tags: TagList? = nil, customerAwsId: String? = nil, eventCategoriesList: EventCategoriesList? = nil, subscriptionCreationTime: Double? = nil) {
             self.severity = severity
             self.status = status
             self.snsTopicArn = snsTopicArn
@@ -3639,26 +3402,25 @@ extension Redshift {
             self.subscriptionCreationTime = subscriptionCreationTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.severity = dictionary["Severity"] as? String
-            self.status = dictionary["Status"] as? String
-            self.snsTopicArn = dictionary["SnsTopicArn"] as? String
-            if let sourceIdsList = dictionary["SourceIdsList"] as? [String: Any] { self.sourceIdsList = try Redshift.SourceIdsList(dictionary: sourceIdsList) } else { self.sourceIdsList = nil }
-            self.sourceType = dictionary["SourceType"] as? String
-            self.custSubscriptionId = dictionary["CustSubscriptionId"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            self.customerAwsId = dictionary["CustomerAwsId"] as? String
-            if let eventCategoriesList = dictionary["EventCategoriesList"] as? [String: Any] { self.eventCategoriesList = try Redshift.EventCategoriesList(dictionary: eventCategoriesList) } else { self.eventCategoriesList = nil }
-            self.subscriptionCreationTime = dictionary["SubscriptionCreationTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case severity = "Severity"
+            case status = "Status"
+            case snsTopicArn = "SnsTopicArn"
+            case sourceIdsList = "SourceIdsList"
+            case sourceType = "SourceType"
+            case custSubscriptionId = "CustSubscriptionId"
+            case enabled = "Enabled"
+            case tags = "Tags"
+            case customerAwsId = "CustomerAwsId"
+            case eventCategoriesList = "EventCategoriesList"
+            case subscriptionCreationTime = "SubscriptionCreationTime"
         }
     }
 
     public struct VpcSecurityGroupMembershipList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcSecurityGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcSecurityGroup", required: false, type: .list)
         ]
         public let vpcSecurityGroup: [VpcSecurityGroupMembership]?
 
@@ -3666,22 +3428,17 @@ extension Redshift {
             self.vpcSecurityGroup = vpcSecurityGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let vpcSecurityGroup = dictionary["VpcSecurityGroup"] as? [[String: Any]] {
-                self.vpcSecurityGroup = try vpcSecurityGroup.map({ try VpcSecurityGroupMembership(dictionary: $0) })
-            } else { 
-                self.vpcSecurityGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case vpcSecurityGroup = "VpcSecurityGroup"
         }
     }
 
     public struct CreateSnapshotCopyGrantMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotCopyGrantName", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotCopyGrantName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
         /// The name of the snapshot copy grant. This name must be unique in the region for the AWS account. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.  
         public let snapshotCopyGrantName: String
@@ -3696,19 +3453,17 @@ extension Redshift {
             self.kmsKeyId = kmsKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String else { throw InitializableError.missingRequiredParam("SnapshotCopyGrantName") }
-            self.snapshotCopyGrantName = snapshotCopyGrantName
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case snapshotCopyGrantName = "SnapshotCopyGrantName"
+            case tags = "Tags"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
     public struct TagList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tag", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
 
@@ -3716,21 +3471,16 @@ extension Redshift {
             self.tag = tag
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tag = dictionary["Tag"] as? [[String: Any]] {
-                self.tag = try tag.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tag = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tag = "Tag"
         }
     }
 
     public struct ElasticIpStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ElasticIp", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticIp", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
         ]
         /// The elastic IP (EIP) address for the cluster.
         public let elasticIp: String?
@@ -3742,17 +3492,16 @@ extension Redshift {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.elasticIp = dictionary["ElasticIp"] as? String
-            self.status = dictionary["Status"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case elasticIp = "ElasticIp"
+            case status = "Status"
         }
     }
 
     public struct DescribeEventCategoriesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceType", required: false, type: .string)
         ]
         /// The source type, such as cluster or parameter group, to which the described event categories apply. Valid values: cluster, cluster-snapshot, cluster-parameter-group, and cluster-security-group.
         public let sourceType: String?
@@ -3761,16 +3510,15 @@ extension Redshift {
             self.sourceType = sourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourceType = dictionary["SourceType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sourceType = "SourceType"
         }
     }
 
     public struct AvailabilityZoneList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .list)
         ]
         public let availabilityZone: [AvailabilityZone]?
 
@@ -3778,20 +3526,15 @@ extension Redshift {
             self.availabilityZone = availabilityZone
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let availabilityZone = dictionary["AvailabilityZone"] as? [[String: Any]] {
-                self.availabilityZone = try availabilityZone.map({ try AvailabilityZone(dictionary: $0) })
-            } else { 
-                self.availabilityZone = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
         }
     }
 
     public struct DeleteClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
         ]
         /// The name of the parameter group to be deleted. Constraints:   Must be the name of an existing cluster parameter group.   Cannot delete a default cluster parameter group.  
         public let parameterGroupName: String
@@ -3800,18 +3543,16 @@ extension Redshift {
             self.parameterGroupName = parameterGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
-            self.parameterGroupName = parameterGroupName
+        private enum CodingKeys: String, CodingKey {
+            case parameterGroupName = "ParameterGroupName"
         }
     }
 
     public struct CreateHsmClientCertificateMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "HsmClientCertificateIdentifier", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "HsmClientCertificateIdentifier", required: true, type: .string)
         ]
         /// A list of tag instances.
         public let tags: TagList?
@@ -3823,18 +3564,16 @@ extension Redshift {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            guard let hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String else { throw InitializableError.missingRequiredParam("HsmClientCertificateIdentifier") }
-            self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
         }
     }
 
     public struct TaggedResourceList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TaggedResource", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaggedResource", required: false, type: .list)
         ]
         public let taggedResource: [TaggedResource]?
 
@@ -3842,24 +3581,19 @@ extension Redshift {
             self.taggedResource = taggedResource
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let taggedResource = dictionary["TaggedResource"] as? [[String: Any]] {
-                self.taggedResource = try taggedResource.map({ try TaggedResource(dictionary: $0) })
-            } else { 
-                self.taggedResource = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case taggedResource = "TaggedResource"
         }
     }
 
     public struct DescribeSnapshotCopyGrantsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotCopyGrantName", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "TagValues", required: false, type: .structure), 
+            AWSShapeMember(label: "SnapshotCopyGrantName", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: false, type: .structure)
         ]
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -3880,21 +3614,20 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
-            self.snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String
-            self.marker = dictionary["Marker"] as? String
-            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case tagValues = "TagValues"
+            case snapshotCopyGrantName = "SnapshotCopyGrantName"
+            case marker = "Marker"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct ClustersMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Clusters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Clusters", required: false, type: .structure)
         ]
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
@@ -3906,17 +3639,16 @@ extension Redshift {
             self.clusters = clusters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let clusters = dictionary["Clusters"] as? [String: Any] { self.clusters = try Redshift.ClusterList(dictionary: clusters) } else { self.clusters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case clusters = "Clusters"
         }
     }
 
     public struct PurchaseReservedNodeOfferingResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedNode", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedNode", required: false, type: .structure)
         ]
         public let reservedNode: ReservedNode?
 
@@ -3924,12 +3656,12 @@ extension Redshift {
             self.reservedNode = reservedNode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let reservedNode = dictionary["ReservedNode"] as? [String: Any] { self.reservedNode = try Redshift.ReservedNode(dictionary: reservedNode) } else { self.reservedNode = nil }
+        private enum CodingKeys: String, CodingKey {
+            case reservedNode = "ReservedNode"
         }
     }
 
-    public enum SourceType: String, CustomStringConvertible {
+    public enum SourceType: String, CustomStringConvertible, Codable {
         case cluster = "cluster"
         case cluster_parameter_group = "cluster-parameter-group"
         case cluster_security_group = "cluster-security-group"
@@ -3939,11 +3671,10 @@ extension Redshift {
 
     public struct DefaultClusterParameters: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .structure), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterGroupFamily", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterGroupFamily", required: false, type: .string)
         ]
         /// The list of cluster default parameters.
         public let parameters: ParametersList?
@@ -3958,35 +3689,34 @@ extension Redshift {
             self.parameterGroupFamily = parameterGroupFamily
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [String: Any] { self.parameters = try Redshift.ParametersList(dictionary: parameters) } else { self.parameters = nil }
-            self.marker = dictionary["Marker"] as? String
-            self.parameterGroupFamily = dictionary["ParameterGroupFamily"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case marker = "Marker"
+            case parameterGroupFamily = "ParameterGroupFamily"
         }
     }
 
     public struct ModifyClusterMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterSecurityGroups", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "NewClusterIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcSecurityGroupIds", required: false, type: .structure), 
-            AWSShapeProperty(label: "NodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterType", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "EnhancedVpcRouting", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeProperty(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
-            AWSShapeProperty(label: "HsmConfigurationIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmClientCertificateIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "ElasticIp", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "AllowVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NumberOfNodes", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
+            AWSShapeMember(label: "NewClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterType", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "EnhancedVpcRouting", required: false, type: .boolean), 
+            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
+            AWSShapeMember(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "HsmConfigurationIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "ClusterParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "HsmClientCertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ElasticIp", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "AllowVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer)
         ]
         /// A list of cluster security groups to be authorized on this cluster. This change is asynchronously applied as soon as possible. Security groups currently associated with the cluster, and not in the list of groups to apply, will be revoked from the cluster. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
         public let clusterSecurityGroups: ClusterSecurityGroupNameList?
@@ -4046,34 +3776,32 @@ extension Redshift {
             self.numberOfNodes = numberOfNodes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String: Any] { self.clusterSecurityGroups = try Redshift.ClusterSecurityGroupNameList(dictionary: clusterSecurityGroups) } else { self.clusterSecurityGroups = nil }
-            self.clusterVersion = dictionary["ClusterVersion"] as? String
-            self.newClusterIdentifier = dictionary["NewClusterIdentifier"] as? String
-            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String: Any] { self.vpcSecurityGroupIds = try Redshift.VpcSecurityGroupIdList(dictionary: vpcSecurityGroupIds) } else { self.vpcSecurityGroupIds = nil }
-            self.nodeType = dictionary["NodeType"] as? String
-            self.clusterType = dictionary["ClusterType"] as? String
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
-            self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
-            self.masterUserPassword = dictionary["MasterUserPassword"] as? String
-            self.automatedSnapshotRetentionPeriod = dictionary["AutomatedSnapshotRetentionPeriod"] as? Int32
-            self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
-            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
-            self.clusterParameterGroupName = dictionary["ClusterParameterGroupName"] as? String
-            self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
-            self.elasticIp = dictionary["ElasticIp"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.allowVersionUpgrade = dictionary["AllowVersionUpgrade"] as? Bool
-            self.numberOfNodes = dictionary["NumberOfNodes"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case clusterSecurityGroups = "ClusterSecurityGroups"
+            case clusterVersion = "ClusterVersion"
+            case newClusterIdentifier = "NewClusterIdentifier"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+            case nodeType = "NodeType"
+            case clusterType = "ClusterType"
+            case clusterIdentifier = "ClusterIdentifier"
+            case enhancedVpcRouting = "EnhancedVpcRouting"
+            case masterUserPassword = "MasterUserPassword"
+            case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
+            case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
+            case publiclyAccessible = "PubliclyAccessible"
+            case clusterParameterGroupName = "ClusterParameterGroupName"
+            case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
+            case elasticIp = "ElasticIp"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case allowVersionUpgrade = "AllowVersionUpgrade"
+            case numberOfNodes = "NumberOfNodes"
         }
     }
 
     public struct RotateEncryptionKeyResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         public let cluster: Cluster?
 
@@ -4081,16 +3809,15 @@ extension Redshift {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct HsmConfigurationList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmConfiguration", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmConfiguration", required: false, type: .list)
         ]
         public let hsmConfiguration: [HsmConfiguration]?
 
@@ -4098,24 +3825,19 @@ extension Redshift {
             self.hsmConfiguration = hsmConfiguration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hsmConfiguration = dictionary["HsmConfiguration"] as? [[String: Any]] {
-                self.hsmConfiguration = try hsmConfiguration.map({ try HsmConfiguration(dictionary: $0) })
-            } else { 
-                self.hsmConfiguration = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case hsmConfiguration = "HsmConfiguration"
         }
     }
 
     public struct DescribeClusterSubnetGroupsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterSubnetGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "TagValues", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: false, type: .structure)
         ]
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -4136,22 +3858,21 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
-            self.marker = dictionary["Marker"] as? String
-            self.clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String
-            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case tagValues = "TagValues"
+            case marker = "Marker"
+            case clusterSubnetGroupName = "ClusterSubnetGroupName"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct ModifyClusterIamRolesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "AddIamRoles", required: false, type: .structure), 
-            AWSShapeProperty(label: "RemoveIamRoles", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "AddIamRoles", required: false, type: .structure), 
+            AWSShapeMember(label: "RemoveIamRoles", required: false, type: .structure)
         ]
         /// The unique identifier of the cluster for which you want to associate or disassociate IAM roles.
         public let clusterIdentifier: String
@@ -4166,20 +3887,18 @@ extension Redshift {
             self.removeIamRoles = removeIamRoles
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
-            if let addIamRoles = dictionary["AddIamRoles"] as? [String: Any] { self.addIamRoles = try Redshift.IamRoleArnList(dictionary: addIamRoles) } else { self.addIamRoles = nil }
-            if let removeIamRoles = dictionary["RemoveIamRoles"] as? [String: Any] { self.removeIamRoles = try Redshift.IamRoleArnList(dictionary: removeIamRoles) } else { self.removeIamRoles = nil }
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case addIamRoles = "AddIamRoles"
+            case removeIamRoles = "RemoveIamRoles"
         }
     }
 
     public struct ClusterIamRole: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplyStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "ApplyStatus", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM role, for example, arn:aws:iam::123456789012:role/RedshiftCopyUnload. 
         public let iamRoleArn: String?
@@ -4191,19 +3910,18 @@ extension Redshift {
             self.applyStatus = applyStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.iamRoleArn = dictionary["IamRoleArn"] as? String
-            self.applyStatus = dictionary["ApplyStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case iamRoleArn = "IamRoleArn"
+            case applyStatus = "ApplyStatus"
         }
     }
 
     public struct CreateClusterSnapshotMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotIdentifier", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string)
         ]
         /// The cluster identifier for which you want a snapshot.
         public let clusterIdentifier: String
@@ -4218,20 +3936,17 @@ extension Redshift {
             self.snapshotIdentifier = snapshotIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
-            self.snapshotIdentifier = snapshotIdentifier
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case tags = "Tags"
+            case snapshotIdentifier = "SnapshotIdentifier"
         }
     }
 
     public struct ClusterSecurityGroupMembershipList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterSecurityGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSecurityGroup", required: false, type: .list)
         ]
         public let clusterSecurityGroup: [ClusterSecurityGroupMembership]?
 
@@ -4239,21 +3954,16 @@ extension Redshift {
             self.clusterSecurityGroup = clusterSecurityGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterSecurityGroup = dictionary["ClusterSecurityGroup"] as? [[String: Any]] {
-                self.clusterSecurityGroup = try clusterSecurityGroup.map({ try ClusterSecurityGroupMembership(dictionary: $0) })
-            } else { 
-                self.clusterSecurityGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case clusterSecurityGroup = "ClusterSecurityGroup"
         }
     }
 
     public struct ClusterParameterGroupDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .structure)
         ]
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
@@ -4265,17 +3975,16 @@ extension Redshift {
             self.parameters = parameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let parameters = dictionary["Parameters"] as? [String: Any] { self.parameters = try Redshift.ParametersList(dictionary: parameters) } else { self.parameters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case parameters = "Parameters"
         }
     }
 
     public struct AuthorizeClusterSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterSecurityGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSecurityGroup", required: false, type: .structure)
         ]
         public let clusterSecurityGroup: ClusterSecurityGroup?
 
@@ -4283,20 +3992,19 @@ extension Redshift {
             self.clusterSecurityGroup = clusterSecurityGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterSecurityGroup = dictionary["ClusterSecurityGroup"] as? [String: Any] { self.clusterSecurityGroup = try Redshift.ClusterSecurityGroup(dictionary: clusterSecurityGroup) } else { self.clusterSecurityGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case clusterSecurityGroup = "ClusterSecurityGroup"
         }
     }
 
     public struct ClusterSecurityGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "IPRanges", required: false, type: .structure), 
-            AWSShapeProperty(label: "EC2SecurityGroups", required: false, type: .structure), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterSecurityGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "IPRanges", required: false, type: .structure), 
+            AWSShapeMember(label: "EC2SecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterSecurityGroupName", required: false, type: .string)
         ]
         /// A description of the security group.
         public let description: String?
@@ -4317,22 +4025,21 @@ extension Redshift {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            if let iPRanges = dictionary["IPRanges"] as? [String: Any] { self.iPRanges = try Redshift.IPRangeList(dictionary: iPRanges) } else { self.iPRanges = nil }
-            if let eC2SecurityGroups = dictionary["EC2SecurityGroups"] as? [String: Any] { self.eC2SecurityGroups = try Redshift.EC2SecurityGroupList(dictionary: eC2SecurityGroups) } else { self.eC2SecurityGroups = nil }
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            self.clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case iPRanges = "IPRanges"
+            case eC2SecurityGroups = "EC2SecurityGroups"
+            case tags = "Tags"
+            case clusterSecurityGroupName = "ClusterSecurityGroupName"
         }
     }
 
     public struct TaggedResource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tag", required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourceName", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tag", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceName", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string)
         ]
         /// The tag for the resource.
         public let tag: Tag?
@@ -4347,19 +4054,18 @@ extension Redshift {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tag = dictionary["Tag"] as? [String: Any] { self.tag = try Redshift.Tag(dictionary: tag) } else { self.tag = nil }
-            self.resourceName = dictionary["ResourceName"] as? String
-            self.resourceType = dictionary["ResourceType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tag = "Tag"
+            case resourceName = "ResourceName"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct ReservedNodeOfferingsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReservedNodeOfferings", required: false, type: .structure), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedNodeOfferings", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// A list of ReservedNodeOffering objects.
         public let reservedNodeOfferings: ReservedNodeOfferingList?
@@ -4371,19 +4077,18 @@ extension Redshift {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let reservedNodeOfferings = dictionary["ReservedNodeOfferings"] as? [String: Any] { self.reservedNodeOfferings = try Redshift.ReservedNodeOfferingList(dictionary: reservedNodeOfferings) } else { self.reservedNodeOfferings = nil }
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case reservedNodeOfferings = "ReservedNodeOfferings"
+            case marker = "Marker"
         }
     }
 
     public struct ClusterNode: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeRole", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateIPAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "PublicIPAddress", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeRole", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateIPAddress", required: false, type: .string), 
+            AWSShapeMember(label: "PublicIPAddress", required: false, type: .string)
         ]
         /// Whether the node is a leader node or a compute node.
         public let nodeRole: String?
@@ -4398,18 +4103,17 @@ extension Redshift {
             self.publicIPAddress = publicIPAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nodeRole = dictionary["NodeRole"] as? String
-            self.privateIPAddress = dictionary["PrivateIPAddress"] as? String
-            self.publicIPAddress = dictionary["PublicIPAddress"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nodeRole = "NodeRole"
+            case privateIPAddress = "PrivateIPAddress"
+            case publicIPAddress = "PublicIPAddress"
         }
     }
 
     public struct OrderableClusterOptionsList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrderableClusterOption", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrderableClusterOption", required: false, type: .list)
         ]
         public let orderableClusterOption: [OrderableClusterOption]?
 
@@ -4417,20 +4121,15 @@ extension Redshift {
             self.orderableClusterOption = orderableClusterOption
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let orderableClusterOption = dictionary["OrderableClusterOption"] as? [[String: Any]] {
-                self.orderableClusterOption = try orderableClusterOption.map({ try OrderableClusterOption(dictionary: $0) })
-            } else { 
-                self.orderableClusterOption = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case orderableClusterOption = "OrderableClusterOption"
         }
     }
 
     public struct TagKeyList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagKey", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagKey", required: false, type: .list)
         ]
         public let tagKey: [String]?
 
@@ -4438,17 +4137,16 @@ extension Redshift {
             self.tagKey = tagKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tagKey = dictionary["TagKey"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case tagKey = "TagKey"
         }
     }
 
     public struct SnapshotCopyGrantMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotCopyGrants", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotCopyGrants", required: false, type: .structure)
         ]
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeSnapshotCopyGrant request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both. 
         public let marker: String?
@@ -4460,17 +4158,16 @@ extension Redshift {
             self.snapshotCopyGrants = snapshotCopyGrants
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let snapshotCopyGrants = dictionary["SnapshotCopyGrants"] as? [String: Any] { self.snapshotCopyGrants = try Redshift.SnapshotCopyGrantList(dictionary: snapshotCopyGrants) } else { self.snapshotCopyGrants = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case snapshotCopyGrants = "SnapshotCopyGrants"
         }
     }
 
     public struct SnapshotCopyGrantList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotCopyGrant", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotCopyGrant", required: false, type: .list)
         ]
         public let snapshotCopyGrant: [SnapshotCopyGrant]?
 
@@ -4478,52 +4175,47 @@ extension Redshift {
             self.snapshotCopyGrant = snapshotCopyGrant
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshotCopyGrant = dictionary["SnapshotCopyGrant"] as? [[String: Any]] {
-                self.snapshotCopyGrant = try snapshotCopyGrant.map({ try SnapshotCopyGrant(dictionary: $0) })
-            } else { 
-                self.snapshotCopyGrant = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case snapshotCopyGrant = "SnapshotCopyGrant"
         }
     }
 
     public struct Cluster: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcSecurityGroups", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterNodes", required: false, type: .list), 
-            AWSShapeProperty(label: "DBName", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Encrypted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ClusterIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
-            AWSShapeProperty(label: "EnhancedVpcRouting", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ClusterSnapshotCopyStatus", required: false, type: .structure), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "IamRoles", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "NumberOfNodes", required: false, type: .integer), 
-            AWSShapeProperty(label: "Endpoint", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterRevisionNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "PendingModifiedValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterSecurityGroups", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterParameterGroups", required: false, type: .structure), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "NodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterPublicKey", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmStatus", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterCreateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ElasticIpStatus", required: false, type: .structure), 
-            AWSShapeProperty(label: "RestoreStatus", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterSubnetGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeProperty(label: "AllowVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ModifyStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterNodes", required: false, type: .list), 
+            AWSShapeMember(label: "DBName", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "EnhancedVpcRouting", required: false, type: .boolean), 
+            AWSShapeMember(label: "ClusterSnapshotCopyStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "IamRoles", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterStatus", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterRevisionNumber", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterSecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterParameterGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "HsmStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "ElasticIpStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "RestoreStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
+            AWSShapeMember(label: "AllowVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "ModifyStatus", required: false, type: .string)
         ]
         /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are associated with the cluster. This parameter is returned only if the cluster is in a VPC.
         public let vpcSecurityGroups: VpcSecurityGroupMembershipList?
@@ -4576,7 +4268,7 @@ extension Redshift {
         /// A value that reports whether the Amazon Redshift cluster has finished applying any hardware security module (HSM) settings changes specified in a modify cluster command. Values: active, applying
         public let hsmStatus: HsmStatus?
         /// The date and time that the cluster was created.
-        public let clusterCreateTime: String?
+        public let clusterCreateTime: Double?
         /// A Boolean value that, if true, indicates that the cluster can be accessed from a public network.
         public let publiclyAccessible: Bool?
         /// The status of the elastic IP (EIP) address.
@@ -4592,7 +4284,7 @@ extension Redshift {
         /// The status of a modify operation, if any, initiated for the cluster.
         public let modifyStatus: String?
 
-        public init(vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, clusterNodes: [ClusterNode]? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, clusterIdentifier: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, enhancedVpcRouting: Bool? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, availabilityZone: String? = nil, iamRoles: ClusterIamRoleList? = nil, clusterStatus: String? = nil, vpcId: String? = nil, preferredMaintenanceWindow: String? = nil, numberOfNodes: Int32? = nil, endpoint: Endpoint? = nil, clusterRevisionNumber: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, clusterSecurityGroups: ClusterSecurityGroupMembershipList? = nil, clusterParameterGroups: ClusterParameterGroupStatusList? = nil, tags: TagList? = nil, nodeType: String? = nil, clusterPublicKey: String? = nil, hsmStatus: HsmStatus? = nil, clusterCreateTime: String? = nil, publiclyAccessible: Bool? = nil, elasticIpStatus: ElasticIpStatus? = nil, restoreStatus: RestoreStatus? = nil, clusterSubnetGroupName: String? = nil, masterUsername: String? = nil, allowVersionUpgrade: Bool? = nil, modifyStatus: String? = nil) {
+        public init(vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, clusterNodes: [ClusterNode]? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, clusterIdentifier: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, enhancedVpcRouting: Bool? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, availabilityZone: String? = nil, iamRoles: ClusterIamRoleList? = nil, clusterStatus: String? = nil, vpcId: String? = nil, preferredMaintenanceWindow: String? = nil, numberOfNodes: Int32? = nil, endpoint: Endpoint? = nil, clusterRevisionNumber: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, clusterSecurityGroups: ClusterSecurityGroupMembershipList? = nil, clusterParameterGroups: ClusterParameterGroupStatusList? = nil, tags: TagList? = nil, nodeType: String? = nil, clusterPublicKey: String? = nil, hsmStatus: HsmStatus? = nil, clusterCreateTime: Double? = nil, publiclyAccessible: Bool? = nil, elasticIpStatus: ElasticIpStatus? = nil, restoreStatus: RestoreStatus? = nil, clusterSubnetGroupName: String? = nil, masterUsername: String? = nil, allowVersionUpgrade: Bool? = nil, modifyStatus: String? = nil) {
             self.vpcSecurityGroups = vpcSecurityGroups
             self.clusterNodes = clusterNodes
             self.dBName = dBName
@@ -4628,52 +4320,47 @@ extension Redshift {
             self.modifyStatus = modifyStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let vpcSecurityGroups = dictionary["VpcSecurityGroups"] as? [String: Any] { self.vpcSecurityGroups = try Redshift.VpcSecurityGroupMembershipList(dictionary: vpcSecurityGroups) } else { self.vpcSecurityGroups = nil }
-            if let clusterNodes = dictionary["ClusterNodes"] as? [[String: Any]] {
-                self.clusterNodes = try clusterNodes.map({ try ClusterNode(dictionary: $0) })
-            } else { 
-                self.clusterNodes = nil
-            }
-            self.dBName = dictionary["DBName"] as? String
-            self.clusterVersion = dictionary["ClusterVersion"] as? String
-            self.encrypted = dictionary["Encrypted"] as? Bool
-            self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
-            self.automatedSnapshotRetentionPeriod = dictionary["AutomatedSnapshotRetentionPeriod"] as? Int32
-            self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
-            if let clusterSnapshotCopyStatus = dictionary["ClusterSnapshotCopyStatus"] as? [String: Any] { self.clusterSnapshotCopyStatus = try Redshift.ClusterSnapshotCopyStatus(dictionary: clusterSnapshotCopyStatus) } else { self.clusterSnapshotCopyStatus = nil }
-            self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            if let iamRoles = dictionary["IamRoles"] as? [String: Any] { self.iamRoles = try Redshift.ClusterIamRoleList(dictionary: iamRoles) } else { self.iamRoles = nil }
-            self.clusterStatus = dictionary["ClusterStatus"] as? String
-            self.vpcId = dictionary["VpcId"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.numberOfNodes = dictionary["NumberOfNodes"] as? Int32
-            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Redshift.Endpoint(dictionary: endpoint) } else { self.endpoint = nil }
-            self.clusterRevisionNumber = dictionary["ClusterRevisionNumber"] as? String
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
-            if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Redshift.PendingModifiedValues(dictionary: pendingModifiedValues) } else { self.pendingModifiedValues = nil }
-            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String: Any] { self.clusterSecurityGroups = try Redshift.ClusterSecurityGroupMembershipList(dictionary: clusterSecurityGroups) } else { self.clusterSecurityGroups = nil }
-            if let clusterParameterGroups = dictionary["ClusterParameterGroups"] as? [String: Any] { self.clusterParameterGroups = try Redshift.ClusterParameterGroupStatusList(dictionary: clusterParameterGroups) } else { self.clusterParameterGroups = nil }
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            self.nodeType = dictionary["NodeType"] as? String
-            self.clusterPublicKey = dictionary["ClusterPublicKey"] as? String
-            if let hsmStatus = dictionary["HsmStatus"] as? [String: Any] { self.hsmStatus = try Redshift.HsmStatus(dictionary: hsmStatus) } else { self.hsmStatus = nil }
-            self.clusterCreateTime = dictionary["ClusterCreateTime"] as? String
-            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
-            if let elasticIpStatus = dictionary["ElasticIpStatus"] as? [String: Any] { self.elasticIpStatus = try Redshift.ElasticIpStatus(dictionary: elasticIpStatus) } else { self.elasticIpStatus = nil }
-            if let restoreStatus = dictionary["RestoreStatus"] as? [String: Any] { self.restoreStatus = try Redshift.RestoreStatus(dictionary: restoreStatus) } else { self.restoreStatus = nil }
-            self.clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String
-            self.masterUsername = dictionary["MasterUsername"] as? String
-            self.allowVersionUpgrade = dictionary["AllowVersionUpgrade"] as? Bool
-            self.modifyStatus = dictionary["ModifyStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case vpcSecurityGroups = "VpcSecurityGroups"
+            case clusterNodes = "ClusterNodes"
+            case dBName = "DBName"
+            case clusterVersion = "ClusterVersion"
+            case encrypted = "Encrypted"
+            case clusterIdentifier = "ClusterIdentifier"
+            case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
+            case enhancedVpcRouting = "EnhancedVpcRouting"
+            case clusterSnapshotCopyStatus = "ClusterSnapshotCopyStatus"
+            case availabilityZone = "AvailabilityZone"
+            case iamRoles = "IamRoles"
+            case clusterStatus = "ClusterStatus"
+            case vpcId = "VpcId"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case numberOfNodes = "NumberOfNodes"
+            case endpoint = "Endpoint"
+            case clusterRevisionNumber = "ClusterRevisionNumber"
+            case kmsKeyId = "KmsKeyId"
+            case pendingModifiedValues = "PendingModifiedValues"
+            case clusterSecurityGroups = "ClusterSecurityGroups"
+            case clusterParameterGroups = "ClusterParameterGroups"
+            case tags = "Tags"
+            case nodeType = "NodeType"
+            case clusterPublicKey = "ClusterPublicKey"
+            case hsmStatus = "HsmStatus"
+            case clusterCreateTime = "ClusterCreateTime"
+            case publiclyAccessible = "PubliclyAccessible"
+            case elasticIpStatus = "ElasticIpStatus"
+            case restoreStatus = "RestoreStatus"
+            case clusterSubnetGroupName = "ClusterSubnetGroupName"
+            case masterUsername = "MasterUsername"
+            case allowVersionUpgrade = "AllowVersionUpgrade"
+            case modifyStatus = "ModifyStatus"
         }
     }
 
     public struct CreateClusterSnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Snapshot", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Snapshot", required: false, type: .structure)
         ]
         public let snapshot: Snapshot?
 
@@ -4681,22 +4368,21 @@ extension Redshift {
             self.snapshot = snapshot
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshot = dictionary["Snapshot"] as? [String: Any] { self.snapshot = try Redshift.Snapshot(dictionary: snapshot) } else { self.snapshot = nil }
+        private enum CodingKeys: String, CodingKey {
+            case snapshot = "Snapshot"
         }
     }
 
     public struct ModifyEventSubscriptionMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Severity", required: false, type: .string), 
-            AWSShapeProperty(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SubscriptionName", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "EventCategories", required: false, type: .structure), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceIds", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Severity", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .structure), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceIds", required: false, type: .structure)
         ]
         /// Specifies the Amazon Redshift event severity to be published by the event notification subscription. Values: ERROR, INFO
         public let severity: String?
@@ -4723,25 +4409,23 @@ extension Redshift {
             self.sourceIds = sourceIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.severity = dictionary["Severity"] as? String
-            self.snsTopicArn = dictionary["SnsTopicArn"] as? String
-            guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
-            self.subscriptionName = subscriptionName
-            self.sourceType = dictionary["SourceType"] as? String
-            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Redshift.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
-            self.enabled = dictionary["Enabled"] as? Bool
-            if let sourceIds = dictionary["SourceIds"] as? [String: Any] { self.sourceIds = try Redshift.SourceIdsList(dictionary: sourceIds) } else { self.sourceIds = nil }
+        private enum CodingKeys: String, CodingKey {
+            case severity = "Severity"
+            case snsTopicArn = "SnsTopicArn"
+            case subscriptionName = "SubscriptionName"
+            case sourceType = "SourceType"
+            case eventCategories = "EventCategories"
+            case enabled = "Enabled"
+            case sourceIds = "SourceIds"
         }
     }
 
     public struct ClusterSnapshotCopyStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DestinationRegion", required: false, type: .string), 
-            AWSShapeProperty(label: "RetentionPeriod", required: false, type: .long), 
-            AWSShapeProperty(label: "SnapshotCopyGrantName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationRegion", required: false, type: .string), 
+            AWSShapeMember(label: "RetentionPeriod", required: false, type: .long), 
+            AWSShapeMember(label: "SnapshotCopyGrantName", required: false, type: .string)
         ]
         /// The destination region that snapshots are automatically copied to when cross-region snapshot copy is enabled.
         public let destinationRegion: String?
@@ -4756,18 +4440,17 @@ extension Redshift {
             self.snapshotCopyGrantName = snapshotCopyGrantName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.destinationRegion = dictionary["DestinationRegion"] as? String
-            self.retentionPeriod = dictionary["RetentionPeriod"] as? Int64
-            self.snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case destinationRegion = "DestinationRegion"
+            case retentionPeriod = "RetentionPeriod"
+            case snapshotCopyGrantName = "SnapshotCopyGrantName"
         }
     }
 
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The name of the availability zone.
         public let name: String?
@@ -4776,16 +4459,15 @@ extension Redshift {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct ModifyClusterSubnetGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterSubnetGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSubnetGroup", required: false, type: .structure)
         ]
         public let clusterSubnetGroup: ClusterSubnetGroup?
 
@@ -4793,20 +4475,19 @@ extension Redshift {
             self.clusterSubnetGroup = clusterSubnetGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterSubnetGroup = dictionary["ClusterSubnetGroup"] as? [String: Any] { self.clusterSubnetGroup = try Redshift.ClusterSubnetGroup(dictionary: clusterSubnetGroup) } else { self.clusterSubnetGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case clusterSubnetGroup = "ClusterSubnetGroup"
         }
     }
 
     public struct HsmConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmPartitionName", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "HsmConfigurationIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmIpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "HsmPartitionName", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "HsmConfigurationIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The IP address that the Amazon Redshift cluster must use to access the HSM.
         public let hsmIpAddress: String?
@@ -4827,20 +4508,19 @@ extension Redshift {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.hsmIpAddress = dictionary["HsmIpAddress"] as? String
-            self.hsmPartitionName = dictionary["HsmPartitionName"] as? String
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case hsmIpAddress = "HsmIpAddress"
+            case hsmPartitionName = "HsmPartitionName"
+            case tags = "Tags"
+            case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
+            case description = "Description"
         }
     }
 
     public struct DisableLoggingMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
         ]
         /// The identifier of the cluster on which logging is to be stopped. Example: examplecluster 
         public let clusterIdentifier: String
@@ -4849,17 +4529,15 @@ extension Redshift {
             self.clusterIdentifier = clusterIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
         }
     }
 
     public struct HsmClientCertificateList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmClientCertificate", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmClientCertificate", required: false, type: .list)
         ]
         public let hsmClientCertificate: [HsmClientCertificate]?
 
@@ -4867,24 +4545,19 @@ extension Redshift {
             self.hsmClientCertificate = hsmClientCertificate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hsmClientCertificate = dictionary["HsmClientCertificate"] as? [[String: Any]] {
-                self.hsmClientCertificate = try hsmClientCertificate.map({ try HsmClientCertificate(dictionary: $0) })
-            } else { 
-                self.hsmClientCertificate = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case hsmClientCertificate = "HsmClientCertificate"
         }
     }
 
     public struct DescribeClustersMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "TagValues", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: false, type: .structure)
         ]
         /// The unique identifier of a cluster whose properties you are requesting. This parameter is case sensitive. The default is that all clusters defined for an account are returned.
         public let clusterIdentifier: String?
@@ -4905,20 +4578,19 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
-            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case tagValues = "TagValues"
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct RotateEncryptionKeyMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
         ]
         /// The unique identifier of the cluster that you want to rotate the encryption keys for. Constraints: Must be the name of valid cluster that has encryption enabled.
         public let clusterIdentifier: String
@@ -4927,20 +4599,18 @@ extension Redshift {
             self.clusterIdentifier = clusterIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
         }
     }
 
     public struct RevokeClusterSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CIDRIP", required: false, type: .string), 
-            AWSShapeProperty(label: "EC2SecurityGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterSecurityGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CIDRIP", required: false, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterSecurityGroupName", required: true, type: .string)
         ]
         /// The IP range for which to revoke access. This range must be a valid Classless Inter-Domain Routing (CIDR) block of IP addresses. If CIDRIP is specified, EC2SecurityGroupName and EC2SecurityGroupOwnerId cannot be provided. 
         public let cIDRIP: String?
@@ -4958,20 +4628,18 @@ extension Redshift {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cIDRIP = dictionary["CIDRIP"] as? String
-            self.eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String
-            self.eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String
-            guard let clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSecurityGroupName") }
-            self.clusterSecurityGroupName = clusterSecurityGroupName
+        private enum CodingKeys: String, CodingKey {
+            case cIDRIP = "CIDRIP"
+            case eC2SecurityGroupName = "EC2SecurityGroupName"
+            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case clusterSecurityGroupName = "ClusterSecurityGroupName"
         }
     }
 
     public struct EC2SecurityGroupList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EC2SecurityGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2SecurityGroup", required: false, type: .list)
         ]
         public let eC2SecurityGroup: [EC2SecurityGroup]?
 
@@ -4979,22 +4647,17 @@ extension Redshift {
             self.eC2SecurityGroup = eC2SecurityGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eC2SecurityGroup = dictionary["EC2SecurityGroup"] as? [[String: Any]] {
-                self.eC2SecurityGroup = try eC2SecurityGroup.map({ try EC2SecurityGroup(dictionary: $0) })
-            } else { 
-                self.eC2SecurityGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case eC2SecurityGroup = "EC2SecurityGroup"
         }
     }
 
     public struct EnableLoggingMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "BucketName", required: true, type: .string), 
-            AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string)
         ]
         /// The identifier of the cluster on which logging is to be started. Example: examplecluster 
         public let clusterIdentifier: String
@@ -5009,20 +4672,17 @@ extension Redshift {
             self.s3KeyPrefix = s3KeyPrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
-            guard let bucketName = dictionary["BucketName"] as? String else { throw InitializableError.missingRequiredParam("BucketName") }
-            self.bucketName = bucketName
-            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case bucketName = "BucketName"
+            case s3KeyPrefix = "S3KeyPrefix"
         }
     }
 
     public struct SubnetList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subnet", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnet", required: false, type: .list)
         ]
         public let subnet: [Subnet]?
 
@@ -5030,46 +4690,41 @@ extension Redshift {
             self.subnet = subnet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let subnet = dictionary["Subnet"] as? [[String: Any]] {
-                self.subnet = try subnet.map({ try Subnet(dictionary: $0) })
-            } else { 
-                self.subnet = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case subnet = "Subnet"
         }
     }
 
     public struct CreateClusterMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DBName", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Encrypted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "ClusterType", required: false, type: .string), 
-            AWSShapeProperty(label: "EnhancedVpcRouting", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
-            AWSShapeProperty(label: "MasterUserPassword", required: true, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "HsmConfigurationIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "IamRoles", required: false, type: .structure), 
-            AWSShapeProperty(label: "HsmClientCertificateIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "ElasticIp", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "NumberOfNodes", required: false, type: .integer), 
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterSecurityGroups", required: false, type: .structure), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "NodeType", required: true, type: .string), 
-            AWSShapeProperty(label: "VpcSecurityGroupIds", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MasterUsername", required: true, type: .string), 
-            AWSShapeProperty(label: "ClusterSubnetGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "AdditionalInfo", required: false, type: .string), 
-            AWSShapeProperty(label: "AllowVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBName", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "ClusterType", required: false, type: .string), 
+            AWSShapeMember(label: "EnhancedVpcRouting", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "MasterUserPassword", required: true, type: .string), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "HsmConfigurationIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "IamRoles", required: false, type: .structure), 
+            AWSShapeMember(label: "HsmClientCertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ElasticIp", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterSecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "NodeType", required: true, type: .string), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "MasterUsername", required: true, type: .string), 
+            AWSShapeMember(label: "ClusterSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "AdditionalInfo", required: false, type: .string), 
+            AWSShapeMember(label: "AllowVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
         /// The name of the first database to be created when the cluster is created. To create additional databases after the cluster is created, connect to the cluster with a SQL client and use SQL commands to create a database. For more information, go to Create a Database in the Amazon Redshift Database Developer Guide.  Default: dev  Constraints:   Must contain 1 to 64 alphanumeric characters.   Must contain only lowercase letters.   Cannot be a word that is reserved by the service. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.   
         public let dBName: String?
@@ -5156,47 +4811,42 @@ extension Redshift {
             self.port = port
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dBName = dictionary["DBName"] as? String
-            self.clusterVersion = dictionary["ClusterVersion"] as? String
-            self.encrypted = dictionary["Encrypted"] as? Bool
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
-            self.clusterType = dictionary["ClusterType"] as? String
-            self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
-            self.automatedSnapshotRetentionPeriod = dictionary["AutomatedSnapshotRetentionPeriod"] as? Int32
-            guard let masterUserPassword = dictionary["MasterUserPassword"] as? String else { throw InitializableError.missingRequiredParam("MasterUserPassword") }
-            self.masterUserPassword = masterUserPassword
-            self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
-            if let iamRoles = dictionary["IamRoles"] as? [String: Any] { self.iamRoles = try Redshift.IamRoleArnList(dictionary: iamRoles) } else { self.iamRoles = nil }
-            self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
-            self.elasticIp = dictionary["ElasticIp"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.numberOfNodes = dictionary["NumberOfNodes"] as? Int32
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
-            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String: Any] { self.clusterSecurityGroups = try Redshift.ClusterSecurityGroupNameList(dictionary: clusterSecurityGroups) } else { self.clusterSecurityGroups = nil }
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            guard let nodeType = dictionary["NodeType"] as? String else { throw InitializableError.missingRequiredParam("NodeType") }
-            self.nodeType = nodeType
-            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String: Any] { self.vpcSecurityGroupIds = try Redshift.VpcSecurityGroupIdList(dictionary: vpcSecurityGroupIds) } else { self.vpcSecurityGroupIds = nil }
-            self.clusterParameterGroupName = dictionary["ClusterParameterGroupName"] as? String
-            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
-            guard let masterUsername = dictionary["MasterUsername"] as? String else { throw InitializableError.missingRequiredParam("MasterUsername") }
-            self.masterUsername = masterUsername
-            self.clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String
-            self.additionalInfo = dictionary["AdditionalInfo"] as? String
-            self.allowVersionUpgrade = dictionary["AllowVersionUpgrade"] as? Bool
-            self.port = dictionary["Port"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case dBName = "DBName"
+            case clusterVersion = "ClusterVersion"
+            case encrypted = "Encrypted"
+            case clusterIdentifier = "ClusterIdentifier"
+            case clusterType = "ClusterType"
+            case enhancedVpcRouting = "EnhancedVpcRouting"
+            case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
+            case masterUserPassword = "MasterUserPassword"
+            case availabilityZone = "AvailabilityZone"
+            case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
+            case iamRoles = "IamRoles"
+            case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
+            case elasticIp = "ElasticIp"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case numberOfNodes = "NumberOfNodes"
+            case kmsKeyId = "KmsKeyId"
+            case clusterSecurityGroups = "ClusterSecurityGroups"
+            case tags = "Tags"
+            case nodeType = "NodeType"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+            case clusterParameterGroupName = "ClusterParameterGroupName"
+            case publiclyAccessible = "PubliclyAccessible"
+            case masterUsername = "MasterUsername"
+            case clusterSubnetGroupName = "ClusterSubnetGroupName"
+            case additionalInfo = "AdditionalInfo"
+            case allowVersionUpgrade = "AllowVersionUpgrade"
+            case port = "Port"
         }
     }
 
     public struct SnapshotMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Snapshots", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Snapshots", required: false, type: .structure)
         ]
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
@@ -5208,19 +4858,18 @@ extension Redshift {
             self.snapshots = snapshots
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let snapshots = dictionary["Snapshots"] as? [String: Any] { self.snapshots = try Redshift.SnapshotList(dictionary: snapshots) } else { self.snapshots = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case snapshots = "Snapshots"
         }
     }
 
     public struct SnapshotCopyGrant: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotCopyGrantName", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotCopyGrantName", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
         /// The name of the snapshot copy grant.
         public let snapshotCopyGrantName: String?
@@ -5235,18 +4884,17 @@ extension Redshift {
             self.kmsKeyId = kmsKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case snapshotCopyGrantName = "SnapshotCopyGrantName"
+            case tags = "Tags"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
     public struct ClusterSecurityGroupNameList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterSecurityGroupName", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSecurityGroupName", required: false, type: .list)
         ]
         public let clusterSecurityGroupName: [String]?
 
@@ -5254,17 +4902,16 @@ extension Redshift {
             self.clusterSecurityGroupName = clusterSecurityGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case clusterSecurityGroupName = "ClusterSecurityGroupName"
         }
     }
 
     public struct ModifySnapshotCopyRetentionPeriodMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "RetentionPeriod", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "RetentionPeriod", required: true, type: .integer)
         ]
         /// The unique identifier of the cluster for which you want to change the retention period for automated snapshots that are copied to a destination region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
         public let clusterIdentifier: String
@@ -5276,19 +4923,16 @@ extension Redshift {
             self.retentionPeriod = retentionPeriod
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
-            guard let retentionPeriod = dictionary["RetentionPeriod"] as? Int32 else { throw InitializableError.missingRequiredParam("RetentionPeriod") }
-            self.retentionPeriod = retentionPeriod
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case retentionPeriod = "RetentionPeriod"
         }
     }
 
     public struct DeleteClusterSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterSubnetGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSubnetGroupName", required: true, type: .string)
         ]
         /// The name of the cluster subnet group name to be deleted.
         public let clusterSubnetGroupName: String
@@ -5297,19 +4941,17 @@ extension Redshift {
             self.clusterSubnetGroupName = clusterSubnetGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSubnetGroupName") }
-            self.clusterSubnetGroupName = clusterSubnetGroupName
+        private enum CodingKeys: String, CodingKey {
+            case clusterSubnetGroupName = "ClusterSubnetGroupName"
         }
     }
 
     public struct RevokeSnapshotAccessMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotClusterIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "AccountWithRestoreAccess", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "AccountWithRestoreAccess", required: true, type: .string)
         ]
         /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public let snapshotClusterIdentifier: String?
@@ -5324,20 +4966,17 @@ extension Redshift {
             self.accountWithRestoreAccess = accountWithRestoreAccess
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snapshotClusterIdentifier = dictionary["SnapshotClusterIdentifier"] as? String
-            guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
-            self.snapshotIdentifier = snapshotIdentifier
-            guard let accountWithRestoreAccess = dictionary["AccountWithRestoreAccess"] as? String else { throw InitializableError.missingRequiredParam("AccountWithRestoreAccess") }
-            self.accountWithRestoreAccess = accountWithRestoreAccess
+        private enum CodingKeys: String, CodingKey {
+            case snapshotClusterIdentifier = "SnapshotClusterIdentifier"
+            case snapshotIdentifier = "SnapshotIdentifier"
+            case accountWithRestoreAccess = "AccountWithRestoreAccess"
         }
     }
 
     public struct CreateHsmClientCertificateResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmClientCertificate", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmClientCertificate", required: false, type: .structure)
         ]
         public let hsmClientCertificate: HsmClientCertificate?
 
@@ -5345,16 +4984,15 @@ extension Redshift {
             self.hsmClientCertificate = hsmClientCertificate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hsmClientCertificate = dictionary["HsmClientCertificate"] as? [String: Any] { self.hsmClientCertificate = try Redshift.HsmClientCertificate(dictionary: hsmClientCertificate) } else { self.hsmClientCertificate = nil }
+        private enum CodingKeys: String, CodingKey {
+            case hsmClientCertificate = "HsmClientCertificate"
         }
     }
 
     public struct CreateSnapshotCopyGrantResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotCopyGrant", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotCopyGrant", required: false, type: .structure)
         ]
         public let snapshotCopyGrant: SnapshotCopyGrant?
 
@@ -5362,18 +5000,17 @@ extension Redshift {
             self.snapshotCopyGrant = snapshotCopyGrant
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshotCopyGrant = dictionary["SnapshotCopyGrant"] as? [String: Any] { self.snapshotCopyGrant = try Redshift.SnapshotCopyGrant(dictionary: snapshotCopyGrant) } else { self.snapshotCopyGrant = nil }
+        private enum CodingKeys: String, CodingKey {
+            case snapshotCopyGrant = "SnapshotCopyGrant"
         }
     }
 
     public struct ClusterParameterStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterApplyErrorDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterName", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterApplyStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterApplyErrorDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string)
         ]
         /// The error that prevented the parameter from being applied to the database.
         public let parameterApplyErrorDescription: String?
@@ -5388,18 +5025,17 @@ extension Redshift {
             self.parameterApplyStatus = parameterApplyStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parameterApplyErrorDescription = dictionary["ParameterApplyErrorDescription"] as? String
-            self.parameterName = dictionary["ParameterName"] as? String
-            self.parameterApplyStatus = dictionary["ParameterApplyStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameterApplyErrorDescription = "ParameterApplyErrorDescription"
+            case parameterName = "ParameterName"
+            case parameterApplyStatus = "ParameterApplyStatus"
         }
     }
 
     public struct CreateClusterSecurityGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterSecurityGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSecurityGroup", required: false, type: .structure)
         ]
         public let clusterSecurityGroup: ClusterSecurityGroup?
 
@@ -5407,24 +5043,23 @@ extension Redshift {
             self.clusterSecurityGroup = clusterSecurityGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterSecurityGroup = dictionary["ClusterSecurityGroup"] as? [String: Any] { self.clusterSecurityGroup = try Redshift.ClusterSecurityGroup(dictionary: clusterSecurityGroup) } else { self.clusterSecurityGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case clusterSecurityGroup = "ClusterSecurityGroup"
         }
     }
 
     public struct PendingModifiedValues: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "NodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
-            AWSShapeProperty(label: "NumberOfNodes", required: false, type: .integer), 
-            AWSShapeProperty(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeProperty(label: "EnhancedVpcRouting", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ClusterType", required: false, type: .string), 
-            AWSShapeProperty(label: "PubliclyAccessible", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
+            AWSShapeMember(label: "EnhancedVpcRouting", required: false, type: .boolean), 
+            AWSShapeMember(label: "ClusterType", required: false, type: .string), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean)
         ]
         /// The pending or in-progress change of the service version.
         public let clusterVersion: String?
@@ -5457,24 +5092,23 @@ extension Redshift {
             self.publiclyAccessible = publiclyAccessible
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clusterVersion = dictionary["ClusterVersion"] as? String
-            self.nodeType = dictionary["NodeType"] as? String
-            self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
-            self.automatedSnapshotRetentionPeriod = dictionary["AutomatedSnapshotRetentionPeriod"] as? Int32
-            self.numberOfNodes = dictionary["NumberOfNodes"] as? Int32
-            self.masterUserPassword = dictionary["MasterUserPassword"] as? String
-            self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
-            self.clusterType = dictionary["ClusterType"] as? String
-            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case clusterVersion = "ClusterVersion"
+            case nodeType = "NodeType"
+            case clusterIdentifier = "ClusterIdentifier"
+            case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
+            case numberOfNodes = "NumberOfNodes"
+            case masterUserPassword = "MasterUserPassword"
+            case enhancedVpcRouting = "EnhancedVpcRouting"
+            case clusterType = "ClusterType"
+            case publiclyAccessible = "PubliclyAccessible"
         }
     }
 
     public struct CreateHsmConfigurationResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HsmConfiguration", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmConfiguration", required: false, type: .structure)
         ]
         public let hsmConfiguration: HsmConfiguration?
 
@@ -5482,17 +5116,16 @@ extension Redshift {
             self.hsmConfiguration = hsmConfiguration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hsmConfiguration = dictionary["HsmConfiguration"] as? [String: Any] { self.hsmConfiguration = try Redshift.HsmConfiguration(dictionary: hsmConfiguration) } else { self.hsmConfiguration = nil }
+        private enum CodingKeys: String, CodingKey {
+            case hsmConfiguration = "HsmConfiguration"
         }
     }
 
     public struct CreateTagsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: true, type: .structure), 
-            AWSShapeProperty(label: "ResourceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .structure), 
+            AWSShapeMember(label: "ResourceName", required: true, type: .string)
         ]
         /// One or more name/value pairs to add as tags to the specified resource. Each tag name is passed in with the parameter Key and the corresponding value is passed in with the parameter Value. The Key and Value parameters are separated by a comma (,). Separate multiple tags with a space. For example, --tags "Key"="owner","Value"="admin" "Key"="environment","Value"="test" "Key"="version","Value"="1.0". 
         public let tags: TagList
@@ -5504,19 +5137,16 @@ extension Redshift {
             self.resourceName = resourceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try Redshift.TagList(dictionary: tags)
-            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
-            self.resourceName = resourceName
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case resourceName = "ResourceName"
         }
     }
 
     public struct ParameterGroupList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterParameterGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterParameterGroup", required: false, type: .list)
         ]
         public let clusterParameterGroup: [ClusterParameterGroup]?
 
@@ -5524,22 +5154,17 @@ extension Redshift {
             self.clusterParameterGroup = clusterParameterGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterParameterGroup = dictionary["ClusterParameterGroup"] as? [[String: Any]] {
-                self.clusterParameterGroup = try clusterParameterGroup.map({ try ClusterParameterGroup(dictionary: $0) })
-            } else { 
-                self.clusterParameterGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case clusterParameterGroup = "ClusterParameterGroup"
         }
     }
 
     public struct IPRange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "CIDRIP", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "CIDRIP", required: false, type: .string)
         ]
         /// The status of the IP range, for example, "authorized".
         public let status: String?
@@ -5554,19 +5179,18 @@ extension Redshift {
             self.cIDRIP = cIDRIP
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
-            self.cIDRIP = dictionary["CIDRIP"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case tags = "Tags"
+            case cIDRIP = "CIDRIP"
         }
     }
 
     public struct DeleteClusterSnapshotMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "SnapshotClusterIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "SnapshotClusterIdentifier", required: false, type: .string)
         ]
         /// The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available state.
         public let snapshotIdentifier: String
@@ -5578,22 +5202,20 @@ extension Redshift {
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
-            self.snapshotIdentifier = snapshotIdentifier
-            self.snapshotClusterIdentifier = dictionary["SnapshotClusterIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case snapshotIdentifier = "SnapshotIdentifier"
+            case snapshotClusterIdentifier = "SnapshotClusterIdentifier"
         }
     }
 
     public struct DescribeClusterParameterGroupsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "TagValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "ParameterGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "TagValues", required: false, type: .structure), 
+            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: false, type: .structure)
         ]
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -5614,20 +5236,19 @@ extension Redshift {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
-            self.parameterGroupName = dictionary["ParameterGroupName"] as? String
-            self.marker = dictionary["Marker"] as? String
-            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case tagValues = "TagValues"
+            case parameterGroupName = "ParameterGroupName"
+            case marker = "Marker"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct DbGroupList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DbGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DbGroup", required: false, type: .list)
         ]
         public let dbGroup: [String]?
 
@@ -5635,16 +5256,15 @@ extension Redshift {
             self.dbGroup = dbGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dbGroup = dictionary["DbGroup"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case dbGroup = "DbGroup"
         }
     }
 
     public struct ParametersList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameter", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameter", required: false, type: .list)
         ]
         public let parameter: [Parameter]?
 
@@ -5652,20 +5272,15 @@ extension Redshift {
             self.parameter = parameter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameter = dictionary["Parameter"] as? [[String: Any]] {
-                self.parameter = try parameter.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameter = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case parameter = "Parameter"
         }
     }
 
     public struct DisableSnapshotCopyMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string)
         ]
         /// The unique identifier of the source cluster that you want to disable copying of snapshots to a destination region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
         public let clusterIdentifier: String
@@ -5674,18 +5289,16 @@ extension Redshift {
             self.clusterIdentifier = clusterIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
         }
     }
 
     public struct ModifyClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: true, type: .structure), 
-            AWSShapeProperty(label: "ParameterGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: true, type: .structure), 
+            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
         ]
         /// An array of parameters to be modified. A maximum of 20 parameters can be modified in a single request. For each parameter to be modified, you must supply at least the parameter name and parameter value; other name-value pairs of the parameter are optional. For the workload management (WLM) configuration, you must supply all the name-value pairs in the wlm_json_configuration parameter.
         public let parameters: ParametersList
@@ -5697,22 +5310,19 @@ extension Redshift {
             self.parameterGroupName = parameterGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let parameters = dictionary["Parameters"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Parameters") }
-            self.parameters = try Redshift.ParametersList(dictionary: parameters)
-            guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
-            self.parameterGroupName = parameterGroupName
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case parameterGroupName = "ParameterGroupName"
         }
     }
 
     public struct DescribeClusterParametersMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "ParameterGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Source", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: false, type: .string)
         ]
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -5730,21 +5340,19 @@ extension Redshift {
             self.source = source
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
-            self.parameterGroupName = parameterGroupName
-            self.marker = dictionary["Marker"] as? String
-            self.source = dictionary["Source"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case parameterGroupName = "ParameterGroupName"
+            case marker = "Marker"
+            case source = "Source"
         }
     }
 
     public struct ClusterSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterSubnetGroups", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterSubnetGroups", required: false, type: .structure)
         ]
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
@@ -5756,18 +5364,17 @@ extension Redshift {
             self.clusterSubnetGroups = clusterSubnetGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let clusterSubnetGroups = dictionary["ClusterSubnetGroups"] as? [String: Any] { self.clusterSubnetGroups = try Redshift.ClusterSubnetGroups(dictionary: clusterSubnetGroups) } else { self.clusterSubnetGroups = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case clusterSubnetGroups = "ClusterSubnetGroups"
         }
     }
 
     public struct AccountWithRestoreAccess: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: false, type: .string), 
-            AWSShapeProperty(label: "AccountAlias", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "AccountAlias", required: false, type: .string)
         ]
         /// The identifier of an AWS customer account authorized to restore a snapshot.
         public let accountId: String?
@@ -5779,17 +5386,16 @@ extension Redshift {
             self.accountAlias = accountAlias
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.accountId = dictionary["AccountId"] as? String
-            self.accountAlias = dictionary["AccountAlias"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case accountAlias = "AccountAlias"
         }
     }
 
     public struct EventCategoriesMapList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventCategoriesMap", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventCategoriesMap", required: false, type: .list)
         ]
         public let eventCategoriesMap: [EventCategoriesMap]?
 
@@ -5797,12 +5403,8 @@ extension Redshift {
             self.eventCategoriesMap = eventCategoriesMap
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventCategoriesMap = dictionary["EventCategoriesMap"] as? [[String: Any]] {
-                self.eventCategoriesMap = try eventCategoriesMap.map({ try EventCategoriesMap(dictionary: $0) })
-            } else { 
-                self.eventCategoriesMap = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case eventCategoriesMap = "EventCategoriesMap"
         }
     }
 

@@ -31,53 +31,51 @@ extension Cloudtrail {
 
     public struct PublicKey: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ValidityEndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Fingerprint", required: false, type: .string), 
-            AWSShapeProperty(label: "Value", required: false, type: .blob), 
-            AWSShapeProperty(label: "ValidityStartTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ValidityEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Fingerprint", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .blob), 
+            AWSShapeMember(label: "ValidityStartTime", required: false, type: .timestamp)
         ]
         /// The ending time of validity of the public key.
-        public let validityEndTime: String?
+        public let validityEndTime: Double?
         /// The fingerprint of the public key.
         public let fingerprint: String?
         /// The DER encoded public key value in PKCS#1 format.
         public let value: Data?
         /// The starting time of validity of the public key.
-        public let validityStartTime: String?
+        public let validityStartTime: Double?
 
-        public init(validityEndTime: String? = nil, fingerprint: String? = nil, value: Data? = nil, validityStartTime: String? = nil) {
+        public init(validityEndTime: Double? = nil, fingerprint: String? = nil, value: Data? = nil, validityStartTime: Double? = nil) {
             self.validityEndTime = validityEndTime
             self.fingerprint = fingerprint
             self.value = value
             self.validityStartTime = validityStartTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.validityEndTime = dictionary["ValidityEndTime"] as? String
-            self.fingerprint = dictionary["Fingerprint"] as? String
-            self.value = dictionary["Value"] as? Data
-            self.validityStartTime = dictionary["ValidityStartTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case validityEndTime = "ValidityEndTime"
+            case fingerprint = "Fingerprint"
+            case value = "Value"
+            case validityStartTime = "ValidityStartTime"
         }
     }
 
     public struct CreateTrailResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "SnsTopicARN", required: false, type: .string), 
-            AWSShapeProperty(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
-            AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "IsMultiRegionTrail", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
-            AWSShapeProperty(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeProperty(label: "SnsTopicName", required: false, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "TrailARN", required: false, type: .string), 
-            AWSShapeProperty(label: "LogFileValidationEnabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
+            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrailARN", required: false, type: .string), 
+            AWSShapeMember(label: "LogFileValidationEnabled", required: false, type: .boolean)
         ]
         /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 
         public let kmsKeyId: String?
@@ -119,36 +117,32 @@ extension Cloudtrail {
             self.logFileValidationEnabled = logFileValidationEnabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
-            self.snsTopicARN = dictionary["SnsTopicARN"] as? String
-            self.includeGlobalServiceEvents = dictionary["IncludeGlobalServiceEvents"] as? Bool
-            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
-            self.isMultiRegionTrail = dictionary["IsMultiRegionTrail"] as? Bool
-            self.name = dictionary["Name"] as? String
-            self.cloudWatchLogsLogGroupArn = dictionary["CloudWatchLogsLogGroupArn"] as? String
-            self.s3BucketName = dictionary["S3BucketName"] as? String
-            self.snsTopicName = dictionary["SnsTopicName"] as? String
-            self.cloudWatchLogsRoleArn = dictionary["CloudWatchLogsRoleArn"] as? String
-            self.trailARN = dictionary["TrailARN"] as? String
-            self.logFileValidationEnabled = dictionary["LogFileValidationEnabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case snsTopicARN = "SnsTopicARN"
+            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
+            case s3KeyPrefix = "S3KeyPrefix"
+            case isMultiRegionTrail = "IsMultiRegionTrail"
+            case name = "Name"
+            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
+            case s3BucketName = "S3BucketName"
+            case snsTopicName = "SnsTopicName"
+            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
+            case trailARN = "TrailARN"
+            case logFileValidationEnabled = "LogFileValidationEnabled"
         }
     }
 
     public struct RemoveTagsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct AddTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "TagsList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "TagsList", required: false, type: .list)
         ]
         /// Specifies the ARN of the trail to which one or more tags will be added. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let resourceId: String
@@ -160,67 +154,57 @@ extension Cloudtrail {
             self.tagsList = tagsList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            if let tagsList = dictionary["TagsList"] as? [[String: Any]] {
-                self.tagsList = try tagsList.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tagsList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tagsList = "TagsList"
         }
     }
 
     public struct StartLoggingResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListPublicKeysRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
         /// Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
-        public let endTime: String?
+        public let endTime: Double?
         /// Reserved for future use.
         public let nextToken: String?
         /// Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
-        public let startTime: String?
+        public let startTime: Double?
 
-        public init(endTime: String? = nil, nextToken: String? = nil, startTime: String? = nil) {
+        public init(endTime: Double? = nil, nextToken: String? = nil, startTime: Double? = nil) {
             self.endTime = endTime
             self.nextToken = nextToken
             self.startTime = startTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.endTime = dictionary["EndTime"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.startTime = dictionary["StartTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
         }
     }
 
     public struct LookupEventsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LookupAttributes", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LookupAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
-        public let startTime: String?
+        public let startTime: Double?
         /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
-        public let endTime: String?
+        public let endTime: Double?
         /// Contains a list of lookup attributes. Currently the list can contain only one item.
         public let lookupAttributes: [LookupAttribute]?
         /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
@@ -228,7 +212,7 @@ extension Cloudtrail {
         /// The number of events to return. Possible values are 1 through 50. The default is 10.
         public let maxResults: Int32?
 
-        public init(startTime: String? = nil, endTime: String? = nil, lookupAttributes: [LookupAttribute]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(startTime: Double? = nil, endTime: Double? = nil, lookupAttributes: [LookupAttribute]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.lookupAttributes = lookupAttributes
@@ -236,25 +220,20 @@ extension Cloudtrail {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.endTime = dictionary["EndTime"] as? String
-            if let lookupAttributes = dictionary["LookupAttributes"] as? [[String: Any]] {
-                self.lookupAttributes = try lookupAttributes.map({ try LookupAttribute(dictionary: $0) })
-            } else { 
-                self.lookupAttributes = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case endTime = "EndTime"
+            case lookupAttributes = "LookupAttributes"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DataResource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
         /// The resource type in which you want to log data events. You can specify only the following value: AWS::S3::Object.
         public let `type`: String?
@@ -266,18 +245,17 @@ extension Cloudtrail {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.`type` = dictionary["Type"] as? String
-            self.values = dictionary["Values"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case values = "Values"
         }
     }
 
     public struct PutEventSelectorsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSelectors", required: true, type: .list), 
-            AWSShapeProperty(label: "TrailName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSelectors", required: true, type: .list), 
+            AWSShapeMember(label: "TrailName", required: true, type: .string)
         ]
         /// Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
         public let eventSelectors: [EventSelector]
@@ -289,20 +267,17 @@ extension Cloudtrail {
             self.trailName = trailName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let eventSelectors = dictionary["EventSelectors"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("EventSelectors") }
-            self.eventSelectors = try eventSelectors.map({ try EventSelector(dictionary: $0) })
-            guard let trailName = dictionary["TrailName"] as? String else { throw InitializableError.missingRequiredParam("TrailName") }
-            self.trailName = trailName
+        private enum CodingKeys: String, CodingKey {
+            case eventSelectors = "EventSelectors"
+            case trailName = "TrailName"
         }
     }
 
     public struct RemoveTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "TagsList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "TagsList", required: false, type: .list)
         ]
         /// Specifies the ARN of the trail from which tags should be removed. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let resourceId: String
@@ -314,23 +289,17 @@ extension Cloudtrail {
             self.tagsList = tagsList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            if let tagsList = dictionary["TagsList"] as? [[String: Any]] {
-                self.tagsList = try tagsList.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tagsList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tagsList = "TagsList"
         }
     }
 
     public struct ListTagsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceTagList", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceTagList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of resource tags.
         public let resourceTagList: [ResourceTag]?
@@ -342,32 +311,27 @@ extension Cloudtrail {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resourceTagList = dictionary["ResourceTagList"] as? [[String: Any]] {
-                self.resourceTagList = try resourceTagList.map({ try ResourceTag(dictionary: $0) })
-            } else { 
-                self.resourceTagList = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceTagList = "ResourceTagList"
+            case nextToken = "NextToken"
         }
     }
 
     public struct UpdateTrailResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "SnsTopicARN", required: false, type: .string), 
-            AWSShapeProperty(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
-            AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "IsMultiRegionTrail", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
-            AWSShapeProperty(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeProperty(label: "SnsTopicName", required: false, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "TrailARN", required: false, type: .string), 
-            AWSShapeProperty(label: "LogFileValidationEnabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
+            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrailARN", required: false, type: .string), 
+            AWSShapeMember(label: "LogFileValidationEnabled", required: false, type: .boolean)
         ]
         /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 
         public let kmsKeyId: String?
@@ -409,40 +373,39 @@ extension Cloudtrail {
             self.logFileValidationEnabled = logFileValidationEnabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
-            self.snsTopicARN = dictionary["SnsTopicARN"] as? String
-            self.includeGlobalServiceEvents = dictionary["IncludeGlobalServiceEvents"] as? Bool
-            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
-            self.isMultiRegionTrail = dictionary["IsMultiRegionTrail"] as? Bool
-            self.name = dictionary["Name"] as? String
-            self.cloudWatchLogsLogGroupArn = dictionary["CloudWatchLogsLogGroupArn"] as? String
-            self.s3BucketName = dictionary["S3BucketName"] as? String
-            self.snsTopicName = dictionary["SnsTopicName"] as? String
-            self.cloudWatchLogsRoleArn = dictionary["CloudWatchLogsRoleArn"] as? String
-            self.trailARN = dictionary["TrailARN"] as? String
-            self.logFileValidationEnabled = dictionary["LogFileValidationEnabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case snsTopicARN = "SnsTopicARN"
+            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
+            case s3KeyPrefix = "S3KeyPrefix"
+            case isMultiRegionTrail = "IsMultiRegionTrail"
+            case name = "Name"
+            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
+            case s3BucketName = "S3BucketName"
+            case snsTopicName = "SnsTopicName"
+            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
+            case trailARN = "TrailARN"
+            case logFileValidationEnabled = "LogFileValidationEnabled"
         }
     }
 
     public struct Trail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "LogFileValidationEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "HomeRegion", required: false, type: .string), 
-            AWSShapeProperty(label: "TrailARN", required: false, type: .string), 
-            AWSShapeProperty(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
-            AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "IsMultiRegionTrail", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
-            AWSShapeProperty(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeProperty(label: "SnsTopicName", required: false, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "HasCustomEventSelectors", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SnsTopicARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "LogFileValidationEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "HomeRegion", required: false, type: .string), 
+            AWSShapeMember(label: "TrailARN", required: false, type: .string), 
+            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "HasCustomEventSelectors", required: false, type: .boolean), 
+            AWSShapeMember(label: "SnsTopicARN", required: false, type: .string)
         ]
         /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 
         public let kmsKeyId: String?
@@ -490,50 +453,49 @@ extension Cloudtrail {
             self.snsTopicARN = snsTopicARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
-            self.logFileValidationEnabled = dictionary["LogFileValidationEnabled"] as? Bool
-            self.homeRegion = dictionary["HomeRegion"] as? String
-            self.trailARN = dictionary["TrailARN"] as? String
-            self.includeGlobalServiceEvents = dictionary["IncludeGlobalServiceEvents"] as? Bool
-            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
-            self.isMultiRegionTrail = dictionary["IsMultiRegionTrail"] as? Bool
-            self.name = dictionary["Name"] as? String
-            self.cloudWatchLogsLogGroupArn = dictionary["CloudWatchLogsLogGroupArn"] as? String
-            self.s3BucketName = dictionary["S3BucketName"] as? String
-            self.snsTopicName = dictionary["SnsTopicName"] as? String
-            self.cloudWatchLogsRoleArn = dictionary["CloudWatchLogsRoleArn"] as? String
-            self.hasCustomEventSelectors = dictionary["HasCustomEventSelectors"] as? Bool
-            self.snsTopicARN = dictionary["SnsTopicARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case logFileValidationEnabled = "LogFileValidationEnabled"
+            case homeRegion = "HomeRegion"
+            case trailARN = "TrailARN"
+            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
+            case s3KeyPrefix = "S3KeyPrefix"
+            case isMultiRegionTrail = "IsMultiRegionTrail"
+            case name = "Name"
+            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
+            case s3BucketName = "S3BucketName"
+            case snsTopicName = "SnsTopicName"
+            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
+            case hasCustomEventSelectors = "HasCustomEventSelectors"
+            case snsTopicARN = "SnsTopicARN"
         }
     }
 
     public struct GetTrailStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LatestNotificationError", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestDeliveryTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TimeLoggingStarted", required: false, type: .string), 
-            AWSShapeProperty(label: "TimeLoggingStopped", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestDigestDeliveryError", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestDeliveryAttemptSucceeded", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestCloudWatchLogsDeliveryTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LatestNotificationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LatestNotificationAttemptSucceeded", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestDigestDeliveryTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "IsLogging", required: false, type: .boolean), 
-            AWSShapeProperty(label: "LatestDeliveryAttemptTime", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestNotificationAttemptTime", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestDeliveryError", required: false, type: .string), 
-            AWSShapeProperty(label: "StopLoggingTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "StartLoggingTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LatestCloudWatchLogsDeliveryError", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LatestNotificationError", required: false, type: .string), 
+            AWSShapeMember(label: "LatestDeliveryTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TimeLoggingStarted", required: false, type: .string), 
+            AWSShapeMember(label: "TimeLoggingStopped", required: false, type: .string), 
+            AWSShapeMember(label: "LatestDigestDeliveryError", required: false, type: .string), 
+            AWSShapeMember(label: "LatestDeliveryAttemptSucceeded", required: false, type: .string), 
+            AWSShapeMember(label: "LatestCloudWatchLogsDeliveryTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LatestNotificationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LatestNotificationAttemptSucceeded", required: false, type: .string), 
+            AWSShapeMember(label: "LatestDigestDeliveryTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "IsLogging", required: false, type: .boolean), 
+            AWSShapeMember(label: "LatestDeliveryAttemptTime", required: false, type: .string), 
+            AWSShapeMember(label: "LatestNotificationAttemptTime", required: false, type: .string), 
+            AWSShapeMember(label: "LatestDeliveryError", required: false, type: .string), 
+            AWSShapeMember(label: "StopLoggingTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StartLoggingTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LatestCloudWatchLogsDeliveryError", required: false, type: .string)
         ]
         /// Displays any Amazon SNS error that CloudTrail encountered when attempting to send a notification. For more information about Amazon SNS errors, see the Amazon SNS Developer Guide. 
         public let latestNotificationError: String?
         /// Specifies the date and time that CloudTrail last delivered log files to an account's Amazon S3 bucket.
-        public let latestDeliveryTime: String?
+        public let latestDeliveryTime: Double?
         /// This field is deprecated.
         public let timeLoggingStarted: String?
         /// This field is deprecated.
@@ -543,13 +505,13 @@ extension Cloudtrail {
         /// This field is deprecated.
         public let latestDeliveryAttemptSucceeded: String?
         /// Displays the most recent date and time when CloudTrail delivered logs to CloudWatch Logs.
-        public let latestCloudWatchLogsDeliveryTime: String?
+        public let latestCloudWatchLogsDeliveryTime: Double?
         /// Specifies the date and time of the most recent Amazon SNS notification that CloudTrail has written a new log file to an account's Amazon S3 bucket.
-        public let latestNotificationTime: String?
+        public let latestNotificationTime: Double?
         /// This field is deprecated.
         public let latestNotificationAttemptSucceeded: String?
         /// Specifies the date and time that CloudTrail last delivered a digest file to an account's Amazon S3 bucket.
-        public let latestDigestDeliveryTime: String?
+        public let latestDigestDeliveryTime: Double?
         /// Whether the CloudTrail is currently logging AWS API calls.
         public let isLogging: Bool?
         /// This field is deprecated.
@@ -559,13 +521,13 @@ extension Cloudtrail {
         /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver log files to the designated bucket. For more information see the topic Error Responses in the Amazon S3 API Reference.   This error occurs only when there is a problem with the destination S3 bucket and will not occur for timeouts. To resolve the issue, create a new bucket and call UpdateTrail to specify the new bucket, or fix the existing objects so that CloudTrail can again write to the bucket. 
         public let latestDeliveryError: String?
         /// Specifies the most recent date and time when CloudTrail stopped recording API calls for an AWS account.
-        public let stopLoggingTime: String?
+        public let stopLoggingTime: Double?
         /// Specifies the most recent date and time when CloudTrail started recording API calls for an AWS account.
-        public let startLoggingTime: String?
+        public let startLoggingTime: Double?
         /// Displays any CloudWatch Logs error that CloudTrail encountered when attempting to deliver logs to CloudWatch Logs.
         public let latestCloudWatchLogsDeliveryError: String?
 
-        public init(latestNotificationError: String? = nil, latestDeliveryTime: String? = nil, timeLoggingStarted: String? = nil, timeLoggingStopped: String? = nil, latestDigestDeliveryError: String? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestCloudWatchLogsDeliveryTime: String? = nil, latestNotificationTime: String? = nil, latestNotificationAttemptSucceeded: String? = nil, latestDigestDeliveryTime: String? = nil, isLogging: Bool? = nil, latestDeliveryAttemptTime: String? = nil, latestNotificationAttemptTime: String? = nil, latestDeliveryError: String? = nil, stopLoggingTime: String? = nil, startLoggingTime: String? = nil, latestCloudWatchLogsDeliveryError: String? = nil) {
+        public init(latestNotificationError: String? = nil, latestDeliveryTime: Double? = nil, timeLoggingStarted: String? = nil, timeLoggingStopped: String? = nil, latestDigestDeliveryError: String? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestCloudWatchLogsDeliveryTime: Double? = nil, latestNotificationTime: Double? = nil, latestNotificationAttemptSucceeded: String? = nil, latestDigestDeliveryTime: Double? = nil, isLogging: Bool? = nil, latestDeliveryAttemptTime: String? = nil, latestNotificationAttemptTime: String? = nil, latestDeliveryError: String? = nil, stopLoggingTime: Double? = nil, startLoggingTime: Double? = nil, latestCloudWatchLogsDeliveryError: String? = nil) {
             self.latestNotificationError = latestNotificationError
             self.latestDeliveryTime = latestDeliveryTime
             self.timeLoggingStarted = timeLoggingStarted
@@ -585,33 +547,32 @@ extension Cloudtrail {
             self.latestCloudWatchLogsDeliveryError = latestCloudWatchLogsDeliveryError
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.latestNotificationError = dictionary["LatestNotificationError"] as? String
-            self.latestDeliveryTime = dictionary["LatestDeliveryTime"] as? String
-            self.timeLoggingStarted = dictionary["TimeLoggingStarted"] as? String
-            self.timeLoggingStopped = dictionary["TimeLoggingStopped"] as? String
-            self.latestDigestDeliveryError = dictionary["LatestDigestDeliveryError"] as? String
-            self.latestDeliveryAttemptSucceeded = dictionary["LatestDeliveryAttemptSucceeded"] as? String
-            self.latestCloudWatchLogsDeliveryTime = dictionary["LatestCloudWatchLogsDeliveryTime"] as? String
-            self.latestNotificationTime = dictionary["LatestNotificationTime"] as? String
-            self.latestNotificationAttemptSucceeded = dictionary["LatestNotificationAttemptSucceeded"] as? String
-            self.latestDigestDeliveryTime = dictionary["LatestDigestDeliveryTime"] as? String
-            self.isLogging = dictionary["IsLogging"] as? Bool
-            self.latestDeliveryAttemptTime = dictionary["LatestDeliveryAttemptTime"] as? String
-            self.latestNotificationAttemptTime = dictionary["LatestNotificationAttemptTime"] as? String
-            self.latestDeliveryError = dictionary["LatestDeliveryError"] as? String
-            self.stopLoggingTime = dictionary["StopLoggingTime"] as? String
-            self.startLoggingTime = dictionary["StartLoggingTime"] as? String
-            self.latestCloudWatchLogsDeliveryError = dictionary["LatestCloudWatchLogsDeliveryError"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case latestNotificationError = "LatestNotificationError"
+            case latestDeliveryTime = "LatestDeliveryTime"
+            case timeLoggingStarted = "TimeLoggingStarted"
+            case timeLoggingStopped = "TimeLoggingStopped"
+            case latestDigestDeliveryError = "LatestDigestDeliveryError"
+            case latestDeliveryAttemptSucceeded = "LatestDeliveryAttemptSucceeded"
+            case latestCloudWatchLogsDeliveryTime = "LatestCloudWatchLogsDeliveryTime"
+            case latestNotificationTime = "LatestNotificationTime"
+            case latestNotificationAttemptSucceeded = "LatestNotificationAttemptSucceeded"
+            case latestDigestDeliveryTime = "LatestDigestDeliveryTime"
+            case isLogging = "IsLogging"
+            case latestDeliveryAttemptTime = "LatestDeliveryAttemptTime"
+            case latestNotificationAttemptTime = "LatestNotificationAttemptTime"
+            case latestDeliveryError = "LatestDeliveryError"
+            case stopLoggingTime = "StopLoggingTime"
+            case startLoggingTime = "StartLoggingTime"
+            case latestCloudWatchLogsDeliveryError = "LatestCloudWatchLogsDeliveryError"
         }
     }
 
     public struct GetEventSelectorsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSelectors", required: false, type: .list), 
-            AWSShapeProperty(label: "TrailARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSelectors", required: false, type: .list), 
+            AWSShapeMember(label: "TrailARN", required: false, type: .string)
         ]
         /// The event selectors that are configured for the trail.
         public let eventSelectors: [EventSelector]?
@@ -623,32 +584,27 @@ extension Cloudtrail {
             self.trailARN = trailARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventSelectors = dictionary["EventSelectors"] as? [[String: Any]] {
-                self.eventSelectors = try eventSelectors.map({ try EventSelector(dictionary: $0) })
-            } else { 
-                self.eventSelectors = nil
-            }
-            self.trailARN = dictionary["TrailARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case eventSelectors = "EventSelectors"
+            case trailARN = "TrailARN"
         }
     }
 
     public struct Event: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSource", required: false, type: .string), 
-            AWSShapeProperty(label: "EventTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Username", required: false, type: .string), 
-            AWSShapeProperty(label: "EventId", required: false, type: .string), 
-            AWSShapeProperty(label: "EventName", required: false, type: .string), 
-            AWSShapeProperty(label: "Resources", required: false, type: .list), 
-            AWSShapeProperty(label: "CloudTrailEvent", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSource", required: false, type: .string), 
+            AWSShapeMember(label: "EventTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "EventId", required: false, type: .string), 
+            AWSShapeMember(label: "EventName", required: false, type: .string), 
+            AWSShapeMember(label: "Resources", required: false, type: .list), 
+            AWSShapeMember(label: "CloudTrailEvent", required: false, type: .string)
         ]
         /// The AWS service that the request was made to.
         public let eventSource: String?
         /// The date and time of the event returned.
-        public let eventTime: String?
+        public let eventTime: Double?
         /// A user name or role name of the requester that called the API in the event returned.
         public let username: String?
         /// The CloudTrail ID of the event returned.
@@ -660,7 +616,7 @@ extension Cloudtrail {
         /// A JSON string that contains a representation of the event returned.
         public let cloudTrailEvent: String?
 
-        public init(eventSource: String? = nil, eventTime: String? = nil, username: String? = nil, eventId: String? = nil, eventName: String? = nil, resources: [Resource]? = nil, cloudTrailEvent: String? = nil) {
+        public init(eventSource: String? = nil, eventTime: Double? = nil, username: String? = nil, eventId: String? = nil, eventName: String? = nil, resources: [Resource]? = nil, cloudTrailEvent: String? = nil) {
             self.eventSource = eventSource
             self.eventTime = eventTime
             self.username = username
@@ -670,27 +626,22 @@ extension Cloudtrail {
             self.cloudTrailEvent = cloudTrailEvent
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eventSource = dictionary["EventSource"] as? String
-            self.eventTime = dictionary["EventTime"] as? String
-            self.username = dictionary["Username"] as? String
-            self.eventId = dictionary["EventId"] as? String
-            self.eventName = dictionary["EventName"] as? String
-            if let resources = dictionary["Resources"] as? [[String: Any]] {
-                self.resources = try resources.map({ try Resource(dictionary: $0) })
-            } else { 
-                self.resources = nil
-            }
-            self.cloudTrailEvent = dictionary["CloudTrailEvent"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case eventSource = "EventSource"
+            case eventTime = "EventTime"
+            case username = "Username"
+            case eventId = "EventId"
+            case eventName = "EventName"
+            case resources = "Resources"
+            case cloudTrailEvent = "CloudTrailEvent"
         }
     }
 
     public struct DescribeTrailsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "trailNameList", required: false, type: .list), 
-            AWSShapeProperty(label: "includeShadowTrails", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "trailNameList", required: false, type: .list), 
+            AWSShapeMember(label: "includeShadowTrails", required: false, type: .boolean)
         ]
         /// Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail  If an empty list is specified, information for the trail in the current region is returned.   If an empty list is specified and IncludeShadowTrails is false, then information for all trails in the current region is returned.   If an empty list is specified and IncludeShadowTrails is null or true, then information for all trails in the current region and any associated shadow trails in other regions is returned.    If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current region. To return information about a trail in another region, you must specify its trail ARN. 
         public let trailNameList: [String]?
@@ -702,18 +653,17 @@ extension Cloudtrail {
             self.includeShadowTrails = includeShadowTrails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.trailNameList = dictionary["trailNameList"] as? [String]
-            self.includeShadowTrails = dictionary["includeShadowTrails"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case trailNameList = "trailNameList"
+            case includeShadowTrails = "includeShadowTrails"
         }
     }
 
     public struct PutEventSelectorsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSelectors", required: false, type: .list), 
-            AWSShapeProperty(label: "TrailARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSelectors", required: false, type: .list), 
+            AWSShapeMember(label: "TrailARN", required: false, type: .string)
         ]
         /// Specifies the event selectors configured for your trail.
         public let eventSelectors: [EventSelector]?
@@ -725,22 +675,17 @@ extension Cloudtrail {
             self.trailARN = trailARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventSelectors = dictionary["EventSelectors"] as? [[String: Any]] {
-                self.eventSelectors = try eventSelectors.map({ try EventSelector(dictionary: $0) })
-            } else { 
-                self.eventSelectors = nil
-            }
-            self.trailARN = dictionary["TrailARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case eventSelectors = "EventSelectors"
+            case trailARN = "TrailARN"
         }
     }
 
     public struct ListPublicKeysResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PublicKeyList", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PublicKeyList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Contains an array of PublicKey objects.  The returned public keys may have validity time ranges that overlap. 
         public let publicKeyList: [PublicKey]?
@@ -752,22 +697,17 @@ extension Cloudtrail {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let publicKeyList = dictionary["PublicKeyList"] as? [[String: Any]] {
-                self.publicKeyList = try publicKeyList.map({ try PublicKey(dictionary: $0) })
-            } else { 
-                self.publicKeyList = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case publicKeyList = "PublicKeyList"
+            case nextToken = "NextToken"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters.
         public let value: String?
@@ -779,19 +719,17 @@ extension Cloudtrail {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct LookupAttribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeKey", required: true, type: .enum), 
-            AWSShapeProperty(label: "AttributeValue", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeKey", required: true, type: .enum), 
+            AWSShapeMember(label: "AttributeValue", required: true, type: .string)
         ]
         /// Specifies an attribute on which to filter the events returned.
         public let attributeKey: LookupAttributeKey
@@ -803,28 +741,25 @@ extension Cloudtrail {
             self.attributeValue = attributeValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawAttributeKey = dictionary["AttributeKey"] as? String, let attributeKey = LookupAttributeKey(rawValue: rawAttributeKey) else { throw InitializableError.missingRequiredParam("AttributeKey") }
-            self.attributeKey = attributeKey
-            guard let attributeValue = dictionary["AttributeValue"] as? String else { throw InitializableError.missingRequiredParam("AttributeValue") }
-            self.attributeValue = attributeValue
+        private enum CodingKeys: String, CodingKey {
+            case attributeKey = "AttributeKey"
+            case attributeValue = "AttributeValue"
         }
     }
 
     public struct UpdateTrailRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnableLogFileValidation", required: false, type: .boolean), 
-            AWSShapeProperty(label: "S3BucketName", required: false, type: .string), 
-            AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
-            AWSShapeProperty(label: "IsMultiRegionTrail", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SnsTopicName", required: false, type: .string), 
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnableLogFileValidation", required: false, type: .boolean), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
         /// Specifies whether log file validation is enabled. The default is false.  When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail will not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail. 
         public let enableLogFileValidation: Bool?
@@ -860,35 +795,33 @@ extension Cloudtrail {
             self.kmsKeyId = kmsKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.enableLogFileValidation = dictionary["EnableLogFileValidation"] as? Bool
-            self.s3BucketName = dictionary["S3BucketName"] as? String
-            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
-            self.includeGlobalServiceEvents = dictionary["IncludeGlobalServiceEvents"] as? Bool
-            self.isMultiRegionTrail = dictionary["IsMultiRegionTrail"] as? Bool
-            self.cloudWatchLogsLogGroupArn = dictionary["CloudWatchLogsLogGroupArn"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.cloudWatchLogsRoleArn = dictionary["CloudWatchLogsRoleArn"] as? String
-            self.snsTopicName = dictionary["SnsTopicName"] as? String
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case enableLogFileValidation = "EnableLogFileValidation"
+            case s3BucketName = "S3BucketName"
+            case s3KeyPrefix = "S3KeyPrefix"
+            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
+            case isMultiRegionTrail = "IsMultiRegionTrail"
+            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
+            case name = "Name"
+            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
+            case snsTopicName = "SnsTopicName"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
     public struct CreateTrailRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnableLogFileValidation", required: false, type: .boolean), 
-            AWSShapeProperty(label: "S3BucketName", required: true, type: .string), 
-            AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
-            AWSShapeProperty(label: "IsMultiRegionTrail", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SnsTopicName", required: false, type: .string), 
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnableLogFileValidation", required: false, type: .boolean), 
+            AWSShapeMember(label: "S3BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
         /// Specifies whether log file integrity validation is enabled. The default is false.  When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail will not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail. 
         public let enableLogFileValidation: Bool?
@@ -924,35 +857,29 @@ extension Cloudtrail {
             self.kmsKeyId = kmsKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.enableLogFileValidation = dictionary["EnableLogFileValidation"] as? Bool
-            guard let s3BucketName = dictionary["S3BucketName"] as? String else { throw InitializableError.missingRequiredParam("S3BucketName") }
-            self.s3BucketName = s3BucketName
-            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
-            self.includeGlobalServiceEvents = dictionary["IncludeGlobalServiceEvents"] as? Bool
-            self.isMultiRegionTrail = dictionary["IsMultiRegionTrail"] as? Bool
-            self.cloudWatchLogsLogGroupArn = dictionary["CloudWatchLogsLogGroupArn"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.cloudWatchLogsRoleArn = dictionary["CloudWatchLogsRoleArn"] as? String
-            self.snsTopicName = dictionary["SnsTopicName"] as? String
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case enableLogFileValidation = "EnableLogFileValidation"
+            case s3BucketName = "S3BucketName"
+            case s3KeyPrefix = "S3KeyPrefix"
+            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
+            case isMultiRegionTrail = "IsMultiRegionTrail"
+            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
+            case name = "Name"
+            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
+            case snsTopicName = "SnsTopicName"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
     public struct StopLoggingResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteTrailRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// Specifies the name or the CloudTrail ARN of the trail to be deleted. The format of a trail ARN is: arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let name: String
@@ -961,17 +888,15 @@ extension Cloudtrail {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct GetEventSelectorsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrailName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrailName", required: true, type: .string)
         ]
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let trailName: String
@@ -980,13 +905,12 @@ extension Cloudtrail {
             self.trailName = trailName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let trailName = dictionary["TrailName"] as? String else { throw InitializableError.missingRequiredParam("TrailName") }
-            self.trailName = trailName
+        private enum CodingKeys: String, CodingKey {
+            case trailName = "TrailName"
         }
     }
 
-    public enum LookupAttributeKey: String, CustomStringConvertible {
+    public enum LookupAttributeKey: String, CustomStringConvertible, Codable {
         case eventid = "EventId"
         case eventname = "EventName"
         case username = "Username"
@@ -998,10 +922,9 @@ extension Cloudtrail {
 
     public struct Resource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceName", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceName", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string)
         ]
         /// The name of the resource referenced by the event returned. These are user-created names whose values will depend on the environment. For example, the resource name might be "auto-scaling-test-group" for an Auto Scaling Group or "i-1234567" for an EC2 Instance.
         public let resourceName: String?
@@ -1013,17 +936,16 @@ extension Cloudtrail {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceName = dictionary["ResourceName"] as? String
-            self.resourceType = dictionary["ResourceType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "ResourceName"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct DescribeTrailsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "trailList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "trailList", required: false, type: .list)
         ]
         /// The list of trail objects.
         public let trailList: [Trail]?
@@ -1032,20 +954,15 @@ extension Cloudtrail {
             self.trailList = trailList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let trailList = dictionary["trailList"] as? [[String: Any]] {
-                self.trailList = try trailList.map({ try Trail(dictionary: $0) })
-            } else { 
-                self.trailList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case trailList = "trailList"
         }
     }
 
     public struct StartLoggingRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let name: String
@@ -1054,17 +971,15 @@ extension Cloudtrail {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct StopLoggingRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will stop logging AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let name: String
@@ -1073,19 +988,17 @@ extension Cloudtrail {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct EventSelector: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReadWriteType", required: false, type: .enum), 
-            AWSShapeProperty(label: "DataResources", required: false, type: .list), 
-            AWSShapeProperty(label: "IncludeManagementEvents", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReadWriteType", required: false, type: .enum), 
+            AWSShapeMember(label: "DataResources", required: false, type: .list), 
+            AWSShapeMember(label: "IncludeManagementEvents", required: false, type: .boolean)
         ]
         /// Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation.  By default, the value is All.
         public let readWriteType: ReadWriteType?
@@ -1100,22 +1013,17 @@ extension Cloudtrail {
             self.includeManagementEvents = includeManagementEvents
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let readWriteType = dictionary["ReadWriteType"] as? String { self.readWriteType = ReadWriteType(rawValue: readWriteType) } else { self.readWriteType = nil }
-            if let dataResources = dictionary["DataResources"] as? [[String: Any]] {
-                self.dataResources = try dataResources.map({ try DataResource(dictionary: $0) })
-            } else { 
-                self.dataResources = nil
-            }
-            self.includeManagementEvents = dictionary["IncludeManagementEvents"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case readWriteType = "ReadWriteType"
+            case dataResources = "DataResources"
+            case includeManagementEvents = "IncludeManagementEvents"
         }
     }
 
     public struct GetTrailStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another region), you must specify its ARN. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let name: String
@@ -1124,18 +1032,16 @@ extension Cloudtrail {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct ResourceTag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "TagsList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "TagsList", required: false, type: .list)
         ]
         /// Specifies the ARN of the resource.
         public let resourceId: String?
@@ -1147,17 +1053,13 @@ extension Cloudtrail {
             self.tagsList = tagsList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceId = dictionary["ResourceId"] as? String
-            if let tagsList = dictionary["TagsList"] as? [[String: Any]] {
-                self.tagsList = try tagsList.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tagsList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tagsList = "TagsList"
         }
     }
 
-    public enum ReadWriteType: String, CustomStringConvertible {
+    public enum ReadWriteType: String, CustomStringConvertible, Codable {
         case readonly = "ReadOnly"
         case writeonly = "WriteOnly"
         case all = "All"
@@ -1166,18 +1068,14 @@ extension Cloudtrail {
 
     public struct AddTagsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceIdList", required: true, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceIdList", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Specifies a list of trail ARNs whose tags will be listed. The list has a limit of 20 ARNs. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
         public let resourceIdList: [String]
@@ -1189,19 +1087,17 @@ extension Cloudtrail {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceIdList = dictionary["ResourceIdList"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceIdList") }
-            self.resourceIdList = resourceIdList
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceIdList = "ResourceIdList"
+            case nextToken = "NextToken"
         }
     }
 
     public struct LookupEventsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Events", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Events", required: false, type: .list)
         ]
         /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
@@ -1213,22 +1109,15 @@ extension Cloudtrail {
             self.events = events
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let events = dictionary["Events"] as? [[String: Any]] {
-                self.events = try events.map({ try Event(dictionary: $0) })
-            } else { 
-                self.events = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case events = "Events"
         }
     }
 
     public struct DeleteTrailResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
 }

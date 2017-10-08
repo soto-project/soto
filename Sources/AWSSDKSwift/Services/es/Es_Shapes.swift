@@ -31,10 +31,9 @@ extension Es {
 
     public struct InstanceCountLimits: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MinimumInstanceCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "MaximumInstanceCount", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MinimumInstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "MaximumInstanceCount", required: false, type: .integer)
         ]
         public let minimumInstanceCount: Int32?
         public let maximumInstanceCount: Int32?
@@ -44,17 +43,16 @@ extension Es {
             self.maximumInstanceCount = maximumInstanceCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.minimumInstanceCount = dictionary["MinimumInstanceCount"] as? Int32
-            self.maximumInstanceCount = dictionary["MaximumInstanceCount"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case minimumInstanceCount = "MinimumInstanceCount"
+            case maximumInstanceCount = "MaximumInstanceCount"
         }
     }
 
     public struct DescribeElasticsearchDomainsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainNames", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainNames", required: true, type: .list)
         ]
         /// The Elasticsearch domains for which you want information.
         public let domainNames: [String]
@@ -63,17 +61,15 @@ extension Es {
             self.domainNames = domainNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainNames = dictionary["DomainNames"] as? [String] else { throw InitializableError.missingRequiredParam("DomainNames") }
-            self.domainNames = domainNames
+        private enum CodingKeys: String, CodingKey {
+            case domainNames = "DomainNames"
         }
     }
 
     public struct DescribeElasticsearchDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
         ]
         /// The name of the Elasticsearch domain for which you want information.
         public let domainName: String
@@ -82,18 +78,16 @@ extension Es {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct AddTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ARN", required: true, type: .string), 
-            AWSShapeProperty(label: "TagList", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
+            AWSShapeMember(label: "TagList", required: true, type: .list)
         ]
         ///  Specify the ARN for which you want to add the tags.
         public let aRN: String
@@ -105,22 +99,19 @@ extension Es {
             self.tagList = tagList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
-            self.aRN = aRN
-            guard let tagList = dictionary["TagList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TagList") }
-            self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case aRN = "ARN"
+            case tagList = "TagList"
         }
     }
 
     public struct ListElasticsearchInstanceTypesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeProperty(label: "DomainName", location: .querystring(locationName: "domainName"), required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "ElasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "DomainName", location: .querystring(locationName: "domainName"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "ElasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion"), required: true, type: .string)
         ]
         ///  Set this value to limit the number of results returned. Value provided must be greater than 30 else it wont be honored. 
         public let maxResults: Int32?
@@ -138,25 +129,23 @@ extension Es {
             self.elasticsearchVersion = elasticsearchVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.domainName = dictionary["domainName"] as? String
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let elasticsearchVersion = dictionary["ElasticsearchVersion"] as? String else { throw InitializableError.missingRequiredParam("ElasticsearchVersion") }
-            self.elasticsearchVersion = elasticsearchVersion
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case domainName = "domainName"
+            case nextToken = "nextToken"
+            case elasticsearchVersion = "ElasticsearchVersion"
         }
     }
 
     public struct UpdateElasticsearchDomainConfigRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "AdvancedOptions", required: false, type: .map), 
-            AWSShapeProperty(label: "AccessPolicies", required: false, type: .string), 
-            AWSShapeProperty(label: "EBSOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "AdvancedOptions", required: false, type: .map), 
+            AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
+            AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
         ]
         /// Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours. 
         public let snapshotOptions: SnapshotOptions?
@@ -180,26 +169,20 @@ extension Es {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptions(dictionary: snapshotOptions) } else { self.snapshotOptions = nil }
-            if let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] { self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfig(dictionary: elasticsearchClusterConfig) } else { self.elasticsearchClusterConfig = nil }
-            if let advancedOptions = dictionary["AdvancedOptions"] as? [String: String] {
-                self.advancedOptions = advancedOptions
-            } else { 
-                self.advancedOptions = nil
-            }
-            self.accessPolicies = dictionary["AccessPolicies"] as? String
-            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptions(dictionary: eBSOptions) } else { self.eBSOptions = nil }
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case snapshotOptions = "SnapshotOptions"
+            case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
+            case advancedOptions = "AdvancedOptions"
+            case accessPolicies = "AccessPolicies"
+            case eBSOptions = "EBSOptions"
+            case domainName = "DomainName"
         }
     }
 
     public struct CreateElasticsearchDomainResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainStatus", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
         ]
         /// The status of the newly created Elasticsearch domain. 
         public let domainStatus: ElasticsearchDomainStatus?
@@ -208,17 +191,16 @@ extension Es {
             self.domainStatus = domainStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Es.ElasticsearchDomainStatus(dictionary: domainStatus) } else { self.domainStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case domainStatus = "DomainStatus"
         }
     }
 
     public struct ElasticsearchClusterConfigStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", required: true, type: .structure), 
-            AWSShapeProperty(label: "Status", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
         ///  Specifies the cluster configuration for the specified Elasticsearch domain.
         public let options: ElasticsearchClusterConfig
@@ -230,19 +212,16 @@ extension Es {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
-            self.options = try Es.ElasticsearchClusterConfig(dictionary: options)
-            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = try Es.OptionStatus(dictionary: status)
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
     public struct ListTagsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: false, type: .list)
         ]
         ///  List of Tag for the requested Elasticsearch domain.
         public let tagList: [Tag]?
@@ -251,22 +230,17 @@ extension Es {
             self.tagList = tagList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagList = dictionary["TagList"] as? [[String: Any]] {
-                self.tagList = try tagList.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tagList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tagList = "TagList"
         }
     }
 
     public struct DescribeElasticsearchInstanceTypeLimitsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceType", location: .uri(locationName: "InstanceType"), required: true, type: .enum), 
-            AWSShapeProperty(label: "DomainName", location: .querystring(locationName: "domainName"), required: false, type: .string), 
-            AWSShapeProperty(label: "ElasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceType", location: .uri(locationName: "InstanceType"), required: true, type: .enum), 
+            AWSShapeMember(label: "DomainName", location: .querystring(locationName: "domainName"), required: false, type: .string), 
+            AWSShapeMember(label: "ElasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion"), required: true, type: .string)
         ]
         ///  The instance type for an Elasticsearch cluster for which Elasticsearch  Limits  are needed. 
         public let instanceType: ESPartitionInstanceType
@@ -281,21 +255,18 @@ extension Es {
             self.elasticsearchVersion = elasticsearchVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawInstanceType = dictionary["InstanceType"] as? String, let instanceType = ESPartitionInstanceType(rawValue: rawInstanceType) else { throw InitializableError.missingRequiredParam("InstanceType") }
-            self.instanceType = instanceType
-            self.domainName = dictionary["domainName"] as? String
-            guard let elasticsearchVersion = dictionary["ElasticsearchVersion"] as? String else { throw InitializableError.missingRequiredParam("ElasticsearchVersion") }
-            self.elasticsearchVersion = elasticsearchVersion
+        private enum CodingKeys: String, CodingKey {
+            case instanceType = "InstanceType"
+            case domainName = "domainName"
+            case elasticsearchVersion = "ElasticsearchVersion"
         }
     }
 
     public struct RemoveTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ARN", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// Specifies the ARN for the Elasticsearch domain from which you want to delete the specified tags.
         public let aRN: String
@@ -307,36 +278,33 @@ extension Es {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
-            self.aRN = aRN
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case aRN = "ARN"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct OptionStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UpdateVersion", required: false, type: .integer), 
-            AWSShapeProperty(label: "PendingDeletion", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CreationDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "State", required: true, type: .enum), 
-            AWSShapeProperty(label: "UpdateDate", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UpdateVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "PendingDeletion", required: false, type: .boolean), 
+            AWSShapeMember(label: "CreationDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "State", required: true, type: .enum), 
+            AWSShapeMember(label: "UpdateDate", required: true, type: .timestamp)
         ]
         /// Specifies the latest version for the entity.
         public let updateVersion: Int32?
         /// Indicates whether the Elasticsearch domain is being deleted.
         public let pendingDeletion: Bool?
         /// Timestamp which tells the creation date for the entity.
-        public let creationDate: String
+        public let creationDate: Double
         /// Provides the OptionState for the Elasticsearch domain.
         public let state: OptionState
         /// Timestamp which tells the last updated time for the entity.
-        public let updateDate: String
+        public let updateDate: Double
 
-        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: String, state: OptionState, updateDate: String) {
+        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: Double, state: OptionState, updateDate: Double) {
             self.updateVersion = updateVersion
             self.pendingDeletion = pendingDeletion
             self.creationDate = creationDate
@@ -344,23 +312,19 @@ extension Es {
             self.updateDate = updateDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.updateVersion = dictionary["UpdateVersion"] as? Int32
-            self.pendingDeletion = dictionary["PendingDeletion"] as? Bool
-            guard let creationDate = dictionary["CreationDate"] as? String else { throw InitializableError.missingRequiredParam("CreationDate") }
-            self.creationDate = creationDate
-            guard let rawState = dictionary["State"] as? String, let state = OptionState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
-            self.state = state
-            guard let updateDate = dictionary["UpdateDate"] as? String else { throw InitializableError.missingRequiredParam("UpdateDate") }
-            self.updateDate = updateDate
+        private enum CodingKeys: String, CodingKey {
+            case updateVersion = "UpdateVersion"
+            case pendingDeletion = "PendingDeletion"
+            case creationDate = "CreationDate"
+            case state = "State"
+            case updateDate = "UpdateDate"
         }
     }
 
     public struct DescribeElasticsearchInstanceTypeLimitsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LimitsByRole", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LimitsByRole", required: false, type: .map)
         ]
         public let limitsByRole: [String: Limits]?
 
@@ -368,25 +332,15 @@ extension Es {
             self.limitsByRole = limitsByRole
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let limitsByRole = dictionary["LimitsByRole"] as? [String: Any] {
-                var limitsByRoleDict: [String: Limits] = [:]
-                for (key, value) in limitsByRole {
-                    guard let limitsDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    limitsByRoleDict[key] = try Limits(dictionary: limitsDict)
-                }
-                self.limitsByRole = limitsByRoleDict
-            } else { 
-                self.limitsByRole = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case limitsByRole = "LimitsByRole"
         }
     }
 
     public struct DescribeElasticsearchDomainResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainStatus", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainStatus", required: true, type: .structure)
         ]
         /// The current status of the Elasticsearch domain.
         public let domainStatus: ElasticsearchDomainStatus
@@ -395,13 +349,12 @@ extension Es {
             self.domainStatus = domainStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainStatus = dictionary["DomainStatus"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DomainStatus") }
-            self.domainStatus = try Es.ElasticsearchDomainStatus(dictionary: domainStatus)
+        private enum CodingKeys: String, CodingKey {
+            case domainStatus = "DomainStatus"
         }
     }
 
-    public enum ESPartitionInstanceType: String, CustomStringConvertible {
+    public enum ESPartitionInstanceType: String, CustomStringConvertible, Codable {
         case m3_medium_elasticsearch = "m3.medium.elasticsearch"
         case m3_large_elasticsearch = "m3.large.elasticsearch"
         case m3_xlarge_elasticsearch = "m3.xlarge.elasticsearch"
@@ -441,10 +394,9 @@ extension Es {
 
     public struct AdditionalLimit: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LimitName", required: false, type: .string), 
-            AWSShapeProperty(label: "LimitValues", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LimitName", required: false, type: .string), 
+            AWSShapeMember(label: "LimitValues", required: false, type: .list)
         ]
         ///  Name of Additional Limit is specific to a given InstanceType and for each of it's  InstanceRole  etc.  Attributes and their details:   MaximumNumberOfDataNodesSupported This attribute will be present in Master node only to specify how much data nodes upto which given  ESPartitionInstanceType  can support as master node. MaximumNumberOfDataNodesWithoutMasterNode This attribute will be present in Data node only to specify how much data nodes of given  ESPartitionInstanceType  upto which you don't need any master nodes to govern them.  
         public let limitName: String?
@@ -456,17 +408,16 @@ extension Es {
             self.limitValues = limitValues
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.limitName = dictionary["LimitName"] as? String
-            self.limitValues = dictionary["LimitValues"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case limitName = "LimitName"
+            case limitValues = "LimitValues"
         }
     }
 
     public struct ListDomainNamesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainNames", required: false, type: .list)
         ]
         /// List of Elasticsearch domain names.
         public let domainNames: [DomainInfo]?
@@ -475,20 +426,15 @@ extension Es {
             self.domainNames = domainNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let domainNames = dictionary["DomainNames"] as? [[String: Any]] {
-                self.domainNames = try domainNames.map({ try DomainInfo(dictionary: $0) })
-            } else { 
-                self.domainNames = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case domainNames = "DomainNames"
         }
     }
 
     public struct SnapshotOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutomatedSnapshotStartHour", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutomatedSnapshotStartHour", required: false, type: .integer)
         ]
         /// Specifies the time, in UTC format, when the service takes a daily automated snapshot of the specified Elasticsearch domain. Default value is 0 hours.
         public let automatedSnapshotStartHour: Int32?
@@ -497,19 +443,18 @@ extension Es {
             self.automatedSnapshotStartHour = automatedSnapshotStartHour
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.automatedSnapshotStartHour = dictionary["AutomatedSnapshotStartHour"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case automatedSnapshotStartHour = "AutomatedSnapshotStartHour"
         }
     }
 
     public struct EBSOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "VolumeType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Iops", required: false, type: .integer), 
-            AWSShapeProperty(label: "EBSEnabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeSize", required: false, type: .integer), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .enum), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "EBSEnabled", required: false, type: .boolean)
         ]
         ///  Integer to specify the size of an EBS volume.
         public let volumeSize: Int32?
@@ -527,19 +472,18 @@ extension Es {
             self.eBSEnabled = eBSEnabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.volumeSize = dictionary["VolumeSize"] as? Int32
-            if let volumeType = dictionary["VolumeType"] as? String { self.volumeType = VolumeType(rawValue: volumeType) } else { self.volumeType = nil }
-            self.iops = dictionary["Iops"] as? Int32
-            self.eBSEnabled = dictionary["EBSEnabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case volumeSize = "VolumeSize"
+            case volumeType = "VolumeType"
+            case iops = "Iops"
+            case eBSEnabled = "EBSEnabled"
         }
     }
 
     public struct DescribeElasticsearchDomainConfigRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
         ]
         /// The Elasticsearch domain that you want to get information about.
         public let domainName: String
@@ -548,17 +492,15 @@ extension Es {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct DescribeElasticsearchDomainConfigResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainConfig", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainConfig", required: true, type: .structure)
         ]
         /// The configuration information of the domain requested in the DescribeElasticsearchDomainConfig request.
         public let domainConfig: ElasticsearchDomainConfig
@@ -567,18 +509,16 @@ extension Es {
             self.domainConfig = domainConfig
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainConfig = dictionary["DomainConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DomainConfig") }
-            self.domainConfig = try Es.ElasticsearchDomainConfig(dictionary: domainConfig)
+        private enum CodingKeys: String, CodingKey {
+            case domainConfig = "DomainConfig"
         }
     }
 
     public struct ListElasticsearchVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
         public let nextToken: String?
         ///  Set this value to limit the number of results returned. Value provided must be greater than 10 else it wont be honored. 
@@ -589,18 +529,17 @@ extension Es {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct ListElasticsearchInstanceTypesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ElasticsearchInstanceTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticsearchInstanceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         ///  List of instance types supported by Amazon Elasticsearch service for given  ElasticsearchVersion  
         public let elasticsearchInstanceTypes: [ESPartitionInstanceType]?
@@ -612,18 +551,17 @@ extension Es {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let elasticsearchInstanceTypes = dictionary["ElasticsearchInstanceTypes"] as? [String] { self.elasticsearchInstanceTypes = elasticsearchInstanceTypes.flatMap({ ESPartitionInstanceType(rawValue: $0)}) } else { self.elasticsearchInstanceTypes = nil }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case elasticsearchInstanceTypes = "ElasticsearchInstanceTypes"
+            case nextToken = "NextToken"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// Specifies the TagValue, the value assigned to the corresponding tag key. Tag values can be null and do not have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity
         public let value: String
@@ -635,20 +573,17 @@ extension Es {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct SnapshotOptionsStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", required: true, type: .structure), 
-            AWSShapeProperty(label: "Status", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
         /// Specifies the daily snapshot options specified for the Elasticsearch domain.
         public let options: SnapshotOptions
@@ -660,19 +595,16 @@ extension Es {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
-            self.options = try Es.SnapshotOptions(dictionary: options)
-            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = try Es.OptionStatus(dictionary: status)
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
     public struct DomainInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: false, type: .string)
         ]
         ///  Specifies the DomainName.
         public let domainName: String?
@@ -681,16 +613,15 @@ extension Es {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.domainName = dictionary["DomainName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct DescribeElasticsearchDomainsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainStatusList", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainStatusList", required: true, type: .list)
         ]
         /// The status of the domains requested in the DescribeElasticsearchDomains request.
         public let domainStatusList: [ElasticsearchDomainStatus]
@@ -699,17 +630,15 @@ extension Es {
             self.domainStatusList = domainStatusList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainStatusList = dictionary["DomainStatusList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("DomainStatusList") }
-            self.domainStatusList = try domainStatusList.map({ try ElasticsearchDomainStatus(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case domainStatusList = "DomainStatusList"
         }
     }
 
     public struct UpdateElasticsearchDomainConfigResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainConfig", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainConfig", required: true, type: .structure)
         ]
         /// The status of the updated Elasticsearch domain. 
         public let domainConfig: ElasticsearchDomainConfig
@@ -718,18 +647,16 @@ extension Es {
             self.domainConfig = domainConfig
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainConfig = dictionary["DomainConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DomainConfig") }
-            self.domainConfig = try Es.ElasticsearchDomainConfig(dictionary: domainConfig)
+        private enum CodingKeys: String, CodingKey {
+            case domainConfig = "DomainConfig"
         }
     }
 
     public struct StorageTypeLimit: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LimitName", required: false, type: .string), 
-            AWSShapeProperty(label: "LimitValues", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LimitName", required: false, type: .string), 
+            AWSShapeMember(label: "LimitValues", required: false, type: .list)
         ]
         ///  Name of storage limits that are applicable for given storage type. If  StorageType  is ebs, following storage options are applicable  MinimumVolumeSize Minimum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumVolumeSize Maximum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumIops Maximum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable. MinimumIops Minimum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable.  
         public let limitName: String?
@@ -741,18 +668,17 @@ extension Es {
             self.limitValues = limitValues
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.limitName = dictionary["LimitName"] as? String
-            self.limitValues = dictionary["LimitValues"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case limitName = "LimitName"
+            case limitValues = "LimitValues"
         }
     }
 
     public struct ElasticsearchVersionStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", required: true, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
         ///  Specifies the Elasticsearch version for the specified Elasticsearch domain.
         public let options: String
@@ -764,20 +690,17 @@ extension Es {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let options = dictionary["Options"] as? String else { throw InitializableError.missingRequiredParam("Options") }
-            self.options = options
-            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = try Es.OptionStatus(dictionary: status)
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
     public struct ListElasticsearchVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ElasticsearchVersions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticsearchVersions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         public let elasticsearchVersions: [String]?
         public let nextToken: String?
@@ -787,17 +710,16 @@ extension Es {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.elasticsearchVersions = dictionary["ElasticsearchVersions"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case elasticsearchVersions = "ElasticsearchVersions"
+            case nextToken = "NextToken"
         }
     }
 
     public struct InstanceLimits: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceCountLimits", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceCountLimits", required: false, type: .structure)
         ]
         public let instanceCountLimits: InstanceCountLimits?
 
@@ -805,16 +727,15 @@ extension Es {
             self.instanceCountLimits = instanceCountLimits
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceCountLimits = dictionary["InstanceCountLimits"] as? [String: Any] { self.instanceCountLimits = try Es.InstanceCountLimits(dictionary: instanceCountLimits) } else { self.instanceCountLimits = nil }
+        private enum CodingKeys: String, CodingKey {
+            case instanceCountLimits = "InstanceCountLimits"
         }
     }
 
     public struct DeleteElasticsearchDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string)
         ]
         /// The name of the Elasticsearch domain that you want to permanently delete.
         public let domainName: String
@@ -823,18 +744,16 @@ extension Es {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
         }
     }
 
     public struct AdvancedOptionsStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", required: true, type: .map), 
-            AWSShapeProperty(label: "Status", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .map), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
         ///  Specifies the status of advanced options for the specified Elasticsearch domain.
         public let options: [String: String]
@@ -846,21 +765,18 @@ extension Es {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let options = dictionary["Options"] as? [String: String] else { throw InitializableError.missingRequiredParam("Options") }
-            self.options = options
-            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = try Es.OptionStatus(dictionary: status)
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
     public struct Limits: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AdditionalLimits", required: false, type: .list), 
-            AWSShapeProperty(label: "StorageTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "InstanceLimits", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalLimits", required: false, type: .list), 
+            AWSShapeMember(label: "StorageTypes", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceLimits", required: false, type: .structure)
         ]
         ///  List of additional limits that are specific to a given InstanceType and for each of it's  InstanceRole  . 
         public let additionalLimits: [AdditionalLimit]?
@@ -874,31 +790,22 @@ extension Es {
             self.instanceLimits = instanceLimits
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let additionalLimits = dictionary["AdditionalLimits"] as? [[String: Any]] {
-                self.additionalLimits = try additionalLimits.map({ try AdditionalLimit(dictionary: $0) })
-            } else { 
-                self.additionalLimits = nil
-            }
-            if let storageTypes = dictionary["StorageTypes"] as? [[String: Any]] {
-                self.storageTypes = try storageTypes.map({ try StorageType(dictionary: $0) })
-            } else { 
-                self.storageTypes = nil
-            }
-            if let instanceLimits = dictionary["InstanceLimits"] as? [String: Any] { self.instanceLimits = try Es.InstanceLimits(dictionary: instanceLimits) } else { self.instanceLimits = nil }
+        private enum CodingKeys: String, CodingKey {
+            case additionalLimits = "AdditionalLimits"
+            case storageTypes = "StorageTypes"
+            case instanceLimits = "InstanceLimits"
         }
     }
 
     public struct ElasticsearchDomainConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "AccessPolicies", required: false, type: .structure), 
-            AWSShapeProperty(label: "AdvancedOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "EBSOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "ElasticsearchVersion", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "AccessPolicies", required: false, type: .structure), 
+            AWSShapeMember(label: "AdvancedOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "ElasticsearchVersion", required: false, type: .structure)
         ]
         /// Specifies the SnapshotOptions for the Elasticsearch domain.
         public let snapshotOptions: SnapshotOptionsStatus?
@@ -922,27 +829,26 @@ extension Es {
             self.elasticsearchVersion = elasticsearchVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptionsStatus(dictionary: snapshotOptions) } else { self.snapshotOptions = nil }
-            if let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] { self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfigStatus(dictionary: elasticsearchClusterConfig) } else { self.elasticsearchClusterConfig = nil }
-            if let accessPolicies = dictionary["AccessPolicies"] as? [String: Any] { self.accessPolicies = try Es.AccessPoliciesStatus(dictionary: accessPolicies) } else { self.accessPolicies = nil }
-            if let advancedOptions = dictionary["AdvancedOptions"] as? [String: Any] { self.advancedOptions = try Es.AdvancedOptionsStatus(dictionary: advancedOptions) } else { self.advancedOptions = nil }
-            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptionsStatus(dictionary: eBSOptions) } else { self.eBSOptions = nil }
-            if let elasticsearchVersion = dictionary["ElasticsearchVersion"] as? [String: Any] { self.elasticsearchVersion = try Es.ElasticsearchVersionStatus(dictionary: elasticsearchVersion) } else { self.elasticsearchVersion = nil }
+        private enum CodingKeys: String, CodingKey {
+            case snapshotOptions = "SnapshotOptions"
+            case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
+            case accessPolicies = "AccessPolicies"
+            case advancedOptions = "AdvancedOptions"
+            case eBSOptions = "EBSOptions"
+            case elasticsearchVersion = "ElasticsearchVersion"
         }
     }
 
     public struct CreateElasticsearchDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "EBSOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "ElasticsearchVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "AccessPolicies", required: false, type: .string), 
-            AWSShapeProperty(label: "AdvancedOptions", required: false, type: .map), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "ElasticsearchVersion", required: false, type: .string), 
+            AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
+            AWSShapeMember(label: "AdvancedOptions", required: false, type: .map), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// Option to set time, in UTC format, of the daily automated snapshot. Default value is 0 hours. 
         public let snapshotOptions: SnapshotOptions?
@@ -969,29 +875,23 @@ extension Es {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptions(dictionary: snapshotOptions) } else { self.snapshotOptions = nil }
-            if let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] { self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfig(dictionary: elasticsearchClusterConfig) } else { self.elasticsearchClusterConfig = nil }
-            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptions(dictionary: eBSOptions) } else { self.eBSOptions = nil }
-            self.elasticsearchVersion = dictionary["ElasticsearchVersion"] as? String
-            self.accessPolicies = dictionary["AccessPolicies"] as? String
-            if let advancedOptions = dictionary["AdvancedOptions"] as? [String: String] {
-                self.advancedOptions = advancedOptions
-            } else { 
-                self.advancedOptions = nil
-            }
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case snapshotOptions = "SnapshotOptions"
+            case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
+            case eBSOptions = "EBSOptions"
+            case elasticsearchVersion = "ElasticsearchVersion"
+            case accessPolicies = "AccessPolicies"
+            case advancedOptions = "AdvancedOptions"
+            case domainName = "DomainName"
         }
     }
 
     public struct StorageType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StorageTypeLimits", required: false, type: .list), 
-            AWSShapeProperty(label: "StorageSubTypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "StorageTypeName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StorageTypeLimits", required: false, type: .list), 
+            AWSShapeMember(label: "StorageSubTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "StorageTypeName", required: false, type: .string)
         ]
         /// List of limits that are applicable for given storage type. 
         public let storageTypeLimits: [StorageTypeLimit]?
@@ -1004,22 +904,17 @@ extension Es {
             self.storageTypeName = storageTypeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let storageTypeLimits = dictionary["StorageTypeLimits"] as? [[String: Any]] {
-                self.storageTypeLimits = try storageTypeLimits.map({ try StorageTypeLimit(dictionary: $0) })
-            } else { 
-                self.storageTypeLimits = nil
-            }
-            self.storageSubTypeName = dictionary["StorageSubTypeName"] as? String
-            self.storageTypeName = dictionary["StorageTypeName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case storageTypeLimits = "StorageTypeLimits"
+            case storageSubTypeName = "StorageSubTypeName"
+            case storageTypeName = "StorageTypeName"
         }
     }
 
     public struct DeleteElasticsearchDomainResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DomainStatus", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
         ]
         /// The status of the Elasticsearch domain being deleted.
         public let domainStatus: ElasticsearchDomainStatus?
@@ -1028,17 +923,16 @@ extension Es {
             self.domainStatus = domainStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Es.ElasticsearchDomainStatus(dictionary: domainStatus) } else { self.domainStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case domainStatus = "DomainStatus"
         }
     }
 
     public struct EBSOptionsStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", required: true, type: .structure), 
-            AWSShapeProperty(label: "Status", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
         ///  Specifies the EBS options for the specified Elasticsearch domain.
         public let options: EBSOptions
@@ -1050,15 +944,13 @@ extension Es {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let options = dictionary["Options"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Options") }
-            self.options = try Es.EBSOptions(dictionary: options)
-            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = try Es.OptionStatus(dictionary: status)
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
-    public enum VolumeType: String, CustomStringConvertible {
+    public enum VolumeType: String, CustomStringConvertible, Codable {
         case standard = "standard"
         case gp2 = "gp2"
         case io1 = "io1"
@@ -1067,9 +959,8 @@ extension Es {
 
     public struct ListTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ARN", location: .querystring(locationName: "arn"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ARN", location: .querystring(locationName: "arn"), required: true, type: .string)
         ]
         ///  Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view.
         public let aRN: String
@@ -1078,22 +969,20 @@ extension Es {
             self.aRN = aRN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aRN = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.aRN = aRN
+        private enum CodingKeys: String, CodingKey {
+            case aRN = "arn"
         }
     }
 
     public struct ElasticsearchClusterConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DedicatedMasterCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "DedicatedMasterEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DedicatedMasterType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ZoneAwarenessEnabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DedicatedMasterCount", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "DedicatedMasterEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DedicatedMasterType", required: false, type: .enum), 
+            AWSShapeMember(label: "ZoneAwarenessEnabled", required: false, type: .boolean)
         ]
         /// Total number of dedicated master nodes, active and on standby, for the cluster.
         public let dedicatedMasterCount: Int32?
@@ -1117,17 +1006,17 @@ extension Es {
             self.zoneAwarenessEnabled = zoneAwarenessEnabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dedicatedMasterCount = dictionary["DedicatedMasterCount"] as? Int32
-            self.instanceCount = dictionary["InstanceCount"] as? Int32
-            if let instanceType = dictionary["InstanceType"] as? String { self.instanceType = ESPartitionInstanceType(rawValue: instanceType) } else { self.instanceType = nil }
-            self.dedicatedMasterEnabled = dictionary["DedicatedMasterEnabled"] as? Bool
-            if let dedicatedMasterType = dictionary["DedicatedMasterType"] as? String { self.dedicatedMasterType = ESPartitionInstanceType(rawValue: dedicatedMasterType) } else { self.dedicatedMasterType = nil }
-            self.zoneAwarenessEnabled = dictionary["ZoneAwarenessEnabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case dedicatedMasterCount = "DedicatedMasterCount"
+            case instanceCount = "InstanceCount"
+            case instanceType = "InstanceType"
+            case dedicatedMasterEnabled = "DedicatedMasterEnabled"
+            case dedicatedMasterType = "DedicatedMasterType"
+            case zoneAwarenessEnabled = "ZoneAwarenessEnabled"
         }
     }
 
-    public enum OptionState: String, CustomStringConvertible {
+    public enum OptionState: String, CustomStringConvertible, Codable {
         case requiresindexdocuments = "RequiresIndexDocuments"
         case processing = "Processing"
         case active = "Active"
@@ -1136,10 +1025,9 @@ extension Es {
 
     public struct AccessPoliciesStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Options", required: true, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
         /// The access policy configured for the Elasticsearch domain. Access policies may be resource-based, IP-based, or IAM-based. See  Configuring Access Policiesfor more information.
         public let options: String
@@ -1151,31 +1039,28 @@ extension Es {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let options = dictionary["Options"] as? String else { throw InitializableError.missingRequiredParam("Options") }
-            self.options = options
-            guard let status = dictionary["Status"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = try Es.OptionStatus(dictionary: status)
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
     public struct ElasticsearchDomainStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Processing", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ElasticsearchVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Created", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ARN", required: true, type: .string), 
-            AWSShapeProperty(label: "EBSOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "ElasticsearchClusterConfig", required: true, type: .structure), 
-            AWSShapeProperty(label: "SnapshotOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "AccessPolicies", required: false, type: .string), 
-            AWSShapeProperty(label: "AdvancedOptions", required: false, type: .map), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "Endpoint", required: false, type: .string), 
-            AWSShapeProperty(label: "DomainId", required: true, type: .string), 
-            AWSShapeProperty(label: "Deleted", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Processing", required: false, type: .boolean), 
+            AWSShapeMember(label: "ElasticsearchVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Created", required: false, type: .boolean), 
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
+            AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "ElasticsearchClusterConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "SnapshotOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
+            AWSShapeMember(label: "AdvancedOptions", required: false, type: .map), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "DomainId", required: true, type: .string), 
+            AWSShapeMember(label: "Deleted", required: false, type: .boolean)
         ]
         /// The status of the Elasticsearch domain configuration. True if Amazon Elasticsearch Service is processing configuration changes. False if the configuration is active.
         public let processing: Bool?
@@ -1219,28 +1104,20 @@ extension Es {
             self.deleted = deleted
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.processing = dictionary["Processing"] as? Bool
-            self.elasticsearchVersion = dictionary["ElasticsearchVersion"] as? String
-            self.created = dictionary["Created"] as? Bool
-            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
-            self.aRN = aRN
-            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptions(dictionary: eBSOptions) } else { self.eBSOptions = nil }
-            guard let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ElasticsearchClusterConfig") }
-            self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfig(dictionary: elasticsearchClusterConfig)
-            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptions(dictionary: snapshotOptions) } else { self.snapshotOptions = nil }
-            self.accessPolicies = dictionary["AccessPolicies"] as? String
-            if let advancedOptions = dictionary["AdvancedOptions"] as? [String: String] {
-                self.advancedOptions = advancedOptions
-            } else { 
-                self.advancedOptions = nil
-            }
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            self.endpoint = dictionary["Endpoint"] as? String
-            guard let domainId = dictionary["DomainId"] as? String else { throw InitializableError.missingRequiredParam("DomainId") }
-            self.domainId = domainId
-            self.deleted = dictionary["Deleted"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case processing = "Processing"
+            case elasticsearchVersion = "ElasticsearchVersion"
+            case created = "Created"
+            case aRN = "ARN"
+            case eBSOptions = "EBSOptions"
+            case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
+            case snapshotOptions = "SnapshotOptions"
+            case accessPolicies = "AccessPolicies"
+            case advancedOptions = "AdvancedOptions"
+            case domainName = "DomainName"
+            case endpoint = "Endpoint"
+            case domainId = "DomainId"
+            case deleted = "Deleted"
         }
     }
 

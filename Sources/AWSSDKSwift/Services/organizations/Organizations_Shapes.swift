@@ -31,10 +31,9 @@ extension Organizations {
 
     public struct HandshakeFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActionType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ParentHandshakeId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionType", required: false, type: .enum), 
+            AWSShapeMember(label: "ParentHandshakeId", required: false, type: .string)
         ]
         /// Specifies the type of handshake action. If you specify ActionType, you cannot also specify ParentHandshakeId.
         public let actionType: ActionType?
@@ -46,17 +45,16 @@ extension Organizations {
             self.parentHandshakeId = parentHandshakeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let actionType = dictionary["ActionType"] as? String { self.actionType = ActionType(rawValue: actionType) } else { self.actionType = nil }
-            self.parentHandshakeId = dictionary["ParentHandshakeId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "ActionType"
+            case parentHandshakeId = "ParentHandshakeId"
         }
     }
 
     public struct CreatePolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .structure)
         ]
         /// A structure that contains details about the newly created policy.
         public let policy: Policy?
@@ -65,17 +63,16 @@ extension Organizations {
             self.policy = policy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Organizations.Policy(dictionary: policy) } else { self.policy = nil }
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
         }
     }
 
     public struct ListAccountsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Accounts", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Accounts", required: false, type: .list)
         ]
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -87,17 +84,13 @@ extension Organizations {
             self.accounts = accounts
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let accounts = dictionary["Accounts"] as? [[String: Any]] {
-                self.accounts = try accounts.map({ try Account(dictionary: $0) })
-            } else { 
-                self.accounts = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case accounts = "Accounts"
         }
     }
 
-    public enum HandshakeConstraintViolationExceptionReason: String, CustomStringConvertible {
+    public enum HandshakeConstraintViolationExceptionReason: String, CustomStringConvertible, Codable {
         case account_number_limit_exceeded = "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
         case handshake_rate_limit_exceeded = "HANDSHAKE_RATE_LIMIT_EXCEEDED"
         case already_in_an_organization = "ALREADY_IN_AN_ORGANIZATION"
@@ -109,7 +102,7 @@ extension Organizations {
         public var description: String { return self.rawValue }
     }
 
-    public enum HandshakePartyType: String, CustomStringConvertible {
+    public enum HandshakePartyType: String, CustomStringConvertible, Codable {
         case account = "ACCOUNT"
         case organization = "ORGANIZATION"
         case email = "EMAIL"
@@ -118,10 +111,9 @@ extension Organizations {
 
     public struct Policy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicySummary", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: false, type: .string), 
+            AWSShapeMember(label: "PolicySummary", required: false, type: .structure)
         ]
         /// The text content of the policy.
         public let content: String?
@@ -133,18 +125,17 @@ extension Organizations {
             self.policySummary = policySummary
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.content = dictionary["Content"] as? String
-            if let policySummary = dictionary["PolicySummary"] as? [String: Any] { self.policySummary = try Organizations.PolicySummary(dictionary: policySummary) } else { self.policySummary = nil }
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case policySummary = "PolicySummary"
         }
     }
 
     public struct InviteAccountToOrganizationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Notes", required: false, type: .string), 
-            AWSShapeProperty(label: "Target", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Notes", required: false, type: .string), 
+            AWSShapeMember(label: "Target", required: true, type: .structure)
         ]
         /// Additional information that you want to include in the generated email to the recipient account owner.
         public let notes: String?
@@ -156,18 +147,16 @@ extension Organizations {
             self.target = target
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.notes = dictionary["Notes"] as? String
-            guard let target = dictionary["Target"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Target") }
-            self.target = try Organizations.HandshakeParty(dictionary: target)
+        private enum CodingKeys: String, CodingKey {
+            case notes = "Notes"
+            case target = "Target"
         }
     }
 
     public struct CancelHandshakeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshake", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Handshake", required: false, type: .structure)
         ]
         /// A structure that contains details about the handshake that you canceled.
         public let handshake: Handshake?
@@ -176,18 +165,18 @@ extension Organizations {
             self.handshake = handshake
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) } else { self.handshake = nil }
+        private enum CodingKeys: String, CodingKey {
+            case handshake = "Handshake"
         }
     }
 
-    public enum OrganizationFeatureSet: String, CustomStringConvertible {
+    public enum OrganizationFeatureSet: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case consolidated_billing = "CONSOLIDATED_BILLING"
         public var description: String { return self.rawValue }
     }
 
-    public enum CreateAccountState: String, CustomStringConvertible {
+    public enum CreateAccountState: String, CustomStringConvertible, Codable {
         case in_progress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         case failed = "FAILED"
@@ -196,32 +185,31 @@ extension Organizations {
 
     public struct CreateAccountStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: false, type: .string), 
-            AWSShapeProperty(label: "RequestedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "AccountName", required: false, type: .string), 
-            AWSShapeProperty(label: "CompletedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "FailureReason", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "AccountName", required: false, type: .string), 
+            AWSShapeMember(label: "CompletedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// If the account was created successfully, the unique identifier (ID) of the new account. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String?
         /// The date and time that the request was made for the account creation.
-        public let requestedTimestamp: String?
+        public let requestedTimestamp: Double?
         /// The status of the request.
         public let state: CreateAccountState?
         /// The account name given to the account when it was created.
         public let accountName: String?
         /// The date and time that the account was created and the request completed.
-        public let completedTimestamp: String?
+        public let completedTimestamp: Double?
         /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.  
         public let failureReason: CreateAccountFailureReason?
         /// The unique identifier (ID) that references this request. You get this value from the response of the initial CreateAccount request to create the account. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String?
 
-        public init(accountId: String? = nil, requestedTimestamp: String? = nil, state: CreateAccountState? = nil, accountName: String? = nil, completedTimestamp: String? = nil, failureReason: CreateAccountFailureReason? = nil, id: String? = nil) {
+        public init(accountId: String? = nil, requestedTimestamp: Double? = nil, state: CreateAccountState? = nil, accountName: String? = nil, completedTimestamp: Double? = nil, failureReason: CreateAccountFailureReason? = nil, id: String? = nil) {
             self.accountId = accountId
             self.requestedTimestamp = requestedTimestamp
             self.state = state
@@ -231,24 +219,24 @@ extension Organizations {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.accountId = dictionary["AccountId"] as? String
-            self.requestedTimestamp = dictionary["RequestedTimestamp"] as? String
-            if let state = dictionary["State"] as? String { self.state = CreateAccountState(rawValue: state) } else { self.state = nil }
-            self.accountName = dictionary["AccountName"] as? String
-            self.completedTimestamp = dictionary["CompletedTimestamp"] as? String
-            if let failureReason = dictionary["FailureReason"] as? String { self.failureReason = CreateAccountFailureReason(rawValue: failureReason) } else { self.failureReason = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case requestedTimestamp = "RequestedTimestamp"
+            case state = "State"
+            case accountName = "AccountName"
+            case completedTimestamp = "CompletedTimestamp"
+            case failureReason = "FailureReason"
+            case id = "Id"
         }
     }
 
-    public enum AccountJoinedMethod: String, CustomStringConvertible {
+    public enum AccountJoinedMethod: String, CustomStringConvertible, Codable {
         case invited = "INVITED"
         case created = "CREATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum HandshakeState: String, CustomStringConvertible {
+    public enum HandshakeState: String, CustomStringConvertible, Codable {
         case requested = "REQUESTED"
         case open = "OPEN"
         case canceled = "CANCELED"
@@ -260,9 +248,8 @@ extension Organizations {
 
     public struct DeclineHandshakeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshake", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Handshake", required: false, type: .structure)
         ]
         /// A structure that contains details about the declined handshake. The state is updated to show the value DECLINED.
         public let handshake: Handshake?
@@ -271,17 +258,16 @@ extension Organizations {
             self.handshake = handshake
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) } else { self.handshake = nil }
+        private enum CodingKeys: String, CodingKey {
+            case handshake = "Handshake"
         }
     }
 
     public struct ListTargetsForPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Targets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of structures, each of which contains details about one of the entities to which the specified policy is attached.
         public let targets: [PolicyTargetSummary]?
@@ -293,23 +279,18 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let targets = dictionary["Targets"] as? [[String: Any]] {
-                self.targets = try targets.map({ try PolicyTargetSummary(dictionary: $0) })
-            } else { 
-                self.targets = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case targets = "Targets"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ListPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Filter", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filter", required: true, type: .enum)
         ]
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
@@ -324,22 +305,20 @@ extension Organizations {
             self.filter = filter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let rawFilter = dictionary["Filter"] as? String, let filter = PolicyType(rawValue: rawFilter) else { throw InitializableError.missingRequiredParam("Filter") }
-            self.filter = filter
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case filter = "Filter"
         }
     }
 
     public struct ListPoliciesForTargetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filter", required: true, type: .enum), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetId", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: true, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TargetId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The type of policy that you want to include in the returned list.
         public let filter: PolicyType
@@ -357,23 +336,20 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawFilter = dictionary["Filter"] as? String, let filter = PolicyType(rawValue: rawFilter) else { throw InitializableError.missingRequiredParam("Filter") }
-            self.filter = filter
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let targetId = dictionary["TargetId"] as? String else { throw InitializableError.missingRequiredParam("TargetId") }
-            self.targetId = targetId
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case nextToken = "NextToken"
+            case targetId = "TargetId"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ListTargetsForPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The unique identifier (ID) of the policy for which you want to know its attachments. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let policyId: String
@@ -388,20 +364,18 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyId = dictionary["PolicyId"] as? String else { throw InitializableError.missingRequiredParam("PolicyId") }
-            self.policyId = policyId
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case policyId = "PolicyId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ListOrganizationalUnitsForParentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "OrganizationalUnits", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationalUnits", required: false, type: .list)
         ]
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -413,23 +387,18 @@ extension Organizations {
             self.organizationalUnits = organizationalUnits
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let organizationalUnits = dictionary["OrganizationalUnits"] as? [[String: Any]] {
-                self.organizationalUnits = try organizationalUnits.map({ try OrganizationalUnit(dictionary: $0) })
-            } else { 
-                self.organizationalUnits = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case organizationalUnits = "OrganizationalUnits"
         }
     }
 
     public struct HandshakeResource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Resources", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Resources", required: false, type: .list)
         ]
         /// The type of information being passed, specifying how the value is to be interpreted by the other party:    ACCOUNT - Specifies an AWS account ID number.    ORGANIZATION - Specifies an organization ID number.    EMAIL - Specifies the email address that is associated with the account that receives the handshake.     OWNER_EMAIL - Specifies the email address associated with the master account. Included as information about an organization.     OWNER_NAME - Specifies the name associated with the master account. Included as information about an organization.     NOTES - Additional text provided by the handshake initiator and intended for the recipient to read.  
         public let `type`: HandshakeResourceType?
@@ -444,22 +413,17 @@ extension Organizations {
             self.resources = resources
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = HandshakeResourceType(rawValue: `type`) } else { self.`type` = nil }
-            self.value = dictionary["Value"] as? String
-            if let resources = dictionary["Resources"] as? [[String: Any]] {
-                self.resources = try resources.map({ try HandshakeResource(dictionary: $0) })
-            } else { 
-                self.resources = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case value = "Value"
+            case resources = "Resources"
         }
     }
 
     public struct EnableAllFeaturesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshake", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Handshake", required: false, type: .structure)
         ]
         /// A structure that contains details about the handshake created to support this request to enable all features in the organization.
         public let handshake: Handshake?
@@ -468,16 +432,15 @@ extension Organizations {
             self.handshake = handshake
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) } else { self.handshake = nil }
+        private enum CodingKeys: String, CodingKey {
+            case handshake = "Handshake"
         }
     }
 
     public struct DescribeOrganizationalUnitResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationalUnit", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationalUnit", required: false, type: .structure)
         ]
         /// A structure that contains details about the specified OU.
         public let organizationalUnit: OrganizationalUnit?
@@ -486,16 +449,15 @@ extension Organizations {
             self.organizationalUnit = organizationalUnit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let organizationalUnit = dictionary["OrganizationalUnit"] as? [String: Any] { self.organizationalUnit = try Organizations.OrganizationalUnit(dictionary: organizationalUnit) } else { self.organizationalUnit = nil }
+        private enum CodingKeys: String, CodingKey {
+            case organizationalUnit = "OrganizationalUnit"
         }
     }
 
     public struct InviteAccountToOrganizationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshake", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Handshake", required: false, type: .structure)
         ]
         /// A structure that contains details about the handshake that is created to support this invitation request.
         public let handshake: Handshake?
@@ -504,16 +466,15 @@ extension Organizations {
             self.handshake = handshake
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) } else { self.handshake = nil }
+        private enum CodingKeys: String, CodingKey {
+            case handshake = "Handshake"
         }
     }
 
     public struct DescribeOrganizationalUnitRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationalUnitId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationalUnitId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the organizational unit that you want details about. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public let organizationalUnitId: String
@@ -522,17 +483,15 @@ extension Organizations {
             self.organizationalUnitId = organizationalUnitId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let organizationalUnitId = dictionary["OrganizationalUnitId"] as? String else { throw InitializableError.missingRequiredParam("OrganizationalUnitId") }
-            self.organizationalUnitId = organizationalUnitId
+        private enum CodingKeys: String, CodingKey {
+            case organizationalUnitId = "OrganizationalUnitId"
         }
     }
 
     public struct UpdateOrganizationalUnitResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationalUnit", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationalUnit", required: false, type: .structure)
         ]
         /// A structure that contains the details about the specified OU, including its new name.
         public let organizationalUnit: OrganizationalUnit?
@@ -541,16 +500,15 @@ extension Organizations {
             self.organizationalUnit = organizationalUnit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let organizationalUnit = dictionary["OrganizationalUnit"] as? [String: Any] { self.organizationalUnit = try Organizations.OrganizationalUnit(dictionary: organizationalUnit) } else { self.organizationalUnit = nil }
+        private enum CodingKeys: String, CodingKey {
+            case organizationalUnit = "OrganizationalUnit"
         }
     }
 
     public struct CreateAccountResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateAccountStatus", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateAccountStatus", required: false, type: .structure)
         ]
         /// A structure that contains details about the request to create an account. This response structure might not be fully populated when you first receive it because account creation is an asynchronous process. You can pass the returned CreateAccountStatus ID as a parameter to  DescribeCreateAccountStatus  to get status about the progress of the request at later times. 
         public let createAccountStatus: CreateAccountStatus?
@@ -559,17 +517,16 @@ extension Organizations {
             self.createAccountStatus = createAccountStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let createAccountStatus = dictionary["CreateAccountStatus"] as? [String: Any] { self.createAccountStatus = try Organizations.CreateAccountStatus(dictionary: createAccountStatus) } else { self.createAccountStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case createAccountStatus = "CreateAccountStatus"
         }
     }
 
     public struct EnablePolicyTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyType", required: true, type: .enum), 
-            AWSShapeProperty(label: "RootId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
+            AWSShapeMember(label: "RootId", required: true, type: .string)
         ]
         /// The policy type that you want to enable.
         public let policyType: PolicyType
@@ -581,20 +538,17 @@ extension Organizations {
             self.rootId = rootId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawPolicyType = dictionary["PolicyType"] as? String, let policyType = PolicyType(rawValue: rawPolicyType) else { throw InitializableError.missingRequiredParam("PolicyType") }
-            self.policyType = policyType
-            guard let rootId = dictionary["RootId"] as? String else { throw InitializableError.missingRequiredParam("RootId") }
-            self.rootId = rootId
+        private enum CodingKeys: String, CodingKey {
+            case policyType = "PolicyType"
+            case rootId = "RootId"
         }
     }
 
     public struct CreateOrganizationalUnitRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "ParentId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ParentId", required: true, type: .string)
         ]
         /// The friendly name to assign to the new OU.
         public let name: String
@@ -606,19 +560,16 @@ extension Organizations {
             self.parentId = parentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let parentId = dictionary["ParentId"] as? String else { throw InitializableError.missingRequiredParam("ParentId") }
-            self.parentId = parentId
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case parentId = "ParentId"
         }
     }
 
     public struct DescribeCreateAccountStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateAccountStatus", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateAccountStatus", required: false, type: .structure)
         ]
         /// A structure that contains the current status of an account creation request.
         public let createAccountStatus: CreateAccountStatus?
@@ -627,17 +578,16 @@ extension Organizations {
             self.createAccountStatus = createAccountStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let createAccountStatus = dictionary["CreateAccountStatus"] as? [String: Any] { self.createAccountStatus = try Organizations.CreateAccountStatus(dictionary: createAccountStatus) } else { self.createAccountStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case createAccountStatus = "CreateAccountStatus"
         }
     }
 
     public struct ListRootsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Roots", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Roots", required: false, type: .list)
         ]
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -649,23 +599,18 @@ extension Organizations {
             self.roots = roots
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let roots = dictionary["Roots"] as? [[String: Any]] {
-                self.roots = try roots.map({ try Root(dictionary: $0) })
-            } else { 
-                self.roots = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case roots = "Roots"
         }
     }
 
     public struct ListCreateAccountStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "States", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "States", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// A list of one or more states that you want included in the response. If this parameter is not present, then all requests are included in the response.
         public let states: [CreateAccountState]?
@@ -680,18 +625,17 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let states = dictionary["States"] as? [String] { self.states = states.flatMap({ CreateAccountState(rawValue: $0)}) } else { self.states = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case states = "States"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct CreateOrganizationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Organization", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Organization", required: false, type: .structure)
         ]
         /// A structure that contains details about the newly created organization.
         public let organization: Organization?
@@ -700,18 +644,17 @@ extension Organizations {
             self.organization = organization
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let organization = dictionary["Organization"] as? [String: Any] { self.organization = try Organizations.Organization(dictionary: organization) } else { self.organization = nil }
+        private enum CodingKeys: String, CodingKey {
+            case organization = "Organization"
         }
     }
 
     public struct MoveAccountRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceParentId", required: true, type: .string), 
-            AWSShapeProperty(label: "DestinationParentId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "SourceParentId", required: true, type: .string), 
+            AWSShapeMember(label: "DestinationParentId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the account that you want to move. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
@@ -726,17 +669,14 @@ extension Organizations {
             self.destinationParentId = destinationParentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            guard let sourceParentId = dictionary["SourceParentId"] as? String else { throw InitializableError.missingRequiredParam("SourceParentId") }
-            self.sourceParentId = sourceParentId
-            guard let destinationParentId = dictionary["DestinationParentId"] as? String else { throw InitializableError.missingRequiredParam("DestinationParentId") }
-            self.destinationParentId = destinationParentId
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case sourceParentId = "SourceParentId"
+            case destinationParentId = "DestinationParentId"
         }
     }
 
-    public enum InvalidInputExceptionReason: String, CustomStringConvertible {
+    public enum InvalidInputExceptionReason: String, CustomStringConvertible, Codable {
         case invalid_party_type_target = "INVALID_PARTY_TYPE_TARGET"
         case invalid_syntax_organization_arn = "INVALID_SYNTAX_ORGANIZATION_ARN"
         case invalid_syntax_policy_id = "INVALID_SYNTAX_POLICY_ID"
@@ -759,10 +699,9 @@ extension Organizations {
 
     public struct AttachPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyId", required: true, type: .string), 
-            AWSShapeProperty(label: "TargetId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
+            AWSShapeMember(label: "TargetId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let policyId: String
@@ -774,20 +713,17 @@ extension Organizations {
             self.targetId = targetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyId = dictionary["PolicyId"] as? String else { throw InitializableError.missingRequiredParam("PolicyId") }
-            self.policyId = policyId
-            guard let targetId = dictionary["TargetId"] as? String else { throw InitializableError.missingRequiredParam("TargetId") }
-            self.targetId = targetId
+        private enum CodingKeys: String, CodingKey {
+            case policyId = "PolicyId"
+            case targetId = "TargetId"
         }
     }
 
     public struct ListParentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Parents", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Parents", required: false, type: .list)
         ]
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -799,24 +735,19 @@ extension Organizations {
             self.parents = parents
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let parents = dictionary["Parents"] as? [[String: Any]] {
-                self.parents = try parents.map({ try Parent(dictionary: $0) })
-            } else { 
-                self.parents = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case parents = "Parents"
         }
     }
 
     public struct UpdatePolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see Service Control Policy Syntax in the AWS Organizations User Guide.
         public let content: String?
@@ -834,26 +765,24 @@ extension Organizations {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.content = dictionary["Content"] as? String
-            guard let policyId = dictionary["PolicyId"] as? String else { throw InitializableError.missingRequiredParam("PolicyId") }
-            self.policyId = policyId
-            self.name = dictionary["Name"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case policyId = "PolicyId"
+            case name = "Name"
+            case description = "Description"
         }
     }
 
     public struct Organization: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MasterAccountEmail", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailablePolicyTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "MasterAccountArn", required: false, type: .string), 
-            AWSShapeProperty(label: "FeatureSet", required: false, type: .enum), 
-            AWSShapeProperty(label: "MasterAccountId", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MasterAccountEmail", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "AvailablePolicyTypes", required: false, type: .list), 
+            AWSShapeMember(label: "MasterAccountArn", required: false, type: .string), 
+            AWSShapeMember(label: "FeatureSet", required: false, type: .enum), 
+            AWSShapeMember(label: "MasterAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The email address that is associated with the AWS account that is designated as the master account for the organization.
         public let masterAccountEmail: String?
@@ -880,27 +809,22 @@ extension Organizations {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.masterAccountEmail = dictionary["MasterAccountEmail"] as? String
-            self.arn = dictionary["Arn"] as? String
-            if let availablePolicyTypes = dictionary["AvailablePolicyTypes"] as? [[String: Any]] {
-                self.availablePolicyTypes = try availablePolicyTypes.map({ try PolicyTypeSummary(dictionary: $0) })
-            } else { 
-                self.availablePolicyTypes = nil
-            }
-            self.masterAccountArn = dictionary["MasterAccountArn"] as? String
-            if let featureSet = dictionary["FeatureSet"] as? String { self.featureSet = OrganizationFeatureSet(rawValue: featureSet) } else { self.featureSet = nil }
-            self.masterAccountId = dictionary["MasterAccountId"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case masterAccountEmail = "MasterAccountEmail"
+            case arn = "Arn"
+            case availablePolicyTypes = "AvailablePolicyTypes"
+            case masterAccountArn = "MasterAccountArn"
+            case featureSet = "FeatureSet"
+            case masterAccountId = "MasterAccountId"
+            case id = "Id"
         }
     }
 
     public struct Child: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The type of this child entity.
         public let `type`: ChildType?
@@ -912,19 +836,19 @@ extension Organizations {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = ChildType(rawValue: `type`) } else { self.`type` = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case id = "Id"
         }
     }
 
-    public enum ChildType: String, CustomStringConvertible {
+    public enum ChildType: String, CustomStringConvertible, Codable {
         case account = "ACCOUNT"
         case organizational_unit = "ORGANIZATIONAL_UNIT"
         public var description: String { return self.rawValue }
     }
 
-    public enum ConstraintViolationExceptionReason: String, CustomStringConvertible {
+    public enum ConstraintViolationExceptionReason: String, CustomStringConvertible, Codable {
         case account_number_limit_exceeded = "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
         case handshake_rate_limit_exceeded = "HANDSHAKE_RATE_LIMIT_EXCEEDED"
         case ou_number_limit_exceeded = "OU_NUMBER_LIMIT_EXCEEDED"
@@ -942,13 +866,13 @@ extension Organizations {
         public var description: String { return self.rawValue }
     }
 
-    public enum IAMUserAccessToBilling: String, CustomStringConvertible {
+    public enum IAMUserAccessToBilling: String, CustomStringConvertible, Codable {
         case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
-    public enum AccountStatus: String, CustomStringConvertible {
+    public enum AccountStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case suspended = "SUSPENDED"
         public var description: String { return self.rawValue }
@@ -956,12 +880,11 @@ extension Organizations {
 
     public struct ListChildrenRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChildType", required: true, type: .enum), 
-            AWSShapeProperty(label: "ParentId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChildType", required: true, type: .enum), 
+            AWSShapeMember(label: "ParentId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Filters the output to include only the specified child type.
         public let childType: ChildType
@@ -979,17 +902,15 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawChildType = dictionary["ChildType"] as? String, let childType = ChildType(rawValue: rawChildType) else { throw InitializableError.missingRequiredParam("ChildType") }
-            self.childType = childType
-            guard let parentId = dictionary["ParentId"] as? String else { throw InitializableError.missingRequiredParam("ParentId") }
-            self.parentId = parentId
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case childType = "ChildType"
+            case parentId = "ParentId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
-    public enum TargetType: String, CustomStringConvertible {
+    public enum TargetType: String, CustomStringConvertible, Codable {
         case account = "ACCOUNT"
         case organizational_unit = "ORGANIZATIONAL_UNIT"
         case root = "ROOT"
@@ -998,10 +919,9 @@ extension Organizations {
 
     public struct PolicyTypeSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
         /// The name of the policy type.
         public let `type`: PolicyType?
@@ -1013,17 +933,16 @@ extension Organizations {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = PolicyType(rawValue: `type`) } else { self.`type` = nil }
-            if let status = dictionary["Status"] as? String { self.status = PolicyTypeStatus(rawValue: status) } else { self.status = nil }
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case status = "Status"
         }
     }
 
     public struct DeclineHandshakeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HandshakeId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HandshakeId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let handshakeId: String
@@ -1032,17 +951,15 @@ extension Organizations {
             self.handshakeId = handshakeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let handshakeId = dictionary["HandshakeId"] as? String else { throw InitializableError.missingRequiredParam("HandshakeId") }
-            self.handshakeId = handshakeId
+        private enum CodingKeys: String, CodingKey {
+            case handshakeId = "HandshakeId"
         }
     }
 
     public struct AcceptHandshakeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HandshakeId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HandshakeId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the handshake that you want to accept. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let handshakeId: String
@@ -1051,23 +968,21 @@ extension Organizations {
             self.handshakeId = handshakeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let handshakeId = dictionary["HandshakeId"] as? String else { throw InitializableError.missingRequiredParam("HandshakeId") }
-            self.handshakeId = handshakeId
+        private enum CodingKeys: String, CodingKey {
+            case handshakeId = "HandshakeId"
         }
     }
 
     public struct Account: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "Email", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "JoinedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "JoinedMethod", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "JoinedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "JoinedMethod", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The status of the account in the organization.
         public let status: AccountStatus?
@@ -1078,13 +993,13 @@ extension Organizations {
         /// The friendly name of the account. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
         /// The date the account became a part of the organization.
-        public let joinedTimestamp: String?
+        public let joinedTimestamp: Double?
         /// The method by which the account joined the organization.
         public let joinedMethod: AccountJoinedMethod?
         /// The unique identifier (ID) of the account. The regex pattern for an account ID string requires exactly 12 digits.
         public let id: String?
 
-        public init(status: AccountStatus? = nil, arn: String? = nil, email: String? = nil, name: String? = nil, joinedTimestamp: String? = nil, joinedMethod: AccountJoinedMethod? = nil, id: String? = nil) {
+        public init(status: AccountStatus? = nil, arn: String? = nil, email: String? = nil, name: String? = nil, joinedTimestamp: Double? = nil, joinedMethod: AccountJoinedMethod? = nil, id: String? = nil) {
             self.status = status
             self.arn = arn
             self.email = email
@@ -1094,23 +1009,22 @@ extension Organizations {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = AccountStatus(rawValue: status) } else { self.status = nil }
-            self.arn = dictionary["Arn"] as? String
-            self.email = dictionary["Email"] as? String
-            self.name = dictionary["Name"] as? String
-            self.joinedTimestamp = dictionary["JoinedTimestamp"] as? String
-            if let joinedMethod = dictionary["JoinedMethod"] as? String { self.joinedMethod = AccountJoinedMethod(rawValue: joinedMethod) } else { self.joinedMethod = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case arn = "Arn"
+            case email = "Email"
+            case name = "Name"
+            case joinedTimestamp = "JoinedTimestamp"
+            case joinedMethod = "JoinedMethod"
+            case id = "Id"
         }
     }
 
     public struct ListAccountsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
@@ -1122,18 +1036,17 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct HandshakeParty: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The type of party.
         public let `type`: HandshakePartyType?
@@ -1145,19 +1058,18 @@ extension Organizations {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = HandshakePartyType(rawValue: `type`) } else { self.`type` = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case id = "Id"
         }
     }
 
     public struct ListHandshakesForAccountRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Filter", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure)
         ]
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
@@ -1172,19 +1084,18 @@ extension Organizations {
             self.filter = filter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try Organizations.HandshakeFilter(dictionary: filter) } else { self.filter = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case filter = "Filter"
         }
     }
 
     public struct ListCreateAccountStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateAccountStatuses", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateAccountStatuses", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of objects with details about the requests. Certain elements, such as the accountId number, are present in the output only after the account has been successfully created.
         public let createAccountStatuses: [CreateAccountStatus]?
@@ -1196,22 +1107,17 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let createAccountStatuses = dictionary["CreateAccountStatuses"] as? [[String: Any]] {
-                self.createAccountStatuses = try createAccountStatuses.map({ try CreateAccountStatus(dictionary: $0) })
-            } else { 
-                self.createAccountStatuses = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case createAccountStatuses = "CreateAccountStatuses"
+            case nextToken = "NextToken"
         }
     }
 
     public struct Parent: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The type of the parent entity.
         public let `type`: ParentType?
@@ -1223,13 +1129,13 @@ extension Organizations {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = ParentType(rawValue: `type`) } else { self.`type` = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case id = "Id"
         }
     }
 
-    public enum PolicyTypeStatus: String, CustomStringConvertible {
+    public enum PolicyTypeStatus: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case pending_enable = "PENDING_ENABLE"
         case pending_disable = "PENDING_DISABLE"
@@ -1238,9 +1144,8 @@ extension Organizations {
 
     public struct DescribePolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .structure)
         ]
         /// A structure that contains details about the specified policy.
         public let policy: Policy?
@@ -1249,17 +1154,16 @@ extension Organizations {
             self.policy = policy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Organizations.Policy(dictionary: policy) } else { self.policy = nil }
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
         }
     }
 
     public struct UpdateOrganizationalUnitRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationalUnitId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationalUnitId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The unique identifier (ID) of the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public let organizationalUnitId: String
@@ -1271,19 +1175,17 @@ extension Organizations {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let organizationalUnitId = dictionary["OrganizationalUnitId"] as? String else { throw InitializableError.missingRequiredParam("OrganizationalUnitId") }
-            self.organizationalUnitId = organizationalUnitId
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case organizationalUnitId = "OrganizationalUnitId"
+            case name = "Name"
         }
     }
 
     public struct ListPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policies", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policies", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of policies that match the filter criteria in the request. The output list does not include the policy contents. To see the content for a policy, see DescribePolicy.
         public let policies: [PolicySummary]?
@@ -1295,22 +1197,17 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policies = dictionary["Policies"] as? [[String: Any]] {
-                self.policies = try policies.map({ try PolicySummary(dictionary: $0) })
-            } else { 
-                self.policies = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policies = "Policies"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ListChildrenResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Children", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Children", required: false, type: .list)
         ]
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -1322,22 +1219,17 @@ extension Organizations {
             self.children = children
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let children = dictionary["Children"] as? [[String: Any]] {
-                self.children = try children.map({ try Child(dictionary: $0) })
-            } else { 
-                self.children = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case children = "Children"
         }
     }
 
     public struct DisablePolicyTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyType", required: true, type: .enum), 
-            AWSShapeProperty(label: "RootId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyType", required: true, type: .enum), 
+            AWSShapeMember(label: "RootId", required: true, type: .string)
         ]
         /// The policy type that you want to disable in this root.
         public let policyType: PolicyType
@@ -1349,20 +1241,17 @@ extension Organizations {
             self.rootId = rootId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawPolicyType = dictionary["PolicyType"] as? String, let policyType = PolicyType(rawValue: rawPolicyType) else { throw InitializableError.missingRequiredParam("PolicyType") }
-            self.policyType = policyType
-            guard let rootId = dictionary["RootId"] as? String else { throw InitializableError.missingRequiredParam("RootId") }
-            self.rootId = rootId
+        private enum CodingKeys: String, CodingKey {
+            case policyType = "PolicyType"
+            case rootId = "RootId"
         }
     }
 
     public struct DetachPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyId", required: true, type: .string), 
-            AWSShapeProperty(label: "TargetId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
+            AWSShapeMember(label: "TargetId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let policyId: String
@@ -1374,22 +1263,19 @@ extension Organizations {
             self.targetId = targetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyId = dictionary["PolicyId"] as? String else { throw InitializableError.missingRequiredParam("PolicyId") }
-            self.policyId = policyId
-            guard let targetId = dictionary["TargetId"] as? String else { throw InitializableError.missingRequiredParam("TargetId") }
-            self.targetId = targetId
+        private enum CodingKeys: String, CodingKey {
+            case policyId = "PolicyId"
+            case targetId = "TargetId"
         }
     }
 
     public struct CreateAccountRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountName", required: true, type: .string), 
-            AWSShapeProperty(label: "Email", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleName", required: false, type: .string), 
-            AWSShapeProperty(label: "IamUserAccessToBilling", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountName", required: true, type: .string), 
+            AWSShapeMember(label: "Email", required: true, type: .string), 
+            AWSShapeMember(label: "RoleName", required: false, type: .string), 
+            AWSShapeMember(label: "IamUserAccessToBilling", required: false, type: .enum)
         ]
         /// The friendly name of the member account.
         public let accountName: String
@@ -1407,23 +1293,20 @@ extension Organizations {
             self.iamUserAccessToBilling = iamUserAccessToBilling
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountName = dictionary["AccountName"] as? String else { throw InitializableError.missingRequiredParam("AccountName") }
-            self.accountName = accountName
-            guard let email = dictionary["Email"] as? String else { throw InitializableError.missingRequiredParam("Email") }
-            self.email = email
-            self.roleName = dictionary["RoleName"] as? String
-            if let iamUserAccessToBilling = dictionary["IamUserAccessToBilling"] as? String { self.iamUserAccessToBilling = IAMUserAccessToBilling(rawValue: iamUserAccessToBilling) } else { self.iamUserAccessToBilling = nil }
+        private enum CodingKeys: String, CodingKey {
+            case accountName = "AccountName"
+            case email = "Email"
+            case roleName = "RoleName"
+            case iamUserAccessToBilling = "IamUserAccessToBilling"
         }
     }
 
     public struct ListParentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChildId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChildId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The unique identifier (ID) of the OU or account whose parent containers you want to list. Do not specify a root. The regex pattern for a child ID string requires one of the following:   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public let childId: String
@@ -1438,19 +1321,17 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let childId = dictionary["ChildId"] as? String else { throw InitializableError.missingRequiredParam("ChildId") }
-            self.childId = childId
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case childId = "ChildId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DescribeCreateAccountStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateAccountRequestId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateAccountRequestId", required: true, type: .string)
         ]
         /// Specifies the operationId that uniquely identifies the request. You can get the ID from the response to an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
         public let createAccountRequestId: String
@@ -1459,13 +1340,12 @@ extension Organizations {
             self.createAccountRequestId = createAccountRequestId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let createAccountRequestId = dictionary["CreateAccountRequestId"] as? String else { throw InitializableError.missingRequiredParam("CreateAccountRequestId") }
-            self.createAccountRequestId = createAccountRequestId
+        private enum CodingKeys: String, CodingKey {
+            case createAccountRequestId = "CreateAccountRequestId"
         }
     }
 
-    public enum ActionType: String, CustomStringConvertible {
+    public enum ActionType: String, CustomStringConvertible, Codable {
         case invite = "INVITE"
         case enable_all_features = "ENABLE_ALL_FEATURES"
         case approve_all_features = "APPROVE_ALL_FEATURES"
@@ -1474,9 +1354,8 @@ extension Organizations {
 
     public struct DeletePolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the policy that you want to delete. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let policyId: String
@@ -1485,17 +1364,15 @@ extension Organizations {
             self.policyId = policyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyId = dictionary["PolicyId"] as? String else { throw InitializableError.missingRequiredParam("PolicyId") }
-            self.policyId = policyId
+        private enum CodingKeys: String, CodingKey {
+            case policyId = "PolicyId"
         }
     }
 
     public struct EnablePolicyTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Root", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Root", required: false, type: .structure)
         ]
         /// A structure that shows the root with the updated list of enabled policy types.
         public let root: Root?
@@ -1504,16 +1381,15 @@ extension Organizations {
             self.root = root
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let root = dictionary["Root"] as? [String: Any] { self.root = try Organizations.Root(dictionary: root) } else { self.root = nil }
+        private enum CodingKeys: String, CodingKey {
+            case root = "Root"
         }
     }
 
     public struct CreateOrganizationalUnitResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationalUnit", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationalUnit", required: false, type: .structure)
         ]
         /// A structure that contains details about the newly created OU.
         public let organizationalUnit: OrganizationalUnit?
@@ -1522,16 +1398,15 @@ extension Organizations {
             self.organizationalUnit = organizationalUnit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let organizationalUnit = dictionary["OrganizationalUnit"] as? [String: Any] { self.organizationalUnit = try Organizations.OrganizationalUnit(dictionary: organizationalUnit) } else { self.organizationalUnit = nil }
+        private enum CodingKeys: String, CodingKey {
+            case organizationalUnit = "OrganizationalUnit"
         }
     }
 
     public struct DescribeHandshakeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HandshakeId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HandshakeId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the handshake that you want information about. You can get the ID from the original call to InviteAccountToOrganization, or from a call to ListHandshakesForAccount or ListHandshakesForOrganization. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let handshakeId: String
@@ -1540,25 +1415,20 @@ extension Organizations {
             self.handshakeId = handshakeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let handshakeId = dictionary["HandshakeId"] as? String else { throw InitializableError.missingRequiredParam("HandshakeId") }
-            self.handshakeId = handshakeId
+        private enum CodingKeys: String, CodingKey {
+            case handshakeId = "HandshakeId"
         }
     }
 
     public struct EnableAllFeaturesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdatePolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .structure)
         ]
         /// A structure that contains details about the updated policy, showing the requested changes.
         public let policy: Policy?
@@ -1567,17 +1437,16 @@ extension Organizations {
             self.policy = policy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Organizations.Policy(dictionary: policy) } else { self.policy = nil }
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
         }
     }
 
     public struct ListPoliciesForTargetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policies", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policies", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The list of policies that match the criteria in the request.
         public let policies: [PolicySummary]?
@@ -1589,22 +1458,17 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policies = dictionary["Policies"] as? [[String: Any]] {
-                self.policies = try policies.map({ try PolicySummary(dictionary: $0) })
-            } else { 
-                self.policies = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policies = "Policies"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ListAccountsForParentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Accounts", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Accounts", required: false, type: .list)
         ]
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public let nextToken: String?
@@ -1616,23 +1480,18 @@ extension Organizations {
             self.accounts = accounts
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let accounts = dictionary["Accounts"] as? [[String: Any]] {
-                self.accounts = try accounts.map({ try Account(dictionary: $0) })
-            } else { 
-                self.accounts = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case accounts = "Accounts"
         }
     }
 
     public struct ListHandshakesForOrganizationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Filter", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filter", required: false, type: .structure)
         ]
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int32?
@@ -1647,18 +1506,17 @@ extension Organizations {
             self.filter = filter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try Organizations.HandshakeFilter(dictionary: filter) } else { self.filter = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case filter = "Filter"
         }
     }
 
     public struct RemoveAccountFromOrganizationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the member account that you want to remove from the organization. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
@@ -1667,20 +1525,18 @@ extension Organizations {
             self.accountId = accountId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
         }
     }
 
     public struct CreatePolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", required: true, type: .string), 
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
         ]
         /// The policy content to add to the new policy. For example, if you create a service control policy (SCP), this string must be JSON text that specifies the permissions that admins in attached accounts can delegate to their users, groups, and roles. For more information about the SCP syntax, see Service Control Policy Syntax in the AWS Organizations User Guide.
         public let content: String
@@ -1698,28 +1554,23 @@ extension Organizations {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let content = dictionary["Content"] as? String else { throw InitializableError.missingRequiredParam("Content") }
-            self.content = content
-            guard let rawType = dictionary["Type"] as? String, let `type` = PolicyType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
-            self.description = description
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case `type` = "Type"
+            case name = "Name"
+            case description = "Description"
         }
     }
 
     public struct PolicySummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "AwsManaged", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "AwsManaged", required: false, type: .boolean), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The description of the policy.
         public let description: String?
@@ -1743,21 +1594,20 @@ extension Organizations {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.awsManaged = dictionary["AwsManaged"] as? Bool
-            if let `type` = dictionary["Type"] as? String { self.`type` = PolicyType(rawValue: `type`) } else { self.`type` = nil }
-            self.name = dictionary["Name"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case arn = "Arn"
+            case awsManaged = "AwsManaged"
+            case `type` = "Type"
+            case name = "Name"
+            case id = "Id"
         }
     }
 
     public struct DisablePolicyTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Root", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Root", required: false, type: .structure)
         ]
         /// A structure that shows the root with the updated list of enabled policy types.
         public let root: Root?
@@ -1766,17 +1616,16 @@ extension Organizations {
             self.root = root
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let root = dictionary["Root"] as? [String: Any] { self.root = try Organizations.Root(dictionary: root) } else { self.root = nil }
+        private enum CodingKeys: String, CodingKey {
+            case root = "Root"
         }
     }
 
     public struct ListHandshakesForOrganizationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshakes", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Handshakes", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of Handshake objects with details about each of the handshakes that are associated with an organization.
         public let handshakes: [Handshake]?
@@ -1788,31 +1637,26 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let handshakes = dictionary["Handshakes"] as? [[String: Any]] {
-                self.handshakes = try handshakes.map({ try Handshake(dictionary: $0) })
-            } else { 
-                self.handshakes = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case handshakes = "Handshakes"
+            case nextToken = "NextToken"
         }
     }
 
     public struct Handshake: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RequestedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "Action", required: false, type: .enum), 
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "ExpirationTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Resources", required: false, type: .list), 
-            AWSShapeProperty(label: "Parties", required: false, type: .list), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Action", required: false, type: .enum), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "ExpirationTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Resources", required: false, type: .list), 
+            AWSShapeMember(label: "Parties", required: false, type: .list), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The date and time that the handshake request was made.
-        public let requestedTimestamp: String?
+        public let requestedTimestamp: Double?
         /// The Amazon Resource Name (ARN) of a handshake. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
         /// The type of handshake, indicating what action occurs when the recipient accepts the handshake.
@@ -1820,7 +1664,7 @@ extension Organizations {
         /// The current state of the handshake. Use the state to trace the flow of the handshake through the process from its creation to its acceptance. The meaning of each of the valid values is as follows:    REQUESTED: This handshake was sent to multiple recipients (applicable to only some handshake types) and not all recipients have responded yet. The request stays in this state until all recipients respond.    OPEN: This handshake was sent to multiple recipients (applicable to only some policy types) and all recipients have responded, allowing the originator to complete the handshake action.    CANCELED: This handshake is no longer active because it was canceled by the originating account.    ACCEPTED: This handshake is complete because it has been accepted by the recipient.    DECLINED: This handshake is no longer active because it was declined by the recipient account.    EXPIRED: This handshake is no longer active because the originator did not receive a response of any kind from the recipient before the expiration time (15 days).  
         public let state: HandshakeState?
         /// The date and time that the handshake expires. If the recipient of the handshake request fails to respond before the specified date and time, the handshake becomes inactive and is no longer valid.
-        public let expirationTimestamp: String?
+        public let expirationTimestamp: Double?
         /// Additional information that is needed to process the handshake.
         public let resources: [HandshakeResource]?
         /// Information about the two accounts that are participating in the handshake.
@@ -1828,7 +1672,7 @@ extension Organizations {
         /// The unique identifier (ID) of a handshake. The originating account creates the ID when it initiates the handshake. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String?
 
-        public init(requestedTimestamp: String? = nil, arn: String? = nil, action: ActionType? = nil, state: HandshakeState? = nil, expirationTimestamp: String? = nil, resources: [HandshakeResource]? = nil, parties: [HandshakeParty]? = nil, id: String? = nil) {
+        public init(requestedTimestamp: Double? = nil, arn: String? = nil, action: ActionType? = nil, state: HandshakeState? = nil, expirationTimestamp: Double? = nil, resources: [HandshakeResource]? = nil, parties: [HandshakeParty]? = nil, id: String? = nil) {
             self.requestedTimestamp = requestedTimestamp
             self.arn = arn
             self.action = action
@@ -1839,31 +1683,22 @@ extension Organizations {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.requestedTimestamp = dictionary["RequestedTimestamp"] as? String
-            self.arn = dictionary["Arn"] as? String
-            if let action = dictionary["Action"] as? String { self.action = ActionType(rawValue: action) } else { self.action = nil }
-            if let state = dictionary["State"] as? String { self.state = HandshakeState(rawValue: state) } else { self.state = nil }
-            self.expirationTimestamp = dictionary["ExpirationTimestamp"] as? String
-            if let resources = dictionary["Resources"] as? [[String: Any]] {
-                self.resources = try resources.map({ try HandshakeResource(dictionary: $0) })
-            } else { 
-                self.resources = nil
-            }
-            if let parties = dictionary["Parties"] as? [[String: Any]] {
-                self.parties = try parties.map({ try HandshakeParty(dictionary: $0) })
-            } else { 
-                self.parties = nil
-            }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case requestedTimestamp = "RequestedTimestamp"
+            case arn = "Arn"
+            case action = "Action"
+            case state = "State"
+            case expirationTimestamp = "ExpirationTimestamp"
+            case resources = "Resources"
+            case parties = "Parties"
+            case id = "Id"
         }
     }
 
     public struct DescribeHandshakeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshake", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Handshake", required: false, type: .structure)
         ]
         /// A structure that contains information about the specified handshake.
         public let handshake: Handshake?
@@ -1872,12 +1707,12 @@ extension Organizations {
             self.handshake = handshake
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) } else { self.handshake = nil }
+        private enum CodingKeys: String, CodingKey {
+            case handshake = "Handshake"
         }
     }
 
-    public enum HandshakeResourceType: String, CustomStringConvertible {
+    public enum HandshakeResourceType: String, CustomStringConvertible, Codable {
         case account = "ACCOUNT"
         case organization = "ORGANIZATION"
         case organization_feature_set = "ORGANIZATION_FEATURE_SET"
@@ -1891,9 +1726,8 @@ extension Organizations {
 
     public struct CancelHandshakeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HandshakeId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HandshakeId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let handshakeId: String
@@ -1902,17 +1736,15 @@ extension Organizations {
             self.handshakeId = handshakeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let handshakeId = dictionary["HandshakeId"] as? String else { throw InitializableError.missingRequiredParam("HandshakeId") }
-            self.handshakeId = handshakeId
+        private enum CodingKeys: String, CodingKey {
+            case handshakeId = "HandshakeId"
         }
     }
 
     public struct CreateOrganizationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FeatureSet", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FeatureSet", required: false, type: .enum)
         ]
         /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the master account. For more information, see Consolidated Billing in the AWS Organizations User Guide.    ALL: In addition to all the features supported by the consolidated billing feature set, the master account can also apply any type of policy to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.  
         public let featureSet: OrganizationFeatureSet?
@@ -1921,18 +1753,17 @@ extension Organizations {
             self.featureSet = featureSet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let featureSet = dictionary["FeatureSet"] as? String { self.featureSet = OrganizationFeatureSet(rawValue: featureSet) } else { self.featureSet = nil }
+        private enum CodingKeys: String, CodingKey {
+            case featureSet = "FeatureSet"
         }
     }
 
     public struct ListOrganizationalUnitsForParentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ParentId", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ParentId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
@@ -1947,15 +1778,14 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let parentId = dictionary["ParentId"] as? String else { throw InitializableError.missingRequiredParam("ParentId") }
-            self.parentId = parentId
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case parentId = "ParentId"
+            case maxResults = "MaxResults"
         }
     }
 
-    public enum CreateAccountFailureReason: String, CustomStringConvertible {
+    public enum CreateAccountFailureReason: String, CustomStringConvertible, Codable {
         case account_limit_exceeded = "ACCOUNT_LIMIT_EXCEEDED"
         case email_already_exists = "EMAIL_ALREADY_EXISTS"
         case invalid_address = "INVALID_ADDRESS"
@@ -1966,12 +1796,11 @@ extension Organizations {
 
     public struct PolicyTargetSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "TargetId", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the policy target. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
@@ -1989,19 +1818,18 @@ extension Organizations {
             self.targetId = targetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = TargetType(rawValue: `type`) } else { self.`type` = nil }
-            self.name = dictionary["Name"] as? String
-            self.targetId = dictionary["TargetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case `type` = "Type"
+            case name = "Name"
+            case targetId = "TargetId"
         }
     }
 
     public struct AcceptHandshakeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshake", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Handshake", required: false, type: .structure)
         ]
         /// A structure that contains details about the accepted handshake.
         public let handshake: Handshake?
@@ -2010,22 +1838,21 @@ extension Organizations {
             self.handshake = handshake
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) } else { self.handshake = nil }
+        private enum CodingKeys: String, CodingKey {
+            case handshake = "Handshake"
         }
     }
 
-    public enum PolicyType: String, CustomStringConvertible {
+    public enum PolicyType: String, CustomStringConvertible, Codable {
         case service_control_policy = "SERVICE_CONTROL_POLICY"
         public var description: String { return self.rawValue }
     }
 
     public struct ListHandshakesForAccountResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Handshakes", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Handshakes", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of Handshake objects with details about each of the handshakes that is associated with the specified account.
         public let handshakes: [Handshake]?
@@ -2037,23 +1864,18 @@ extension Organizations {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let handshakes = dictionary["Handshakes"] as? [[String: Any]] {
-                self.handshakes = try handshakes.map({ try Handshake(dictionary: $0) })
-            } else { 
-                self.handshakes = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case handshakes = "Handshakes"
+            case nextToken = "NextToken"
         }
     }
 
     public struct OrganizationalUnit: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The friendly name of this OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
@@ -2068,18 +1890,17 @@ extension Organizations {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case arn = "Arn"
+            case id = "Id"
         }
     }
 
     public struct DescribeAccountRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the AWS account that you want information about. You can get the ID from the ListAccounts or ListAccountsForParent operations. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
@@ -2088,20 +1909,18 @@ extension Organizations {
             self.accountId = accountId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
         }
     }
 
     public struct Root: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyTypes", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the root. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
@@ -2119,19 +1938,15 @@ extension Organizations {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            if let policyTypes = dictionary["PolicyTypes"] as? [[String: Any]] {
-                self.policyTypes = try policyTypes.map({ try PolicyTypeSummary(dictionary: $0) })
-            } else { 
-                self.policyTypes = nil
-            }
-            self.name = dictionary["Name"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case policyTypes = "PolicyTypes"
+            case name = "Name"
+            case id = "Id"
         }
     }
 
-    public enum ParentType: String, CustomStringConvertible {
+    public enum ParentType: String, CustomStringConvertible, Codable {
         case root = "ROOT"
         case organizational_unit = "ORGANIZATIONAL_UNIT"
         public var description: String { return self.rawValue }
@@ -2139,9 +1954,8 @@ extension Organizations {
 
     public struct DescribeAccountResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Account", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Account", required: false, type: .structure)
         ]
         /// A structure that contains information about the requested account.
         public let account: Account?
@@ -2150,16 +1964,15 @@ extension Organizations {
             self.account = account
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let account = dictionary["Account"] as? [String: Any] { self.account = try Organizations.Account(dictionary: account) } else { self.account = nil }
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
         }
     }
 
     public struct DescribePolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public let policyId: String
@@ -2168,17 +1981,15 @@ extension Organizations {
             self.policyId = policyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyId = dictionary["PolicyId"] as? String else { throw InitializableError.missingRequiredParam("PolicyId") }
-            self.policyId = policyId
+        private enum CodingKeys: String, CodingKey {
+            case policyId = "PolicyId"
         }
     }
 
     public struct DeleteOrganizationalUnitRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationalUnitId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationalUnitId", required: true, type: .string)
         ]
         /// The unique identifier (ID) of the organizational unit that you want to delete. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public let organizationalUnitId: String
@@ -2187,19 +1998,17 @@ extension Organizations {
             self.organizationalUnitId = organizationalUnitId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let organizationalUnitId = dictionary["OrganizationalUnitId"] as? String else { throw InitializableError.missingRequiredParam("OrganizationalUnitId") }
-            self.organizationalUnitId = organizationalUnitId
+        private enum CodingKeys: String, CodingKey {
+            case organizationalUnitId = "OrganizationalUnitId"
         }
     }
 
     public struct ListAccountsForParentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ParentId", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ParentId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
@@ -2214,20 +2023,18 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let parentId = dictionary["ParentId"] as? String else { throw InitializableError.missingRequiredParam("ParentId") }
-            self.parentId = parentId
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case parentId = "ParentId"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ListRootsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
@@ -2239,17 +2046,16 @@ extension Organizations {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DescribeOrganizationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Organization", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Organization", required: false, type: .structure)
         ]
         /// A structure that contains information about the organization.
         public let organization: Organization?
@@ -2258,8 +2064,8 @@ extension Organizations {
             self.organization = organization
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let organization = dictionary["Organization"] as? [String: Any] { self.organization = try Organizations.Organization(dictionary: organization) } else { self.organization = nil }
+        private enum CodingKeys: String, CodingKey {
+            case organization = "Organization"
         }
     }
 

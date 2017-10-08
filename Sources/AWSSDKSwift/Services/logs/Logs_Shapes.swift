@@ -31,10 +31,9 @@ extension Logs {
 
     public struct CreateLogStreamRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "logStreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "logStreamName", required: true, type: .string)
         ]
         /// The name of the log group.
         public let logGroupName: String
@@ -46,20 +45,17 @@ extension Logs {
             self.logStreamName = logStreamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
-            guard let logStreamName = dictionary["logStreamName"] as? String else { throw InitializableError.missingRequiredParam("logStreamName") }
-            self.logStreamName = logStreamName
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
+            case logStreamName = "logStreamName"
         }
     }
 
     public struct DescribeDestinationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "destinations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "destinations", required: false, type: .list)
         ]
         public let nextToken: String?
         /// The destinations.
@@ -70,21 +66,16 @@ extension Logs {
             self.destinations = destinations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let destinations = dictionary["destinations"] as? [[String: Any]] {
-                self.destinations = try destinations.map({ try Destination(dictionary: $0) })
-            } else { 
-                self.destinations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case destinations = "destinations"
         }
     }
 
     public struct TestMetricFilterResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "matches", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "matches", required: false, type: .list)
         ]
         /// The matched events.
         public let matches: [MetricFilterMatchRecord]?
@@ -93,16 +84,12 @@ extension Logs {
             self.matches = matches
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let matches = dictionary["matches"] as? [[String: Any]] {
-                self.matches = try matches.map({ try MetricFilterMatchRecord(dictionary: $0) })
-            } else { 
-                self.matches = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case matches = "matches"
         }
     }
 
-    public enum OrderBy: String, CustomStringConvertible {
+    public enum OrderBy: String, CustomStringConvertible, Codable {
         case logstreamname = "LogStreamName"
         case lasteventtime = "LastEventTime"
         public var description: String { return self.rawValue }
@@ -110,16 +97,15 @@ extension Logs {
 
     public struct LogStream: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "storedBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "lastEventTimestamp", required: false, type: .long), 
-            AWSShapeProperty(label: "logStreamName", required: false, type: .string), 
-            AWSShapeProperty(label: "creationTime", required: false, type: .long), 
-            AWSShapeProperty(label: "lastIngestionTime", required: false, type: .long), 
-            AWSShapeProperty(label: "firstEventTimestamp", required: false, type: .long), 
-            AWSShapeProperty(label: "uploadSequenceToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "storedBytes", required: false, type: .long), 
+            AWSShapeMember(label: "lastEventTimestamp", required: false, type: .long), 
+            AWSShapeMember(label: "logStreamName", required: false, type: .string), 
+            AWSShapeMember(label: "creationTime", required: false, type: .long), 
+            AWSShapeMember(label: "lastIngestionTime", required: false, type: .long), 
+            AWSShapeMember(label: "firstEventTimestamp", required: false, type: .long), 
+            AWSShapeMember(label: "uploadSequenceToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The number of bytes stored.
         public let storedBytes: Int64?
@@ -149,24 +135,23 @@ extension Logs {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.storedBytes = dictionary["storedBytes"] as? Int64
-            self.lastEventTimestamp = dictionary["lastEventTimestamp"] as? Int64
-            self.logStreamName = dictionary["logStreamName"] as? String
-            self.creationTime = dictionary["creationTime"] as? Int64
-            self.lastIngestionTime = dictionary["lastIngestionTime"] as? Int64
-            self.firstEventTimestamp = dictionary["firstEventTimestamp"] as? Int64
-            self.uploadSequenceToken = dictionary["uploadSequenceToken"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case storedBytes = "storedBytes"
+            case lastEventTimestamp = "lastEventTimestamp"
+            case logStreamName = "logStreamName"
+            case creationTime = "creationTime"
+            case lastIngestionTime = "lastIngestionTime"
+            case firstEventTimestamp = "firstEventTimestamp"
+            case uploadSequenceToken = "uploadSequenceToken"
+            case arn = "arn"
         }
     }
 
     public struct InputLogEvent: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "timestamp", required: true, type: .long), 
-            AWSShapeProperty(label: "message", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "timestamp", required: true, type: .long), 
+            AWSShapeMember(label: "message", required: true, type: .string)
         ]
         /// The time the event occurred, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let timestamp: Int64
@@ -178,23 +163,20 @@ extension Logs {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let timestamp = dictionary["timestamp"] as? Int64 else { throw InitializableError.missingRequiredParam("timestamp") }
-            self.timestamp = timestamp
-            guard let message = dictionary["message"] as? String else { throw InitializableError.missingRequiredParam("message") }
-            self.message = message
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "timestamp"
+            case message = "message"
         }
     }
 
     public struct FilteredLogEvent: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "eventId", required: false, type: .string), 
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "timestamp", required: false, type: .long), 
-            AWSShapeProperty(label: "logStreamName", required: false, type: .string), 
-            AWSShapeProperty(label: "ingestionTime", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventId", required: false, type: .string), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "timestamp", required: false, type: .long), 
+            AWSShapeMember(label: "logStreamName", required: false, type: .string), 
+            AWSShapeMember(label: "ingestionTime", required: false, type: .long)
         ]
         /// The ID of the event.
         public let eventId: String?
@@ -215,23 +197,22 @@ extension Logs {
             self.ingestionTime = ingestionTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eventId = dictionary["eventId"] as? String
-            self.message = dictionary["message"] as? String
-            self.timestamp = dictionary["timestamp"] as? Int64
-            self.logStreamName = dictionary["logStreamName"] as? String
-            self.ingestionTime = dictionary["ingestionTime"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case eventId = "eventId"
+            case message = "message"
+            case timestamp = "timestamp"
+            case logStreamName = "logStreamName"
+            case ingestionTime = "ingestionTime"
         }
     }
 
     public struct PutLogEventsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "logEvents", required: true, type: .list), 
-            AWSShapeProperty(label: "sequenceToken", required: false, type: .string), 
-            AWSShapeProperty(label: "logStreamName", required: true, type: .string), 
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logEvents", required: true, type: .list), 
+            AWSShapeMember(label: "sequenceToken", required: false, type: .string), 
+            AWSShapeMember(label: "logStreamName", required: true, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
         /// The log events.
         public let logEvents: [InputLogEvent]
@@ -249,23 +230,19 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let logEvents = dictionary["logEvents"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("logEvents") }
-            self.logEvents = try logEvents.map({ try InputLogEvent(dictionary: $0) })
-            self.sequenceToken = dictionary["sequenceToken"] as? String
-            guard let logStreamName = dictionary["logStreamName"] as? String else { throw InitializableError.missingRequiredParam("logStreamName") }
-            self.logStreamName = logStreamName
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
+        private enum CodingKeys: String, CodingKey {
+            case logEvents = "logEvents"
+            case sequenceToken = "sequenceToken"
+            case logStreamName = "logStreamName"
+            case logGroupName = "logGroupName"
         }
     }
 
     public struct ExportTaskExecutionInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "creationTime", required: false, type: .long), 
-            AWSShapeProperty(label: "completionTime", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationTime", required: false, type: .long), 
+            AWSShapeMember(label: "completionTime", required: false, type: .long)
         ]
         /// The creation time of the export task, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
@@ -277,22 +254,21 @@ extension Logs {
             self.completionTime = completionTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.creationTime = dictionary["creationTime"] as? Int64
-            self.completionTime = dictionary["completionTime"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case completionTime = "completionTime"
         }
     }
 
     public struct DescribeLogStreamsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "descending", required: false, type: .boolean), 
-            AWSShapeProperty(label: "logStreamNamePrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "orderBy", required: false, type: .enum), 
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "descending", required: false, type: .boolean), 
+            AWSShapeMember(label: "logStreamNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "orderBy", required: false, type: .enum), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -316,23 +292,21 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.limit = dictionary["limit"] as? Int32
-            self.descending = dictionary["descending"] as? Bool
-            self.logStreamNamePrefix = dictionary["logStreamNamePrefix"] as? String
-            if let orderBy = dictionary["orderBy"] as? String { self.orderBy = OrderBy(rawValue: orderBy) } else { self.orderBy = nil }
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case limit = "limit"
+            case descending = "descending"
+            case logStreamNamePrefix = "logStreamNamePrefix"
+            case orderBy = "orderBy"
+            case logGroupName = "logGroupName"
         }
     }
 
     public struct DescribeLogStreamsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "logStreams", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logStreams", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The log streams.
         public let logStreams: [LogStream]?
@@ -343,21 +317,16 @@ extension Logs {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let logStreams = dictionary["logStreams"] as? [[String: Any]] {
-                self.logStreams = try logStreams.map({ try LogStream(dictionary: $0) })
-            } else { 
-                self.logStreams = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case logStreams = "logStreams"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DeleteRetentionPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
         /// The name of the log group.
         public let logGroupName: String
@@ -366,20 +335,18 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
         }
     }
 
     public struct MetricTransformation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "metricValue", required: true, type: .string), 
-            AWSShapeProperty(label: "defaultValue", required: false, type: .double), 
-            AWSShapeProperty(label: "metricName", required: true, type: .string), 
-            AWSShapeProperty(label: "metricNamespace", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metricValue", required: true, type: .string), 
+            AWSShapeMember(label: "defaultValue", required: false, type: .double), 
+            AWSShapeMember(label: "metricName", required: true, type: .string), 
+            AWSShapeMember(label: "metricNamespace", required: true, type: .string)
         ]
         /// The value to publish to the CloudWatch metric when a filter pattern matches a log event.
         public let metricValue: String
@@ -397,27 +364,23 @@ extension Logs {
             self.metricNamespace = metricNamespace
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let metricValue = dictionary["metricValue"] as? String else { throw InitializableError.missingRequiredParam("metricValue") }
-            self.metricValue = metricValue
-            self.defaultValue = dictionary["defaultValue"] as? Double
-            guard let metricName = dictionary["metricName"] as? String else { throw InitializableError.missingRequiredParam("metricName") }
-            self.metricName = metricName
-            guard let metricNamespace = dictionary["metricNamespace"] as? String else { throw InitializableError.missingRequiredParam("metricNamespace") }
-            self.metricNamespace = metricNamespace
+        private enum CodingKeys: String, CodingKey {
+            case metricValue = "metricValue"
+            case defaultValue = "defaultValue"
+            case metricName = "metricName"
+            case metricNamespace = "metricNamespace"
         }
     }
 
     public struct PutSubscriptionFilterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "filterName", required: true, type: .string), 
-            AWSShapeProperty(label: "destinationArn", required: true, type: .string), 
-            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "distribution", required: false, type: .enum), 
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "filterPattern", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filterName", required: true, type: .string), 
+            AWSShapeMember(label: "destinationArn", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "distribution", required: false, type: .enum), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "filterPattern", required: true, type: .string)
         ]
         /// A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName. Otherwise, the call will fail because you cannot associate a second filter with a log group. To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters.
         public let filterName: String
@@ -441,21 +404,17 @@ extension Logs {
             self.filterPattern = filterPattern
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let filterName = dictionary["filterName"] as? String else { throw InitializableError.missingRequiredParam("filterName") }
-            self.filterName = filterName
-            guard let destinationArn = dictionary["destinationArn"] as? String else { throw InitializableError.missingRequiredParam("destinationArn") }
-            self.destinationArn = destinationArn
-            self.roleArn = dictionary["roleArn"] as? String
-            if let distribution = dictionary["distribution"] as? String { self.distribution = Distribution(rawValue: distribution) } else { self.distribution = nil }
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
-            guard let filterPattern = dictionary["filterPattern"] as? String else { throw InitializableError.missingRequiredParam("filterPattern") }
-            self.filterPattern = filterPattern
+        private enum CodingKeys: String, CodingKey {
+            case filterName = "filterName"
+            case destinationArn = "destinationArn"
+            case roleArn = "roleArn"
+            case distribution = "distribution"
+            case logGroupName = "logGroupName"
+            case filterPattern = "filterPattern"
         }
     }
 
-    public enum ExportTaskStatusCode: String, CustomStringConvertible {
+    public enum ExportTaskStatusCode: String, CustomStringConvertible, Codable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -467,11 +426,10 @@ extension Logs {
 
     public struct RejectedLogEventsInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "expiredLogEventEndIndex", required: false, type: .integer), 
-            AWSShapeProperty(label: "tooOldLogEventEndIndex", required: false, type: .integer), 
-            AWSShapeProperty(label: "tooNewLogEventStartIndex", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "expiredLogEventEndIndex", required: false, type: .integer), 
+            AWSShapeMember(label: "tooOldLogEventEndIndex", required: false, type: .integer), 
+            AWSShapeMember(label: "tooNewLogEventStartIndex", required: false, type: .integer)
         ]
         /// The expired log events.
         public let expiredLogEventEndIndex: Int32?
@@ -486,18 +444,17 @@ extension Logs {
             self.tooNewLogEventStartIndex = tooNewLogEventStartIndex
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.expiredLogEventEndIndex = dictionary["expiredLogEventEndIndex"] as? Int32
-            self.tooOldLogEventEndIndex = dictionary["tooOldLogEventEndIndex"] as? Int32
-            self.tooNewLogEventStartIndex = dictionary["tooNewLogEventStartIndex"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case expiredLogEventEndIndex = "expiredLogEventEndIndex"
+            case tooOldLogEventEndIndex = "tooOldLogEventEndIndex"
+            case tooNewLogEventStartIndex = "tooNewLogEventStartIndex"
         }
     }
 
     public struct DeleteDestinationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "destinationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationName", required: true, type: .string)
         ]
         /// The name of the destination.
         public let destinationName: String
@@ -506,20 +463,18 @@ extension Logs {
             self.destinationName = destinationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let destinationName = dictionary["destinationName"] as? String else { throw InitializableError.missingRequiredParam("destinationName") }
-            self.destinationName = destinationName
+        private enum CodingKeys: String, CodingKey {
+            case destinationName = "destinationName"
         }
     }
 
     public struct PutMetricFilterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "filterName", required: true, type: .string), 
-            AWSShapeProperty(label: "metricTransformations", required: true, type: .list), 
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "filterPattern", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filterName", required: true, type: .string), 
+            AWSShapeMember(label: "metricTransformations", required: true, type: .list), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "filterPattern", required: true, type: .string)
         ]
         /// A name for the metric filter.
         public let filterName: String
@@ -537,24 +492,19 @@ extension Logs {
             self.filterPattern = filterPattern
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let filterName = dictionary["filterName"] as? String else { throw InitializableError.missingRequiredParam("filterName") }
-            self.filterName = filterName
-            guard let metricTransformations = dictionary["metricTransformations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("metricTransformations") }
-            self.metricTransformations = try metricTransformations.map({ try MetricTransformation(dictionary: $0) })
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
-            guard let filterPattern = dictionary["filterPattern"] as? String else { throw InitializableError.missingRequiredParam("filterPattern") }
-            self.filterPattern = filterPattern
+        private enum CodingKeys: String, CodingKey {
+            case filterName = "filterName"
+            case metricTransformations = "metricTransformations"
+            case logGroupName = "logGroupName"
+            case filterPattern = "filterPattern"
         }
     }
 
     public struct DescribeLogGroupsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "logGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroups", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The log groups.
         public let logGroups: [LogGroup]?
@@ -565,23 +515,18 @@ extension Logs {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let logGroups = dictionary["logGroups"] as? [[String: Any]] {
-                self.logGroups = try logGroups.map({ try LogGroup(dictionary: $0) })
-            } else { 
-                self.logGroups = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case logGroups = "logGroups"
+            case nextToken = "nextToken"
         }
     }
 
     public struct PutDestinationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "destinationName", required: true, type: .string), 
-            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "targetArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationName", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "targetArn", required: true, type: .string)
         ]
         /// A name for the destination.
         public let destinationName: String
@@ -596,23 +541,19 @@ extension Logs {
             self.targetArn = targetArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let destinationName = dictionary["destinationName"] as? String else { throw InitializableError.missingRequiredParam("destinationName") }
-            self.destinationName = destinationName
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
-            guard let targetArn = dictionary["targetArn"] as? String else { throw InitializableError.missingRequiredParam("targetArn") }
-            self.targetArn = targetArn
+        private enum CodingKeys: String, CodingKey {
+            case destinationName = "destinationName"
+            case roleArn = "roleArn"
+            case targetArn = "targetArn"
         }
     }
 
     public struct OutputLogEvent: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "timestamp", required: false, type: .long), 
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "ingestionTime", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "timestamp", required: false, type: .long), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "ingestionTime", required: false, type: .long)
         ]
         /// The time the event occurred, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let timestamp: Int64?
@@ -627,19 +568,18 @@ extension Logs {
             self.ingestionTime = ingestionTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.timestamp = dictionary["timestamp"] as? Int64
-            self.message = dictionary["message"] as? String
-            self.ingestionTime = dictionary["ingestionTime"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "timestamp"
+            case message = "message"
+            case ingestionTime = "ingestionTime"
         }
     }
 
     public struct DeleteLogStreamRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "logStreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "logStreamName", required: true, type: .string)
         ]
         /// The name of the log group.
         public let logGroupName: String
@@ -651,22 +591,19 @@ extension Logs {
             self.logStreamName = logStreamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
-            guard let logStreamName = dictionary["logStreamName"] as? String else { throw InitializableError.missingRequiredParam("logStreamName") }
-            self.logStreamName = logStreamName
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
+            case logStreamName = "logStreamName"
         }
     }
 
     public struct DescribeSubscriptionFiltersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "filterNamePrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filterNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
         public let filterNamePrefix: String?
@@ -684,22 +621,20 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.filterNamePrefix = dictionary["filterNamePrefix"] as? String
-            self.limit = dictionary["limit"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
+        private enum CodingKeys: String, CodingKey {
+            case filterNamePrefix = "filterNamePrefix"
+            case limit = "limit"
+            case nextToken = "nextToken"
+            case logGroupName = "logGroupName"
         }
     }
 
     public struct DescribeLogGroupsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "logGroupNamePrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "logGroupNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int32?
@@ -714,23 +649,22 @@ extension Logs {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.limit = dictionary["limit"] as? Int32
-            self.logGroupNamePrefix = dictionary["logGroupNamePrefix"] as? String
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case logGroupNamePrefix = "logGroupNamePrefix"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeMetricFiltersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "filterNamePrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "logGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "metricName", required: false, type: .string), 
-            AWSShapeProperty(label: "metricNamespace", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "filterNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "metricName", required: false, type: .string), 
+            AWSShapeMember(label: "metricNamespace", required: false, type: .string)
         ]
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int32?
@@ -754,22 +688,21 @@ extension Logs {
             self.metricNamespace = metricNamespace
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.limit = dictionary["limit"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
-            self.filterNamePrefix = dictionary["filterNamePrefix"] as? String
-            self.logGroupName = dictionary["logGroupName"] as? String
-            self.metricName = dictionary["metricName"] as? String
-            self.metricNamespace = dictionary["metricNamespace"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case nextToken = "nextToken"
+            case filterNamePrefix = "filterNamePrefix"
+            case logGroupName = "logGroupName"
+            case metricName = "metricName"
+            case metricNamespace = "metricNamespace"
         }
     }
 
     public struct DeleteSubscriptionFilterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "filterName", required: true, type: .string), 
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filterName", required: true, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
         /// The name of the subscription filter.
         public let filterName: String
@@ -781,22 +714,19 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let filterName = dictionary["filterName"] as? String else { throw InitializableError.missingRequiredParam("filterName") }
-            self.filterName = filterName
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
+        private enum CodingKeys: String, CodingKey {
+            case filterName = "filterName"
+            case logGroupName = "logGroupName"
         }
     }
 
     public struct DescribeExportTasksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "statusCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "taskId", required: false, type: .string), 
-            AWSShapeProperty(label: "limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "statusCode", required: false, type: .enum), 
+            AWSShapeMember(label: "taskId", required: false, type: .string), 
+            AWSShapeMember(label: "limit", required: false, type: .integer)
         ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -814,25 +744,24 @@ extension Logs {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let statusCode = dictionary["statusCode"] as? String { self.statusCode = ExportTaskStatusCode(rawValue: statusCode) } else { self.statusCode = nil }
-            self.taskId = dictionary["taskId"] as? String
-            self.limit = dictionary["limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case statusCode = "statusCode"
+            case taskId = "taskId"
+            case limit = "limit"
         }
     }
 
     public struct CreateExportTaskRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "destinationPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "destination", required: true, type: .string), 
-            AWSShapeProperty(label: "from", required: true, type: .long), 
-            AWSShapeProperty(label: "taskName", required: false, type: .string), 
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "to", required: true, type: .long), 
-            AWSShapeProperty(label: "logStreamNamePrefix", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "destination", required: true, type: .string), 
+            AWSShapeMember(label: "from", required: true, type: .long), 
+            AWSShapeMember(label: "taskName", required: false, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "to", required: true, type: .long), 
+            AWSShapeMember(label: "logStreamNamePrefix", required: false, type: .string)
         ]
         /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs.
         public let destinationPrefix: String?
@@ -859,30 +788,25 @@ extension Logs {
             self.logStreamNamePrefix = logStreamNamePrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.destinationPrefix = dictionary["destinationPrefix"] as? String
-            guard let destination = dictionary["destination"] as? String else { throw InitializableError.missingRequiredParam("destination") }
-            self.destination = destination
-            guard let from = dictionary["from"] as? Int64 else { throw InitializableError.missingRequiredParam("from") }
-            self.from = from
-            self.taskName = dictionary["taskName"] as? String
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
-            guard let to = dictionary["to"] as? Int64 else { throw InitializableError.missingRequiredParam("to") }
-            self.to = to
-            self.logStreamNamePrefix = dictionary["logStreamNamePrefix"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case destinationPrefix = "destinationPrefix"
+            case destination = "destination"
+            case from = "from"
+            case taskName = "taskName"
+            case logGroupName = "logGroupName"
+            case to = "to"
+            case logStreamNamePrefix = "logStreamNamePrefix"
         }
     }
 
     public struct MetricFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "metricTransformations", required: false, type: .list), 
-            AWSShapeProperty(label: "filterName", required: false, type: .string), 
-            AWSShapeProperty(label: "logGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "creationTime", required: false, type: .long), 
-            AWSShapeProperty(label: "filterPattern", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metricTransformations", required: false, type: .list), 
+            AWSShapeMember(label: "filterName", required: false, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "creationTime", required: false, type: .long), 
+            AWSShapeMember(label: "filterPattern", required: false, type: .string)
         ]
         /// The metric transformations.
         public let metricTransformations: [MetricTransformation]?
@@ -902,25 +826,20 @@ extension Logs {
             self.filterPattern = filterPattern
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let metricTransformations = dictionary["metricTransformations"] as? [[String: Any]] {
-                self.metricTransformations = try metricTransformations.map({ try MetricTransformation(dictionary: $0) })
-            } else { 
-                self.metricTransformations = nil
-            }
-            self.filterName = dictionary["filterName"] as? String
-            self.logGroupName = dictionary["logGroupName"] as? String
-            self.creationTime = dictionary["creationTime"] as? Int64
-            self.filterPattern = dictionary["filterPattern"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case metricTransformations = "metricTransformations"
+            case filterName = "filterName"
+            case logGroupName = "logGroupName"
+            case creationTime = "creationTime"
+            case filterPattern = "filterPattern"
         }
     }
 
     public struct TestMetricFilterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "filterPattern", required: true, type: .string), 
-            AWSShapeProperty(label: "logEventMessages", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filterPattern", required: true, type: .string), 
+            AWSShapeMember(label: "logEventMessages", required: true, type: .list)
         ]
         public let filterPattern: String
         /// The log event messages to test.
@@ -931,19 +850,16 @@ extension Logs {
             self.logEventMessages = logEventMessages
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let filterPattern = dictionary["filterPattern"] as? String else { throw InitializableError.missingRequiredParam("filterPattern") }
-            self.filterPattern = filterPattern
-            guard let logEventMessages = dictionary["logEventMessages"] as? [String] else { throw InitializableError.missingRequiredParam("logEventMessages") }
-            self.logEventMessages = logEventMessages
+        private enum CodingKeys: String, CodingKey {
+            case filterPattern = "filterPattern"
+            case logEventMessages = "logEventMessages"
         }
     }
 
     public struct DeleteLogGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
         /// The name of the log group.
         public let logGroupName: String
@@ -952,19 +868,17 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
         }
     }
 
     public struct GetLogEventsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextForwardToken", required: false, type: .string), 
-            AWSShapeProperty(label: "nextBackwardToken", required: false, type: .string), 
-            AWSShapeProperty(label: "events", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextForwardToken", required: false, type: .string), 
+            AWSShapeMember(label: "nextBackwardToken", required: false, type: .string), 
+            AWSShapeMember(label: "events", required: false, type: .list)
         ]
         /// The token for the next set of items in the forward direction. The token expires after 24 hours.
         public let nextForwardToken: String?
@@ -979,23 +893,18 @@ extension Logs {
             self.events = events
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextForwardToken = dictionary["nextForwardToken"] as? String
-            self.nextBackwardToken = dictionary["nextBackwardToken"] as? String
-            if let events = dictionary["events"] as? [[String: Any]] {
-                self.events = try events.map({ try OutputLogEvent(dictionary: $0) })
-            } else { 
-                self.events = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextForwardToken = "nextForwardToken"
+            case nextBackwardToken = "nextBackwardToken"
+            case events = "events"
         }
     }
 
     public struct ExportTaskStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "code", required: false, type: .enum), 
-            AWSShapeProperty(label: "message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "code", required: false, type: .enum), 
+            AWSShapeMember(label: "message", required: false, type: .string)
         ]
         /// The status code of the export task.
         public let code: ExportTaskStatusCode?
@@ -1007,22 +916,21 @@ extension Logs {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let code = dictionary["code"] as? String { self.code = ExportTaskStatusCode(rawValue: code) } else { self.code = nil }
-            self.message = dictionary["message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
         }
     }
 
     public struct Destination: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "accessPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "destinationName", required: false, type: .string), 
-            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "creationTime", required: false, type: .long), 
-            AWSShapeProperty(label: "targetArn", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "accessPolicy", required: false, type: .string), 
+            AWSShapeMember(label: "destinationName", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "creationTime", required: false, type: .long), 
+            AWSShapeMember(label: "targetArn", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// An IAM policy document that governs which AWS accounts can create subscription filters against this destination.
         public let accessPolicy: String?
@@ -1046,22 +954,21 @@ extension Logs {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.accessPolicy = dictionary["accessPolicy"] as? String
-            self.destinationName = dictionary["destinationName"] as? String
-            self.roleArn = dictionary["roleArn"] as? String
-            self.creationTime = dictionary["creationTime"] as? Int64
-            self.targetArn = dictionary["targetArn"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case accessPolicy = "accessPolicy"
+            case destinationName = "destinationName"
+            case roleArn = "roleArn"
+            case creationTime = "creationTime"
+            case targetArn = "targetArn"
+            case arn = "arn"
         }
     }
 
     public struct CreateLogGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tags", required: false, type: .map), 
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
         /// The key-value pairs to use for the tags.
         public let tags: [String: String]?
@@ -1073,23 +980,17 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["tags"] as? [String: String] {
-                self.tags = tags
-            } else { 
-                self.tags = nil
-            }
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case logGroupName = "logGroupName"
         }
     }
 
     public struct DescribeExportTasksResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "exportTasks", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "exportTasks", required: false, type: .list)
         ]
         public let nextToken: String?
         /// The export tasks.
@@ -1100,21 +1001,16 @@ extension Logs {
             self.exportTasks = exportTasks
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let exportTasks = dictionary["exportTasks"] as? [[String: Any]] {
-                self.exportTasks = try exportTasks.map({ try ExportTask(dictionary: $0) })
-            } else { 
-                self.exportTasks = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case exportTasks = "exportTasks"
         }
     }
 
     public struct CancelExportTaskRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskId", required: true, type: .string)
         ]
         /// The ID of the export task.
         public let taskId: String
@@ -1123,18 +1019,16 @@ extension Logs {
             self.taskId = taskId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let taskId = dictionary["taskId"] as? String else { throw InitializableError.missingRequiredParam("taskId") }
-            self.taskId = taskId
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "taskId"
         }
     }
 
     public struct UntagLogGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tags", required: true, type: .list), 
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: true, type: .list), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
         /// The tag keys. The corresponding tags are removed from the log group.
         public let tags: [String]
@@ -1146,19 +1040,16 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["tags"] as? [String] else { throw InitializableError.missingRequiredParam("tags") }
-            self.tags = tags
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case logGroupName = "logGroupName"
         }
     }
 
     public struct ListTagsLogGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tags", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
         /// The tags.
         public let tags: [String: String]?
@@ -1167,21 +1058,16 @@ extension Logs {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["tags"] as? [String: String] {
-                self.tags = tags
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
         }
     }
 
     public struct DeleteMetricFilterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "filterName", required: true, type: .string), 
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filterName", required: true, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
         /// The name of the metric filter.
         public let filterName: String
@@ -1193,24 +1079,21 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let filterName = dictionary["filterName"] as? String else { throw InitializableError.missingRequiredParam("filterName") }
-            self.filterName = filterName
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
+        private enum CodingKeys: String, CodingKey {
+            case filterName = "filterName"
+            case logGroupName = "logGroupName"
         }
     }
 
     public struct LogGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "storedBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "arn", required: false, type: .string), 
-            AWSShapeProperty(label: "logGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "creationTime", required: false, type: .long), 
-            AWSShapeProperty(label: "retentionInDays", required: false, type: .integer), 
-            AWSShapeProperty(label: "metricFilterCount", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "storedBytes", required: false, type: .long), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "creationTime", required: false, type: .long), 
+            AWSShapeMember(label: "retentionInDays", required: false, type: .integer), 
+            AWSShapeMember(label: "metricFilterCount", required: false, type: .integer)
         ]
         /// The number of bytes stored.
         public let storedBytes: Int64?
@@ -1233,22 +1116,21 @@ extension Logs {
             self.metricFilterCount = metricFilterCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.storedBytes = dictionary["storedBytes"] as? Int64
-            self.arn = dictionary["arn"] as? String
-            self.logGroupName = dictionary["logGroupName"] as? String
-            self.creationTime = dictionary["creationTime"] as? Int64
-            self.retentionInDays = dictionary["retentionInDays"] as? Int32
-            self.metricFilterCount = dictionary["metricFilterCount"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case storedBytes = "storedBytes"
+            case arn = "arn"
+            case logGroupName = "logGroupName"
+            case creationTime = "creationTime"
+            case retentionInDays = "retentionInDays"
+            case metricFilterCount = "metricFilterCount"
         }
     }
 
     public struct TagLogGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tags", required: true, type: .map), 
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: true, type: .map), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
         /// The key-value pairs to use for the tags.
         public let tags: [String: String]
@@ -1260,20 +1142,17 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["tags"] as? [String: String] else { throw InitializableError.missingRequiredParam("tags") }
-            self.tags = tags
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case logGroupName = "logGroupName"
         }
     }
 
     public struct DescribeSubscriptionFiltersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "subscriptionFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "subscriptionFilters", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The subscription filters.
         public let subscriptionFilters: [SubscriptionFilter]?
@@ -1284,17 +1163,13 @@ extension Logs {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let subscriptionFilters = dictionary["subscriptionFilters"] as? [[String: Any]] {
-                self.subscriptionFilters = try subscriptionFilters.map({ try SubscriptionFilter(dictionary: $0) })
-            } else { 
-                self.subscriptionFilters = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionFilters = "subscriptionFilters"
+            case nextToken = "nextToken"
         }
     }
 
-    public enum Distribution: String, CustomStringConvertible {
+    public enum Distribution: String, CustomStringConvertible, Codable {
         case random = "Random"
         case bylogstream = "ByLogStream"
         public var description: String { return self.rawValue }
@@ -1302,15 +1177,14 @@ extension Logs {
 
     public struct GetLogEventsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "logStreamName", required: true, type: .string), 
-            AWSShapeProperty(label: "startFromHead", required: false, type: .boolean), 
-            AWSShapeProperty(label: "endTime", required: false, type: .long), 
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "startTime", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "logStreamName", required: true, type: .string), 
+            AWSShapeMember(label: "startFromHead", required: false, type: .boolean), 
+            AWSShapeMember(label: "endTime", required: false, type: .long), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "startTime", required: false, type: .long)
         ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -1337,26 +1211,23 @@ extension Logs {
             self.startTime = startTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.limit = dictionary["limit"] as? Int32
-            guard let logStreamName = dictionary["logStreamName"] as? String else { throw InitializableError.missingRequiredParam("logStreamName") }
-            self.logStreamName = logStreamName
-            self.startFromHead = dictionary["startFromHead"] as? Bool
-            self.endTime = dictionary["endTime"] as? Int64
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
-            self.startTime = dictionary["startTime"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case limit = "limit"
+            case logStreamName = "logStreamName"
+            case startFromHead = "startFromHead"
+            case endTime = "endTime"
+            case logGroupName = "logGroupName"
+            case startTime = "startTime"
         }
     }
 
     public struct FilterLogEventsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "searchedLogStreams", required: false, type: .list), 
-            AWSShapeProperty(label: "events", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "searchedLogStreams", required: false, type: .list), 
+            AWSShapeMember(label: "events", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Indicates which log streams have been searched and whether each has been searched completely.
         public let searchedLogStreams: [SearchedLogStream]?
@@ -1371,27 +1242,18 @@ extension Logs {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let searchedLogStreams = dictionary["searchedLogStreams"] as? [[String: Any]] {
-                self.searchedLogStreams = try searchedLogStreams.map({ try SearchedLogStream(dictionary: $0) })
-            } else { 
-                self.searchedLogStreams = nil
-            }
-            if let events = dictionary["events"] as? [[String: Any]] {
-                self.events = try events.map({ try FilteredLogEvent(dictionary: $0) })
-            } else { 
-                self.events = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case searchedLogStreams = "searchedLogStreams"
+            case events = "events"
+            case nextToken = "nextToken"
         }
     }
 
     public struct PutDestinationPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "accessPolicy", required: true, type: .string), 
-            AWSShapeProperty(label: "destinationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "accessPolicy", required: true, type: .string), 
+            AWSShapeMember(label: "destinationName", required: true, type: .string)
         ]
         /// An IAM policy document that authorizes cross-account users to deliver their log events to the associated destination.
         public let accessPolicy: String
@@ -1403,19 +1265,16 @@ extension Logs {
             self.destinationName = destinationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accessPolicy = dictionary["accessPolicy"] as? String else { throw InitializableError.missingRequiredParam("accessPolicy") }
-            self.accessPolicy = accessPolicy
-            guard let destinationName = dictionary["destinationName"] as? String else { throw InitializableError.missingRequiredParam("destinationName") }
-            self.destinationName = destinationName
+        private enum CodingKeys: String, CodingKey {
+            case accessPolicy = "accessPolicy"
+            case destinationName = "destinationName"
         }
     }
 
     public struct ListTagsLogGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string)
         ]
         /// The name of the log group.
         public let logGroupName: String
@@ -1424,18 +1283,16 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
         }
     }
 
     public struct SearchedLogStream: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "logStreamName", required: false, type: .string), 
-            AWSShapeProperty(label: "searchedCompletely", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logStreamName", required: false, type: .string), 
+            AWSShapeMember(label: "searchedCompletely", required: false, type: .boolean)
         ]
         /// The name of the log stream.
         public let logStreamName: String?
@@ -1447,18 +1304,17 @@ extension Logs {
             self.searchedCompletely = searchedCompletely
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.logStreamName = dictionary["logStreamName"] as? String
-            self.searchedCompletely = dictionary["searchedCompletely"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case logStreamName = "logStreamName"
+            case searchedCompletely = "searchedCompletely"
         }
     }
 
     public struct PutRetentionPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "retentionInDays", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "retentionInDays", required: true, type: .integer)
         ]
         /// The name of the log group.
         public let logGroupName: String
@@ -1469,26 +1325,23 @@ extension Logs {
             self.retentionInDays = retentionInDays
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
-            guard let retentionInDays = dictionary["retentionInDays"] as? Int32 else { throw InitializableError.missingRequiredParam("retentionInDays") }
-            self.retentionInDays = retentionInDays
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
+            case retentionInDays = "retentionInDays"
         }
     }
 
     public struct FilterLogEventsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "filterPattern", required: false, type: .string), 
-            AWSShapeProperty(label: "endTime", required: false, type: .long), 
-            AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "logStreamNames", required: false, type: .list), 
-            AWSShapeProperty(label: "startTime", required: false, type: .long), 
-            AWSShapeProperty(label: "interleaved", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "filterPattern", required: false, type: .string), 
+            AWSShapeMember(label: "endTime", required: false, type: .long), 
+            AWSShapeMember(label: "logGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "logStreamNames", required: false, type: .list), 
+            AWSShapeMember(label: "startTime", required: false, type: .long), 
+            AWSShapeMember(label: "interleaved", required: false, type: .boolean)
         ]
         /// The token for the next set of events to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -1518,24 +1371,22 @@ extension Logs {
             self.interleaved = interleaved
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.limit = dictionary["limit"] as? Int32
-            self.filterPattern = dictionary["filterPattern"] as? String
-            self.endTime = dictionary["endTime"] as? Int64
-            guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
-            self.logGroupName = logGroupName
-            self.logStreamNames = dictionary["logStreamNames"] as? [String]
-            self.startTime = dictionary["startTime"] as? Int64
-            self.interleaved = dictionary["interleaved"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case limit = "limit"
+            case filterPattern = "filterPattern"
+            case endTime = "endTime"
+            case logGroupName = "logGroupName"
+            case logStreamNames = "logStreamNames"
+            case startTime = "startTime"
+            case interleaved = "interleaved"
         }
     }
 
     public struct CreateExportTaskResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskId", required: false, type: .string)
         ]
         /// The ID of the export task.
         public let taskId: String?
@@ -1544,18 +1395,17 @@ extension Logs {
             self.taskId = taskId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.taskId = dictionary["taskId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "taskId"
         }
     }
 
     public struct MetricFilterMatchRecord: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "extractedValues", required: false, type: .map), 
-            AWSShapeProperty(label: "eventNumber", required: false, type: .long), 
-            AWSShapeProperty(label: "eventMessage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "extractedValues", required: false, type: .map), 
+            AWSShapeMember(label: "eventNumber", required: false, type: .long), 
+            AWSShapeMember(label: "eventMessage", required: false, type: .string)
         ]
         /// The values extracted from the event data by the filter.
         public let extractedValues: [String: String]?
@@ -1570,22 +1420,17 @@ extension Logs {
             self.eventMessage = eventMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let extractedValues = dictionary["extractedValues"] as? [String: String] {
-                self.extractedValues = extractedValues
-            } else { 
-                self.extractedValues = nil
-            }
-            self.eventNumber = dictionary["eventNumber"] as? Int64
-            self.eventMessage = dictionary["eventMessage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case extractedValues = "extractedValues"
+            case eventNumber = "eventNumber"
+            case eventMessage = "eventMessage"
         }
     }
 
     public struct PutDestinationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "destination", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destination", required: false, type: .structure)
         ]
         /// The destination.
         public let destination: Destination?
@@ -1594,22 +1439,21 @@ extension Logs {
             self.destination = destination
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let destination = dictionary["destination"] as? [String: Any] { self.destination = try Logs.Destination(dictionary: destination) } else { self.destination = nil }
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
         }
     }
 
     public struct SubscriptionFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "distribution", required: false, type: .enum), 
-            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "destinationArn", required: false, type: .string), 
-            AWSShapeProperty(label: "creationTime", required: false, type: .long), 
-            AWSShapeProperty(label: "filterPattern", required: false, type: .string), 
-            AWSShapeProperty(label: "filterName", required: false, type: .string), 
-            AWSShapeProperty(label: "logGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "distribution", required: false, type: .enum), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "destinationArn", required: false, type: .string), 
+            AWSShapeMember(label: "creationTime", required: false, type: .long), 
+            AWSShapeMember(label: "filterPattern", required: false, type: .string), 
+            AWSShapeMember(label: "filterName", required: false, type: .string), 
+            AWSShapeMember(label: "logGroupName", required: false, type: .string)
         ]
         /// The method used to distribute log data to the destination, when the destination is an Amazon Kinesis stream.
         public let distribution: Distribution?
@@ -1634,23 +1478,22 @@ extension Logs {
             self.logGroupName = logGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let distribution = dictionary["distribution"] as? String { self.distribution = Distribution(rawValue: distribution) } else { self.distribution = nil }
-            self.roleArn = dictionary["roleArn"] as? String
-            self.destinationArn = dictionary["destinationArn"] as? String
-            self.creationTime = dictionary["creationTime"] as? Int64
-            self.filterPattern = dictionary["filterPattern"] as? String
-            self.filterName = dictionary["filterName"] as? String
-            self.logGroupName = dictionary["logGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case distribution = "distribution"
+            case roleArn = "roleArn"
+            case destinationArn = "destinationArn"
+            case creationTime = "creationTime"
+            case filterPattern = "filterPattern"
+            case filterName = "filterName"
+            case logGroupName = "logGroupName"
         }
     }
 
     public struct DescribeMetricFiltersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "metricFilters", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "metricFilters", required: false, type: .list)
         ]
         public let nextToken: String?
         /// The metric filters.
@@ -1661,29 +1504,24 @@ extension Logs {
             self.metricFilters = metricFilters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let metricFilters = dictionary["metricFilters"] as? [[String: Any]] {
-                self.metricFilters = try metricFilters.map({ try MetricFilter(dictionary: $0) })
-            } else { 
-                self.metricFilters = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case metricFilters = "metricFilters"
         }
     }
 
     public struct ExportTask: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .structure), 
-            AWSShapeProperty(label: "destination", required: false, type: .string), 
-            AWSShapeProperty(label: "taskId", required: false, type: .string), 
-            AWSShapeProperty(label: "destinationPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "from", required: false, type: .long), 
-            AWSShapeProperty(label: "taskName", required: false, type: .string), 
-            AWSShapeProperty(label: "executionInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "logGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "to", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .structure), 
+            AWSShapeMember(label: "destination", required: false, type: .string), 
+            AWSShapeMember(label: "taskId", required: false, type: .string), 
+            AWSShapeMember(label: "destinationPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "from", required: false, type: .long), 
+            AWSShapeMember(label: "taskName", required: false, type: .string), 
+            AWSShapeMember(label: "executionInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "logGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "to", required: false, type: .long)
         ]
         /// The status of the export task.
         public let status: ExportTaskStatus?
@@ -1716,25 +1554,24 @@ extension Logs {
             self.to = to
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? [String: Any] { self.status = try Logs.ExportTaskStatus(dictionary: status) } else { self.status = nil }
-            self.destination = dictionary["destination"] as? String
-            self.taskId = dictionary["taskId"] as? String
-            self.destinationPrefix = dictionary["destinationPrefix"] as? String
-            self.from = dictionary["from"] as? Int64
-            self.taskName = dictionary["taskName"] as? String
-            if let executionInfo = dictionary["executionInfo"] as? [String: Any] { self.executionInfo = try Logs.ExportTaskExecutionInfo(dictionary: executionInfo) } else { self.executionInfo = nil }
-            self.logGroupName = dictionary["logGroupName"] as? String
-            self.to = dictionary["to"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case destination = "destination"
+            case taskId = "taskId"
+            case destinationPrefix = "destinationPrefix"
+            case from = "from"
+            case taskName = "taskName"
+            case executionInfo = "executionInfo"
+            case logGroupName = "logGroupName"
+            case to = "to"
         }
     }
 
     public struct PutLogEventsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rejectedLogEventsInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "nextSequenceToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "rejectedLogEventsInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "nextSequenceToken", required: false, type: .string)
         ]
         /// The rejected events.
         public let rejectedLogEventsInfo: RejectedLogEventsInfo?
@@ -1746,19 +1583,18 @@ extension Logs {
             self.nextSequenceToken = nextSequenceToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let rejectedLogEventsInfo = dictionary["rejectedLogEventsInfo"] as? [String: Any] { self.rejectedLogEventsInfo = try Logs.RejectedLogEventsInfo(dictionary: rejectedLogEventsInfo) } else { self.rejectedLogEventsInfo = nil }
-            self.nextSequenceToken = dictionary["nextSequenceToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case rejectedLogEventsInfo = "rejectedLogEventsInfo"
+            case nextSequenceToken = "nextSequenceToken"
         }
     }
 
     public struct DescribeDestinationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "DestinationNamePrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "DestinationNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int32?
@@ -1773,10 +1609,10 @@ extension Logs {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.limit = dictionary["limit"] as? Int32
-            self.destinationNamePrefix = dictionary["DestinationNamePrefix"] as? String
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case destinationNamePrefix = "DestinationNamePrefix"
+            case nextToken = "nextToken"
         }
     }
 

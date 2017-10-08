@@ -31,18 +31,17 @@ extension Monitoring {
 
     public struct AlarmHistoryItem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmName", required: false, type: .string), 
-            AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "HistoryData", required: false, type: .string), 
-            AWSShapeProperty(label: "HistorySummary", required: false, type: .string), 
-            AWSShapeProperty(label: "HistoryItemType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlarmName", required: false, type: .string), 
+            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "HistoryData", required: false, type: .string), 
+            AWSShapeMember(label: "HistorySummary", required: false, type: .string), 
+            AWSShapeMember(label: "HistoryItemType", required: false, type: .enum)
         ]
         /// The descriptive name for the alarm.
         public let alarmName: String?
         /// The time stamp for the alarm history item.
-        public let timestamp: String?
+        public let timestamp: Double?
         /// Data about the alarm, in JSON format.
         public let historyData: String?
         /// A summary of the alarm history, in text format.
@@ -50,7 +49,7 @@ extension Monitoring {
         /// The type of alarm history item.
         public let historyItemType: HistoryItemType?
 
-        public init(alarmName: String? = nil, timestamp: String? = nil, historyData: String? = nil, historySummary: String? = nil, historyItemType: HistoryItemType? = nil) {
+        public init(alarmName: String? = nil, timestamp: Double? = nil, historyData: String? = nil, historySummary: String? = nil, historyItemType: HistoryItemType? = nil) {
             self.alarmName = alarmName
             self.timestamp = timestamp
             self.historyData = historyData
@@ -58,20 +57,19 @@ extension Monitoring {
             self.historyItemType = historyItemType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.alarmName = dictionary["AlarmName"] as? String
-            self.timestamp = dictionary["Timestamp"] as? String
-            self.historyData = dictionary["HistoryData"] as? String
-            self.historySummary = dictionary["HistorySummary"] as? String
-            if let historyItemType = dictionary["HistoryItemType"] as? String { self.historyItemType = HistoryItemType(rawValue: historyItemType) } else { self.historyItemType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case alarmName = "AlarmName"
+            case timestamp = "Timestamp"
+            case historyData = "HistoryData"
+            case historySummary = "HistorySummary"
+            case historyItemType = "HistoryItemType"
         }
     }
 
     public struct EnableAlarmActionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmNames", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlarmNames", required: true, type: .list)
         ]
         /// The names of the alarms.
         public let alarmNames: [String]
@@ -80,22 +78,20 @@ extension Monitoring {
             self.alarmNames = alarmNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let alarmNames = dictionary["AlarmNames"] as? [String] else { throw InitializableError.missingRequiredParam("AlarmNames") }
-            self.alarmNames = alarmNames
+        private enum CodingKeys: String, CodingKey {
+            case alarmNames = "AlarmNames"
         }
     }
 
     public struct MetricDatum: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
-            AWSShapeProperty(label: "Unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Value", required: false, type: .double), 
-            AWSShapeProperty(label: "StatisticValues", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Unit", required: false, type: .enum), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Value", required: false, type: .double), 
+            AWSShapeMember(label: "StatisticValues", required: false, type: .structure)
         ]
         /// The name of the metric.
         public let metricName: String
@@ -104,13 +100,13 @@ extension Monitoring {
         /// The dimensions associated with the metric.
         public let dimensions: [Dimension]?
         /// The time the metric data was received, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public let timestamp: String?
+        public let timestamp: Double?
         /// The value for the metric. Although the parameter accepts numbers of type Double, Amazon CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
         public let value: Double?
         /// The statistical values for the metric.
         public let statisticValues: StatisticSet?
 
-        public init(metricName: String, unit: StandardUnit? = nil, dimensions: [Dimension]? = nil, timestamp: String? = nil, value: Double? = nil, statisticValues: StatisticSet? = nil) {
+        public init(metricName: String, unit: StandardUnit? = nil, dimensions: [Dimension]? = nil, timestamp: Double? = nil, value: Double? = nil, statisticValues: StatisticSet? = nil) {
             self.metricName = metricName
             self.unit = unit
             self.dimensions = dimensions
@@ -119,27 +115,21 @@ extension Monitoring {
             self.statisticValues = statisticValues
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
-            self.metricName = metricName
-            if let unit = dictionary["Unit"] as? String { self.unit = StandardUnit(rawValue: unit) } else { self.unit = nil }
-            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
-                self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
-            } else { 
-                self.dimensions = nil
-            }
-            self.timestamp = dictionary["Timestamp"] as? String
-            self.value = dictionary["Value"] as? Double
-            if let statisticValues = dictionary["StatisticValues"] as? [String: Any] { self.statisticValues = try Monitoring.StatisticSet(dictionary: statisticValues) } else { self.statisticValues = nil }
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
+            case unit = "Unit"
+            case dimensions = "Dimensions"
+            case timestamp = "Timestamp"
+            case value = "Value"
+            case statisticValues = "StatisticValues"
         }
     }
 
     public struct DescribeAlarmsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricAlarms", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricAlarms", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The information for the specified alarms.
         public let metricAlarms: [MetricAlarm]?
@@ -151,17 +141,13 @@ extension Monitoring {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let metricAlarms = dictionary["MetricAlarms"] as? [[String: Any]] {
-                self.metricAlarms = try metricAlarms.map({ try MetricAlarm(dictionary: $0) })
-            } else { 
-                self.metricAlarms = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case metricAlarms = "MetricAlarms"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum StateValue: String, CustomStringConvertible {
+    public enum StateValue: String, CustomStringConvertible, Codable {
         case ok = "OK"
         case alarm = "ALARM"
         case insufficient_data = "INSUFFICIENT_DATA"
@@ -170,12 +156,11 @@ extension Monitoring {
 
     public struct StatisticSet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SampleCount", required: true, type: .double), 
-            AWSShapeProperty(label: "Minimum", required: true, type: .double), 
-            AWSShapeProperty(label: "Sum", required: true, type: .double), 
-            AWSShapeProperty(label: "Maximum", required: true, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SampleCount", required: true, type: .double), 
+            AWSShapeMember(label: "Minimum", required: true, type: .double), 
+            AWSShapeMember(label: "Sum", required: true, type: .double), 
+            AWSShapeMember(label: "Maximum", required: true, type: .double)
         ]
         /// The number of samples used for the statistic set.
         public let sampleCount: Double
@@ -193,23 +178,18 @@ extension Monitoring {
             self.maximum = maximum
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sampleCount = dictionary["SampleCount"] as? Double else { throw InitializableError.missingRequiredParam("SampleCount") }
-            self.sampleCount = sampleCount
-            guard let minimum = dictionary["Minimum"] as? Double else { throw InitializableError.missingRequiredParam("Minimum") }
-            self.minimum = minimum
-            guard let sum = dictionary["Sum"] as? Double else { throw InitializableError.missingRequiredParam("Sum") }
-            self.sum = sum
-            guard let maximum = dictionary["Maximum"] as? Double else { throw InitializableError.missingRequiredParam("Maximum") }
-            self.maximum = maximum
+        private enum CodingKeys: String, CodingKey {
+            case sampleCount = "SampleCount"
+            case minimum = "Minimum"
+            case sum = "Sum"
+            case maximum = "Maximum"
         }
     }
 
     public struct DisableAlarmActionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmNames", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlarmNames", required: true, type: .list)
         ]
         /// The names of the alarms.
         public let alarmNames: [String]
@@ -218,29 +198,27 @@ extension Monitoring {
             self.alarmNames = alarmNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let alarmNames = dictionary["AlarmNames"] as? [String] else { throw InitializableError.missingRequiredParam("AlarmNames") }
-            self.alarmNames = alarmNames
+        private enum CodingKeys: String, CodingKey {
+            case alarmNames = "AlarmNames"
         }
     }
 
     public struct Datapoint: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SampleCount", required: false, type: .double), 
-            AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Sum", required: false, type: .double), 
-            AWSShapeProperty(label: "Unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "ExtendedStatistics", required: false, type: .map), 
-            AWSShapeProperty(label: "Minimum", required: false, type: .double), 
-            AWSShapeProperty(label: "Maximum", required: false, type: .double), 
-            AWSShapeProperty(label: "Average", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SampleCount", required: false, type: .double), 
+            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Sum", required: false, type: .double), 
+            AWSShapeMember(label: "Unit", required: false, type: .enum), 
+            AWSShapeMember(label: "ExtendedStatistics", required: false, type: .map), 
+            AWSShapeMember(label: "Minimum", required: false, type: .double), 
+            AWSShapeMember(label: "Maximum", required: false, type: .double), 
+            AWSShapeMember(label: "Average", required: false, type: .double)
         ]
         /// The number of metric values that contributed to the aggregate value of this data point.
         public let sampleCount: Double?
         /// The time stamp used for the data point.
-        public let timestamp: String?
+        public let timestamp: Double?
         /// The sum of the metric values for the data point.
         public let sum: Double?
         /// The standard unit for the data point.
@@ -254,7 +232,7 @@ extension Monitoring {
         /// The average of the metric values that correspond to the data point.
         public let average: Double?
 
-        public init(sampleCount: Double? = nil, timestamp: String? = nil, sum: Double? = nil, unit: StandardUnit? = nil, extendedStatistics: [String: Double]? = nil, minimum: Double? = nil, maximum: Double? = nil, average: Double? = nil) {
+        public init(sampleCount: Double? = nil, timestamp: Double? = nil, sum: Double? = nil, unit: StandardUnit? = nil, extendedStatistics: [String: Double]? = nil, minimum: Double? = nil, maximum: Double? = nil, average: Double? = nil) {
             self.sampleCount = sampleCount
             self.timestamp = timestamp
             self.sum = sum
@@ -265,44 +243,39 @@ extension Monitoring {
             self.average = average
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sampleCount = dictionary["SampleCount"] as? Double
-            self.timestamp = dictionary["Timestamp"] as? String
-            self.sum = dictionary["Sum"] as? Double
-            if let unit = dictionary["Unit"] as? String { self.unit = StandardUnit(rawValue: unit) } else { self.unit = nil }
-            if let extendedStatistics = dictionary["ExtendedStatistics"] as? [String: Double] {
-                self.extendedStatistics = extendedStatistics
-            } else { 
-                self.extendedStatistics = nil
-            }
-            self.minimum = dictionary["Minimum"] as? Double
-            self.maximum = dictionary["Maximum"] as? Double
-            self.average = dictionary["Average"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case sampleCount = "SampleCount"
+            case timestamp = "Timestamp"
+            case sum = "Sum"
+            case unit = "Unit"
+            case extendedStatistics = "ExtendedStatistics"
+            case minimum = "Minimum"
+            case maximum = "Maximum"
+            case average = "Average"
         }
     }
 
     public struct PutMetricAlarmInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
-            AWSShapeProperty(label: "Threshold", required: true, type: .double), 
-            AWSShapeProperty(label: "Period", required: true, type: .integer), 
-            AWSShapeProperty(label: "ExtendedStatistic", required: false, type: .string), 
-            AWSShapeProperty(label: "EvaluateLowSampleCountPercentile", required: false, type: .string), 
-            AWSShapeProperty(label: "Statistic", required: false, type: .enum), 
-            AWSShapeProperty(label: "Unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "ActionsEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AlarmActions", required: false, type: .list), 
-            AWSShapeProperty(label: "InsufficientDataActions", required: false, type: .list), 
-            AWSShapeProperty(label: "Namespace", required: true, type: .string), 
-            AWSShapeProperty(label: "AlarmName", required: true, type: .string), 
-            AWSShapeProperty(label: "EvaluationPeriods", required: true, type: .integer), 
-            AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "TreatMissingData", required: false, type: .string), 
-            AWSShapeProperty(label: "AlarmDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "OKActions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Threshold", required: true, type: .double), 
+            AWSShapeMember(label: "Period", required: true, type: .integer), 
+            AWSShapeMember(label: "ExtendedStatistic", required: false, type: .string), 
+            AWSShapeMember(label: "EvaluateLowSampleCountPercentile", required: false, type: .string), 
+            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
+            AWSShapeMember(label: "Unit", required: false, type: .enum), 
+            AWSShapeMember(label: "ActionsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AlarmActions", required: false, type: .list), 
+            AWSShapeMember(label: "InsufficientDataActions", required: false, type: .list), 
+            AWSShapeMember(label: "Namespace", required: true, type: .string), 
+            AWSShapeMember(label: "AlarmName", required: true, type: .string), 
+            AWSShapeMember(label: "EvaluationPeriods", required: true, type: .integer), 
+            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "TreatMissingData", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmDescription", required: false, type: .string), 
+            AWSShapeMember(label: "OKActions", required: false, type: .list)
         ]
         /// The name for the metric associated with the alarm.
         public let metricName: String
@@ -362,64 +335,52 @@ extension Monitoring {
             self.oKActions = oKActions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
-            self.metricName = metricName
-            guard let threshold = dictionary["Threshold"] as? Double else { throw InitializableError.missingRequiredParam("Threshold") }
-            self.threshold = threshold
-            guard let period = dictionary["Period"] as? Int32 else { throw InitializableError.missingRequiredParam("Period") }
-            self.period = period
-            self.extendedStatistic = dictionary["ExtendedStatistic"] as? String
-            self.evaluateLowSampleCountPercentile = dictionary["EvaluateLowSampleCountPercentile"] as? String
-            if let statistic = dictionary["Statistic"] as? String { self.statistic = Statistic(rawValue: statistic) } else { self.statistic = nil }
-            if let unit = dictionary["Unit"] as? String { self.unit = StandardUnit(rawValue: unit) } else { self.unit = nil }
-            self.actionsEnabled = dictionary["ActionsEnabled"] as? Bool
-            self.alarmActions = dictionary["AlarmActions"] as? [String]
-            self.insufficientDataActions = dictionary["InsufficientDataActions"] as? [String]
-            guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
-            self.namespace = namespace
-            guard let alarmName = dictionary["AlarmName"] as? String else { throw InitializableError.missingRequiredParam("AlarmName") }
-            self.alarmName = alarmName
-            guard let evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32 else { throw InitializableError.missingRequiredParam("EvaluationPeriods") }
-            self.evaluationPeriods = evaluationPeriods
-            guard let rawComparisonOperator = dictionary["ComparisonOperator"] as? String, let comparisonOperator = ComparisonOperator(rawValue: rawComparisonOperator) else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
-            self.comparisonOperator = comparisonOperator
-            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
-                self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
-            } else { 
-                self.dimensions = nil
-            }
-            self.treatMissingData = dictionary["TreatMissingData"] as? String
-            self.alarmDescription = dictionary["AlarmDescription"] as? String
-            self.oKActions = dictionary["OKActions"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
+            case threshold = "Threshold"
+            case period = "Period"
+            case extendedStatistic = "ExtendedStatistic"
+            case evaluateLowSampleCountPercentile = "EvaluateLowSampleCountPercentile"
+            case statistic = "Statistic"
+            case unit = "Unit"
+            case actionsEnabled = "ActionsEnabled"
+            case alarmActions = "AlarmActions"
+            case insufficientDataActions = "InsufficientDataActions"
+            case namespace = "Namespace"
+            case alarmName = "AlarmName"
+            case evaluationPeriods = "EvaluationPeriods"
+            case comparisonOperator = "ComparisonOperator"
+            case dimensions = "Dimensions"
+            case treatMissingData = "TreatMissingData"
+            case alarmDescription = "AlarmDescription"
+            case oKActions = "OKActions"
         }
     }
 
     public struct DescribeAlarmHistoryInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmName", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "StartDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "HistoryItemType", required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "EndDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlarmName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "StartDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "HistoryItemType", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "EndDate", required: false, type: .timestamp)
         ]
         /// The name of the alarm.
         public let alarmName: String?
         /// The maximum number of alarm history records to retrieve.
         public let maxRecords: Int32?
         /// The starting date to retrieve alarm history.
-        public let startDate: String?
+        public let startDate: Double?
         /// The type of alarm histories to retrieve.
         public let historyItemType: HistoryItemType?
         /// The token returned by a previous call to indicate that there is more data available.
         public let nextToken: String?
         /// The ending date to retrieve alarm history.
-        public let endDate: String?
+        public let endDate: Double?
 
-        public init(alarmName: String? = nil, maxRecords: Int32? = nil, startDate: String? = nil, historyItemType: HistoryItemType? = nil, nextToken: String? = nil, endDate: String? = nil) {
+        public init(alarmName: String? = nil, maxRecords: Int32? = nil, startDate: Double? = nil, historyItemType: HistoryItemType? = nil, nextToken: String? = nil, endDate: Double? = nil) {
             self.alarmName = alarmName
             self.maxRecords = maxRecords
             self.startDate = startDate
@@ -428,27 +389,26 @@ extension Monitoring {
             self.endDate = endDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.alarmName = dictionary["AlarmName"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.startDate = dictionary["StartDate"] as? String
-            if let historyItemType = dictionary["HistoryItemType"] as? String { self.historyItemType = HistoryItemType(rawValue: historyItemType) } else { self.historyItemType = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.endDate = dictionary["EndDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case alarmName = "AlarmName"
+            case maxRecords = "MaxRecords"
+            case startDate = "StartDate"
+            case historyItemType = "HistoryItemType"
+            case nextToken = "NextToken"
+            case endDate = "EndDate"
         }
     }
 
     public struct DescribeAlarmsForMetricInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
-            AWSShapeProperty(label: "Period", required: false, type: .integer), 
-            AWSShapeProperty(label: "ExtendedStatistic", required: false, type: .string), 
-            AWSShapeProperty(label: "Statistic", required: false, type: .enum), 
-            AWSShapeProperty(label: "Unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "Namespace", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Period", required: false, type: .integer), 
+            AWSShapeMember(label: "ExtendedStatistic", required: false, type: .string), 
+            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
+            AWSShapeMember(label: "Unit", required: false, type: .enum), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "Namespace", required: true, type: .string)
         ]
         /// The name of the metric.
         public let metricName: String
@@ -475,33 +435,26 @@ extension Monitoring {
             self.namespace = namespace
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
-            self.metricName = metricName
-            self.period = dictionary["Period"] as? Int32
-            self.extendedStatistic = dictionary["ExtendedStatistic"] as? String
-            if let statistic = dictionary["Statistic"] as? String { self.statistic = Statistic(rawValue: statistic) } else { self.statistic = nil }
-            if let unit = dictionary["Unit"] as? String { self.unit = StandardUnit(rawValue: unit) } else { self.unit = nil }
-            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
-                self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
-            } else { 
-                self.dimensions = nil
-            }
-            guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
-            self.namespace = namespace
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
+            case period = "Period"
+            case extendedStatistic = "ExtendedStatistic"
+            case statistic = "Statistic"
+            case unit = "Unit"
+            case dimensions = "Dimensions"
+            case namespace = "Namespace"
         }
     }
 
     public struct DescribeAlarmsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "AlarmNamePrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "ActionPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "AlarmNames", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "StateValue", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "AlarmNamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "ActionPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StateValue", required: false, type: .enum)
         ]
         /// The maximum number of alarm descriptions to retrieve.
         public let maxRecords: Int32?
@@ -525,22 +478,21 @@ extension Monitoring {
             self.stateValue = stateValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.alarmNamePrefix = dictionary["AlarmNamePrefix"] as? String
-            self.actionPrefix = dictionary["ActionPrefix"] as? String
-            self.alarmNames = dictionary["AlarmNames"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
-            if let stateValue = dictionary["StateValue"] as? String { self.stateValue = StateValue(rawValue: stateValue) } else { self.stateValue = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case alarmNamePrefix = "AlarmNamePrefix"
+            case actionPrefix = "ActionPrefix"
+            case alarmNames = "AlarmNames"
+            case nextToken = "NextToken"
+            case stateValue = "StateValue"
         }
     }
 
     public struct ListMetricsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Metrics", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list)
         ]
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
@@ -552,44 +504,39 @@ extension Monitoring {
             self.metrics = metrics
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let metrics = dictionary["Metrics"] as? [[String: Any]] {
-                self.metrics = try metrics.map({ try Metric(dictionary: $0) })
-            } else { 
-                self.metrics = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case metrics = "Metrics"
         }
     }
 
     public struct MetricAlarm: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: false, type: .string), 
-            AWSShapeProperty(label: "Threshold", required: false, type: .double), 
-            AWSShapeProperty(label: "Period", required: false, type: .integer), 
-            AWSShapeProperty(label: "ExtendedStatistic", required: false, type: .string), 
-            AWSShapeProperty(label: "AlarmActions", required: false, type: .list), 
-            AWSShapeProperty(label: "Statistic", required: false, type: .enum), 
-            AWSShapeProperty(label: "ActionsEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "StateUpdatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "StateReasonData", required: false, type: .string), 
-            AWSShapeProperty(label: "StateReason", required: false, type: .string), 
-            AWSShapeProperty(label: "InsufficientDataActions", required: false, type: .list), 
-            AWSShapeProperty(label: "Namespace", required: false, type: .string), 
-            AWSShapeProperty(label: "StateValue", required: false, type: .enum), 
-            AWSShapeProperty(label: "AlarmName", required: false, type: .string), 
-            AWSShapeProperty(label: "EvaluateLowSampleCountPercentile", required: false, type: .string), 
-            AWSShapeProperty(label: "AlarmConfigurationUpdatedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AlarmArn", required: false, type: .string), 
-            AWSShapeProperty(label: "EvaluationPeriods", required: false, type: .integer), 
-            AWSShapeProperty(label: "ComparisonOperator", required: false, type: .enum), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "TreatMissingData", required: false, type: .string), 
-            AWSShapeProperty(label: "AlarmDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "OKActions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricName", required: false, type: .string), 
+            AWSShapeMember(label: "Threshold", required: false, type: .double), 
+            AWSShapeMember(label: "Period", required: false, type: .integer), 
+            AWSShapeMember(label: "ExtendedStatistic", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmActions", required: false, type: .list), 
+            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
+            AWSShapeMember(label: "ActionsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "StateUpdatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Unit", required: false, type: .enum), 
+            AWSShapeMember(label: "StateReasonData", required: false, type: .string), 
+            AWSShapeMember(label: "StateReason", required: false, type: .string), 
+            AWSShapeMember(label: "InsufficientDataActions", required: false, type: .list), 
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "StateValue", required: false, type: .enum), 
+            AWSShapeMember(label: "AlarmName", required: false, type: .string), 
+            AWSShapeMember(label: "EvaluateLowSampleCountPercentile", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmConfigurationUpdatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AlarmArn", required: false, type: .string), 
+            AWSShapeMember(label: "EvaluationPeriods", required: false, type: .integer), 
+            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "TreatMissingData", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmDescription", required: false, type: .string), 
+            AWSShapeMember(label: "OKActions", required: false, type: .list)
         ]
         /// The name of the metric associated with the alarm.
         public let metricName: String?
@@ -606,7 +553,7 @@ extension Monitoring {
         /// Indicates whether actions should be executed during any changes to the alarm state.
         public let actionsEnabled: Bool?
         /// The time stamp of the last update to the alarm state.
-        public let stateUpdatedTimestamp: String?
+        public let stateUpdatedTimestamp: Double?
         /// The unit of the metric associated with the alarm.
         public let unit: StandardUnit?
         /// An explanation for the alarm state, in JSON format.
@@ -623,7 +570,7 @@ extension Monitoring {
         public let alarmName: String?
         public let evaluateLowSampleCountPercentile: String?
         /// The time stamp of the last update to the alarm configuration.
-        public let alarmConfigurationUpdatedTimestamp: String?
+        public let alarmConfigurationUpdatedTimestamp: Double?
         /// The Amazon Resource Name (ARN) of the alarm.
         public let alarmArn: String?
         /// The number of periods over which data is compared to the specified threshold.
@@ -638,7 +585,7 @@ extension Monitoring {
         /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
         public let oKActions: [String]?
 
-        public init(metricName: String? = nil, threshold: Double? = nil, period: Int32? = nil, extendedStatistic: String? = nil, alarmActions: [String]? = nil, statistic: Statistic? = nil, actionsEnabled: Bool? = nil, stateUpdatedTimestamp: String? = nil, unit: StandardUnit? = nil, stateReasonData: String? = nil, stateReason: String? = nil, insufficientDataActions: [String]? = nil, namespace: String? = nil, stateValue: StateValue? = nil, alarmName: String? = nil, evaluateLowSampleCountPercentile: String? = nil, alarmConfigurationUpdatedTimestamp: String? = nil, alarmArn: String? = nil, evaluationPeriods: Int32? = nil, comparisonOperator: ComparisonOperator? = nil, dimensions: [Dimension]? = nil, treatMissingData: String? = nil, alarmDescription: String? = nil, oKActions: [String]? = nil) {
+        public init(metricName: String? = nil, threshold: Double? = nil, period: Int32? = nil, extendedStatistic: String? = nil, alarmActions: [String]? = nil, statistic: Statistic? = nil, actionsEnabled: Bool? = nil, stateUpdatedTimestamp: Double? = nil, unit: StandardUnit? = nil, stateReasonData: String? = nil, stateReason: String? = nil, insufficientDataActions: [String]? = nil, namespace: String? = nil, stateValue: StateValue? = nil, alarmName: String? = nil, evaluateLowSampleCountPercentile: String? = nil, alarmConfigurationUpdatedTimestamp: Double? = nil, alarmArn: String? = nil, evaluationPeriods: Int32? = nil, comparisonOperator: ComparisonOperator? = nil, dimensions: [Dimension]? = nil, treatMissingData: String? = nil, alarmDescription: String? = nil, oKActions: [String]? = nil) {
             self.metricName = metricName
             self.threshold = threshold
             self.period = period
@@ -665,39 +612,35 @@ extension Monitoring {
             self.oKActions = oKActions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.metricName = dictionary["MetricName"] as? String
-            self.threshold = dictionary["Threshold"] as? Double
-            self.period = dictionary["Period"] as? Int32
-            self.extendedStatistic = dictionary["ExtendedStatistic"] as? String
-            self.alarmActions = dictionary["AlarmActions"] as? [String]
-            if let statistic = dictionary["Statistic"] as? String { self.statistic = Statistic(rawValue: statistic) } else { self.statistic = nil }
-            self.actionsEnabled = dictionary["ActionsEnabled"] as? Bool
-            self.stateUpdatedTimestamp = dictionary["StateUpdatedTimestamp"] as? String
-            if let unit = dictionary["Unit"] as? String { self.unit = StandardUnit(rawValue: unit) } else { self.unit = nil }
-            self.stateReasonData = dictionary["StateReasonData"] as? String
-            self.stateReason = dictionary["StateReason"] as? String
-            self.insufficientDataActions = dictionary["InsufficientDataActions"] as? [String]
-            self.namespace = dictionary["Namespace"] as? String
-            if let stateValue = dictionary["StateValue"] as? String { self.stateValue = StateValue(rawValue: stateValue) } else { self.stateValue = nil }
-            self.alarmName = dictionary["AlarmName"] as? String
-            self.evaluateLowSampleCountPercentile = dictionary["EvaluateLowSampleCountPercentile"] as? String
-            self.alarmConfigurationUpdatedTimestamp = dictionary["AlarmConfigurationUpdatedTimestamp"] as? String
-            self.alarmArn = dictionary["AlarmArn"] as? String
-            self.evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32
-            if let comparisonOperator = dictionary["ComparisonOperator"] as? String { self.comparisonOperator = ComparisonOperator(rawValue: comparisonOperator) } else { self.comparisonOperator = nil }
-            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
-                self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
-            } else { 
-                self.dimensions = nil
-            }
-            self.treatMissingData = dictionary["TreatMissingData"] as? String
-            self.alarmDescription = dictionary["AlarmDescription"] as? String
-            self.oKActions = dictionary["OKActions"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
+            case threshold = "Threshold"
+            case period = "Period"
+            case extendedStatistic = "ExtendedStatistic"
+            case alarmActions = "AlarmActions"
+            case statistic = "Statistic"
+            case actionsEnabled = "ActionsEnabled"
+            case stateUpdatedTimestamp = "StateUpdatedTimestamp"
+            case unit = "Unit"
+            case stateReasonData = "StateReasonData"
+            case stateReason = "StateReason"
+            case insufficientDataActions = "InsufficientDataActions"
+            case namespace = "Namespace"
+            case stateValue = "StateValue"
+            case alarmName = "AlarmName"
+            case evaluateLowSampleCountPercentile = "EvaluateLowSampleCountPercentile"
+            case alarmConfigurationUpdatedTimestamp = "AlarmConfigurationUpdatedTimestamp"
+            case alarmArn = "AlarmArn"
+            case evaluationPeriods = "EvaluationPeriods"
+            case comparisonOperator = "ComparisonOperator"
+            case dimensions = "Dimensions"
+            case treatMissingData = "TreatMissingData"
+            case alarmDescription = "AlarmDescription"
+            case oKActions = "OKActions"
         }
     }
 
-    public enum StandardUnit: String, CustomStringConvertible {
+    public enum StandardUnit: String, CustomStringConvertible, Codable {
         case seconds = "Seconds"
         case microseconds = "Microseconds"
         case milliseconds = "Milliseconds"
@@ -730,11 +673,10 @@ extension Monitoring {
 
     public struct Metric: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: false, type: .string), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "Namespace", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricName", required: false, type: .string), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "Namespace", required: false, type: .string)
         ]
         /// The name of the metric.
         public let metricName: String?
@@ -749,25 +691,20 @@ extension Monitoring {
             self.namespace = namespace
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.metricName = dictionary["MetricName"] as? String
-            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
-                self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
-            } else { 
-                self.dimensions = nil
-            }
-            self.namespace = dictionary["Namespace"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
+            case dimensions = "Dimensions"
+            case namespace = "Namespace"
         }
     }
 
     public struct ListMetricsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Namespace", required: false, type: .string), 
-            AWSShapeProperty(label: "MetricName", required: false, type: .string), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Namespace", required: false, type: .string), 
+            AWSShapeMember(label: "MetricName", required: false, type: .string), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The namespace to filter against.
         public let namespace: String?
@@ -785,23 +722,18 @@ extension Monitoring {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.namespace = dictionary["Namespace"] as? String
-            self.metricName = dictionary["MetricName"] as? String
-            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
-                self.dimensions = try dimensions.map({ try DimensionFilter(dictionary: $0) })
-            } else { 
-                self.dimensions = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+            case metricName = "MetricName"
+            case dimensions = "Dimensions"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DeleteAlarmsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmNames", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlarmNames", required: true, type: .list)
         ]
         /// The alarms to be deleted.
         public let alarmNames: [String]
@@ -810,18 +742,16 @@ extension Monitoring {
             self.alarmNames = alarmNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let alarmNames = dictionary["AlarmNames"] as? [String] else { throw InitializableError.missingRequiredParam("AlarmNames") }
-            self.alarmNames = alarmNames
+        private enum CodingKeys: String, CodingKey {
+            case alarmNames = "AlarmNames"
         }
     }
 
     public struct PutMetricDataInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Namespace", required: true, type: .string), 
-            AWSShapeProperty(label: "MetricData", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Namespace", required: true, type: .string), 
+            AWSShapeMember(label: "MetricData", required: true, type: .list)
         ]
         /// The namespace for the metric data. You cannot specify a namespace that begins with "AWS/". Namespaces that begin with "AWS/" are reserved for use by Amazon Web Services products.
         public let namespace: String
@@ -833,36 +763,33 @@ extension Monitoring {
             self.metricData = metricData
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
-            self.namespace = namespace
-            guard let metricData = dictionary["MetricData"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("MetricData") }
-            self.metricData = try metricData.map({ try MetricDatum(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+            case metricData = "MetricData"
         }
     }
 
     public struct GetMetricStatisticsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
-            AWSShapeProperty(label: "Period", required: true, type: .integer), 
-            AWSShapeProperty(label: "EndTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "ExtendedStatistics", required: false, type: .list), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "Unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "Statistics", required: false, type: .list), 
-            AWSShapeProperty(label: "Namespace", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Period", required: true, type: .integer), 
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ExtendedStatistics", required: false, type: .list), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "Unit", required: false, type: .enum), 
+            AWSShapeMember(label: "Statistics", required: false, type: .list), 
+            AWSShapeMember(label: "Namespace", required: true, type: .string)
         ]
         /// The time stamp that determines the first data point to return. Note that start times are evaluated relative to the time that CloudWatch receives the request. The value specified is inclusive; results include data points with the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z). CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.  
-        public let startTime: String
+        public let startTime: Double
         /// The name of the metric, with or without spaces.
         public let metricName: String
         /// The granularity, in seconds, of the returned data points. A period can be as short as one minute (60 seconds) and must be a multiple of 60. The default value is 60. If the StartTime parameter specifies a time stamp that is greater than 15 days ago, you must specify the period as follows or no data points in that time range is returned:   Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).   Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).  
         public let period: Int32
         /// The time stamp that determines the last data point to return. The value specified is exclusive; results will include data points up to the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
-        public let endTime: String
+        public let endTime: Double
         /// The percentile statistics. Specify values between p0.0 and p100.
         public let extendedStatistics: [String]?
         /// The dimensions. If the metric contains multiple dimensions, you must include a value for each dimension. CloudWatch treats each unique combination of dimensions as a separate metric. You can't retrieve statistics using combinations of dimensions that were not specially published. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide. For more information on specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide.
@@ -874,7 +801,7 @@ extension Monitoring {
         /// The namespace of the metric, with or without spaces.
         public let namespace: String
 
-        public init(startTime: String, metricName: String, period: Int32, endTime: String, extendedStatistics: [String]? = nil, dimensions: [Dimension]? = nil, unit: StandardUnit? = nil, statistics: [Statistic]? = nil, namespace: String) {
+        public init(startTime: Double, metricName: String, period: Int32, endTime: Double, extendedStatistics: [String]? = nil, dimensions: [Dimension]? = nil, unit: StandardUnit? = nil, statistics: [Statistic]? = nil, namespace: String) {
             self.startTime = startTime
             self.metricName = metricName
             self.period = period
@@ -886,34 +813,24 @@ extension Monitoring {
             self.namespace = namespace
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let startTime = dictionary["StartTime"] as? String else { throw InitializableError.missingRequiredParam("StartTime") }
-            self.startTime = startTime
-            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
-            self.metricName = metricName
-            guard let period = dictionary["Period"] as? Int32 else { throw InitializableError.missingRequiredParam("Period") }
-            self.period = period
-            guard let endTime = dictionary["EndTime"] as? String else { throw InitializableError.missingRequiredParam("EndTime") }
-            self.endTime = endTime
-            self.extendedStatistics = dictionary["ExtendedStatistics"] as? [String]
-            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
-                self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
-            } else { 
-                self.dimensions = nil
-            }
-            if let unit = dictionary["Unit"] as? String { self.unit = StandardUnit(rawValue: unit) } else { self.unit = nil }
-            if let statistics = dictionary["Statistics"] as? [String] { self.statistics = statistics.flatMap({ Statistic(rawValue: $0)}) } else { self.statistics = nil }
-            guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
-            self.namespace = namespace
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case metricName = "MetricName"
+            case period = "Period"
+            case endTime = "EndTime"
+            case extendedStatistics = "ExtendedStatistics"
+            case dimensions = "Dimensions"
+            case unit = "Unit"
+            case statistics = "Statistics"
+            case namespace = "Namespace"
         }
     }
 
     public struct Dimension: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The value representing the dimension measurement.
         public let value: String
@@ -925,20 +842,17 @@ extension Monitoring {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
         }
     }
 
     public struct GetMetricStatisticsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Label", required: false, type: .string), 
-            AWSShapeProperty(label: "Datapoints", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Label", required: false, type: .string), 
+            AWSShapeMember(label: "Datapoints", required: false, type: .list)
         ]
         /// A label for the specified metric.
         public let label: String?
@@ -950,17 +864,13 @@ extension Monitoring {
             self.datapoints = datapoints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.label = dictionary["Label"] as? String
-            if let datapoints = dictionary["Datapoints"] as? [[String: Any]] {
-                self.datapoints = try datapoints.map({ try Datapoint(dictionary: $0) })
-            } else { 
-                self.datapoints = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case label = "Label"
+            case datapoints = "Datapoints"
         }
     }
 
-    public enum Statistic: String, CustomStringConvertible {
+    public enum Statistic: String, CustomStringConvertible, Codable {
         case samplecount = "SampleCount"
         case average = "Average"
         case sum = "Sum"
@@ -971,10 +881,9 @@ extension Monitoring {
 
     public struct DescribeAlarmHistoryOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AlarmHistoryItems", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmHistoryItems", required: false, type: .list)
         ]
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
@@ -986,24 +895,19 @@ extension Monitoring {
             self.alarmHistoryItems = alarmHistoryItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let alarmHistoryItems = dictionary["AlarmHistoryItems"] as? [[String: Any]] {
-                self.alarmHistoryItems = try alarmHistoryItems.map({ try AlarmHistoryItem(dictionary: $0) })
-            } else { 
-                self.alarmHistoryItems = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case alarmHistoryItems = "AlarmHistoryItems"
         }
     }
 
     public struct SetAlarmStateInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmName", required: true, type: .string), 
-            AWSShapeProperty(label: "StateReasonData", required: false, type: .string), 
-            AWSShapeProperty(label: "StateReason", required: true, type: .string), 
-            AWSShapeProperty(label: "StateValue", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlarmName", required: true, type: .string), 
+            AWSShapeMember(label: "StateReasonData", required: false, type: .string), 
+            AWSShapeMember(label: "StateReason", required: true, type: .string), 
+            AWSShapeMember(label: "StateValue", required: true, type: .enum)
         ]
         /// The name for the alarm. This name must be unique within the AWS account. The maximum length is 255 characters.
         public let alarmName: String
@@ -1021,18 +925,15 @@ extension Monitoring {
             self.stateValue = stateValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let alarmName = dictionary["AlarmName"] as? String else { throw InitializableError.missingRequiredParam("AlarmName") }
-            self.alarmName = alarmName
-            self.stateReasonData = dictionary["StateReasonData"] as? String
-            guard let stateReason = dictionary["StateReason"] as? String else { throw InitializableError.missingRequiredParam("StateReason") }
-            self.stateReason = stateReason
-            guard let rawStateValue = dictionary["StateValue"] as? String, let stateValue = StateValue(rawValue: rawStateValue) else { throw InitializableError.missingRequiredParam("StateValue") }
-            self.stateValue = stateValue
+        private enum CodingKeys: String, CodingKey {
+            case alarmName = "AlarmName"
+            case stateReasonData = "StateReasonData"
+            case stateReason = "StateReason"
+            case stateValue = "StateValue"
         }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
         case greaterthanthreshold = "GreaterThanThreshold"
         case lessthanthreshold = "LessThanThreshold"
@@ -1040,7 +941,7 @@ extension Monitoring {
         public var description: String { return self.rawValue }
     }
 
-    public enum HistoryItemType: String, CustomStringConvertible {
+    public enum HistoryItemType: String, CustomStringConvertible, Codable {
         case configurationupdate = "ConfigurationUpdate"
         case stateupdate = "StateUpdate"
         case action = "Action"
@@ -1049,9 +950,8 @@ extension Monitoring {
 
     public struct DescribeAlarmsForMetricOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricAlarms", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricAlarms", required: false, type: .list)
         ]
         /// The information for each alarm with the specified metric.
         public let metricAlarms: [MetricAlarm]?
@@ -1060,21 +960,16 @@ extension Monitoring {
             self.metricAlarms = metricAlarms
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let metricAlarms = dictionary["MetricAlarms"] as? [[String: Any]] {
-                self.metricAlarms = try metricAlarms.map({ try MetricAlarm(dictionary: $0) })
-            } else { 
-                self.metricAlarms = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case metricAlarms = "MetricAlarms"
         }
     }
 
     public struct DimensionFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The value of the dimension to be matched.
         public let value: String?
@@ -1086,10 +981,9 @@ extension Monitoring {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
         }
     }
 

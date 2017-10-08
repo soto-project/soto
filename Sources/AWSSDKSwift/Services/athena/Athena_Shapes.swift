@@ -29,7 +29,7 @@ import AWSSDKSwiftCore
 
 extension Athena {
 
-    public enum ColumnNullable: String, CustomStringConvertible {
+    public enum ColumnNullable: String, CustomStringConvertible, Codable {
         case not_null = "NOT_NULL"
         case nullable = "NULLABLE"
         case unknown = "UNKNOWN"
@@ -38,10 +38,9 @@ extension Athena {
 
     public struct ListNamedQueriesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The token that specifies where to start pagination if a previous request was truncated.
         public let nextToken: String?
@@ -53,17 +52,16 @@ extension Athena {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct StopQueryExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueryExecutionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryExecutionId", required: true, type: .string)
         ]
         /// The unique ID of the query execution to stop.
         public let queryExecutionId: String
@@ -72,18 +70,16 @@ extension Athena {
             self.queryExecutionId = queryExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let queryExecutionId = dictionary["QueryExecutionId"] as? String else { throw InitializableError.missingRequiredParam("QueryExecutionId") }
-            self.queryExecutionId = queryExecutionId
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionId = "QueryExecutionId"
         }
     }
 
     public struct BatchGetNamedQueryOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NamedQueries", required: false, type: .list), 
-            AWSShapeProperty(label: "UnprocessedNamedQueryIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NamedQueries", required: false, type: .list), 
+            AWSShapeMember(label: "UnprocessedNamedQueryIds", required: false, type: .list)
         ]
         /// Information about the named query IDs submitted.
         public let namedQueries: [NamedQuery]?
@@ -95,26 +91,17 @@ extension Athena {
             self.unprocessedNamedQueryIds = unprocessedNamedQueryIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let namedQueries = dictionary["NamedQueries"] as? [[String: Any]] {
-                self.namedQueries = try namedQueries.map({ try NamedQuery(dictionary: $0) })
-            } else { 
-                self.namedQueries = nil
-            }
-            if let unprocessedNamedQueryIds = dictionary["UnprocessedNamedQueryIds"] as? [[String: Any]] {
-                self.unprocessedNamedQueryIds = try unprocessedNamedQueryIds.map({ try UnprocessedNamedQueryId(dictionary: $0) })
-            } else { 
-                self.unprocessedNamedQueryIds = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case namedQueries = "NamedQueries"
+            case unprocessedNamedQueryIds = "UnprocessedNamedQueryIds"
         }
     }
 
     public struct ResultConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OutputLocation", required: true, type: .string), 
-            AWSShapeProperty(label: "EncryptionConfiguration", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputLocation", required: true, type: .string), 
+            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure)
         ]
         /// The location in S3 where query results are stored.
         public let outputLocation: String
@@ -126,19 +113,17 @@ extension Athena {
             self.encryptionConfiguration = encryptionConfiguration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let outputLocation = dictionary["OutputLocation"] as? String else { throw InitializableError.missingRequiredParam("OutputLocation") }
-            self.outputLocation = outputLocation
-            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Athena.EncryptionConfiguration(dictionary: encryptionConfiguration) } else { self.encryptionConfiguration = nil }
+        private enum CodingKeys: String, CodingKey {
+            case outputLocation = "OutputLocation"
+            case encryptionConfiguration = "EncryptionConfiguration"
         }
     }
 
     public struct ListQueryExecutionsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueryExecutionIds", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryExecutionIds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The unique IDs of each query execution as an array of strings.
         public let queryExecutionIds: [String]?
@@ -150,17 +135,16 @@ extension Athena {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.queryExecutionIds = dictionary["QueryExecutionIds"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionIds = "QueryExecutionIds"
+            case nextToken = "NextToken"
         }
     }
 
     public struct GetNamedQueryOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NamedQuery", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NamedQuery", required: false, type: .structure)
         ]
         /// Information about the query.
         public let namedQuery: NamedQuery?
@@ -169,19 +153,18 @@ extension Athena {
             self.namedQuery = namedQuery
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let namedQuery = dictionary["NamedQuery"] as? [String: Any] { self.namedQuery = try Athena.NamedQuery(dictionary: namedQuery) } else { self.namedQuery = nil }
+        private enum CodingKeys: String, CodingKey {
+            case namedQuery = "NamedQuery"
         }
     }
 
     public struct StartQueryExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResultConfiguration", required: true, type: .structure), 
-            AWSShapeProperty(label: "QueryString", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "QueryExecutionContext", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResultConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "QueryString", required: true, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "QueryExecutionContext", required: false, type: .structure)
         ]
         /// Specifies information about where and how to save the results of the query execution.
         public let resultConfiguration: ResultConfiguration
@@ -199,21 +182,18 @@ extension Athena {
             self.queryExecutionContext = queryExecutionContext
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resultConfiguration = dictionary["ResultConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ResultConfiguration") }
-            self.resultConfiguration = try Athena.ResultConfiguration(dictionary: resultConfiguration)
-            guard let queryString = dictionary["QueryString"] as? String else { throw InitializableError.missingRequiredParam("QueryString") }
-            self.queryString = queryString
-            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
-            if let queryExecutionContext = dictionary["QueryExecutionContext"] as? [String: Any] { self.queryExecutionContext = try Athena.QueryExecutionContext(dictionary: queryExecutionContext) } else { self.queryExecutionContext = nil }
+        private enum CodingKeys: String, CodingKey {
+            case resultConfiguration = "ResultConfiguration"
+            case queryString = "QueryString"
+            case clientRequestToken = "ClientRequestToken"
+            case queryExecutionContext = "QueryExecutionContext"
         }
     }
 
     public struct CreateNamedQueryOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NamedQueryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NamedQueryId", required: false, type: .string)
         ]
         /// The unique ID of the query.
         public let namedQueryId: String?
@@ -222,18 +202,17 @@ extension Athena {
             self.namedQueryId = namedQueryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.namedQueryId = dictionary["NamedQueryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case namedQueryId = "NamedQueryId"
         }
     }
 
     public struct UnprocessedQueryExecutionId: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "QueryExecutionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "QueryExecutionId", required: false, type: .string)
         ]
         /// The error message returned when the query execution failed to process, if applicable.
         public let errorMessage: String?
@@ -248,18 +227,17 @@ extension Athena {
             self.queryExecutionId = queryExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.errorMessage = dictionary["ErrorMessage"] as? String
-            self.errorCode = dictionary["ErrorCode"] as? String
-            self.queryExecutionId = dictionary["QueryExecutionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case errorCode = "ErrorCode"
+            case queryExecutionId = "QueryExecutionId"
         }
     }
 
     public struct ResultSetMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ColumnInfo", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ColumnInfo", required: false, type: .list)
         ]
         /// Information about the columns in a query execution result.
         public let columnInfo: [ColumnInfo]?
@@ -268,20 +246,15 @@ extension Athena {
             self.columnInfo = columnInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let columnInfo = dictionary["ColumnInfo"] as? [[String: Any]] {
-                self.columnInfo = try columnInfo.map({ try ColumnInfo(dictionary: $0) })
-            } else { 
-                self.columnInfo = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case columnInfo = "ColumnInfo"
         }
     }
 
     public struct GetQueryExecutionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueryExecution", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryExecution", required: false, type: .structure)
         ]
         /// Information about the query execution.
         public let queryExecution: QueryExecution?
@@ -290,17 +263,16 @@ extension Athena {
             self.queryExecution = queryExecution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let queryExecution = dictionary["QueryExecution"] as? [String: Any] { self.queryExecution = try Athena.QueryExecution(dictionary: queryExecution) } else { self.queryExecution = nil }
+        private enum CodingKeys: String, CodingKey {
+            case queryExecution = "QueryExecution"
         }
     }
 
     public struct BatchGetQueryExecutionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueryExecutions", required: false, type: .list), 
-            AWSShapeProperty(label: "UnprocessedQueryExecutionIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryExecutions", required: false, type: .list), 
+            AWSShapeMember(label: "UnprocessedQueryExecutionIds", required: false, type: .list)
         ]
         /// Information about a query execution.
         public let queryExecutions: [QueryExecution]?
@@ -312,21 +284,13 @@ extension Athena {
             self.unprocessedQueryExecutionIds = unprocessedQueryExecutionIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let queryExecutions = dictionary["QueryExecutions"] as? [[String: Any]] {
-                self.queryExecutions = try queryExecutions.map({ try QueryExecution(dictionary: $0) })
-            } else { 
-                self.queryExecutions = nil
-            }
-            if let unprocessedQueryExecutionIds = dictionary["UnprocessedQueryExecutionIds"] as? [[String: Any]] {
-                self.unprocessedQueryExecutionIds = try unprocessedQueryExecutionIds.map({ try UnprocessedQueryExecutionId(dictionary: $0) })
-            } else { 
-                self.unprocessedQueryExecutionIds = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutions = "QueryExecutions"
+            case unprocessedQueryExecutionIds = "UnprocessedQueryExecutionIds"
         }
     }
 
-    public enum QueryExecutionState: String, CustomStringConvertible {
+    public enum QueryExecutionState: String, CustomStringConvertible, Codable {
         case queued = "QUEUED"
         case running = "RUNNING"
         case succeeded = "SUCCEEDED"
@@ -337,9 +301,8 @@ extension Athena {
 
     public struct StartQueryExecutionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueryExecutionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryExecutionId", required: false, type: .string)
         ]
         /// The unique ID of the query that ran as a result of this request.
         public let queryExecutionId: String?
@@ -348,17 +311,16 @@ extension Athena {
             self.queryExecutionId = queryExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.queryExecutionId = dictionary["QueryExecutionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionId = "QueryExecutionId"
         }
     }
 
     public struct ResultSet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rows", required: false, type: .list), 
-            AWSShapeProperty(label: "ResultSetMetadata", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rows", required: false, type: .list), 
+            AWSShapeMember(label: "ResultSetMetadata", required: false, type: .structure)
         ]
         /// The rows in the table.
         public let rows: [Row]?
@@ -370,22 +332,17 @@ extension Athena {
             self.resultSetMetadata = resultSetMetadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let rows = dictionary["Rows"] as? [[String: Any]] {
-                self.rows = try rows.map({ try Row(dictionary: $0) })
-            } else { 
-                self.rows = nil
-            }
-            if let resultSetMetadata = dictionary["ResultSetMetadata"] as? [String: Any] { self.resultSetMetadata = try Athena.ResultSetMetadata(dictionary: resultSetMetadata) } else { self.resultSetMetadata = nil }
+        private enum CodingKeys: String, CodingKey {
+            case rows = "Rows"
+            case resultSetMetadata = "ResultSetMetadata"
         }
     }
 
     public struct GetQueryResultsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ResultSet", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResultSet", required: false, type: .structure)
         ]
         /// A token to be used by the next request if this request is truncated.
         public let nextToken: String?
@@ -397,26 +354,25 @@ extension Athena {
             self.resultSet = resultSet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let resultSet = dictionary["ResultSet"] as? [String: Any] { self.resultSet = try Athena.ResultSet(dictionary: resultSet) } else { self.resultSet = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resultSet = "ResultSet"
         }
     }
 
     public struct ColumnInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Nullable", required: false, type: .enum), 
-            AWSShapeProperty(label: "CatalogName", required: false, type: .string), 
-            AWSShapeProperty(label: "SchemaName", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Precision", required: false, type: .integer), 
-            AWSShapeProperty(label: "TableName", required: false, type: .string), 
-            AWSShapeProperty(label: "Scale", required: false, type: .integer), 
-            AWSShapeProperty(label: "Type", required: true, type: .string), 
-            AWSShapeProperty(label: "CaseSensitive", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Label", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Nullable", required: false, type: .enum), 
+            AWSShapeMember(label: "CatalogName", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Precision", required: false, type: .integer), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "Scale", required: false, type: .integer), 
+            AWSShapeMember(label: "Type", required: true, type: .string), 
+            AWSShapeMember(label: "CaseSensitive", required: false, type: .boolean), 
+            AWSShapeMember(label: "Label", required: false, type: .string)
         ]
         /// Indicates the column's nullable status.
         public let nullable: ColumnNullable?
@@ -452,35 +408,29 @@ extension Athena {
             self.label = label
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let nullable = dictionary["Nullable"] as? String { self.nullable = ColumnNullable(rawValue: nullable) } else { self.nullable = nil }
-            self.catalogName = dictionary["CatalogName"] as? String
-            self.schemaName = dictionary["SchemaName"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.precision = dictionary["Precision"] as? Int32
-            self.tableName = dictionary["TableName"] as? String
-            self.scale = dictionary["Scale"] as? Int32
-            guard let `type` = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            self.caseSensitive = dictionary["CaseSensitive"] as? Bool
-            self.label = dictionary["Label"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nullable = "Nullable"
+            case catalogName = "CatalogName"
+            case schemaName = "SchemaName"
+            case name = "Name"
+            case precision = "Precision"
+            case tableName = "TableName"
+            case scale = "Scale"
+            case `type` = "Type"
+            case caseSensitive = "CaseSensitive"
+            case label = "Label"
         }
     }
 
     public struct StopQueryExecutionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct Row: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Data", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Data", required: false, type: .list)
         ]
         /// The data that populates a row in a query result table.
         public let data: [Datum]?
@@ -489,25 +439,20 @@ extension Athena {
             self.data = data
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let data = dictionary["Data"] as? [[String: Any]] {
-                self.data = try data.map({ try Datum(dictionary: $0) })
-            } else { 
-                self.data = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
         }
     }
 
-    public enum ThrottleReason: String, CustomStringConvertible {
+    public enum ThrottleReason: String, CustomStringConvertible, Codable {
         case concurrent_query_limit_exceeded = "CONCURRENT_QUERY_LIMIT_EXCEEDED"
         public var description: String { return self.rawValue }
     }
 
     public struct GetNamedQueryInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NamedQueryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NamedQueryId", required: true, type: .string)
         ]
         /// The unique ID of the query. Use ListNamedQueries to get query IDs.
         public let namedQueryId: String
@@ -516,13 +461,12 @@ extension Athena {
             self.namedQueryId = namedQueryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let namedQueryId = dictionary["NamedQueryId"] as? String else { throw InitializableError.missingRequiredParam("NamedQueryId") }
-            self.namedQueryId = namedQueryId
+        private enum CodingKeys: String, CodingKey {
+            case namedQueryId = "NamedQueryId"
         }
     }
 
-    public enum EncryptionOption: String, CustomStringConvertible {
+    public enum EncryptionOption: String, CustomStringConvertible, Codable {
         case sse_s3 = "SSE_S3"
         case sse_kms = "SSE_KMS"
         case cse_kms = "CSE_KMS"
@@ -531,9 +475,8 @@ extension Athena {
 
     public struct Datum: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VarCharValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VarCharValue", required: false, type: .string)
         ]
         /// The value of the datum.
         public let varCharValue: String?
@@ -542,18 +485,17 @@ extension Athena {
             self.varCharValue = varCharValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.varCharValue = dictionary["VarCharValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case varCharValue = "VarCharValue"
         }
     }
 
     public struct UnprocessedNamedQueryId: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "NamedQueryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "NamedQueryId", required: false, type: .string)
         ]
         /// The error message returned when the processing request for the named query failed, if applicable.
         public let errorMessage: String?
@@ -568,22 +510,21 @@ extension Athena {
             self.namedQueryId = namedQueryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.errorMessage = dictionary["ErrorMessage"] as? String
-            self.errorCode = dictionary["ErrorCode"] as? String
-            self.namedQueryId = dictionary["NamedQueryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case errorCode = "ErrorCode"
+            case namedQueryId = "NamedQueryId"
         }
     }
 
     public struct NamedQuery: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "QueryString", required: true, type: .string), 
-            AWSShapeProperty(label: "NamedQueryId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Database", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "QueryString", required: true, type: .string), 
+            AWSShapeMember(label: "NamedQueryId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Database", required: true, type: .string)
         ]
         /// A brief description of the query.
         public let description: String?
@@ -604,23 +545,19 @@ extension Athena {
             self.database = database
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            guard let queryString = dictionary["QueryString"] as? String else { throw InitializableError.missingRequiredParam("QueryString") }
-            self.queryString = queryString
-            self.namedQueryId = dictionary["NamedQueryId"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let database = dictionary["Database"] as? String else { throw InitializableError.missingRequiredParam("Database") }
-            self.database = database
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case queryString = "QueryString"
+            case namedQueryId = "NamedQueryId"
+            case name = "Name"
+            case database = "Database"
         }
     }
 
     public struct GetQueryExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueryExecutionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryExecutionId", required: true, type: .string)
         ]
         /// The unique ID of the query execution.
         public let queryExecutionId: String
@@ -629,18 +566,16 @@ extension Athena {
             self.queryExecutionId = queryExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let queryExecutionId = dictionary["QueryExecutionId"] as? String else { throw InitializableError.missingRequiredParam("QueryExecutionId") }
-            self.queryExecutionId = queryExecutionId
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionId = "QueryExecutionId"
         }
     }
 
     public struct ListQueryExecutionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The token that specifies where to start pagination if a previous request was truncated.
         public let nextToken: String?
@@ -652,17 +587,16 @@ extension Athena {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct BatchGetQueryExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueryExecutionIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryExecutionIds", required: true, type: .list)
         ]
         /// An array of query execution IDs.
         public let queryExecutionIds: [String]
@@ -671,29 +605,24 @@ extension Athena {
             self.queryExecutionIds = queryExecutionIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let queryExecutionIds = dictionary["QueryExecutionIds"] as? [String] else { throw InitializableError.missingRequiredParam("QueryExecutionIds") }
-            self.queryExecutionIds = queryExecutionIds
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionIds = "QueryExecutionIds"
         }
     }
 
     public struct DeleteNamedQueryOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateNamedQueryInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueryString", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Database", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryString", required: true, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Database", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The text of the query itself. In other words, all query statements.
         public let queryString: String
@@ -714,25 +643,21 @@ extension Athena {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let queryString = dictionary["QueryString"] as? String else { throw InitializableError.missingRequiredParam("QueryString") }
-            self.queryString = queryString
-            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let database = dictionary["Database"] as? String else { throw InitializableError.missingRequiredParam("Database") }
-            self.database = database
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case queryString = "QueryString"
+            case clientRequestToken = "ClientRequestToken"
+            case name = "Name"
+            case database = "Database"
+            case description = "Description"
         }
     }
 
     public struct GetQueryResultsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueryExecutionId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryExecutionId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The unique ID of the query execution.
         public let queryExecutionId: String
@@ -747,20 +672,18 @@ extension Athena {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let queryExecutionId = dictionary["QueryExecutionId"] as? String else { throw InitializableError.missingRequiredParam("QueryExecutionId") }
-            self.queryExecutionId = queryExecutionId
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionId = "QueryExecutionId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct QueryExecutionStatistics: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EngineExecutionTimeInMillis", required: false, type: .long), 
-            AWSShapeProperty(label: "DataScannedInBytes", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineExecutionTimeInMillis", required: false, type: .long), 
+            AWSShapeMember(label: "DataScannedInBytes", required: false, type: .long)
         ]
         /// The number of milliseconds that the query took to execute.
         public let engineExecutionTimeInMillis: Int64?
@@ -772,18 +695,17 @@ extension Athena {
             self.dataScannedInBytes = dataScannedInBytes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.engineExecutionTimeInMillis = dictionary["EngineExecutionTimeInMillis"] as? Int64
-            self.dataScannedInBytes = dictionary["DataScannedInBytes"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case engineExecutionTimeInMillis = "EngineExecutionTimeInMillis"
+            case dataScannedInBytes = "DataScannedInBytes"
         }
     }
 
     public struct ListNamedQueriesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "NamedQueryIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "NamedQueryIds", required: false, type: .list)
         ]
         /// A token to be used by the next request if this request is truncated.
         public let nextToken: String?
@@ -795,50 +717,48 @@ extension Athena {
             self.namedQueryIds = namedQueryIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.namedQueryIds = dictionary["NamedQueryIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case namedQueryIds = "NamedQueryIds"
         }
     }
 
     public struct QueryExecutionStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StateChangeReason", required: false, type: .string), 
-            AWSShapeProperty(label: "CompletionDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "SubmissionDateTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .string), 
+            AWSShapeMember(label: "CompletionDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "SubmissionDateTime", required: false, type: .timestamp)
         ]
         /// Further detail about the status of the query.
         public let stateChangeReason: String?
         /// The date and time that the query completed.
-        public let completionDateTime: String?
+        public let completionDateTime: Double?
         /// The state of query execution. SUBMITTED indicates that the query is queued for execution. RUNNING indicates that the query is scanning data and returning results. SUCCEEDED indicates that the query completed without error. FAILED indicates that the query experienced an error and did not complete processing. CANCELLED indicates that user input interrupted query execution.
         public let state: QueryExecutionState?
         /// The date and time that the query was submitted.
-        public let submissionDateTime: String?
+        public let submissionDateTime: Double?
 
-        public init(stateChangeReason: String? = nil, completionDateTime: String? = nil, state: QueryExecutionState? = nil, submissionDateTime: String? = nil) {
+        public init(stateChangeReason: String? = nil, completionDateTime: Double? = nil, state: QueryExecutionState? = nil, submissionDateTime: Double? = nil) {
             self.stateChangeReason = stateChangeReason
             self.completionDateTime = completionDateTime
             self.state = state
             self.submissionDateTime = submissionDateTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stateChangeReason = dictionary["StateChangeReason"] as? String
-            self.completionDateTime = dictionary["CompletionDateTime"] as? String
-            if let state = dictionary["State"] as? String { self.state = QueryExecutionState(rawValue: state) } else { self.state = nil }
-            self.submissionDateTime = dictionary["SubmissionDateTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stateChangeReason = "StateChangeReason"
+            case completionDateTime = "CompletionDateTime"
+            case state = "State"
+            case submissionDateTime = "SubmissionDateTime"
         }
     }
 
     public struct BatchGetNamedQueryInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NamedQueryIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NamedQueryIds", required: true, type: .list)
         ]
         /// An array of query IDs.
         public let namedQueryIds: [String]
@@ -847,17 +767,15 @@ extension Athena {
             self.namedQueryIds = namedQueryIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let namedQueryIds = dictionary["NamedQueryIds"] as? [String] else { throw InitializableError.missingRequiredParam("NamedQueryIds") }
-            self.namedQueryIds = namedQueryIds
+        private enum CodingKeys: String, CodingKey {
+            case namedQueryIds = "NamedQueryIds"
         }
     }
 
     public struct DeleteNamedQueryInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NamedQueryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NamedQueryId", required: true, type: .string)
         ]
         /// The unique ID of the query to delete.
         public let namedQueryId: String
@@ -866,18 +784,16 @@ extension Athena {
             self.namedQueryId = namedQueryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let namedQueryId = dictionary["NamedQueryId"] as? String else { throw InitializableError.missingRequiredParam("NamedQueryId") }
-            self.namedQueryId = namedQueryId
+        private enum CodingKeys: String, CodingKey {
+            case namedQueryId = "NamedQueryId"
         }
     }
 
     public struct EncryptionConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EncryptionOption", required: true, type: .enum), 
-            AWSShapeProperty(label: "KmsKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionOption", required: true, type: .enum), 
+            AWSShapeMember(label: "KmsKey", required: false, type: .string)
         ]
         /// Indicates whether Amazon S3 server-side encryption with Amazon S3-managed keys (SSE-S3), server-side encryption with KMS-managed keys (SSE-KMS), or client-side encryption with KMS-managed keys (CSE-KMS) is used.
         public let encryptionOption: EncryptionOption
@@ -889,23 +805,21 @@ extension Athena {
             self.kmsKey = kmsKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawEncryptionOption = dictionary["EncryptionOption"] as? String, let encryptionOption = EncryptionOption(rawValue: rawEncryptionOption) else { throw InitializableError.missingRequiredParam("EncryptionOption") }
-            self.encryptionOption = encryptionOption
-            self.kmsKey = dictionary["KmsKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case encryptionOption = "EncryptionOption"
+            case kmsKey = "KmsKey"
         }
     }
 
     public struct QueryExecution: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResultConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", required: false, type: .structure), 
-            AWSShapeProperty(label: "Query", required: false, type: .string), 
-            AWSShapeProperty(label: "QueryExecutionContext", required: false, type: .structure), 
-            AWSShapeProperty(label: "Statistics", required: false, type: .structure), 
-            AWSShapeProperty(label: "QueryExecutionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResultConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "Query", required: false, type: .string), 
+            AWSShapeMember(label: "QueryExecutionContext", required: false, type: .structure), 
+            AWSShapeMember(label: "Statistics", required: false, type: .structure), 
+            AWSShapeMember(label: "QueryExecutionId", required: false, type: .string)
         ]
         /// The location in Amazon S3 where query results were stored and the encryption option, if any, used for query results.
         public let resultConfiguration: ResultConfiguration?
@@ -929,21 +843,20 @@ extension Athena {
             self.queryExecutionId = queryExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resultConfiguration = dictionary["ResultConfiguration"] as? [String: Any] { self.resultConfiguration = try Athena.ResultConfiguration(dictionary: resultConfiguration) } else { self.resultConfiguration = nil }
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Athena.QueryExecutionStatus(dictionary: status) } else { self.status = nil }
-            self.query = dictionary["Query"] as? String
-            if let queryExecutionContext = dictionary["QueryExecutionContext"] as? [String: Any] { self.queryExecutionContext = try Athena.QueryExecutionContext(dictionary: queryExecutionContext) } else { self.queryExecutionContext = nil }
-            if let statistics = dictionary["Statistics"] as? [String: Any] { self.statistics = try Athena.QueryExecutionStatistics(dictionary: statistics) } else { self.statistics = nil }
-            self.queryExecutionId = dictionary["QueryExecutionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resultConfiguration = "ResultConfiguration"
+            case status = "Status"
+            case query = "Query"
+            case queryExecutionContext = "QueryExecutionContext"
+            case statistics = "Statistics"
+            case queryExecutionId = "QueryExecutionId"
         }
     }
 
     public struct QueryExecutionContext: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Database", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Database", required: false, type: .string)
         ]
         /// The name of the database.
         public let database: String?
@@ -952,8 +865,8 @@ extension Athena {
             self.database = database
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.database = dictionary["Database"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
         }
     }
 

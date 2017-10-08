@@ -31,9 +31,8 @@ extension Email {
 
     public struct VerifyEmailAddressRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EmailAddress", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailAddress", required: true, type: .string)
         ]
         /// The email address to be verified.
         public let emailAddress: String
@@ -42,17 +41,15 @@ extension Email {
             self.emailAddress = emailAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let emailAddress = dictionary["EmailAddress"] as? String else { throw InitializableError.missingRequiredParam("EmailAddress") }
-            self.emailAddress = emailAddress
+        private enum CodingKeys: String, CodingKey {
+            case emailAddress = "EmailAddress"
         }
     }
 
     public struct ListReceiptFiltersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filters", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list)
         ]
         /// A list of IP address filter data structures, which each consist of a name, an IP address range, and whether to allow or block mail from it.
         public let filters: [ReceiptFilter]?
@@ -61,20 +58,15 @@ extension Email {
             self.filters = filters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try ReceiptFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
         }
     }
 
     public struct DescribeReceiptRuleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rule", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rule", required: false, type: .structure)
         ]
         /// A data structure that contains the specified receipt rule's name, actions, recipients, domains, enabled status, scan status, and Transport Layer Security (TLS) policy.
         public let rule: ReceiptRule?
@@ -83,12 +75,12 @@ extension Email {
             self.rule = rule
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let rule = dictionary["Rule"] as? [String: Any] { self.rule = try Email.ReceiptRule(dictionary: rule) } else { self.rule = nil }
+        private enum CodingKeys: String, CodingKey {
+            case rule = "Rule"
         }
     }
 
-    public enum ReceiptFilterPolicy: String, CustomStringConvertible {
+    public enum ReceiptFilterPolicy: String, CustomStringConvertible, Codable {
         case block = "Block"
         case allow = "Allow"
         public var description: String { return self.rawValue }
@@ -96,10 +88,9 @@ extension Email {
 
     public struct CloneReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleSetName", required: true, type: .string), 
-            AWSShapeProperty(label: "OriginalRuleSetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleSetName", required: true, type: .string), 
+            AWSShapeMember(label: "OriginalRuleSetName", required: true, type: .string)
         ]
         /// The name of the rule set to create. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public let ruleSetName: String
@@ -111,19 +102,16 @@ extension Email {
             self.originalRuleSetName = originalRuleSetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
-            self.ruleSetName = ruleSetName
-            guard let originalRuleSetName = dictionary["OriginalRuleSetName"] as? String else { throw InitializableError.missingRequiredParam("OriginalRuleSetName") }
-            self.originalRuleSetName = originalRuleSetName
+        private enum CodingKeys: String, CodingKey {
+            case ruleSetName = "RuleSetName"
+            case originalRuleSetName = "OriginalRuleSetName"
         }
     }
 
     public struct GetIdentityNotificationAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NotificationAttributes", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotificationAttributes", required: true, type: .map)
         ]
         /// A map of Identity to IdentityNotificationAttributes.
         public let notificationAttributes: [String: IdentityNotificationAttributes]
@@ -132,30 +120,20 @@ extension Email {
             self.notificationAttributes = notificationAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let notificationAttributes = dictionary["NotificationAttributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("NotificationAttributes") }
-            var notificationAttributesDict: [String: IdentityNotificationAttributes] = [:]
-            for (key, value) in notificationAttributes {
-                guard let identityNotificationAttributesDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                notificationAttributesDict[key] = try IdentityNotificationAttributes(dictionary: identityNotificationAttributesDict)
-            }
-            self.notificationAttributes = notificationAttributesDict
+        private enum CodingKeys: String, CodingKey {
+            case notificationAttributes = "NotificationAttributes"
         }
     }
 
     public struct DeleteConfigurationSetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct VerifyDomainIdentityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Domain", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domain", required: true, type: .string)
         ]
         /// The domain to be verified.
         public let domain: String
@@ -164,19 +142,17 @@ extension Email {
             self.domain = domain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domain = dictionary["Domain"] as? String else { throw InitializableError.missingRequiredParam("Domain") }
-            self.domain = domain
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
         }
     }
 
     public struct SetIdentityNotificationTopicRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NotificationType", required: true, type: .enum), 
-            AWSShapeProperty(label: "SnsTopic", required: false, type: .string), 
-            AWSShapeProperty(label: "Identity", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotificationType", required: true, type: .enum), 
+            AWSShapeMember(label: "SnsTopic", required: false, type: .string), 
+            AWSShapeMember(label: "Identity", required: true, type: .string)
         ]
         /// The type of notifications that will be published to the specified Amazon SNS topic.
         public let notificationType: NotificationType
@@ -191,40 +167,31 @@ extension Email {
             self.identity = identity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawNotificationType = dictionary["NotificationType"] as? String, let notificationType = NotificationType(rawValue: rawNotificationType) else { throw InitializableError.missingRequiredParam("NotificationType") }
-            self.notificationType = notificationType
-            self.snsTopic = dictionary["SnsTopic"] as? String
-            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
-            self.identity = identity
+        private enum CodingKeys: String, CodingKey {
+            case notificationType = "NotificationType"
+            case snsTopic = "SnsTopic"
+            case identity = "Identity"
         }
     }
 
     public struct CreateConfigurationSetEventDestinationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct SetReceiptRulePositionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct EventDestination: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CloudWatchDestination", required: false, type: .structure), 
-            AWSShapeProperty(label: "MatchingEventTypes", required: true, type: .list), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "KinesisFirehoseDestination", required: false, type: .structure), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchDestination", required: false, type: .structure), 
+            AWSShapeMember(label: "MatchingEventTypes", required: true, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "KinesisFirehoseDestination", required: false, type: .structure), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
         /// An object that contains the names, default values, and sources of the dimensions associated with an Amazon CloudWatch event destination.
         public let cloudWatchDestination: CloudWatchDestination?
@@ -245,28 +212,25 @@ extension Email {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cloudWatchDestination = dictionary["CloudWatchDestination"] as? [String: Any] { self.cloudWatchDestination = try Email.CloudWatchDestination(dictionary: cloudWatchDestination) } else { self.cloudWatchDestination = nil }
-            guard let matchingEventTypes = dictionary["MatchingEventTypes"] as? [String] else { throw InitializableError.missingRequiredParam("MatchingEventTypes") }
-            self.matchingEventTypes = matchingEventTypes.flatMap({ EventType(rawValue: $0)})
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let kinesisFirehoseDestination = dictionary["KinesisFirehoseDestination"] as? [String: Any] { self.kinesisFirehoseDestination = try Email.KinesisFirehoseDestination(dictionary: kinesisFirehoseDestination) } else { self.kinesisFirehoseDestination = nil }
-            self.enabled = dictionary["Enabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchDestination = "CloudWatchDestination"
+            case matchingEventTypes = "MatchingEventTypes"
+            case name = "Name"
+            case kinesisFirehoseDestination = "KinesisFirehoseDestination"
+            case enabled = "Enabled"
         }
     }
 
     public struct IdentityNotificationAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComplaintTopic", required: true, type: .string), 
-            AWSShapeProperty(label: "ForwardingEnabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "DeliveryTopic", required: true, type: .string), 
-            AWSShapeProperty(label: "HeadersInComplaintNotificationsEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "HeadersInDeliveryNotificationsEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "BounceTopic", required: true, type: .string), 
-            AWSShapeProperty(label: "HeadersInBounceNotificationsEnabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplaintTopic", required: true, type: .string), 
+            AWSShapeMember(label: "ForwardingEnabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "DeliveryTopic", required: true, type: .string), 
+            AWSShapeMember(label: "HeadersInComplaintNotificationsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "HeadersInDeliveryNotificationsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "BounceTopic", required: true, type: .string), 
+            AWSShapeMember(label: "HeadersInBounceNotificationsEnabled", required: false, type: .boolean)
         ]
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will publish complaint notifications.
         public let complaintTopic: String
@@ -293,31 +257,26 @@ extension Email {
             self.headersInBounceNotificationsEnabled = headersInBounceNotificationsEnabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let complaintTopic = dictionary["ComplaintTopic"] as? String else { throw InitializableError.missingRequiredParam("ComplaintTopic") }
-            self.complaintTopic = complaintTopic
-            guard let forwardingEnabled = dictionary["ForwardingEnabled"] as? Bool else { throw InitializableError.missingRequiredParam("ForwardingEnabled") }
-            self.forwardingEnabled = forwardingEnabled
-            guard let deliveryTopic = dictionary["DeliveryTopic"] as? String else { throw InitializableError.missingRequiredParam("DeliveryTopic") }
-            self.deliveryTopic = deliveryTopic
-            self.headersInComplaintNotificationsEnabled = dictionary["HeadersInComplaintNotificationsEnabled"] as? Bool
-            self.headersInDeliveryNotificationsEnabled = dictionary["HeadersInDeliveryNotificationsEnabled"] as? Bool
-            guard let bounceTopic = dictionary["BounceTopic"] as? String else { throw InitializableError.missingRequiredParam("BounceTopic") }
-            self.bounceTopic = bounceTopic
-            self.headersInBounceNotificationsEnabled = dictionary["HeadersInBounceNotificationsEnabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case complaintTopic = "ComplaintTopic"
+            case forwardingEnabled = "ForwardingEnabled"
+            case deliveryTopic = "DeliveryTopic"
+            case headersInComplaintNotificationsEnabled = "HeadersInComplaintNotificationsEnabled"
+            case headersInDeliveryNotificationsEnabled = "HeadersInDeliveryNotificationsEnabled"
+            case bounceTopic = "BounceTopic"
+            case headersInBounceNotificationsEnabled = "HeadersInBounceNotificationsEnabled"
         }
     }
 
     public struct SendBounceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MessageDsn", required: false, type: .structure), 
-            AWSShapeProperty(label: "BouncedRecipientInfoList", required: true, type: .list), 
-            AWSShapeProperty(label: "OriginalMessageId", required: true, type: .string), 
-            AWSShapeProperty(label: "BounceSenderArn", required: false, type: .string), 
-            AWSShapeProperty(label: "BounceSender", required: true, type: .string), 
-            AWSShapeProperty(label: "Explanation", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageDsn", required: false, type: .structure), 
+            AWSShapeMember(label: "BouncedRecipientInfoList", required: true, type: .list), 
+            AWSShapeMember(label: "OriginalMessageId", required: true, type: .string), 
+            AWSShapeMember(label: "BounceSenderArn", required: false, type: .string), 
+            AWSShapeMember(label: "BounceSender", required: true, type: .string), 
+            AWSShapeMember(label: "Explanation", required: false, type: .string)
         ]
         /// Message-related DSN fields. If not specified, Amazon SES will choose the values.
         public let messageDsn: MessageDsn?
@@ -341,58 +300,48 @@ extension Email {
             self.explanation = explanation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let messageDsn = dictionary["MessageDsn"] as? [String: Any] { self.messageDsn = try Email.MessageDsn(dictionary: messageDsn) } else { self.messageDsn = nil }
-            guard let bouncedRecipientInfoList = dictionary["BouncedRecipientInfoList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("BouncedRecipientInfoList") }
-            self.bouncedRecipientInfoList = try bouncedRecipientInfoList.map({ try BouncedRecipientInfo(dictionary: $0) })
-            guard let originalMessageId = dictionary["OriginalMessageId"] as? String else { throw InitializableError.missingRequiredParam("OriginalMessageId") }
-            self.originalMessageId = originalMessageId
-            self.bounceSenderArn = dictionary["BounceSenderArn"] as? String
-            guard let bounceSender = dictionary["BounceSender"] as? String else { throw InitializableError.missingRequiredParam("BounceSender") }
-            self.bounceSender = bounceSender
-            self.explanation = dictionary["Explanation"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case messageDsn = "MessageDsn"
+            case bouncedRecipientInfoList = "BouncedRecipientInfoList"
+            case originalMessageId = "OriginalMessageId"
+            case bounceSenderArn = "BounceSenderArn"
+            case bounceSender = "BounceSender"
+            case explanation = "Explanation"
         }
     }
 
     public struct MessageDsn: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ArrivalDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ExtensionFields", required: false, type: .list), 
-            AWSShapeProperty(label: "ReportingMta", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ArrivalDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ExtensionFields", required: false, type: .list), 
+            AWSShapeMember(label: "ReportingMta", required: true, type: .string)
         ]
         /// When the message was received by the reporting mail transfer agent (MTA), in RFC 822 date-time format.
-        public let arrivalDate: String?
+        public let arrivalDate: Double?
         /// Additional X-headers to include in the DSN.
         public let extensionFields: [ExtensionField]?
         /// The reporting MTA that attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name). The default value is dns; inbound-smtp.[region].amazonaws.com.
         public let reportingMta: String
 
-        public init(arrivalDate: String? = nil, extensionFields: [ExtensionField]? = nil, reportingMta: String) {
+        public init(arrivalDate: Double? = nil, extensionFields: [ExtensionField]? = nil, reportingMta: String) {
             self.arrivalDate = arrivalDate
             self.extensionFields = extensionFields
             self.reportingMta = reportingMta
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arrivalDate = dictionary["ArrivalDate"] as? String
-            if let extensionFields = dictionary["ExtensionFields"] as? [[String: Any]] {
-                self.extensionFields = try extensionFields.map({ try ExtensionField(dictionary: $0) })
-            } else { 
-                self.extensionFields = nil
-            }
-            guard let reportingMta = dictionary["ReportingMta"] as? String else { throw InitializableError.missingRequiredParam("ReportingMta") }
-            self.reportingMta = reportingMta
+        private enum CodingKeys: String, CodingKey {
+            case arrivalDate = "ArrivalDate"
+            case extensionFields = "ExtensionFields"
+            case reportingMta = "ReportingMta"
         }
     }
 
     public struct ExtensionField: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The value of the header to add. Must be less than 2048 characters, and must not contain newline characters ("\r" or "\n").
         public let value: String
@@ -404,19 +353,16 @@ extension Email {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
         }
     }
 
     public struct ConfigurationSet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the configuration set. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 64 characters.  
         public let name: String
@@ -425,19 +371,17 @@ extension Email {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct ListIdentitiesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityType", required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityType", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
         /// The type of the identities to list. Possible values are "EmailAddress" and "Domain". If this parameter is omitted, then all identities will be listed.
         public let identityType: IdentityType?
@@ -452,27 +396,23 @@ extension Email {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let identityType = dictionary["IdentityType"] as? String { self.identityType = IdentityType(rawValue: identityType) } else { self.identityType = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case identityType = "IdentityType"
+            case nextToken = "NextToken"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct SetIdentityHeadersInNotificationsEnabledResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct KinesisFirehoseDestination: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IAMRoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "DeliveryStreamARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IAMRoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "DeliveryStreamARN", required: true, type: .string)
         ]
         /// The ARN of the IAM role under which Amazon SES publishes email sending events to the Amazon Kinesis Firehose stream.
         public let iAMRoleARN: String
@@ -484,19 +424,16 @@ extension Email {
             self.deliveryStreamARN = deliveryStreamARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let iAMRoleARN = dictionary["IAMRoleARN"] as? String else { throw InitializableError.missingRequiredParam("IAMRoleARN") }
-            self.iAMRoleARN = iAMRoleARN
-            guard let deliveryStreamARN = dictionary["DeliveryStreamARN"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamARN") }
-            self.deliveryStreamARN = deliveryStreamARN
+        private enum CodingKeys: String, CodingKey {
+            case iAMRoleARN = "IAMRoleARN"
+            case deliveryStreamARN = "DeliveryStreamARN"
         }
     }
 
     public struct DescribeReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleSetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
         ]
         /// The name of the receipt rule set to describe.
         public let ruleSetName: String
@@ -505,18 +442,16 @@ extension Email {
             self.ruleSetName = ruleSetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
-            self.ruleSetName = ruleSetName
+        private enum CodingKeys: String, CodingKey {
+            case ruleSetName = "RuleSetName"
         }
     }
 
     public struct DescribeConfigurationSetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventDestinations", required: false, type: .list), 
-            AWSShapeProperty(label: "ConfigurationSet", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventDestinations", required: false, type: .list), 
+            AWSShapeMember(label: "ConfigurationSet", required: false, type: .structure)
         ]
         /// A list of event destinations associated with the configuration set. 
         public let eventDestinations: [EventDestination]?
@@ -528,21 +463,16 @@ extension Email {
             self.configurationSet = configurationSet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventDestinations = dictionary["EventDestinations"] as? [[String: Any]] {
-                self.eventDestinations = try eventDestinations.map({ try EventDestination(dictionary: $0) })
-            } else { 
-                self.eventDestinations = nil
-            }
-            if let configurationSet = dictionary["ConfigurationSet"] as? [String: Any] { self.configurationSet = try Email.ConfigurationSet(dictionary: configurationSet) } else { self.configurationSet = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eventDestinations = "EventDestinations"
+            case configurationSet = "ConfigurationSet"
         }
     }
 
     public struct SetActiveReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleSetName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleSetName", required: false, type: .string)
         ]
         /// The name of the receipt rule set to make active. Setting this value to null disables all email receiving.
         public let ruleSetName: String?
@@ -551,17 +481,16 @@ extension Email {
             self.ruleSetName = ruleSetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ruleSetName = dictionary["RuleSetName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ruleSetName = "RuleSetName"
         }
     }
 
     public struct IdentityVerificationAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VerificationStatus", required: true, type: .enum), 
-            AWSShapeProperty(label: "VerificationToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VerificationStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "VerificationToken", required: false, type: .string)
         ]
         /// The verification status of the identity: "Pending", "Success", "Failed", or "TemporaryFailure".
         public let verificationStatus: VerificationStatus
@@ -573,34 +502,26 @@ extension Email {
             self.verificationToken = verificationToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawVerificationStatus = dictionary["VerificationStatus"] as? String, let verificationStatus = VerificationStatus(rawValue: rawVerificationStatus) else { throw InitializableError.missingRequiredParam("VerificationStatus") }
-            self.verificationStatus = verificationStatus
-            self.verificationToken = dictionary["VerificationToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case verificationStatus = "VerificationStatus"
+            case verificationToken = "VerificationToken"
         }
     }
 
     public struct CloneReceiptRuleSetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdateConfigurationSetEventDestinationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct GetIdentityVerificationAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Identities", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Identities", required: true, type: .list)
         ]
         /// A list of identities.
         public let identities: [String]
@@ -609,17 +530,15 @@ extension Email {
             self.identities = identities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let identities = dictionary["Identities"] as? [String] else { throw InitializableError.missingRequiredParam("Identities") }
-            self.identities = identities
+        private enum CodingKeys: String, CodingKey {
+            case identities = "Identities"
         }
     }
 
     public struct RawMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Data", required: true, type: .blob)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Data", required: true, type: .blob)
         ]
         /// The raw data of the message. The client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, MIME encoding, and base64 encoding. The To:, CC:, and BCC: headers in the raw message can contain a group list. If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the "Source," "From," and "Return-Path" addresses. For more information, see the documentation for SendRawEmail.   Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email.  For more information, go to the Amazon SES Developer Guide. 
         public let data: Data
@@ -628,18 +547,16 @@ extension Email {
             self.data = data
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let data = dictionary["Data"] as? Data else { throw InitializableError.missingRequiredParam("Data") }
-            self.data = data
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
         }
     }
 
     public struct DeleteReceiptRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleName", required: true, type: .string), 
-            AWSShapeProperty(label: "RuleSetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleName", required: true, type: .string), 
+            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
         ]
         /// The name of the receipt rule to delete.
         public let ruleName: String
@@ -651,19 +568,16 @@ extension Email {
             self.ruleSetName = ruleSetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["RuleName"] as? String else { throw InitializableError.missingRequiredParam("RuleName") }
-            self.ruleName = ruleName
-            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
-            self.ruleSetName = ruleSetName
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "RuleName"
+            case ruleSetName = "RuleSetName"
         }
     }
 
     public struct DeleteReceiptFilterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FilterName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FilterName", required: true, type: .string)
         ]
         /// The name of the IP address filter to delete.
         public let filterName: String
@@ -672,17 +586,15 @@ extension Email {
             self.filterName = filterName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let filterName = dictionary["FilterName"] as? String else { throw InitializableError.missingRequiredParam("FilterName") }
-            self.filterName = filterName
+        private enum CodingKeys: String, CodingKey {
+            case filterName = "FilterName"
         }
     }
 
     public struct ListIdentityPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Identity", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Identity", required: true, type: .string)
         ]
         /// The identity that is associated with the policy for which the policies will be listed. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
         public let identity: String
@@ -691,19 +603,17 @@ extension Email {
             self.identity = identity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
-            self.identity = identity
+        private enum CodingKeys: String, CodingKey {
+            case identity = "Identity"
         }
     }
 
     public struct Destination: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CcAddresses", required: false, type: .list), 
-            AWSShapeProperty(label: "BccAddresses", required: false, type: .list), 
-            AWSShapeProperty(label: "ToAddresses", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CcAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "BccAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "ToAddresses", required: false, type: .list)
         ]
         /// The CC: field(s) of the message.
         public let ccAddresses: [String]?
@@ -718,24 +628,23 @@ extension Email {
             self.toAddresses = toAddresses
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ccAddresses = dictionary["CcAddresses"] as? [String]
-            self.bccAddresses = dictionary["BccAddresses"] as? [String]
-            self.toAddresses = dictionary["ToAddresses"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case ccAddresses = "CcAddresses"
+            case bccAddresses = "BccAddresses"
+            case toAddresses = "ToAddresses"
         }
     }
 
-    public enum StopScope: String, CustomStringConvertible {
+    public enum StopScope: String, CustomStringConvertible, Codable {
         case ruleset = "RuleSet"
         public var description: String { return self.rawValue }
     }
 
     public struct ListConfigurationSetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
         /// A token returned from a previous call to ListConfigurationSets to indicate the position of the configuration set in the configuration set list.
         public let nextToken: String?
@@ -747,18 +656,17 @@ extension Email {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct DescribeReceiptRuleSetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Metadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "Rules", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
+            AWSShapeMember(label: "Rules", required: false, type: .list)
         ]
         /// The metadata for the receipt rule set, which consists of the rule set name and the timestamp of when the rule set was created.
         public let metadata: ReceiptRuleSetMetadata?
@@ -770,30 +678,22 @@ extension Email {
             self.rules = rules
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Email.ReceiptRuleSetMetadata(dictionary: metadata) } else { self.metadata = nil }
-            if let rules = dictionary["Rules"] as? [[String: Any]] {
-                self.rules = try rules.map({ try ReceiptRule(dictionary: $0) })
-            } else { 
-                self.rules = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case rules = "Rules"
         }
     }
 
     public struct ListReceiptFiltersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct Content: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Charset", required: false, type: .string), 
-            AWSShapeProperty(label: "Data", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Charset", required: false, type: .string), 
+            AWSShapeMember(label: "Data", required: true, type: .string)
         ]
         /// The character set of the content.
         public let charset: String?
@@ -805,18 +705,16 @@ extension Email {
             self.data = data
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.charset = dictionary["Charset"] as? String
-            guard let data = dictionary["Data"] as? String else { throw InitializableError.missingRequiredParam("Data") }
-            self.data = data
+        private enum CodingKeys: String, CodingKey {
+            case charset = "Charset"
+            case data = "Data"
         }
     }
 
     public struct GetIdentityMailFromDomainAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MailFromDomainAttributes", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MailFromDomainAttributes", required: true, type: .map)
         ]
         /// A map of identities to custom MAIL FROM attributes.
         public let mailFromDomainAttributes: [String: IdentityMailFromDomainAttributes]
@@ -825,24 +723,17 @@ extension Email {
             self.mailFromDomainAttributes = mailFromDomainAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let mailFromDomainAttributes = dictionary["MailFromDomainAttributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("MailFromDomainAttributes") }
-            var mailFromDomainAttributesDict: [String: IdentityMailFromDomainAttributes] = [:]
-            for (key, value) in mailFromDomainAttributes {
-                guard let identityMailFromDomainAttributesDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                mailFromDomainAttributesDict[key] = try IdentityMailFromDomainAttributes(dictionary: identityMailFromDomainAttributesDict)
-            }
-            self.mailFromDomainAttributes = mailFromDomainAttributesDict
+        private enum CodingKeys: String, CodingKey {
+            case mailFromDomainAttributes = "MailFromDomainAttributes"
         }
     }
 
     public struct CloudWatchDimensionConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DimensionValueSource", required: true, type: .enum), 
-            AWSShapeProperty(label: "DimensionName", required: true, type: .string), 
-            AWSShapeProperty(label: "DefaultDimensionValue", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DimensionValueSource", required: true, type: .enum), 
+            AWSShapeMember(label: "DimensionName", required: true, type: .string), 
+            AWSShapeMember(label: "DefaultDimensionValue", required: true, type: .string)
         ]
         /// The place where Amazon SES finds the value of a dimension to publish to Amazon CloudWatch. If you want Amazon SES to use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail/SendRawEmail API, choose messageTag. If you want Amazon SES to use your own email headers, choose emailHeader.
         public let dimensionValueSource: DimensionValueSource
@@ -857,27 +748,23 @@ extension Email {
             self.defaultDimensionValue = defaultDimensionValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawDimensionValueSource = dictionary["DimensionValueSource"] as? String, let dimensionValueSource = DimensionValueSource(rawValue: rawDimensionValueSource) else { throw InitializableError.missingRequiredParam("DimensionValueSource") }
-            self.dimensionValueSource = dimensionValueSource
-            guard let dimensionName = dictionary["DimensionName"] as? String else { throw InitializableError.missingRequiredParam("DimensionName") }
-            self.dimensionName = dimensionName
-            guard let defaultDimensionValue = dictionary["DefaultDimensionValue"] as? String else { throw InitializableError.missingRequiredParam("DefaultDimensionValue") }
-            self.defaultDimensionValue = defaultDimensionValue
+        private enum CodingKeys: String, CodingKey {
+            case dimensionValueSource = "DimensionValueSource"
+            case dimensionName = "DimensionName"
+            case defaultDimensionValue = "DefaultDimensionValue"
         }
     }
 
     public struct ReceiptAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3Action", required: false, type: .structure), 
-            AWSShapeProperty(label: "WorkmailAction", required: false, type: .structure), 
-            AWSShapeProperty(label: "AddHeaderAction", required: false, type: .structure), 
-            AWSShapeProperty(label: "SNSAction", required: false, type: .structure), 
-            AWSShapeProperty(label: "StopAction", required: false, type: .structure), 
-            AWSShapeProperty(label: "BounceAction", required: false, type: .structure), 
-            AWSShapeProperty(label: "LambdaAction", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Action", required: false, type: .structure), 
+            AWSShapeMember(label: "WorkmailAction", required: false, type: .structure), 
+            AWSShapeMember(label: "AddHeaderAction", required: false, type: .structure), 
+            AWSShapeMember(label: "SNSAction", required: false, type: .structure), 
+            AWSShapeMember(label: "StopAction", required: false, type: .structure), 
+            AWSShapeMember(label: "BounceAction", required: false, type: .structure), 
+            AWSShapeMember(label: "LambdaAction", required: false, type: .structure)
         ]
         /// Saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon SNS.
         public let s3Action: S3Action?
@@ -904,22 +791,21 @@ extension Email {
             self.lambdaAction = lambdaAction
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let s3Action = dictionary["S3Action"] as? [String: Any] { self.s3Action = try Email.S3Action(dictionary: s3Action) } else { self.s3Action = nil }
-            if let workmailAction = dictionary["WorkmailAction"] as? [String: Any] { self.workmailAction = try Email.WorkmailAction(dictionary: workmailAction) } else { self.workmailAction = nil }
-            if let addHeaderAction = dictionary["AddHeaderAction"] as? [String: Any] { self.addHeaderAction = try Email.AddHeaderAction(dictionary: addHeaderAction) } else { self.addHeaderAction = nil }
-            if let sNSAction = dictionary["SNSAction"] as? [String: Any] { self.sNSAction = try Email.SNSAction(dictionary: sNSAction) } else { self.sNSAction = nil }
-            if let stopAction = dictionary["StopAction"] as? [String: Any] { self.stopAction = try Email.StopAction(dictionary: stopAction) } else { self.stopAction = nil }
-            if let bounceAction = dictionary["BounceAction"] as? [String: Any] { self.bounceAction = try Email.BounceAction(dictionary: bounceAction) } else { self.bounceAction = nil }
-            if let lambdaAction = dictionary["LambdaAction"] as? [String: Any] { self.lambdaAction = try Email.LambdaAction(dictionary: lambdaAction) } else { self.lambdaAction = nil }
+        private enum CodingKeys: String, CodingKey {
+            case s3Action = "S3Action"
+            case workmailAction = "WorkmailAction"
+            case addHeaderAction = "AddHeaderAction"
+            case sNSAction = "SNSAction"
+            case stopAction = "StopAction"
+            case bounceAction = "BounceAction"
+            case lambdaAction = "LambdaAction"
         }
     }
 
     public struct CreateReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleSetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
         ]
         /// The name of the rule set to create. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public let ruleSetName: String
@@ -928,25 +814,20 @@ extension Email {
             self.ruleSetName = ruleSetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
-            self.ruleSetName = ruleSetName
+        private enum CodingKeys: String, CodingKey {
+            case ruleSetName = "RuleSetName"
         }
     }
 
     public struct DeleteReceiptRuleSetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListIdentityPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyNames", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyNames", required: true, type: .list)
         ]
         /// A list of names of policies that apply to the specified identity.
         public let policyNames: [String]
@@ -955,28 +836,23 @@ extension Email {
             self.policyNames = policyNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyNames = dictionary["PolicyNames"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyNames") }
-            self.policyNames = policyNames
+        private enum CodingKeys: String, CodingKey {
+            case policyNames = "PolicyNames"
         }
     }
 
     public struct CreateConfigurationSetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct BouncedRecipientInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Recipient", required: true, type: .string), 
-            AWSShapeProperty(label: "RecipientDsnFields", required: false, type: .structure), 
-            AWSShapeProperty(label: "BounceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "RecipientArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Recipient", required: true, type: .string), 
+            AWSShapeMember(label: "RecipientDsnFields", required: false, type: .structure), 
+            AWSShapeMember(label: "BounceType", required: false, type: .enum), 
+            AWSShapeMember(label: "RecipientArn", required: false, type: .string)
         ]
         /// The email address of the recipient of the bounced email.
         public let recipient: String
@@ -994,22 +870,20 @@ extension Email {
             self.recipientArn = recipientArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let recipient = dictionary["Recipient"] as? String else { throw InitializableError.missingRequiredParam("Recipient") }
-            self.recipient = recipient
-            if let recipientDsnFields = dictionary["RecipientDsnFields"] as? [String: Any] { self.recipientDsnFields = try Email.RecipientDsnFields(dictionary: recipientDsnFields) } else { self.recipientDsnFields = nil }
-            if let bounceType = dictionary["BounceType"] as? String { self.bounceType = BounceType(rawValue: bounceType) } else { self.bounceType = nil }
-            self.recipientArn = dictionary["RecipientArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case recipient = "Recipient"
+            case recipientDsnFields = "RecipientDsnFields"
+            case bounceType = "BounceType"
+            case recipientArn = "RecipientArn"
         }
     }
 
     public struct SetReceiptRulePositionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleName", required: true, type: .string), 
-            AWSShapeProperty(label: "RuleSetName", required: true, type: .string), 
-            AWSShapeProperty(label: "After", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleName", required: true, type: .string), 
+            AWSShapeMember(label: "RuleSetName", required: true, type: .string), 
+            AWSShapeMember(label: "After", required: false, type: .string)
         ]
         /// The name of the receipt rule to reposition.
         public let ruleName: String
@@ -1024,21 +898,18 @@ extension Email {
             self.after = after
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["RuleName"] as? String else { throw InitializableError.missingRequiredParam("RuleName") }
-            self.ruleName = ruleName
-            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
-            self.ruleSetName = ruleSetName
-            self.after = dictionary["After"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "RuleName"
+            case ruleSetName = "RuleSetName"
+            case after = "After"
         }
     }
 
     public struct SNSAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Encoding", required: false, type: .enum), 
-            AWSShapeProperty(label: "TopicArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Encoding", required: false, type: .enum), 
+            AWSShapeMember(label: "TopicArn", required: true, type: .string)
         ]
         /// The encoding to use for the email within the Amazon SNS notification. UTF-8 is easier to use, but may not preserve all special characters when a message was encoded with a different encoding format. Base64 preserves all special characters. The default value is UTF-8.
         public let encoding: SNSActionEncoding?
@@ -1050,26 +921,21 @@ extension Email {
             self.topicArn = topicArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let encoding = dictionary["Encoding"] as? String { self.encoding = SNSActionEncoding(rawValue: encoding) } else { self.encoding = nil }
-            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
-            self.topicArn = topicArn
+        private enum CodingKeys: String, CodingKey {
+            case encoding = "Encoding"
+            case topicArn = "TopicArn"
         }
     }
 
     public struct CreateReceiptFilterResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteConfigurationSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationSetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string)
         ]
         /// The name of the configuration set to delete.
         public let configurationSetName: String
@@ -1078,13 +944,12 @@ extension Email {
             self.configurationSetName = configurationSetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configurationSetName = dictionary["ConfigurationSetName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationSetName") }
-            self.configurationSetName = configurationSetName
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
         }
     }
 
-    public enum CustomMailFromStatus: String, CustomStringConvertible {
+    public enum CustomMailFromStatus: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case success = "Success"
         case failed = "Failed"
@@ -1092,7 +957,7 @@ extension Email {
         public var description: String { return self.rawValue }
     }
 
-    public enum DsnAction: String, CustomStringConvertible {
+    public enum DsnAction: String, CustomStringConvertible, Codable {
         case failed = "failed"
         case delayed = "delayed"
         case delivered = "delivered"
@@ -1103,18 +968,14 @@ extension Email {
 
     public struct DeleteIdentityPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeReceiptRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleName", required: true, type: .string), 
-            AWSShapeProperty(label: "RuleSetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleName", required: true, type: .string), 
+            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
         ]
         /// The name of the receipt rule.
         public let ruleName: String
@@ -1126,19 +987,16 @@ extension Email {
             self.ruleSetName = ruleSetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["RuleName"] as? String else { throw InitializableError.missingRequiredParam("RuleName") }
-            self.ruleName = ruleName
-            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
-            self.ruleSetName = ruleSetName
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "RuleName"
+            case ruleSetName = "RuleSetName"
         }
     }
 
     public struct DeleteVerifiedEmailAddressRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EmailAddress", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailAddress", required: true, type: .string)
         ]
         /// An email address to be removed from the list of verified addresses.
         public let emailAddress: String
@@ -1147,27 +1005,22 @@ extension Email {
             self.emailAddress = emailAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let emailAddress = dictionary["EmailAddress"] as? String else { throw InitializableError.missingRequiredParam("EmailAddress") }
-            self.emailAddress = emailAddress
+        private enum CodingKeys: String, CodingKey {
+            case emailAddress = "EmailAddress"
         }
     }
 
     public struct SetIdentityMailFromDomainResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateReceiptRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "After", required: false, type: .string), 
-            AWSShapeProperty(label: "RuleSetName", required: true, type: .string), 
-            AWSShapeProperty(label: "Rule", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "After", required: false, type: .string), 
+            AWSShapeMember(label: "RuleSetName", required: true, type: .string), 
+            AWSShapeMember(label: "Rule", required: true, type: .structure)
         ]
         /// The name of an existing rule after which the new rule will be placed. If this parameter is null, the new rule will be inserted at the beginning of the rule list.
         public let after: String?
@@ -1182,28 +1035,22 @@ extension Email {
             self.rule = rule
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.after = dictionary["After"] as? String
-            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
-            self.ruleSetName = ruleSetName
-            guard let rule = dictionary["Rule"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Rule") }
-            self.rule = try Email.ReceiptRule(dictionary: rule)
+        private enum CodingKeys: String, CodingKey {
+            case after = "After"
+            case ruleSetName = "RuleSetName"
+            case rule = "Rule"
         }
     }
 
     public struct DeleteConfigurationSetEventDestinationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct SendEmailResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MessageId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageId", required: true, type: .string)
         ]
         /// The unique message identifier returned from the SendEmail action. 
         public let messageId: String
@@ -1212,19 +1059,17 @@ extension Email {
             self.messageId = messageId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let messageId = dictionary["MessageId"] as? String else { throw InitializableError.missingRequiredParam("MessageId") }
-            self.messageId = messageId
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
         }
     }
 
     public struct LambdaAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionArn", required: true, type: .string), 
-            AWSShapeProperty(label: "TopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "InvocationType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionArn", required: true, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "InvocationType", required: false, type: .enum)
         ]
         /// The Amazon Resource Name (ARN) of the AWS Lambda function. An example of an AWS Lambda function ARN is arn:aws:lambda:us-west-2:account-id:function:MyFunction. For more information about AWS Lambda, see the AWS Lambda Developer Guide.
         public let functionArn: String
@@ -1239,15 +1084,14 @@ extension Email {
             self.invocationType = invocationType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let functionArn = dictionary["FunctionArn"] as? String else { throw InitializableError.missingRequiredParam("FunctionArn") }
-            self.functionArn = functionArn
-            self.topicArn = dictionary["TopicArn"] as? String
-            if let invocationType = dictionary["InvocationType"] as? String { self.invocationType = InvocationType(rawValue: invocationType) } else { self.invocationType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case functionArn = "FunctionArn"
+            case topicArn = "TopicArn"
+            case invocationType = "InvocationType"
         }
     }
 
-    public enum EventType: String, CustomStringConvertible {
+    public enum EventType: String, CustomStringConvertible, Codable {
         case send = "send"
         case reject = "reject"
         case bounce = "bounce"
@@ -1256,7 +1100,7 @@ extension Email {
         public var description: String { return self.rawValue }
     }
 
-    public enum BounceType: String, CustomStringConvertible {
+    public enum BounceType: String, CustomStringConvertible, Codable {
         case doesnotexist = "DoesNotExist"
         case messagetoolarge = "MessageTooLarge"
         case exceededquota = "ExceededQuota"
@@ -1266,7 +1110,7 @@ extension Email {
         public var description: String { return self.rawValue }
     }
 
-    public enum DimensionValueSource: String, CustomStringConvertible {
+    public enum DimensionValueSource: String, CustomStringConvertible, Codable {
         case messagetag = "messageTag"
         case emailheader = "emailHeader"
         public var description: String { return self.rawValue }
@@ -1274,11 +1118,10 @@ extension Email {
 
     public struct GetSendQuotaResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxSendRate", required: false, type: .double), 
-            AWSShapeProperty(label: "Max24HourSend", required: false, type: .double), 
-            AWSShapeProperty(label: "SentLast24Hours", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxSendRate", required: false, type: .double), 
+            AWSShapeMember(label: "Max24HourSend", required: false, type: .double), 
+            AWSShapeMember(label: "SentLast24Hours", required: false, type: .double)
         ]
         /// The maximum number of emails that Amazon SES can accept from the user's account per second.  The rate at which Amazon SES accepts the user's messages might be less than the maximum send rate. 
         public let maxSendRate: Double?
@@ -1293,22 +1136,21 @@ extension Email {
             self.sentLast24Hours = sentLast24Hours
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxSendRate = dictionary["MaxSendRate"] as? Double
-            self.max24HourSend = dictionary["Max24HourSend"] as? Double
-            self.sentLast24Hours = dictionary["SentLast24Hours"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case maxSendRate = "MaxSendRate"
+            case max24HourSend = "Max24HourSend"
+            case sentLast24Hours = "SentLast24Hours"
         }
     }
 
     public struct BounceAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SmtpReplyCode", required: true, type: .string), 
-            AWSShapeProperty(label: "Message", required: true, type: .string), 
-            AWSShapeProperty(label: "Sender", required: true, type: .string), 
-            AWSShapeProperty(label: "StatusCode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SmtpReplyCode", required: true, type: .string), 
+            AWSShapeMember(label: "Message", required: true, type: .string), 
+            AWSShapeMember(label: "Sender", required: true, type: .string), 
+            AWSShapeMember(label: "StatusCode", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the bounce action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
@@ -1329,19 +1171,16 @@ extension Email {
             self.statusCode = statusCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.topicArn = dictionary["TopicArn"] as? String
-            guard let smtpReplyCode = dictionary["SmtpReplyCode"] as? String else { throw InitializableError.missingRequiredParam("SmtpReplyCode") }
-            self.smtpReplyCode = smtpReplyCode
-            guard let message = dictionary["Message"] as? String else { throw InitializableError.missingRequiredParam("Message") }
-            self.message = message
-            guard let sender = dictionary["Sender"] as? String else { throw InitializableError.missingRequiredParam("Sender") }
-            self.sender = sender
-            self.statusCode = dictionary["StatusCode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
+            case smtpReplyCode = "SmtpReplyCode"
+            case message = "Message"
+            case sender = "Sender"
+            case statusCode = "StatusCode"
         }
     }
 
-    public enum VerificationStatus: String, CustomStringConvertible {
+    public enum VerificationStatus: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case success = "Success"
         case failed = "Failed"
@@ -1352,9 +1191,8 @@ extension Email {
 
     public struct GetSendStatisticsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SendDataPoints", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SendDataPoints", required: false, type: .list)
         ]
         /// A list of data points, each of which represents 15 minutes of activity.
         public let sendDataPoints: [SendDataPoint]?
@@ -1363,29 +1201,21 @@ extension Email {
             self.sendDataPoints = sendDataPoints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let sendDataPoints = dictionary["SendDataPoints"] as? [[String: Any]] {
-                self.sendDataPoints = try sendDataPoints.map({ try SendDataPoint(dictionary: $0) })
-            } else { 
-                self.sendDataPoints = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case sendDataPoints = "SendDataPoints"
         }
     }
 
     public struct DeleteReceiptRuleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct SetIdentityDkimEnabledRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DkimEnabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Identity", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DkimEnabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Identity", required: true, type: .string)
         ]
         /// Sets whether DKIM signing is enabled for an identity. Set to true to enable DKIM signing for this identity; false to disable it. 
         public let dkimEnabled: Bool
@@ -1397,20 +1227,17 @@ extension Email {
             self.identity = identity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let dkimEnabled = dictionary["DkimEnabled"] as? Bool else { throw InitializableError.missingRequiredParam("DkimEnabled") }
-            self.dkimEnabled = dkimEnabled
-            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
-            self.identity = identity
+        private enum CodingKeys: String, CodingKey {
+            case dkimEnabled = "DkimEnabled"
+            case identity = "Identity"
         }
     }
 
     public struct DescribeActiveReceiptRuleSetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Metadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "Rules", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
+            AWSShapeMember(label: "Rules", required: false, type: .list)
         ]
         /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and a timestamp of when the rule set was created.
         public let metadata: ReceiptRuleSetMetadata?
@@ -1422,21 +1249,16 @@ extension Email {
             self.rules = rules
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Email.ReceiptRuleSetMetadata(dictionary: metadata) } else { self.metadata = nil }
-            if let rules = dictionary["Rules"] as? [[String: Any]] {
-                self.rules = try rules.map({ try ReceiptRule(dictionary: $0) })
-            } else { 
-                self.rules = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case rules = "Rules"
         }
     }
 
     public struct GetIdentityMailFromDomainAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Identities", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Identities", required: true, type: .list)
         ]
         /// A list of one or more identities.
         public let identities: [String]
@@ -1445,27 +1267,23 @@ extension Email {
             self.identities = identities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let identities = dictionary["Identities"] as? [String] else { throw InitializableError.missingRequiredParam("Identities") }
-            self.identities = identities
+        private enum CodingKeys: String, CodingKey {
+            case identities = "Identities"
         }
     }
 
     public struct PutIdentityPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum SNSActionEncoding: String, CustomStringConvertible {
+    public enum SNSActionEncoding: String, CustomStringConvertible, Codable {
         case utf_8 = "UTF-8"
         case base64 = "Base64"
         public var description: String { return self.rawValue }
     }
 
-    public enum TlsPolicy: String, CustomStringConvertible {
+    public enum TlsPolicy: String, CustomStringConvertible, Codable {
         case require = "Require"
         case optional = "Optional"
         public var description: String { return self.rawValue }
@@ -1473,9 +1291,8 @@ extension Email {
 
     public struct CreateConfigurationSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationSet", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSet", required: true, type: .structure)
         ]
         /// A data structure that contains the name of the configuration set.
         public let configurationSet: ConfigurationSet
@@ -1484,27 +1301,22 @@ extension Email {
             self.configurationSet = configurationSet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configurationSet = dictionary["ConfigurationSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ConfigurationSet") }
-            self.configurationSet = try Email.ConfigurationSet(dictionary: configurationSet)
+        private enum CodingKeys: String, CodingKey {
+            case configurationSet = "ConfigurationSet"
         }
     }
 
     public struct SetActiveReceiptRuleSetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct PutIdentityPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string), 
-            AWSShapeProperty(label: "Identity", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "Identity", required: true, type: .string)
         ]
         /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide. 
         public let policy: String
@@ -1519,22 +1331,18 @@ extension Email {
             self.identity = identity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policy = dictionary["Policy"] as? String else { throw InitializableError.missingRequiredParam("Policy") }
-            self.policy = policy
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
-            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
-            self.identity = identity
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case policyName = "PolicyName"
+            case identity = "Identity"
         }
     }
 
     public struct Message: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Body", required: true, type: .structure), 
-            AWSShapeProperty(label: "Subject", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Body", required: true, type: .structure), 
+            AWSShapeMember(label: "Subject", required: true, type: .structure)
         ]
         /// The message body.
         public let body: Body
@@ -1546,32 +1354,26 @@ extension Email {
             self.subject = subject
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let body = dictionary["Body"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Body") }
-            self.body = try Email.Body(dictionary: body)
-            guard let subject = dictionary["Subject"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Subject") }
-            self.subject = try Email.Content(dictionary: subject)
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case subject = "Subject"
         }
     }
 
     public struct DeleteReceiptFilterResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum ConfigurationSetAttribute: String, CustomStringConvertible {
+    public enum ConfigurationSetAttribute: String, CustomStringConvertible, Codable {
         case eventdestinations = "eventDestinations"
         public var description: String { return self.rawValue }
     }
 
     public struct GetIdentityVerificationAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VerificationAttributes", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VerificationAttributes", required: true, type: .map)
         ]
         /// A map of Identities to IdentityVerificationAttributes objects.
         public let verificationAttributes: [String: IdentityVerificationAttributes]
@@ -1580,31 +1382,21 @@ extension Email {
             self.verificationAttributes = verificationAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let verificationAttributes = dictionary["VerificationAttributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VerificationAttributes") }
-            var verificationAttributesDict: [String: IdentityVerificationAttributes] = [:]
-            for (key, value) in verificationAttributes {
-                guard let identityVerificationAttributesDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                verificationAttributesDict[key] = try IdentityVerificationAttributes(dictionary: identityVerificationAttributesDict)
-            }
-            self.verificationAttributes = verificationAttributesDict
+        private enum CodingKeys: String, CodingKey {
+            case verificationAttributes = "VerificationAttributes"
         }
     }
 
     public struct SetIdentityFeedbackForwardingEnabledResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeConfigurationSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationSetName", required: true, type: .string), 
-            AWSShapeProperty(label: "ConfigurationSetAttributeNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
+            AWSShapeMember(label: "ConfigurationSetAttributeNames", required: false, type: .list)
         ]
         /// The name of the configuration set to describe.
         public let configurationSetName: String
@@ -1616,26 +1408,21 @@ extension Email {
             self.configurationSetAttributeNames = configurationSetAttributeNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configurationSetName = dictionary["ConfigurationSetName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationSetName") }
-            self.configurationSetName = configurationSetName
-            if let configurationSetAttributeNames = dictionary["ConfigurationSetAttributeNames"] as? [String] { self.configurationSetAttributeNames = configurationSetAttributeNames.flatMap({ ConfigurationSetAttribute(rawValue: $0)}) } else { self.configurationSetAttributeNames = nil }
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case configurationSetAttributeNames = "ConfigurationSetAttributeNames"
         }
     }
 
     public struct CreateReceiptRuleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct VerifyDomainIdentityResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VerificationToken", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VerificationToken", required: true, type: .string)
         ]
         /// A TXT record that must be placed in the DNS settings for the domain, in order to complete domain verification.
         public let verificationToken: String
@@ -1644,25 +1431,20 @@ extension Email {
             self.verificationToken = verificationToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let verificationToken = dictionary["VerificationToken"] as? String else { throw InitializableError.missingRequiredParam("VerificationToken") }
-            self.verificationToken = verificationToken
+        private enum CodingKeys: String, CodingKey {
+            case verificationToken = "VerificationToken"
         }
     }
 
     public struct SetIdentityNotificationTopicResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteIdentityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Identity", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Identity", required: true, type: .string)
         ]
         /// The identity to be removed from the list of identities for the AWS Account.
         public let identity: String
@@ -1671,13 +1453,12 @@ extension Email {
             self.identity = identity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
-            self.identity = identity
+        private enum CodingKeys: String, CodingKey {
+            case identity = "Identity"
         }
     }
 
-    public enum InvocationType: String, CustomStringConvertible {
+    public enum InvocationType: String, CustomStringConvertible, Codable {
         case event = "Event"
         case requestresponse = "RequestResponse"
         public var description: String { return self.rawValue }
@@ -1685,10 +1466,9 @@ extension Email {
 
     public struct AddHeaderAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HeaderName", required: true, type: .string), 
-            AWSShapeProperty(label: "HeaderValue", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HeaderName", required: true, type: .string), 
+            AWSShapeMember(label: "HeaderValue", required: true, type: .string)
         ]
         /// The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
         public let headerName: String
@@ -1700,19 +1480,16 @@ extension Email {
             self.headerValue = headerValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let headerName = dictionary["HeaderName"] as? String else { throw InitializableError.missingRequiredParam("HeaderName") }
-            self.headerName = headerName
-            guard let headerValue = dictionary["HeaderValue"] as? String else { throw InitializableError.missingRequiredParam("HeaderValue") }
-            self.headerValue = headerValue
+        private enum CodingKeys: String, CodingKey {
+            case headerName = "HeaderName"
+            case headerValue = "HeaderValue"
         }
     }
 
     public struct CreateReceiptFilterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filter", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: true, type: .structure)
         ]
         /// A data structure that describes the IP address filter to create, which consists of a name, an IP address range, and whether to allow or block mail from it.
         public let filter: ReceiptFilter
@@ -1721,17 +1498,15 @@ extension Email {
             self.filter = filter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let filter = dictionary["Filter"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Filter") }
-            self.filter = try Email.ReceiptFilter(dictionary: filter)
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
         }
     }
 
     public struct GetIdentityPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policies", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policies", required: true, type: .map)
         ]
         /// A map of policy names to policies.
         public let policies: [String: String]
@@ -1740,18 +1515,16 @@ extension Email {
             self.policies = policies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policies = dictionary["Policies"] as? [String: String] else { throw InitializableError.missingRequiredParam("Policies") }
-            self.policies = policies
+        private enum CodingKeys: String, CodingKey {
+            case policies = "Policies"
         }
     }
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationSetName", required: true, type: .string), 
-            AWSShapeProperty(label: "EventDestination", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
+            AWSShapeMember(label: "EventDestination", required: true, type: .structure)
         ]
         /// The name of the configuration set that you want to update.
         public let configurationSetName: String
@@ -1763,19 +1536,16 @@ extension Email {
             self.eventDestination = eventDestination
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configurationSetName = dictionary["ConfigurationSetName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationSetName") }
-            self.configurationSetName = configurationSetName
-            guard let eventDestination = dictionary["EventDestination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EventDestination") }
-            self.eventDestination = try Email.EventDestination(dictionary: eventDestination)
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case eventDestination = "EventDestination"
         }
     }
 
     public struct GetIdentityDkimAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Identities", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Identities", required: true, type: .list)
         ]
         /// A list of one or more verified identities - email addresses, domains, or both.
         public let identities: [String]
@@ -1784,19 +1554,17 @@ extension Email {
             self.identities = identities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let identities = dictionary["Identities"] as? [String] else { throw InitializableError.missingRequiredParam("Identities") }
-            self.identities = identities
+        private enum CodingKeys: String, CodingKey {
+            case identities = "Identities"
         }
     }
 
     public struct IdentityDkimAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DkimVerificationStatus", required: true, type: .enum), 
-            AWSShapeProperty(label: "DkimTokens", required: false, type: .list), 
-            AWSShapeProperty(label: "DkimEnabled", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DkimVerificationStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "DkimTokens", required: false, type: .list), 
+            AWSShapeMember(label: "DkimEnabled", required: true, type: .boolean)
         ]
         /// Describes whether Amazon SES has successfully verified the DKIM DNS records (tokens) published in the domain name's DNS. (This only applies to domain identities, not email address identities.)
         public let dkimVerificationStatus: VerificationStatus
@@ -1811,22 +1579,19 @@ extension Email {
             self.dkimEnabled = dkimEnabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawDkimVerificationStatus = dictionary["DkimVerificationStatus"] as? String, let dkimVerificationStatus = VerificationStatus(rawValue: rawDkimVerificationStatus) else { throw InitializableError.missingRequiredParam("DkimVerificationStatus") }
-            self.dkimVerificationStatus = dkimVerificationStatus
-            self.dkimTokens = dictionary["DkimTokens"] as? [String]
-            guard let dkimEnabled = dictionary["DkimEnabled"] as? Bool else { throw InitializableError.missingRequiredParam("DkimEnabled") }
-            self.dkimEnabled = dkimEnabled
+        private enum CodingKeys: String, CodingKey {
+            case dkimVerificationStatus = "DkimVerificationStatus"
+            case dkimTokens = "DkimTokens"
+            case dkimEnabled = "DkimEnabled"
         }
     }
 
     public struct IdentityMailFromDomainAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BehaviorOnMXFailure", required: true, type: .enum), 
-            AWSShapeProperty(label: "MailFromDomainStatus", required: true, type: .enum), 
-            AWSShapeProperty(label: "MailFromDomain", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BehaviorOnMXFailure", required: true, type: .enum), 
+            AWSShapeMember(label: "MailFromDomainStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "MailFromDomain", required: true, type: .string)
         ]
         /// The action that Amazon SES takes if it cannot successfully read the required MX record when you send an email. A value of UseDefaultValue indicates that if Amazon SES cannot read the required MX record, it uses amazonses.com (or a subdomain of that) as the MAIL FROM domain. A value of RejectMessage indicates that if Amazon SES cannot read the required MX record, Amazon SES returns a MailFromDomainNotVerified error and does not send the email. The custom MAIL FROM setup states that result in this behavior are Pending, Failed, and TemporaryFailure.
         public let behaviorOnMXFailure: BehaviorOnMXFailure
@@ -1841,32 +1606,25 @@ extension Email {
             self.mailFromDomain = mailFromDomain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawBehaviorOnMXFailure = dictionary["BehaviorOnMXFailure"] as? String, let behaviorOnMXFailure = BehaviorOnMXFailure(rawValue: rawBehaviorOnMXFailure) else { throw InitializableError.missingRequiredParam("BehaviorOnMXFailure") }
-            self.behaviorOnMXFailure = behaviorOnMXFailure
-            guard let rawMailFromDomainStatus = dictionary["MailFromDomainStatus"] as? String, let mailFromDomainStatus = CustomMailFromStatus(rawValue: rawMailFromDomainStatus) else { throw InitializableError.missingRequiredParam("MailFromDomainStatus") }
-            self.mailFromDomainStatus = mailFromDomainStatus
-            guard let mailFromDomain = dictionary["MailFromDomain"] as? String else { throw InitializableError.missingRequiredParam("MailFromDomain") }
-            self.mailFromDomain = mailFromDomain
+        private enum CodingKeys: String, CodingKey {
+            case behaviorOnMXFailure = "BehaviorOnMXFailure"
+            case mailFromDomainStatus = "MailFromDomainStatus"
+            case mailFromDomain = "MailFromDomain"
         }
     }
 
     public struct SetIdentityDkimEnabledResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct S3Action: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "BucketName", required: true, type: .string), 
-            AWSShapeProperty(label: "ObjectKeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "KmsKeyArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "ObjectKeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string)
         ]
         /// The ARN of the Amazon SNS topic to notify when the message is saved to the Amazon S3 bucket. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
@@ -1884,21 +1642,19 @@ extension Email {
             self.kmsKeyArn = kmsKeyArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.topicArn = dictionary["TopicArn"] as? String
-            guard let bucketName = dictionary["BucketName"] as? String else { throw InitializableError.missingRequiredParam("BucketName") }
-            self.bucketName = bucketName
-            self.objectKeyPrefix = dictionary["ObjectKeyPrefix"] as? String
-            self.kmsKeyArn = dictionary["KmsKeyArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
+            case bucketName = "BucketName"
+            case objectKeyPrefix = "ObjectKeyPrefix"
+            case kmsKeyArn = "KmsKeyArn"
         }
     }
 
     public struct ReceiptFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "IpFilter", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "IpFilter", required: true, type: .structure)
         ]
         /// The name of the IP address filter. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public let name: String
@@ -1910,20 +1666,17 @@ extension Email {
             self.ipFilter = ipFilter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let ipFilter = dictionary["IpFilter"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IpFilter") }
-            self.ipFilter = try Email.ReceiptIpFilter(dictionary: ipFilter)
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case ipFilter = "IpFilter"
         }
     }
 
     public struct UpdateReceiptRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rule", required: true, type: .structure), 
-            AWSShapeProperty(label: "RuleSetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rule", required: true, type: .structure), 
+            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
         ]
         /// A data structure that contains the updated receipt rule information.
         public let rule: ReceiptRule
@@ -1935,20 +1688,17 @@ extension Email {
             self.ruleSetName = ruleSetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rule = dictionary["Rule"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Rule") }
-            self.rule = try Email.ReceiptRule(dictionary: rule)
-            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
-            self.ruleSetName = ruleSetName
+        private enum CodingKeys: String, CodingKey {
+            case rule = "Rule"
+            case ruleSetName = "RuleSetName"
         }
     }
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationSetName", required: true, type: .string), 
-            AWSShapeProperty(label: "EventDestination", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
+            AWSShapeMember(label: "EventDestination", required: true, type: .structure)
         ]
         /// The name of the configuration set to which to apply the event destination.
         public let configurationSetName: String
@@ -1960,20 +1710,17 @@ extension Email {
             self.eventDestination = eventDestination
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configurationSetName = dictionary["ConfigurationSetName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationSetName") }
-            self.configurationSetName = configurationSetName
-            guard let eventDestination = dictionary["EventDestination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EventDestination") }
-            self.eventDestination = try Email.EventDestination(dictionary: eventDestination)
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case eventDestination = "EventDestination"
         }
     }
 
     public struct Body: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Html", required: false, type: .structure), 
-            AWSShapeProperty(label: "Text", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Html", required: false, type: .structure), 
+            AWSShapeMember(label: "Text", required: false, type: .structure)
         ]
         /// The content of the message, in HTML format. Use this for email clients that can process HTML. You can include clickable links, formatted text, and much more in an HTML message.
         public let html: Content?
@@ -1985,17 +1732,16 @@ extension Email {
             self.text = text
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let html = dictionary["Html"] as? [String: Any] { self.html = try Email.Content(dictionary: html) } else { self.html = nil }
-            if let text = dictionary["Text"] as? [String: Any] { self.text = try Email.Content(dictionary: text) } else { self.text = nil }
+        private enum CodingKeys: String, CodingKey {
+            case html = "Html"
+            case text = "Text"
         }
     }
 
     public struct VerifyEmailIdentityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EmailAddress", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmailAddress", required: true, type: .string)
         ]
         /// The email address to be verified.
         public let emailAddress: String
@@ -2004,18 +1750,16 @@ extension Email {
             self.emailAddress = emailAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let emailAddress = dictionary["EmailAddress"] as? String else { throw InitializableError.missingRequiredParam("EmailAddress") }
-            self.emailAddress = emailAddress
+        private enum CodingKeys: String, CodingKey {
+            case emailAddress = "EmailAddress"
         }
     }
 
     public struct ListIdentitiesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Identities", required: true, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Identities", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of identities.
         public let identities: [String]
@@ -2027,18 +1771,16 @@ extension Email {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let identities = dictionary["Identities"] as? [String] else { throw InitializableError.missingRequiredParam("Identities") }
-            self.identities = identities
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case identities = "Identities"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ListReceiptRuleSetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A token returned from a previous call to ListReceiptRuleSets to indicate the position in the receipt rule set list.
         public let nextToken: String?
@@ -2047,17 +1789,16 @@ extension Email {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
         }
     }
 
     public struct MessageTag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The value of the tag. The value must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
         public let value: String
@@ -2069,19 +1810,16 @@ extension Email {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
         }
     }
 
     public struct SendBounceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MessageId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageId", required: false, type: .string)
         ]
         /// The message ID of the bounce message.
         public let messageId: String?
@@ -2090,16 +1828,15 @@ extension Email {
             self.messageId = messageId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.messageId = dictionary["MessageId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
         }
     }
 
     public struct CloudWatchDestination: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DimensionConfigurations", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DimensionConfigurations", required: true, type: .list)
         ]
         /// A list of dimensions upon which to categorize your emails when you publish email sending events to Amazon CloudWatch.
         public let dimensionConfigurations: [CloudWatchDimensionConfiguration]
@@ -2108,48 +1845,46 @@ extension Email {
             self.dimensionConfigurations = dimensionConfigurations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let dimensionConfigurations = dictionary["DimensionConfigurations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("DimensionConfigurations") }
-            self.dimensionConfigurations = try dimensionConfigurations.map({ try CloudWatchDimensionConfiguration(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case dimensionConfigurations = "DimensionConfigurations"
         }
     }
 
     public struct ReceiptRuleSetMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedTimestamp", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp)
         ]
         /// The name of the receipt rule set. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public let name: String?
         /// The date and time the receipt rule set was created.
-        public let createdTimestamp: String?
+        public let createdTimestamp: Double?
 
-        public init(name: String? = nil, createdTimestamp: String? = nil) {
+        public init(name: String? = nil, createdTimestamp: Double? = nil) {
             self.name = name
             self.createdTimestamp = createdTimestamp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.createdTimestamp = dictionary["CreatedTimestamp"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case createdTimestamp = "CreatedTimestamp"
         }
     }
 
-    public enum BehaviorOnMXFailure: String, CustomStringConvertible {
+    public enum BehaviorOnMXFailure: String, CustomStringConvertible, Codable {
         case usedefaultvalue = "UseDefaultValue"
         case rejectmessage = "RejectMessage"
         public var description: String { return self.rawValue }
     }
 
-    public enum IdentityType: String, CustomStringConvertible {
+    public enum IdentityType: String, CustomStringConvertible, Codable {
         case emailaddress = "EmailAddress"
         case domain = "Domain"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationType: String, CustomStringConvertible {
+    public enum NotificationType: String, CustomStringConvertible, Codable {
         case bounce = "Bounce"
         case complaint = "Complaint"
         case delivery = "Delivery"
@@ -2158,9 +1893,8 @@ extension Email {
 
     public struct DeleteReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleSetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleSetName", required: true, type: .string)
         ]
         /// The name of the receipt rule set to delete.
         public let ruleSetName: String
@@ -2169,26 +1903,21 @@ extension Email {
             self.ruleSetName = ruleSetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
-            self.ruleSetName = ruleSetName
+        private enum CodingKeys: String, CodingKey {
+            case ruleSetName = "RuleSetName"
         }
     }
 
     public struct ReorderReceiptRuleSetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListReceiptRuleSetsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "RuleSets", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RuleSets", required: false, type: .list)
         ]
         /// A token indicating that there are additional receipt rule sets available to be listed. Pass this token to successive calls of ListReceiptRuleSets to retrieve up to 100 receipt rule sets at a time.
         public let nextToken: String?
@@ -2200,23 +1929,18 @@ extension Email {
             self.ruleSets = ruleSets
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let ruleSets = dictionary["RuleSets"] as? [[String: Any]] {
-                self.ruleSets = try ruleSets.map({ try ReceiptRuleSetMetadata(dictionary: $0) })
-            } else { 
-                self.ruleSets = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case ruleSets = "RuleSets"
         }
     }
 
     public struct SetIdentityHeadersInNotificationsEnabledRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "NotificationType", required: true, type: .enum), 
-            AWSShapeProperty(label: "Identity", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "NotificationType", required: true, type: .enum), 
+            AWSShapeMember(label: "Identity", required: true, type: .string)
         ]
         /// Sets whether Amazon SES includes the original email headers in Amazon SNS notifications of the specified notification type. A value of true specifies that Amazon SES will include headers in notifications, and a value of false specifies that Amazon SES will not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
         public let enabled: Bool
@@ -2231,22 +1955,18 @@ extension Email {
             self.identity = identity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
-            guard let rawNotificationType = dictionary["NotificationType"] as? String, let notificationType = NotificationType(rawValue: rawNotificationType) else { throw InitializableError.missingRequiredParam("NotificationType") }
-            self.notificationType = notificationType
-            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
-            self.identity = identity
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case notificationType = "NotificationType"
+            case identity = "Identity"
         }
     }
 
     public struct SetIdentityFeedbackForwardingEnabledRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ForwardingEnabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Identity", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ForwardingEnabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Identity", required: true, type: .string)
         ]
         /// Sets whether Amazon SES will forward bounce and complaint notifications as email. true specifies that Amazon SES will forward bounce and complaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES will publish bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.
         public let forwardingEnabled: Bool
@@ -2258,19 +1978,16 @@ extension Email {
             self.identity = identity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let forwardingEnabled = dictionary["ForwardingEnabled"] as? Bool else { throw InitializableError.missingRequiredParam("ForwardingEnabled") }
-            self.forwardingEnabled = forwardingEnabled
-            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
-            self.identity = identity
+        private enum CodingKeys: String, CodingKey {
+            case forwardingEnabled = "ForwardingEnabled"
+            case identity = "Identity"
         }
     }
 
     public struct GetIdentityDkimAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DkimAttributes", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DkimAttributes", required: true, type: .map)
         ]
         /// The DKIM attributes for an email address or a domain.
         public let dkimAttributes: [String: IdentityDkimAttributes]
@@ -2279,22 +1996,15 @@ extension Email {
             self.dkimAttributes = dkimAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let dkimAttributes = dictionary["DkimAttributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DkimAttributes") }
-            var dkimAttributesDict: [String: IdentityDkimAttributes] = [:]
-            for (key, value) in dkimAttributes {
-                guard let identityDkimAttributesDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                dkimAttributesDict[key] = try IdentityDkimAttributes(dictionary: identityDkimAttributesDict)
-            }
-            self.dkimAttributes = dkimAttributesDict
+        private enum CodingKeys: String, CodingKey {
+            case dkimAttributes = "DkimAttributes"
         }
     }
 
     public struct GetIdentityNotificationAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Identities", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Identities", required: true, type: .list)
         ]
         /// A list of one or more identities. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
         public let identities: [String]
@@ -2303,18 +2013,16 @@ extension Email {
             self.identities = identities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let identities = dictionary["Identities"] as? [String] else { throw InitializableError.missingRequiredParam("Identities") }
-            self.identities = identities
+        private enum CodingKeys: String, CodingKey {
+            case identities = "Identities"
         }
     }
 
     public struct WorkmailAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "OrganizationArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the WorkMail action is called. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
@@ -2326,19 +2034,17 @@ extension Email {
             self.organizationArn = organizationArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.topicArn = dictionary["TopicArn"] as? String
-            guard let organizationArn = dictionary["OrganizationArn"] as? String else { throw InitializableError.missingRequiredParam("OrganizationArn") }
-            self.organizationArn = organizationArn
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
+            case organizationArn = "OrganizationArn"
         }
     }
 
     public struct StopAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Scope", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "Scope", required: true, type: .enum)
         ]
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the stop action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
@@ -2350,18 +2056,16 @@ extension Email {
             self.scope = scope
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.topicArn = dictionary["TopicArn"] as? String
-            guard let rawScope = dictionary["Scope"] as? String, let scope = StopScope(rawValue: rawScope) else { throw InitializableError.missingRequiredParam("Scope") }
-            self.scope = scope
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
+            case scope = "Scope"
         }
     }
 
     public struct VerifyDomainDkimRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Domain", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domain", required: true, type: .string)
         ]
         /// The name of the domain to be verified for Easy DKIM signing.
         public let domain: String
@@ -2370,24 +2074,22 @@ extension Email {
             self.domain = domain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domain = dictionary["Domain"] as? String else { throw InitializableError.missingRequiredParam("Domain") }
-            self.domain = domain
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
         }
     }
 
     public struct SendRawEmailRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationSetName", required: false, type: .string), 
-            AWSShapeProperty(label: "RawMessage", required: true, type: .structure), 
-            AWSShapeProperty(label: "Destinations", required: false, type: .list), 
-            AWSShapeProperty(label: "SourceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "ReturnPathArn", required: false, type: .string), 
-            AWSShapeProperty(label: "FromArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Source", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
+            AWSShapeMember(label: "RawMessage", required: true, type: .structure), 
+            AWSShapeMember(label: "Destinations", required: false, type: .list), 
+            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ReturnPathArn", required: false, type: .string), 
+            AWSShapeMember(label: "FromArn", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: false, type: .string)
         ]
         /// The name of the configuration set to use when you send an email using SendRawEmail.
         public let configurationSetName: String?
@@ -2417,37 +2119,28 @@ extension Email {
             self.source = source
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configurationSetName = dictionary["ConfigurationSetName"] as? String
-            guard let rawMessage = dictionary["RawMessage"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RawMessage") }
-            self.rawMessage = try Email.RawMessage(dictionary: rawMessage)
-            self.destinations = dictionary["Destinations"] as? [String]
-            self.sourceArn = dictionary["SourceArn"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try MessageTag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.returnPathArn = dictionary["ReturnPathArn"] as? String
-            self.fromArn = dictionary["FromArn"] as? String
-            self.source = dictionary["Source"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case rawMessage = "RawMessage"
+            case destinations = "Destinations"
+            case sourceArn = "SourceArn"
+            case tags = "Tags"
+            case returnPathArn = "ReturnPathArn"
+            case fromArn = "FromArn"
+            case source = "Source"
         }
     }
 
     public struct VerifyEmailIdentityResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteIdentityPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string), 
-            AWSShapeProperty(label: "Identity", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "Identity", required: true, type: .string)
         ]
         /// The name of the policy to be deleted.
         public let policyName: String
@@ -2459,19 +2152,16 @@ extension Email {
             self.identity = identity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
-            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
-            self.identity = identity
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
+            case identity = "Identity"
         }
     }
 
     public struct SendRawEmailResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MessageId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageId", required: true, type: .string)
         ]
         /// The unique message identifier returned from the SendRawEmail action. 
         public let messageId: String
@@ -2480,19 +2170,17 @@ extension Email {
             self.messageId = messageId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let messageId = dictionary["MessageId"] as? String else { throw InitializableError.missingRequiredParam("MessageId") }
-            self.messageId = messageId
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
         }
     }
 
     public struct SetIdentityMailFromDomainRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BehaviorOnMXFailure", required: false, type: .enum), 
-            AWSShapeProperty(label: "MailFromDomain", required: false, type: .string), 
-            AWSShapeProperty(label: "Identity", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BehaviorOnMXFailure", required: false, type: .enum), 
+            AWSShapeMember(label: "MailFromDomain", required: false, type: .string), 
+            AWSShapeMember(label: "Identity", required: true, type: .string)
         ]
         /// The action that you want Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefaultValue, Amazon SES will use amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage, Amazon SES will return a MailFromDomainNotVerified error and not send the email. The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending, Failed, and TemporaryFailure states.
         public let behaviorOnMXFailure: BehaviorOnMXFailure?
@@ -2507,20 +2195,18 @@ extension Email {
             self.identity = identity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let behaviorOnMXFailure = dictionary["BehaviorOnMXFailure"] as? String { self.behaviorOnMXFailure = BehaviorOnMXFailure(rawValue: behaviorOnMXFailure) } else { self.behaviorOnMXFailure = nil }
-            self.mailFromDomain = dictionary["MailFromDomain"] as? String
-            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
-            self.identity = identity
+        private enum CodingKeys: String, CodingKey {
+            case behaviorOnMXFailure = "BehaviorOnMXFailure"
+            case mailFromDomain = "MailFromDomain"
+            case identity = "Identity"
         }
     }
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationSetName", required: true, type: .string), 
-            AWSShapeProperty(label: "EventDestinationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", required: true, type: .string), 
+            AWSShapeMember(label: "EventDestinationName", required: true, type: .string)
         ]
         /// The name of the configuration set from which to delete the event destination.
         public let configurationSetName: String
@@ -2532,43 +2218,34 @@ extension Email {
             self.eventDestinationName = eventDestinationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configurationSetName = dictionary["ConfigurationSetName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationSetName") }
-            self.configurationSetName = configurationSetName
-            guard let eventDestinationName = dictionary["EventDestinationName"] as? String else { throw InitializableError.missingRequiredParam("EventDestinationName") }
-            self.eventDestinationName = eventDestinationName
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case eventDestinationName = "EventDestinationName"
         }
     }
 
     public struct DescribeActiveReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdateReceiptRuleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct SendEmailRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationSetName", required: false, type: .string), 
-            AWSShapeProperty(label: "Destination", required: true, type: .structure), 
-            AWSShapeProperty(label: "Message", required: true, type: .structure), 
-            AWSShapeProperty(label: "ReplyToAddresses", required: false, type: .list), 
-            AWSShapeProperty(label: "SourceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "ReturnPathArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Source", required: true, type: .string), 
-            AWSShapeProperty(label: "ReturnPath", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSetName", required: false, type: .string), 
+            AWSShapeMember(label: "Destination", required: true, type: .structure), 
+            AWSShapeMember(label: "Message", required: true, type: .structure), 
+            AWSShapeMember(label: "ReplyToAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ReturnPathArn", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: true, type: .string), 
+            AWSShapeMember(label: "ReturnPath", required: false, type: .string)
         ]
         /// The name of the configuration set to use when you send an email using SendEmail.
         public let configurationSetName: String?
@@ -2601,31 +2278,23 @@ extension Email {
             self.returnPath = returnPath
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configurationSetName = dictionary["ConfigurationSetName"] as? String
-            guard let destination = dictionary["Destination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Destination") }
-            self.destination = try Email.Destination(dictionary: destination)
-            guard let message = dictionary["Message"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Message") }
-            self.message = try Email.Message(dictionary: message)
-            self.replyToAddresses = dictionary["ReplyToAddresses"] as? [String]
-            self.sourceArn = dictionary["SourceArn"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try MessageTag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.returnPathArn = dictionary["ReturnPathArn"] as? String
-            guard let source = dictionary["Source"] as? String else { throw InitializableError.missingRequiredParam("Source") }
-            self.source = source
-            self.returnPath = dictionary["ReturnPath"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case destination = "Destination"
+            case message = "Message"
+            case replyToAddresses = "ReplyToAddresses"
+            case sourceArn = "SourceArn"
+            case tags = "Tags"
+            case returnPathArn = "ReturnPathArn"
+            case source = "Source"
+            case returnPath = "ReturnPath"
         }
     }
 
     public struct ListVerifiedEmailAddressesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VerifiedEmailAddresses", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VerifiedEmailAddresses", required: false, type: .list)
         ]
         /// A list of email addresses that have been verified.
         public let verifiedEmailAddresses: [String]?
@@ -2634,21 +2303,20 @@ extension Email {
             self.verifiedEmailAddresses = verifiedEmailAddresses
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.verifiedEmailAddresses = dictionary["VerifiedEmailAddresses"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case verifiedEmailAddresses = "VerifiedEmailAddresses"
         }
     }
 
     public struct ReceiptRule: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TlsPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "ScanEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Actions", required: false, type: .list), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Recipients", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TlsPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "ScanEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Actions", required: false, type: .list), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Recipients", required: false, type: .list)
         ]
         /// Specifies whether Amazon SES should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS). If this parameter is set to Require, Amazon SES will bounce emails that are not received over TLS. The default is Optional.
         public let tlsPolicy: TlsPolicy?
@@ -2672,27 +2340,21 @@ extension Email {
             self.recipients = recipients
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tlsPolicy = dictionary["TlsPolicy"] as? String { self.tlsPolicy = TlsPolicy(rawValue: tlsPolicy) } else { self.tlsPolicy = nil }
-            self.scanEnabled = dictionary["ScanEnabled"] as? Bool
-            if let actions = dictionary["Actions"] as? [[String: Any]] {
-                self.actions = try actions.map({ try ReceiptAction(dictionary: $0) })
-            } else { 
-                self.actions = nil
-            }
-            self.enabled = dictionary["Enabled"] as? Bool
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.recipients = dictionary["Recipients"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case tlsPolicy = "TlsPolicy"
+            case scanEnabled = "ScanEnabled"
+            case actions = "Actions"
+            case enabled = "Enabled"
+            case name = "Name"
+            case recipients = "Recipients"
         }
     }
 
     public struct ReorderReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleSetName", required: true, type: .string), 
-            AWSShapeProperty(label: "RuleNames", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuleSetName", required: true, type: .string), 
+            AWSShapeMember(label: "RuleNames", required: true, type: .list)
         ]
         /// The name of the receipt rule set to reorder.
         public let ruleSetName: String
@@ -2704,20 +2366,17 @@ extension Email {
             self.ruleNames = ruleNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleSetName = dictionary["RuleSetName"] as? String else { throw InitializableError.missingRequiredParam("RuleSetName") }
-            self.ruleSetName = ruleSetName
-            guard let ruleNames = dictionary["RuleNames"] as? [String] else { throw InitializableError.missingRequiredParam("RuleNames") }
-            self.ruleNames = ruleNames
+        private enum CodingKeys: String, CodingKey {
+            case ruleSetName = "RuleSetName"
+            case ruleNames = "RuleNames"
         }
     }
 
     public struct GetIdentityPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyNames", required: true, type: .list), 
-            AWSShapeProperty(label: "Identity", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
+            AWSShapeMember(label: "Identity", required: true, type: .string)
         ]
         /// A list of the names of policies to be retrieved. You can retrieve a maximum of 20 policies at a time. If you do not know the names of the policies that are attached to the identity, you can use ListIdentityPolicies.
         public let policyNames: [String]
@@ -2729,25 +2388,22 @@ extension Email {
             self.identity = identity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyNames = dictionary["PolicyNames"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyNames") }
-            self.policyNames = policyNames
-            guard let identity = dictionary["Identity"] as? String else { throw InitializableError.missingRequiredParam("Identity") }
-            self.identity = identity
+        private enum CodingKeys: String, CodingKey {
+            case policyNames = "PolicyNames"
+            case identity = "Identity"
         }
     }
 
     public struct RecipientDsnFields: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: true, type: .string), 
-            AWSShapeProperty(label: "ExtensionFields", required: false, type: .list), 
-            AWSShapeProperty(label: "FinalRecipient", required: false, type: .string), 
-            AWSShapeProperty(label: "Action", required: true, type: .enum), 
-            AWSShapeProperty(label: "DiagnosticCode", required: false, type: .string), 
-            AWSShapeProperty(label: "LastAttemptDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "RemoteMta", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .string), 
+            AWSShapeMember(label: "ExtensionFields", required: false, type: .list), 
+            AWSShapeMember(label: "FinalRecipient", required: false, type: .string), 
+            AWSShapeMember(label: "Action", required: true, type: .enum), 
+            AWSShapeMember(label: "DiagnosticCode", required: false, type: .string), 
+            AWSShapeMember(label: "LastAttemptDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RemoteMta", required: false, type: .string)
         ]
         /// The status code that indicates what went wrong. This is required by RFC 3464.
         public let status: String
@@ -2760,11 +2416,11 @@ extension Email {
         /// An extended explanation of what went wrong; this is usually an SMTP response. See RFC 3463 for the correct formatting of this parameter.
         public let diagnosticCode: String?
         /// The time the final delivery attempt was made, in RFC 822 date-time format.
-        public let lastAttemptDate: String?
+        public let lastAttemptDate: Double?
         /// The MTA to which the remote MTA attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name). This parameter typically applies only to propagating synchronous bounces.
         public let remoteMta: String?
 
-        public init(status: String, extensionFields: [ExtensionField]? = nil, finalRecipient: String? = nil, action: DsnAction, diagnosticCode: String? = nil, lastAttemptDate: String? = nil, remoteMta: String? = nil) {
+        public init(status: String, extensionFields: [ExtensionField]? = nil, finalRecipient: String? = nil, action: DsnAction, diagnosticCode: String? = nil, lastAttemptDate: Double? = nil, remoteMta: String? = nil) {
             self.status = status
             self.extensionFields = extensionFields
             self.finalRecipient = finalRecipient
@@ -2774,29 +2430,22 @@ extension Email {
             self.remoteMta = remoteMta
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            if let extensionFields = dictionary["ExtensionFields"] as? [[String: Any]] {
-                self.extensionFields = try extensionFields.map({ try ExtensionField(dictionary: $0) })
-            } else { 
-                self.extensionFields = nil
-            }
-            self.finalRecipient = dictionary["FinalRecipient"] as? String
-            guard let rawAction = dictionary["Action"] as? String, let action = DsnAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
-            self.action = action
-            self.diagnosticCode = dictionary["DiagnosticCode"] as? String
-            self.lastAttemptDate = dictionary["LastAttemptDate"] as? String
-            self.remoteMta = dictionary["RemoteMta"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case extensionFields = "ExtensionFields"
+            case finalRecipient = "FinalRecipient"
+            case action = "Action"
+            case diagnosticCode = "DiagnosticCode"
+            case lastAttemptDate = "LastAttemptDate"
+            case remoteMta = "RemoteMta"
         }
     }
 
     public struct ReceiptIpFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", required: true, type: .enum), 
-            AWSShapeProperty(label: "Cidr", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: true, type: .enum), 
+            AWSShapeMember(label: "Cidr", required: true, type: .string)
         ]
         /// Indicates whether to block or allow incoming mail from the specified IP addresses.
         public let policy: ReceiptFilterPolicy
@@ -2808,36 +2457,30 @@ extension Email {
             self.cidr = cidr
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawPolicy = dictionary["Policy"] as? String, let policy = ReceiptFilterPolicy(rawValue: rawPolicy) else { throw InitializableError.missingRequiredParam("Policy") }
-            self.policy = policy
-            guard let cidr = dictionary["Cidr"] as? String else { throw InitializableError.missingRequiredParam("Cidr") }
-            self.cidr = cidr
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case cidr = "Cidr"
         }
     }
 
     public struct CreateReceiptRuleSetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct SendDataPoint: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeliveryAttempts", required: false, type: .long), 
-            AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Rejects", required: false, type: .long), 
-            AWSShapeProperty(label: "Bounces", required: false, type: .long), 
-            AWSShapeProperty(label: "Complaints", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryAttempts", required: false, type: .long), 
+            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Rejects", required: false, type: .long), 
+            AWSShapeMember(label: "Bounces", required: false, type: .long), 
+            AWSShapeMember(label: "Complaints", required: false, type: .long)
         ]
         /// Number of emails that have been sent.
         public let deliveryAttempts: Int64?
         /// Time of the data point.
-        public let timestamp: String?
+        public let timestamp: Double?
         /// Number of emails rejected by Amazon SES.
         public let rejects: Int64?
         /// Number of emails that have bounced.
@@ -2845,7 +2488,7 @@ extension Email {
         /// Number of unwanted emails that were rejected by recipients.
         public let complaints: Int64?
 
-        public init(deliveryAttempts: Int64? = nil, timestamp: String? = nil, rejects: Int64? = nil, bounces: Int64? = nil, complaints: Int64? = nil) {
+        public init(deliveryAttempts: Int64? = nil, timestamp: Double? = nil, rejects: Int64? = nil, bounces: Int64? = nil, complaints: Int64? = nil) {
             self.deliveryAttempts = deliveryAttempts
             self.timestamp = timestamp
             self.rejects = rejects
@@ -2853,21 +2496,20 @@ extension Email {
             self.complaints = complaints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deliveryAttempts = dictionary["DeliveryAttempts"] as? Int64
-            self.timestamp = dictionary["Timestamp"] as? String
-            self.rejects = dictionary["Rejects"] as? Int64
-            self.bounces = dictionary["Bounces"] as? Int64
-            self.complaints = dictionary["Complaints"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case deliveryAttempts = "DeliveryAttempts"
+            case timestamp = "Timestamp"
+            case rejects = "Rejects"
+            case bounces = "Bounces"
+            case complaints = "Complaints"
         }
     }
 
     public struct ListConfigurationSetsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationSets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSets", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of configuration sets.
         public let configurationSets: [ConfigurationSet]?
@@ -2879,21 +2521,16 @@ extension Email {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let configurationSets = dictionary["ConfigurationSets"] as? [[String: Any]] {
-                self.configurationSets = try configurationSets.map({ try ConfigurationSet(dictionary: $0) })
-            } else { 
-                self.configurationSets = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case configurationSets = "ConfigurationSets"
+            case nextToken = "NextToken"
         }
     }
 
     public struct VerifyDomainDkimResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DkimTokens", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DkimTokens", required: true, type: .list)
         ]
         /// A set of character strings that represent the domain's identity. If the identity is an email address, the tokens represent the domain of that address. Using these tokens, you will need to create DNS CNAME records that point to DKIM public keys hosted by Amazon SES. Amazon Web Services will eventually detect that you have updated your DNS records; this detection process may take up to 72 hours. Upon successful detection, Amazon SES will be able to DKIM-sign emails originating from that domain. For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide.
         public let dkimTokens: [String]
@@ -2902,18 +2539,14 @@ extension Email {
             self.dkimTokens = dkimTokens
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let dkimTokens = dictionary["DkimTokens"] as? [String] else { throw InitializableError.missingRequiredParam("DkimTokens") }
-            self.dkimTokens = dkimTokens
+        private enum CodingKeys: String, CodingKey {
+            case dkimTokens = "DkimTokens"
         }
     }
 
     public struct DeleteIdentityResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
 }
