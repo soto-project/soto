@@ -98,7 +98,7 @@ do {
 
     // Upload text file to the s3
     let bodyData = "hello world".data(using: .utf8)!
-    let putObjectRequest = S3.PutObjectRequest(bucket: bucket, contentLength: Int64(bodyData.count), key: "hello.txt", body: bodyData, aCL: "public-read")
+    let putObjectRequest = S3.PutObjectRequest(bucket: bucket, contentLength: Int64(bodyData.count), key: "hello.txt", body: bodyData, acl: .publicRead)
     _ = try s3.putObject(putObjectRequest)
 
     // Get text file from s3
