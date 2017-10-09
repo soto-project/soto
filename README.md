@@ -123,4 +123,4 @@ https://github.com/swift-aws
 From here, it's possible to select and install only the SDKs of the service to be used in your application.
 
 ## Lisence
-aws-sdk-swift is released under the MIT license. See LICENSE for details.
+aws-sdk-swift is released under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). See LICENSE for details.
