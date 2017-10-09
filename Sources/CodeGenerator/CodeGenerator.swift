@@ -345,7 +345,13 @@ extension AWSService {
                         .replacingOccurrences(of: "*", with: "all")
                     
                     if Int(String(key[key.startIndex])) != nil { key = "_"+key }
-                    code += "\(indt(2))case \(key.reservedwordEscaped()) = \"\(value)\"\n"
+                    
+                    let caseName = key.camelCased().reservedwordEscaped()
+                    if caseName.allLetterIsNumeric() {
+                        code += "\(indt(2))case \(shape.name.toSwiftVariableCase())\(caseName) = \"\(value)\"\n"
+                    } else {
+                        code += "\(indt(2))case \(caseName) = \"\(value)\"\n"
+                    }
                 }
                 code += "\(indt(2))public var description: String { return self.rawValue }\n"
                 code += "\(indt(1))}"
@@ -479,5 +485,18 @@ extension Shape {
 extension Member {
     public var swiftTypeName: String {
         return shape.swiftTypeName
+    }
+}
+
+extension String {
+    func allLetterIsNumeric() -> Bool {
+        for character in self {
+            if let ascii = character.unicodeScalars.first?.value, (0x30..<0x39).contains(ascii) {
+                continue
+            } else {
+                return false
+            }
+        }
+        return true
     }
 }
