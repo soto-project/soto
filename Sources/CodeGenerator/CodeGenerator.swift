@@ -359,8 +359,8 @@ extension AWSService {
                 
             case .structure(let type):
                 code += "\(indt(1))public struct \(shape.name): AWSShape {\n"
-                code += "\(indt(2))/// The key for the payload\n"
                 if let payload = type.payload {
+                    code += "\(indt(2))/// The key for the payload\n"
                     code += "\(indt(2))public static let payloadPath: String? = \"\(payload)\"\n"
                 }
                 
