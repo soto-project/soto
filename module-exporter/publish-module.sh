@@ -34,6 +34,7 @@ for D in $(find $SOURCE_PATH -maxdepth 1 -type d); do
   cd $D
   if [ -d "$D/.git" ]; then
     echo "Enter in $D"
+    swift package update
 
     GIT_STATUS_R=`git status`
     if [[ $GIT_STATUS_R == *"nothing to commit"* ]]; then
@@ -43,7 +44,6 @@ for D in $(find $SOURCE_PATH -maxdepth 1 -type d); do
     fi
 
     echo "swift build start....."
-    swift package update
     swift build
     echo "swift build done!"
     echo ""
