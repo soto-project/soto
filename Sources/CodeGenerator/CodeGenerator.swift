@@ -311,7 +311,7 @@ extension AWSService {
             return code
         })
         if hints.count > 0 {
-            code += "\(indt(2))public static var members: [AWSShapeMember] = ["
+            code += "\(indt(2))public static var _members: [AWSShapeMember] = ["
             code += "\n"
             code += hints.joined(separator: ", \n")
             code += "\n"
@@ -358,7 +358,13 @@ extension AWSService {
                 code += "\n\n"
                 
             case .structure(let type):
-                code += "\(indt(1))public struct \(shape.name): AWSShape {\n"
+                let hasRecursiveOwnReference = type.members.contains(where: {
+                    return $0.shape.swiftTypeName == shape.swiftTypeName
+                            || $0.shape.swiftTypeName == "[\(shape.swiftTypeName)]"
+                })
+                
+                let classOrStruct = hasRecursiveOwnReference ? "class" : "struct"
+                code += "\(indt(1))public \(classOrStruct) \(shape.swiftTypeName): AWSShape {\n"
                 if let payload = type.payload {
                     code += "\(indt(2))/// The key for the payload\n"
                     code += "\(indt(2))public static let payloadPath: String? = \"\(payload)\"\n"
