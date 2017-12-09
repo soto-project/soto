@@ -11,12 +11,13 @@ public enum DsError: AWSErrorType {
     case clientException(message: String?)
     case serviceException(message: String?)
     case directoryLimitExceededException(message: String?)
-    case entityAlreadyExistsException(message: String?)
     case snapshotLimitExceededException(message: String?)
     case insufficientPermissionsException(message: String?)
     case authenticationFailedException(message: String?)
+    case entityAlreadyExistsException(message: String?)
     case invalidNextTokenException(message: String?)
     case ipRouteLimitExceededException(message: String?)
+    case domainControllerLimitExceededException(message: String?)
     case tagLimitExceededException(message: String?)
 }
 
@@ -41,18 +42,20 @@ extension DsError {
             self = .serviceException(message: message)
         case "DirectoryLimitExceededException":
             self = .directoryLimitExceededException(message: message)
-        case "EntityAlreadyExistsException":
-            self = .entityAlreadyExistsException(message: message)
         case "SnapshotLimitExceededException":
             self = .snapshotLimitExceededException(message: message)
         case "InsufficientPermissionsException":
             self = .insufficientPermissionsException(message: message)
         case "AuthenticationFailedException":
             self = .authenticationFailedException(message: message)
+        case "EntityAlreadyExistsException":
+            self = .entityAlreadyExistsException(message: message)
         case "InvalidNextTokenException":
             self = .invalidNextTokenException(message: message)
         case "IpRouteLimitExceededException":
             self = .ipRouteLimitExceededException(message: message)
+        case "DomainControllerLimitExceededException":
+            self = .domainControllerLimitExceededException(message: message)
         case "TagLimitExceededException":
             self = .tagLimitExceededException(message: message)
         default:

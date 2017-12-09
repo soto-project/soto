@@ -12,7 +12,7 @@ extension Entitlementmarketplace {
     }
 
     public struct EntitlementValue: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
             AWSShapeMember(label: "StringValue", required: false, type: .string), 
             AWSShapeMember(label: "DoubleValue", required: false, type: .double), 
@@ -43,7 +43,7 @@ extension Entitlementmarketplace {
     }
 
     public struct GetEntitlementsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Entitlements", required: false, type: .list)
         ]
@@ -64,7 +64,7 @@ extension Entitlementmarketplace {
     }
 
     public struct Entitlement: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomerIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Dimension", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .structure), 
@@ -100,7 +100,7 @@ extension Entitlementmarketplace {
     }
 
     public struct GetEntitlementsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filter", required: false, type: .map), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ProductCode", required: true, type: .string), 

@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension MturkRequester {
 
     public struct HIT: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
             AWSShapeMember(label: "HITLayoutId", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfAssignmentsCompleted", required: false, type: .integer), 
@@ -121,7 +121,7 @@ extension MturkRequester {
     }
 
     public struct DeleteQualificationTypeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QualificationTypeId", required: true, type: .string)
         ]
         /// The ID of the QualificationType to dispose.
@@ -137,7 +137,7 @@ extension MturkRequester {
     }
 
     public struct ListAssignmentsForHITRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HITId", required: true, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "AssignmentStatuses", required: false, type: .list), 
@@ -177,11 +177,12 @@ extension MturkRequester {
     public enum NotificationTransport: String, CustomStringConvertible, Codable {
         case email = "Email"
         case sqs = "SQS"
+        case sns = "SNS"
         public var description: String { return self.rawValue }
     }
 
     public struct NotifyWorkersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subject", required: true, type: .string), 
             AWSShapeMember(label: "MessageText", required: true, type: .string), 
             AWSShapeMember(label: "WorkerIds", required: true, type: .list)
@@ -207,7 +208,7 @@ extension MturkRequester {
     }
 
     public struct CreateHITTypeResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HITTypeId", required: false, type: .string)
         ]
         ///  The ID of the newly registered HIT type.
@@ -223,7 +224,7 @@ extension MturkRequester {
     }
 
     public struct ListAssignmentsForHITResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Assignments", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "NumResults", required: false, type: .integer)
@@ -248,7 +249,7 @@ extension MturkRequester {
     }
 
     public struct ListQualificationTypesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MustBeOwnedByCaller", required: false, type: .boolean), 
             AWSShapeMember(label: "MustBeRequestable", required: true, type: .boolean), 
             AWSShapeMember(label: "Query", required: false, type: .string), 
@@ -283,7 +284,7 @@ extension MturkRequester {
     }
 
     public struct ListQualificationRequestsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "QualificationTypeId", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
@@ -314,7 +315,7 @@ extension MturkRequester {
     }
 
     public struct ListReviewableHITsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HITs", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "NumResults", required: false, type: .integer)
@@ -339,7 +340,7 @@ extension MturkRequester {
     }
 
     public struct GetFileUploadURLResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileUploadURL", required: false, type: .string)
         ]
         ///  A temporary URL for the file that the Worker uploaded for the answer. 
@@ -355,16 +356,16 @@ extension MturkRequester {
     }
 
     public struct HITLayoutParameter: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The value substituted for the parameter referenced in the HITLayout. 
-        public let value: String?
+        public let value: String
         ///  The name of the parameter in the HITLayout. 
-        public let name: String?
+        public let name: String
 
-        public init(value: String? = nil, name: String? = nil) {
+        public init(value: String, name: String) {
             self.value = value
             self.name = name
         }
@@ -384,7 +385,7 @@ extension MturkRequester {
     }
 
     public struct QualificationType: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TestDurationInSeconds", required: false, type: .long), 
             AWSShapeMember(label: "RetryDelayInSeconds", required: false, type: .long), 
             AWSShapeMember(label: "QualificationTypeStatus", required: false, type: .enum), 
@@ -460,16 +461,16 @@ extension MturkRequester {
     }
 
     public struct UpdateExpirationForHITRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ExpireAt", required: false, type: .timestamp), 
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExpireAt", required: true, type: .timestamp), 
             AWSShapeMember(label: "HITId", required: true, type: .string)
         ]
         ///  The date and time at which you want the HIT to expire 
-        public let expireAt: TimeStamp?
+        public let expireAt: TimeStamp
         ///  The HIT to update. 
         public let hITId: String
 
-        public init(expireAt: TimeStamp? = nil, hITId: String) {
+        public init(expireAt: TimeStamp, hITId: String) {
             self.expireAt = expireAt
             self.hITId = hITId
         }
@@ -497,7 +498,7 @@ extension MturkRequester {
     }
 
     public struct ListQualificationTypesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "QualificationTypes", required: false, type: .list), 
             AWSShapeMember(label: "NumResults", required: false, type: .integer)
@@ -526,16 +527,16 @@ extension MturkRequester {
     }
 
     public struct ReviewPolicy: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Parameters", required: false, type: .list), 
-            AWSShapeMember(label: "PolicyName", required: false, type: .string)
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// Name of the parameter from the Review policy.
         public let parameters: [PolicyParameter]?
         ///  Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01 
-        public let policyName: String?
+        public let policyName: String
 
-        public init(parameters: [PolicyParameter]? = nil, policyName: String? = nil) {
+        public init(parameters: [PolicyParameter]? = nil, policyName: String) {
             self.parameters = parameters
             self.policyName = policyName
         }
@@ -553,7 +554,7 @@ extension MturkRequester {
     }
 
     public struct GetHITResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HIT", required: false, type: .structure)
         ]
         ///  Contains the requested HIT data.
@@ -569,7 +570,7 @@ extension MturkRequester {
     }
 
     public struct NotifyWorkersFailureStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotifyWorkersFailureMessage", required: false, type: .string), 
             AWSShapeMember(label: "WorkerId", required: false, type: .string), 
             AWSShapeMember(label: "NotifyWorkersFailureCode", required: false, type: .enum)
@@ -599,7 +600,7 @@ extension MturkRequester {
     }
 
     public struct ListHITsForQualificationTypeResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HITs", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "NumResults", required: false, type: .integer)
@@ -628,7 +629,7 @@ extension MturkRequester {
     }
 
     public struct CreateHITRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
             AWSShapeMember(label: "HITLayoutParameters", required: false, type: .list), 
             AWSShapeMember(label: "HITLayoutId", required: false, type: .string), 
@@ -718,8 +719,24 @@ extension MturkRequester {
         }
     }
 
+    public struct GetQualificationScoreResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Qualification", required: false, type: .structure)
+        ]
+        ///  The Qualification data structure of the Qualification assigned to a user, including the Qualification type and the value (score). 
+        public let qualification: Qualification?
+
+        public init(qualification: Qualification? = nil) {
+            self.qualification = qualification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qualification = "Qualification"
+        }
+    }
+
     public struct ListWorkerBlocksRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
@@ -750,28 +767,12 @@ extension MturkRequester {
 
     }
 
-    public struct GetQualificationScoreResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Qualification", required: false, type: .structure)
-        ]
-        ///  The Qualification data structure of the Qualification assigned to a user, including the Qualification type and the value (score). 
-        public let qualification: Qualification?
-
-        public init(qualification: Qualification? = nil) {
-            self.qualification = qualification
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case qualification = "Qualification"
-        }
-    }
-
     public struct UpdateNotificationSettingsResponse: AWSShape {
 
     }
 
     public struct UpdateHITReviewStatusRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HITId", required: true, type: .string), 
             AWSShapeMember(label: "Revert", required: false, type: .boolean)
         ]
@@ -792,7 +793,7 @@ extension MturkRequester {
     }
 
     public struct AssociateQualificationWithWorkerRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
             AWSShapeMember(label: "SendNotification", required: false, type: .boolean), 
             AWSShapeMember(label: "WorkerId", required: true, type: .string), 
@@ -823,7 +824,7 @@ extension MturkRequester {
     }
 
     public struct DeleteHITRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HITId", required: true, type: .string)
         ]
         /// The ID of the HIT to be deleted.
@@ -845,7 +846,7 @@ extension MturkRequester {
     }
 
     public struct UpdateQualificationTypeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TestDurationInSeconds", required: false, type: .long), 
             AWSShapeMember(label: "AutoGranted", required: false, type: .boolean), 
             AWSShapeMember(label: "Test", required: false, type: .string), 
@@ -915,7 +916,7 @@ extension MturkRequester {
     }
 
     public struct Qualification: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "LocaleValue", required: false, type: .structure), 
@@ -963,7 +964,7 @@ extension MturkRequester {
     }
 
     public struct CreateWorkerBlockRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Reason", required: true, type: .string), 
             AWSShapeMember(label: "WorkerId", required: true, type: .string)
         ]
@@ -984,7 +985,7 @@ extension MturkRequester {
     }
 
     public struct ListHITsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HITs", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "NumResults", required: false, type: .integer)
@@ -1009,19 +1010,19 @@ extension MturkRequester {
     }
 
     public struct CreateAdditionalAssignmentsForHITRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HITId", required: true, type: .string), 
-            AWSShapeMember(label: "NumberOfAdditionalAssignments", required: false, type: .integer), 
+            AWSShapeMember(label: "NumberOfAdditionalAssignments", required: true, type: .integer), 
             AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string)
         ]
         /// The ID of the HIT to extend.
         public let hITId: String
         /// The number of additional assignments to request for this HIT.
-        public let numberOfAdditionalAssignments: Int32?
+        public let numberOfAdditionalAssignments: Int32
         ///  A unique identifier for this request, which allows you to retry the call on error without extending the HIT multiple times. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the extend HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID. 
         public let uniqueRequestToken: String?
 
-        public init(hITId: String, numberOfAdditionalAssignments: Int32? = nil, uniqueRequestToken: String? = nil) {
+        public init(hITId: String, numberOfAdditionalAssignments: Int32, uniqueRequestToken: String? = nil) {
             self.hITId = hITId
             self.numberOfAdditionalAssignments = numberOfAdditionalAssignments
             self.uniqueRequestToken = uniqueRequestToken
@@ -1035,7 +1036,7 @@ extension MturkRequester {
     }
 
     public struct GetFileUploadURLRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssignmentId", required: true, type: .string), 
             AWSShapeMember(label: "QuestionIdentifier", required: true, type: .string)
         ]
@@ -1056,7 +1057,7 @@ extension MturkRequester {
     }
 
     public struct ListQualificationRequestsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "QualificationRequests", required: false, type: .list), 
             AWSShapeMember(label: "NumResults", required: false, type: .integer)
@@ -1081,7 +1082,7 @@ extension MturkRequester {
     }
 
     public struct ReviewReport: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReviewResults", required: false, type: .list), 
             AWSShapeMember(label: "ReviewActions", required: false, type: .list)
         ]
@@ -1106,7 +1107,7 @@ extension MturkRequester {
     }
 
     public struct GetAssignmentResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HIT", required: false, type: .structure), 
             AWSShapeMember(label: "Assignment", required: false, type: .structure)
         ]
@@ -1127,7 +1128,7 @@ extension MturkRequester {
     }
 
     public struct QualificationRequirement: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
             AWSShapeMember(label: "IntegerValues", required: false, type: .list), 
             AWSShapeMember(label: "RequiredToPreview", required: false, type: .boolean), 
@@ -1167,7 +1168,7 @@ extension MturkRequester {
     }
 
     public struct Locale: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Country", required: true, type: .string), 
             AWSShapeMember(label: "Subdivision", required: false, type: .string)
         ]
@@ -1188,7 +1189,7 @@ extension MturkRequester {
     }
 
     public struct WorkerBlock: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Reason", required: false, type: .string), 
             AWSShapeMember(label: "WorkerId", required: false, type: .string)
         ]
@@ -1209,7 +1210,7 @@ extension MturkRequester {
     }
 
     public struct ListWorkersWithQualificationTypeResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Qualifications", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "NumResults", required: false, type: .integer)
@@ -1243,7 +1244,7 @@ extension MturkRequester {
     }
 
     public struct ParameterMapEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
@@ -1264,7 +1265,7 @@ extension MturkRequester {
     }
 
     public struct CreateHITWithHITTypeResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HIT", required: false, type: .structure)
         ]
         ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation. 
@@ -1280,7 +1281,7 @@ extension MturkRequester {
     }
 
     public struct GetHITRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HITId", required: true, type: .string)
         ]
         /// The ID of the HIT to be retrieved.
@@ -1296,7 +1297,7 @@ extension MturkRequester {
     }
 
     public struct ListWorkersWithQualificationTypeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
@@ -1327,7 +1328,7 @@ extension MturkRequester {
     }
 
     public struct CreateQualificationTypeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TestDurationInSeconds", required: false, type: .long), 
             AWSShapeMember(label: "AutoGranted", required: false, type: .boolean), 
             AWSShapeMember(label: "Test", required: false, type: .string), 
@@ -1392,7 +1393,7 @@ extension MturkRequester {
     }
 
     public struct ListHITsForQualificationTypeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
@@ -1418,7 +1419,7 @@ extension MturkRequester {
     }
 
     public struct RejectQualificationRequestRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Reason", required: false, type: .string), 
             AWSShapeMember(label: "QualificationRequestId", required: true, type: .string)
         ]
@@ -1445,7 +1446,7 @@ extension MturkRequester {
     }
 
     public struct CreateHITTypeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
             AWSShapeMember(label: "QualificationRequirements", required: false, type: .list), 
             AWSShapeMember(label: "AssignmentDurationInSeconds", required: true, type: .long), 
@@ -1491,7 +1492,7 @@ extension MturkRequester {
     }
 
     public struct Assignment: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoApprovalTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "HITId", required: false, type: .string), 
@@ -1562,10 +1563,10 @@ extension MturkRequester {
     }
 
     public struct SendBonusRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssignmentId", required: true, type: .string), 
             AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string), 
-            AWSShapeMember(label: "Reason", required: false, type: .string), 
+            AWSShapeMember(label: "Reason", required: true, type: .string), 
             AWSShapeMember(label: "WorkerId", required: true, type: .string), 
             AWSShapeMember(label: "BonusAmount", required: true, type: .string)
         ]
@@ -1574,13 +1575,13 @@ extension MturkRequester {
         /// A unique identifier for this request, which allows you to retry the call on error without granting multiple bonuses. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the bonus already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID.
         public let uniqueRequestToken: String?
         /// A message that explains the reason for the bonus payment. The Worker receiving the bonus can see this message.
-        public let reason: String?
+        public let reason: String
         /// The ID of the Worker being paid the bonus.
         public let workerId: String
         ///  The Bonus amount is a US Dollar amount specified using a string (for example, "5" represents $5.00 USD and "101.42" represents $101.42 USD). Do not include currency symbols or currency codes. 
         public let bonusAmount: String
 
-        public init(assignmentId: String, uniqueRequestToken: String? = nil, reason: String? = nil, workerId: String, bonusAmount: String) {
+        public init(assignmentId: String, uniqueRequestToken: String? = nil, reason: String, workerId: String, bonusAmount: String) {
             self.assignmentId = assignmentId
             self.uniqueRequestToken = uniqueRequestToken
             self.reason = reason
@@ -1602,7 +1603,7 @@ extension MturkRequester {
     }
 
     public struct CreateQualificationTypeResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QualificationType", required: false, type: .structure)
         ]
         /// The created Qualification type, returned as a QualificationType data structure.
@@ -1618,7 +1619,7 @@ extension MturkRequester {
     }
 
     public struct ListReviewPolicyResultsForHITResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HITReviewPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "HITReviewReport", required: false, type: .structure), 
             AWSShapeMember(label: "HITId", required: false, type: .string), 
@@ -1658,7 +1659,7 @@ extension MturkRequester {
     }
 
     public struct ListBonusPaymentsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "BonusPayments", required: false, type: .list), 
             AWSShapeMember(label: "NumResults", required: false, type: .integer)
@@ -1683,7 +1684,7 @@ extension MturkRequester {
     }
 
     public struct ListBonusPaymentsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssignmentId", required: false, type: .string), 
             AWSShapeMember(label: "HITId", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -1713,7 +1714,7 @@ extension MturkRequester {
     }
 
     public struct BonusPayment: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssignmentId", required: false, type: .string), 
             AWSShapeMember(label: "Reason", required: false, type: .string), 
             AWSShapeMember(label: "GrantTime", required: false, type: .timestamp), 
@@ -1748,7 +1749,7 @@ extension MturkRequester {
     }
 
     public struct CreateHITResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HIT", required: false, type: .structure)
         ]
         ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation. 
@@ -1764,7 +1765,7 @@ extension MturkRequester {
     }
 
     public struct CreateHITWithHITTypeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxAssignments", required: false, type: .integer), 
             AWSShapeMember(label: "HITLayoutId", required: false, type: .string), 
             AWSShapeMember(label: "HITLayoutParameters", required: false, type: .list), 
@@ -1825,7 +1826,7 @@ extension MturkRequester {
     }
 
     public struct ReviewActionDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "ActionName", required: false, type: .string), 
             AWSShapeMember(label: "ActionId", required: false, type: .string), 
@@ -1876,7 +1877,7 @@ extension MturkRequester {
     }
 
     public struct UpdateHITTypeOfHITRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HITTypeId", required: true, type: .string), 
             AWSShapeMember(label: "HITId", required: true, type: .string)
         ]
@@ -1901,7 +1902,7 @@ extension MturkRequester {
     }
 
     public struct QualificationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "WorkerId", required: false, type: .string), 
             AWSShapeMember(label: "Answer", required: false, type: .string), 
@@ -1942,7 +1943,7 @@ extension MturkRequester {
     }
 
     public struct DisassociateQualificationFromWorkerRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Reason", required: false, type: .string), 
             AWSShapeMember(label: "WorkerId", required: true, type: .string), 
             AWSShapeMember(label: "QualificationTypeId", required: true, type: .string)
@@ -1968,7 +1969,7 @@ extension MturkRequester {
     }
 
     public struct UpdateQualificationTypeResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QualificationType", required: false, type: .structure)
         ]
         ///  Contains a QualificationType data structure.
@@ -1984,7 +1985,7 @@ extension MturkRequester {
     }
 
     public struct ReviewResultDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "SubjectType", required: false, type: .string), 
             AWSShapeMember(label: "SubjectId", required: false, type: .string), 
@@ -2025,7 +2026,7 @@ extension MturkRequester {
     }
 
     public struct GetAssignmentRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssignmentId", required: true, type: .string)
         ]
         /// The ID of the Assignment to be retrieved.
@@ -2041,7 +2042,7 @@ extension MturkRequester {
     }
 
     public struct ListHITsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
@@ -2061,7 +2062,7 @@ extension MturkRequester {
     }
 
     public struct NotifyWorkersResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotifyWorkersFailureStatuses", required: false, type: .list)
         ]
         ///  When MTurk sends notifications to the list of Workers, it returns back any failures it encounters in this list of NotifyWorkersFailureStatus objects. 
@@ -2093,7 +2094,7 @@ extension MturkRequester {
     }
 
     public struct GetQualificationTypeResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QualificationType", required: false, type: .structure)
         ]
         ///  The returned Qualification Type
@@ -2109,7 +2110,7 @@ extension MturkRequester {
     }
 
     public struct PolicyParameter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MapEntries", required: false, type: .list), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list)
@@ -2135,7 +2136,7 @@ extension MturkRequester {
     }
 
     public struct DeleteWorkerBlockRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Reason", required: false, type: .string), 
             AWSShapeMember(label: "WorkerId", required: true, type: .string)
         ]
@@ -2163,16 +2164,16 @@ extension MturkRequester {
     }
 
     public struct RejectAssignmentRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequesterFeedback", required: false, type: .string), 
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequesterFeedback", required: true, type: .string), 
             AWSShapeMember(label: "AssignmentId", required: true, type: .string)
         ]
         ///  A message for the Worker, which the Worker can see in the Status section of the web site. 
-        public let requesterFeedback: String?
+        public let requesterFeedback: String
         ///  The ID of the assignment. The assignment must correspond to a HIT created by the Requester. 
         public let assignmentId: String
 
-        public init(requesterFeedback: String? = nil, assignmentId: String) {
+        public init(requesterFeedback: String, assignmentId: String) {
             self.requesterFeedback = requesterFeedback
             self.assignmentId = assignmentId
         }
@@ -2184,7 +2185,7 @@ extension MturkRequester {
     }
 
     public struct AcceptQualificationRequestRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
             AWSShapeMember(label: "QualificationRequestId", required: true, type: .string)
         ]
@@ -2205,7 +2206,7 @@ extension MturkRequester {
     }
 
     public struct ListReviewableHITsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "HITTypeId", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -2236,7 +2237,7 @@ extension MturkRequester {
     }
 
     public struct SendTestEventNotificationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Notification", required: true, type: .structure), 
             AWSShapeMember(label: "TestEventType", required: true, type: .enum)
         ]
@@ -2257,7 +2258,7 @@ extension MturkRequester {
     }
 
     public struct ApproveAssignmentRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequesterFeedback", required: false, type: .string), 
             AWSShapeMember(label: "AssignmentId", required: true, type: .string), 
             AWSShapeMember(label: "OverrideRejection", required: false, type: .boolean)
@@ -2283,7 +2284,7 @@ extension MturkRequester {
     }
 
     public struct GetAccountBalanceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OnHoldBalance", required: false, type: .string), 
             AWSShapeMember(label: "AvailableBalance", required: false, type: .string)
         ]
@@ -2302,7 +2303,7 @@ extension MturkRequester {
     }
 
     public struct GetQualificationScoreRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
             AWSShapeMember(label: "WorkerId", required: true, type: .string)
         ]
@@ -2323,7 +2324,7 @@ extension MturkRequester {
     }
 
     public struct ListWorkerBlocksResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "NumResults", required: false, type: .integer), 
             AWSShapeMember(label: "WorkerBlocks", required: false, type: .list)
@@ -2348,7 +2349,7 @@ extension MturkRequester {
     }
 
     public struct UpdateNotificationSettingsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Notification", required: false, type: .structure), 
             AWSShapeMember(label: "HITTypeId", required: true, type: .string), 
             AWSShapeMember(label: "Active", required: false, type: .boolean)
@@ -2374,7 +2375,7 @@ extension MturkRequester {
     }
 
     public struct GetQualificationTypeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QualificationTypeId", required: true, type: .string)
         ]
         /// The ID of the QualificationType.
@@ -2390,22 +2391,22 @@ extension MturkRequester {
     }
 
     public struct NotificationSpecification: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventTypes", required: false, type: .list), 
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventTypes", required: true, type: .list), 
             AWSShapeMember(label: "Destination", required: true, type: .string), 
             AWSShapeMember(label: "Transport", required: true, type: .enum), 
-            AWSShapeMember(label: "Version", required: false, type: .string)
+            AWSShapeMember(label: "Version", required: true, type: .string)
         ]
         ///  The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | AssignmentReturned | AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation. 
-        public let eventTypes: [EventType]?
-        ///  The destination for notification messages. or email notifications (if Transport is Email), this is an email address. For Amazon Simple Queue Service (Amazon SQS) notifications (if Transport is SQS), this is the URL for your Amazon SQS queue. 
+        public let eventTypes: [EventType]
+        ///  The target for notification messages. The Destination’s format is determined by the specified Transport:    When Transport is Email, the Destination is your email address.   When Transport is SQS, the Destination is your queue URL.   When Transport is SNS, the Destination is the ARN of your topic.  
         public let destination: String
-        ///  The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS. 
+        ///  The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS | SNS. 
         public let transport: NotificationTransport
         /// The version of the Notification API to use. Valid value is 2006-05-05.
-        public let version: String?
+        public let version: String
 
-        public init(eventTypes: [EventType]? = nil, destination: String, transport: NotificationTransport, version: String? = nil) {
+        public init(eventTypes: [EventType], destination: String, transport: NotificationTransport, version: String) {
             self.eventTypes = eventTypes
             self.destination = destination
             self.transport = transport
@@ -2421,7 +2422,7 @@ extension MturkRequester {
     }
 
     public struct ListReviewPolicyResultsForHITRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "PolicyLevels", required: false, type: .list), 
             AWSShapeMember(label: "HITId", required: true, type: .string), 

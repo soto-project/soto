@@ -5,8 +5,24 @@ import AWSSDKSwiftCore
 
 extension Elasticloadbalancingv2 {
 
+    public struct AddListenerCertificatesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificates", required: false, type: .list)
+        ]
+        /// Information about the certificates.
+        public let certificates: [Certificate]?
+
+        public init(certificates: [Certificate]? = nil) {
+            self.certificates = certificates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificates = "Certificates"
+        }
+    }
+
     public struct ModifyTargetGroupAttributesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
         /// Information about the attributes.
@@ -22,7 +38,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct Rule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Priority", required: false, type: .string), 
             AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
             AWSShapeMember(label: "RuleArn", required: false, type: .string), 
@@ -58,7 +74,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct Action: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: true, type: .enum), 
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
         ]
@@ -79,7 +95,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DeleteListenerInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ListenerArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the listener.
@@ -94,8 +110,34 @@ extension Elasticloadbalancingv2 {
         }
     }
 
+    public struct DescribeListenerCertificatesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ListenerArn", required: true, type: .string)
+        ]
+        /// The maximum number of results to return with this call.
+        public let pageSize: Int32?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+        /// The Amazon Resource Names (ARN) of the listener.
+        public let listenerArn: String
+
+        public init(pageSize: Int32? = nil, marker: String? = nil, listenerArn: String) {
+            self.pageSize = pageSize
+            self.marker = marker
+            self.listenerArn = listenerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageSize = "PageSize"
+            case marker = "Marker"
+            case listenerArn = "ListenerArn"
+        }
+    }
+
     public struct DescribeTargetGroupAttributesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the target group.
@@ -111,7 +153,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct ModifyLoadBalancerAttributesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
             AWSShapeMember(label: "Attributes", required: true, type: .list)
         ]
@@ -136,7 +178,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct CreateListenerInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Protocol", required: true, type: .enum), 
             AWSShapeMember(label: "SslPolicy", required: false, type: .string), 
             AWSShapeMember(label: "Certificates", required: false, type: .list), 
@@ -144,13 +186,13 @@ extension Elasticloadbalancingv2 {
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
             AWSShapeMember(label: "Port", required: true, type: .integer)
         ]
-        /// The protocol for connections from clients to the load balancer.
+        /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocol is TCP.
         public let `protocol`: ProtocolEnum
-        /// The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
+        /// [HTTPS listeners] The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
         public let sslPolicy: String?
-        /// The SSL server certificate. You must provide exactly one certificate if the protocol is HTTPS.
+        /// [HTTPS listeners] The SSL server certificate. You must provide exactly one certificate.
         public let certificates: [Certificate]?
-        /// The default action for the listener.
+        /// The default action for the listener. For Application Load Balancers, the protocol of the specified target group must be HTTP or HTTPS. For Network Load Balancers, the protocol of the specified target group must be TCP.
         public let defaultActions: [Action]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -186,12 +228,13 @@ extension Elasticloadbalancingv2 {
         case targetNotinuse = "Target.NotInUse"
         case targetDeregistrationinprogress = "Target.DeregistrationInProgress"
         case targetInvalidstate = "Target.InvalidState"
+        case targetIpunusable = "Target.IpUnusable"
         case elbInternalerror = "Elb.InternalError"
         public var description: String { return self.rawValue }
     }
 
     public struct DescribeLoadBalancersOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
             AWSShapeMember(label: "LoadBalancers", required: false, type: .list)
         ]
@@ -212,7 +255,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct LoadBalancerState: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Reason", required: false, type: .string), 
             AWSShapeMember(label: "Code", required: false, type: .enum)
         ]
@@ -233,7 +276,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct TargetGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGroupArn", required: false, type: .string), 
             AWSShapeMember(label: "LoadBalancerArns", required: false, type: .list), 
             AWSShapeMember(label: "Matcher", required: false, type: .structure), 
@@ -245,6 +288,7 @@ extension Elasticloadbalancingv2 {
             AWSShapeMember(label: "VpcId", required: false, type: .string), 
             AWSShapeMember(label: "HealthyThresholdCount", required: false, type: .integer), 
             AWSShapeMember(label: "Protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "TargetType", required: false, type: .enum), 
             AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
             AWSShapeMember(label: "HealthCheckPort", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer)
@@ -271,6 +315,8 @@ extension Elasticloadbalancingv2 {
         public let healthyThresholdCount: Int32?
         /// The protocol to use for routing traffic to the targets.
         public let `protocol`: ProtocolEnum?
+        /// The type of target that you must specify when registering targets with this target group. The possible values are instance (targets are specified by instance ID) or ip (targets are specified by IP address).
+        public let targetType: TargetTypeEnum?
         /// The destination for the health check request.
         public let healthCheckPath: String?
         /// The port to use to connect with the target.
@@ -278,7 +324,7 @@ extension Elasticloadbalancingv2 {
         /// The port on which the targets are listening.
         public let port: Int32?
 
-        public init(targetGroupArn: String? = nil, loadBalancerArns: [String]? = nil, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, unhealthyThresholdCount: Int32? = nil, targetGroupName: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, vpcId: String? = nil, healthyThresholdCount: Int32? = nil, protocol: ProtocolEnum? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, port: Int32? = nil) {
+        public init(targetGroupArn: String? = nil, loadBalancerArns: [String]? = nil, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, unhealthyThresholdCount: Int32? = nil, targetGroupName: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, vpcId: String? = nil, healthyThresholdCount: Int32? = nil, protocol: ProtocolEnum? = nil, targetType: TargetTypeEnum? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, port: Int32? = nil) {
             self.targetGroupArn = targetGroupArn
             self.loadBalancerArns = loadBalancerArns
             self.matcher = matcher
@@ -290,6 +336,7 @@ extension Elasticloadbalancingv2 {
             self.vpcId = vpcId
             self.healthyThresholdCount = healthyThresholdCount
             self.`protocol` = `protocol`
+            self.targetType = targetType
             self.healthCheckPath = healthCheckPath
             self.healthCheckPort = healthCheckPort
             self.port = port
@@ -307,6 +354,7 @@ extension Elasticloadbalancingv2 {
             case vpcId = "VpcId"
             case healthyThresholdCount = "HealthyThresholdCount"
             case `protocol` = "Protocol"
+            case targetType = "TargetType"
             case healthCheckPath = "HealthCheckPath"
             case healthCheckPort = "HealthCheckPort"
             case port = "Port"
@@ -314,7 +362,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -334,8 +382,29 @@ extension Elasticloadbalancingv2 {
         }
     }
 
+    public struct LoadBalancerAddress: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllocationId", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string)
+        ]
+        /// [Network Load Balancers] The allocation ID of the Elastic IP address.
+        public let allocationId: String?
+        /// The static IP address.
+        public let ipAddress: String?
+
+        public init(allocationId: String? = nil, ipAddress: String? = nil) {
+            self.allocationId = allocationId
+            self.ipAddress = ipAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationId = "AllocationId"
+            case ipAddress = "IpAddress"
+        }
+    }
+
     public struct TagDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
@@ -356,7 +425,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeAccountLimitsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer)
         ]
@@ -382,11 +451,12 @@ extension Elasticloadbalancingv2 {
         case unhealthy = "unhealthy"
         case unused = "unused"
         case draining = "draining"
+        case unavailable = "unavailable"
         public var description: String { return self.rawValue }
     }
 
     public struct CreateListenerOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Listeners", required: false, type: .list)
         ]
         /// Information about the listener.
@@ -402,7 +472,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct SetIpAddressTypeOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IpAddressType", required: false, type: .enum)
         ]
         /// The IP address type.
@@ -418,7 +488,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeRulesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rules", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -439,7 +509,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct CreateRuleOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rules", required: false, type: .list)
         ]
         /// Information about the rule.
@@ -459,7 +529,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct RulePriorityPair: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Priority", required: false, type: .integer), 
             AWSShapeMember(label: "RuleArn", required: false, type: .string)
         ]
@@ -480,7 +550,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct ModifyRuleOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rules", required: false, type: .list)
         ]
         /// Information about the rule.
@@ -496,7 +566,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeSSLPoliciesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SslPolicies", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -517,7 +587,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct SslPolicy: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SslProtocols", required: false, type: .list), 
             AWSShapeMember(label: "Ciphers", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: false, type: .string)
@@ -543,7 +613,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct ModifyLoadBalancerAttributesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
         /// Information about the load balancer attributes.
@@ -559,7 +629,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct LoadBalancer: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
             AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
             AWSShapeMember(label: "LoadBalancerArn", required: false, type: .string), 
@@ -630,7 +700,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct SetSecurityGroupsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list)
         ]
         /// The IDs of the security groups associated with the load balancer.
@@ -646,7 +716,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeTargetGroupsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "TargetGroupArns", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -682,7 +752,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeTargetGroupsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGroups", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -703,7 +773,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct CreateRuleInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Priority", required: true, type: .integer), 
             AWSShapeMember(label: "Actions", required: true, type: .list), 
             AWSShapeMember(label: "Conditions", required: true, type: .list), 
@@ -713,7 +783,7 @@ extension Elasticloadbalancingv2 {
         public let priority: Int32
         /// An action. Each action has the type forward and specifies a target group.
         public let actions: [Action]
-        /// A condition. Each condition specifies a field name and a single value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern. A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
+        /// The conditions. Each condition specifies a field name and a single value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern. A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
         public let conditions: [RuleCondition]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
@@ -734,23 +804,28 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct SetSubnetsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subnets", required: true, type: .list), 
-            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string)
+            AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetMappings", required: false, type: .list)
         ]
-        /// The IDs of the subnets. You must specify at least two subnets. You can add only one subnet per Availability Zone.
+        /// The IDs of the subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings.
         public let subnets: [String]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
+        /// The IDs of the subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. You cannot specify Elastic IP addresses for your subnets.
+        public let subnetMappings: [SubnetMapping]?
 
-        public init(subnets: [String], loadBalancerArn: String) {
+        public init(subnets: [String], loadBalancerArn: String, subnetMappings: [SubnetMapping]? = nil) {
             self.subnets = subnets
             self.loadBalancerArn = loadBalancerArn
+            self.subnetMappings = subnetMappings
         }
 
         private enum CodingKeys: String, CodingKey {
             case subnets = "Subnets"
             case loadBalancerArn = "LoadBalancerArn"
+            case subnetMappings = "SubnetMappings"
         }
     }
 
@@ -759,7 +834,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeTargetHealthInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Targets", required: false, type: .list), 
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
         ]
@@ -780,13 +855,13 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct TargetGroupAttribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The value of the attribute.
         public let value: String?
-        /// The name of the attribute.    deregistration_delay.timeout_seconds - The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false.    stickiness.type - The type of sticky sessions. The possible value is lb_cookie.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).  
+        /// The name of the attribute.    deregistration_delay.timeout_seconds - The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds.    proxy_protocol_v2.enabled - [Network Load Balancers] Indicates whether Proxy Protocol version 2 is enabled.    stickiness.enabled - [Application Load Balancers] Indicates whether sticky sessions are enabled. The value is true or false.    stickiness.type - [Application Load Balancers] The type of sticky sessions. The possible value is lb_cookie.    stickiness.lb_cookie.duration_seconds - [Application Load Balancers] The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).  
         public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
@@ -801,7 +876,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DeleteRuleInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuleArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the rule.
@@ -817,7 +892,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeTagsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArns", required: true, type: .list)
         ]
         /// The Amazon Resource Names (ARN) of the resources.
@@ -832,13 +907,35 @@ extension Elasticloadbalancingv2 {
         }
     }
 
+    public struct RemoveListenerCertificatesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
+            AWSShapeMember(label: "Certificates", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String
+        /// The certificate to remove. You can specify one certificate per call.
+        public let certificates: [Certificate]
+
+        public init(listenerArn: String, certificates: [Certificate]) {
+            self.listenerArn = listenerArn
+            self.certificates = certificates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerArn = "ListenerArn"
+            case certificates = "Certificates"
+        }
+    }
+
     public enum LoadBalancerTypeEnum: String, CustomStringConvertible, Codable {
         case application = "application"
+        case network = "network"
         public var description: String { return self.rawValue }
     }
 
     public struct DescribeTargetGroupAttributesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
         /// Information about the target group attributes
@@ -853,17 +950,42 @@ extension Elasticloadbalancingv2 {
         }
     }
 
+    public struct RemoveListenerCertificatesOutput: AWSShape {
+
+    }
+
+    public struct SubnetMapping: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "AllocationId", required: false, type: .string)
+        ]
+        /// The ID of the subnet.
+        public let subnetId: String?
+        /// [Network Load Balancers] The allocation ID of the Elastic IP address.
+        public let allocationId: String?
+
+        public init(subnetId: String? = nil, allocationId: String? = nil) {
+            self.subnetId = subnetId
+            self.allocationId = allocationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetId = "SubnetId"
+            case allocationId = "AllocationId"
+        }
+    }
+
     public struct RemoveTagsOutput: AWSShape {
 
     }
 
     public struct ModifyRuleInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Actions", required: false, type: .list), 
             AWSShapeMember(label: "Conditions", required: false, type: .list), 
             AWSShapeMember(label: "RuleArn", required: true, type: .string)
         ]
-        /// The actions.
+        /// The actions. The target group must use the HTTP or HTTPS protocol.
         public let actions: [Action]?
         /// The conditions.
         public let conditions: [RuleCondition]?
@@ -884,21 +1006,26 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct TargetDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
+        /// An Availability Zone or all. This determines whether the target receives traffic from the load balancer nodes in the specified Availability Zone or from all enabled Availability Zones for the load balancer. This parameter is not supported if the target type of the target group is instance. If the IP address is in a subnet of the VPC for the target group, the Availability Zone is automatically detected and this parameter is optional. If the IP address is outside the VPC, this parameter is required. With an Application Load Balancer, if the IP address is outside the VPC for the target group, the only supported value is all.
+        public let availabilityZone: String?
         /// The port on which the target is listening.
         public let port: Int32?
-        /// The ID of the target.
+        /// The ID of the target. If the target type of the target group is instance, specify an instance ID. If the target type is ip, specify an IP address.
         public let id: String
 
-        public init(port: Int32? = nil, id: String) {
+        public init(availabilityZone: String? = nil, port: Int32? = nil, id: String) {
+            self.availabilityZone = availabilityZone
             self.port = port
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
             case port = "Port"
             case id = "Id"
         }
@@ -910,7 +1037,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeListenersOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Listeners", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -931,7 +1058,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeRulesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "RuleArns", required: false, type: .list), 
@@ -962,7 +1089,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct ModifyListenerOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Listeners", required: false, type: .list)
         ]
         /// Information about the modified listeners.
@@ -978,7 +1105,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct SetSubnetsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
         ]
         /// Information about the subnet and Availability Zone.
@@ -994,7 +1121,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeAccountLimitsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Limits", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -1019,7 +1146,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct ModifyTargetGroupOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGroups", required: false, type: .list)
         ]
         /// Information about the target group.
@@ -1035,7 +1162,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct RemoveTagsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArns", required: true, type: .list), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
@@ -1062,7 +1189,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct TargetHealthDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetHealth", required: false, type: .structure), 
             AWSShapeMember(label: "Target", required: false, type: .structure), 
             AWSShapeMember(label: "HealthCheckPort", required: false, type: .string)
@@ -1091,8 +1218,29 @@ extension Elasticloadbalancingv2 {
 
     }
 
+    public struct AddListenerCertificatesInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
+            AWSShapeMember(label: "Certificates", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String
+        /// The certificate to add. You can specify one certificate per call.
+        public let certificates: [Certificate]
+
+        public init(listenerArn: String, certificates: [Certificate]) {
+            self.listenerArn = listenerArn
+            self.certificates = certificates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerArn = "ListenerArn"
+            case certificates = "Certificates"
+        }
+    }
+
     public struct ModifyTargetGroupAttributesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", required: true, type: .list), 
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
         ]
@@ -1113,7 +1261,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct RuleCondition: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Field", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
@@ -1134,7 +1282,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct Listener: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Certificates", required: false, type: .list), 
             AWSShapeMember(label: "ListenerArn", required: false, type: .string), 
             AWSShapeMember(label: "Protocol", required: false, type: .enum), 
@@ -1180,7 +1328,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct ModifyTargetGroupInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
             AWSShapeMember(label: "HealthyThresholdCount", required: false, type: .integer), 
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string), 
@@ -1191,23 +1339,23 @@ extension Elasticloadbalancingv2 {
             AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
             AWSShapeMember(label: "UnhealthyThresholdCount", required: false, type: .integer)
         ]
-        /// The protocol to use to connect with the target.
+        /// The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported only if the protocol of the target group is TCP.
         public let healthCheckProtocol: ProtocolEnum?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
         public let healthyThresholdCount: Int32?
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
-        /// The HTTP codes to use when checking for a successful response from a target.
+        /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target.
         public let matcher: Matcher?
-        /// The approximate amount of time, in seconds, between health checks of an individual target.
+        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5 to 300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds.
         public let healthCheckIntervalSeconds: Int32?
-        /// The amount of time, in seconds, during which no response means a failed health check.
+        /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response means a failed health check.
         public let healthCheckTimeoutSeconds: Int32?
-        /// The port to use to connect with the target.
+        /// The port the load balancer uses when performing health checks on targets.
         public let healthCheckPort: String?
-        /// The ping path that is the destination for the health check request.
+        /// [HTTP/HTTPS health checks] The ping path that is the destination for the health check request.
         public let healthCheckPath: String?
-        /// The number of consecutive health check failures required before considering the target unhealthy.
+        /// The number of consecutive health check failures required before considering the target unhealthy. For Network Load Balancers, this value must be the same as the healthy threshold count.
         public let unhealthyThresholdCount: Int32?
 
         public init(healthCheckProtocol: ProtocolEnum? = nil, healthyThresholdCount: Int32? = nil, targetGroupArn: String, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthCheckPort: String? = nil, healthCheckPath: String? = nil, unhealthyThresholdCount: Int32? = nil) {
@@ -1236,48 +1384,58 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct CreateLoadBalancerInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subnets", required: true, type: .list), 
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeMember(label: "Scheme", required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "IpAddressType", required: false, type: .enum)
+            AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetMappings", required: false, type: .list), 
+            AWSShapeMember(label: "Scheme", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
-        /// The IDs of the subnets to attach to the load balancer. You can specify only one subnet per Availability Zone. You must specify subnets from at least two Availability Zones.
-        public let subnets: [String]
-        /// The IDs of the security groups to assign to the load balancer.
+        /// [Application Load Balancers] The IDs of the security groups to assign to the load balancer.
         public let securityGroups: [String]?
-        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the Internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer.
-        public let scheme: LoadBalancerSchemeEnum?
-        /// One or more tags to assign to the load balancer.
-        public let tags: [Tag]?
         /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
         public let name: String
-        /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
+        /// [Application Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
         public let ipAddressType: IpAddressType?
+        /// One or more tags to assign to the load balancer.
+        public let tags: [Tag]?
+        /// The IDs of the subnets to attach to the load balancer. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
+        public let subnets: [String]?
+        /// The IDs of the subnets to attach to the load balancer. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet.
+        public let subnetMappings: [SubnetMapping]?
+        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the Internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer.
+        public let scheme: LoadBalancerSchemeEnum?
+        /// The type of load balancer to create. The default is application.
+        public let `type`: LoadBalancerTypeEnum?
 
-        public init(subnets: [String], securityGroups: [String]? = nil, scheme: LoadBalancerSchemeEnum? = nil, tags: [Tag]? = nil, name: String, ipAddressType: IpAddressType? = nil) {
-            self.subnets = subnets
+        public init(securityGroups: [String]? = nil, name: String, ipAddressType: IpAddressType? = nil, tags: [Tag]? = nil, subnets: [String]? = nil, subnetMappings: [SubnetMapping]? = nil, scheme: LoadBalancerSchemeEnum? = nil, type: LoadBalancerTypeEnum? = nil) {
             self.securityGroups = securityGroups
-            self.scheme = scheme
-            self.tags = tags
             self.name = name
             self.ipAddressType = ipAddressType
+            self.tags = tags
+            self.subnets = subnets
+            self.subnetMappings = subnetMappings
+            self.scheme = scheme
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subnets = "Subnets"
             case securityGroups = "SecurityGroups"
-            case scheme = "Scheme"
-            case tags = "Tags"
             case name = "Name"
             case ipAddressType = "IpAddressType"
+            case tags = "Tags"
+            case subnets = "Subnets"
+            case subnetMappings = "SubnetMappings"
+            case scheme = "Scheme"
+            case `type` = "Type"
         }
     }
 
     public struct DeregisterTargetsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Targets", required: true, type: .list), 
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
         ]
@@ -1298,7 +1456,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct SetSecurityGroupsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroups", required: true, type: .list), 
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string)
         ]
@@ -1319,13 +1477,13 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct LoadBalancerAttribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The value of the attribute.
         public let value: String?
-        /// The name of the attribute.    access_logs.s3.enabled - Indicates whether access logs stored in Amazon S3 are enabled. The value is true or false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs in Amazon S3 are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permission to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket. If you don't specify a prefix, the access logs are stored in the root of the bucket.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false.    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-3600. The default is 60 seconds.  
+        /// The name of the attribute.    access_logs.s3.enabled - [Application Load Balancers] Indicates whether access logs stored in Amazon S3 are enabled. The value is true or false.    access_logs.s3.bucket - [Application Load Balancers] The name of the S3 bucket for the access logs. This attribute is required if access logs in Amazon S3 are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permission to write to the bucket.    access_logs.s3.prefix - [Application Load Balancers] The prefix for the location in the S3 bucket. If you don't specify a prefix, the access logs are stored in the root of the bucket.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false.    idle_timeout.timeout_seconds - [Application Load Balancers] The idle timeout value, in seconds. The valid range is 1-4000. The default is 60 seconds.  
         public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
@@ -1340,7 +1498,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeLoadBalancerAttributesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the load balancer.
@@ -1356,7 +1514,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeTagsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagDescriptions", required: false, type: .list)
         ]
         /// Information about the tags.
@@ -1372,7 +1530,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeListenersInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "ListenerArns", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -1402,12 +1560,33 @@ extension Elasticloadbalancingv2 {
         }
     }
 
+    public struct DescribeListenerCertificatesOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificates", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
+        ]
+        /// Information about the certificates.
+        public let certificates: [Certificate]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
+
+        public init(certificates: [Certificate]? = nil, nextMarker: String? = nil) {
+            self.certificates = certificates
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificates = "Certificates"
+            case nextMarker = "NextMarker"
+        }
+    }
+
     public struct DeleteListenerOutput: AWSShape {
 
     }
 
     public struct CreateTargetGroupOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGroups", required: false, type: .list)
         ]
         /// Information about the target group.
@@ -1423,48 +1602,58 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct Certificate: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
             AWSShapeMember(label: "CertificateArn", required: false, type: .string)
         ]
+        /// Indicates whether the certificate is the default certificate.
+        public let isDefault: Bool?
         /// The Amazon Resource Name (ARN) of the certificate.
         public let certificateArn: String?
 
-        public init(certificateArn: String? = nil) {
+        public init(isDefault: Bool? = nil, certificateArn: String? = nil) {
+            self.isDefault = isDefault
             self.certificateArn = certificateArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case isDefault = "IsDefault"
             case certificateArn = "CertificateArn"
         }
     }
 
     public struct AvailabilityZone: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ZoneName", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerAddresses", required: false, type: .list), 
             AWSShapeMember(label: "SubnetId", required: false, type: .string)
         ]
         /// The name of the Availability Zone.
         public let zoneName: String?
+        /// [Network Load Balancers] The static IP address.
+        public let loadBalancerAddresses: [LoadBalancerAddress]?
         /// The ID of the subnet.
         public let subnetId: String?
 
-        public init(zoneName: String? = nil, subnetId: String? = nil) {
+        public init(zoneName: String? = nil, loadBalancerAddresses: [LoadBalancerAddress]? = nil, subnetId: String? = nil) {
             self.zoneName = zoneName
+            self.loadBalancerAddresses = loadBalancerAddresses
             self.subnetId = subnetId
         }
 
         private enum CodingKeys: String, CodingKey {
             case zoneName = "ZoneName"
+            case loadBalancerAddresses = "LoadBalancerAddresses"
             case subnetId = "SubnetId"
         }
     }
 
     public struct RegisterTargetsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Targets", required: true, type: .list), 
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
         ]
-        /// The targets. The default port for a target is the port for the target group. You can specify a port override. If a target is already registered, you can register it again using a different port.
+        /// The targets.
         public let targets: [TargetDescription]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -1481,7 +1670,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DeleteTargetGroupInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGroupArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the target group.
@@ -1497,12 +1686,12 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct TargetHealth: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Reason", required: false, type: .enum), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:    Elb.RegistrationInProgress - The target is in the process of being registered with the load balancer.    Elb.InitialHealthChecking - The load balancer is still sending the target the minimum number of health checks required to determine its health status.   If the target state is unhealthy, the reason code can be one of the following values:    Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code.    Target.Timeout - The health check requests timed out.    Target.FailedHealthChecks - The health checks failed because the connection to the target timed out, the target response was malformed, or the target failed the health check for an unknown reason.    Elb.InternalError - The health checks failed due to an internal error.   If the target state is unused, the reason code can be one of the following values:    Target.NotRegistered - The target is not registered with the target group.    Target.NotInUse - The target group is not used by any load balancer or the target is in an Availability Zone that is not enabled for its load balancer.    Target.InvalidState - The target is in the stopped or terminated state.   If the target state is draining, the reason code can be the following value:    Target.DeregistrationInProgress - The target is in the process of being deregistered and the deregistration delay period has not expired.  
+        /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:    Elb.RegistrationInProgress - The target is in the process of being registered with the load balancer.    Elb.InitialHealthChecking - The load balancer is still sending the target the minimum number of health checks required to determine its health status.   If the target state is unhealthy, the reason code can be one of the following values:    Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code.    Target.Timeout - The health check requests timed out.    Target.FailedHealthChecks - The health checks failed because the connection to the target timed out, the target response was malformed, or the target failed the health check for an unknown reason.    Elb.InternalError - The health checks failed due to an internal error.   If the target state is unused, the reason code can be one of the following values:    Target.NotRegistered - The target is not registered with the target group.    Target.NotInUse - The target group is not used by any load balancer or the target is in an Availability Zone that is not enabled for its load balancer.    Target.IpUnusable - The target IP address is reserved for use by a load balancer.    Target.InvalidState - The target is in the stopped or terminated state.   If the target state is draining, the reason code can be the following value:    Target.DeregistrationInProgress - The target is in the process of being deregistered and the deregistration delay period has not expired.  
         public let reason: TargetHealthReasonEnum?
         /// The state of the target.
         public let state: TargetHealthStateEnum?
@@ -1529,7 +1718,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct ModifyListenerInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Protocol", required: false, type: .enum), 
             AWSShapeMember(label: "SslPolicy", required: false, type: .string), 
             AWSShapeMember(label: "Certificates", required: false, type: .list), 
@@ -1537,13 +1726,13 @@ extension Elasticloadbalancingv2 {
             AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
-        /// The protocol for connections from clients to the load balancer.
+        /// The protocol for connections from clients to the load balancer. Application Load Balancers support HTTP and HTTPS and Network Load Balancers support TCP.
         public let `protocol`: ProtocolEnum?
         /// The security policy that defines which protocols and ciphers are supported. For more information, see Security Policies in the Application Load Balancers Guide.
         public let sslPolicy: String?
-        /// The SSL server certificate.
+        /// The default SSL server certificate.
         public let certificates: [Certificate]?
-        /// The default actions.
+        /// The default action. For Application Load Balancers, the protocol of the specified target group must be HTTP or HTTPS. For Network Load Balancers, the protocol of the specified target group must be TCP.
         public let defaultActions: [Action]?
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
@@ -1570,7 +1759,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct Cipher: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Priority", required: false, type: .integer), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
@@ -1591,7 +1780,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct SetRulePrioritiesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RulePriorities", required: true, type: .list)
         ]
         /// The rule priorities.
@@ -1606,11 +1795,17 @@ extension Elasticloadbalancingv2 {
         }
     }
 
+    public enum TargetTypeEnum: String, CustomStringConvertible, Codable {
+        case instance = "instance"
+        case ip = "ip"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Matcher: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HttpCode", required: true, type: .string)
         ]
-        /// The HTTP codes. You can specify values between 200 and 499. The default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299").
+        /// The HTTP codes. For Application Load Balancers, you can specify values between 200 and 499, and the default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, this is 200 to 399.
         public let httpCode: String
 
         public init(httpCode: String) {
@@ -1623,7 +1818,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeSSLPoliciesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "Names", required: false, type: .list)
@@ -1649,13 +1844,13 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct Limit: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Max", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The maximum value of the limit.
         public let max: String?
-        /// The name of the limit. The possible values are:   application-load-balancers   listeners-per-application-load-balancer   rules-per-application-load-balancer   target-groups   targets-per-application-load-balancer  
+        /// The name of the limit. The possible values are:   application-load-balancers   listeners-per-application-load-balancer   listeners-per-network-load-balancer   network-load-balancers   rules-per-application-load-balancer   target-groups   targets-per-application-load-balancer   targets-per-availability-zone-per-network-load-balancer   targets-per-network-load-balancer  
         public let name: String?
 
         public init(max: String? = nil, name: String? = nil) {
@@ -1670,7 +1865,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeLoadBalancerAttributesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
         /// Information about the load balancer attributes.
@@ -1688,11 +1883,12 @@ extension Elasticloadbalancingv2 {
     public enum ProtocolEnum: String, CustomStringConvertible, Codable {
         case http = "HTTP"
         case https = "HTTPS"
+        case tcp = "TCP"
         public var description: String { return self.rawValue }
     }
 
     public struct DescribeLoadBalancersInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "LoadBalancerArns", required: false, type: .list), 
             AWSShapeMember(label: "Names", required: false, type: .list), 
@@ -1723,7 +1919,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct SetRulePrioritiesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rules", required: false, type: .list)
         ]
         /// Information about the rules.
@@ -1743,7 +1939,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct AddTagsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArns", required: true, type: .list), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
@@ -1764,7 +1960,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct DescribeTargetHealthOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetHealthDescriptions", required: false, type: .list)
         ]
         /// Information about the health of the targets.
@@ -1780,7 +1976,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct SetIpAddressTypeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
             AWSShapeMember(label: "IpAddressType", required: true, type: .enum)
         ]
@@ -1801,72 +1997,77 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct CreateTargetGroupInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UnhealthyThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "HealthyThresholdCount", required: false, type: .integer), 
-            AWSShapeMember(label: "VpcId", required: true, type: .string), 
-            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Protocol", required: true, type: .enum), 
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Matcher", required: false, type: .structure), 
             AWSShapeMember(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "UnhealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
+            AWSShapeMember(label: "HealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Protocol", required: true, type: .enum), 
+            AWSShapeMember(label: "VpcId", required: true, type: .string), 
+            AWSShapeMember(label: "TargetType", required: false, type: .enum), 
             AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
             AWSShapeMember(label: "HealthCheckPort", required: false, type: .string), 
-            AWSShapeMember(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "Port", required: true, type: .integer)
         ]
-        /// The number of consecutive health check failures required before considering a target unhealthy. The default is 2.
+        /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target.
+        public let matcher: Matcher?
+        /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5 to 300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. The default is 30 seconds.
+        public let healthCheckIntervalSeconds: Int32?
+        /// The amount of time, in seconds, during which no response from a target means a failed health check. For Application Load Balancers, the range is 2 to 60 seconds and the default is 5 seconds. For Network Load Balancers, this is 10 seconds for TCP and HTTPS health checks and 6 seconds for HTTP health checks.
+        public let healthCheckTimeoutSeconds: Int32?
+        /// The number of consecutive health check failures required before considering a target unhealthy. For Application Load Balancers, the default is 2. For Network Load Balancers, this value must be the same as the healthy threshold count.
         public let unhealthyThresholdCount: Int32?
-        /// The number of consecutive health checks successes required before considering an unhealthy target healthy. The default is 5.
-        public let healthyThresholdCount: Int32?
-        /// The identifier of the virtual private cloud (VPC).
-        public let vpcId: String
-        /// The protocol the load balancer uses when performing health checks on targets. The default is the HTTP protocol.
+        /// The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported only if the protocol of the target group is TCP. For Application Load Balancers, the default is HTTP. For Network Load Balancers, the default is TCP.
         public let healthCheckProtocol: ProtocolEnum?
+        /// The number of consecutive health checks successes required before considering an unhealthy target healthy. For Application Load Balancers, the default is 5. For Network Load Balancers, the default is 3.
+        public let healthyThresholdCount: Int32?
         /// The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
         public let name: String
-        /// The protocol to use for routing traffic to the targets.
+        /// The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocol is TCP.
         public let `protocol`: ProtocolEnum
-        /// The HTTP codes to use when checking for a successful response from a target. The default is 200.
-        public let matcher: Matcher?
-        /// The approximate amount of time, in seconds, between health checks of an individual target. The default is 30 seconds.
-        public let healthCheckIntervalSeconds: Int32?
-        /// The ping path that is the destination on the targets for health checks. The default is /.
+        /// The identifier of the virtual private cloud (VPC).
+        public let vpcId: String
+        /// The type of target that you must specify when registering targets with this target group. The possible values are instance (targets are specified by instance ID) or ip (targets are specified by IP address). The default is instance. Note that you can't specify targets for a target group using both instance IDs and IP addresses. If the target type is ip, specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.
+        public let targetType: TargetTypeEnum?
+        /// [HTTP/HTTPS health checks] The ping path that is the destination on the targets for health checks. The default is /.
         public let healthCheckPath: String?
-        /// The port the load balancer uses when performing health checks on targets. The default is traffic-port, which indicates the port on which each target receives traffic from the load balancer.
+        /// The port the load balancer uses when performing health checks on targets. The default is traffic-port, which is the port on which each target receives traffic from the load balancer.
         public let healthCheckPort: String?
-        /// The amount of time, in seconds, during which no response from a target means a failed health check. The default is 5 seconds.
-        public let healthCheckTimeoutSeconds: Int32?
         /// The port on which the targets receive traffic. This port is used unless you specify a port override when registering the target.
         public let port: Int32
 
-        public init(unhealthyThresholdCount: Int32? = nil, healthyThresholdCount: Int32? = nil, vpcId: String, healthCheckProtocol: ProtocolEnum? = nil, name: String, protocol: ProtocolEnum, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckTimeoutSeconds: Int32? = nil, port: Int32) {
-            self.unhealthyThresholdCount = unhealthyThresholdCount
-            self.healthyThresholdCount = healthyThresholdCount
-            self.vpcId = vpcId
-            self.healthCheckProtocol = healthCheckProtocol
-            self.name = name
-            self.`protocol` = `protocol`
+        public init(matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, unhealthyThresholdCount: Int32? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthyThresholdCount: Int32? = nil, name: String, protocol: ProtocolEnum, vpcId: String, targetType: TargetTypeEnum? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, port: Int32) {
             self.matcher = matcher
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
+            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
+            self.unhealthyThresholdCount = unhealthyThresholdCount
+            self.healthCheckProtocol = healthCheckProtocol
+            self.healthyThresholdCount = healthyThresholdCount
+            self.name = name
+            self.`protocol` = `protocol`
+            self.vpcId = vpcId
+            self.targetType = targetType
             self.healthCheckPath = healthCheckPath
             self.healthCheckPort = healthCheckPort
-            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
             self.port = port
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unhealthyThresholdCount = "UnhealthyThresholdCount"
-            case healthyThresholdCount = "HealthyThresholdCount"
-            case vpcId = "VpcId"
-            case healthCheckProtocol = "HealthCheckProtocol"
-            case name = "Name"
-            case `protocol` = "Protocol"
             case matcher = "Matcher"
             case healthCheckIntervalSeconds = "HealthCheckIntervalSeconds"
+            case healthCheckTimeoutSeconds = "HealthCheckTimeoutSeconds"
+            case unhealthyThresholdCount = "UnhealthyThresholdCount"
+            case healthCheckProtocol = "HealthCheckProtocol"
+            case healthyThresholdCount = "HealthyThresholdCount"
+            case name = "Name"
+            case `protocol` = "Protocol"
+            case vpcId = "VpcId"
+            case targetType = "TargetType"
             case healthCheckPath = "HealthCheckPath"
             case healthCheckPort = "HealthCheckPort"
-            case healthCheckTimeoutSeconds = "HealthCheckTimeoutSeconds"
             case port = "Port"
         }
     }
@@ -1874,12 +2075,13 @@ extension Elasticloadbalancingv2 {
     public enum LoadBalancerStateEnum: String, CustomStringConvertible, Codable {
         case active = "active"
         case provisioning = "provisioning"
+        case activeImpaired = "active_impaired"
         case failed = "failed"
         public var description: String { return self.rawValue }
     }
 
     public struct DeleteLoadBalancerInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the load balancer.
@@ -1895,7 +2097,7 @@ extension Elasticloadbalancingv2 {
     }
 
     public struct CreateLoadBalancerOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancers", required: false, type: .list)
         ]
         /// Information about the load balancer.

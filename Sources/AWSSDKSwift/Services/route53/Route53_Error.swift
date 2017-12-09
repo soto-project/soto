@@ -9,6 +9,7 @@ public enum Route53Error: AWSErrorType {
     case trafficPolicyAlreadyExists(message: String?)
     case invalidTrafficPolicyDocument(message: String?)
     case noSuchTrafficPolicyInstance(message: String?)
+    case noSuchQueryLoggingConfig(message: String?)
     case noSuchHostedZone(message: String?)
     case invalidVPCId(message: String?)
     case vPCAssociationNotFound(message: String?)
@@ -16,32 +17,36 @@ public enum Route53Error: AWSErrorType {
     case noSuchHealthCheck(message: String?)
     case priorRequestNotComplete(message: String?)
     case throttlingException(message: String?)
-    case healthCheckInUse(message: String?)
     case noSuchDelegationSet(message: String?)
-    case delegationSetNotReusable(message: String?)
-    case noSuchTrafficPolicy(message: String?)
-    case concurrentModification(message: String?)
-    case incompatibleVersion(message: String?)
-    case tooManyVPCAssociationAuthorizations(message: String?)
+    case hostedZoneNotPrivate(message: String?)
+    case healthCheckInUse(message: String?)
     case invalidDomainName(message: String?)
+    case delegationSetNotReusable(message: String?)
+    case incompatibleVersion(message: String?)
+    case concurrentModification(message: String?)
+    case tooManyVPCAssociationAuthorizations(message: String?)
+    case noSuchTrafficPolicy(message: String?)
     case delegationSetAlreadyCreated(message: String?)
     case limitsExceeded(message: String?)
     case hostedZoneNotFound(message: String?)
     case invalidArgument(message: String?)
     case delegationSetNotAvailable(message: String?)
     case delegationSetAlreadyReusable(message: String?)
-    case tooManyHealthChecks(message: String?)
-    case healthCheckAlreadyExists(message: String?)
     case hostedZoneNotEmpty(message: String?)
     case vPCAssociationAuthorizationNotFound(message: String?)
+    case tooManyHealthChecks(message: String?)
+    case healthCheckAlreadyExists(message: String?)
     case noSuchChange(message: String?)
     case healthCheckVersionMismatch(message: String?)
-    case conflictingTypes(message: String?)
+    case invalidPaginationToken(message: String?)
     case invalidChangeBatch(message: String?)
+    case conflictingTypes(message: String?)
     case trafficPolicyInUse(message: String?)
     case tooManyTrafficPolicyInstances(message: String?)
     case trafficPolicyInstanceAlreadyExists(message: String?)
-    case invalidPaginationToken(message: String?)
+    case noSuchCloudWatchLogsLogGroup(message: String?)
+    case queryLoggingConfigAlreadyExists(message: String?)
+    case insufficientCloudWatchLogsResourcePolicy(message: String?)
     case notAuthorizedException(message: String?)
     case publicZoneVPCAssociation(message: String?)
     case conflictingDomainExists(message: String?)
@@ -68,6 +73,8 @@ extension Route53Error {
             self = .invalidTrafficPolicyDocument(message: message)
         case "NoSuchTrafficPolicyInstance":
             self = .noSuchTrafficPolicyInstance(message: message)
+        case "NoSuchQueryLoggingConfig":
+            self = .noSuchQueryLoggingConfig(message: message)
         case "NoSuchHostedZone":
             self = .noSuchHostedZone(message: message)
         case "InvalidVPCId":
@@ -82,22 +89,24 @@ extension Route53Error {
             self = .priorRequestNotComplete(message: message)
         case "ThrottlingException":
             self = .throttlingException(message: message)
-        case "HealthCheckInUse":
-            self = .healthCheckInUse(message: message)
         case "NoSuchDelegationSet":
             self = .noSuchDelegationSet(message: message)
-        case "DelegationSetNotReusable":
-            self = .delegationSetNotReusable(message: message)
-        case "NoSuchTrafficPolicy":
-            self = .noSuchTrafficPolicy(message: message)
-        case "ConcurrentModification":
-            self = .concurrentModification(message: message)
-        case "IncompatibleVersion":
-            self = .incompatibleVersion(message: message)
-        case "TooManyVPCAssociationAuthorizations":
-            self = .tooManyVPCAssociationAuthorizations(message: message)
+        case "HostedZoneNotPrivate":
+            self = .hostedZoneNotPrivate(message: message)
+        case "HealthCheckInUse":
+            self = .healthCheckInUse(message: message)
         case "InvalidDomainName":
             self = .invalidDomainName(message: message)
+        case "DelegationSetNotReusable":
+            self = .delegationSetNotReusable(message: message)
+        case "IncompatibleVersion":
+            self = .incompatibleVersion(message: message)
+        case "ConcurrentModification":
+            self = .concurrentModification(message: message)
+        case "TooManyVPCAssociationAuthorizations":
+            self = .tooManyVPCAssociationAuthorizations(message: message)
+        case "NoSuchTrafficPolicy":
+            self = .noSuchTrafficPolicy(message: message)
         case "DelegationSetAlreadyCreated":
             self = .delegationSetAlreadyCreated(message: message)
         case "LimitsExceeded":
@@ -110,30 +119,36 @@ extension Route53Error {
             self = .delegationSetNotAvailable(message: message)
         case "DelegationSetAlreadyReusable":
             self = .delegationSetAlreadyReusable(message: message)
-        case "TooManyHealthChecks":
-            self = .tooManyHealthChecks(message: message)
-        case "HealthCheckAlreadyExists":
-            self = .healthCheckAlreadyExists(message: message)
         case "HostedZoneNotEmpty":
             self = .hostedZoneNotEmpty(message: message)
         case "VPCAssociationAuthorizationNotFound":
             self = .vPCAssociationAuthorizationNotFound(message: message)
+        case "TooManyHealthChecks":
+            self = .tooManyHealthChecks(message: message)
+        case "HealthCheckAlreadyExists":
+            self = .healthCheckAlreadyExists(message: message)
         case "NoSuchChange":
             self = .noSuchChange(message: message)
         case "HealthCheckVersionMismatch":
             self = .healthCheckVersionMismatch(message: message)
-        case "ConflictingTypes":
-            self = .conflictingTypes(message: message)
+        case "InvalidPaginationToken":
+            self = .invalidPaginationToken(message: message)
         case "InvalidChangeBatch":
             self = .invalidChangeBatch(message: message)
+        case "ConflictingTypes":
+            self = .conflictingTypes(message: message)
         case "TrafficPolicyInUse":
             self = .trafficPolicyInUse(message: message)
         case "TooManyTrafficPolicyInstances":
             self = .tooManyTrafficPolicyInstances(message: message)
         case "TrafficPolicyInstanceAlreadyExists":
             self = .trafficPolicyInstanceAlreadyExists(message: message)
-        case "InvalidPaginationToken":
-            self = .invalidPaginationToken(message: message)
+        case "NoSuchCloudWatchLogsLogGroup":
+            self = .noSuchCloudWatchLogsLogGroup(message: message)
+        case "QueryLoggingConfigAlreadyExists":
+            self = .queryLoggingConfigAlreadyExists(message: message)
+        case "InsufficientCloudWatchLogsResourcePolicy":
+            self = .insufficientCloudWatchLogsResourcePolicy(message: message)
         case "NotAuthorizedException":
             self = .notAuthorizedException(message: message)
         case "PublicZoneVPCAssociation":

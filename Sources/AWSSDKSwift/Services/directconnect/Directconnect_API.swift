@@ -25,6 +25,11 @@ public struct Directconnect {
         )
     }
 
+    ///  Creates a new connection between the customer network and a specific AWS Direct Connect location. A connection links your internal network to an AWS Direct Connect location over a standard 1 gigabit or 10 gigabit Ethernet fiber-optic cable. One end of the cable is connected to your router, the other to an AWS Direct Connect router. An AWS Direct Connect location provides access to Amazon Web Services in the region it is associated with. You can establish connections with AWS Direct Connect locations in multiple regions, but a connection in one region does not provide connectivity to other regions. To find the locations for your region, use DescribeLocations. You can automatically add the new connection to a link aggregation group (LAG) by specifying a LAG ID in the request. This ensures that the new connection is allocated on the same AWS Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint, the request fails and no connection will be created.
+    public func createConnection(_ input: CreateConnectionRequest) throws -> Connection {
+        return try client.send(operation: "CreateConnection", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a BGP peer on the specified virtual interface that matches the specified customer address and ASN. You cannot delete the last BGP peer from a virtual interface.
     public func deleteBGPPeer(_ input: DeleteBGPPeerRequest) throws -> DeleteBGPPeerResponse {
         return try client.send(operation: "DeleteBGPPeer", path: "/", httpMethod: "POST", input: input)
@@ -38,6 +43,11 @@ public struct Directconnect {
     ///  Displays all connections in this region. If a connection ID is provided, the call returns only that particular connection.
     public func describeConnections(_ input: DescribeConnectionsRequest) throws -> Connections {
         return try client.send(operation: "DescribeConnections", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an association between a direct connect gateway and a virtual private gateway (VGW). The VGW must be attached to a VPC and must not be associated with another direct connect gateway.
+    public func createDirectConnectGatewayAssociation(_ input: CreateDirectConnectGatewayAssociationRequest) throws -> CreateDirectConnectGatewayAssociationResult {
+        return try client.send(operation: "CreateDirectConnectGatewayAssociation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new BGP peer on a specified virtual interface. The BGP peer cannot be in the same address family (IPv4/IPv6) of an existing BGP peer on the virtual interface. You must create a BGP peer for the corresponding address family in order to access AWS resources that also use that address family. When creating a IPv6 BGP peer, the Amazon address and customer address fields must be left blank. IPv6 addresses are automatically assigned from Amazon's pool of IPv6 addresses; you cannot specify custom IPv6 addresses. For a public virtual interface, the Autonomous System Number (ASN) must be private or already whitelisted for the virtual interface.
@@ -60,14 +70,14 @@ public struct Directconnect {
         return try client.send(operation: "DescribeLags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new public virtual interface. A virtual interface is the VLAN that transports AWS Direct Connect traffic. A public virtual interface supports sending traffic to public services of AWS such as Amazon Simple Storage Service (Amazon S3). When creating an IPv6 public virtual interface (addressFamily is 'ipv6'), the customer and amazon address fields should be left blank to use auto-assigned IPv6 space. Custom IPv6 Addresses are currently not supported.
-    public func createPublicVirtualInterface(_ input: CreatePublicVirtualInterfaceRequest) throws -> VirtualInterface {
-        return try client.send(operation: "CreatePublicVirtualInterface", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Creates a new private virtual interface. A virtual interface is the VLAN that transports AWS Direct Connect traffic. A private virtual interface supports sending traffic to a single virtual private cloud (VPC).
     public func createPrivateVirtualInterface(_ input: CreatePrivateVirtualInterfaceRequest) throws -> VirtualInterface {
         return try client.send(operation: "CreatePrivateVirtualInterface", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new public virtual interface. A virtual interface is the VLAN that transports AWS Direct Connect traffic. A public virtual interface supports sending traffic to public services of AWS such as Amazon Simple Storage Service (Amazon S3). When creating an IPv6 public virtual interface (addressFamily is 'ipv6'), the customer and amazon address fields should be left blank to use auto-assigned IPv6 space. Custom IPv6 Addresses are currently not supported.
+    public func createPublicVirtualInterface(_ input: CreatePublicVirtualInterfaceRequest) throws -> VirtualInterface {
+        return try client.send(operation: "CreatePublicVirtualInterface", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Confirm the creation of a hosted connection on an interconnect. Upon creation, the hosted connection is initially in the 'Ordering' state, and will remain in this state until the owner calls ConfirmConnection to confirm creation of the hosted connection.
@@ -100,7 +110,7 @@ public struct Directconnect {
         return try client.send(operation: "DescribeInterconnects", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Associates a virtual interface with a specified link aggregation group (LAG) or connection. Connectivity to AWS is temporarily interrupted as the virtual interface is being migrated. If the target connection or LAG has an associated virtual interface with a conflicting VLAN number or a conflicting IP address, the operation fails.  Virtual interfaces associated with a hosted connection cannot be associated with a LAG; hosted connections must be migrated along with their virtual interfaces using AssociateHostedConnection. Hosted virtual interfaces (an interface for which the owner of the connection is not the owner of physical connection) can only be reassociated by the owner of the physical connection.
+    ///  Associates a virtual interface with a specified link aggregation group (LAG) or connection. Connectivity to AWS is temporarily interrupted as the virtual interface is being migrated. If the target connection or LAG has an associated virtual interface with a conflicting VLAN number or a conflicting IP address, the operation fails.  Virtual interfaces associated with a hosted connection cannot be associated with a LAG; hosted connections must be migrated along with their virtual interfaces using AssociateHostedConnection. In order to reassociate a virtual interface to a new connection or LAG, the requester must own either the virtual interface itself or the connection to which the virtual interface is currently associated. Additionally, the requester must own the connection or LAG to which the virtual interface will be newly associated.
     public func associateVirtualInterface(_ input: AssociateVirtualInterfaceRequest) throws -> VirtualInterface {
         return try client.send(operation: "AssociateVirtualInterface", path: "/", httpMethod: "POST", input: input)
     }
@@ -110,9 +120,14 @@ public struct Directconnect {
         return try client.send(operation: "AllocatePublicVirtualInterface", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deprecated in favor of DescribeLoa. Returns the LOA-CFA for a Connection. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that your APN partner or service provider uses when establishing your cross connect to AWS at the colocation facility. For more information, see Requesting Cross Connects at AWS Direct Connect Locations in the AWS Direct Connect user guide.
-    public func describeConnectionLoa(_ input: DescribeConnectionLoaRequest) throws -> DescribeConnectionLoaResponse {
-        return try client.send(operation: "DescribeConnectionLoa", path: "/", httpMethod: "POST", input: input)
+    ///  Returns a list of direct connect gateways in your account. Deleted direct connect gateways are not returned. You can provide a direct connect gateway ID in the request to return information about the specific direct connect gateway only. Otherwise, if a direct connect gateway ID is not provided, information about all of your direct connect gateways is returned. 
+    public func describeDirectConnectGateways(_ input: DescribeDirectConnectGatewaysRequest) throws -> DescribeDirectConnectGatewaysResult {
+        return try client.send(operation: "DescribeDirectConnectGateways", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the association between a direct connect gateway and a virtual private gateway.
+    public func deleteDirectConnectGatewayAssociation(_ input: DeleteDirectConnectGatewayAssociationRequest) throws -> DeleteDirectConnectGatewayAssociationResult {
+        return try client.send(operation: "DeleteDirectConnectGatewayAssociation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Accept ownership of a public virtual interface created by another customer. After the virtual interface owner calls this function, the specified virtual interface will be created and made available for handling traffic.
@@ -128,6 +143,26 @@ public struct Directconnect {
     ///  Deprecated in favor of DescribeLoa. Returns the LOA-CFA for an Interconnect. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is used when establishing your cross connect to AWS at the colocation facility. For more information, see Requesting Cross Connects at AWS Direct Connect Locations in the AWS Direct Connect user guide.
     public func describeInterconnectLoa(_ input: DescribeInterconnectLoaRequest) throws -> DescribeInterconnectLoaResponse {
         return try client.send(operation: "DescribeInterconnectLoa", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of all direct connect gateway and virtual interface (VIF) attachments. Either a direct connect gateway ID or a VIF ID must be provided in the request. If a direct connect gateway ID is provided, the response returns all VIFs attached to the direct connect gateway. If a VIF ID is provided, the response returns all direct connect gateways attached to the VIF. If both are provided, the response only returns the attachment that matches both the direct connect gateway and the VIF.
+    public func describeDirectConnectGatewayAttachments(_ input: DescribeDirectConnectGatewayAttachmentsRequest) throws -> DescribeDirectConnectGatewayAttachmentsResult {
+        return try client.send(operation: "DescribeDirectConnectGatewayAttachments", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a direct connect gateway. You must first delete all virtual interfaces that are attached to the direct connect gateway and disassociate all virtual private gateways that are associated with the direct connect gateway.
+    public func deleteDirectConnectGateway(_ input: DeleteDirectConnectGatewayRequest) throws -> DeleteDirectConnectGatewayResult {
+        return try client.send(operation: "DeleteDirectConnectGateway", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deprecated in favor of DescribeLoa. Returns the LOA-CFA for a Connection. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that your APN partner or service provider uses when establishing your cross connect to AWS at the colocation facility. For more information, see Requesting Cross Connects at AWS Direct Connect Locations in the AWS Direct Connect user guide.
+    public func describeConnectionLoa(_ input: DescribeConnectionLoaRequest) throws -> DescribeConnectionLoaResponse {
+        return try client.send(operation: "DescribeConnectionLoa", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new direct connect gateway. A direct connect gateway is an intermediate object that enables you to connect a set of virtual interfaces and virtual private gateways. direct connect gateways are global and visible in any AWS region after they are created. The virtual interfaces and virtual private gateways that are connected through a direct connect gateway can be in different regions. This enables you to connect to a VPC in any region, regardless of the region in which the virtual interfaces are located, and pass traffic between them.
+    public func createDirectConnectGateway(_ input: CreateDirectConnectGatewayRequest) throws -> CreateDirectConnectGatewayResult {
+        return try client.send(operation: "CreateDirectConnectGateway", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the list of AWS Direct Connect locations in the current AWS region. These are the locations that may be selected when calling CreateConnection or CreateInterconnect.
@@ -195,7 +230,7 @@ public struct Directconnect {
         return try client.send(operation: "DeleteInterconnect", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Accept ownership of a private virtual interface created by another customer. After the virtual interface owner calls this function, the virtual interface will be created and attached to the given virtual private gateway, and will be available for handling traffic.
+    ///  Accept ownership of a private virtual interface created by another customer. After the virtual interface owner calls this function, the virtual interface will be created and attached to the given virtual private gateway or direct connect gateway, and will be available for handling traffic.
     public func confirmPrivateVirtualInterface(_ input: ConfirmPrivateVirtualInterfaceRequest) throws -> ConfirmPrivateVirtualInterfaceResponse {
         return try client.send(operation: "ConfirmPrivateVirtualInterface", path: "/", httpMethod: "POST", input: input)
     }
@@ -205,9 +240,9 @@ public struct Directconnect {
         return try client.send(operation: "AssociateConnectionWithLag", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new connection between the customer network and a specific AWS Direct Connect location. A connection links your internal network to an AWS Direct Connect location over a standard 1 gigabit or 10 gigabit Ethernet fiber-optic cable. One end of the cable is connected to your router, the other to an AWS Direct Connect router. An AWS Direct Connect location provides access to Amazon Web Services in the region it is associated with. You can establish connections with AWS Direct Connect locations in multiple regions, but a connection in one region does not provide connectivity to other regions. You can automatically add the new connection to a link aggregation group (LAG) by specifying a LAG ID in the request. This ensures that the new connection is allocated on the same AWS Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint, the request fails and no connection will be created.
-    public func createConnection(_ input: CreateConnectionRequest) throws -> Connection {
-        return try client.send(operation: "CreateConnection", path: "/", httpMethod: "POST", input: input)
+    ///  Returns a list of all direct connect gateway and virtual private gateway (VGW) associations. Either a direct connect gateway ID or a VGW ID must be provided in the request. If a direct connect gateway ID is provided, the response returns all VGWs associated with the direct connect gateway. If a VGW ID is provided, the response returns all direct connect gateways associated with the VGW. If both are provided, the response only returns the association that matches both the direct connect gateway and the VGW.
+    public func describeDirectConnectGatewayAssociations(_ input: DescribeDirectConnectGatewayAssociationsRequest) throws -> DescribeDirectConnectGatewayAssociationsResult {
+        return try client.send(operation: "DescribeDirectConnectGatewayAssociations", path: "/", httpMethod: "POST", input: input)
     }
 
 

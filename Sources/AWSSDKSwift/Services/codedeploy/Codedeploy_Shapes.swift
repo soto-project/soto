@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Codedeploy {
 
     public struct RevisionLocation: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "s3Location", required: false, type: .structure), 
             AWSShapeMember(label: "gitHubLocation", required: false, type: .structure), 
             AWSShapeMember(label: "revisionType", required: false, type: .enum)
@@ -32,7 +32,7 @@ extension Codedeploy {
     }
 
     public struct GetDeploymentConfigOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentConfigInfo", required: false, type: .structure)
         ]
         /// Information about the deployment configuration.
@@ -54,7 +54,7 @@ extension Codedeploy {
     }
 
     public struct CreateDeploymentOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentId", required: false, type: .string)
         ]
         /// A unique deployment ID.
@@ -70,7 +70,7 @@ extension Codedeploy {
     }
 
     public struct ListGitHubAccountTokenNamesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier returned from the previous ListGitHubAccountTokenNames call. It can be used to return the next set of names in the list. 
@@ -86,7 +86,7 @@ extension Codedeploy {
     }
 
     public struct GetDeploymentOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentInfo", required: false, type: .structure)
         ]
         /// Information about the deployment.
@@ -102,7 +102,7 @@ extension Codedeploy {
     }
 
     public struct SkipWaitTimeForInstanceTerminationInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentId", required: false, type: .string)
         ]
         /// The ID of the blue/green deployment for which you want to skip the instance termination wait time.
@@ -118,7 +118,7 @@ extension Codedeploy {
     }
 
     public struct BatchGetDeploymentInstancesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instancesSummary", required: false, type: .list), 
             AWSShapeMember(label: "errorMessage", required: false, type: .string)
         ]
@@ -139,7 +139,7 @@ extension Codedeploy {
     }
 
     public struct GetDeploymentInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentId", required: true, type: .string)
         ]
         /// A deployment ID associated with the applicable IAM user or AWS account.
@@ -155,7 +155,7 @@ extension Codedeploy {
     }
 
     public struct DeploymentStyle: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentType", required: false, type: .enum), 
             AWSShapeMember(label: "deploymentOption", required: false, type: .enum)
         ]
@@ -176,7 +176,7 @@ extension Codedeploy {
     }
 
     public struct DeploymentInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
             AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
             AWSShapeMember(label: "creator", required: false, type: .enum), 
@@ -325,7 +325,7 @@ extension Codedeploy {
     }
 
     public struct BatchGetApplicationRevisionsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "revisions", required: true, type: .list), 
             AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
@@ -346,7 +346,7 @@ extension Codedeploy {
     }
 
     public struct TimeRange: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "start", required: false, type: .timestamp), 
             AWSShapeMember(label: "end", required: false, type: .timestamp)
         ]
@@ -367,7 +367,7 @@ extension Codedeploy {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
@@ -388,7 +388,7 @@ extension Codedeploy {
     }
 
     public struct BatchGetOnPremisesInstancesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceNames", required: false, type: .list)
         ]
         /// The names of the on-premises instances about which to get information.
@@ -410,7 +410,7 @@ extension Codedeploy {
     }
 
     public struct TagFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
@@ -443,7 +443,7 @@ extension Codedeploy {
     }
 
     public struct ErrorInformation: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "code", required: false, type: .enum), 
             AWSShapeMember(label: "message", required: false, type: .string)
         ]
@@ -464,7 +464,7 @@ extension Codedeploy {
     }
 
     public struct ListApplicationRevisionsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "sortOrder", required: false, type: .enum), 
             AWSShapeMember(label: "s3KeyPrefix", required: false, type: .string), 
@@ -510,7 +510,7 @@ extension Codedeploy {
     }
 
     public struct BatchGetDeploymentsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentsInfo", required: false, type: .list)
         ]
         /// Information about the deployments.
@@ -526,7 +526,7 @@ extension Codedeploy {
     }
 
     public struct CreateApplicationInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
         /// The name of the application. This name must be unique with the applicable IAM user or AWS account.
@@ -542,7 +542,7 @@ extension Codedeploy {
     }
 
     public struct UpdateDeploymentGroupOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "hooksNotCleanedUp", required: false, type: .list)
         ]
         /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the AWS account. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the AWS account.
@@ -558,7 +558,7 @@ extension Codedeploy {
     }
 
     public struct Alarm: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
         /// The name of the alarm. Maximum length is 255 characters. Each alarm name can be used only once in a list of alarms.
@@ -574,7 +574,7 @@ extension Codedeploy {
     }
 
     public struct CreateDeploymentConfigOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentConfigId", required: false, type: .string)
         ]
         /// A unique deployment configuration ID.
@@ -590,7 +590,7 @@ extension Codedeploy {
     }
 
     public struct GetOnPremisesInstanceOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceInfo", required: false, type: .structure)
         ]
         /// Information about the on-premises instance.
@@ -606,7 +606,7 @@ extension Codedeploy {
     }
 
     public struct GetDeploymentInstanceOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceSummary", required: false, type: .structure)
         ]
         /// Information about the instance.
@@ -622,7 +622,7 @@ extension Codedeploy {
     }
 
     public struct DeploymentReadyOption: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "actionOnTimeout", required: false, type: .enum), 
             AWSShapeMember(label: "waitTimeInMinutes", required: false, type: .integer)
         ]
@@ -643,7 +643,7 @@ extension Codedeploy {
     }
 
     public struct RollbackInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "rollbackDeploymentId", required: false, type: .string), 
             AWSShapeMember(label: "rollbackTriggeringDeploymentId", required: false, type: .string), 
             AWSShapeMember(label: "rollbackMessage", required: false, type: .string)
@@ -668,8 +668,24 @@ extension Codedeploy {
         }
     }
 
+    public struct TargetGroupInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+        /// For blue/green deployments, the name of the target group that instances in the original environment are deregistered from, and instances in the replacement environment registered with. For in-place deployments, the name of the target group that instances are deregistered from, so they are not serving traffic during a deployment, and then re-registered with after the deployment completes. 
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
     public struct ListDeploymentsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "createTimeRange", required: false, type: .structure), 
             AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
@@ -705,7 +721,7 @@ extension Codedeploy {
     }
 
     public struct BatchGetDeploymentsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentIds", required: false, type: .list)
         ]
         /// A list of deployment IDs, separated by spaces.
@@ -727,7 +743,7 @@ extension Codedeploy {
     }
 
     public struct DeleteDeploymentGroupOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "hooksNotCleanedUp", required: false, type: .list)
         ]
         /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group.
@@ -743,7 +759,7 @@ extension Codedeploy {
     }
 
     public struct ListApplicationRevisionsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "revisions", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -771,7 +787,7 @@ extension Codedeploy {
     }
 
     public struct ListOnPremisesInstancesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceNames", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -792,7 +808,7 @@ extension Codedeploy {
     }
 
     public struct ListDeploymentConfigsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier returned from the previous list deployment configurations call. It can be used to return the next set of deployment configurations in the list. 
@@ -814,7 +830,7 @@ extension Codedeploy {
     }
 
     public struct BatchGetApplicationsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applicationsInfo", required: false, type: .list)
         ]
         /// Information about the applications.
@@ -840,7 +856,7 @@ extension Codedeploy {
     }
 
     public struct BlueGreenDeploymentConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "terminateBlueInstancesOnDeploymentSuccess", required: false, type: .structure), 
             AWSShapeMember(label: "greenFleetProvisioningOption", required: false, type: .structure), 
             AWSShapeMember(label: "deploymentReadyOption", required: false, type: .structure)
@@ -866,7 +882,7 @@ extension Codedeploy {
     }
 
     public struct BatchGetDeploymentGroupsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentGroupsInfo", required: false, type: .list), 
             AWSShapeMember(label: "errorMessage", required: false, type: .string)
         ]
@@ -887,7 +903,7 @@ extension Codedeploy {
     }
 
     public struct ContinueDeploymentInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentId", required: false, type: .string)
         ]
         /// The deployment ID of the blue/green deployment for which you want to start rerouting traffic to the replacement environment.
@@ -903,7 +919,7 @@ extension Codedeploy {
     }
 
     public struct DeleteDeploymentConfigInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentConfigName", required: true, type: .string)
         ]
         /// The name of a deployment configuration associated with the applicable IAM user or AWS account.
@@ -919,7 +935,7 @@ extension Codedeploy {
     }
 
     public struct AutoScalingGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "hook", required: false, type: .string)
         ]
@@ -940,7 +956,7 @@ extension Codedeploy {
     }
 
     public struct ListDeploymentGroupsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
@@ -961,7 +977,7 @@ extension Codedeploy {
     }
 
     public struct ListDeploymentInstancesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceStatusFilter", required: false, type: .list), 
             AWSShapeMember(label: "instanceTypeFilter", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -1025,7 +1041,7 @@ extension Codedeploy {
     }
 
     public struct DeleteApplicationInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
@@ -1041,31 +1057,37 @@ extension Codedeploy {
     }
 
     public struct CreateDeploymentGroupInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentGroupName", required: true, type: .string), 
             AWSShapeMember(label: "serviceRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "ec2TagSet", required: false, type: .structure), 
             AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
             AWSShapeMember(label: "alarmConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "onPremisesTagSet", required: false, type: .structure), 
             AWSShapeMember(label: "applicationName", required: true, type: .string), 
             AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
             AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
             AWSShapeMember(label: "triggerConfigurations", required: false, type: .list), 
             AWSShapeMember(label: "deploymentStyle", required: false, type: .structure), 
-            AWSShapeMember(label: "ec2TagFilters", required: false, type: .list), 
             AWSShapeMember(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "ec2TagFilters", required: false, type: .list), 
             AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure)
         ]
         /// The name of a new deployment group for the specified application.
         public let deploymentGroupName: String
         /// A service role ARN that allows AWS CodeDeploy to act on the user's behalf when interacting with AWS services.
         public let serviceRoleArn: String
+        /// Information about groups of tags applied to EC2 instances. The deployment group will include only EC2 instances identified by all the tag groups. Cannot be used in the same call as ec2TagFilters.
+        public let ec2TagSet: EC2TagSet?
         /// Information about the load balancer used in a deployment.
         public let loadBalancerInfo: LoadBalancerInfo?
         /// Information to add about Amazon CloudWatch alarms when the deployment group is created.
         public let alarmConfiguration: AlarmConfiguration?
         /// Information about blue/green deployment options for a deployment group.
         public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
+        /// Information about groups of tags applied to on-premises instances. The deployment group will include only on-premises instances identified by all the tag groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
+        public let onPremisesTagSet: OnPremisesTagSet?
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
         public let applicationName: String
         /// A list of associated Auto Scaling groups.
@@ -1076,42 +1098,46 @@ extension Codedeploy {
         public let triggerConfigurations: [TriggerConfig]?
         /// Information about the type of deployment, in-place or blue/green, that you want to run and whether to route deployment traffic behind a load balancer.
         public let deploymentStyle: DeploymentStyle?
-        /// The Amazon EC2 tags on which to filter. The deployment group will include EC2 instances with any of the specified tags.
-        public let ec2TagFilters: [EC2TagFilter]?
-        /// The on-premises instance tags on which to filter. The deployment group will include on-premises instances with any of the specified tags.
+        /// The on-premises instance tags on which to filter. The deployment group will include on-premises instances with any of the specified tags. Cannot be used in the same call as OnPremisesTagSet.
         public let onPremisesInstanceTagFilters: [TagFilter]?
+        /// The Amazon EC2 tags on which to filter. The deployment group will include EC2 instances with any of the specified tags. Cannot be used in the same call as ec2TagSet.
+        public let ec2TagFilters: [EC2TagFilter]?
         /// Configuration information for an automatic rollback that is added when a deployment group is created.
         public let autoRollbackConfiguration: AutoRollbackConfiguration?
 
-        public init(deploymentGroupName: String, serviceRoleArn: String, loadBalancerInfo: LoadBalancerInfo? = nil, alarmConfiguration: AlarmConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, applicationName: String, autoScalingGroups: [String]? = nil, deploymentConfigName: String? = nil, triggerConfigurations: [TriggerConfig]? = nil, deploymentStyle: DeploymentStyle? = nil, ec2TagFilters: [EC2TagFilter]? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil) {
+        public init(deploymentGroupName: String, serviceRoleArn: String, ec2TagSet: EC2TagSet? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, alarmConfiguration: AlarmConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, applicationName: String, autoScalingGroups: [String]? = nil, deploymentConfigName: String? = nil, triggerConfigurations: [TriggerConfig]? = nil, deploymentStyle: DeploymentStyle? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, ec2TagFilters: [EC2TagFilter]? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil) {
             self.deploymentGroupName = deploymentGroupName
             self.serviceRoleArn = serviceRoleArn
+            self.ec2TagSet = ec2TagSet
             self.loadBalancerInfo = loadBalancerInfo
             self.alarmConfiguration = alarmConfiguration
             self.blueGreenDeploymentConfiguration = blueGreenDeploymentConfiguration
+            self.onPremisesTagSet = onPremisesTagSet
             self.applicationName = applicationName
             self.autoScalingGroups = autoScalingGroups
             self.deploymentConfigName = deploymentConfigName
             self.triggerConfigurations = triggerConfigurations
             self.deploymentStyle = deploymentStyle
-            self.ec2TagFilters = ec2TagFilters
             self.onPremisesInstanceTagFilters = onPremisesInstanceTagFilters
+            self.ec2TagFilters = ec2TagFilters
             self.autoRollbackConfiguration = autoRollbackConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case deploymentGroupName = "deploymentGroupName"
             case serviceRoleArn = "serviceRoleArn"
+            case ec2TagSet = "ec2TagSet"
             case loadBalancerInfo = "loadBalancerInfo"
             case alarmConfiguration = "alarmConfiguration"
             case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case onPremisesTagSet = "onPremisesTagSet"
             case applicationName = "applicationName"
             case autoScalingGroups = "autoScalingGroups"
             case deploymentConfigName = "deploymentConfigName"
             case triggerConfigurations = "triggerConfigurations"
             case deploymentStyle = "deploymentStyle"
-            case ec2TagFilters = "ec2TagFilters"
             case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
+            case ec2TagFilters = "ec2TagFilters"
             case autoRollbackConfiguration = "autoRollbackConfiguration"
         }
     }
@@ -1121,23 +1147,28 @@ extension Codedeploy {
     }
 
     public struct LoadBalancerInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "targetGroupInfoList", required: false, type: .list), 
             AWSShapeMember(label: "elbInfoList", required: false, type: .list)
         ]
-        /// An array containing information about the load balancer in Elastic Load Balancing to use in a deployment.
+        /// An array containing information about the target group to use for load balancing in a deployment. In Elastic Load Balancing, target groups are used with Application Load Balancers.
+        public let targetGroupInfoList: [TargetGroupInfo]?
+        /// An array containing information about the load balancer to use for load balancing in a deployment. In Elastic Load Balancing, load balancers are used with Classic Load Balancers.
         public let elbInfoList: [ELBInfo]?
 
-        public init(elbInfoList: [ELBInfo]? = nil) {
+        public init(targetGroupInfoList: [TargetGroupInfo]? = nil, elbInfoList: [ELBInfo]? = nil) {
+            self.targetGroupInfoList = targetGroupInfoList
             self.elbInfoList = elbInfoList
         }
 
         private enum CodingKeys: String, CodingKey {
+            case targetGroupInfoList = "targetGroupInfoList"
             case elbInfoList = "elbInfoList"
         }
     }
 
     public struct BatchGetDeploymentInstancesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentId", required: true, type: .string), 
             AWSShapeMember(label: "instanceIds", required: true, type: .list)
         ]
@@ -1158,7 +1189,7 @@ extension Codedeploy {
     }
 
     public struct BatchGetOnPremisesInstancesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceInfos", required: false, type: .list)
         ]
         /// Information about the on-premises instances.
@@ -1184,7 +1215,7 @@ extension Codedeploy {
     }
 
     public struct StopDeploymentOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "statusMessage", required: false, type: .string)
         ]
@@ -1204,8 +1235,24 @@ extension Codedeploy {
         }
     }
 
+    public struct OnPremisesTagSet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "onPremisesTagSetList", required: false, type: .list)
+        ]
+        /// A list containing other lists of on-premises instance tag groups. In order for an instance to be included in the deployment group, it must be identified by all the tag groups in the list.
+        public let onPremisesTagSetList: [[TagFilter]]?
+
+        public init(onPremisesTagSetList: [[TagFilter]]? = nil) {
+            self.onPremisesTagSetList = onPremisesTagSetList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case onPremisesTagSetList = "onPremisesTagSetList"
+        }
+    }
+
     public struct AutoRollbackConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "events", required: false, type: .list), 
             AWSShapeMember(label: "enabled", required: false, type: .boolean)
         ]
@@ -1226,7 +1273,7 @@ extension Codedeploy {
     }
 
     public struct ListDeploymentGroupsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentGroups", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "applicationName", required: false, type: .string)
@@ -1259,7 +1306,7 @@ extension Codedeploy {
     }
 
     public struct AddTagsToOnPremisesInstancesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", required: true, type: .list), 
             AWSShapeMember(label: "instanceNames", required: true, type: .list)
         ]
@@ -1291,7 +1338,7 @@ extension Codedeploy {
     }
 
     public struct ListDeploymentConfigsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "deploymentConfigsList", required: false, type: .list)
         ]
@@ -1312,7 +1359,7 @@ extension Codedeploy {
     }
 
     public struct GitHubLocation: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "commitId", required: false, type: .string), 
             AWSShapeMember(label: "repository", required: false, type: .string)
         ]
@@ -1333,16 +1380,16 @@ extension Codedeploy {
     }
 
     public struct CreateDeploymentConfigInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentConfigName", required: true, type: .string), 
-            AWSShapeMember(label: "minimumHealthyHosts", required: false, type: .structure)
+            AWSShapeMember(label: "minimumHealthyHosts", required: true, type: .structure)
         ]
         /// The name of the deployment configuration to create.
         public let deploymentConfigName: String
         /// The minimum number of healthy instances that should be available at any time during the deployment. There are two parameters expected in the input: type and value. The type parameter takes either of the following values:   HOST_COUNT: The value parameter represents the minimum number of healthy instances as an absolute value.   FLEET_PERCENT: The value parameter represents the minimum number of healthy instances as a percentage of the total number of instances in the deployment. If you specify FLEET_PERCENT, at the start of the deployment, AWS CodeDeploy converts the percentage to the equivalent number of instance and rounds up fractional instances.   The value parameter takes an integer. For example, to set a minimum of 95% healthy instance, specify a type of FLEET_PERCENT and a value of 95.
-        public let minimumHealthyHosts: MinimumHealthyHosts?
+        public let minimumHealthyHosts: MinimumHealthyHosts
 
-        public init(deploymentConfigName: String, minimumHealthyHosts: MinimumHealthyHosts? = nil) {
+        public init(deploymentConfigName: String, minimumHealthyHosts: MinimumHealthyHosts) {
             self.deploymentConfigName = deploymentConfigName
             self.minimumHealthyHosts = minimumHealthyHosts
         }
@@ -1354,7 +1401,7 @@ extension Codedeploy {
     }
 
     public struct ListOnPremisesInstancesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tagFilters", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "registrationStatus", required: false, type: .enum)
@@ -1380,7 +1427,7 @@ extension Codedeploy {
     }
 
     public struct RegisterApplicationRevisionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "revision", required: true, type: .structure), 
             AWSShapeMember(label: "applicationName", required: true, type: .string)
@@ -1406,7 +1453,7 @@ extension Codedeploy {
     }
 
     public struct CreateApplicationOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applicationId", required: false, type: .string)
         ]
         /// A unique application ID.
@@ -1422,7 +1469,7 @@ extension Codedeploy {
     }
 
     public struct RemoveTagsFromOnPremisesInstancesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", required: true, type: .list), 
             AWSShapeMember(label: "instanceNames", required: true, type: .list)
         ]
@@ -1443,7 +1490,7 @@ extension Codedeploy {
     }
 
     public struct RevisionInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "genericRevisionInfo", required: false, type: .structure), 
             AWSShapeMember(label: "revisionLocation", required: false, type: .structure)
         ]
@@ -1464,7 +1511,7 @@ extension Codedeploy {
     }
 
     public struct EC2TagFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
@@ -1490,14 +1537,16 @@ extension Codedeploy {
     }
 
     public struct DeploymentGroupInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lastSuccessfulDeployment", required: false, type: .structure), 
             AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
             AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "ec2TagSet", required: false, type: .structure), 
             AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
             AWSShapeMember(label: "deploymentGroupId", required: false, type: .string), 
             AWSShapeMember(label: "alarmConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "onPremisesTagSet", required: false, type: .structure), 
             AWSShapeMember(label: "applicationName", required: false, type: .string), 
             AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
             AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
@@ -1515,6 +1564,8 @@ extension Codedeploy {
         public let deploymentGroupName: String?
         /// A service role ARN.
         public let serviceRoleArn: String?
+        /// Information about groups of tags applied to an EC2 instance. The deployment group includes only EC2 instances identified by all the tag groups. Cannot be used in the same call as ec2TagFilters.
+        public let ec2TagSet: EC2TagSet?
         /// Information about the load balancer to use in a deployment.
         public let loadBalancerInfo: LoadBalancerInfo?
         /// The deployment group ID.
@@ -1523,6 +1574,8 @@ extension Codedeploy {
         public let alarmConfiguration: AlarmConfiguration?
         /// Information about blue/green deployment options for a deployment group.
         public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
+        /// Information about groups of tags applied to an on-premises instance. The deployment group includes only on-premises instances identified by all the tag groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
+        public let onPremisesTagSet: OnPremisesTagSet?
         /// The application name.
         public let applicationName: String?
         /// A list of associated Auto Scaling groups.
@@ -1535,23 +1588,25 @@ extension Codedeploy {
         public let deploymentStyle: DeploymentStyle?
         /// Information about the most recent attempted deployment to the deployment group.
         public let lastAttemptedDeployment: LastDeploymentInfo?
-        /// The on-premises instance tags on which to filter.
+        /// The on-premises instance tags on which to filter. The deployment group includes on-premises instances with any of the specified tags.
         public let onPremisesInstanceTagFilters: [TagFilter]?
-        /// The Amazon EC2 tags on which to filter.
+        /// The Amazon EC2 tags on which to filter. The deployment group includes EC2 instances with any of the specified tags.
         public let ec2TagFilters: [EC2TagFilter]?
         /// Information about the automatic rollback configuration associated with the deployment group.
         public let autoRollbackConfiguration: AutoRollbackConfiguration?
         /// Information about the deployment group's target revision, including type and location.
         public let targetRevision: RevisionLocation?
 
-        public init(lastSuccessfulDeployment: LastDeploymentInfo? = nil, deploymentGroupName: String? = nil, serviceRoleArn: String? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, deploymentGroupId: String? = nil, alarmConfiguration: AlarmConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, applicationName: String? = nil, autoScalingGroups: [AutoScalingGroup]? = nil, deploymentConfigName: String? = nil, triggerConfigurations: [TriggerConfig]? = nil, deploymentStyle: DeploymentStyle? = nil, lastAttemptedDeployment: LastDeploymentInfo? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, ec2TagFilters: [EC2TagFilter]? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, targetRevision: RevisionLocation? = nil) {
+        public init(lastSuccessfulDeployment: LastDeploymentInfo? = nil, deploymentGroupName: String? = nil, serviceRoleArn: String? = nil, ec2TagSet: EC2TagSet? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, deploymentGroupId: String? = nil, alarmConfiguration: AlarmConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, applicationName: String? = nil, autoScalingGroups: [AutoScalingGroup]? = nil, deploymentConfigName: String? = nil, triggerConfigurations: [TriggerConfig]? = nil, deploymentStyle: DeploymentStyle? = nil, lastAttemptedDeployment: LastDeploymentInfo? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, ec2TagFilters: [EC2TagFilter]? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, targetRevision: RevisionLocation? = nil) {
             self.lastSuccessfulDeployment = lastSuccessfulDeployment
             self.deploymentGroupName = deploymentGroupName
             self.serviceRoleArn = serviceRoleArn
+            self.ec2TagSet = ec2TagSet
             self.loadBalancerInfo = loadBalancerInfo
             self.deploymentGroupId = deploymentGroupId
             self.alarmConfiguration = alarmConfiguration
             self.blueGreenDeploymentConfiguration = blueGreenDeploymentConfiguration
+            self.onPremisesTagSet = onPremisesTagSet
             self.applicationName = applicationName
             self.autoScalingGroups = autoScalingGroups
             self.deploymentConfigName = deploymentConfigName
@@ -1568,10 +1623,12 @@ extension Codedeploy {
             case lastSuccessfulDeployment = "lastSuccessfulDeployment"
             case deploymentGroupName = "deploymentGroupName"
             case serviceRoleArn = "serviceRoleArn"
+            case ec2TagSet = "ec2TagSet"
             case loadBalancerInfo = "loadBalancerInfo"
             case deploymentGroupId = "deploymentGroupId"
             case alarmConfiguration = "alarmConfiguration"
             case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case onPremisesTagSet = "onPremisesTagSet"
             case applicationName = "applicationName"
             case autoScalingGroups = "autoScalingGroups"
             case deploymentConfigName = "deploymentConfigName"
@@ -1586,7 +1643,7 @@ extension Codedeploy {
     }
 
     public struct ListApplicationsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier returned from the previous list applications call. It can be used to return the next set of applications in the list.
@@ -1602,7 +1659,7 @@ extension Codedeploy {
     }
 
     public struct StopDeploymentInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentId", required: true, type: .string), 
             AWSShapeMember(label: "autoRollbackEnabled", required: false, type: .boolean)
         ]
@@ -1630,7 +1687,7 @@ extension Codedeploy {
     }
 
     public struct InstanceInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "iamSessionArn", required: false, type: .string), 
             AWSShapeMember(label: "instanceName", required: false, type: .string), 
             AWSShapeMember(label: "deregisterTime", required: false, type: .timestamp), 
@@ -1676,7 +1733,7 @@ extension Codedeploy {
     }
 
     public struct ListApplicationsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "applications", required: false, type: .list)
         ]
@@ -1697,7 +1754,7 @@ extension Codedeploy {
     }
 
     public struct Diagnostics: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "scriptName", required: false, type: .string), 
             AWSShapeMember(label: "message", required: false, type: .string), 
             AWSShapeMember(label: "errorCode", required: false, type: .enum), 
@@ -1728,7 +1785,7 @@ extension Codedeploy {
     }
 
     public struct GenericRevisionInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "firstUsedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "lastUsedTime", required: false, type: .timestamp), 
@@ -1770,7 +1827,7 @@ extension Codedeploy {
     }
 
     public struct BatchGetApplicationsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applicationNames", required: false, type: .list)
         ]
         /// A list of application names separated by spaces.
@@ -1786,7 +1843,7 @@ extension Codedeploy {
     }
 
     public struct GetApplicationRevisionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "revision", required: true, type: .structure), 
             AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
@@ -1829,7 +1886,7 @@ extension Codedeploy {
     }
 
     public struct ApplicationInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "gitHubAccountName", required: false, type: .string), 
             AWSShapeMember(label: "linkedToGitHub", required: false, type: .boolean), 
             AWSShapeMember(label: "createTime", required: false, type: .timestamp), 
@@ -1871,7 +1928,7 @@ extension Codedeploy {
     }
 
     public struct GetDeploymentGroupOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentGroupInfo", required: false, type: .structure)
         ]
         /// Information about the deployment group.
@@ -1887,7 +1944,7 @@ extension Codedeploy {
     }
 
     public struct BlueInstanceTerminationOption: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "action", required: false, type: .enum), 
             AWSShapeMember(label: "terminationWaitTimeInMinutes", required: false, type: .integer)
         ]
@@ -1908,7 +1965,7 @@ extension Codedeploy {
     }
 
     public struct TriggerConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "triggerEvents", required: false, type: .list), 
             AWSShapeMember(label: "triggerName", required: false, type: .string), 
             AWSShapeMember(label: "triggerTargetArn", required: false, type: .string)
@@ -1952,7 +2009,7 @@ extension Codedeploy {
     }
 
     public struct ListGitHubAccountTokenNamesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "tokenNameList", required: false, type: .list)
         ]
@@ -1973,7 +2030,7 @@ extension Codedeploy {
     }
 
     public struct GetDeploymentGroupInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentGroupName", required: true, type: .string), 
             AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
@@ -1994,7 +2051,7 @@ extension Codedeploy {
     }
 
     public struct AlarmConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "alarms", required: false, type: .list), 
             AWSShapeMember(label: "enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "ignorePollAlarmFailure", required: false, type: .boolean)
@@ -2020,7 +2077,7 @@ extension Codedeploy {
     }
 
     public struct BatchGetDeploymentGroupsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentGroupNames", required: true, type: .list), 
             AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
@@ -2041,7 +2098,7 @@ extension Codedeploy {
     }
 
     public struct CreateDeploymentInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "revision", required: false, type: .structure), 
             AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
             AWSShapeMember(label: "targetInstances", required: false, type: .structure), 
@@ -2102,7 +2159,7 @@ extension Codedeploy {
     }
 
     public struct S3Location: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "bundleType", required: false, type: .enum), 
             AWSShapeMember(label: "version", required: false, type: .string), 
             AWSShapeMember(label: "bucket", required: false, type: .string), 
@@ -2138,7 +2195,7 @@ extension Codedeploy {
     }
 
     public struct GetApplicationOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "application", required: false, type: .structure)
         ]
         /// Information about the application.
@@ -2154,10 +2211,10 @@ extension Codedeploy {
     }
 
     public struct ELBInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
-        /// For blue/green deployments, the name of the load balancer that will be used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the load balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment completes.
+        /// For blue/green deployments, the name of the load balancer that will be used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the load balancer that instances are deregistered from, so they are not serving traffic during a deployment, and then re-registered with after the deployment completes.
         public let name: String?
 
         public init(name: String? = nil) {
@@ -2170,7 +2227,7 @@ extension Codedeploy {
     }
 
     public struct GetDeploymentConfigInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentConfigName", required: true, type: .string)
         ]
         /// The name of a deployment configuration associated with the applicable IAM user or AWS account.
@@ -2193,7 +2250,7 @@ extension Codedeploy {
     }
 
     public struct ListDeploymentsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deployments", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -2214,7 +2271,7 @@ extension Codedeploy {
     }
 
     public struct DeleteDeploymentGroupInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentGroupName", required: true, type: .string), 
             AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
@@ -2235,7 +2292,7 @@ extension Codedeploy {
     }
 
     public struct ListDeploymentInstancesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "instancesList", required: false, type: .list)
         ]
@@ -2256,7 +2313,7 @@ extension Codedeploy {
     }
 
     public struct LastDeploymentInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentId", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
@@ -2287,7 +2344,7 @@ extension Codedeploy {
     }
 
     public struct DeregisterOnPremisesInstanceInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The name of the on-premises instance to deregister.
@@ -2303,7 +2360,7 @@ extension Codedeploy {
     }
 
     public struct BatchGetApplicationRevisionsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "revisions", required: false, type: .list), 
             AWSShapeMember(label: "errorMessage", required: false, type: .string), 
             AWSShapeMember(label: "applicationName", required: false, type: .string)
@@ -2329,7 +2386,7 @@ extension Codedeploy {
     }
 
     public struct GetApplicationInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
@@ -2345,7 +2402,7 @@ extension Codedeploy {
     }
 
     public struct GetOnPremisesInstanceInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The name of the on-premises instance about which to get information.
@@ -2361,7 +2418,7 @@ extension Codedeploy {
     }
 
     public struct GetApplicationRevisionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "revision", required: false, type: .structure), 
             AWSShapeMember(label: "revisionInfo", required: false, type: .structure), 
             AWSShapeMember(label: "applicationName", required: false, type: .string)
@@ -2387,7 +2444,7 @@ extension Codedeploy {
     }
 
     public struct GreenFleetProvisioningOption: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "action", required: false, type: .enum)
         ]
         /// The method used to add instances to a replacement environment.   DISCOVER_EXISTING: Use instances that already exist or will be created manually.   COPY_AUTO_SCALING_GROUP: Use settings from a specified Auto Scaling group to define and create instances in a new Auto Scaling group.  
@@ -2403,7 +2460,7 @@ extension Codedeploy {
     }
 
     public struct DeploymentOverview: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InProgress", required: false, type: .long), 
             AWSShapeMember(label: "Pending", required: false, type: .long), 
             AWSShapeMember(label: "Skipped", required: false, type: .long), 
@@ -2444,7 +2501,7 @@ extension Codedeploy {
     }
 
     public struct UpdateApplicationInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "newApplicationName", required: false, type: .string), 
             AWSShapeMember(label: "applicationName", required: false, type: .string)
         ]
@@ -2465,12 +2522,14 @@ extension Codedeploy {
     }
 
     public struct UpdateDeploymentGroupInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "newDeploymentGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "ec2TagSet", required: false, type: .structure), 
             AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "newDeploymentGroupName", required: false, type: .string), 
             AWSShapeMember(label: "alarmConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "onPremisesTagSet", required: false, type: .structure), 
             AWSShapeMember(label: "applicationName", required: true, type: .string), 
             AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
             AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
@@ -2483,14 +2542,18 @@ extension Codedeploy {
         ]
         /// A replacement ARN for the service role, if you want to change it.
         public let serviceRoleArn: String?
-        /// The new name of the deployment group, if you want to change it.
-        public let newDeploymentGroupName: String?
+        /// Information about groups of tags applied to on-premises instances. The deployment group will include only EC2 instances identified by all the tag groups.
+        public let ec2TagSet: EC2TagSet?
         /// Information about the load balancer used in a deployment.
         public let loadBalancerInfo: LoadBalancerInfo?
+        /// The new name of the deployment group, if you want to change it.
+        public let newDeploymentGroupName: String?
         /// Information to add or change about Amazon CloudWatch alarms when the deployment group is updated.
         public let alarmConfiguration: AlarmConfiguration?
         /// Information about blue/green deployment options for a deployment group.
         public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
+        /// Information about an on-premises instance tag set. The deployment group will include only on-premises instances identified by all the tag groups.
+        public let onPremisesTagSet: OnPremisesTagSet?
         /// The application name corresponding to the deployment group to update.
         public let applicationName: String
         /// The replacement list of Auto Scaling groups to be included in the deployment group, if you want to change them. To keep the Auto Scaling groups, enter their names. To remove Auto Scaling groups, do not enter any Auto Scaling group names.
@@ -2510,12 +2573,14 @@ extension Codedeploy {
         /// Information for an automatic rollback configuration that is added or changed when a deployment group is updated.
         public let autoRollbackConfiguration: AutoRollbackConfiguration?
 
-        public init(serviceRoleArn: String? = nil, newDeploymentGroupName: String? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, alarmConfiguration: AlarmConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, applicationName: String, autoScalingGroups: [String]? = nil, deploymentConfigName: String? = nil, triggerConfigurations: [TriggerConfig]? = nil, deploymentStyle: DeploymentStyle? = nil, currentDeploymentGroupName: String, onPremisesInstanceTagFilters: [TagFilter]? = nil, ec2TagFilters: [EC2TagFilter]? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil) {
+        public init(serviceRoleArn: String? = nil, ec2TagSet: EC2TagSet? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, newDeploymentGroupName: String? = nil, alarmConfiguration: AlarmConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, applicationName: String, autoScalingGroups: [String]? = nil, deploymentConfigName: String? = nil, triggerConfigurations: [TriggerConfig]? = nil, deploymentStyle: DeploymentStyle? = nil, currentDeploymentGroupName: String, onPremisesInstanceTagFilters: [TagFilter]? = nil, ec2TagFilters: [EC2TagFilter]? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil) {
             self.serviceRoleArn = serviceRoleArn
-            self.newDeploymentGroupName = newDeploymentGroupName
+            self.ec2TagSet = ec2TagSet
             self.loadBalancerInfo = loadBalancerInfo
+            self.newDeploymentGroupName = newDeploymentGroupName
             self.alarmConfiguration = alarmConfiguration
             self.blueGreenDeploymentConfiguration = blueGreenDeploymentConfiguration
+            self.onPremisesTagSet = onPremisesTagSet
             self.applicationName = applicationName
             self.autoScalingGroups = autoScalingGroups
             self.deploymentConfigName = deploymentConfigName
@@ -2529,10 +2594,12 @@ extension Codedeploy {
 
         private enum CodingKeys: String, CodingKey {
             case serviceRoleArn = "serviceRoleArn"
-            case newDeploymentGroupName = "newDeploymentGroupName"
+            case ec2TagSet = "ec2TagSet"
             case loadBalancerInfo = "loadBalancerInfo"
+            case newDeploymentGroupName = "newDeploymentGroupName"
             case alarmConfiguration = "alarmConfiguration"
             case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case onPremisesTagSet = "onPremisesTagSet"
             case applicationName = "applicationName"
             case autoScalingGroups = "autoScalingGroups"
             case deploymentConfigName = "deploymentConfigName"
@@ -2545,8 +2612,24 @@ extension Codedeploy {
         }
     }
 
+    public struct EC2TagSet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ec2TagSetList", required: false, type: .list)
+        ]
+        /// A list containing other lists of EC2 instance tag groups. In order for an instance to be included in the deployment group, it must be identified by all the tag groups in the list.
+        public let ec2TagSetList: [[EC2TagFilter]]?
+
+        public init(ec2TagSetList: [[EC2TagFilter]]? = nil) {
+            self.ec2TagSetList = ec2TagSetList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2TagSetList = "ec2TagSetList"
+        }
+    }
+
     public struct CreateDeploymentGroupOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentGroupId", required: false, type: .string)
         ]
         /// A unique deployment group ID.
@@ -2562,7 +2645,7 @@ extension Codedeploy {
     }
 
     public struct InstanceSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceId", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "instanceType", required: false, type: .enum), 
@@ -2603,7 +2686,7 @@ extension Codedeploy {
     }
 
     public struct RegisterOnPremisesInstanceInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "iamSessionArn", required: false, type: .string), 
             AWSShapeMember(label: "iamUserArn", required: false, type: .string), 
             AWSShapeMember(label: "instanceName", required: true, type: .string)
@@ -2641,7 +2724,7 @@ extension Codedeploy {
     }
 
     public struct DeploymentConfigInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
             AWSShapeMember(label: "minimumHealthyHosts", required: false, type: .structure), 
             AWSShapeMember(label: "createTime", required: false, type: .timestamp), 
@@ -2672,7 +2755,7 @@ extension Codedeploy {
     }
 
     public struct LifecycleEvent: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "diagnostics", required: false, type: .structure), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
@@ -2708,28 +2791,33 @@ extension Codedeploy {
     }
 
     public struct TargetInstances: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "ec2TagSet", required: false, type: .structure), 
             AWSShapeMember(label: "autoScalingGroups", required: false, type: .list)
         ]
-        /// The tag filter key, type, and value used to identify Amazon EC2 instances in a replacement environment for a blue/green deployment.
+        /// The tag filter key, type, and value used to identify Amazon EC2 instances in a replacement environment for a blue/green deployment. Cannot be used in the same call as ec2TagSet.
         public let tagFilters: [EC2TagFilter]?
+        /// Information about the groups of EC2 instance tags that an instance must be identified by in order for it to be included in the replacement environment for a blue/green deployment. Cannot be used in the same call as tagFilters.
+        public let ec2TagSet: EC2TagSet?
         /// The names of one or more Auto Scaling groups to identify a replacement environment for a blue/green deployment.
         public let autoScalingGroups: [String]?
 
-        public init(tagFilters: [EC2TagFilter]? = nil, autoScalingGroups: [String]? = nil) {
+        public init(tagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, autoScalingGroups: [String]? = nil) {
             self.tagFilters = tagFilters
+            self.ec2TagSet = ec2TagSet
             self.autoScalingGroups = autoScalingGroups
         }
 
         private enum CodingKeys: String, CodingKey {
             case tagFilters = "tagFilters"
+            case ec2TagSet = "ec2TagSet"
             case autoScalingGroups = "autoScalingGroups"
         }
     }
 
     public struct GetDeploymentInstanceInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "instanceId", required: true, type: .string), 
             AWSShapeMember(label: "deploymentId", required: true, type: .string)
         ]
@@ -2750,7 +2838,7 @@ extension Codedeploy {
     }
 
     public struct MinimumHealthyHosts: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "value", required: false, type: .integer)
         ]

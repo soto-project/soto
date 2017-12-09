@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Inspector {
 
     public struct DescribeRulesPackagesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "rulesPackageArns", required: true, type: .list), 
             AWSShapeMember(label: "locale", required: false, type: .enum)
         ]
@@ -36,7 +36,7 @@ extension Inspector {
     }
 
     public struct RemoveAttributesFromFindingsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "failedItems", required: true, type: .map)
         ]
         /// Attributes details that cannot be described. An error code is provided for each failed item.
@@ -64,7 +64,7 @@ extension Inspector {
     }
 
     public struct DescribeResourceGroupsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceGroupArns", required: true, type: .list)
         ]
         /// The ARN that specifies the resource group that you want to describe.
@@ -80,7 +80,7 @@ extension Inspector {
     }
 
     public struct ListFindingsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "filter", required: false, type: .structure), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -111,7 +111,7 @@ extension Inspector {
     }
 
     public struct DescribeCrossAccountAccessRoleResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "valid", required: true, type: .boolean), 
             AWSShapeMember(label: "roleArn", required: true, type: .string), 
             AWSShapeMember(label: "registeredAt", required: true, type: .timestamp)
@@ -137,7 +137,7 @@ extension Inspector {
     }
 
     public struct PreviewAgentsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "previewAgentsArn", required: true, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
@@ -163,7 +163,7 @@ extension Inspector {
     }
 
     public struct DescribeRulesPackagesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "rulesPackages", required: true, type: .list), 
             AWSShapeMember(label: "failedItems", required: true, type: .map)
         ]
@@ -184,7 +184,7 @@ extension Inspector {
     }
 
     public struct Subscription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
             AWSShapeMember(label: "eventSubscriptions", required: true, type: .list), 
             AWSShapeMember(label: "topicArn", required: true, type: .string)
@@ -210,7 +210,7 @@ extension Inspector {
     }
 
     public struct AssessmentTarget: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceGroupArn", required: true, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "updatedAt", required: true, type: .timestamp), 
@@ -246,7 +246,7 @@ extension Inspector {
     }
 
     public struct DescribeAssessmentTemplatesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentTemplateArns", required: true, type: .list)
         ]
         public let assessmentTemplateArns: [String]
@@ -261,7 +261,7 @@ extension Inspector {
     }
 
     public struct AddAttributesToFindingsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attributes", required: true, type: .list), 
             AWSShapeMember(label: "findingArns", required: true, type: .list)
         ]
@@ -282,7 +282,7 @@ extension Inspector {
     }
 
     public struct PreviewAgentsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "agentPreviews", required: true, type: .list)
         ]
@@ -303,7 +303,7 @@ extension Inspector {
     }
 
     public struct DescribeAssessmentRunsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "failedItems", required: true, type: .map), 
             AWSShapeMember(label: "assessmentRuns", required: true, type: .list)
         ]
@@ -324,7 +324,7 @@ extension Inspector {
     }
 
     public struct EventSubscription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "event", required: true, type: .enum), 
             AWSShapeMember(label: "subscribedAt", required: true, type: .timestamp)
         ]
@@ -345,7 +345,7 @@ extension Inspector {
     }
 
     public struct CreateResourceGroupResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceGroupArn", required: true, type: .string)
         ]
         /// The ARN that specifies the resource group that is created.
@@ -361,7 +361,7 @@ extension Inspector {
     }
 
     public struct ResourceGroupTag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "key", required: true, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
@@ -382,7 +382,7 @@ extension Inspector {
     }
 
     public struct RemoveAttributesFromFindingsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attributeKeys", required: true, type: .list), 
             AWSShapeMember(label: "findingArns", required: true, type: .list)
         ]
@@ -403,7 +403,7 @@ extension Inspector {
     }
 
     public struct DescribeAssessmentRunsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentRunArns", required: true, type: .list)
         ]
         /// The ARN that specifies the assessment run that you want to describe.
@@ -419,7 +419,7 @@ extension Inspector {
     }
 
     public struct ListAssessmentTemplatesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentTemplateArns", required: true, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -440,7 +440,7 @@ extension Inspector {
     }
 
     public struct DescribeAssessmentTemplatesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "failedItems", required: true, type: .map), 
             AWSShapeMember(label: "assessmentTemplates", required: true, type: .list)
         ]
@@ -466,7 +466,7 @@ extension Inspector {
     }
 
     public struct StartAssessmentRunResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
         ]
         /// The ARN of the assessment run that has been started.
@@ -482,7 +482,7 @@ extension Inspector {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "key", required: true, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
@@ -512,7 +512,7 @@ extension Inspector {
     }
 
     public struct ListAssessmentTargetsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "assessmentTargetArns", required: true, type: .list)
         ]
@@ -533,7 +533,7 @@ extension Inspector {
     }
 
     public struct ResourceGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", required: true, type: .list), 
             AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
             AWSShapeMember(label: "arn", required: true, type: .string)
@@ -559,7 +559,7 @@ extension Inspector {
     }
 
     public struct UnsubscribeFromEventRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
             AWSShapeMember(label: "event", required: true, type: .enum), 
             AWSShapeMember(label: "topicArn", required: true, type: .string)
@@ -585,7 +585,7 @@ extension Inspector {
     }
 
     public struct GetAssessmentReportRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "reportType", required: true, type: .enum), 
             AWSShapeMember(label: "reportFileFormat", required: true, type: .enum), 
             AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
@@ -611,7 +611,7 @@ extension Inspector {
     }
 
     public struct Attribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "key", required: true, type: .string), 
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
@@ -632,7 +632,7 @@ extension Inspector {
     }
 
     public struct DeleteAssessmentTemplateRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment template that you want to delete.
@@ -648,7 +648,7 @@ extension Inspector {
     }
 
     public struct DescribeAssessmentTargetsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentTargetArns", required: true, type: .list)
         ]
         /// The ARNs that specifies the assessment targets that you want to describe.
@@ -664,7 +664,7 @@ extension Inspector {
     }
 
     public struct DeleteAssessmentRunRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment run that you want to delete.
@@ -680,7 +680,7 @@ extension Inspector {
     }
 
     public struct FindingFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ruleNames", required: false, type: .list), 
             AWSShapeMember(label: "severities", required: false, type: .list), 
             AWSShapeMember(label: "attributes", required: false, type: .list), 
@@ -810,7 +810,7 @@ extension Inspector {
     }
 
     public struct RulesPackage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "version", required: true, type: .string), 
@@ -846,7 +846,7 @@ extension Inspector {
     }
 
     public struct AssessmentRunStateChange: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "state", required: true, type: .enum), 
             AWSShapeMember(label: "stateChangedAt", required: true, type: .timestamp)
         ]
@@ -867,7 +867,7 @@ extension Inspector {
     }
 
     public struct ListFindingsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "findingArns", required: true, type: .list)
         ]
@@ -888,7 +888,7 @@ extension Inspector {
     }
 
     public struct ListAssessmentRunsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "filter", required: false, type: .structure), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -919,7 +919,7 @@ extension Inspector {
     }
 
     public struct AgentPreview: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "autoScalingGroup", required: false, type: .string), 
             AWSShapeMember(label: "agentId", required: true, type: .string)
         ]
@@ -940,7 +940,7 @@ extension Inspector {
     }
 
     public struct ListRulesPackagesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
@@ -961,7 +961,7 @@ extension Inspector {
     }
 
     public struct AssessmentRunFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "namePattern", required: false, type: .string), 
             AWSShapeMember(label: "states", required: false, type: .list), 
             AWSShapeMember(label: "startTimeRange", required: false, type: .structure), 
@@ -1007,7 +1007,7 @@ extension Inspector {
     }
 
     public struct GetTelemetryMetadataRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment run that has the telemetry data that you want to obtain.
@@ -1023,7 +1023,7 @@ extension Inspector {
     }
 
     public struct AssessmentTargetFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentTargetNamePattern", required: false, type: .string)
         ]
         /// For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTargetName property of the AssessmentTarget data type.
@@ -1039,7 +1039,7 @@ extension Inspector {
     }
 
     public struct AssessmentRun: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "state", required: true, type: .enum), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
@@ -1125,7 +1125,7 @@ extension Inspector {
     }
 
     public struct ListEventSubscriptionsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "subscriptions", required: true, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -1146,7 +1146,7 @@ extension Inspector {
     }
 
     public struct DeleteAssessmentTargetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment target that you want to delete.
@@ -1168,7 +1168,7 @@ extension Inspector {
     }
 
     public struct CreateAssessmentTemplateResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment template that is created.
@@ -1202,11 +1202,12 @@ extension Inspector {
         case error = "ERROR"
         case completed = "COMPLETED"
         case completedWithErrors = "COMPLETED_WITH_ERRORS"
+        case canceled = "CANCELED"
         public var description: String { return self.rawValue }
     }
 
     public struct Finding: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assetType", required: false, type: .enum), 
             AWSShapeMember(label: "schemaVersion", required: false, type: .integer), 
             AWSShapeMember(label: "userAttributes", required: true, type: .list), 
@@ -1307,7 +1308,7 @@ extension Inspector {
     }
 
     public struct ListAssessmentRunAgentsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "filter", required: false, type: .structure), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -1338,7 +1339,7 @@ extension Inspector {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment template whose tags you want to list.
@@ -1354,7 +1355,7 @@ extension Inspector {
     }
 
     public struct ListEventSubscriptionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", required: false, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer)
@@ -1380,7 +1381,7 @@ extension Inspector {
     }
 
     public struct UpdateAssessmentTargetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceGroupArn", required: true, type: .string), 
             AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string), 
             AWSShapeMember(label: "assessmentTargetName", required: true, type: .string)
@@ -1406,7 +1407,7 @@ extension Inspector {
     }
 
     public struct AddAttributesToFindingsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "failedItems", required: true, type: .map)
         ]
         /// Attribute details that cannot be described. An error code is provided for each failed item.
@@ -1440,7 +1441,7 @@ extension Inspector {
     }
 
     public struct CreateAssessmentTargetResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment target that is created.
@@ -1456,7 +1457,7 @@ extension Inspector {
     }
 
     public struct ListAssessmentRunsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "assessmentRunArns", required: true, type: .list)
         ]
@@ -1477,7 +1478,7 @@ extension Inspector {
     }
 
     public struct AssessmentRunAgent: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "telemetryMetadata", required: true, type: .list), 
             AWSShapeMember(label: "autoScalingGroup", required: false, type: .string), 
             AWSShapeMember(label: "agentHealth", required: true, type: .enum), 
@@ -1523,7 +1524,7 @@ extension Inspector {
     }
 
     public struct DescribeResourceGroupsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "failedItems", required: true, type: .map), 
             AWSShapeMember(label: "resourceGroups", required: true, type: .list)
         ]
@@ -1543,8 +1544,14 @@ extension Inspector {
         }
     }
 
+    public enum StopAction: String, CustomStringConvertible, Codable {
+        case startEvaluation = "START_EVALUATION"
+        case skipEvaluation = "SKIP_EVALUATION"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AssessmentTemplateFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "namePattern", required: false, type: .string), 
             AWSShapeMember(label: "rulesPackageArns", required: false, type: .list), 
             AWSShapeMember(label: "durationRange", required: false, type: .structure)
@@ -1569,29 +1576,8 @@ extension Inspector {
         }
     }
 
-    public struct GetAssessmentReportResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "status", required: true, type: .enum), 
-            AWSShapeMember(label: "url", required: false, type: .string)
-        ]
-        /// Specifies the status of the request to generate an assessment report. 
-        public let status: ReportStatus
-        /// Specifies the URL where you can find the generated assessment report. This parameter is only returned if the report is successfully generated.
-        public let url: String?
-
-        public init(status: ReportStatus, url: String? = nil) {
-            self.status = status
-            self.url = url
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "status"
-            case url = "url"
-        }
-    }
-
     public struct AgentAlreadyRunningAssessment: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "agentId", required: true, type: .string), 
             AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
         ]
@@ -1611,8 +1597,29 @@ extension Inspector {
         }
     }
 
+    public struct GetAssessmentReportResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "url", required: false, type: .string)
+        ]
+        /// Specifies the status of the request to generate an assessment report. 
+        public let status: ReportStatus
+        /// Specifies the URL where you can find the generated assessment report. This parameter is only returned if the report is successfully generated.
+        public let url: String?
+
+        public init(status: ReportStatus, url: String? = nil) {
+            self.status = status
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case url = "url"
+        }
+    }
+
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", required: true, type: .list)
         ]
         /// A collection of key and value pairs.
@@ -1634,7 +1641,7 @@ extension Inspector {
     }
 
     public struct DurationRange: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "minSeconds", required: false, type: .integer)
         ]
@@ -1675,7 +1682,7 @@ extension Inspector {
     }
 
     public struct TimestampRange: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "beginDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "endDate", required: false, type: .timestamp)
         ]
@@ -1696,7 +1703,7 @@ extension Inspector {
     }
 
     public struct TelemetryMetadata: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "dataSize", required: false, type: .long), 
             AWSShapeMember(label: "count", required: true, type: .long), 
             AWSShapeMember(label: "messageType", required: true, type: .string)
@@ -1722,7 +1729,7 @@ extension Inspector {
     }
 
     public struct AssessmentTemplate: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
@@ -1768,7 +1775,7 @@ extension Inspector {
     }
 
     public struct RegisterCrossAccountAccessRoleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "roleArn", required: true, type: .string)
         ]
         /// The ARN of the IAM role that Amazon Inspector uses to list your EC2 instances during the assessment run or when you call the PreviewAgents action. 
@@ -1784,7 +1791,7 @@ extension Inspector {
     }
 
     public struct AssetAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "autoScalingGroup", required: false, type: .string), 
             AWSShapeMember(label: "hostname", required: false, type: .string), 
             AWSShapeMember(label: "amiId", required: false, type: .string), 
@@ -1825,7 +1832,7 @@ extension Inspector {
     }
 
     public struct ListAssessmentRunAgentsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "assessmentRunAgents", required: true, type: .list)
         ]
@@ -1846,7 +1853,7 @@ extension Inspector {
     }
 
     public struct ListAssessmentTargetsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "filter", required: false, type: .structure)
@@ -1872,7 +1879,7 @@ extension Inspector {
     }
 
     public struct GetTelemetryMetadataResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "telemetryMetadata", required: true, type: .list)
         ]
         /// Telemetry details.
@@ -1888,7 +1895,7 @@ extension Inspector {
     }
 
     public struct CreateAssessmentTemplateRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentTemplateName", required: true, type: .string), 
             AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string), 
             AWSShapeMember(label: "durationInSeconds", required: true, type: .integer), 
@@ -1903,7 +1910,7 @@ extension Inspector {
         public let durationInSeconds: Int32
         /// The ARNs that specify the rules packages that you want to attach to the assessment template.
         public let rulesPackageArns: [String]
-        /// The user-defined attributes that are assigned to every finding that is generated by the assessment run that uses this assessment template.
+        /// The user-defined attributes that are assigned to every finding that is generated by the assessment run that uses this assessment template. An attribute is a key and value pair (an Attribute object). Within an assessment template, each key must be unique.
         public let userAttributesForFindings: [Attribute]?
 
         public init(assessmentTemplateName: String, assessmentTargetArn: String, durationInSeconds: Int32, rulesPackageArns: [String], userAttributesForFindings: [Attribute]? = nil) {
@@ -1924,7 +1931,7 @@ extension Inspector {
     }
 
     public struct StartAssessmentRunRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentRunName", required: false, type: .string), 
             AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string)
         ]
@@ -1945,7 +1952,7 @@ extension Inspector {
     }
 
     public struct AgentFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "agentHealthCodes", required: true, type: .list), 
             AWSShapeMember(label: "agentHealths", required: true, type: .list)
         ]
@@ -1966,7 +1973,7 @@ extension Inspector {
     }
 
     public struct SubscribeToEventRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
             AWSShapeMember(label: "event", required: true, type: .enum), 
             AWSShapeMember(label: "topicArn", required: true, type: .string)
@@ -2000,7 +2007,7 @@ extension Inspector {
     }
 
     public struct CreateResourceGroupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceGroupTags", required: true, type: .list)
         ]
         /// A collection of keys and an array of possible values, '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","values":["Value3"]}]'. For example,'[{"key":"Name","values":["TestEC2Instance"]}]'.
@@ -2016,7 +2023,7 @@ extension Inspector {
     }
 
     public struct DescribeFindingsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "findings", required: true, type: .list), 
             AWSShapeMember(label: "failedItems", required: true, type: .map)
         ]
@@ -2037,7 +2044,7 @@ extension Inspector {
     }
 
     public struct SetTagsForResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
@@ -2058,7 +2065,7 @@ extension Inspector {
     }
 
     public struct FailedItemDetails: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "failureCode", required: true, type: .enum), 
             AWSShapeMember(label: "retryable", required: true, type: .boolean)
         ]
@@ -2079,7 +2086,7 @@ extension Inspector {
     }
 
     public struct AssessmentRunNotification: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "snsTopicArn", required: false, type: .string), 
             AWSShapeMember(label: "snsPublishStatusCode", required: false, type: .enum), 
             AWSShapeMember(label: "event", required: true, type: .enum), 
@@ -2120,7 +2127,7 @@ extension Inspector {
     }
 
     public struct ListAssessmentTemplatesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "filter", required: false, type: .structure), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -2151,23 +2158,28 @@ extension Inspector {
     }
 
     public struct StopAssessmentRunRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stopAction", required: false, type: .enum), 
             AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
         ]
+        /// An input option that can be set to either START_EVALUATION or SKIP_EVALUATION. START_EVALUATION (the default value), stops the AWS agent from collecting data and begins the results evaluation and the findings generation process. SKIP_EVALUATION cancels the assessment run immediately, after which no findings are generated.
+        public let stopAction: StopAction?
         /// The ARN of the assessment run that you want to stop.
         public let assessmentRunArn: String
 
-        public init(assessmentRunArn: String) {
+        public init(stopAction: StopAction? = nil, assessmentRunArn: String) {
+            self.stopAction = stopAction
             self.assessmentRunArn = assessmentRunArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case stopAction = "stopAction"
             case assessmentRunArn = "assessmentRunArn"
         }
     }
 
     public struct ListRulesPackagesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "rulesPackageArns", required: true, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -2188,7 +2200,7 @@ extension Inspector {
     }
 
     public struct CreateAssessmentTargetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceGroupArn", required: true, type: .string), 
             AWSShapeMember(label: "assessmentTargetName", required: true, type: .string)
         ]
@@ -2209,7 +2221,7 @@ extension Inspector {
     }
 
     public struct InspectorServiceAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "schemaVersion", required: true, type: .integer), 
             AWSShapeMember(label: "rulesPackageArn", required: false, type: .string), 
             AWSShapeMember(label: "assessmentRunArn", required: false, type: .string)
@@ -2235,7 +2247,7 @@ extension Inspector {
     }
 
     public struct DescribeAssessmentTargetsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "assessmentTargets", required: true, type: .list), 
             AWSShapeMember(label: "failedItems", required: true, type: .map)
         ]
@@ -2256,7 +2268,7 @@ extension Inspector {
     }
 
     public struct DescribeFindingsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "locale", required: false, type: .enum), 
             AWSShapeMember(label: "findingArns", required: true, type: .list)
         ]

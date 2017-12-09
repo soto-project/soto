@@ -5,12 +5,94 @@ import AWSSDKSwiftCore
 
 extension Kinesis {
 
+    public struct StartStreamEncryptionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionType", required: true, type: .enum), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
+        ]
+        /// The encryption type to use. The only valid value is KMS.
+        public let encryptionType: EncryptionType
+        /// The name of the stream for which to start encrypting records.
+        public let streamName: String
+        /// The GUID for the customer-managed KMS key to use for encryption. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by "alias/".You can also use a master key owned by Kinesis Streams by specifying the alias aws/kinesis.   Key ARN example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012    Alias ARN example: arn:aws:kms:us-east-1:123456789012:alias/MyAliasName    Globally unique key ID example: 12345678-1234-1234-1234-123456789012    Alias name example: alias/MyAliasName    Master key owned by Kinesis Streams: alias/aws/kinesis   
+        public let keyId: String
+
+        public init(encryptionType: EncryptionType, streamName: String, keyId: String) {
+            self.encryptionType = encryptionType
+            self.streamName = streamName
+            self.keyId = keyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "EncryptionType"
+            case streamName = "StreamName"
+            case keyId = "KeyId"
+        }
+    }
+
+    public struct StreamDescriptionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionType", required: false, type: .enum), 
+            AWSShapeMember(label: "StreamARN", required: true, type: .string), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "RetentionPeriodHours", required: true, type: .integer), 
+            AWSShapeMember(label: "EnhancedMonitoring", required: true, type: .list), 
+            AWSShapeMember(label: "OpenShardCount", required: true, type: .integer), 
+            AWSShapeMember(label: "StreamCreationTimestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "StreamStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string)
+        ]
+        /// The encryption type used. This value is one of the following:    KMS     NONE   
+        public let encryptionType: EncryptionType?
+        /// The Amazon Resource Name (ARN) for the stream being described.
+        public let streamARN: String
+        /// The GUID for the customer-managed KMS key to use for encryption. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by "alias/".You can also use a master key owned by Kinesis Streams by specifying the alias aws/kinesis.   Key ARN example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012    Alias ARN example:  arn:aws:kms:us-east-1:123456789012:alias/MyAliasName    Globally unique key ID example: 12345678-1234-1234-1234-123456789012    Alias name example: alias/MyAliasName    Master key owned by Kinesis: alias/aws/kinesis   
+        public let keyId: String?
+        /// The current retention period, in hours.
+        public let retentionPeriodHours: Int32
+        /// Represents the current enhanced monitoring settings of the stream.
+        public let enhancedMonitoring: [EnhancedMetrics]
+        /// The number of open shards in the stream.
+        public let openShardCount: Int32
+        /// The approximate time that the stream was created.
+        public let streamCreationTimestamp: TimeStamp
+        /// The current status of the stream being described. The stream status is one of the following states:    CREATING - The stream is being created. Kinesis Streams immediately returns and sets StreamStatus to CREATING.    DELETING - The stream is being deleted. The specified stream is in the DELETING state until Kinesis Streams completes the deletion.    ACTIVE - The stream exists and is ready for read and write operations or deletion. You should perform read and write operations only on an ACTIVE stream.    UPDATING - Shards in the stream are being merged or split. Read and write operations continue to work while the stream is in the UPDATING state.  
+        public let streamStatus: StreamStatus
+        /// The name of the stream being described.
+        public let streamName: String
+
+        public init(encryptionType: EncryptionType? = nil, streamARN: String, keyId: String? = nil, retentionPeriodHours: Int32, enhancedMonitoring: [EnhancedMetrics], openShardCount: Int32, streamCreationTimestamp: TimeStamp, streamStatus: StreamStatus, streamName: String) {
+            self.encryptionType = encryptionType
+            self.streamARN = streamARN
+            self.keyId = keyId
+            self.retentionPeriodHours = retentionPeriodHours
+            self.enhancedMonitoring = enhancedMonitoring
+            self.openShardCount = openShardCount
+            self.streamCreationTimestamp = streamCreationTimestamp
+            self.streamStatus = streamStatus
+            self.streamName = streamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "EncryptionType"
+            case streamARN = "StreamARN"
+            case keyId = "KeyId"
+            case retentionPeriodHours = "RetentionPeriodHours"
+            case enhancedMonitoring = "EnhancedMonitoring"
+            case openShardCount = "OpenShardCount"
+            case streamCreationTimestamp = "StreamCreationTimestamp"
+            case streamStatus = "StreamStatus"
+            case streamName = "StreamName"
+        }
+    }
+
     public struct CreateStreamInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamName", required: true, type: .string), 
             AWSShapeMember(label: "ShardCount", required: true, type: .integer)
         ]
-        /// A name to identify the stream. The stream name is scoped to the AWS account used by the application that creates the stream. It is also scoped by region. That is, two streams in two different AWS accounts can have the same name, and two streams in the same AWS account but in two different regions can have the same name.
+        /// A name to identify the stream. The stream name is scoped to the AWS account used by the application that creates the stream. It is also scoped by region. That is, two streams in two different AWS accounts can have the same name. Two streams in the same AWS account but in two different regions can also have the same name.
         public let streamName: String
         /// The number of shards that the stream will use. The throughput of the stream is a function of the number of shards; more shards are required for greater provisioned throughput. DefaultShardLimit;
         public let shardCount: Int32
@@ -27,7 +109,7 @@ extension Kinesis {
     }
 
     public struct AddTagsToStreamInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: true, type: .map), 
             AWSShapeMember(label: "StreamName", required: true, type: .string)
         ]
@@ -51,6 +133,12 @@ extension Kinesis {
 
     }
 
+    public enum EncryptionType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ShardIteratorType: String, CustomStringConvertible, Codable {
         case atSequenceNumber = "AT_SEQUENCE_NUMBER"
         case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
@@ -61,7 +149,7 @@ extension Kinesis {
     }
 
     public struct DescribeStreamInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamName", required: true, type: .string), 
             AWSShapeMember(label: "ExclusiveStartShardId", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
@@ -87,7 +175,7 @@ extension Kinesis {
     }
 
     public struct UpdateShardCountOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetShardCount", required: false, type: .integer), 
             AWSShapeMember(label: "CurrentShardCount", required: false, type: .integer), 
             AWSShapeMember(label: "StreamName", required: false, type: .string)
@@ -113,7 +201,7 @@ extension Kinesis {
     }
 
     public struct DecreaseStreamRetentionPeriodInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RetentionPeriodHours", required: true, type: .integer), 
             AWSShapeMember(label: "StreamName", required: true, type: .string)
         ]
@@ -134,7 +222,7 @@ extension Kinesis {
     }
 
     public struct IncreaseStreamRetentionPeriodInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RetentionPeriodHours", required: true, type: .integer), 
             AWSShapeMember(label: "StreamName", required: true, type: .string)
         ]
@@ -155,7 +243,7 @@ extension Kinesis {
     }
 
     public struct Shard: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShardId", required: true, type: .string), 
             AWSShapeMember(label: "SequenceNumberRange", required: true, type: .structure), 
             AWSShapeMember(label: "AdjacentParentShardId", required: false, type: .string), 
@@ -191,28 +279,33 @@ extension Kinesis {
     }
 
     public struct PutRecordsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionType", required: false, type: .enum), 
             AWSShapeMember(label: "FailedRecordCount", required: false, type: .integer), 
             AWSShapeMember(label: "Records", required: true, type: .list)
         ]
+        /// The encryption type used on the records. This parameter can be one of the following values:    NONE: Do not encrypt the records.    KMS: Use server-side encryption on the records using a customer-managed KMS key.  
+        public let encryptionType: EncryptionType?
         /// The number of unsuccessfully processed records in a PutRecords request.
         public let failedRecordCount: Int32?
         /// An array of successfully and unsuccessfully processed record results, correlated with the request by natural ordering. A record that is successfully added to a stream includes SequenceNumber and ShardId in the result. A record that fails to be added to a stream includes ErrorCode and ErrorMessage in the result.
         public let records: [PutRecordsResultEntry]
 
-        public init(failedRecordCount: Int32? = nil, records: [PutRecordsResultEntry]) {
+        public init(encryptionType: EncryptionType? = nil, failedRecordCount: Int32? = nil, records: [PutRecordsResultEntry]) {
+            self.encryptionType = encryptionType
             self.failedRecordCount = failedRecordCount
             self.records = records
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionType = "EncryptionType"
             case failedRecordCount = "FailedRecordCount"
             case records = "Records"
         }
     }
 
     public struct DescribeStreamOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamDescription", required: true, type: .structure)
         ]
         /// The current status of the stream, the stream ARN, an array of shard objects that comprise the stream, and whether there are more shards available.
@@ -228,14 +321,14 @@ extension Kinesis {
     }
 
     public struct EnhancedMonitoringOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DesiredShardLevelMetrics", required: false, type: .list), 
             AWSShapeMember(label: "StreamName", required: false, type: .string), 
             AWSShapeMember(label: "CurrentShardLevelMetrics", required: false, type: .list)
         ]
         /// Represents the list of all the metrics that would be in the enhanced state after the operation.
         public let desiredShardLevelMetrics: [MetricsName]?
-        /// The name of the Amazon Kinesis stream.
+        /// The name of the Kinesis stream.
         public let streamName: String?
         /// Represents the current state of the metrics that are in the enhanced state before the operation.
         public let currentShardLevelMetrics: [MetricsName]?
@@ -254,43 +347,52 @@ extension Kinesis {
     }
 
     public struct PutRecordOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionType", required: false, type: .enum), 
             AWSShapeMember(label: "SequenceNumber", required: true, type: .string), 
             AWSShapeMember(label: "ShardId", required: true, type: .string)
         ]
+        /// The encryption type to use on the record. This parameter can be one of the following values:    NONE: Do not encrypt the records in the stream.    KMS: Use server-side encryption on the records in the stream using a customer-managed KMS key.  
+        public let encryptionType: EncryptionType?
         /// The sequence number identifier that was assigned to the put data record. The sequence number for the record is unique across all records in the stream. A sequence number is the identifier associated with every record put into the stream.
         public let sequenceNumber: String
         /// The shard ID of the shard where the data record was placed.
         public let shardId: String
 
-        public init(sequenceNumber: String, shardId: String) {
+        public init(encryptionType: EncryptionType? = nil, sequenceNumber: String, shardId: String) {
+            self.encryptionType = encryptionType
             self.sequenceNumber = sequenceNumber
             self.shardId = shardId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionType = "EncryptionType"
             case sequenceNumber = "SequenceNumber"
             case shardId = "ShardId"
         }
     }
 
     public struct Record: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionType", required: false, type: .enum), 
             AWSShapeMember(label: "ApproximateArrivalTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "SequenceNumber", required: true, type: .string), 
             AWSShapeMember(label: "PartitionKey", required: true, type: .string), 
             AWSShapeMember(label: "Data", required: true, type: .blob)
         ]
+        /// The encryption type used on the record. This parameter can be one of the following values:    NONE: Do not encrypt the records in the stream.    KMS: Use server-side encryption on the records in the stream using a customer-managed KMS key.  
+        public let encryptionType: EncryptionType?
         /// The approximate time that the record was inserted into the stream.
         public let approximateArrivalTimestamp: TimeStamp?
-        /// The unique identifier of the record in the stream.
+        /// The unique identifier of the record within its shard.
         public let sequenceNumber: String
         /// Identifies which shard in the stream the data record is assigned to.
         public let partitionKey: String
-        /// The data blob. The data in the blob is both opaque and immutable to the Amazon Kinesis service, which does not inspect, interpret, or change the data in the blob in any way. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
+        /// The data blob. The data in the blob is both opaque and immutable to Kinesis Streams, which does not inspect, interpret, or change the data in the blob in any way. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
         public let data: Data
 
-        public init(approximateArrivalTimestamp: TimeStamp? = nil, sequenceNumber: String, partitionKey: String, data: Data) {
+        public init(encryptionType: EncryptionType? = nil, approximateArrivalTimestamp: TimeStamp? = nil, sequenceNumber: String, partitionKey: String, data: Data) {
+            self.encryptionType = encryptionType
             self.approximateArrivalTimestamp = approximateArrivalTimestamp
             self.sequenceNumber = sequenceNumber
             self.partitionKey = partitionKey
@@ -298,6 +400,7 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionType = "EncryptionType"
             case approximateArrivalTimestamp = "ApproximateArrivalTimestamp"
             case sequenceNumber = "SequenceNumber"
             case partitionKey = "PartitionKey"
@@ -318,13 +421,13 @@ extension Kinesis {
     }
 
     public struct DisableEnhancedMonitoringInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShardLevelMetrics", required: true, type: .list), 
             AWSShapeMember(label: "StreamName", required: true, type: .string)
         ]
         /// List of shard-level metrics to disable. The following are the valid shard-level metrics. The value "ALL" disables every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Streams Service with Amazon CloudWatch in the Amazon Kinesis Streams Developer Guide.
         public let shardLevelMetrics: [MetricsName]
-        /// The name of the Amazon Kinesis stream for which to disable enhanced monitoring.
+        /// The name of the Kinesis stream for which to disable enhanced monitoring.
         public let streamName: String
 
         public init(shardLevelMetrics: [MetricsName], streamName: String) {
@@ -338,50 +441,8 @@ extension Kinesis {
         }
     }
 
-    public struct HashKeyRange: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StartingHashKey", required: true, type: .string), 
-            AWSShapeMember(label: "EndingHashKey", required: true, type: .string)
-        ]
-        /// The starting hash key of the hash key range.
-        public let startingHashKey: String
-        /// The ending hash key of the hash key range.
-        public let endingHashKey: String
-
-        public init(startingHashKey: String, endingHashKey: String) {
-            self.startingHashKey = startingHashKey
-            self.endingHashKey = endingHashKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case startingHashKey = "StartingHashKey"
-            case endingHashKey = "EndingHashKey"
-        }
-    }
-
-    public struct SequenceNumberRange: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EndingSequenceNumber", required: false, type: .string), 
-            AWSShapeMember(label: "StartingSequenceNumber", required: true, type: .string)
-        ]
-        /// The ending sequence number for the range. Shards that are in the OPEN state have an ending sequence number of null.
-        public let endingSequenceNumber: String?
-        /// The starting sequence number for the range.
-        public let startingSequenceNumber: String
-
-        public init(endingSequenceNumber: String? = nil, startingSequenceNumber: String) {
-            self.endingSequenceNumber = endingSequenceNumber
-            self.startingSequenceNumber = startingSequenceNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endingSequenceNumber = "EndingSequenceNumber"
-            case startingSequenceNumber = "StartingSequenceNumber"
-        }
-    }
-
     public struct DescribeLimitsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShardLimit", required: true, type: .integer), 
             AWSShapeMember(label: "OpenShardCount", required: true, type: .integer)
         ]
@@ -401,29 +462,29 @@ extension Kinesis {
         }
     }
 
-    public struct PutRecordsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Records", required: true, type: .list), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string)
+    public struct HashKeyRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartingHashKey", required: true, type: .string), 
+            AWSShapeMember(label: "EndingHashKey", required: true, type: .string)
         ]
-        /// The records associated with the request.
-        public let records: [PutRecordsRequestEntry]
-        /// The stream name associated with the request.
-        public let streamName: String
+        /// The starting hash key of the hash key range.
+        public let startingHashKey: String
+        /// The ending hash key of the hash key range.
+        public let endingHashKey: String
 
-        public init(records: [PutRecordsRequestEntry], streamName: String) {
-            self.records = records
-            self.streamName = streamName
+        public init(startingHashKey: String, endingHashKey: String) {
+            self.startingHashKey = startingHashKey
+            self.endingHashKey = endingHashKey
         }
 
         private enum CodingKeys: String, CodingKey {
-            case records = "Records"
-            case streamName = "StreamName"
+            case startingHashKey = "StartingHashKey"
+            case endingHashKey = "EndingHashKey"
         }
     }
 
     public struct GetShardIteratorInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartingSequenceNumber", required: false, type: .string), 
             AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "ShardIteratorType", required: true, type: .enum), 
@@ -432,13 +493,13 @@ extension Kinesis {
         ]
         /// The sequence number of the data record in the shard from which to start reading. Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER.
         public let startingSequenceNumber: String?
-        /// The timestamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A timestamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact timestamp does not exist, the iterator returned is for the next (later) record. If the timestamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON).
+        /// The time stamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact time stamp does not exist, the iterator returned is for the next (later) record. If the time stamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON).
         public let timestamp: TimeStamp?
-        /// Determines how the shard iterator is used to start reading data records from the shard. The following are the valid Amazon Kinesis shard iterator types:   AT_SEQUENCE_NUMBER - Start reading from the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.   AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.   AT_TIMESTAMP - Start reading from the position denoted by a specific timestamp, provided in the value Timestamp.   TRIM_HORIZON - Start reading at the last untrimmed record in the shard in the system, which is the oldest data record in the shard.   LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data in the shard.  
+        /// Determines how the shard iterator is used to start reading data records from the shard. The following are the valid Amazon Kinesis shard iterator types:   AT_SEQUENCE_NUMBER - Start reading from the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.   AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.   AT_TIMESTAMP - Start reading from the position denoted by a specific time stamp, provided in the value Timestamp.   TRIM_HORIZON - Start reading at the last untrimmed record in the shard in the system, which is the oldest data record in the shard.   LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data in the shard.  
         public let shardIteratorType: ShardIteratorType
         /// The name of the Amazon Kinesis stream.
         public let streamName: String
-        /// The shard ID of the Amazon Kinesis shard to get the iterator for.
+        /// The shard ID of the Kinesis Streams shard to get the iterator for.
         public let shardId: String
 
         public init(startingSequenceNumber: String? = nil, timestamp: TimeStamp? = nil, shardIteratorType: ShardIteratorType, streamName: String, shardId: String) {
@@ -459,7 +520,7 @@ extension Kinesis {
     }
 
     public struct ListTagsForStreamOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HasMoreTags", required: true, type: .boolean), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
@@ -479,55 +540,8 @@ extension Kinesis {
         }
     }
 
-    public struct PutRecordsRequestEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Data", required: true, type: .blob), 
-            AWSShapeMember(label: "ExplicitHashKey", required: false, type: .string), 
-            AWSShapeMember(label: "PartitionKey", required: true, type: .string)
-        ]
-        /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
-        public let data: Data
-        /// The hash value used to determine explicitly the shard that the data record is assigned to by overriding the partition key hash.
-        public let explicitHashKey: String?
-        /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
-        public let partitionKey: String
-
-        public init(data: Data, explicitHashKey: String? = nil, partitionKey: String) {
-            self.data = data
-            self.explicitHashKey = explicitHashKey
-            self.partitionKey = partitionKey
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case data = "Data"
-            case explicitHashKey = "ExplicitHashKey"
-            case partitionKey = "PartitionKey"
-        }
-    }
-
-    public struct GetRecordsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Limit", required: false, type: .integer), 
-            AWSShapeMember(label: "ShardIterator", required: true, type: .string)
-        ]
-        /// The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, GetRecords throws InvalidArgumentException.
-        public let limit: Int32?
-        /// The position in the shard from which you want to start sequentially reading data records. A shard iterator specifies this position using the sequence number of a data record in the shard.
-        public let shardIterator: String
-
-        public init(limit: Int32? = nil, shardIterator: String) {
-            self.limit = limit
-            self.shardIterator = shardIterator
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case limit = "Limit"
-            case shardIterator = "ShardIterator"
-        }
-    }
-
     public struct UpdateShardCountInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetShardCount", required: true, type: .integer), 
             AWSShapeMember(label: "StreamName", required: true, type: .string), 
             AWSShapeMember(label: "ScalingType", required: true, type: .enum)
@@ -553,7 +567,7 @@ extension Kinesis {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -573,8 +587,97 @@ extension Kinesis {
         }
     }
 
+    public struct GetRecordsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ShardIterator", required: true, type: .string)
+        ]
+        /// The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, GetRecords throws InvalidArgumentException.
+        public let limit: Int32?
+        /// The position in the shard from which you want to start sequentially reading data records. A shard iterator specifies this position using the sequence number of a data record in the shard.
+        public let shardIterator: String
+
+        public init(limit: Int32? = nil, shardIterator: String) {
+            self.limit = limit
+            self.shardIterator = shardIterator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case shardIterator = "ShardIterator"
+        }
+    }
+
+    public struct PutRecordsRequestEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Data", required: true, type: .blob), 
+            AWSShapeMember(label: "ExplicitHashKey", required: false, type: .string), 
+            AWSShapeMember(label: "PartitionKey", required: true, type: .string)
+        ]
+        /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
+        public let data: Data
+        /// The hash value used to determine explicitly the shard that the data record is assigned to by overriding the partition key hash.
+        public let explicitHashKey: String?
+        /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
+        public let partitionKey: String
+
+        public init(data: Data, explicitHashKey: String? = nil, partitionKey: String) {
+            self.data = data
+            self.explicitHashKey = explicitHashKey
+            self.partitionKey = partitionKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
+            case explicitHashKey = "ExplicitHashKey"
+            case partitionKey = "PartitionKey"
+        }
+    }
+
+    public struct PutRecordsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Records", required: true, type: .list), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string)
+        ]
+        /// The records associated with the request.
+        public let records: [PutRecordsRequestEntry]
+        /// The stream name associated with the request.
+        public let streamName: String
+
+        public init(records: [PutRecordsRequestEntry], streamName: String) {
+            self.records = records
+            self.streamName = streamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case records = "Records"
+            case streamName = "StreamName"
+        }
+    }
+
+    public struct SequenceNumberRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndingSequenceNumber", required: false, type: .string), 
+            AWSShapeMember(label: "StartingSequenceNumber", required: true, type: .string)
+        ]
+        /// The ending sequence number for the range. Shards that are in the OPEN state have an ending sequence number of null.
+        public let endingSequenceNumber: String?
+        /// The starting sequence number for the range.
+        public let startingSequenceNumber: String
+
+        public init(endingSequenceNumber: String? = nil, startingSequenceNumber: String) {
+            self.endingSequenceNumber = endingSequenceNumber
+            self.startingSequenceNumber = startingSequenceNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endingSequenceNumber = "EndingSequenceNumber"
+            case startingSequenceNumber = "StartingSequenceNumber"
+        }
+    }
+
     public struct DeleteStreamInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamName", required: true, type: .string)
         ]
         /// The name of the stream to delete.
@@ -590,7 +693,7 @@ extension Kinesis {
     }
 
     public struct GetShardIteratorOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShardIterator", required: false, type: .string)
         ]
         /// The position in the shard from which to start reading data records sequentially. A shard iterator specifies this position using the sequence number of a data record in a shard.
@@ -605,44 +708,8 @@ extension Kinesis {
         }
     }
 
-    public struct PutRecordInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PartitionKey", required: true, type: .string), 
-            AWSShapeMember(label: "ExplicitHashKey", required: false, type: .string), 
-            AWSShapeMember(label: "StreamName", required: true, type: .string), 
-            AWSShapeMember(label: "SequenceNumberForOrdering", required: false, type: .string), 
-            AWSShapeMember(label: "Data", required: true, type: .blob)
-        ]
-        /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
-        public let partitionKey: String
-        /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash.
-        public let explicitHashKey: String?
-        /// The name of the stream to put the data record into.
-        public let streamName: String
-        /// Guarantees strictly increasing sequence numbers, for puts from the same client and to the same partition key. Usage: set the SequenceNumberForOrdering of record n to the sequence number of record n-1 (as returned in the result when putting record n-1). If this parameter is not set, records will be coarsely ordered based on arrival time.
-        public let sequenceNumberForOrdering: String?
-        /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
-        public let data: Data
-
-        public init(partitionKey: String, explicitHashKey: String? = nil, streamName: String, sequenceNumberForOrdering: String? = nil, data: Data) {
-            self.partitionKey = partitionKey
-            self.explicitHashKey = explicitHashKey
-            self.streamName = streamName
-            self.sequenceNumberForOrdering = sequenceNumberForOrdering
-            self.data = data
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case partitionKey = "PartitionKey"
-            case explicitHashKey = "ExplicitHashKey"
-            case streamName = "StreamName"
-            case sequenceNumberForOrdering = "SequenceNumberForOrdering"
-            case data = "Data"
-        }
-    }
-
     public struct PutRecordsResultEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
@@ -672,8 +739,60 @@ extension Kinesis {
         }
     }
 
+    public struct PutRecordInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PartitionKey", required: true, type: .string), 
+            AWSShapeMember(label: "ExplicitHashKey", required: false, type: .string), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string), 
+            AWSShapeMember(label: "SequenceNumberForOrdering", required: false, type: .string), 
+            AWSShapeMember(label: "Data", required: true, type: .blob)
+        ]
+        /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
+        public let partitionKey: String
+        /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash.
+        public let explicitHashKey: String?
+        /// The name of the stream to put the data record into.
+        public let streamName: String
+        /// Guarantees strictly increasing sequence numbers, for puts from the same client and to the same partition key. Usage: set the SequenceNumberForOrdering of record n to the sequence number of record n-1 (as returned in the result when putting record n-1). If this parameter is not set, records are coarsely ordered based on arrival time.
+        public let sequenceNumberForOrdering: String?
+        /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
+        public let data: Data
+
+        public init(partitionKey: String, explicitHashKey: String? = nil, streamName: String, sequenceNumberForOrdering: String? = nil, data: Data) {
+            self.partitionKey = partitionKey
+            self.explicitHashKey = explicitHashKey
+            self.streamName = streamName
+            self.sequenceNumberForOrdering = sequenceNumberForOrdering
+            self.data = data
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partitionKey = "PartitionKey"
+            case explicitHashKey = "ExplicitHashKey"
+            case streamName = "StreamName"
+            case sequenceNumberForOrdering = "SequenceNumberForOrdering"
+            case data = "Data"
+        }
+    }
+
+    public struct DescribeStreamSummaryInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamName", required: true, type: .string)
+        ]
+        /// The name of the stream to describe.
+        public let streamName: String
+
+        public init(streamName: String) {
+            self.streamName = streamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamName = "StreamName"
+        }
+    }
+
     public struct ListTagsForStreamInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExclusiveStartTagKey", required: false, type: .string), 
             AWSShapeMember(label: "StreamName", required: true, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
@@ -698,8 +817,50 @@ extension Kinesis {
         }
     }
 
+    public struct DescribeStreamSummaryOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamDescriptionSummary", required: true, type: .structure)
+        ]
+        /// A StreamDescriptionSummary containing information about the stream.
+        public let streamDescriptionSummary: StreamDescriptionSummary
+
+        public init(streamDescriptionSummary: StreamDescriptionSummary) {
+            self.streamDescriptionSummary = streamDescriptionSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamDescriptionSummary = "StreamDescriptionSummary"
+        }
+    }
+
+    public struct StopStreamEncryptionInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionType", required: true, type: .enum), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
+        ]
+        /// The encryption type. The only valid value is KMS.
+        public let encryptionType: EncryptionType
+        /// The name of the stream on which to stop encrypting records.
+        public let streamName: String
+        /// The GUID for the customer-managed KMS key to use for encryption. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by "alias/".You can also use a master key owned by Kinesis Streams by specifying the alias aws/kinesis.   Key ARN example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012    Alias ARN example: arn:aws:kms:us-east-1:123456789012:alias/MyAliasName    Globally unique key ID example: 12345678-1234-1234-1234-123456789012    Alias name example: alias/MyAliasName    Master key owned by Kinesis Streams: alias/aws/kinesis   
+        public let keyId: String
+
+        public init(encryptionType: EncryptionType, streamName: String, keyId: String) {
+            self.encryptionType = encryptionType
+            self.streamName = streamName
+            self.keyId = keyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "EncryptionType"
+            case streamName = "StreamName"
+            case keyId = "KeyId"
+        }
+    }
+
     public struct ListStreamsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamNames", required: true, type: .list), 
             AWSShapeMember(label: "HasMoreStreams", required: true, type: .boolean)
         ]
@@ -720,7 +881,7 @@ extension Kinesis {
     }
 
     public struct EnableEnhancedMonitoringInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShardLevelMetrics", required: true, type: .list), 
             AWSShapeMember(label: "StreamName", required: true, type: .string)
         ]
@@ -746,7 +907,7 @@ extension Kinesis {
     }
 
     public struct MergeShardsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdjacentShardToMerge", required: true, type: .string), 
             AWSShapeMember(label: "ShardToMerge", required: true, type: .string), 
             AWSShapeMember(label: "StreamName", required: true, type: .string)
@@ -772,7 +933,7 @@ extension Kinesis {
     }
 
     public struct RemoveTagsFromStreamInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamName", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
@@ -792,8 +953,34 @@ extension Kinesis {
         }
     }
 
+    public struct GetRecordsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextShardIterator", required: false, type: .string), 
+            AWSShapeMember(label: "MillisBehindLatest", required: false, type: .long), 
+            AWSShapeMember(label: "Records", required: true, type: .list)
+        ]
+        /// The next position in the shard from which to start sequentially reading data records. If set to null, the shard has been closed and the requested iterator does not return any more data. 
+        public let nextShardIterator: String?
+        /// The number of milliseconds the GetRecords response is from the tip of the stream, indicating how far behind current time the consumer is. A value of zero indicates that record processing is caught up, and there are no new records to process at this moment.
+        public let millisBehindLatest: Int64?
+        /// The data records retrieved from the shard.
+        public let records: [Record]
+
+        public init(nextShardIterator: String? = nil, millisBehindLatest: Int64? = nil, records: [Record]) {
+            self.nextShardIterator = nextShardIterator
+            self.millisBehindLatest = millisBehindLatest
+            self.records = records
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextShardIterator = "NextShardIterator"
+            case millisBehindLatest = "MillisBehindLatest"
+            case records = "Records"
+        }
+    }
+
     public struct ListStreamsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExclusiveStartStreamName", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
@@ -813,34 +1000,24 @@ extension Kinesis {
         }
     }
 
-    public struct GetRecordsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextShardIterator", required: false, type: .string), 
-            AWSShapeMember(label: "MillisBehindLatest", required: false, type: .long), 
-            AWSShapeMember(label: "Records", required: true, type: .list)
+    public struct EnhancedMetrics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShardLevelMetrics", required: false, type: .list)
         ]
-        /// The next position in the shard from which to start sequentially reading data records. If set to null, the shard has been closed and the requested iterator will not return any more data. 
-        public let nextShardIterator: String?
-        /// The number of milliseconds the GetRecords response is from the tip of the stream, indicating how far behind current time the consumer is. A value of zero indicates record processing is caught up, and there are no new records to process at this moment.
-        public let millisBehindLatest: Int64?
-        /// The data records retrieved from the shard.
-        public let records: [Record]
+        /// List of shard-level metrics. The following are the valid shard-level metrics. The value "ALL" enhances every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Streams Service with Amazon CloudWatch in the Amazon Kinesis Streams Developer Guide.
+        public let shardLevelMetrics: [MetricsName]?
 
-        public init(nextShardIterator: String? = nil, millisBehindLatest: Int64? = nil, records: [Record]) {
-            self.nextShardIterator = nextShardIterator
-            self.millisBehindLatest = millisBehindLatest
-            self.records = records
+        public init(shardLevelMetrics: [MetricsName]? = nil) {
+            self.shardLevelMetrics = shardLevelMetrics
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextShardIterator = "NextShardIterator"
-            case millisBehindLatest = "MillisBehindLatest"
-            case records = "Records"
+            case shardLevelMetrics = "ShardLevelMetrics"
         }
     }
 
     public struct SplitShardInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamName", required: true, type: .string), 
             AWSShapeMember(label: "ShardToSplit", required: true, type: .string), 
             AWSShapeMember(label: "NewStartingHashKey", required: true, type: .string)
@@ -865,25 +1042,11 @@ extension Kinesis {
         }
     }
 
-    public struct EnhancedMetrics: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ShardLevelMetrics", required: false, type: .list)
-        ]
-        /// List of shard-level metrics. The following are the valid shard-level metrics. The value "ALL" enhances every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Streams Service with Amazon CloudWatch in the Amazon Kinesis Streams Developer Guide.
-        public let shardLevelMetrics: [MetricsName]?
-
-        public init(shardLevelMetrics: [MetricsName]? = nil) {
-            self.shardLevelMetrics = shardLevelMetrics
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case shardLevelMetrics = "ShardLevelMetrics"
-        }
-    }
-
     public struct StreamDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionType", required: false, type: .enum), 
             AWSShapeMember(label: "StreamARN", required: true, type: .string), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
             AWSShapeMember(label: "RetentionPeriodHours", required: true, type: .integer), 
             AWSShapeMember(label: "EnhancedMonitoring", required: true, type: .list), 
             AWSShapeMember(label: "HasMoreShards", required: true, type: .boolean), 
@@ -892,8 +1055,12 @@ extension Kinesis {
             AWSShapeMember(label: "StreamName", required: true, type: .string), 
             AWSShapeMember(label: "StreamStatus", required: true, type: .enum)
         ]
+        /// The server-side encryption type used on the stream. This parameter can be one of the following values:    NONE: Do not encrypt the records in the stream.    KMS: Use server-side encryption on the records in the stream using a customer-managed KMS key.  
+        public let encryptionType: EncryptionType?
         /// The Amazon Resource Name (ARN) for the stream being described.
         public let streamARN: String
+        /// The GUID for the customer-managed KMS key to use for encryption. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by "alias/".You can also use a master key owned by Kinesis Streams by specifying the alias aws/kinesis.   Key ARN example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012    Alias ARN example: arn:aws:kms:us-east-1:123456789012:alias/MyAliasName    Globally unique key ID example: 12345678-1234-1234-1234-123456789012    Alias name example: alias/MyAliasName    Master key owned by Kinesis Streams: alias/aws/kinesis   
+        public let keyId: String?
         /// The current retention period, in hours.
         public let retentionPeriodHours: Int32
         /// Represents the current enhanced monitoring settings of the stream.
@@ -906,11 +1073,13 @@ extension Kinesis {
         public let streamCreationTimestamp: TimeStamp
         /// The name of the stream being described.
         public let streamName: String
-        /// The current status of the stream being described. The stream status is one of the following states:    CREATING - The stream is being created. Amazon Kinesis immediately returns and sets StreamStatus to CREATING.    DELETING - The stream is being deleted. The specified stream is in the DELETING state until Amazon Kinesis completes the deletion.    ACTIVE - The stream exists and is ready for read and write operations or deletion. You should perform read and write operations only on an ACTIVE stream.    UPDATING - Shards in the stream are being merged or split. Read and write operations continue to work while the stream is in the UPDATING state.  
+        /// The current status of the stream being described. The stream status is one of the following states:    CREATING - The stream is being created. Kinesis Streams immediately returns and sets StreamStatus to CREATING.    DELETING - The stream is being deleted. The specified stream is in the DELETING state until Kinesis Streams completes the deletion.    ACTIVE - The stream exists and is ready for read and write operations or deletion. You should perform read and write operations only on an ACTIVE stream.    UPDATING - Shards in the stream are being merged or split. Read and write operations continue to work while the stream is in the UPDATING state.  
         public let streamStatus: StreamStatus
 
-        public init(streamARN: String, retentionPeriodHours: Int32, enhancedMonitoring: [EnhancedMetrics], hasMoreShards: Bool, shards: [Shard], streamCreationTimestamp: TimeStamp, streamName: String, streamStatus: StreamStatus) {
+        public init(encryptionType: EncryptionType? = nil, streamARN: String, keyId: String? = nil, retentionPeriodHours: Int32, enhancedMonitoring: [EnhancedMetrics], hasMoreShards: Bool, shards: [Shard], streamCreationTimestamp: TimeStamp, streamName: String, streamStatus: StreamStatus) {
+            self.encryptionType = encryptionType
             self.streamARN = streamARN
+            self.keyId = keyId
             self.retentionPeriodHours = retentionPeriodHours
             self.enhancedMonitoring = enhancedMonitoring
             self.hasMoreShards = hasMoreShards
@@ -921,7 +1090,9 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionType = "EncryptionType"
             case streamARN = "StreamARN"
+            case keyId = "KeyId"
             case retentionPeriodHours = "RetentionPeriodHours"
             case enhancedMonitoring = "EnhancedMonitoring"
             case hasMoreShards = "HasMoreShards"

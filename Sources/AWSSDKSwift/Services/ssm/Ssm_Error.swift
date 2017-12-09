@@ -4,51 +4,27 @@ import AWSSDKSwiftCore
 
 /// Error enum for Ssm
 public enum SsmError: AWSErrorType {
-    case associationDoesNotExist(message: String?)
-    case internalServerError(message: String?)
-    case invalidDocument(message: String?)
-    case invalidInstanceId(message: String?)
-    case invalidNextToken(message: String?)
-    case invalidCommandId(message: String?)
-    case invalidFilterKey(message: String?)
     case doesNotExistException(message: String?)
-    case invalidFilterOption(message: String?)
-    case invalidFilterValue(message: String?)
+    case internalServerError(message: String?)
+    case automationExecutionNotFoundException(message: String?)
+    case invalidDocument(message: String?)
+    case invalidDocumentVersion(message: String?)
     case invalidResourceType(message: String?)
     case invalidResourceId(message: String?)
     case idempotentParameterMismatch(message: String?)
     case resourceLimitExceededException(message: String?)
-    case tooManyTagsError(message: String?)
-    case invalidFilter(message: String?)
-    case invalidTypeNameException(message: String?)
-    case invalidResultAttributeException(message: String?)
-    case invalidInstanceInformationFilterValue(message: String?)
-    case automationExecutionNotFoundException(message: String?)
-    case resourceDataSyncNotFoundException(message: String?)
-    case invalidKeyId(message: String?)
-    case parameterNotFound(message: String?)
-    case maxDocumentSizeExceeded(message: String?)
-    case documentVersionLimitExceeded(message: String?)
-    case duplicateDocumentContent(message: String?)
-    case invalidDocumentContent(message: String?)
-    case invalidDocumentVersion(message: String?)
-    case invalidDocumentSchemaVersion(message: String?)
-    case duplicateInstanceId(message: String?)
-    case automationDefinitionNotFoundException(message: String?)
-    case invalidAutomationExecutionParametersException(message: String?)
-    case automationExecutionLimitExceededException(message: String?)
-    case automationDefinitionVersionNotFoundException(message: String?)
+    case featureNotAvailableException(message: String?)
+    case invalidAutomationStatusUpdateException(message: String?)
+    case invalidNextToken(message: String?)
+    case invalidInstanceId(message: String?)
+    case associationDoesNotExist(message: String?)
     case statusUnchanged(message: String?)
     case tooManyUpdates(message: String?)
-    case invalidPermissionType(message: String?)
-    case documentPermissionLimit(message: String?)
-    case documentLimitExceeded(message: String?)
-    case documentAlreadyExists(message: String?)
-    case invalidSchedule(message: String?)
-    case invalidParameters(message: String?)
-    case invalidOutputLocation(message: String?)
-    case invalidUpdate(message: String?)
-    case invalidTarget(message: String?)
+    case invalidFilter(message: String?)
+    case invalidKeyId(message: String?)
+    case parameterNotFound(message: String?)
+    case parameterVersionNotFound(message: String?)
+    case invalidTypeNameException(message: String?)
     case resourceDataSyncCountExceededException(message: String?)
     case resourceDataSyncAlreadyExistsException(message: String?)
     case resourceDataSyncInvalidConfigurationException(message: String?)
@@ -57,27 +33,65 @@ public enum SsmError: AWSErrorType {
     case associationAlreadyExists(message: String?)
     case associationLimitExceeded(message: String?)
     case unsupportedPlatformType(message: String?)
+    case invalidOutputLocation(message: String?)
+    case invalidParameters(message: String?)
+    case invalidTarget(message: String?)
+    case invalidSchedule(message: String?)
+    case invalidPermissionType(message: String?)
+    case resourceInUseException(message: String?)
+    case invalidActivationId(message: String?)
+    case invalidActivation(message: String?)
+    case duplicateInstanceId(message: String?)
+    case unsupportedOperatingSystem(message: String?)
+    case invalidOutputFolder(message: String?)
+    case maxDocumentSizeExceeded(message: String?)
+    case invalidRole(message: String?)
+    case invalidNotificationConfig(message: String?)
+    case automationStepNotFoundException(message: String?)
+    case invalidAutomationSignalException(message: String?)
+    case invalidAssociationVersion(message: String?)
+    case invalidCommandId(message: String?)
+    case invalidFilterKey(message: String?)
+    case invalidResultAttributeException(message: String?)
+    case invalidFilterValue(message: String?)
+    case resourceDataSyncNotFoundException(message: String?)
+    case documentVersionLimitExceeded(message: String?)
+    case duplicateDocumentContent(message: String?)
+    case invalidDocumentContent(message: String?)
+    case invalidDocumentSchemaVersion(message: String?)
+    case automationDefinitionNotFoundException(message: String?)
+    case invalidAutomationExecutionParametersException(message: String?)
+    case automationExecutionLimitExceededException(message: String?)
+    case automationDefinitionVersionNotFoundException(message: String?)
+    case documentPermissionLimit(message: String?)
+    case documentLimitExceeded(message: String?)
+    case invalidFilterOption(message: String?)
+    case documentAlreadyExists(message: String?)
+    case invalidUpdate(message: String?)
+    case associationVersionLimitExceeded(message: String?)
+    case invalidItemContentException(message: String?)
+    case totalSizeLimitExceededException(message: String?)
+    case itemSizeLimitExceededException(message: String?)
+    case complianceTypeCountLimitExceededException(message: String?)
     case invalidPluginName(message: String?)
     case invocationDoesNotExist(message: String?)
-    case resourceInUseException(message: String?)
     case parameterLimitExceeded(message: String?)
     case parameterAlreadyExists(message: String?)
     case hierarchyLevelLimitExceededException(message: String?)
     case hierarchyTypeMismatchException(message: String?)
     case invalidAllowedPatternException(message: String?)
+    case parameterMaxVersionLimitExceeded(message: String?)
     case parameterPatternMismatchException(message: String?)
     case unsupportedParameterType(message: String?)
-    case invalidItemContentException(message: String?)
-    case totalSizeLimitExceededException(message: String?)
-    case itemSizeLimitExceededException(message: String?)
     case itemContentMismatchException(message: String?)
     case customSchemaCountLimitExceededException(message: String?)
     case unsupportedInventorySchemaVersionException(message: String?)
-    case invalidActivationId(message: String?)
-    case invalidActivation(message: String?)
-    case invalidOutputFolder(message: String?)
-    case invalidRole(message: String?)
-    case invalidNotificationConfig(message: String?)
+    case unsupportedInventoryItemContextException(message: String?)
+    case invalidInventoryItemContextException(message: String?)
+    case subTypeCountLimitExceededException(message: String?)
+    case targetInUseException(message: String?)
+    case invalidInstanceInformationFilterValue(message: String?)
+    case tooManyTagsError(message: String?)
     case alreadyExistsException(message: String?)
 }
 
@@ -88,26 +102,16 @@ extension SsmError {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "AssociationDoesNotExist":
-            self = .associationDoesNotExist(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        case "InvalidDocument":
-            self = .invalidDocument(message: message)
-        case "InvalidInstanceId":
-            self = .invalidInstanceId(message: message)
-        case "InvalidNextToken":
-            self = .invalidNextToken(message: message)
-        case "InvalidCommandId":
-            self = .invalidCommandId(message: message)
-        case "InvalidFilterKey":
-            self = .invalidFilterKey(message: message)
         case "DoesNotExistException":
             self = .doesNotExistException(message: message)
-        case "InvalidFilterOption":
-            self = .invalidFilterOption(message: message)
-        case "InvalidFilterValue":
-            self = .invalidFilterValue(message: message)
+        case "InternalServerError":
+            self = .internalServerError(message: message)
+        case "AutomationExecutionNotFoundException":
+            self = .automationExecutionNotFoundException(message: message)
+        case "InvalidDocument":
+            self = .invalidDocument(message: message)
+        case "InvalidDocumentVersion":
+            self = .invalidDocumentVersion(message: message)
         case "InvalidResourceType":
             self = .invalidResourceType(message: message)
         case "InvalidResourceId":
@@ -116,68 +120,30 @@ extension SsmError {
             self = .idempotentParameterMismatch(message: message)
         case "ResourceLimitExceededException":
             self = .resourceLimitExceededException(message: message)
-        case "TooManyTagsError":
-            self = .tooManyTagsError(message: message)
-        case "InvalidFilter":
-            self = .invalidFilter(message: message)
-        case "InvalidTypeNameException":
-            self = .invalidTypeNameException(message: message)
-        case "InvalidResultAttributeException":
-            self = .invalidResultAttributeException(message: message)
-        case "InvalidInstanceInformationFilterValue":
-            self = .invalidInstanceInformationFilterValue(message: message)
-        case "AutomationExecutionNotFoundException":
-            self = .automationExecutionNotFoundException(message: message)
-        case "ResourceDataSyncNotFoundException":
-            self = .resourceDataSyncNotFoundException(message: message)
-        case "InvalidKeyId":
-            self = .invalidKeyId(message: message)
-        case "ParameterNotFound":
-            self = .parameterNotFound(message: message)
-        case "MaxDocumentSizeExceeded":
-            self = .maxDocumentSizeExceeded(message: message)
-        case "DocumentVersionLimitExceeded":
-            self = .documentVersionLimitExceeded(message: message)
-        case "DuplicateDocumentContent":
-            self = .duplicateDocumentContent(message: message)
-        case "InvalidDocumentContent":
-            self = .invalidDocumentContent(message: message)
-        case "InvalidDocumentVersion":
-            self = .invalidDocumentVersion(message: message)
-        case "InvalidDocumentSchemaVersion":
-            self = .invalidDocumentSchemaVersion(message: message)
-        case "DuplicateInstanceId":
-            self = .duplicateInstanceId(message: message)
-        case "AutomationDefinitionNotFoundException":
-            self = .automationDefinitionNotFoundException(message: message)
-        case "InvalidAutomationExecutionParametersException":
-            self = .invalidAutomationExecutionParametersException(message: message)
-        case "AutomationExecutionLimitExceededException":
-            self = .automationExecutionLimitExceededException(message: message)
-        case "AutomationDefinitionVersionNotFoundException":
-            self = .automationDefinitionVersionNotFoundException(message: message)
+        case "FeatureNotAvailableException":
+            self = .featureNotAvailableException(message: message)
+        case "InvalidAutomationStatusUpdateException":
+            self = .invalidAutomationStatusUpdateException(message: message)
+        case "InvalidNextToken":
+            self = .invalidNextToken(message: message)
+        case "InvalidInstanceId":
+            self = .invalidInstanceId(message: message)
+        case "AssociationDoesNotExist":
+            self = .associationDoesNotExist(message: message)
         case "StatusUnchanged":
             self = .statusUnchanged(message: message)
         case "TooManyUpdates":
             self = .tooManyUpdates(message: message)
-        case "InvalidPermissionType":
-            self = .invalidPermissionType(message: message)
-        case "DocumentPermissionLimit":
-            self = .documentPermissionLimit(message: message)
-        case "DocumentLimitExceeded":
-            self = .documentLimitExceeded(message: message)
-        case "DocumentAlreadyExists":
-            self = .documentAlreadyExists(message: message)
-        case "InvalidSchedule":
-            self = .invalidSchedule(message: message)
-        case "InvalidParameters":
-            self = .invalidParameters(message: message)
-        case "InvalidOutputLocation":
-            self = .invalidOutputLocation(message: message)
-        case "InvalidUpdate":
-            self = .invalidUpdate(message: message)
-        case "InvalidTarget":
-            self = .invalidTarget(message: message)
+        case "InvalidFilter":
+            self = .invalidFilter(message: message)
+        case "InvalidKeyId":
+            self = .invalidKeyId(message: message)
+        case "ParameterNotFound":
+            self = .parameterNotFound(message: message)
+        case "ParameterVersionNotFound":
+            self = .parameterVersionNotFound(message: message)
+        case "InvalidTypeNameException":
+            self = .invalidTypeNameException(message: message)
         case "ResourceDataSyncCountExceededException":
             self = .resourceDataSyncCountExceededException(message: message)
         case "ResourceDataSyncAlreadyExistsException":
@@ -194,12 +160,90 @@ extension SsmError {
             self = .associationLimitExceeded(message: message)
         case "UnsupportedPlatformType":
             self = .unsupportedPlatformType(message: message)
+        case "InvalidOutputLocation":
+            self = .invalidOutputLocation(message: message)
+        case "InvalidParameters":
+            self = .invalidParameters(message: message)
+        case "InvalidTarget":
+            self = .invalidTarget(message: message)
+        case "InvalidSchedule":
+            self = .invalidSchedule(message: message)
+        case "InvalidPermissionType":
+            self = .invalidPermissionType(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
+        case "InvalidActivationId":
+            self = .invalidActivationId(message: message)
+        case "InvalidActivation":
+            self = .invalidActivation(message: message)
+        case "DuplicateInstanceId":
+            self = .duplicateInstanceId(message: message)
+        case "UnsupportedOperatingSystem":
+            self = .unsupportedOperatingSystem(message: message)
+        case "InvalidOutputFolder":
+            self = .invalidOutputFolder(message: message)
+        case "MaxDocumentSizeExceeded":
+            self = .maxDocumentSizeExceeded(message: message)
+        case "InvalidRole":
+            self = .invalidRole(message: message)
+        case "InvalidNotificationConfig":
+            self = .invalidNotificationConfig(message: message)
+        case "AutomationStepNotFoundException":
+            self = .automationStepNotFoundException(message: message)
+        case "InvalidAutomationSignalException":
+            self = .invalidAutomationSignalException(message: message)
+        case "InvalidAssociationVersion":
+            self = .invalidAssociationVersion(message: message)
+        case "InvalidCommandId":
+            self = .invalidCommandId(message: message)
+        case "InvalidFilterKey":
+            self = .invalidFilterKey(message: message)
+        case "InvalidResultAttributeException":
+            self = .invalidResultAttributeException(message: message)
+        case "InvalidFilterValue":
+            self = .invalidFilterValue(message: message)
+        case "ResourceDataSyncNotFoundException":
+            self = .resourceDataSyncNotFoundException(message: message)
+        case "DocumentVersionLimitExceeded":
+            self = .documentVersionLimitExceeded(message: message)
+        case "DuplicateDocumentContent":
+            self = .duplicateDocumentContent(message: message)
+        case "InvalidDocumentContent":
+            self = .invalidDocumentContent(message: message)
+        case "InvalidDocumentSchemaVersion":
+            self = .invalidDocumentSchemaVersion(message: message)
+        case "AutomationDefinitionNotFoundException":
+            self = .automationDefinitionNotFoundException(message: message)
+        case "InvalidAutomationExecutionParametersException":
+            self = .invalidAutomationExecutionParametersException(message: message)
+        case "AutomationExecutionLimitExceededException":
+            self = .automationExecutionLimitExceededException(message: message)
+        case "AutomationDefinitionVersionNotFoundException":
+            self = .automationDefinitionVersionNotFoundException(message: message)
+        case "DocumentPermissionLimit":
+            self = .documentPermissionLimit(message: message)
+        case "DocumentLimitExceeded":
+            self = .documentLimitExceeded(message: message)
+        case "InvalidFilterOption":
+            self = .invalidFilterOption(message: message)
+        case "DocumentAlreadyExists":
+            self = .documentAlreadyExists(message: message)
+        case "InvalidUpdate":
+            self = .invalidUpdate(message: message)
+        case "AssociationVersionLimitExceeded":
+            self = .associationVersionLimitExceeded(message: message)
+        case "InvalidItemContentException":
+            self = .invalidItemContentException(message: message)
+        case "TotalSizeLimitExceededException":
+            self = .totalSizeLimitExceededException(message: message)
+        case "ItemSizeLimitExceededException":
+            self = .itemSizeLimitExceededException(message: message)
+        case "ComplianceTypeCountLimitExceededException":
+            self = .complianceTypeCountLimitExceededException(message: message)
         case "InvalidPluginName":
             self = .invalidPluginName(message: message)
         case "InvocationDoesNotExist":
             self = .invocationDoesNotExist(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
         case "ParameterLimitExceeded":
             self = .parameterLimitExceeded(message: message)
         case "ParameterAlreadyExists":
@@ -210,32 +254,30 @@ extension SsmError {
             self = .hierarchyTypeMismatchException(message: message)
         case "InvalidAllowedPatternException":
             self = .invalidAllowedPatternException(message: message)
+        case "ParameterMaxVersionLimitExceeded":
+            self = .parameterMaxVersionLimitExceeded(message: message)
         case "ParameterPatternMismatchException":
             self = .parameterPatternMismatchException(message: message)
         case "UnsupportedParameterType":
             self = .unsupportedParameterType(message: message)
-        case "InvalidItemContentException":
-            self = .invalidItemContentException(message: message)
-        case "TotalSizeLimitExceededException":
-            self = .totalSizeLimitExceededException(message: message)
-        case "ItemSizeLimitExceededException":
-            self = .itemSizeLimitExceededException(message: message)
         case "ItemContentMismatchException":
             self = .itemContentMismatchException(message: message)
         case "CustomSchemaCountLimitExceededException":
             self = .customSchemaCountLimitExceededException(message: message)
         case "UnsupportedInventorySchemaVersionException":
             self = .unsupportedInventorySchemaVersionException(message: message)
-        case "InvalidActivationId":
-            self = .invalidActivationId(message: message)
-        case "InvalidActivation":
-            self = .invalidActivation(message: message)
-        case "InvalidOutputFolder":
-            self = .invalidOutputFolder(message: message)
-        case "InvalidRole":
-            self = .invalidRole(message: message)
-        case "InvalidNotificationConfig":
-            self = .invalidNotificationConfig(message: message)
+        case "UnsupportedInventoryItemContextException":
+            self = .unsupportedInventoryItemContextException(message: message)
+        case "InvalidInventoryItemContextException":
+            self = .invalidInventoryItemContextException(message: message)
+        case "SubTypeCountLimitExceededException":
+            self = .subTypeCountLimitExceededException(message: message)
+        case "TargetInUseException":
+            self = .targetInUseException(message: message)
+        case "InvalidInstanceInformationFilterValue":
+            self = .invalidInstanceInformationFilterValue(message: message)
+        case "TooManyTagsError":
+            self = .tooManyTagsError(message: message)
         case "AlreadyExistsException":
             self = .alreadyExistsException(message: message)
         default:

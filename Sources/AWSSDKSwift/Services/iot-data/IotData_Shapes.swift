@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension IotData {
 
     public struct GetThingShadowRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
         /// The name of the thing.
@@ -22,7 +22,7 @@ extension IotData {
     }
 
     public struct DeleteThingShadowRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
         /// The name of the thing.
@@ -40,7 +40,7 @@ extension IotData {
     public struct DeleteThingShadowResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "payload", required: true, type: .blob)
         ]
         /// The state information, in JSON format.
@@ -58,7 +58,7 @@ extension IotData {
     public struct PublishRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "qos", location: .querystring(locationName: "qos"), required: false, type: .integer), 
             AWSShapeMember(label: "payload", required: false, type: .blob), 
             AWSShapeMember(label: "topic", location: .uri(locationName: "topic"), required: true, type: .string)
@@ -86,7 +86,7 @@ extension IotData {
     public struct GetThingShadowResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "payload", required: false, type: .blob)
         ]
         /// The state information, in JSON format.
@@ -104,7 +104,7 @@ extension IotData {
     public struct UpdateThingShadowResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "payload", required: false, type: .blob)
         ]
         /// The state information, in JSON format.
@@ -122,7 +122,7 @@ extension IotData {
     public struct UpdateThingShadowRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "payload"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "payload", required: true, type: .blob), 
             AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]

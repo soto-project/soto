@@ -65,7 +65,12 @@ public struct Kinesisanalytics {
         return try client.send(operation: "DescribeApplication", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a CloudWatch log stream from an application. For more information about using CloudWatch log streams with Amazon Kinesis Analytics applications, see Monitoring Configuration Errors.
+    ///  Deletes an InputProcessingConfiguration from an input.
+    public func deleteApplicationInputProcessingConfiguration(_ input: DeleteApplicationInputProcessingConfigurationRequest) throws -> DeleteApplicationInputProcessingConfigurationResponse {
+        return try client.send(operation: "DeleteApplicationInputProcessingConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a CloudWatch log stream from an application. For more information about using CloudWatch log streams with Amazon Kinesis Analytics applications, see Working with Amazon CloudWatch Logs.
     public func deleteApplicationCloudWatchLoggingOption(_ input: DeleteApplicationCloudWatchLoggingOptionRequest) throws -> DeleteApplicationCloudWatchLoggingOptionResponse {
         return try client.send(operation: "DeleteApplicationCloudWatchLoggingOption", path: "/", httpMethod: "POST", input: input)
     }
@@ -75,12 +80,17 @@ public struct Kinesisanalytics {
         return try client.send(operation: "AddApplicationInput", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Adds an InputProcessingConfiguration to an application. An input processor preprocesses records on the input stream before the application's SQL code executes. Currently, the only input processor available is AWS Lambda.
+    public func addApplicationInputProcessingConfiguration(_ input: AddApplicationInputProcessingConfigurationRequest) throws -> AddApplicationInputProcessingConfigurationResponse {
+        return try client.send(operation: "AddApplicationInputProcessingConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a reference data source configuration from the specified application configuration. If the application is running, Amazon Kinesis Analytics immediately removes the in-application table that you created using the AddApplicationReferenceDataSource operation.  This operation requires permissions to perform the kinesisanalytics.DeleteApplicationReferenceDataSource action.
     public func deleteApplicationReferenceDataSource(_ input: DeleteApplicationReferenceDataSourceRequest) throws -> DeleteApplicationReferenceDataSourceResponse {
         return try client.send(operation: "DeleteApplicationReferenceDataSource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds a CloudWatch log stream to monitor application configuration errors. For more information about using CloudWatch log streams with Amazon Kinesis Analytics applications, see Monitoring Configuration Errors.
+    ///  Adds a CloudWatch log stream to monitor application configuration errors. For more information about using CloudWatch log streams with Amazon Kinesis Analytics applications, see Working with Amazon CloudWatch Logs.
     public func addApplicationCloudWatchLoggingOption(_ input: AddApplicationCloudWatchLoggingOptionRequest) throws -> AddApplicationCloudWatchLoggingOptionResponse {
         return try client.send(operation: "AddApplicationCloudWatchLoggingOption", path: "/", httpMethod: "POST", input: input)
     }

@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Meteringmarketplace {
 
     public struct UsageRecord: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomerIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
             AWSShapeMember(label: "Dimension", required: true, type: .string), 
@@ -37,7 +37,7 @@ extension Meteringmarketplace {
     }
 
     public struct ResolveCustomerRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RegistrationToken", required: true, type: .string)
         ]
         /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier and product code.
@@ -53,7 +53,7 @@ extension Meteringmarketplace {
     }
 
     public struct MeterUsageRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
             AWSShapeMember(label: "DryRun", required: true, type: .boolean), 
             AWSShapeMember(label: "UsageDimension", required: true, type: .string), 
@@ -96,7 +96,7 @@ extension Meteringmarketplace {
     }
 
     public struct BatchMeterUsageResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedRecords", required: false, type: .list), 
             AWSShapeMember(label: "Results", required: false, type: .list)
         ]
@@ -117,7 +117,7 @@ extension Meteringmarketplace {
     }
 
     public struct ResolveCustomerResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomerIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "ProductCode", required: false, type: .string)
         ]
@@ -138,7 +138,7 @@ extension Meteringmarketplace {
     }
 
     public struct MeterUsageResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MeteringRecordId", required: false, type: .string)
         ]
         public let meteringRecordId: String?
@@ -153,7 +153,7 @@ extension Meteringmarketplace {
     }
 
     public struct BatchMeterUsageRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProductCode", required: true, type: .string), 
             AWSShapeMember(label: "UsageRecords", required: true, type: .list)
         ]
@@ -174,7 +174,7 @@ extension Meteringmarketplace {
     }
 
     public struct UsageRecordResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MeteringRecordId", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "UsageRecord", required: false, type: .structure)

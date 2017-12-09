@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Clouddirectory {
 
     public struct FacetAttribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeDefinition", required: false, type: .structure), 
             AWSShapeMember(label: "AttributeReference", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -36,8 +36,12 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchDetachPolicyResponse: AWSShape {
+
+    }
+
     public struct TagResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
@@ -57,8 +61,29 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchListIncomingTypedLinksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LinkSpecifiers", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Returns one or more typed link specifiers as output.
+        public let linkSpecifiers: [TypedLinkSpecifier]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(linkSpecifiers: [TypedLinkSpecifier]? = nil, nextToken: String? = nil) {
+            self.linkSpecifiers = linkSpecifiers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linkSpecifiers = "LinkSpecifiers"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct UpdateSchemaResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaArn", required: false, type: .string)
         ]
         /// The ARN that is associated with the updated schema. For more information, see arns.
@@ -74,7 +99,7 @@ extension Clouddirectory {
     }
 
     public struct Rule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Parameters", required: false, type: .map)
         ]
@@ -95,7 +120,7 @@ extension Clouddirectory {
     }
 
     public struct GetDirectoryRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The ARN of the directory.
@@ -111,7 +136,7 @@ extension Clouddirectory {
     }
 
     public struct ListObjectChildrenResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Children", required: false, type: .map)
         ]
@@ -131,6 +156,10 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchAttachPolicyResponse: AWSShape {
+
+    }
+
     public struct AddFacetToObjectResponse: AWSShape {
 
     }
@@ -142,11 +171,18 @@ extension Clouddirectory {
         case invalidnexttokenexception = "InvalidNextTokenException"
         case accessdeniedexception = "AccessDeniedException"
         case notnodeexception = "NotNodeException"
+        case facetvalidationexception = "FacetValidationException"
+        case cannotlistparentofrootexception = "CannotListParentOfRootException"
+        case notindexexception = "NotIndexException"
+        case notpolicyexception = "NotPolicyException"
+        case directorynotenabledexception = "DirectoryNotEnabledException"
+        case limitexceededexception = "LimitExceededException"
+        case internalserviceexception = "InternalServiceException"
         public var description: String { return self.rawValue }
     }
 
     public struct TypedAttributeValueRange: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndValue", required: false, type: .structure), 
             AWSShapeMember(label: "EndMode", required: true, type: .enum), 
             AWSShapeMember(label: "StartValue", required: false, type: .structure), 
@@ -186,7 +222,7 @@ extension Clouddirectory {
     }
 
     public struct GetSchemaAsJsonResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Document", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
@@ -207,7 +243,7 @@ extension Clouddirectory {
     }
 
     public struct AddFacetToObjectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
             AWSShapeMember(label: "ObjectAttributeList", required: false, type: .list), 
@@ -237,6 +273,69 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchListAttachedIndices: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// A reference to the object that has indices attached.
+        public let targetReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+
+        public init(targetReference: ObjectReference, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.targetReference = targetReference
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetReference = "TargetReference"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct BatchListPolicyAttachmentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ObjectIdentifiers", required: false, type: .list)
+        ]
+        /// The pagination token.
+        public let nextToken: String?
+        /// A list of ObjectIdentifiers to which the policy is attached.
+        public let objectIdentifiers: [String]?
+
+        public init(nextToken: String? = nil, objectIdentifiers: [String]? = nil) {
+            self.nextToken = nextToken
+            self.objectIdentifiers = objectIdentifiers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case objectIdentifiers = "ObjectIdentifiers"
+        }
+    }
+
+    public struct BatchDetachFromIndexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetachedObjectIdentifier", required: false, type: .string)
+        ]
+        /// The ObjectIdentifier of the object that was detached from the index.
+        public let detachedObjectIdentifier: String?
+
+        public init(detachedObjectIdentifier: String? = nil) {
+            self.detachedObjectIdentifier = detachedObjectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detachedObjectIdentifier = "DetachedObjectIdentifier"
+        }
+    }
+
     public enum ObjectType: String, CustomStringConvertible, Codable {
         case node = "NODE"
         case leafNode = "LEAF_NODE"
@@ -246,7 +345,7 @@ extension Clouddirectory {
     }
 
     public struct ListDevelopmentSchemaArnsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
@@ -267,7 +366,7 @@ extension Clouddirectory {
     }
 
     public struct Directory: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "DirectoryArn", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -298,7 +397,7 @@ extension Clouddirectory {
     }
 
     public struct GetTypedLinkFacetInformationResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityAttributeOrder", required: false, type: .list)
         ]
         /// The order of identity attributes for the facet, from most significant to least significant. The ability to filter typed links considers the order that the attributes are defined on the typed link facet. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range. Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls. For more information about identity attributes, see Typed link.
@@ -314,7 +413,7 @@ extension Clouddirectory {
     }
 
     public struct LookupPolicyResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyToPathList", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -339,7 +438,7 @@ extension Clouddirectory {
     }
 
     public struct CreateSchemaResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
@@ -355,7 +454,7 @@ extension Clouddirectory {
     }
 
     public struct RemoveFacetFromObjectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
             AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
@@ -381,7 +480,7 @@ extension Clouddirectory {
     }
 
     public struct ObjectAttributeRange: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Range", required: false, type: .structure), 
             AWSShapeMember(label: "AttributeKey", required: false, type: .structure)
         ]
@@ -402,7 +501,7 @@ extension Clouddirectory {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
@@ -423,48 +522,83 @@ extension Clouddirectory {
     }
 
     public struct BatchWriteOperationResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AddFacetToObject", required: false, type: .structure), 
-            AWSShapeMember(label: "UpdateObjectAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "DetachObject", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachTypedLink", required: false, type: .structure), 
             AWSShapeMember(label: "AttachObject", required: false, type: .structure), 
-            AWSShapeMember(label: "CreateObject", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachTypedLink", required: false, type: .structure), 
+            AWSShapeMember(label: "CreateIndex", required: false, type: .structure), 
             AWSShapeMember(label: "DeleteObject", required: false, type: .structure), 
-            AWSShapeMember(label: "RemoveFacetFromObject", required: false, type: .structure)
+            AWSShapeMember(label: "UpdateObjectAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "RemoveFacetFromObject", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachFromIndex", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "CreateObject", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachToIndex", required: false, type: .structure)
         ]
         /// The result of an add facet to object batch operation.
         public let addFacetToObject: BatchAddFacetToObjectResponse?
-        /// Updates a given object’s attributes.
-        public let updateObjectAttributes: BatchUpdateObjectAttributesResponse?
         /// Detaches an object from a Directory.
         public let detachObject: BatchDetachObjectResponse?
+        /// Attaches a typed link to a specified source and target object. For more information, see Typed link.
+        public let attachTypedLink: BatchAttachTypedLinkResponse?
         /// Attaches an object to a Directory.
         public let attachObject: BatchAttachObjectResponse?
-        /// Creates an object in a Directory.
-        public let createObject: BatchCreateObjectResponse?
+        /// Detaches a typed link from a specified source and target object. For more information, see Typed link.
+        public let detachTypedLink: BatchDetachTypedLinkResponse?
+        /// Creates an index object. See Indexing for more information.
+        public let createIndex: BatchCreateIndexResponse?
         /// Deletes an object in a Directory.
         public let deleteObject: BatchDeleteObjectResponse?
+        /// Updates a given object’s attributes.
+        public let updateObjectAttributes: BatchUpdateObjectAttributesResponse?
         /// The result of a batch remove facet from object operation.
         public let removeFacetFromObject: BatchRemoveFacetFromObjectResponse?
+        /// Detaches the specified object from the specified index.
+        public let detachFromIndex: BatchDetachFromIndexResponse?
+        /// Detaches a policy from a Directory.
+        public let detachPolicy: BatchDetachPolicyResponse?
+        /// Attaches a policy object to a regular object. An object can have a limited number of attached policies.
+        public let attachPolicy: BatchAttachPolicyResponse?
+        /// Creates an object in a Directory.
+        public let createObject: BatchCreateObjectResponse?
+        /// Attaches the specified object to the specified index.
+        public let attachToIndex: BatchAttachToIndexResponse?
 
-        public init(addFacetToObject: BatchAddFacetToObjectResponse? = nil, updateObjectAttributes: BatchUpdateObjectAttributesResponse? = nil, detachObject: BatchDetachObjectResponse? = nil, attachObject: BatchAttachObjectResponse? = nil, createObject: BatchCreateObjectResponse? = nil, deleteObject: BatchDeleteObjectResponse? = nil, removeFacetFromObject: BatchRemoveFacetFromObjectResponse? = nil) {
+        public init(addFacetToObject: BatchAddFacetToObjectResponse? = nil, detachObject: BatchDetachObjectResponse? = nil, attachTypedLink: BatchAttachTypedLinkResponse? = nil, attachObject: BatchAttachObjectResponse? = nil, detachTypedLink: BatchDetachTypedLinkResponse? = nil, createIndex: BatchCreateIndexResponse? = nil, deleteObject: BatchDeleteObjectResponse? = nil, updateObjectAttributes: BatchUpdateObjectAttributesResponse? = nil, removeFacetFromObject: BatchRemoveFacetFromObjectResponse? = nil, detachFromIndex: BatchDetachFromIndexResponse? = nil, detachPolicy: BatchDetachPolicyResponse? = nil, attachPolicy: BatchAttachPolicyResponse? = nil, createObject: BatchCreateObjectResponse? = nil, attachToIndex: BatchAttachToIndexResponse? = nil) {
             self.addFacetToObject = addFacetToObject
-            self.updateObjectAttributes = updateObjectAttributes
             self.detachObject = detachObject
+            self.attachTypedLink = attachTypedLink
             self.attachObject = attachObject
-            self.createObject = createObject
+            self.detachTypedLink = detachTypedLink
+            self.createIndex = createIndex
             self.deleteObject = deleteObject
+            self.updateObjectAttributes = updateObjectAttributes
             self.removeFacetFromObject = removeFacetFromObject
+            self.detachFromIndex = detachFromIndex
+            self.detachPolicy = detachPolicy
+            self.attachPolicy = attachPolicy
+            self.createObject = createObject
+            self.attachToIndex = attachToIndex
         }
 
         private enum CodingKeys: String, CodingKey {
             case addFacetToObject = "AddFacetToObject"
-            case updateObjectAttributes = "UpdateObjectAttributes"
             case detachObject = "DetachObject"
+            case attachTypedLink = "AttachTypedLink"
             case attachObject = "AttachObject"
-            case createObject = "CreateObject"
+            case detachTypedLink = "DetachTypedLink"
+            case createIndex = "CreateIndex"
             case deleteObject = "DeleteObject"
+            case updateObjectAttributes = "UpdateObjectAttributes"
             case removeFacetFromObject = "RemoveFacetFromObject"
+            case detachFromIndex = "DetachFromIndex"
+            case detachPolicy = "DetachPolicy"
+            case attachPolicy = "AttachPolicy"
+            case createObject = "CreateObject"
+            case attachToIndex = "AttachToIndex"
         }
     }
 
@@ -477,7 +611,7 @@ extension Clouddirectory {
     }
 
     public struct ListOutgoingTypedLinksRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "ConsistencyLevel", required: false, type: .enum), 
@@ -523,7 +657,7 @@ extension Clouddirectory {
     }
 
     public struct ApplySchemaRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PublishedSchemaArn", required: true, type: .string), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
@@ -543,8 +677,34 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchListObjectParentPaths: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The reference that identifies the object whose attributes will be listed.
+        public let objectReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+
+        public init(objectReference: ObjectReference, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.objectReference = objectReference
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
     public struct ListIndexRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
@@ -585,7 +745,7 @@ extension Clouddirectory {
     }
 
     public struct ListTypedLinkFacetAttributesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
@@ -616,7 +776,7 @@ extension Clouddirectory {
     }
 
     public struct TypedLinkFacetAttributeUpdate: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Action", required: true, type: .enum), 
             AWSShapeMember(label: "Attribute", required: true, type: .structure)
         ]
@@ -637,7 +797,7 @@ extension Clouddirectory {
     }
 
     public struct AttachToIndexRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
             AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
@@ -662,8 +822,39 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchListIndex: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
+            AWSShapeMember(label: "RangesOnIndexedValues", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The reference to the index to list.
+        public let indexReference: ObjectReference
+        /// Specifies the ranges of indexed values that you want to query.
+        public let rangesOnIndexedValues: [ObjectAttributeRange]?
+        /// The pagination token.
+        public let nextToken: String?
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+
+        public init(indexReference: ObjectReference, rangesOnIndexedValues: [ObjectAttributeRange]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.indexReference = indexReference
+            self.rangesOnIndexedValues = rangesOnIndexedValues
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexReference = "IndexReference"
+            case rangesOnIndexedValues = "RangesOnIndexedValues"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
     public struct DeleteTypedLinkFacetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
@@ -684,7 +875,7 @@ extension Clouddirectory {
     }
 
     public struct ListTypedLinkFacetAttributesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
@@ -704,8 +895,60 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchCreateIndex: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrderedIndexedAttributeList", required: true, type: .list), 
+            AWSShapeMember(label: "IsUnique", required: true, type: .boolean), 
+            AWSShapeMember(label: "ParentReference", required: false, type: .structure), 
+            AWSShapeMember(label: "BatchReferenceName", required: false, type: .string), 
+            AWSShapeMember(label: "LinkName", required: false, type: .string)
+        ]
+        /// Specifies the attributes that should be indexed on. Currently only a single attribute is supported.
+        public let orderedIndexedAttributeList: [AttributeKey]
+        /// Indicates whether the attribute that is being indexed has unique values or not.
+        public let isUnique: Bool
+        /// A reference to the parent object that contains the index object.
+        public let parentReference: ObjectReference?
+        /// The batch reference name. See Batches for more information.
+        public let batchReferenceName: String?
+        /// The name of the link between the parent object and the index object.
+        public let linkName: String?
+
+        public init(orderedIndexedAttributeList: [AttributeKey], isUnique: Bool, parentReference: ObjectReference? = nil, batchReferenceName: String? = nil, linkName: String? = nil) {
+            self.orderedIndexedAttributeList = orderedIndexedAttributeList
+            self.isUnique = isUnique
+            self.parentReference = parentReference
+            self.batchReferenceName = batchReferenceName
+            self.linkName = linkName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case orderedIndexedAttributeList = "OrderedIndexedAttributeList"
+            case isUnique = "IsUnique"
+            case parentReference = "ParentReference"
+            case batchReferenceName = "BatchReferenceName"
+            case linkName = "LinkName"
+        }
+    }
+
+    public struct DeleteDirectoryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        ]
+        /// The ARN of the directory to delete.
+        public let directoryArn: String
+
+        public init(directoryArn: String) {
+            self.directoryArn = directoryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+        }
+    }
+
     public struct BatchListObjectAttributesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
@@ -725,24 +968,44 @@ extension Clouddirectory {
         }
     }
 
-    public struct DeleteDirectoryRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+    public struct BatchListOutgoingTypedLinks: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
-        /// The ARN of the directory to delete.
-        public let directoryArn: String
+        /// Filters are interpreted in the order of the attributes defined on the typed link facet, not the order they are supplied to any API calls.
+        public let filterTypedLink: TypedLinkSchemaAndFacetName?
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The pagination token.
+        public let nextToken: String?
+        /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
+        public let filterAttributeRanges: [TypedLinkAttributeRange]?
+        /// The reference that identifies the object whose attributes will be listed.
+        public let objectReference: ObjectReference
 
-        public init(directoryArn: String) {
-            self.directoryArn = directoryArn
+        public init(filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int32? = nil, nextToken: String? = nil, filterAttributeRanges: [TypedLinkAttributeRange]? = nil, objectReference: ObjectReference) {
+            self.filterTypedLink = filterTypedLink
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.filterAttributeRanges = filterAttributeRanges
+            self.objectReference = objectReference
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directoryArn = "x-amz-data-partition"
+            case filterTypedLink = "FilterTypedLink"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case filterAttributeRanges = "FilterAttributeRanges"
+            case objectReference = "ObjectReference"
         }
     }
 
     public struct DetachTypedLinkRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
         ]
@@ -767,7 +1030,7 @@ extension Clouddirectory {
     }
 
     public struct BatchWriteResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Responses", required: false, type: .list)
         ]
         /// A list of all the responses for each batch write.
@@ -783,7 +1046,7 @@ extension Clouddirectory {
     }
 
     public struct DeleteDirectoryResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
         ]
         /// The ARN of the deleted directory.
@@ -799,7 +1062,7 @@ extension Clouddirectory {
     }
 
     public struct AttachObjectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
             AWSShapeMember(label: "ChildReference", required: true, type: .structure), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
@@ -830,7 +1093,7 @@ extension Clouddirectory {
     }
 
     public struct GetObjectInformationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
             AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
@@ -859,12 +1122,28 @@ extension Clouddirectory {
 
     }
 
+    public struct BatchAttachToIndexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttachedObjectIdentifier", required: false, type: .string)
+        ]
+        /// The ObjectIdentifier of the object that was attached to the index.
+        public let attachedObjectIdentifier: String?
+
+        public init(attachedObjectIdentifier: String? = nil) {
+            self.attachedObjectIdentifier = attachedObjectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachedObjectIdentifier = "AttachedObjectIdentifier"
+        }
+    }
+
     public struct DeleteTypedLinkFacetResponse: AWSShape {
 
     }
 
     public struct TypedLinkAttributeDefinition: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsImmutable", required: false, type: .boolean), 
             AWSShapeMember(label: "Rules", required: false, type: .map), 
             AWSShapeMember(label: "Type", required: true, type: .enum), 
@@ -905,7 +1184,7 @@ extension Clouddirectory {
     }
 
     public struct ListAttachedIndicesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -914,7 +1193,7 @@ extension Clouddirectory {
         ]
         /// The ARN of the directory.
         public let directoryArn: String
-        /// A reference to the object to that has indices attached.
+        /// A reference to the object that has indices attached.
         public let targetReference: ObjectReference
         /// The pagination token.
         public let nextToken: String?
@@ -940,8 +1219,44 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchListIncomingTypedLinks: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+        ]
+        /// Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls.
+        public let filterTypedLink: TypedLinkSchemaAndFacetName?
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The pagination token.
+        public let nextToken: String?
+        /// Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
+        public let filterAttributeRanges: [TypedLinkAttributeRange]?
+        /// The reference that identifies the object whose attributes will be listed.
+        public let objectReference: ObjectReference
+
+        public init(filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int32? = nil, nextToken: String? = nil, filterAttributeRanges: [TypedLinkAttributeRange]? = nil, objectReference: ObjectReference) {
+            self.filterTypedLink = filterTypedLink
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.filterAttributeRanges = filterAttributeRanges
+            self.objectReference = objectReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterTypedLink = "FilterTypedLink"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case filterAttributeRanges = "FilterAttributeRanges"
+            case objectReference = "ObjectReference"
+        }
+    }
+
     public struct CreateIndexResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
         /// The ObjectIdentifier of the index created by this operation.
@@ -957,7 +1272,7 @@ extension Clouddirectory {
     }
 
     public struct TypedLinkAttributeRange: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Range", required: true, type: .structure), 
             AWSShapeMember(label: "AttributeName", required: false, type: .string)
         ]
@@ -978,7 +1293,7 @@ extension Clouddirectory {
     }
 
     public struct PolicyAttachment: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyType", required: false, type: .string), 
             AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "PolicyId", required: false, type: .string)
@@ -1004,7 +1319,7 @@ extension Clouddirectory {
     }
 
     public struct ListAppliedSchemaArnsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaArns", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -1025,7 +1340,7 @@ extension Clouddirectory {
     }
 
     public struct EnableDirectoryResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
         ]
         /// The ARN of the enabled directory.
@@ -1041,7 +1356,7 @@ extension Clouddirectory {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
@@ -1067,7 +1382,7 @@ extension Clouddirectory {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
@@ -1088,7 +1403,7 @@ extension Clouddirectory {
     }
 
     public struct ListPolicyAttachmentsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ObjectIdentifiers", required: false, type: .list)
         ]
@@ -1109,7 +1424,7 @@ extension Clouddirectory {
     }
 
     public struct ListObjectParentsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
@@ -1144,8 +1459,29 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchListIndexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The objects and indexed values attached to the index.
+        public let indexAttachments: [IndexAttachment]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
+            self.indexAttachments = indexAttachments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexAttachments = "IndexAttachments"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct PutSchemaFromJsonRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Document", required: true, type: .string), 
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
@@ -1166,7 +1502,7 @@ extension Clouddirectory {
     }
 
     public struct ListAppliedSchemaArnsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
@@ -1192,7 +1528,7 @@ extension Clouddirectory {
     }
 
     public struct ObjectAttributeAction: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectAttributeActionType", required: false, type: .enum), 
             AWSShapeMember(label: "ObjectAttributeUpdateValue", required: false, type: .structure)
         ]
@@ -1212,8 +1548,24 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchGetObjectInformation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
+        ]
+        /// A reference to the object.
+        public let objectReference: ObjectReference
+
+        public init(objectReference: ObjectReference) {
+            self.objectReference = objectReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectReference = "ObjectReference"
+        }
+    }
+
     public struct DetachObjectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LinkName", required: true, type: .string), 
             AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
@@ -1238,8 +1590,24 @@ extension Clouddirectory {
         }
     }
 
+    public struct AttachTypedLinkResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypedLinkSpecifier", required: false, type: .structure)
+        ]
+        /// Returns a typed link specifier as output.
+        public let typedLinkSpecifier: TypedLinkSpecifier?
+
+        public init(typedLinkSpecifier: TypedLinkSpecifier? = nil) {
+            self.typedLinkSpecifier = typedLinkSpecifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case typedLinkSpecifier = "TypedLinkSpecifier"
+        }
+    }
+
     public struct DetachPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyReference", required: true, type: .structure), 
             AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
@@ -1264,24 +1632,50 @@ extension Clouddirectory {
         }
     }
 
-    public struct AttachTypedLinkResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TypedLinkSpecifier", required: false, type: .structure)
+    public struct ListOutgoingTypedLinksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TypedLinkSpecifiers", required: false, type: .list)
         ]
+        /// The pagination token.
+        public let nextToken: String?
         /// Returns a typed link specifier as output.
-        public let typedLinkSpecifier: TypedLinkSpecifier?
+        public let typedLinkSpecifiers: [TypedLinkSpecifier]?
 
-        public init(typedLinkSpecifier: TypedLinkSpecifier? = nil) {
-            self.typedLinkSpecifier = typedLinkSpecifier
+        public init(nextToken: String? = nil, typedLinkSpecifiers: [TypedLinkSpecifier]? = nil) {
+            self.nextToken = nextToken
+            self.typedLinkSpecifiers = typedLinkSpecifiers
         }
 
         private enum CodingKeys: String, CodingKey {
-            case typedLinkSpecifier = "TypedLinkSpecifier"
+            case nextToken = "NextToken"
+            case typedLinkSpecifiers = "TypedLinkSpecifiers"
+        }
+    }
+
+    public struct BatchGetObjectInformationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaFacets", required: false, type: .list), 
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
+        ]
+        /// The facets attached to the specified object.
+        public let schemaFacets: [SchemaFacet]?
+        /// The ObjectIdentifier of the specified object.
+        public let objectIdentifier: String?
+
+        public init(schemaFacets: [SchemaFacet]? = nil, objectIdentifier: String? = nil) {
+            self.schemaFacets = schemaFacets
+            self.objectIdentifier = objectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schemaFacets = "SchemaFacets"
+            case objectIdentifier = "ObjectIdentifier"
         }
     }
 
     public struct TypedLinkSpecifier: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetObjectReference", required: true, type: .structure), 
             AWSShapeMember(label: "IdentityAttributeValues", required: true, type: .list), 
             AWSShapeMember(label: "TypedLinkFacet", required: true, type: .structure), 
@@ -1311,8 +1705,8 @@ extension Clouddirectory {
         }
     }
 
-    public struct ListOutgoingTypedLinksResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+    public struct BatchListOutgoingTypedLinksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TypedLinkSpecifiers", required: false, type: .list)
         ]
@@ -1333,7 +1727,7 @@ extension Clouddirectory {
     }
 
     public struct SchemaFacet: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaArn", required: false, type: .string), 
             AWSShapeMember(label: "FacetName", required: false, type: .string)
         ]
@@ -1354,7 +1748,7 @@ extension Clouddirectory {
     }
 
     public struct PublishSchemaRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DevelopmentSchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: true, type: .string)
@@ -1380,7 +1774,7 @@ extension Clouddirectory {
     }
 
     public struct GetDirectoryResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Directory", required: true, type: .structure)
         ]
         /// Metadata about the directory.
@@ -1396,7 +1790,7 @@ extension Clouddirectory {
     }
 
     public struct BatchReadResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Responses", required: false, type: .list)
         ]
         /// A list of all the responses for each batch read.
@@ -1412,7 +1806,7 @@ extension Clouddirectory {
     }
 
     public struct BatchDetachObjectResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "detachedObjectIdentifier", required: false, type: .string)
         ]
         /// The ObjectIdentifier of the detached object.
@@ -1428,7 +1822,7 @@ extension Clouddirectory {
     }
 
     public struct FacetAttributeReference: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetAttributeName", required: true, type: .string), 
             AWSShapeMember(label: "TargetFacetName", required: true, type: .string)
         ]
@@ -1449,7 +1843,7 @@ extension Clouddirectory {
     }
 
     public struct BatchDeleteObject: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
         /// The reference that identifies the object.
@@ -1464,8 +1858,34 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchLookupPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Reference that identifies the object whose policies will be looked up.
+        public let objectReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+
+        public init(objectReference: ObjectReference, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.objectReference = objectReference
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
     public struct CreateObjectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaFacets", required: true, type: .list), 
             AWSShapeMember(label: "ParentReference", required: false, type: .structure), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
@@ -1500,29 +1920,39 @@ extension Clouddirectory {
         }
     }
 
-    public struct TypedLinkSchemaAndFacetName: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TypedLinkName", required: true, type: .string), 
-            AWSShapeMember(label: "SchemaArn", required: true, type: .string)
+    public struct BatchAttachTypedLink: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: true, type: .list), 
+            AWSShapeMember(label: "TypedLinkFacet", required: true, type: .structure), 
+            AWSShapeMember(label: "SourceObjectReference", required: true, type: .structure)
         ]
-        /// The unique name of the typed link facet.
-        public let typedLinkName: String
-        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
-        public let schemaArn: String
+        /// Identifies the target object that the typed link will attach to.
+        public let targetObjectReference: ObjectReference
+        /// A set of attributes that are associated with the typed link.
+        public let attributes: [AttributeNameAndValue]
+        /// Identifies the typed link facet that is associated with the typed link.
+        public let typedLinkFacet: TypedLinkSchemaAndFacetName
+        /// Identifies the source object that the typed link will attach to.
+        public let sourceObjectReference: ObjectReference
 
-        public init(typedLinkName: String, schemaArn: String) {
-            self.typedLinkName = typedLinkName
-            self.schemaArn = schemaArn
+        public init(targetObjectReference: ObjectReference, attributes: [AttributeNameAndValue], typedLinkFacet: TypedLinkSchemaAndFacetName, sourceObjectReference: ObjectReference) {
+            self.targetObjectReference = targetObjectReference
+            self.attributes = attributes
+            self.typedLinkFacet = typedLinkFacet
+            self.sourceObjectReference = sourceObjectReference
         }
 
         private enum CodingKeys: String, CodingKey {
-            case typedLinkName = "TypedLinkName"
-            case schemaArn = "SchemaArn"
+            case targetObjectReference = "TargetObjectReference"
+            case attributes = "Attributes"
+            case typedLinkFacet = "TypedLinkFacet"
+            case sourceObjectReference = "SourceObjectReference"
         }
     }
 
     public struct ApplySchemaResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AppliedSchemaArn", required: false, type: .string), 
             AWSShapeMember(label: "DirectoryArn", required: false, type: .string)
         ]
@@ -1542,12 +1972,33 @@ extension Clouddirectory {
         }
     }
 
+    public struct TypedLinkSchemaAndFacetName: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypedLinkName", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", required: true, type: .string)
+        ]
+        /// The unique name of the typed link facet.
+        public let typedLinkName: String
+        /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+        public let schemaArn: String
+
+        public init(typedLinkName: String, schemaArn: String) {
+            self.typedLinkName = typedLinkName
+            self.schemaArn = schemaArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case typedLinkName = "TypedLinkName"
+            case schemaArn = "SchemaArn"
+        }
+    }
+
     public struct CreateFacetResponse: AWSShape {
 
     }
 
     public struct LookupPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -1577,8 +2028,29 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchAttachPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
+        ]
+        /// The reference that identifies the object to which the policy will be attached.
+        public let objectReference: ObjectReference
+        /// The reference that is associated with the policy object.
+        public let policyReference: ObjectReference
+
+        public init(objectReference: ObjectReference, policyReference: ObjectReference) {
+            self.objectReference = objectReference
+            self.policyReference = policyReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectReference = "ObjectReference"
+            case policyReference = "PolicyReference"
+        }
+    }
+
     public struct BatchReadOperationResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExceptionResponse", required: false, type: .structure), 
             AWSShapeMember(label: "SuccessfulResponse", required: false, type: .structure)
         ]
@@ -1599,7 +2071,7 @@ extension Clouddirectory {
     }
 
     public struct ListAttachedIndicesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -1633,11 +2105,19 @@ extension Clouddirectory {
         case objectnotdetachedexception = "ObjectNotDetachedException"
         case resourcenotfoundexception = "ResourceNotFoundException"
         case accessdeniedexception = "AccessDeniedException"
+        case invalidattachmentexception = "InvalidAttachmentException"
+        case notindexexception = "NotIndexException"
+        case indexedattributemissingexception = "IndexedAttributeMissingException"
+        case objectalreadydetachedexception = "ObjectAlreadyDetachedException"
+        case notpolicyexception = "NotPolicyException"
+        case directorynotenabledexception = "DirectoryNotEnabledException"
+        case limitexceededexception = "LimitExceededException"
+        case unsupportedindextypeexception = "UnsupportedIndexTypeException"
         public var description: String { return self.rawValue }
     }
 
     public struct BatchAddFacetToObject: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
             AWSShapeMember(label: "ObjectAttributeList", required: true, type: .list), 
             AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
@@ -1663,7 +2143,7 @@ extension Clouddirectory {
     }
 
     public struct ListObjectAttributesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
@@ -1690,7 +2170,7 @@ extension Clouddirectory {
     }
 
     public struct BatchUpdateObjectAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeUpdates", required: true, type: .list), 
             AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
@@ -1711,7 +2191,7 @@ extension Clouddirectory {
     }
 
     public struct CreateFacetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectType", required: true, type: .enum), 
             AWSShapeMember(label: "Attributes", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -1746,7 +2226,7 @@ extension Clouddirectory {
     }
 
     public struct ListFacetNamesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "FacetNames", required: false, type: .list)
         ]
@@ -1767,7 +2247,7 @@ extension Clouddirectory {
     }
 
     public struct CreateDirectoryResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryArn", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "ObjectIdentifier", required: true, type: .string), 
@@ -1806,7 +2286,7 @@ extension Clouddirectory {
     }
 
     public struct BatchCreateObject: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
             AWSShapeMember(label: "SchemaFacet", required: true, type: .list), 
             AWSShapeMember(label: "BatchReferenceName", required: true, type: .string), 
@@ -1841,8 +2321,29 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchAttachToIndex: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
+            AWSShapeMember(label: "IndexReference", required: true, type: .structure)
+        ]
+        /// A reference to the object that you are attaching to the index.
+        public let targetReference: ObjectReference
+        /// A reference to the index that you are attaching the object to.
+        public let indexReference: ObjectReference
+
+        public init(targetReference: ObjectReference, indexReference: ObjectReference) {
+            self.targetReference = targetReference
+            self.indexReference = indexReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetReference = "TargetReference"
+            case indexReference = "IndexReference"
+        }
+    }
+
     public struct UntagResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
@@ -1863,7 +2364,7 @@ extension Clouddirectory {
     }
 
     public struct ListDirectoriesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Directories", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -1884,7 +2385,7 @@ extension Clouddirectory {
     }
 
     public struct AttachTypedLinkRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetObjectReference", required: true, type: .structure), 
             AWSShapeMember(label: "Attributes", required: true, type: .list), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
@@ -1920,7 +2421,7 @@ extension Clouddirectory {
     }
 
     public struct BatchListObjectChildrenResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Children", required: false, type: .map)
         ]
@@ -1941,7 +2442,7 @@ extension Clouddirectory {
     }
 
     public struct ListObjectPoliciesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
@@ -1977,7 +2478,7 @@ extension Clouddirectory {
     }
 
     public struct DisableDirectoryRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The ARN of the directory to disable.
@@ -1993,7 +2494,7 @@ extension Clouddirectory {
     }
 
     public struct DetachFromIndexResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DetachedObjectIdentifier", required: false, type: .string)
         ]
         /// The ObjectIdentifier of the object that was detached from the index.
@@ -2013,7 +2514,7 @@ extension Clouddirectory {
     }
 
     public struct BatchListObjectAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FacetFilter", required: false, type: .structure), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -2044,7 +2545,7 @@ extension Clouddirectory {
     }
 
     public struct AttachObjectResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttachedObjectIdentifier", required: false, type: .string)
         ]
         /// The attached ObjectIdentifier, which is the child ObjectIdentifier.
@@ -2060,7 +2561,7 @@ extension Clouddirectory {
     }
 
     public struct ListObjectParentPathsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -2091,7 +2592,7 @@ extension Clouddirectory {
     }
 
     public struct CreateDirectoryRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
@@ -2112,7 +2613,7 @@ extension Clouddirectory {
     }
 
     public struct GetSchemaAsJsonRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The ARN of the schema to retrieve.
@@ -2128,7 +2629,7 @@ extension Clouddirectory {
     }
 
     public struct UpdateFacetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectType", required: false, type: .enum), 
             AWSShapeMember(label: "AttributeUpdates", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -2159,7 +2660,7 @@ extension Clouddirectory {
     }
 
     public struct ListTypedLinkFacetNamesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
@@ -2184,8 +2685,29 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchDetachPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
+        ]
+        /// Reference that identifies the object whose policy object will be detached.
+        public let objectReference: ObjectReference
+        /// Reference that identifies the policy object.
+        public let policyReference: ObjectReference
+
+        public init(objectReference: ObjectReference, policyReference: ObjectReference) {
+            self.objectReference = objectReference
+            self.policyReference = policyReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectReference = "ObjectReference"
+            case policyReference = "PolicyReference"
+        }
+    }
+
     public struct DisableDirectoryResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
         ]
         /// The ARN of the directory that has been disabled.
@@ -2201,7 +2723,7 @@ extension Clouddirectory {
     }
 
     public struct AttachPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyReference", required: true, type: .structure), 
             AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: false, type: .string)
@@ -2234,7 +2756,7 @@ extension Clouddirectory {
     }
 
     public struct ListDevelopmentSchemaArnsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaArns", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -2255,7 +2777,7 @@ extension Clouddirectory {
     }
 
     public struct BatchWriteRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Operations", required: true, type: .list), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
@@ -2276,7 +2798,7 @@ extension Clouddirectory {
     }
 
     public struct ListTypedLinkFacetNamesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "FacetNames", required: false, type: .list)
         ]
@@ -2303,7 +2825,7 @@ extension Clouddirectory {
     }
 
     public struct BatchCreateObjectResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
         /// The ID that is associated with the object.
@@ -2318,8 +2840,34 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchListPolicyAttachments: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyReference", required: true, type: .structure)
+        ]
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+        /// The pagination token.
+        public let nextToken: String?
+        /// The reference that identifies the policy object.
+        public let policyReference: ObjectReference
+
+        public init(maxResults: Int32? = nil, nextToken: String? = nil, policyReference: ObjectReference) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.policyReference = policyReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case policyReference = "PolicyReference"
+        }
+    }
+
     public struct BatchUpdateObjectAttributesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
         /// ID that is associated with the object.
@@ -2335,7 +2883,7 @@ extension Clouddirectory {
     }
 
     public struct BatchReadRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
             AWSShapeMember(label: "Operations", required: true, type: .list), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
@@ -2361,7 +2909,7 @@ extension Clouddirectory {
     }
 
     public struct ListPublishedSchemaArnsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaArns", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -2382,28 +2930,73 @@ extension Clouddirectory {
     }
 
     public struct BatchReadSuccessfulResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ListObjectPolicies", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "ListIncomingTypedLinks", required: false, type: .structure), 
+            AWSShapeMember(label: "GetObjectInformation", required: false, type: .structure), 
+            AWSShapeMember(label: "ListOutgoingTypedLinks", required: false, type: .structure), 
             AWSShapeMember(label: "ListObjectChildren", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectAttributes", required: false, type: .structure)
+            AWSShapeMember(label: "ListIndex", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectParentPaths", required: false, type: .structure), 
+            AWSShapeMember(label: "ListPolicyAttachments", required: false, type: .structure), 
+            AWSShapeMember(label: "LookupPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "ListAttachedIndices", required: false, type: .structure)
         ]
-        /// Returns a paginated list of child objects that are associated with a given object.
-        public let listObjectChildren: BatchListObjectChildrenResponse?
+        /// Returns policies attached to an object in pagination fashion.
+        public let listObjectPolicies: BatchListObjectPoliciesResponse?
         /// Lists all attributes that are associated with an object.
         public let listObjectAttributes: BatchListObjectAttributesResponse?
+        /// Returns a paginated list of all the incoming TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed link.
+        public let listIncomingTypedLinks: BatchListIncomingTypedLinksResponse?
+        /// Retrieves metadata about an object.
+        public let getObjectInformation: BatchGetObjectInformationResponse?
+        /// Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed link.
+        public let listOutgoingTypedLinks: BatchListOutgoingTypedLinksResponse?
+        /// Returns a paginated list of child objects that are associated with a given object.
+        public let listObjectChildren: BatchListObjectChildrenResponse?
+        /// Lists objects attached to the specified index.
+        public let listIndex: BatchListIndexResponse?
+        /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure.
+        public let listObjectParentPaths: BatchListObjectParentPathsResponse?
+        /// Returns all of the ObjectIdentifiers to which a given policy is attached.
+        public let listPolicyAttachments: BatchListPolicyAttachmentsResponse?
+        /// Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see Policies.
+        public let lookupPolicy: BatchLookupPolicyResponse?
+        /// Lists indices attached to an object.
+        public let listAttachedIndices: BatchListAttachedIndicesResponse?
 
-        public init(listObjectChildren: BatchListObjectChildrenResponse? = nil, listObjectAttributes: BatchListObjectAttributesResponse? = nil) {
-            self.listObjectChildren = listObjectChildren
+        public init(listObjectPolicies: BatchListObjectPoliciesResponse? = nil, listObjectAttributes: BatchListObjectAttributesResponse? = nil, listIncomingTypedLinks: BatchListIncomingTypedLinksResponse? = nil, getObjectInformation: BatchGetObjectInformationResponse? = nil, listOutgoingTypedLinks: BatchListOutgoingTypedLinksResponse? = nil, listObjectChildren: BatchListObjectChildrenResponse? = nil, listIndex: BatchListIndexResponse? = nil, listObjectParentPaths: BatchListObjectParentPathsResponse? = nil, listPolicyAttachments: BatchListPolicyAttachmentsResponse? = nil, lookupPolicy: BatchLookupPolicyResponse? = nil, listAttachedIndices: BatchListAttachedIndicesResponse? = nil) {
+            self.listObjectPolicies = listObjectPolicies
             self.listObjectAttributes = listObjectAttributes
+            self.listIncomingTypedLinks = listIncomingTypedLinks
+            self.getObjectInformation = getObjectInformation
+            self.listOutgoingTypedLinks = listOutgoingTypedLinks
+            self.listObjectChildren = listObjectChildren
+            self.listIndex = listIndex
+            self.listObjectParentPaths = listObjectParentPaths
+            self.listPolicyAttachments = listPolicyAttachments
+            self.lookupPolicy = lookupPolicy
+            self.listAttachedIndices = listAttachedIndices
         }
 
         private enum CodingKeys: String, CodingKey {
-            case listObjectChildren = "ListObjectChildren"
+            case listObjectPolicies = "ListObjectPolicies"
             case listObjectAttributes = "ListObjectAttributes"
+            case listIncomingTypedLinks = "ListIncomingTypedLinks"
+            case getObjectInformation = "GetObjectInformation"
+            case listOutgoingTypedLinks = "ListOutgoingTypedLinks"
+            case listObjectChildren = "ListObjectChildren"
+            case listIndex = "ListIndex"
+            case listObjectParentPaths = "ListObjectParentPaths"
+            case listPolicyAttachments = "ListPolicyAttachments"
+            case lookupPolicy = "LookupPolicy"
+            case listAttachedIndices = "ListAttachedIndices"
         }
     }
 
     public struct TypedAttributeValue: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StringValue", required: false, type: .string), 
             AWSShapeMember(label: "BinaryValue", required: false, type: .blob), 
             AWSShapeMember(label: "BooleanValue", required: false, type: .boolean), 
@@ -2439,7 +3032,7 @@ extension Clouddirectory {
     }
 
     public struct ListObjectParentPathsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "PathToObjectIdentifiersList", required: false, type: .list)
         ]
@@ -2460,7 +3053,7 @@ extension Clouddirectory {
     }
 
     public struct AttributeKey: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SchemaArn", required: true, type: .string), 
             AWSShapeMember(label: "FacetName", required: true, type: .string)
@@ -2486,7 +3079,7 @@ extension Clouddirectory {
     }
 
     public struct PathToObjectIdentifiers: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectIdentifiers", required: false, type: .list), 
             AWSShapeMember(label: "Path", required: false, type: .string)
         ]
@@ -2507,7 +3100,7 @@ extension Clouddirectory {
     }
 
     public struct AttributeNameAndValue: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeName", required: true, type: .string), 
             AWSShapeMember(label: "Value", required: true, type: .structure)
         ]
@@ -2528,7 +3121,7 @@ extension Clouddirectory {
     }
 
     public struct BatchDetachObject: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchReferenceName", required: true, type: .string), 
             AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
             AWSShapeMember(label: "LinkName", required: true, type: .string)
@@ -2554,7 +3147,7 @@ extension Clouddirectory {
     }
 
     public struct GetFacetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
@@ -2575,7 +3168,7 @@ extension Clouddirectory {
     }
 
     public struct UpdateSchemaRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
@@ -2596,7 +3189,7 @@ extension Clouddirectory {
     }
 
     public struct IndexAttachment: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IndexedAttributes", required: false, type: .list), 
             AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
@@ -2617,7 +3210,7 @@ extension Clouddirectory {
     }
 
     public struct ObjectAttributeUpdate: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectAttributeKey", required: false, type: .structure), 
             AWSShapeMember(label: "ObjectAttributeAction", required: false, type: .structure)
         ]
@@ -2638,7 +3231,7 @@ extension Clouddirectory {
     }
 
     public struct CreateIndexRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrderedIndexedAttributeList", required: true, type: .list), 
             AWSShapeMember(label: "IsUnique", required: true, type: .boolean), 
             AWSShapeMember(label: "ParentReference", required: false, type: .structure), 
@@ -2674,7 +3267,7 @@ extension Clouddirectory {
     }
 
     public struct Facet: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectType", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
@@ -2694,6 +3287,27 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchListAttachedIndicesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// The indices attached to the specified object.
+        public let indexAttachments: [IndexAttachment]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
+            self.indexAttachments = indexAttachments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexAttachments = "IndexAttachments"
+            case nextToken = "NextToken"
+        }
+    }
+
     public enum FacetAttributeType: String, CustomStringConvertible, Codable {
         case string = "STRING"
         case binary = "BINARY"
@@ -2704,7 +3318,7 @@ extension Clouddirectory {
     }
 
     public struct ListDirectoriesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "state", required: false, type: .enum), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
@@ -2730,7 +3344,7 @@ extension Clouddirectory {
     }
 
     public struct FacetAttributeDefinition: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsImmutable", required: false, type: .boolean), 
             AWSShapeMember(label: "Rules", required: false, type: .map), 
             AWSShapeMember(label: "Type", required: true, type: .enum), 
@@ -2765,7 +3379,7 @@ extension Clouddirectory {
     }
 
     public struct ListObjectAttributesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "FacetFilter", required: false, type: .structure), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
@@ -2806,7 +3420,7 @@ extension Clouddirectory {
     }
 
     public struct PublishSchemaResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PublishedSchemaArn", required: false, type: .string)
         ]
         /// The ARN that is associated with the published schema. For more information, see arns.
@@ -2822,7 +3436,7 @@ extension Clouddirectory {
     }
 
     public struct CreateTypedLinkFacetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Facet", required: true, type: .structure), 
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
@@ -2843,7 +3457,7 @@ extension Clouddirectory {
     }
 
     public struct CreateObjectResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
         /// The identifier that is associated with the object.
@@ -2859,7 +3473,7 @@ extension Clouddirectory {
     }
 
     public struct ListIncomingTypedLinksResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LinkSpecifiers", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -2880,7 +3494,7 @@ extension Clouddirectory {
     }
 
     public struct DeleteSchemaRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
@@ -2896,7 +3510,7 @@ extension Clouddirectory {
     }
 
     public struct GetObjectInformationResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaFacets", required: false, type: .list), 
             AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
@@ -2916,8 +3530,45 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchDetachTypedLink: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
+        ]
+        /// Used to accept a typed link specifier as input.
+        public let typedLinkSpecifier: TypedLinkSpecifier
+
+        public init(typedLinkSpecifier: TypedLinkSpecifier) {
+            self.typedLinkSpecifier = typedLinkSpecifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case typedLinkSpecifier = "TypedLinkSpecifier"
+        }
+    }
+
+    public struct BatchDetachFromIndex: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
+            AWSShapeMember(label: "IndexReference", required: true, type: .structure)
+        ]
+        /// A reference to the object being detached from the index.
+        public let targetReference: ObjectReference
+        /// A reference to the index object.
+        public let indexReference: ObjectReference
+
+        public init(targetReference: ObjectReference, indexReference: ObjectReference) {
+            self.targetReference = targetReference
+            self.indexReference = indexReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetReference = "TargetReference"
+            case indexReference = "IndexReference"
+        }
+    }
+
     public struct ListIncomingTypedLinksRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "ConsistencyLevel", required: false, type: .enum), 
@@ -2966,8 +3617,24 @@ extension Clouddirectory {
 
     }
 
+    public struct BatchAttachTypedLinkResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypedLinkSpecifier", required: false, type: .structure)
+        ]
+        /// Returns a typed link specifier as output.
+        public let typedLinkSpecifier: TypedLinkSpecifier?
+
+        public init(typedLinkSpecifier: TypedLinkSpecifier? = nil) {
+            self.typedLinkSpecifier = typedLinkSpecifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case typedLinkSpecifier = "TypedLinkSpecifier"
+        }
+    }
+
     public struct ListIndexResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -2987,8 +3654,29 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchLookupPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyToPathList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Provides list of path to policies. Policies contain PolicyId, ObjectIdentifier, and PolicyType. For more information, see Policies.
+        public let policyToPathList: [PolicyToPath]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(policyToPathList: [PolicyToPath]? = nil, nextToken: String? = nil) {
+            self.policyToPathList = policyToPathList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyToPathList = "PolicyToPathList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct UpdateObjectAttributesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
             AWSShapeMember(label: "AttributeUpdates", required: true, type: .list), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
@@ -3014,53 +3702,88 @@ extension Clouddirectory {
     }
 
     public struct BatchWriteOperation: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AddFacetToObject", required: false, type: .structure), 
-            AWSShapeMember(label: "UpdateObjectAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "DetachObject", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachTypedLink", required: false, type: .structure), 
             AWSShapeMember(label: "AttachObject", required: false, type: .structure), 
-            AWSShapeMember(label: "CreateObject", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachTypedLink", required: false, type: .structure), 
+            AWSShapeMember(label: "CreateIndex", required: false, type: .structure), 
             AWSShapeMember(label: "DeleteObject", required: false, type: .structure), 
-            AWSShapeMember(label: "RemoveFacetFromObject", required: false, type: .structure)
+            AWSShapeMember(label: "UpdateObjectAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "RemoveFacetFromObject", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachFromIndex", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "CreateObject", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachToIndex", required: false, type: .structure)
         ]
         /// A batch operation that adds a facet to an object.
         public let addFacetToObject: BatchAddFacetToObject?
-        /// Updates a given object's attributes.
-        public let updateObjectAttributes: BatchUpdateObjectAttributes?
         /// Detaches an object from a Directory.
         public let detachObject: BatchDetachObject?
+        /// Attaches a typed link to a specified source and target object. For more information, see Typed link.
+        public let attachTypedLink: BatchAttachTypedLink?
         /// Attaches an object to a Directory.
         public let attachObject: BatchAttachObject?
-        /// Creates an object.
-        public let createObject: BatchCreateObject?
+        /// Detaches a typed link from a specified source and target object. For more information, see Typed link.
+        public let detachTypedLink: BatchDetachTypedLink?
+        /// Creates an index object. See Indexing for more information.
+        public let createIndex: BatchCreateIndex?
         /// Deletes an object in a Directory.
         public let deleteObject: BatchDeleteObject?
+        /// Updates a given object's attributes.
+        public let updateObjectAttributes: BatchUpdateObjectAttributes?
         /// A batch operation that removes a facet from an object.
         public let removeFacetFromObject: BatchRemoveFacetFromObject?
+        /// Detaches the specified object from the specified index.
+        public let detachFromIndex: BatchDetachFromIndex?
+        /// Detaches a policy from a Directory.
+        public let detachPolicy: BatchDetachPolicy?
+        /// Attaches a policy object to a regular object. An object can have a limited number of attached policies.
+        public let attachPolicy: BatchAttachPolicy?
+        /// Creates an object.
+        public let createObject: BatchCreateObject?
+        /// Attaches the specified object to the specified index.
+        public let attachToIndex: BatchAttachToIndex?
 
-        public init(addFacetToObject: BatchAddFacetToObject? = nil, updateObjectAttributes: BatchUpdateObjectAttributes? = nil, detachObject: BatchDetachObject? = nil, attachObject: BatchAttachObject? = nil, createObject: BatchCreateObject? = nil, deleteObject: BatchDeleteObject? = nil, removeFacetFromObject: BatchRemoveFacetFromObject? = nil) {
+        public init(addFacetToObject: BatchAddFacetToObject? = nil, detachObject: BatchDetachObject? = nil, attachTypedLink: BatchAttachTypedLink? = nil, attachObject: BatchAttachObject? = nil, detachTypedLink: BatchDetachTypedLink? = nil, createIndex: BatchCreateIndex? = nil, deleteObject: BatchDeleteObject? = nil, updateObjectAttributes: BatchUpdateObjectAttributes? = nil, removeFacetFromObject: BatchRemoveFacetFromObject? = nil, detachFromIndex: BatchDetachFromIndex? = nil, detachPolicy: BatchDetachPolicy? = nil, attachPolicy: BatchAttachPolicy? = nil, createObject: BatchCreateObject? = nil, attachToIndex: BatchAttachToIndex? = nil) {
             self.addFacetToObject = addFacetToObject
-            self.updateObjectAttributes = updateObjectAttributes
             self.detachObject = detachObject
+            self.attachTypedLink = attachTypedLink
             self.attachObject = attachObject
-            self.createObject = createObject
+            self.detachTypedLink = detachTypedLink
+            self.createIndex = createIndex
             self.deleteObject = deleteObject
+            self.updateObjectAttributes = updateObjectAttributes
             self.removeFacetFromObject = removeFacetFromObject
+            self.detachFromIndex = detachFromIndex
+            self.detachPolicy = detachPolicy
+            self.attachPolicy = attachPolicy
+            self.createObject = createObject
+            self.attachToIndex = attachToIndex
         }
 
         private enum CodingKeys: String, CodingKey {
             case addFacetToObject = "AddFacetToObject"
-            case updateObjectAttributes = "UpdateObjectAttributes"
             case detachObject = "DetachObject"
+            case attachTypedLink = "AttachTypedLink"
             case attachObject = "AttachObject"
-            case createObject = "CreateObject"
+            case detachTypedLink = "DetachTypedLink"
+            case createIndex = "CreateIndex"
             case deleteObject = "DeleteObject"
+            case updateObjectAttributes = "UpdateObjectAttributes"
             case removeFacetFromObject = "RemoveFacetFromObject"
+            case detachFromIndex = "DetachFromIndex"
+            case detachPolicy = "DetachPolicy"
+            case attachPolicy = "AttachPolicy"
+            case createObject = "CreateObject"
+            case attachToIndex = "AttachToIndex"
         }
     }
 
     public struct DeleteSchemaResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaArn", required: false, type: .string)
         ]
         /// The input ARN that is returned as part of the response. For more information, see arns.
@@ -3076,7 +3799,7 @@ extension Clouddirectory {
     }
 
     public struct ListObjectChildrenRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
@@ -3112,7 +3835,7 @@ extension Clouddirectory {
     }
 
     public struct ListPublishedSchemaArnsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
@@ -3133,7 +3856,7 @@ extension Clouddirectory {
     }
 
     public struct GetTypedLinkFacetInformationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
@@ -3154,7 +3877,7 @@ extension Clouddirectory {
     }
 
     public struct CreateSchemaRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name that is associated with the schema. This is unique to each account and in each region.
@@ -3170,7 +3893,7 @@ extension Clouddirectory {
     }
 
     public struct GetFacetResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Facet", required: false, type: .structure)
         ]
         /// The Facet structure that is associated with the facet.
@@ -3186,7 +3909,7 @@ extension Clouddirectory {
     }
 
     public struct ListObjectPoliciesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttachedPolicyIds", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -3207,7 +3930,7 @@ extension Clouddirectory {
     }
 
     public struct PutSchemaFromJsonResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string)
         ]
         /// The ARN of the schema to update.
@@ -3223,7 +3946,7 @@ extension Clouddirectory {
     }
 
     public struct BatchAttachObject: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChildReference", required: true, type: .structure), 
             AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
             AWSShapeMember(label: "LinkName", required: true, type: .string)
@@ -3249,7 +3972,7 @@ extension Clouddirectory {
     }
 
     public struct DetachObjectResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DetachedObjectIdentifier", required: false, type: .string)
         ]
         /// The ObjectIdentifier that was detached from the object.
@@ -3265,7 +3988,7 @@ extension Clouddirectory {
     }
 
     public struct AttributeKeyAndValue: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .structure), 
             AWSShapeMember(label: "Key", required: true, type: .structure)
         ]
@@ -3286,7 +4009,7 @@ extension Clouddirectory {
     }
 
     public struct EnableDirectoryRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The ARN of the directory to enable.
@@ -3301,8 +4024,34 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchListObjectPolicies: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// The reference that identifies the object whose attributes will be listed.
+        public let objectReference: ObjectReference
+        /// The pagination token.
+        public let nextToken: String?
+        /// The maximum number of results to retrieve.
+        public let maxResults: Int32?
+
+        public init(objectReference: ObjectReference, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.objectReference = objectReference
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
     public struct ListFacetAttributesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
@@ -3323,28 +4072,73 @@ extension Clouddirectory {
     }
 
     public struct BatchReadOperation: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ListObjectPolicies", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "ListIncomingTypedLinks", required: false, type: .structure), 
+            AWSShapeMember(label: "GetObjectInformation", required: false, type: .structure), 
+            AWSShapeMember(label: "ListOutgoingTypedLinks", required: false, type: .structure), 
             AWSShapeMember(label: "ListObjectChildren", required: false, type: .structure), 
-            AWSShapeMember(label: "ListObjectAttributes", required: false, type: .structure)
+            AWSShapeMember(label: "ListIndex", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectParentPaths", required: false, type: .structure), 
+            AWSShapeMember(label: "ListPolicyAttachments", required: false, type: .structure), 
+            AWSShapeMember(label: "LookupPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "ListAttachedIndices", required: false, type: .structure)
         ]
-        /// Returns a paginated list of child objects that are associated with a given object.
-        public let listObjectChildren: BatchListObjectChildren?
+        /// Returns policies attached to an object in pagination fashion.
+        public let listObjectPolicies: BatchListObjectPolicies?
         /// Lists all attributes that are associated with an object.
         public let listObjectAttributes: BatchListObjectAttributes?
+        /// Returns a paginated list of all the incoming TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed link.
+        public let listIncomingTypedLinks: BatchListIncomingTypedLinks?
+        /// Retrieves metadata about an object.
+        public let getObjectInformation: BatchGetObjectInformation?
+        /// Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed link.
+        public let listOutgoingTypedLinks: BatchListOutgoingTypedLinks?
+        /// Returns a paginated list of child objects that are associated with a given object.
+        public let listObjectChildren: BatchListObjectChildren?
+        /// Lists objects attached to the specified index.
+        public let listIndex: BatchListIndex?
+        /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure.
+        public let listObjectParentPaths: BatchListObjectParentPaths?
+        /// Returns all of the ObjectIdentifiers to which a given policy is attached.
+        public let listPolicyAttachments: BatchListPolicyAttachments?
+        /// Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see Policies.
+        public let lookupPolicy: BatchLookupPolicy?
+        /// Lists indices attached to an object.
+        public let listAttachedIndices: BatchListAttachedIndices?
 
-        public init(listObjectChildren: BatchListObjectChildren? = nil, listObjectAttributes: BatchListObjectAttributes? = nil) {
-            self.listObjectChildren = listObjectChildren
+        public init(listObjectPolicies: BatchListObjectPolicies? = nil, listObjectAttributes: BatchListObjectAttributes? = nil, listIncomingTypedLinks: BatchListIncomingTypedLinks? = nil, getObjectInformation: BatchGetObjectInformation? = nil, listOutgoingTypedLinks: BatchListOutgoingTypedLinks? = nil, listObjectChildren: BatchListObjectChildren? = nil, listIndex: BatchListIndex? = nil, listObjectParentPaths: BatchListObjectParentPaths? = nil, listPolicyAttachments: BatchListPolicyAttachments? = nil, lookupPolicy: BatchLookupPolicy? = nil, listAttachedIndices: BatchListAttachedIndices? = nil) {
+            self.listObjectPolicies = listObjectPolicies
             self.listObjectAttributes = listObjectAttributes
+            self.listIncomingTypedLinks = listIncomingTypedLinks
+            self.getObjectInformation = getObjectInformation
+            self.listOutgoingTypedLinks = listOutgoingTypedLinks
+            self.listObjectChildren = listObjectChildren
+            self.listIndex = listIndex
+            self.listObjectParentPaths = listObjectParentPaths
+            self.listPolicyAttachments = listPolicyAttachments
+            self.lookupPolicy = lookupPolicy
+            self.listAttachedIndices = listAttachedIndices
         }
 
         private enum CodingKeys: String, CodingKey {
-            case listObjectChildren = "ListObjectChildren"
+            case listObjectPolicies = "ListObjectPolicies"
             case listObjectAttributes = "ListObjectAttributes"
+            case listIncomingTypedLinks = "ListIncomingTypedLinks"
+            case getObjectInformation = "GetObjectInformation"
+            case listOutgoingTypedLinks = "ListOutgoingTypedLinks"
+            case listObjectChildren = "ListObjectChildren"
+            case listIndex = "ListIndex"
+            case listObjectParentPaths = "ListObjectParentPaths"
+            case listPolicyAttachments = "ListPolicyAttachments"
+            case lookupPolicy = "LookupPolicy"
+            case listAttachedIndices = "ListAttachedIndices"
         }
     }
 
     public struct ListFacetAttributesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
@@ -3374,8 +4168,45 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchCreateIndexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
+        ]
+        /// The ObjectIdentifier of the index created by this operation.
+        public let objectIdentifier: String?
+
+        public init(objectIdentifier: String? = nil) {
+            self.objectIdentifier = objectIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
+        }
+    }
+
+    public struct BatchListObjectParentPathsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PathToObjectIdentifiersList", required: false, type: .list)
+        ]
+        /// The pagination token.
+        public let nextToken: String?
+        /// Returns the path to the ObjectIdentifiers that are associated with the directory.
+        public let pathToObjectIdentifiersList: [PathToObjectIdentifiers]?
+
+        public init(nextToken: String? = nil, pathToObjectIdentifiersList: [PathToObjectIdentifiers]? = nil) {
+            self.nextToken = nextToken
+            self.pathToObjectIdentifiersList = pathToObjectIdentifiersList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pathToObjectIdentifiersList = "PathToObjectIdentifiersList"
+        }
+    }
+
     public struct BatchReadException: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
@@ -3402,7 +4233,7 @@ extension Clouddirectory {
     }
 
     public struct DeleteObjectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
@@ -3423,7 +4254,7 @@ extension Clouddirectory {
     }
 
     public struct BatchListObjectChildren: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
@@ -3453,7 +4284,7 @@ extension Clouddirectory {
     }
 
     public struct PolicyToPath: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Policies", required: false, type: .list), 
             AWSShapeMember(label: "Path", required: false, type: .string)
         ]
@@ -3474,7 +4305,7 @@ extension Clouddirectory {
     }
 
     public struct ObjectReference: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Selector", required: false, type: .string)
         ]
         /// A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Accessing Objects. You can identify an object in one of the following ways:    $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An object’s identifier is immutable and no two objects will ever share the same object identifier    /some/path - Identifies the object based on path    #SomeBatchReference - Identifies the object in a batch call  
@@ -3490,7 +4321,7 @@ extension Clouddirectory {
     }
 
     public struct UpdateTypedLinkFacetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeUpdates", required: true, type: .list), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
@@ -3525,7 +4356,7 @@ extension Clouddirectory {
     }
 
     public struct AttachToIndexResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttachedObjectIdentifier", required: false, type: .string)
         ]
         /// The ObjectIdentifier of the object that was attached to the index.
@@ -3541,7 +4372,7 @@ extension Clouddirectory {
     }
 
     public struct DetachFromIndexRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
             AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
@@ -3566,8 +4397,29 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchListObjectPoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttachedPolicyIds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of policy ObjectIdentifiers, that are attached to the object.
+        public let attachedPolicyIds: [String]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        public init(attachedPolicyIds: [String]? = nil, nextToken: String? = nil) {
+            self.attachedPolicyIds = attachedPolicyIds
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachedPolicyIds = "AttachedPolicyIds"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct BatchRemoveFacetFromObject: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
             AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
@@ -3588,7 +4440,7 @@ extension Clouddirectory {
     }
 
     public struct TypedLinkFacet: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Attributes", required: true, type: .list), 
             AWSShapeMember(label: "IdentityAttributeOrder", required: true, type: .list)
@@ -3597,7 +4449,7 @@ extension Clouddirectory {
         public let name: String
         /// A set of key-value pairs associated with the typed link. Typed link attributes are used when you have data values that are related to the link itself, and not to one of the two objects being linked. Identity attributes also serve to distinguish the link from others of the same type between the same objects.
         public let attributes: [TypedLinkAttributeDefinition]
-        /// The set of attributes that distinguish links made from this facet from each other, in the order of significance. Listing typed links can filter on the values of these attributes. See ListOutgoingTypedLinks and ListIncomingTypeLinks for details.
+        /// The set of attributes that distinguish links made from this facet from each other, in the order of significance. Listing typed links can filter on the values of these attributes. See ListOutgoingTypedLinks and ListIncomingTypedLinks for details.
         public let identityAttributeOrder: [String]
 
         public init(name: String, attributes: [TypedLinkAttributeDefinition], identityAttributeOrder: [String]) {
@@ -3614,7 +4466,7 @@ extension Clouddirectory {
     }
 
     public struct ListFacetNamesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
@@ -3640,7 +4492,7 @@ extension Clouddirectory {
     }
 
     public struct BatchAttachObjectResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attachedObjectIdentifier", required: false, type: .string)
         ]
         /// The ObjectIdentifier of the object that has been attached.
@@ -3656,7 +4508,7 @@ extension Clouddirectory {
     }
 
     public struct FacetAttributeUpdate: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Action", required: false, type: .enum), 
             AWSShapeMember(label: "Attribute", required: false, type: .structure)
         ]
@@ -3676,8 +4528,12 @@ extension Clouddirectory {
         }
     }
 
+    public struct BatchDetachTypedLinkResponse: AWSShape {
+
+    }
+
     public struct UpdateObjectAttributesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
         /// The ObjectIdentifier of the updated object.
@@ -3697,7 +4553,7 @@ extension Clouddirectory {
     }
 
     public struct ListPolicyAttachmentsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyReference", required: true, type: .structure), 
             AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -3733,7 +4589,7 @@ extension Clouddirectory {
     }
 
     public struct ListObjectParentsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Parents", required: false, type: .map)
         ]
@@ -3754,7 +4610,7 @@ extension Clouddirectory {
     }
 
     public struct DeleteFacetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]

@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Discovery {
 
     public struct DisassociateConfigurationItemsFromApplicationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applicationConfigurationId", required: true, type: .string), 
             AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
@@ -27,7 +27,7 @@ extension Discovery {
     }
 
     public struct DescribeTagsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", required: false, type: .structure), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -48,7 +48,7 @@ extension Discovery {
     }
 
     public struct CreateTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", required: true, type: .structure), 
             AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
@@ -73,7 +73,7 @@ extension Discovery {
     }
 
     public struct FilterValues: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [String]?
@@ -92,7 +92,7 @@ extension Discovery {
     }
 
     public struct TagSet: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [Tag]?
@@ -107,7 +107,7 @@ extension Discovery {
     }
 
     public struct OrderByElement: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "fieldName", required: true, type: .string), 
             AWSShapeMember(label: "sortOrder", required: false, type: .enum)
         ]
@@ -128,7 +128,7 @@ extension Discovery {
     }
 
     public struct AgentInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "health", required: false, type: .enum), 
             AWSShapeMember(label: "agentNetworkInfoList", required: false, type: .list), 
             AWSShapeMember(label: "lastHealthPingTime", required: false, type: .string), 
@@ -189,7 +189,7 @@ extension Discovery {
     }
 
     public struct GetDiscoverySummaryResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "serversMappedtoTags", required: false, type: .long), 
             AWSShapeMember(label: "applications", required: false, type: .long), 
             AWSShapeMember(label: "connectorSummary", required: false, type: .structure), 
@@ -230,7 +230,7 @@ extension Discovery {
     }
 
     public struct ConfigurationTag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "timeOfCreation", required: false, type: .timestamp), 
             AWSShapeMember(label: "configurationType", required: false, type: .enum), 
             AWSShapeMember(label: "value", required: false, type: .string), 
@@ -266,7 +266,7 @@ extension Discovery {
     }
 
     public struct ListConfigurationsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "configurations", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -287,7 +287,7 @@ extension Discovery {
     }
 
     public struct NeighborConnectionDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "destinationServerId", required: true, type: .string), 
             AWSShapeMember(label: "transportProtocol", required: false, type: .string), 
             AWSShapeMember(label: "connectionsCount", required: true, type: .long), 
@@ -331,7 +331,7 @@ extension Discovery {
     }
 
     public struct DescribeTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "filters", required: false, type: .list), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
@@ -357,7 +357,7 @@ extension Discovery {
     }
 
     public struct ListServerNeighborsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "neighbors", required: true, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "knownDependencyCount", required: false, type: .long)
@@ -383,7 +383,7 @@ extension Discovery {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "key", required: true, type: .string), 
             AWSShapeMember(label: "value", required: true, type: .string)
         ]
@@ -404,7 +404,7 @@ extension Discovery {
     }
 
     public struct CreateApplicationResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "configurationId", required: false, type: .string)
         ]
         /// Configuration ID of an application to be created.
@@ -420,7 +420,7 @@ extension Discovery {
     }
 
     public struct TagFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "values", required: true, type: .structure)
         ]
@@ -441,7 +441,7 @@ extension Discovery {
     }
 
     public struct AssociateConfigurationItemsToApplicationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "applicationConfigurationId", required: true, type: .string), 
             AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
@@ -461,11 +461,37 @@ extension Discovery {
         }
     }
 
+    public struct ExportFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "values", required: true, type: .structure), 
+            AWSShapeMember(label: "condition", required: true, type: .string)
+        ]
+        /// A single ExportFilter name. Supported filters: agentId.
+        public let name: String
+        /// A single agentId for a Discovery Agent. An agentId can be found using the DescribeAgents action. Typically an ADS agentId is in the form o-0123456789abcdef0.
+        public let values: FilterValues
+        /// Supported condition: EQUALS 
+        public let condition: String
+
+        public init(name: String, values: FilterValues, condition: String) {
+            self.name = name
+            self.values = values
+            self.condition = condition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case values = "values"
+            case condition = "condition"
+        }
+    }
+
     public struct StartExportTaskResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "exportId", required: false, type: .string)
         ]
-        ///  A unique identifier used to query the status of an export request.
+        /// A unique identifier used to query the status of an export request.
         public let exportId: String?
 
         public init(exportId: String? = nil) {
@@ -478,7 +504,7 @@ extension Discovery {
     }
 
     public struct ConfigurationTagSet: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [ConfigurationTag]?
@@ -493,7 +519,7 @@ extension Discovery {
     }
 
     public struct ExportConfigurationsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "exportId", required: false, type: .string)
         ]
         /// A unique identifier that you can use to query the export status.
@@ -509,7 +535,7 @@ extension Discovery {
     }
 
     public struct CreateApplicationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
@@ -530,33 +556,38 @@ extension Discovery {
     }
 
     public struct DescribeExportTasksRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "exportIds", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
-            AWSShapeMember(label: "maxResults", required: false, type: .integer)
+            AWSShapeMember(label: "filters", required: false, type: .list)
         ]
         /// One or more unique identifiers used to query the status of an export request.
         public let exportIds: [String]?
-        /// The nextToken value returned from a previous paginated DescribeExportTasks request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
-        public let nextToken: String?
         /// The maximum number of volume results returned by DescribeExportTasks in paginated output. When this parameter is used, DescribeExportTasks only returns maxResults results in a single page along with a nextToken response element.
         public let maxResults: Int32?
+        /// The nextToken value returned from a previous paginated DescribeExportTasks request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// One or more filters.    AgentId - ID of the agent whose collected data will be exported  
+        public let filters: [ExportFilter]?
 
-        public init(exportIds: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(exportIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, filters: [ExportFilter]? = nil) {
             self.exportIds = exportIds
-            self.nextToken = nextToken
             self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.filters = filters
         }
 
         private enum CodingKeys: String, CodingKey {
             case exportIds = "exportIds"
-            case nextToken = "nextToken"
             case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case filters = "filters"
         }
     }
 
     public struct ListServerNeighborsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "portInformationNeeded", required: false, type: .boolean), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -598,7 +629,7 @@ extension Discovery {
     }
 
     public struct ListConfigurationsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "configurationType", required: true, type: .enum), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -641,7 +672,7 @@ extension Discovery {
     }
 
     public struct DescribeExportTasksResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "exportsInfo", required: false, type: .list)
         ]
@@ -662,7 +693,7 @@ extension Discovery {
     }
 
     public struct DescribeExportConfigurationsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "exportIds", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer)
@@ -688,7 +719,7 @@ extension Discovery {
     }
 
     public struct DeleteApplicationsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
         /// Configuration ID of an application to be deleted.
@@ -704,7 +735,7 @@ extension Discovery {
     }
 
     public struct AgentConfigurationStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "agentId", required: false, type: .string), 
             AWSShapeMember(label: "operationSucceeded", required: false, type: .boolean)
@@ -730,7 +761,7 @@ extension Discovery {
     }
 
     public struct CustomerConnectorInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "unhealthyConnectors", required: true, type: .integer), 
             AWSShapeMember(label: "healthyConnectors", required: true, type: .integer), 
             AWSShapeMember(label: "activeConnectors", required: true, type: .integer), 
@@ -776,7 +807,7 @@ extension Discovery {
     }
 
     public struct StopDataCollectionByAgentIdsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "agentIds", required: true, type: .list)
         ]
         /// The IDs of the agents or connectors from which to stop collecting data.
@@ -792,7 +823,7 @@ extension Discovery {
     }
 
     public struct DeleteTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", required: false, type: .structure), 
             AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
@@ -813,7 +844,7 @@ extension Discovery {
     }
 
     public struct DescribeConfigurationsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "configurationIds", required: true, type: .list)
         ]
         /// One or more configuration IDs.
@@ -839,17 +870,32 @@ extension Discovery {
     }
 
     public struct StartExportTaskRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "filters", required: false, type: .list), 
             AWSShapeMember(label: "exportDataFormat", required: false, type: .list)
         ]
+        /// The end timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, exported data includes the most recent data collected by the agent.
+        public let endTime: TimeStamp?
+        /// The start timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, data is exported starting from the first data collected by the agent.
+        public let startTime: TimeStamp?
+        /// If a filter is present, it selects the single agentId of the Application Discovery Agent for which data is exported. The agentId can be found in the results of the DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and exported data includes both Agentless Discovery Connector data and summary data from Application Discovery agents. 
+        public let filters: [ExportFilter]?
         /// The file format for the returned export data. Default value is CSV.
         public let exportDataFormat: [ExportDataFormat]?
 
-        public init(exportDataFormat: [ExportDataFormat]? = nil) {
+        public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, filters: [ExportFilter]? = nil, exportDataFormat: [ExportDataFormat]? = nil) {
+            self.endTime = endTime
+            self.startTime = startTime
+            self.filters = filters
             self.exportDataFormat = exportDataFormat
         }
 
         private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case startTime = "startTime"
+            case filters = "filters"
             case exportDataFormat = "exportDataFormat"
         }
     }
@@ -859,7 +905,7 @@ extension Discovery {
     }
 
     public struct DescribeExportConfigurationsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "exportsInfo", required: false, type: .list)
         ]
@@ -880,7 +926,7 @@ extension Discovery {
     }
 
     public struct StopDataCollectionByAgentIdsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "agentsConfigurationStatus", required: false, type: .list)
         ]
         /// Information about the agents or connector that were instructed to stop collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
@@ -896,7 +942,7 @@ extension Discovery {
     }
 
     public struct StartDataCollectionByAgentIdsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "agentsConfigurationStatus", required: false, type: .list)
         ]
         /// Information about agents or the connector that were instructed to start collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
@@ -922,25 +968,37 @@ extension Discovery {
     }
 
     public struct ExportInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "requestedEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "requestedStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "isTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "exportId", required: true, type: .string), 
             AWSShapeMember(label: "exportStatus", required: true, type: .enum), 
             AWSShapeMember(label: "configurationsDownloadUrl", required: false, type: .string), 
             AWSShapeMember(label: "statusMessage", required: true, type: .string), 
             AWSShapeMember(label: "exportRequestTime", required: true, type: .timestamp)
         ]
-        /// A unique identifier that you can use to query the export.
+        /// The endTime used in the StartExportTask request. If no endTime was requested, this result does not appear in ExportInfo.
+        public let requestedEndTime: TimeStamp?
+        /// The value of startTime parameter in the StartExportTask request. If no startTime was requested, this result does not appear in ExportInfo.
+        public let requestedStartTime: TimeStamp?
+        /// If true, the export of agent information exceeded the size limit for a single export and the exported data is incomplete for the requested time range. To address this, select a smaller time range for the export by using startDate and endDate.
+        public let isTruncated: Bool?
+        /// A unique identifier used to query an export.
         public let exportId: String
-        /// The status of the configuration data export. The status can succeed, fail, or be in-progress.
+        /// The status of the data export job.
         public let exportStatus: ExportStatus
-        /// A URL for an Amazon S3 bucket where you can review the configuration data. The URL is displayed only if the export succeeded.
+        /// A URL for an Amazon S3 bucket where you can review the exported data. The URL is displayed only if the export succeeded.
         public let configurationsDownloadUrl: String?
-        /// Helpful status messages for API callers. For example: Too many exports in the last 6 hours. Export in progress. Export was successful.
+        /// A status message provided for API callers.
         public let statusMessage: String
-        /// The time that the configuration data export was initiated.
+        /// The time that the data export was initiated.
         public let exportRequestTime: TimeStamp
 
-        public init(exportId: String, exportStatus: ExportStatus, configurationsDownloadUrl: String? = nil, statusMessage: String, exportRequestTime: TimeStamp) {
+        public init(requestedEndTime: TimeStamp? = nil, requestedStartTime: TimeStamp? = nil, isTruncated: Bool? = nil, exportId: String, exportStatus: ExportStatus, configurationsDownloadUrl: String? = nil, statusMessage: String, exportRequestTime: TimeStamp) {
+            self.requestedEndTime = requestedEndTime
+            self.requestedStartTime = requestedStartTime
+            self.isTruncated = isTruncated
             self.exportId = exportId
             self.exportStatus = exportStatus
             self.configurationsDownloadUrl = configurationsDownloadUrl
@@ -949,6 +1007,9 @@ extension Discovery {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case requestedEndTime = "requestedEndTime"
+            case requestedStartTime = "requestedStartTime"
+            case isTruncated = "isTruncated"
             case exportId = "exportId"
             case exportStatus = "exportStatus"
             case configurationsDownloadUrl = "configurationsDownloadUrl"
@@ -958,7 +1019,7 @@ extension Discovery {
     }
 
     public struct DescribeAgentsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "agentsInfo", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -983,7 +1044,7 @@ extension Discovery {
     }
 
     public struct DescribeConfigurationsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "configurations", required: false, type: .list)
         ]
         /// A key in the response map. The value is an array of data.
@@ -999,7 +1060,7 @@ extension Discovery {
     }
 
     public struct DescribeAgentsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "filters", required: false, type: .list), 
@@ -1034,7 +1095,7 @@ extension Discovery {
     }
 
     public struct CustomerAgentInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "unhealthyAgents", required: true, type: .integer), 
             AWSShapeMember(label: "blackListedAgents", required: true, type: .integer), 
             AWSShapeMember(label: "totalAgents", required: true, type: .integer), 
@@ -1080,7 +1141,7 @@ extension Discovery {
     }
 
     public struct StartDataCollectionByAgentIdsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "agentIds", required: true, type: .list)
         ]
         /// The IDs of the agents or connectors from which to start collecting data. If you send a request to an agent/connector ID that you do not have permission to contact, according to your AWS account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/connectors and you do not have permission to contact some of those agents/connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
@@ -1096,7 +1157,7 @@ extension Discovery {
     }
 
     public struct UpdateApplicationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "configurationId", required: true, type: .string)
@@ -1122,7 +1183,7 @@ extension Discovery {
     }
 
     public struct Filter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "values", required: true, type: .structure), 
             AWSShapeMember(label: "condition", required: true, type: .string)
@@ -1148,7 +1209,7 @@ extension Discovery {
     }
 
     public struct AgentNetworkInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "macAddress", required: false, type: .string), 
             AWSShapeMember(label: "ipAddress", required: false, type: .string)
         ]

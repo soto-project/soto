@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Opsworks {
 
     public struct DeregisterVolumeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeId", required: true, type: .string)
         ]
         /// The AWS OpsWorks Stacks volume ID, which is the GUID that AWS OpsWorks Stacks assigned to the instance when you registered the volume with the stack, not the Amazon EC2 volume ID.
@@ -22,7 +22,7 @@ extension Opsworks {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .map)
         ]
@@ -43,7 +43,7 @@ extension Opsworks {
     }
 
     public struct CreateUserProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamUserArn", required: true, type: .string), 
             AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
             AWSShapeMember(label: "SshUsername", required: false, type: .string), 
@@ -74,7 +74,7 @@ extension Opsworks {
     }
 
     public struct DescribeRdsDbInstancesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string), 
             AWSShapeMember(label: "RdsDbInstanceArns", required: false, type: .list)
         ]
@@ -95,7 +95,7 @@ extension Opsworks {
     }
 
     public struct Layer: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Shortname", required: false, type: .string), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "Packages", required: false, type: .list), 
@@ -219,7 +219,7 @@ extension Opsworks {
     }
 
     public struct SetTimeBasedAutoScalingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: true, type: .string), 
             AWSShapeMember(label: "AutoScalingSchedule", required: false, type: .structure)
         ]
@@ -240,7 +240,7 @@ extension Opsworks {
     }
 
     public struct DescribeRaidArraysRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "RaidArrayIds", required: false, type: .list), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string)
@@ -272,7 +272,7 @@ extension Opsworks {
     }
 
     public struct StackSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstancesCount", required: false, type: .structure), 
             AWSShapeMember(label: "LayersCount", required: false, type: .integer), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -313,7 +313,7 @@ extension Opsworks {
     }
 
     public struct DescribeCommandsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Commands", required: false, type: .list)
         ]
         /// An array of Command objects that describe each of the specified commands.
@@ -329,7 +329,7 @@ extension Opsworks {
     }
 
     public struct DeregisterEcsClusterRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EcsClusterArn", required: true, type: .string)
         ]
         /// The cluster's ARN.
@@ -345,7 +345,7 @@ extension Opsworks {
     }
 
     public struct DescribeEcsClustersResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EcsClusters", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -366,7 +366,7 @@ extension Opsworks {
     }
 
     public struct UpdateUserProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamUserArn", required: true, type: .string), 
             AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
             AWSShapeMember(label: "SshUsername", required: false, type: .string), 
@@ -397,7 +397,7 @@ extension Opsworks {
     }
 
     public struct DescribeStacksRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackIds", required: false, type: .list)
         ]
         /// An array of stack IDs that specify the stacks to be described. If you omit this parameter, DescribeStacks returns a description of every stack.
@@ -413,7 +413,7 @@ extension Opsworks {
     }
 
     public struct SslConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Certificate", required: true, type: .string), 
             AWSShapeMember(label: "Chain", required: false, type: .string), 
             AWSShapeMember(label: "PrivateKey", required: true, type: .string)
@@ -439,7 +439,7 @@ extension Opsworks {
     }
 
     public struct DescribeElasticIpsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "Ips", required: false, type: .list), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string)
@@ -465,7 +465,7 @@ extension Opsworks {
     }
 
     public struct StackConfigurationManager: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
@@ -486,7 +486,7 @@ extension Opsworks {
     }
 
     public struct UpdateAppRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AppId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "DataSources", required: false, type: .list), 
@@ -552,7 +552,7 @@ extension Opsworks {
     }
 
     public struct Instance: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EcsContainerInstanceArn", required: false, type: .string), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "Hostname", required: false, type: .string), 
@@ -863,7 +863,7 @@ extension Opsworks {
     }
 
     public struct DescribeUserProfilesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamUserArns", required: false, type: .list)
         ]
         /// An array of IAM or federated user ARNs that identify the users to be described.
@@ -879,7 +879,7 @@ extension Opsworks {
     }
 
     public struct DeleteInstanceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeleteVolumes", required: false, type: .boolean), 
             AWSShapeMember(label: "InstanceId", required: true, type: .string), 
             AWSShapeMember(label: "DeleteElasticIp", required: false, type: .boolean)
@@ -905,7 +905,7 @@ extension Opsworks {
     }
 
     public struct InstancesCount: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pending", required: false, type: .integer), 
             AWSShapeMember(label: "Stopping", required: false, type: .integer), 
             AWSShapeMember(label: "Booting", required: false, type: .integer), 
@@ -1011,7 +1011,7 @@ extension Opsworks {
     }
 
     public struct CreateLayerRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Shortname", required: true, type: .string), 
             AWSShapeMember(label: "Packages", required: false, type: .list), 
             AWSShapeMember(label: "LifecycleEventConfiguration", required: false, type: .structure), 
@@ -1112,7 +1112,7 @@ extension Opsworks {
     }
 
     public struct UpdateInstanceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerIds", required: false, type: .list), 
             AWSShapeMember(label: "Hostname", required: false, type: .string), 
             AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
@@ -1183,7 +1183,7 @@ extension Opsworks {
     }
 
     public struct RaidArray: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Device", required: false, type: .string), 
             AWSShapeMember(label: "Iops", required: false, type: .integer), 
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
@@ -1259,7 +1259,7 @@ extension Opsworks {
     }
 
     public struct CloneStackResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
         /// The cloned stack ID.
@@ -1275,7 +1275,7 @@ extension Opsworks {
     }
 
     public struct CreateStackResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
         /// The stack ID, which is an opaque string that you use to identify the stack when performing actions such as DescribeStacks.
@@ -1297,7 +1297,7 @@ extension Opsworks {
     }
 
     public struct LoadBasedAutoScalingConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DownScaling", required: false, type: .structure), 
             AWSShapeMember(label: "Enable", required: false, type: .boolean), 
             AWSShapeMember(label: "UpScaling", required: false, type: .structure), 
@@ -1328,7 +1328,7 @@ extension Opsworks {
     }
 
     public struct App: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Shortname", required: false, type: .string), 
             AWSShapeMember(label: "SslConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "AppSource", required: false, type: .structure), 
@@ -1415,7 +1415,7 @@ extension Opsworks {
     }
 
     public struct Command: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LogUrl", required: false, type: .string), 
             AWSShapeMember(label: "AcknowledgedAt", required: false, type: .string), 
             AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
@@ -1492,7 +1492,7 @@ extension Opsworks {
     }
 
     public struct UserProfile: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
             AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
             AWSShapeMember(label: "SshUsername", required: false, type: .string), 
@@ -1528,7 +1528,7 @@ extension Opsworks {
     }
 
     public struct WeeklyAutoScalingSchedule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Saturday", required: false, type: .map), 
             AWSShapeMember(label: "Tuesday", required: false, type: .map), 
             AWSShapeMember(label: "Sunday", required: false, type: .map), 
@@ -1574,7 +1574,7 @@ extension Opsworks {
     }
 
     public struct RegisterEcsClusterResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EcsClusterArn", required: false, type: .string)
         ]
         /// The cluster's ARN.
@@ -1590,7 +1590,7 @@ extension Opsworks {
     }
 
     public struct RegisterElasticIpResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ElasticIp", required: false, type: .string)
         ]
         /// The Elastic IP address.
@@ -1606,7 +1606,7 @@ extension Opsworks {
     }
 
     public struct GetHostnameSuggestionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerId", required: true, type: .string)
         ]
         /// The layer ID.
@@ -1622,7 +1622,7 @@ extension Opsworks {
     }
 
     public struct DeregisterInstanceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
@@ -1638,7 +1638,7 @@ extension Opsworks {
     }
 
     public struct CreateInstanceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list), 
             AWSShapeMember(label: "SubnetId", required: false, type: .string), 
             AWSShapeMember(label: "LayerIds", required: true, type: .list), 
@@ -1739,7 +1739,7 @@ extension Opsworks {
     }
 
     public struct CreateAppRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Shortname", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -1810,7 +1810,7 @@ extension Opsworks {
     }
 
     public struct ShutdownEventConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExecutionTimeout", required: false, type: .integer), 
             AWSShapeMember(label: "DelayUntilElbConnectionsDrained", required: false, type: .boolean)
         ]
@@ -1831,7 +1831,7 @@ extension Opsworks {
     }
 
     public struct CreateUserProfileResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamUserArn", required: false, type: .string)
         ]
         /// The user's IAM ARN.
@@ -1847,7 +1847,7 @@ extension Opsworks {
     }
 
     public struct CloneStackRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
             AWSShapeMember(label: "ClonePermissions", required: false, type: .boolean), 
             AWSShapeMember(label: "ServiceRoleArn", required: true, type: .string), 
@@ -1967,7 +1967,7 @@ extension Opsworks {
     }
 
     public struct DescribeLayersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "LayerIds", required: false, type: .list)
         ]
@@ -1988,7 +1988,7 @@ extension Opsworks {
     }
 
     public struct DescribeAgentVersionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure)
         ]
@@ -2009,7 +2009,7 @@ extension Opsworks {
     }
 
     public struct DescribeDeploymentsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "DeploymentIds", required: false, type: .list), 
             AWSShapeMember(label: "AppId", required: false, type: .string)
@@ -2035,7 +2035,7 @@ extension Opsworks {
     }
 
     public struct DescribeAppsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Apps", required: false, type: .list)
         ]
         /// An array of App objects that describe the specified apps. 
@@ -2051,7 +2051,7 @@ extension Opsworks {
     }
 
     public struct DescribeVolumesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Volumes", required: false, type: .list)
         ]
         /// An array of volume IDs.
@@ -2067,7 +2067,7 @@ extension Opsworks {
     }
 
     public struct GrantAccessRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ValidForInMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
@@ -2088,7 +2088,7 @@ extension Opsworks {
     }
 
     public struct DescribeLayersResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Layers", required: false, type: .list)
         ]
         /// An array of Layer objects that describe the layers.
@@ -2104,7 +2104,7 @@ extension Opsworks {
     }
 
     public struct DetachElasticLoadBalancerRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerId", required: true, type: .string), 
             AWSShapeMember(label: "ElasticLoadBalancerName", required: true, type: .string)
         ]
@@ -2125,7 +2125,7 @@ extension Opsworks {
     }
 
     public struct RegisterInstanceResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
         /// The registered instance's AWS OpsWorks Stacks ID.
@@ -2141,7 +2141,7 @@ extension Opsworks {
     }
 
     public struct ElasticIp: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Domain", required: false, type: .string), 
             AWSShapeMember(label: "Ip", required: false, type: .string), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string), 
@@ -2177,7 +2177,7 @@ extension Opsworks {
     }
 
     public struct GrantAccessResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TemporaryCredential", required: false, type: .structure)
         ]
         /// A TemporaryCredential object that contains the data needed to log in to the instance by RDP clients, such as the Microsoft Remote Desktop Connection.
@@ -2199,7 +2199,7 @@ extension Opsworks {
     }
 
     public struct AssignInstanceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerIds", required: true, type: .list), 
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
@@ -2220,7 +2220,7 @@ extension Opsworks {
     }
 
     public struct AssociateElasticIpRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ElasticIp", required: true, type: .string), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
@@ -2241,7 +2241,7 @@ extension Opsworks {
     }
 
     public struct UnassignVolumeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeId", required: true, type: .string)
         ]
         /// The volume ID.
@@ -2257,7 +2257,7 @@ extension Opsworks {
     }
 
     public struct VolumeConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NumberOfDisks", required: true, type: .integer), 
             AWSShapeMember(label: "VolumeType", required: false, type: .string), 
             AWSShapeMember(label: "Iops", required: false, type: .integer), 
@@ -2298,7 +2298,7 @@ extension Opsworks {
     }
 
     public struct CreateAppResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AppId", required: false, type: .string)
         ]
         /// The app ID.
@@ -2314,7 +2314,7 @@ extension Opsworks {
     }
 
     public struct DescribeUserProfilesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserProfiles", required: false, type: .list)
         ]
         /// A Users object that describes the specified users.
@@ -2330,7 +2330,7 @@ extension Opsworks {
     }
 
     public struct SetLoadBasedAutoScalingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DownScaling", required: false, type: .structure), 
             AWSShapeMember(label: "Enable", required: false, type: .boolean), 
             AWSShapeMember(label: "UpScaling", required: false, type: .structure), 
@@ -2361,7 +2361,7 @@ extension Opsworks {
     }
 
     public struct DeleteStackRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID.
@@ -2383,7 +2383,7 @@ extension Opsworks {
     }
 
     public struct CloudWatchLogsLogStream: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "File", required: false, type: .string), 
             AWSShapeMember(label: "TimeZone", required: false, type: .enum), 
             AWSShapeMember(label: "InitialPosition", required: false, type: .enum), 
@@ -2449,7 +2449,7 @@ extension Opsworks {
     }
 
     public struct UpdateMyUserProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SshPublicKey", required: false, type: .string)
         ]
         /// The user's SSH public key.
@@ -2470,7 +2470,7 @@ extension Opsworks {
     }
 
     public struct StopInstanceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
@@ -2486,7 +2486,7 @@ extension Opsworks {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
@@ -2507,7 +2507,7 @@ extension Opsworks {
     }
 
     public struct DeploymentCommand: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .enum), 
             AWSShapeMember(label: "Args", required: false, type: .map)
         ]
@@ -2528,7 +2528,7 @@ extension Opsworks {
     }
 
     public struct DescribeInstancesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
             AWSShapeMember(label: "LayerId", required: false, type: .string)
@@ -2554,7 +2554,7 @@ extension Opsworks {
     }
 
     public struct DescribeLoadBasedAutoScalingResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBasedAutoScalingConfigurations", required: false, type: .list)
         ]
         /// An array of LoadBasedAutoScalingConfiguration objects that describe each layer's configuration.
@@ -2570,7 +2570,7 @@ extension Opsworks {
     }
 
     public struct RegisterRdsDbInstanceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string), 
             AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string), 
             AWSShapeMember(label: "DbPassword", required: true, type: .string), 
@@ -2601,7 +2601,7 @@ extension Opsworks {
     }
 
     public struct CreateInstanceResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
         /// The instance ID.
@@ -2617,7 +2617,7 @@ extension Opsworks {
     }
 
     public struct Deployment: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CompletedAt", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
@@ -2687,7 +2687,7 @@ extension Opsworks {
     }
 
     public struct RegisterInstanceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceIdentity", required: false, type: .structure), 
             AWSShapeMember(label: "Hostname", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: true, type: .string), 
@@ -2733,7 +2733,7 @@ extension Opsworks {
     }
 
     public struct DescribeAppsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "AppIds", required: false, type: .list)
         ]
@@ -2754,7 +2754,7 @@ extension Opsworks {
     }
 
     public struct Source: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SshKey", required: false, type: .string), 
             AWSShapeMember(label: "Username", required: false, type: .string), 
             AWSShapeMember(label: "Password", required: false, type: .string), 
@@ -2795,7 +2795,7 @@ extension Opsworks {
     }
 
     public struct DescribeRaidArraysResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RaidArrays", required: false, type: .list)
         ]
         /// A RaidArrays object that describes the specified RAID arrays.
@@ -2811,7 +2811,7 @@ extension Opsworks {
     }
 
     public struct DescribeStacksResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Stacks", required: false, type: .list)
         ]
         /// An array of Stack objects that describe the stacks.
@@ -2827,7 +2827,7 @@ extension Opsworks {
     }
 
     public struct DescribeServiceErrorsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string), 
             AWSShapeMember(label: "ServiceErrorIds", required: false, type: .list)
@@ -2853,7 +2853,7 @@ extension Opsworks {
     }
 
     public struct DescribeVolumesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RaidArrayId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeIds", required: false, type: .list), 
             AWSShapeMember(label: "StackId", required: false, type: .string), 
@@ -2884,7 +2884,7 @@ extension Opsworks {
     }
 
     public struct AutoScalingThresholds: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MemoryThreshold", required: false, type: .double), 
             AWSShapeMember(label: "CpuThreshold", required: false, type: .double), 
             AWSShapeMember(label: "IgnoreMetricsTime", required: false, type: .integer), 
@@ -2959,7 +2959,7 @@ extension Opsworks {
     }
 
     public struct DescribeEcsClustersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EcsClusterArns", required: false, type: .list), 
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -2990,7 +2990,7 @@ extension Opsworks {
     }
 
     public struct UpdateLayerRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Shortname", required: false, type: .string), 
             AWSShapeMember(label: "Packages", required: false, type: .list), 
             AWSShapeMember(label: "LifecycleEventConfiguration", required: false, type: .structure), 
@@ -3085,7 +3085,7 @@ extension Opsworks {
     }
 
     public struct DescribeStackProvisioningParametersResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Parameters", required: false, type: .map), 
             AWSShapeMember(label: "AgentInstallerUrl", required: false, type: .string)
         ]
@@ -3106,7 +3106,7 @@ extension Opsworks {
     }
 
     public struct UnassignInstanceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
@@ -3133,7 +3133,7 @@ extension Opsworks {
     }
 
     public struct Stack: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
             AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -3253,7 +3253,7 @@ extension Opsworks {
     }
 
     public struct StartStackRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID.
@@ -3269,7 +3269,7 @@ extension Opsworks {
     }
 
     public struct ReportedOs: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Family", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
@@ -3295,7 +3295,7 @@ extension Opsworks {
     }
 
     public struct Recipes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Undeploy", required: false, type: .list), 
             AWSShapeMember(label: "Configure", required: false, type: .list), 
             AWSShapeMember(label: "Setup", required: false, type: .list), 
@@ -3337,7 +3337,7 @@ extension Opsworks {
     }
 
     public struct SetPermissionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Level", required: false, type: .string), 
             AWSShapeMember(label: "IamUserArn", required: true, type: .string), 
             AWSShapeMember(label: "AllowSsh", required: false, type: .boolean), 
@@ -3373,7 +3373,7 @@ extension Opsworks {
     }
 
     public struct DescribeTimeBasedAutoScalingResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimeBasedAutoScalingConfigurations", required: false, type: .list)
         ]
         /// An array of TimeBasedAutoScalingConfiguration objects that describe the configuration for the specified instances.
@@ -3389,7 +3389,7 @@ extension Opsworks {
     }
 
     public struct DescribeElasticLoadBalancersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "LayerIds", required: false, type: .list)
         ]
@@ -3410,7 +3410,7 @@ extension Opsworks {
     }
 
     public struct UpdateVolumeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MountPoint", required: false, type: .string), 
             AWSShapeMember(label: "VolumeId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
@@ -3436,7 +3436,7 @@ extension Opsworks {
     }
 
     public struct RegisterVolumeResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeId", required: false, type: .string)
         ]
         /// The volume ID.
@@ -3452,7 +3452,7 @@ extension Opsworks {
     }
 
     public struct DescribeMyUserProfileResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserProfile", required: false, type: .structure)
         ]
         /// A UserProfile object that describes the user's SSH information.
@@ -3468,7 +3468,7 @@ extension Opsworks {
     }
 
     public struct RegisterElasticIpRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ElasticIp", required: true, type: .string), 
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
@@ -3489,7 +3489,7 @@ extension Opsworks {
     }
 
     public struct DescribeCommandsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CommandIds", required: false, type: .list), 
             AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string)
@@ -3515,7 +3515,7 @@ extension Opsworks {
     }
 
     public struct DescribeAgentVersionsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AgentVersions", required: false, type: .list)
         ]
         /// The agent versions for the specified stack or configuration manager. Note that this value is the complete version number, not the abbreviated number used by the console.
@@ -3539,7 +3539,7 @@ extension Opsworks {
     }
 
     public struct CreateStackRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
             AWSShapeMember(label: "ChefConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "ServiceRoleArn", required: true, type: .string), 
@@ -3644,7 +3644,7 @@ extension Opsworks {
     }
 
     public struct DeleteLayerRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerId", required: true, type: .string)
         ]
         /// The layer ID.
@@ -3660,7 +3660,7 @@ extension Opsworks {
     }
 
     public struct RegisterEcsClusterRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string), 
             AWSShapeMember(label: "EcsClusterArn", required: true, type: .string)
         ]
@@ -3681,7 +3681,7 @@ extension Opsworks {
     }
 
     public struct UpdateRdsDbInstanceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DbPassword", required: false, type: .string), 
             AWSShapeMember(label: "DbUser", required: false, type: .string), 
             AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string)
@@ -3707,7 +3707,7 @@ extension Opsworks {
     }
 
     public struct ChefConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ManageBerkshelf", required: false, type: .boolean), 
             AWSShapeMember(label: "BerkshelfVersion", required: false, type: .string)
         ]
@@ -3728,7 +3728,7 @@ extension Opsworks {
     }
 
     public struct DisassociateElasticIpRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ElasticIp", required: true, type: .string)
         ]
         /// The Elastic IP address.
@@ -3744,7 +3744,7 @@ extension Opsworks {
     }
 
     public struct ListTagsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
@@ -3765,7 +3765,7 @@ extension Opsworks {
     }
 
     public struct AttachElasticLoadBalancerRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerId", required: true, type: .string), 
             AWSShapeMember(label: "ElasticLoadBalancerName", required: true, type: .string)
         ]
@@ -3786,7 +3786,7 @@ extension Opsworks {
     }
 
     public struct EnvironmentVariable: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Secure", required: false, type: .boolean)
@@ -3812,7 +3812,7 @@ extension Opsworks {
     }
 
     public struct DescribeLoadBasedAutoScalingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerIds", required: true, type: .list)
         ]
         /// An array of layer IDs.
@@ -3835,7 +3835,7 @@ extension Opsworks {
     }
 
     public struct RdsDbInstance: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "Address", required: false, type: .string), 
             AWSShapeMember(label: "DbUser", required: false, type: .string), 
@@ -3891,7 +3891,7 @@ extension Opsworks {
     }
 
     public struct DescribeStackSummaryResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackSummary", required: false, type: .structure)
         ]
         /// A StackSummary object that contains the results.
@@ -3907,7 +3907,7 @@ extension Opsworks {
     }
 
     public struct Volume: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Device", required: false, type: .string), 
             AWSShapeMember(label: "VolumeId", required: false, type: .string), 
             AWSShapeMember(label: "Region", required: false, type: .string), 
@@ -3983,7 +3983,7 @@ extension Opsworks {
     }
 
     public struct SelfUserProfile: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
             AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
             AWSShapeMember(label: "SshUsername", required: false, type: .string), 
@@ -4014,7 +4014,7 @@ extension Opsworks {
     }
 
     public struct EcsCluster: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EcsClusterName", required: false, type: .string), 
             AWSShapeMember(label: "RegisteredAt", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: false, type: .string), 
@@ -4045,7 +4045,7 @@ extension Opsworks {
     }
 
     public struct DescribeStackSummaryRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID.
@@ -4061,7 +4061,7 @@ extension Opsworks {
     }
 
     public struct CreateLayerResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerId", required: false, type: .string)
         ]
         /// The layer ID.
@@ -4077,7 +4077,7 @@ extension Opsworks {
     }
 
     public struct TemporaryCredential: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ValidForInMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "Password", required: false, type: .string), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string), 
@@ -4108,7 +4108,7 @@ extension Opsworks {
     }
 
     public struct DeregisterElasticIpRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ElasticIp", required: true, type: .string)
         ]
         /// The Elastic IP address.
@@ -4124,7 +4124,7 @@ extension Opsworks {
     }
 
     public struct CreateDeploymentRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LayerIds", required: false, type: .list), 
             AWSShapeMember(label: "StackId", required: true, type: .string), 
             AWSShapeMember(label: "Comment", required: false, type: .string), 
@@ -4170,7 +4170,7 @@ extension Opsworks {
     }
 
     public struct DescribeTimeBasedAutoScalingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceIds", required: true, type: .list)
         ]
         /// An array of instance IDs.
@@ -4186,7 +4186,7 @@ extension Opsworks {
     }
 
     public struct StopStackRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID.
@@ -4202,7 +4202,7 @@ extension Opsworks {
     }
 
     public struct DescribeRdsDbInstancesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RdsDbInstances", required: false, type: .list)
         ]
         /// An a array of RdsDbInstance objects that describe the instances.
@@ -4218,7 +4218,7 @@ extension Opsworks {
     }
 
     public struct ServiceError: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "StackId", required: false, type: .string), 
@@ -4259,7 +4259,7 @@ extension Opsworks {
     }
 
     public struct RebootInstanceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
@@ -4275,7 +4275,7 @@ extension Opsworks {
     }
 
     public struct CreateDeploymentResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeploymentId", required: false, type: .string)
         ]
         /// The deployment ID, which can be used with other requests to identify the deployment.
@@ -4291,7 +4291,7 @@ extension Opsworks {
     }
 
     public struct DescribeServiceErrorsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceErrors", required: false, type: .list)
         ]
         /// An array of ServiceError objects that describe the specified service errors.
@@ -4307,7 +4307,7 @@ extension Opsworks {
     }
 
     public struct DescribePermissionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: false, type: .string), 
             AWSShapeMember(label: "IamUserArn", required: false, type: .string)
         ]
@@ -4328,7 +4328,7 @@ extension Opsworks {
     }
 
     public struct AgentVersion: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
@@ -4349,7 +4349,7 @@ extension Opsworks {
     }
 
     public struct DataSource: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: false, type: .string), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "DatabaseName", required: false, type: .string)
@@ -4375,7 +4375,7 @@ extension Opsworks {
     }
 
     public struct TimeBasedAutoScalingConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: false, type: .string), 
             AWSShapeMember(label: "AutoScalingSchedule", required: false, type: .structure)
         ]
@@ -4396,7 +4396,7 @@ extension Opsworks {
     }
 
     public struct DescribeElasticLoadBalancersResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ElasticLoadBalancers", required: false, type: .list)
         ]
         /// A list of ElasticLoadBalancer objects that describe the specified Elastic Load Balancing instances.
@@ -4420,7 +4420,7 @@ extension Opsworks {
     }
 
     public struct GetHostnameSuggestionResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Hostname", required: false, type: .string), 
             AWSShapeMember(label: "LayerId", required: false, type: .string)
         ]
@@ -4457,7 +4457,7 @@ extension Opsworks {
     }
 
     public struct EbsBlockDevice: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeSize", required: false, type: .integer), 
             AWSShapeMember(label: "DeleteOnTermination", required: false, type: .boolean), 
@@ -4493,7 +4493,7 @@ extension Opsworks {
     }
 
     public struct BlockDeviceMapping: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NoDevice", required: false, type: .string), 
             AWSShapeMember(label: "VirtualName", required: false, type: .string), 
             AWSShapeMember(label: "DeviceName", required: false, type: .string), 
@@ -4524,7 +4524,7 @@ extension Opsworks {
     }
 
     public struct DeregisterRdsDbInstanceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string)
         ]
         /// The Amazon RDS instance's ARN.
@@ -4540,7 +4540,7 @@ extension Opsworks {
     }
 
     public struct UpdateStackRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
             AWSShapeMember(label: "ChefConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
@@ -4640,7 +4640,7 @@ extension Opsworks {
     }
 
     public struct UpdateElasticIpRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ElasticIp", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
@@ -4661,7 +4661,7 @@ extension Opsworks {
     }
 
     public struct InstanceIdentity: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Document", required: false, type: .string), 
             AWSShapeMember(label: "Signature", required: false, type: .string)
         ]
@@ -4682,7 +4682,7 @@ extension Opsworks {
     }
 
     public struct DescribeInstancesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Instances", required: false, type: .list)
         ]
         /// An array of Instance objects that describe the instances.
@@ -4698,7 +4698,7 @@ extension Opsworks {
     }
 
     public struct LifecycleEventConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Shutdown", required: false, type: .structure)
         ]
         /// A ShutdownEventConfiguration object that specifies the Shutdown event configuration.
@@ -4714,7 +4714,7 @@ extension Opsworks {
     }
 
     public struct DescribeStackProvisioningParametersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID
@@ -4730,7 +4730,7 @@ extension Opsworks {
     }
 
     public struct DeleteAppRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AppId", required: true, type: .string)
         ]
         /// The app ID.
@@ -4746,7 +4746,7 @@ extension Opsworks {
     }
 
     public struct DescribeDeploymentsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Deployments", required: false, type: .list)
         ]
         /// An array of Deployment objects that describe the deployments.
@@ -4762,7 +4762,7 @@ extension Opsworks {
     }
 
     public struct DescribePermissionsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Permissions", required: false, type: .list)
         ]
         /// An array of Permission objects that describe the stack permissions.   If the request object contains only a stack ID, the array contains a Permission object with permissions for each of the stack IAM ARNs.   If the request object contains only an IAM ARN, the array contains a Permission object with permissions for each of the user's stack IDs.   If the request contains a stack ID and an IAM ARN, the array contains a single Permission object with permissions for the specified stack and IAM ARN.  
@@ -4778,7 +4778,7 @@ extension Opsworks {
     }
 
     public struct RegisterVolumeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StackId", required: true, type: .string), 
             AWSShapeMember(label: "Ec2VolumeId", required: false, type: .string)
         ]
@@ -4799,7 +4799,7 @@ extension Opsworks {
     }
 
     public struct CloudWatchLogsConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LogStreams", required: false, type: .list), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
@@ -4820,7 +4820,7 @@ extension Opsworks {
     }
 
     public struct StartInstanceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
@@ -4836,7 +4836,7 @@ extension Opsworks {
     }
 
     public struct ListTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
@@ -4862,7 +4862,7 @@ extension Opsworks {
     }
 
     public struct Permission: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Level", required: false, type: .string), 
             AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
             AWSShapeMember(label: "AllowSsh", required: false, type: .boolean), 
@@ -4898,7 +4898,7 @@ extension Opsworks {
     }
 
     public struct AssignVolumeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeId", required: true, type: .string)
         ]
@@ -4919,7 +4919,7 @@ extension Opsworks {
     }
 
     public struct DeleteUserProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamUserArn", required: true, type: .string)
         ]
         /// The user's IAM ARN. This can also be a federated user's ARN.
@@ -4935,7 +4935,7 @@ extension Opsworks {
     }
 
     public struct ElasticLoadBalancer: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
             AWSShapeMember(label: "StackId", required: false, type: .string), 
@@ -4991,7 +4991,7 @@ extension Opsworks {
     }
 
     public struct DescribeElasticIpsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ElasticIps", required: false, type: .list)
         ]
         /// An ElasticIps object that describes the specified Elastic IP addresses.

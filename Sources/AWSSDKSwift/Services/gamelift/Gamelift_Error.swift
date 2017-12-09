@@ -4,18 +4,19 @@ import AWSSDKSwiftCore
 
 /// Error enum for Gamelift
 public enum GameliftError: AWSErrorType {
-    case unauthorizedException(message: String?)
-    case invalidRequestException(message: String?)
-    case notFoundException(message: String?)
     case internalServiceException(message: String?)
-    case terminalRoutingStrategyException(message: String?)
+    case notFoundException(message: String?)
+    case invalidRequestException(message: String?)
+    case unauthorizedException(message: String?)
     case invalidFleetStatusException(message: String?)
     case conflictException(message: String?)
-    case invalidGameSessionStatusException(message: String?)
     case limitExceededException(message: String?)
-    case gameSessionFullException(message: String?)
+    case terminalRoutingStrategyException(message: String?)
+    case unsupportedRegionException(message: String?)
     case fleetCapacityExceededException(message: String?)
     case idempotentParameterMismatchException(message: String?)
+    case invalidGameSessionStatusException(message: String?)
+    case gameSessionFullException(message: String?)
 }
 
 extension GameliftError {
@@ -25,30 +26,32 @@ extension GameliftError {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
         case "InternalServiceException":
             self = .internalServiceException(message: message)
-        case "TerminalRoutingStrategyException":
-            self = .terminalRoutingStrategyException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
+        case "InvalidRequestException":
+            self = .invalidRequestException(message: message)
+        case "UnauthorizedException":
+            self = .unauthorizedException(message: message)
         case "InvalidFleetStatusException":
             self = .invalidFleetStatusException(message: message)
         case "ConflictException":
             self = .conflictException(message: message)
-        case "InvalidGameSessionStatusException":
-            self = .invalidGameSessionStatusException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
-        case "GameSessionFullException":
-            self = .gameSessionFullException(message: message)
+        case "TerminalRoutingStrategyException":
+            self = .terminalRoutingStrategyException(message: message)
+        case "UnsupportedRegionException":
+            self = .unsupportedRegionException(message: message)
         case "FleetCapacityExceededException":
             self = .fleetCapacityExceededException(message: message)
         case "IdempotentParameterMismatchException":
             self = .idempotentParameterMismatchException(message: message)
+        case "InvalidGameSessionStatusException":
+            self = .invalidGameSessionStatusException(message: message)
+        case "GameSessionFullException":
+            self = .gameSessionFullException(message: message)
         default:
             return nil
         }

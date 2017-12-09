@@ -6,28 +6,38 @@ import AWSSDKSwiftCore
 extension Lambda {
 
     public struct ListFunctionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
+            AWSShapeMember(label: "FunctionVersion", location: .querystring(locationName: "FunctionVersion"), required: false, type: .enum), 
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
+            AWSShapeMember(label: "MasterRegion", location: .querystring(locationName: "MasterRegion"), required: false, type: .string)
         ]
-        /// Optional string. An opaque pagination token returned from a previous ListFunctions operation. If present, indicates where to continue the listing. 
-        public let marker: String?
         /// Optional integer. Specifies the maximum number of AWS Lambda functions to return in response. This parameter value must be greater than 0.
         public let maxItems: Int32?
+        /// Optional string. If not specified, only the unqualified functions ARNs (Amazon Resource Names) will be returned. Valid value:  ALL: Will return all versions, including $LATEST which will have fully qualified ARNs (Amazon Resource Names).
+        public let functionVersion: FunctionVersion?
+        /// Optional string. An opaque pagination token returned from a previous ListFunctions operation. If present, indicates where to continue the listing. 
+        public let marker: String?
+        /// Optional string. If not specified, will return only regular function versions (i.e., non-replicated versions). Valid values are: The region from which the functions are replicated. For example, if you specify us-east-1, only functions replicated from that region will be returned.  ALL: Will return all functions from any region. If specified, you also must specify a valid FunctionVersion parameter.
+        public let masterRegion: String?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil) {
-            self.marker = marker
+        public init(maxItems: Int32? = nil, functionVersion: FunctionVersion? = nil, marker: String? = nil, masterRegion: String? = nil) {
             self.maxItems = maxItems
+            self.functionVersion = functionVersion
+            self.marker = marker
+            self.masterRegion = masterRegion
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
             case maxItems = "MaxItems"
+            case functionVersion = "FunctionVersion"
+            case marker = "Marker"
+            case masterRegion = "MasterRegion"
         }
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", location: .uri(locationName: "ARN"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .map)
         ]
@@ -48,7 +58,7 @@ extension Lambda {
     }
 
     public struct EventSourceMappingConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
             AWSShapeMember(label: "UUID", required: false, type: .string), 
             AWSShapeMember(label: "BatchSize", required: false, type: .integer), 
@@ -110,8 +120,24 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
+    public struct DeleteFunctionConcurrencyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
+        ]
+        /// The name of the function you are removing concurrent execution limits from.
+        public let functionName: String
+
+        public init(functionName: String) {
+            self.functionName = functionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionName = "FunctionName"
+        }
+    }
+
     public struct DeleteFunctionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
@@ -132,12 +158,15 @@ extension Lambda {
     }
 
     public struct UpdateAliasRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoutingConfig", required: false, type: .structure), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "FunctionVersion", required: false, type: .string), 
             AWSShapeMember(label: "Name", location: .uri(locationName: "Name"), required: true, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
+        /// Specifies an additional version your alias can point to, allowing you to dictate what percentage of traffic will invoke each version. For more information, see lambda-traffic-shifting-using-aliases.
+        public let routingConfig: AliasRoutingConfiguration?
         /// The function name for which the alias is created. Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Using this parameter you can change the Lambda function version to which the alias points.
@@ -147,7 +176,8 @@ extension Lambda {
         /// You can change the description of the alias using this parameter.
         public let description: String?
 
-        public init(functionName: String, functionVersion: String? = nil, name: String, description: String? = nil) {
+        public init(routingConfig: AliasRoutingConfiguration? = nil, functionName: String, functionVersion: String? = nil, name: String, description: String? = nil) {
+            self.routingConfig = routingConfig
             self.functionName = functionName
             self.functionVersion = functionVersion
             self.name = name
@@ -155,6 +185,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case routingConfig = "RoutingConfig"
             case functionName = "FunctionName"
             case functionVersion = "FunctionVersion"
             case name = "Name"
@@ -165,7 +196,7 @@ extension Lambda {
     public struct InvocationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Payload"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "InvocationType", location: .header(locationName: "X-Amz-Invocation-Type"), required: false, type: .enum), 
             AWSShapeMember(label: "Payload", required: false, type: .blob), 
@@ -179,7 +210,7 @@ extension Lambda {
         public let invocationType: InvocationType?
         /// JSON that you want to provide to your Lambda function as input.
         public let payload: Data?
-        /// Using the ClientContext you can pass client-specific information to the Lambda function you are invoking. You can then process the client information in your Lambda function as you choose through the context variable. For an example of a ClientContext JSON, see PutEvents in the Amazon Mobile Analytics API Reference and User Guide. The ClientContext JSON must be base64-encoded.
+        /// Using the ClientContext you can pass client-specific information to the Lambda function you are invoking. You can then process the client information in your Lambda function as you choose through the context variable. For an example of a ClientContext JSON, see PutEvents in the Amazon Mobile Analytics API Reference and User Guide. The ClientContext JSON must be base64-encoded and has a maximum size of 3583 bytes.
         public let clientContext: String?
         /// You can set this optional parameter to Tail in the request only if you specify the InvocationType parameter with value RequestResponse. In this case, AWS Lambda returns the base64-encoded last 4 KB of log data produced by your Lambda function in the x-amz-log-result header. 
         public let logType: LogType?
@@ -206,7 +237,7 @@ extension Lambda {
     }
 
     public struct ListTagsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
         /// The list of tags assigned to the function.
@@ -221,8 +252,24 @@ extension Lambda {
         }
     }
 
+    public struct AliasRoutingConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalVersionWeights", required: false, type: .map)
+        ]
+        /// Set this property value to dictate what percentage of traffic will invoke the updated function version. If set to an empty string, 100 percent of traffic will invoke function-version.
+        public let additionalVersionWeights: [String: Double]?
+
+        public init(additionalVersionWeights: [String: Double]? = nil) {
+            self.additionalVersionWeights = additionalVersionWeights
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalVersionWeights = "AdditionalVersionWeights"
+        }
+    }
+
     public struct DeadLetterConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ).
@@ -237,8 +284,86 @@ extension Lambda {
         }
     }
 
+    public struct CreateEventSourceMappingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionName", required: true, type: .string), 
+            AWSShapeMember(label: "BatchSize", required: false, type: .integer), 
+            AWSShapeMember(label: "StartingPositionTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EventSourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "StartingPosition", required: true, type: .enum), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+        /// The Lambda function to invoke when AWS Lambda detects an event on the stream.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail).   If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). For more information about versioning, see AWS Lambda Function Versioning and Aliases  AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail).  Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// The largest number of records that AWS Lambda will retrieve from your event source at the time of invoking your function. Your function receives an event with all the retrieved records. The default is 100 records.
+        public let batchSize: Int32?
+        /// The timestamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. If a record with this exact timestamp does not exist, the iterator returned is for the next (later) record. If the timestamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON). Valid only for Kinesis streams. 
+        public let startingPositionTimestamp: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the Amazon Kinesis or the Amazon DynamoDB stream that is the event source. Any record added to this stream could cause AWS Lambda to invoke your Lambda function, it depends on the BatchSize. AWS Lambda POSTs the Amazon Kinesis event, containing records, to your Lambda function as JSON.
+        public let eventSourceArn: String
+        /// The position in the stream where AWS Lambda should start reading. Valid only for Kinesis streams. For more information, see ShardIteratorType in the Amazon Kinesis API Reference. 
+        public let startingPosition: EventSourcePosition
+        /// Indicates whether AWS Lambda should begin polling the event source. By default, Enabled is true. 
+        public let enabled: Bool?
+
+        public init(functionName: String, batchSize: Int32? = nil, startingPositionTimestamp: TimeStamp? = nil, eventSourceArn: String, startingPosition: EventSourcePosition, enabled: Bool? = nil) {
+            self.functionName = functionName
+            self.batchSize = batchSize
+            self.startingPositionTimestamp = startingPositionTimestamp
+            self.eventSourceArn = eventSourceArn
+            self.startingPosition = startingPosition
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionName = "FunctionName"
+            case batchSize = "BatchSize"
+            case startingPositionTimestamp = "StartingPositionTimestamp"
+            case eventSourceArn = "EventSourceArn"
+            case startingPosition = "StartingPosition"
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct EnvironmentError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+        /// The error code returned by the environment error object.
+        public let errorCode: String?
+        /// The message returned by the environment error object.
+        public let message: String?
+
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+        }
+    }
+
+    public struct Environment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Variables", required: false, type: .map)
+        ]
+        /// The key-value pairs that represent your environment's configuration settings.
+        public let variables: [String: String]?
+
+        public init(variables: [String: String]? = nil) {
+            self.variables = variables
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case variables = "Variables"
+        }
+    }
+
     public struct AddPermissionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StatementId", required: true, type: .string), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "Action", required: true, type: .string), 
@@ -288,88 +413,10 @@ extension Lambda {
         }
     }
 
-    public struct CreateEventSourceMappingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FunctionName", required: true, type: .string), 
-            AWSShapeMember(label: "BatchSize", required: false, type: .integer), 
-            AWSShapeMember(label: "StartingPositionTimestamp", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EventSourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "StartingPosition", required: true, type: .enum), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
-        ]
-        /// The Lambda function to invoke when AWS Lambda detects an event on the stream.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail).   If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). For more information about versioning, see AWS Lambda Function Versioning and Aliases  AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail).  Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.
-        public let functionName: String
-        /// The largest number of records that AWS Lambda will retrieve from your event source at the time of invoking your function. Your function receives an event with all the retrieved records. The default is 100 records.
-        public let batchSize: Int32?
-        /// The timestamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. If a record with this exact timestamp does not exist, the iterator returned is for the next (later) record. If the timestamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON). Valid only for Kinesis streams. 
-        public let startingPositionTimestamp: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the Amazon Kinesis or the Amazon DynamoDB stream that is the event source. Any record added to this stream could cause AWS Lambda to invoke your Lambda function, it depends on the BatchSize. AWS Lambda POSTs the Amazon Kinesis event, containing records, to your Lambda function as JSON.
-        public let eventSourceArn: String
-        /// The position in the stream where AWS Lambda should start reading. Valid only for Kinesis streams. For more information, see ShardIteratorType in the Amazon Kinesis API Reference. 
-        public let startingPosition: EventSourcePosition
-        /// Indicates whether AWS Lambda should begin polling the event source. By default, Enabled is true. 
-        public let enabled: Bool?
-
-        public init(functionName: String, batchSize: Int32? = nil, startingPositionTimestamp: TimeStamp? = nil, eventSourceArn: String, startingPosition: EventSourcePosition, enabled: Bool? = nil) {
-            self.functionName = functionName
-            self.batchSize = batchSize
-            self.startingPositionTimestamp = startingPositionTimestamp
-            self.eventSourceArn = eventSourceArn
-            self.startingPosition = startingPosition
-            self.enabled = enabled
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case functionName = "FunctionName"
-            case batchSize = "BatchSize"
-            case startingPositionTimestamp = "StartingPositionTimestamp"
-            case eventSourceArn = "EventSourceArn"
-            case startingPosition = "StartingPosition"
-            case enabled = "Enabled"
-        }
-    }
-
-    public struct EnvironmentError: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string)
-        ]
-        /// The error code returned by the environment error object.
-        public let errorCode: String?
-        /// The message returned by the environment error object.
-        public let message: String?
-
-        public init(errorCode: String? = nil, message: String? = nil) {
-            self.errorCode = errorCode
-            self.message = message
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case errorCode = "ErrorCode"
-            case message = "Message"
-        }
-    }
-
-    public struct Environment: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Variables", required: false, type: .map)
-        ]
-        /// The key-value pairs that represent your environment's configuration settings.
-        public let variables: [String: String]?
-
-        public init(variables: [String: String]? = nil) {
-            self.variables = variables
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case variables = "Variables"
-        }
-    }
-
     public struct InvokeAsyncRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "InvokeArgs"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "InvokeArgs", required: true, type: .blob)
         ]
@@ -390,7 +437,7 @@ extension Lambda {
     }
 
     public struct ListVersionsByFunctionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
@@ -416,7 +463,7 @@ extension Lambda {
     }
 
     public struct FunctionCode: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3ObjectVersion", required: false, type: .string), 
             AWSShapeMember(label: "S3Key", required: false, type: .string), 
             AWSShapeMember(label: "S3Bucket", required: false, type: .string), 
@@ -447,7 +494,7 @@ extension Lambda {
     }
 
     public struct FunctionCodeLocation: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Location", required: false, type: .string), 
             AWSShapeMember(label: "RepositoryType", required: false, type: .string)
         ]
@@ -468,7 +515,7 @@ extension Lambda {
     }
 
     public struct ListAliasesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Aliases", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -496,7 +543,7 @@ extension Lambda {
     }
 
     public struct UpdateFunctionCodeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "ZipFile", required: false, type: .blob), 
             AWSShapeMember(label: "S3Key", required: false, type: .string), 
@@ -511,7 +558,7 @@ extension Lambda {
         public let zipFile: Data?
         /// The Amazon S3 object (the deployment package) key name you want to upload.
         public let s3Key: String?
-        /// This boolean parameter can be used to test your request to AWS Lambda to update the Lambda function and publish a version as an atomic operation. It will do all necessary computation and validation of your code but will not upload it or a publish a version. Each time this operation is invoked, the CodeSha256 hash value the provided code will also be computed and returned in the response.
+        /// This boolean parameter can be used to test your request to AWS Lambda to update the Lambda function and publish a version as an atomic operation. It will do all necessary computation and validation of your code but will not upload it or a publish a version. Each time this operation is invoked, the CodeSha256 hash value of the provided code will also be computed and returned in the response.
         public let dryRun: Bool?
         /// Amazon S3 bucket name where the .zip file containing your deployment package is stored. This bucket must reside in the same AWS Region where you are creating the Lambda function.
         public let s3Bucket: String?
@@ -542,7 +589,7 @@ extension Lambda {
     }
 
     public struct RemovePermissionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "StatementId", location: .uri(locationName: "StatementId"), required: true, type: .string)
@@ -570,6 +617,8 @@ extension Lambda {
     public enum ThrottleReason: String, CustomStringConvertible, Codable {
         case concurrentinvocationlimitexceeded = "ConcurrentInvocationLimitExceeded"
         case functioninvocationratelimitexceeded = "FunctionInvocationRateLimitExceeded"
+        case reservedfunctionconcurrentinvocationlimitexceeded = "ReservedFunctionConcurrentInvocationLimitExceeded"
+        case reservedfunctioninvocationratelimitexceeded = "ReservedFunctionInvocationRateLimitExceeded"
         case callerratelimitexceeded = "CallerRateLimitExceeded"
         public var description: String { return self.rawValue }
     }
@@ -581,7 +630,7 @@ extension Lambda {
     }
 
     public struct ListEventSourceMappingsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
             AWSShapeMember(label: "FunctionName", location: .querystring(locationName: "FunctionName"), required: false, type: .string), 
             AWSShapeMember(label: "EventSourceArn", location: .querystring(locationName: "EventSourceArn"), required: false, type: .string), 
@@ -612,12 +661,15 @@ extension Lambda {
     }
 
     public struct CreateAliasRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoutingConfig", required: false, type: .structure), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "FunctionVersion", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
+        /// Specifies an additional version your alias can point to, allowing you to dictate what percentage of traffic will invoke each version. For more information, see lambda-traffic-shifting-using-aliases.
+        public let routingConfig: AliasRoutingConfiguration?
         /// Name of the Lambda function for which you want to create an alias. Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Lambda function version for which you are creating the alias.
@@ -627,7 +679,8 @@ extension Lambda {
         /// Description of the alias.
         public let description: String?
 
-        public init(functionName: String, functionVersion: String, name: String, description: String? = nil) {
+        public init(routingConfig: AliasRoutingConfiguration? = nil, functionName: String, functionVersion: String, name: String, description: String? = nil) {
+            self.routingConfig = routingConfig
             self.functionName = functionName
             self.functionVersion = functionVersion
             self.name = name
@@ -635,6 +688,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case routingConfig = "RoutingConfig"
             case functionName = "FunctionName"
             case functionVersion = "FunctionVersion"
             case name = "Name"
@@ -643,7 +697,7 @@ extension Lambda {
     }
 
     public struct UpdateEventSourceMappingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UUID", location: .uri(locationName: "UUID"), required: true, type: .string), 
             AWSShapeMember(label: "FunctionName", required: false, type: .string), 
             AWSShapeMember(label: "BatchSize", required: false, type: .integer), 
@@ -674,7 +728,7 @@ extension Lambda {
     }
 
     public struct GetFunctionConfigurationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
@@ -695,7 +749,7 @@ extension Lambda {
     }
 
     public struct InvokeAsyncResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
         /// It will be 202 upon success.
@@ -715,7 +769,7 @@ extension Lambda {
     }
 
     public struct GetAliasRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", location: .uri(locationName: "Name"), required: true, type: .string), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
         ]
@@ -738,10 +792,11 @@ extension Lambda {
     public struct InvocationResponse: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Payload"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StatusCode", required: false, type: .integer), 
             AWSShapeMember(label: "LogResult", location: .header(locationName: "X-Amz-Log-Result"), required: false, type: .string), 
             AWSShapeMember(label: "Payload", required: false, type: .blob), 
+            AWSShapeMember(label: "ExecutedVersion", location: .header(locationName: "X-Amz-Executed-Version"), required: false, type: .string), 
             AWSShapeMember(label: "FunctionError", location: .header(locationName: "X-Amz-Function-Error"), required: false, type: .string)
         ]
         /// The HTTP status code will be in the 200 range for successful request. For the RequestResponse invocation type this status code will be 200. For the Event invocation type this status code will be 202. For the DryRun invocation type the status code will be 204. 
@@ -750,13 +805,16 @@ extension Lambda {
         public let logResult: String?
         ///  It is the JSON representation of the object returned by the Lambda function. This is present only if the invocation type is RequestResponse.  In the event of a function error this field contains a message describing the error. For the Handled errors the Lambda function will report this message. For Unhandled errors AWS Lambda reports the message. 
         public let payload: Data?
+        /// The function version that has been executed. This value is returned only if the invocation type is RequestResponse.
+        public let executedVersion: String?
         /// Indicates whether an error occurred while executing the Lambda function. If an error occurred this field will have one of two values; Handled or Unhandled. Handled errors are errors that are reported by the function while the Unhandled errors are those detected and reported by AWS Lambda. Unhandled errors include out of memory errors and function timeouts. For information about how to report an Handled error, see Programming Model. 
         public let functionError: String?
 
-        public init(statusCode: Int32? = nil, logResult: String? = nil, payload: Data? = nil, functionError: String? = nil) {
+        public init(statusCode: Int32? = nil, logResult: String? = nil, payload: Data? = nil, executedVersion: String? = nil, functionError: String? = nil) {
             self.statusCode = statusCode
             self.logResult = logResult
             self.payload = payload
+            self.executedVersion = executedVersion
             self.functionError = functionError
         }
 
@@ -764,12 +822,13 @@ extension Lambda {
             case statusCode = "StatusCode"
             case logResult = "X-Amz-Log-Result"
             case payload = "Payload"
+            case executedVersion = "X-Amz-Executed-Version"
             case functionError = "X-Amz-Function-Error"
         }
     }
 
     public struct AddPermissionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Statement", required: false, type: .string)
         ]
         /// The permission statement you specified in the request. The response returns the same as a string using a backslash ("\") as an escape character in the JSON.
@@ -785,7 +844,7 @@ extension Lambda {
     }
 
     public struct UpdateFunctionConfigurationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KMSKeyArn", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
@@ -818,7 +877,7 @@ extension Lambda {
         public let deadLetterConfig: DeadLetterConfig?
         /// The function execution time at which AWS Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
         public let timeout: Int32?
-        /// The runtime environment for the Lambda function. To use the Python runtime v3.6, set the value to "python3.6". To use the Python runtime v2.7, set the value to "python2.7". To use the Node.js runtime v6.10, set the value to "nodejs6.10". To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use the Python runtime v3.6, set the value to "python3.6". To use the Python runtime v2.7, set the value to "python2.7".  Node v0.10.42 is currently marked as deprecated. You must migrate existing functions to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3 or nodejs6.10) as soon as possible. You can request a one-time extension until June 30, 2017 by going to the Lambda console and following the instructions provided. Failure to do so will result in an invalid parameter value error being returned. Note that you will have to follow this procedure for each region that contains functions written in the Node v0.10.42 runtime. 
+        /// The runtime environment for the Lambda function. To use the Python runtime v3.6, set the value to "python3.6". To use the Python runtime v2.7, set the value to "python2.7". To use the Node.js runtime v6.10, set the value to "nodejs6.10". To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use the Python runtime v3.6, set the value to "python3.6".  Node v0.10.42 is currently marked as deprecated. You must migrate existing functions to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3 or nodejs6.10) as soon as possible. Failure to do so will result in an invalid parameter error being returned. Note that you will have to follow this procedure for each region that contains functions written in the Node v0.10.42 runtime. 
         public let runtime: Runtime?
         /// The function that Lambda calls to begin executing your function. For Node.js, it is the module-name.export value in your function. 
         public let handler: String?
@@ -855,7 +914,7 @@ extension Lambda {
     }
 
     public struct ListFunctionsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Functions", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -883,7 +942,7 @@ extension Lambda {
     }
 
     public struct CreateFunctionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "DeadLetterConfig", required: false, type: .structure), 
@@ -910,7 +969,7 @@ extension Lambda {
         public let timeout: Int32?
         /// This boolean parameter can be used to request AWS Lambda to create the Lambda function and publish a version as an atomic operation.
         public let publish: Bool?
-        /// The runtime environment for the Lambda function you are uploading. To use the Python runtime v3.6, set the value to "python3.6". To use the Python runtime v2.7, set the value to "python2.7". To use the Node.js runtime v6.10, set the value to "nodejs6.10". To use the Node.js runtime v4.3, set the value to "nodejs4.3".  Node v0.10.42 is currently marked as deprecated. You must migrate existing functions to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3 or nodejs6.10) as soon as possible. You can request a one-time extension until June 30, 2017 by going to the Lambda console and following the instructions provided. Failure to do so will result in an invalid parmaeter error being returned. Note that you will have to follow this procedure for each region that contains functions written in the Node v0.10.42 runtime. 
+        /// The runtime environment for the Lambda function you are uploading. To use the Python runtime v3.6, set the value to "python3.6". To use the Python runtime v2.7, set the value to "python2.7". To use the Node.js runtime v6.10, set the value to "nodejs6.10". To use the Node.js runtime v4.3, set the value to "nodejs4.3".  Node v0.10.42 is currently marked as deprecated. You must migrate existing functions to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3 or nodejs6.10) as soon as possible. Failure to do so will result in an invalid parmaeter error being returned. Note that you will have to follow this procedure for each region that contains functions written in the Node v0.10.42 runtime. 
         public let runtime: Runtime
         /// A short, user-defined function description. Lambda does not use this value. Assign a meaningful description as you see fit.
         public let description: String?
@@ -968,7 +1027,7 @@ extension Lambda {
     }
 
     public struct TracingConfigResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Mode", required: false, type: .enum)
         ]
         /// The tracing mode associated with your Lambda function.
@@ -984,7 +1043,7 @@ extension Lambda {
     }
 
     public struct VpcConfigResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VpcId", required: false, type: .string), 
             AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
             AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list)
@@ -1010,7 +1069,7 @@ extension Lambda {
     }
 
     public struct GetPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
@@ -1031,8 +1090,9 @@ extension Lambda {
     }
 
     public struct FunctionConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "MasterArn", required: false, type: .string), 
             AWSShapeMember(label: "DeadLetterConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
             AWSShapeMember(label: "Runtime", required: false, type: .enum), 
@@ -1052,6 +1112,8 @@ extension Lambda {
         ]
         /// VPC configuration associated with your Lambda function.
         public let vpcConfig: VpcConfigResponse?
+        /// Returns the ARN (Amazon Resource Name) of the master function.
+        public let masterArn: String?
         /// The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic.
         public let deadLetterConfig: DeadLetterConfig?
         /// The function execution time at which Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
@@ -1085,8 +1147,9 @@ extension Lambda {
         /// The function Lambda calls to begin executing your function.
         public let handler: String?
 
-        public init(vpcConfig: VpcConfigResponse? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, runtime: Runtime? = nil, codeSha256: String? = nil, description: String? = nil, lastModified: String? = nil, kMSKeyArn: String? = nil, functionName: String? = nil, tracingConfig: TracingConfigResponse? = nil, memorySize: Int32? = nil, functionArn: String? = nil, version: String? = nil, role: String? = nil, codeSize: Int64? = nil, environment: EnvironmentResponse? = nil, handler: String? = nil) {
+        public init(vpcConfig: VpcConfigResponse? = nil, masterArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, runtime: Runtime? = nil, codeSha256: String? = nil, description: String? = nil, lastModified: String? = nil, kMSKeyArn: String? = nil, functionName: String? = nil, tracingConfig: TracingConfigResponse? = nil, memorySize: Int32? = nil, functionArn: String? = nil, version: String? = nil, role: String? = nil, codeSize: Int64? = nil, environment: EnvironmentResponse? = nil, handler: String? = nil) {
             self.vpcConfig = vpcConfig
+            self.masterArn = masterArn
             self.deadLetterConfig = deadLetterConfig
             self.timeout = timeout
             self.runtime = runtime
@@ -1107,6 +1170,7 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case vpcConfig = "VpcConfig"
+            case masterArn = "MasterArn"
             case deadLetterConfig = "DeadLetterConfig"
             case timeout = "Timeout"
             case runtime = "Runtime"
@@ -1127,7 +1191,7 @@ extension Lambda {
     }
 
     public struct GetPolicyResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Policy", required: false, type: .string)
         ]
         /// The resource policy associated with the specified function. The response returns the same as a string using a backslash ("\") as an escape character in the JSON.
@@ -1142,8 +1206,24 @@ extension Lambda {
         }
     }
 
+    public struct Concurrency: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedConcurrentExecutions", required: false, type: .integer)
+        ]
+        /// The number of concurrent executions reserved for this function.
+        public let reservedConcurrentExecutions: Int32?
+
+        public init(reservedConcurrentExecutions: Int32? = nil) {
+            self.reservedConcurrentExecutions = reservedConcurrentExecutions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedConcurrentExecutions = "ReservedConcurrentExecutions"
+        }
+    }
+
     public struct ListVersionsByFunctionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Versions", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -1163,44 +1243,73 @@ extension Lambda {
         }
     }
 
+    public struct PutFunctionConcurrencyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedConcurrentExecutions", required: true, type: .integer), 
+            AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
+        ]
+        /// The concurrent execution limit reserved for this function.
+        public let reservedConcurrentExecutions: Int32
+        /// The name of the function you are setting concurrent execution limits on.
+        public let functionName: String
+
+        public init(reservedConcurrentExecutions: Int32, functionName: String) {
+            self.reservedConcurrentExecutions = reservedConcurrentExecutions
+            self.functionName = functionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedConcurrentExecutions = "ReservedConcurrentExecutions"
+            case functionName = "FunctionName"
+        }
+    }
+
     public struct AccountLimit: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CodeSizeZipped", required: false, type: .long), 
-            AWSShapeMember(label: "CodeSizeUnzipped", required: false, type: .long), 
+            AWSShapeMember(label: "UnreservedConcurrentExecutions", required: false, type: .integer), 
             AWSShapeMember(label: "ConcurrentExecutions", required: false, type: .integer), 
+            AWSShapeMember(label: "CodeSizeUnzipped", required: false, type: .long), 
             AWSShapeMember(label: "TotalCodeSize", required: false, type: .long)
         ]
         /// Size, in bytes, of a single zipped code/dependencies package you can upload for your Lambda function(.zip/.jar file). Try using Amazon S3 for uploading larger files. Default limit is 50 MB.
         public let codeSizeZipped: Int64?
+        /// The number of concurrent executions available to functions that do not have concurrency limits set.
+        public let unreservedConcurrentExecutions: Int32?
+        /// Number of simultaneous executions of your function per region. For more information or to request a limit increase for concurrent executions, see Lambda Function Concurrent Executions. The default limit is 1000.
+        public let concurrentExecutions: Int32?
         /// Size, in bytes, of code/dependencies that you can zip into a deployment package (uncompressed zip/jar size) for uploading. The default limit is 250 MB.
         public let codeSizeUnzipped: Int64?
-        /// Number of simultaneous executions of your function per region. For more information or to request a limit increase for concurrent executions, see Lambda Function Concurrent Executions. The default limit is 100.
-        public let concurrentExecutions: Int32?
         /// Maximum size, in bytes, of a code package you can upload per region. The default size is 75 GB. 
         public let totalCodeSize: Int64?
 
-        public init(codeSizeZipped: Int64? = nil, codeSizeUnzipped: Int64? = nil, concurrentExecutions: Int32? = nil, totalCodeSize: Int64? = nil) {
+        public init(codeSizeZipped: Int64? = nil, unreservedConcurrentExecutions: Int32? = nil, concurrentExecutions: Int32? = nil, codeSizeUnzipped: Int64? = nil, totalCodeSize: Int64? = nil) {
             self.codeSizeZipped = codeSizeZipped
-            self.codeSizeUnzipped = codeSizeUnzipped
+            self.unreservedConcurrentExecutions = unreservedConcurrentExecutions
             self.concurrentExecutions = concurrentExecutions
+            self.codeSizeUnzipped = codeSizeUnzipped
             self.totalCodeSize = totalCodeSize
         }
 
         private enum CodingKeys: String, CodingKey {
             case codeSizeZipped = "CodeSizeZipped"
-            case codeSizeUnzipped = "CodeSizeUnzipped"
+            case unreservedConcurrentExecutions = "UnreservedConcurrentExecutions"
             case concurrentExecutions = "ConcurrentExecutions"
+            case codeSizeUnzipped = "CodeSizeUnzipped"
             case totalCodeSize = "TotalCodeSize"
         }
     }
 
     public struct AliasConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoutingConfig", required: false, type: .structure), 
             AWSShapeMember(label: "FunctionVersion", required: false, type: .string), 
             AWSShapeMember(label: "AliasArn", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
+        /// Specifies an additional function versions the alias points to, allowing you to dictate what percentage of traffic will invoke each version. For more information, see lambda-traffic-shifting-using-aliases.
+        public let routingConfig: AliasRoutingConfiguration?
         /// Function version to which the alias points.
         public let functionVersion: String?
         /// Lambda function ARN that is qualified using the alias name as the suffix. For example, if you create an alias called BETA that points to a helloworld function version, the ARN is arn:aws:lambda:aws-regions:acct-id:function:helloworld:BETA.
@@ -1210,7 +1319,8 @@ extension Lambda {
         /// Alias description.
         public let description: String?
 
-        public init(functionVersion: String? = nil, aliasArn: String? = nil, name: String? = nil, description: String? = nil) {
+        public init(routingConfig: AliasRoutingConfiguration? = nil, functionVersion: String? = nil, aliasArn: String? = nil, name: String? = nil, description: String? = nil) {
+            self.routingConfig = routingConfig
             self.functionVersion = functionVersion
             self.aliasArn = aliasArn
             self.name = name
@@ -1218,6 +1328,7 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case routingConfig = "RoutingConfig"
             case functionVersion = "FunctionVersion"
             case aliasArn = "AliasArn"
             case name = "Name"
@@ -1226,7 +1337,7 @@ extension Lambda {
     }
 
     public struct DeleteAliasRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", location: .uri(locationName: "Name"), required: true, type: .string), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
         ]
@@ -1247,7 +1358,7 @@ extension Lambda {
     }
 
     public struct TracingConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Mode", required: false, type: .enum)
         ]
         /// Can be either PassThrough or Active. If PassThrough, Lambda will only trace the request from an upstream service if it contains a tracing header with "sampled=1". If Active, Lambda will respect any tracing header it receives from an upstream service. If no tracing header is received, Lambda will call X-Ray for a tracing decision.
@@ -1263,7 +1374,7 @@ extension Lambda {
     }
 
     public struct EnvironmentResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Error", required: false, type: .structure), 
             AWSShapeMember(label: "Variables", required: false, type: .map)
         ]
@@ -1283,7 +1394,7 @@ extension Lambda {
     }
 
     public struct ListAliasesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "FunctionVersion", location: .querystring(locationName: "FunctionVersion"), required: false, type: .string), 
@@ -1314,7 +1425,7 @@ extension Lambda {
     }
 
     public struct AccountUsage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionCount", required: false, type: .long), 
             AWSShapeMember(label: "TotalCodeSize", required: false, type: .long)
         ]
@@ -1335,7 +1446,7 @@ extension Lambda {
     }
 
     public struct VpcConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
             AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list)
         ]
@@ -1355,8 +1466,13 @@ extension Lambda {
         }
     }
 
+    public enum FunctionVersion: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteEventSourceMappingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UUID", location: .uri(locationName: "UUID"), required: true, type: .string)
         ]
         /// The event source mapping ID.
@@ -1372,7 +1488,7 @@ extension Lambda {
     }
 
     public struct GetEventSourceMappingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UUID", location: .uri(locationName: "UUID"), required: true, type: .string)
         ]
         /// The AWS Lambda assigned ID of the event source mapping.
@@ -1388,14 +1504,14 @@ extension Lambda {
     }
 
     public struct PublishVersionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "CodeSha256", required: false, type: .string), 
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string)
         ]
         /// The description for the version you are publishing. If not provided, AWS Lambda copies the description from the $LATEST version.
         public let description: String?
-        /// The SHA256 hash of the deployment package you want to publish. This provides validation on the code you are publishing. If you provide this parameter value must match the SHA256 of the $LATEST version for the publication to succeed.
+        /// The SHA256 hash of the deployment package you want to publish. This provides validation on the code you are publishing. If you provide this parameter, the value must match the SHA256 of the $LATEST version for the publication to succeed. You can use the DryRun parameter of UpdateFunctionCode to verify the hash value that will be returned before publishing your new version.
         public let codeSha256: String?
         /// The Lambda function name. You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
@@ -1414,37 +1530,42 @@ extension Lambda {
     }
 
     public struct GetFunctionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Configuration", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .map), 
-            AWSShapeMember(label: "Code", required: false, type: .structure)
+            AWSShapeMember(label: "Concurrency", required: false, type: .structure), 
+            AWSShapeMember(label: "Code", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
         public let configuration: FunctionConfiguration?
+        /// The concurrent execution limit set for this function.
+        public let concurrency: Concurrency?
+        public let code: FunctionCodeLocation?
         /// Returns the list of tags associated with the function.
         public let tags: [String: String]?
-        public let code: FunctionCodeLocation?
 
-        public init(configuration: FunctionConfiguration? = nil, tags: [String: String]? = nil, code: FunctionCodeLocation? = nil) {
+        public init(configuration: FunctionConfiguration? = nil, concurrency: Concurrency? = nil, code: FunctionCodeLocation? = nil, tags: [String: String]? = nil) {
             self.configuration = configuration
-            self.tags = tags
+            self.concurrency = concurrency
             self.code = code
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "Configuration"
-            case tags = "Tags"
+            case concurrency = "Concurrency"
             case code = "Code"
+            case tags = "Tags"
         }
     }
 
     public struct GetFunctionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeMember(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
         /// The Lambda function name.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
-        /// Using this optional parameter to specify a function version or an alias name. If you specify function version, the API uses qualified function ARN for the request and returns information about the specific Lambda function version. If you specify an alias name, the API uses the alias ARN and returns information about the function version to which the alias points. If you don't provide this parameter, the API uses unqualified function ARN and returns information about the $LATEST version of the Lambda function.
+        /// Use this optional parameter to specify a function version or an alias name. If you specify function version, the API uses qualified function ARN for the request and returns information about the specific Lambda function version. If you specify an alias name, the API uses the alias ARN and returns information about the function version to which the alias points. If you don't provide this parameter, the API uses unqualified function ARN and returns information about the $LATEST version of the Lambda function. 
         public let qualifier: String?
 
         public init(functionName: String, qualifier: String? = nil) {
@@ -1459,7 +1580,7 @@ extension Lambda {
     }
 
     public struct ListEventSourceMappingsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSourceMappings", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -1486,7 +1607,7 @@ extension Lambda {
     }
 
     public struct GetAccountSettingsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountUsage", required: false, type: .structure), 
             AWSShapeMember(label: "AccountLimit", required: false, type: .structure)
         ]
@@ -1505,7 +1626,7 @@ extension Lambda {
     }
 
     public struct ListTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", location: .uri(locationName: "ARN"), required: true, type: .string)
         ]
         /// The ARN (Amazon Resource Name) of the function.
@@ -1521,7 +1642,7 @@ extension Lambda {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", location: .uri(locationName: "ARN"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]

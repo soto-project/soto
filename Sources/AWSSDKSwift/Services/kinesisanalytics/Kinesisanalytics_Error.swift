@@ -10,6 +10,7 @@ public enum KinesisanalyticsError: AWSErrorType {
     case concurrentModificationException(message: String?)
     case unableToDetectSchemaException(message: String?)
     case resourceProvisionedThroughputExceededException(message: String?)
+    case serviceUnavailableException(message: String?)
     case invalidApplicationConfigurationException(message: String?)
     case codeValidationException(message: String?)
     case limitExceededException(message: String?)
@@ -34,6 +35,8 @@ extension KinesisanalyticsError {
             self = .unableToDetectSchemaException(message: message)
         case "ResourceProvisionedThroughputExceededException":
             self = .resourceProvisionedThroughputExceededException(message: message)
+        case "ServiceUnavailableException":
+            self = .serviceUnavailableException(message: message)
         case "InvalidApplicationConfigurationException":
             self = .invalidApplicationConfigurationException(message: message)
         case "CodeValidationException":

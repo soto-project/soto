@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Sqs {
 
     public struct ReceiveMessageRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MessageAttributeNames", required: false, type: .structure), 
             AWSShapeMember(label: "VisibilityTimeout", required: false, type: .integer), 
             AWSShapeMember(label: "MaxNumberOfMessages", required: false, type: .integer), 
@@ -27,7 +27,7 @@ extension Sqs {
         public let receiveRequestAttemptId: String?
         /// A list of attributes that need to be returned along with each message. These attributes include:    All - Returns all values.    ApproximateFirstReceiveTimestamp - Returns the time the message was first received from the queue (epoch time in milliseconds).    ApproximateReceiveCount - Returns the number of times a message has been received from the queue but not deleted.    SenderId    For an IAM user, returns the IAM user ID, for example ABCDEFGHI1JKLMNOPQ23R.   For an IAM role, returns the IAM role ID, for example ABCDE1F2GH3I4JK5LMNOP:i-a123b456.      SentTimestamp - Returns the time the message was sent to the queue (epoch time in milliseconds).    MessageDeduplicationId - Returns the value provided by the sender that calls the  SendMessage  action.    MessageGroupId - Returns the value provided by the sender that calls the  SendMessage  action. Messages with the same MessageGroupId are returned in sequence.    SequenceNumber - Returns the value provided by Amazon SQS.   Any other valid special request parameters (such as the following) are ignored:    ApproximateNumberOfMessages     ApproximateNumberOfMessagesDelayed     ApproximateNumberOfMessagesNotVisible     CreatedTimestamp     ContentBasedDeduplication     DelaySeconds     FifoQueue     LastModifiedTimestamp     MaximumMessageSize     MessageRetentionPeriod     Policy     QueueArn,     ReceiveMessageWaitTimeSeconds     RedrivePolicy     VisibilityTimeout   
         public let attributeNames: AttributeNameList?
-        /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds.
+        /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call returns successfully with an empty list of messages.
         public let waitTimeSeconds: Int32?
 
         public init(messageAttributeNames: MessageAttributeNameList? = nil, visibilityTimeout: Int32? = nil, maxNumberOfMessages: Int32? = nil, queueUrl: String, receiveRequestAttemptId: String? = nil, attributeNames: AttributeNameList? = nil, waitTimeSeconds: Int32? = nil) {
@@ -51,8 +51,60 @@ extension Sqs {
         }
     }
 
+    public struct UntagQueueRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .structure)
+        ]
+        /// The URL of the queue.
+        public let queueUrl: String
+        /// The list of tags to be removed from the specified queue.
+        public let tagKeys: TagKeyList
+
+        public init(queueUrl: String, tagKeys: TagKeyList) {
+            self.queueUrl = queueUrl
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queueUrl = "QueueUrl"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct SendMessageResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MD5OfMessageAttributes", required: false, type: .string), 
+            AWSShapeMember(label: "MD5OfMessageBody", required: false, type: .string), 
+            AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
+            AWSShapeMember(label: "MessageId", required: false, type: .string)
+        ]
+        /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see RFC1321.
+        public let mD5OfMessageAttributes: String?
+        /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see RFC1321.
+        public let mD5OfMessageBody: String?
+        /// This parameter applies only to FIFO (first-in-first-out) queues. The large, non-consecutive number that Amazon SQS assigns to each message. The length of SequenceNumber is 128 bits. SequenceNumber continues to increase for a particular MessageGroupId.
+        public let sequenceNumber: String?
+        /// An attribute containing the MessageId of the message sent to the queue. For more information, see Queue and Message Identifiers in the Amazon Simple Queue Service Developer Guide. 
+        public let messageId: String?
+
+        public init(mD5OfMessageAttributes: String? = nil, mD5OfMessageBody: String? = nil, sequenceNumber: String? = nil, messageId: String? = nil) {
+            self.mD5OfMessageAttributes = mD5OfMessageAttributes
+            self.mD5OfMessageBody = mD5OfMessageBody
+            self.sequenceNumber = sequenceNumber
+            self.messageId = messageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mD5OfMessageAttributes = "MD5OfMessageAttributes"
+            case mD5OfMessageBody = "MD5OfMessageBody"
+            case sequenceNumber = "SequenceNumber"
+            case messageId = "MessageId"
+        }
+    }
+
     public struct GetQueueUrlRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueueName", required: true, type: .string), 
             AWSShapeMember(label: "QueueOwnerAWSAccountId", required: false, type: .string)
         ]
@@ -72,39 +124,8 @@ extension Sqs {
         }
     }
 
-    public struct SendMessageResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MD5OfMessageAttributes", required: false, type: .string), 
-            AWSShapeMember(label: "MD5OfMessageBody", required: false, type: .string), 
-            AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
-            AWSShapeMember(label: "MessageId", required: false, type: .string)
-        ]
-        /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see RFC1321.
-        public let mD5OfMessageAttributes: String?
-        /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see RFC1321.
-        public let mD5OfMessageBody: String?
-        /// This parameter applies only to FIFO (first-in-first-out) queues. The large, non-consecutive number that Amazon SQS assigns to each message. The length of SequenceNumber is 128 bits. SequenceNumber continues to increase for a particular MessageGroupId.
-        public let sequenceNumber: String?
-        /// An attribute containing the MessageId of the message sent to the queue. For more information, see Queue and Message Identifiers in the Amazon SQS Developer Guide. 
-        public let messageId: String?
-
-        public init(mD5OfMessageAttributes: String? = nil, mD5OfMessageBody: String? = nil, sequenceNumber: String? = nil, messageId: String? = nil) {
-            self.mD5OfMessageAttributes = mD5OfMessageAttributes
-            self.mD5OfMessageBody = mD5OfMessageBody
-            self.sequenceNumber = sequenceNumber
-            self.messageId = messageId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case mD5OfMessageAttributes = "MD5OfMessageAttributes"
-            case mD5OfMessageBody = "MD5OfMessageBody"
-            case sequenceNumber = "SequenceNumber"
-            case messageId = "MessageId"
-        }
-    }
-
     public struct BinaryList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BinaryListValue", required: false, type: .list)
         ]
         public let binaryListValue: [Data]?
@@ -119,7 +140,7 @@ extension Sqs {
     }
 
     public struct MessageAttributeValue: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BinaryListValues", location: .body(locationName: "BinaryListValue"), required: false, type: .structure), 
             AWSShapeMember(label: "BinaryValue", required: false, type: .blob), 
             AWSShapeMember(label: "StringValue", required: false, type: .string), 
@@ -132,7 +153,7 @@ extension Sqs {
         public let binaryValue: Data?
         /// Strings are Unicode with UTF-8 binary encoding. For a list of code values, see ASCII Printable Characters.
         public let stringValue: String?
-        /// Amazon SQS supports the following logical data types: String, Number, and Binary. For the Number data type, you must use StringValue. You can also append custom labels. For more information, see Message Attribute Data Types and Validation in the Amazon SQS Developer Guide.
+        /// Amazon SQS supports the following logical data types: String, Number, and Binary. For the Number data type, you must use StringValue. You can also append custom labels. For more information, see Message Attribute Data Types and Validation in the Amazon Simple Queue Service Developer Guide.
         public let dataType: String
         /// Not implemented. Reserved for future use.
         public let stringListValues: StringList?
@@ -155,7 +176,7 @@ extension Sqs {
     }
 
     public struct ChangeMessageVisibilityBatchRequestEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VisibilityTimeout", required: false, type: .integer), 
             AWSShapeMember(label: "ReceiptHandle", required: true, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
@@ -181,7 +202,7 @@ extension Sqs {
     }
 
     public struct StringList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StringListValue", required: false, type: .list)
         ]
         public let stringListValue: [String]?
@@ -196,7 +217,7 @@ extension Sqs {
     }
 
     public struct GetQueueUrlResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueueUrl", required: false, type: .string)
         ]
         /// The URL of the queue.
@@ -212,7 +233,7 @@ extension Sqs {
     }
 
     public struct ActionNameList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActionName", required: false, type: .list)
         ]
         public let actionName: [String]?
@@ -227,7 +248,7 @@ extension Sqs {
     }
 
     public struct ChangeMessageVisibilityBatchRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Entries", required: true, type: .structure), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
@@ -248,7 +269,7 @@ extension Sqs {
     }
 
     public struct Message: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReceiptHandle", required: false, type: .string), 
             AWSShapeMember(label: "MessageId", required: false, type: .string), 
             AWSShapeMember(label: "MD5OfMessageAttributes", required: false, type: .string), 
@@ -269,7 +290,7 @@ extension Sqs {
         public let body: String?
         /// An MD5 digest of the non-URL-encoded message body string.
         public let mD5OfBody: String?
-        /// Each message attribute consists of a Name, Type, and Value. For more information, see Message Attribute Items and Validation in the Amazon SQS Developer Guide.
+        /// Each message attribute consists of a Name, Type, and Value. For more information, see Message Attribute Items and Validation in the Amazon Simple Queue Service Developer Guide.
         public let messageAttributes: [String: MessageAttributeValue]?
 
         public init(receiptHandle: String? = nil, messageId: String? = nil, mD5OfMessageAttributes: String? = nil, attributes: [MessageSystemAttributeName: String]? = nil, body: String? = nil, mD5OfBody: String? = nil, messageAttributes: [String: MessageAttributeValue]? = nil) {
@@ -294,7 +315,7 @@ extension Sqs {
     }
 
     public struct MessageAttributeNameList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MessageAttributeName", required: false, type: .list)
         ]
         public let messageAttributeName: [String]?
@@ -309,7 +330,7 @@ extension Sqs {
     }
 
     public struct DeleteMessageBatchResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Successful", required: true, type: .structure), 
             AWSShapeMember(label: "Failed", required: true, type: .structure)
         ]
@@ -330,7 +351,7 @@ extension Sqs {
     }
 
     public struct ReceiveMessageResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Messages", required: false, type: .structure)
         ]
         /// A list of messages.
@@ -345,8 +366,24 @@ extension Sqs {
         }
     }
 
+    public struct ListQueueTagsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .map)
+        ]
+        /// The list of all tags added to the specified queue.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tag"
+        }
+    }
+
     public struct SendMessageRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DelaySeconds", required: false, type: .integer), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string), 
             AWSShapeMember(label: "MessageGroupId", required: false, type: .string), 
@@ -360,11 +397,11 @@ extension Sqs {
         public let queueUrl: String
         /// This parameter applies only to FIFO (first-in-first-out) queues. The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single queue, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple readers can process the queue, but the session data of each user is processed in a FIFO fashion.   You must associate a non-empty MessageGroupId with a message. If you don't provide a MessageGroupId, the action fails.    ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId, the messages are sorted by time sent. The caller can't specify a MessageGroupId.   The length of MessageGroupId is 128 characters. Valid values are alphanumeric characters and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~). For best practices of using MessageGroupId, see Using the MessageGroupId Property in the Amazon Simple Queue Service Developer Guide.   MessageGroupId is required for FIFO queues. You can't use it for Standard queues. 
         public let messageGroupId: String?
-        /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of sent messages. If a message with a particular MessageDeduplicationId is sent successfully, any messages sent with the same MessageDeduplicationId are accepted successfully but aren't delivered during the 5-minute deduplication interval. For more information, see  Exactly-Once Processing in the Amazon SQS Developer Guide.   Every message must have a unique MessageDeduplicationId,   You may provide a MessageDeduplicationId explicitly.   If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.   If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.   If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.     The MessageDeduplicationId is available to the recipient of the message (this can be useful for troubleshooting delivery issues). If a message is sent successfully but the acknowledgement is lost and the message is resent with the same MessageDeduplicationId after the deduplication interval, Amazon SQS can't detect duplicate messages.  The length of MessageDeduplicationId is 128 characters. MessageDeduplicationId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~). For best practices of using MessageDeduplicationId, see Using the MessageDeduplicationId Property in the Amazon Simple Queue Service Developer Guide.
+        /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of sent messages. If a message with a particular MessageDeduplicationId is sent successfully, any messages sent with the same MessageDeduplicationId are accepted successfully but aren't delivered during the 5-minute deduplication interval. For more information, see  Exactly-Once Processing in the Amazon Simple Queue Service Developer Guide.   Every message must have a unique MessageDeduplicationId,   You may provide a MessageDeduplicationId explicitly.   If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.   If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.   If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.     The MessageDeduplicationId is available to the recipient of the message (this can be useful for troubleshooting delivery issues). If a message is sent successfully but the acknowledgement is lost and the message is resent with the same MessageDeduplicationId after the deduplication interval, Amazon SQS can't detect duplicate messages.  The length of MessageDeduplicationId is 128 characters. MessageDeduplicationId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~). For best practices of using MessageDeduplicationId, see Using the MessageDeduplicationId Property in the Amazon Simple Queue Service Developer Guide.
         public let messageDeduplicationId: String?
         /// The message to send. The maximum string size is 256 KB.  A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed:  #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF  Any characters not included in this list will be rejected. For more information, see the W3C specification for characters. 
         public let messageBody: String
-        /// Each message attribute consists of a Name, Type, and Value. For more information, see Message Attribute Items and Validation in the Amazon SQS Developer Guide.
+        /// Each message attribute consists of a Name, Type, and Value. For more information, see Message Attribute Items and Validation in the Amazon Simple Queue Service Developer Guide.
         public let messageAttributes: [String: MessageAttributeValue]?
 
         public init(delaySeconds: Int32? = nil, queueUrl: String, messageGroupId: String? = nil, messageDeduplicationId: String? = nil, messageBody: String, messageAttributes: [String: MessageAttributeValue]? = nil) {
@@ -387,7 +424,7 @@ extension Sqs {
     }
 
     public struct AddPermissionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Label", required: true, type: .string), 
             AWSShapeMember(label: "AWSAccountIds", required: true, type: .structure), 
             AWSShapeMember(label: "Actions", required: true, type: .structure), 
@@ -395,9 +432,9 @@ extension Sqs {
         ]
         /// The unique identification of the permission you're setting (for example, AliceSendMessage). Maximum 80 characters. Allowed characters include alphanumeric characters, hyphens (-), and underscores (_).
         public let label: String
-        /// The AWS account number of the principal who is given permission. The principal must have an AWS account, but does not need to be signed up for Amazon SQS. For information about locating the AWS account identification, see Your AWS Identifiers in the Amazon SQS Developer Guide.
+        /// The AWS account number of the principal who is given permission. The principal must have an AWS account, but does not need to be signed up for Amazon SQS. For information about locating the AWS account identification, see Your AWS Identifiers in the Amazon Simple Queue Service Developer Guide.
         public let aWSAccountIds: AWSAccountIdList
-        /// The action the client wants to allow for the specified principal. The following values are valid:    *     ChangeMessageVisibility     DeleteMessage     GetQueueAttributes     GetQueueUrl     ReceiveMessage     SendMessage    For more information about these actions, see Understanding Permissions in the Amazon SQS Developer Guide. Specifying SendMessage, DeleteMessage, or ChangeMessageVisibility for ActionName.n also grants permissions for the corresponding batch versions of those actions: SendMessageBatch, DeleteMessageBatch, and ChangeMessageVisibilityBatch.
+        /// The action the client wants to allow for the specified principal. The following values are valid:    *     ChangeMessageVisibility     DeleteMessage     GetQueueAttributes     GetQueueUrl     ReceiveMessage     SendMessage    For more information about these actions, see Understanding Permissions in the Amazon Simple Queue Service Developer Guide. Specifying SendMessage, DeleteMessage, or ChangeMessageVisibility for ActionName.n also grants permissions for the corresponding batch versions of those actions: SendMessageBatch, DeleteMessageBatch, and ChangeMessageVisibilityBatch.
         public let actions: ActionNameList
         /// The URL of the Amazon SQS queue to which permissions are added. Queue URLs are case-sensitive.
         public let queueUrl: String
@@ -418,13 +455,13 @@ extension Sqs {
     }
 
     public struct CreateQueueRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueueName", required: true, type: .string), 
             AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .map)
         ]
         /// The name of the new queue. The following limits apply to this name:   A queue name can have up to 80 characters.   Valid values: alphanumeric characters, hyphens (-), and underscores (_).   A FIFO queue name must end with the .fifo suffix.   Queue names are case-sensitive.
         public let queueName: String
-        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateQueue action uses:    DelaySeconds - The length of time, in seconds, for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 seconds (15 minutes). The default is 0 (zero).     MaximumMessageSize - The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) to 262,144 bytes (256 KiB). The default is 262,144 (256 KiB).     MessageRetentionPeriod - The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer from 60 seconds (1 minute) to 1,209,600 seconds (14 days). The default is 345,600 (4 days).     Policy - The queue's policy. A valid AWS policy. For more information about policy structure, see Overview of AWS IAM Policies in the Amazon IAM User Guide.     ReceiveMessageWaitTimeSeconds - The length of time, in seconds, for which a  ReceiveMessage  action waits for a message to arrive. Valid values: An integer from 0 to 20 (seconds). The default is 0 (zero).     RedrivePolicy - The parameters for the dead letter queue functionality of the source queue. For more information about the redrive policy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide.   The dead letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead letter queue of a standard queue must also be a standard queue.     VisibilityTimeout - The visibility timeout for the queue. Valid values: An integer from 0 to 43,200 (12 hours). The default is 30. For more information about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide.   The following attributes apply only to server-side-encryption:    KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see Key Terms. While the alias of the AWS-managed CMK for Amazon SQS is always alias/aws/sqs, the alias of a custom CMK can, for example, be alias/aws/sqs. For more examples, see KeyId in the AWS Key Management Service API Reference.     KmsDataKeyReusePeriodSeconds - The length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). The default is 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which incur charges after Free Tier. For more information, see How Does the Data Key Reuse Period Work?.    The following attributes apply only to FIFO (first-in-first-out) queues:    FifoQueue - Designates a queue as FIFO. Valid values: true, false. You can provide this attribute only during queue creation. You can't change it for an existing queue. When you set this attribute, you must also provide the MessageGroupId for your messages explicitly. For more information, see FIFO Queue Logic in the Amazon SQS Developer Guide.    ContentBasedDeduplication - Enables content-based deduplication. Valid values: true, false. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide.    Every message must have a unique MessageDeduplicationId,   You may provide a MessageDeduplicationId explicitly.   If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.   If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.   If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.      Any other valid special request parameters (such as the following) are ignored:    ApproximateNumberOfMessages     ApproximateNumberOfMessagesDelayed     ApproximateNumberOfMessagesNotVisible     CreatedTimestamp     LastModifiedTimestamp     QueueArn   
+        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateQueue action uses:    DelaySeconds - The length of time, in seconds, for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 seconds (15 minutes). The default is 0 (zero).     MaximumMessageSize - The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) to 262,144 bytes (256 KiB). The default is 262,144 (256 KiB).     MessageRetentionPeriod - The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer from 60 seconds (1 minute) to 1,209,600 seconds (14 days). The default is 345,600 (4 days).     Policy - The queue's policy. A valid AWS policy. For more information about policy structure, see Overview of AWS IAM Policies in the Amazon IAM User Guide.     ReceiveMessageWaitTimeSeconds - The length of time, in seconds, for which a  ReceiveMessage  action waits for a message to arrive. Valid values: An integer from 0 to 20 (seconds). The default is 0 (zero).     RedrivePolicy - The string that includes the parameters for the dead-letter queue functionality of the source queue. For more information about the redrive policy and dead-letter queues, see Using Amazon SQS Dead-Letter Queues in the Amazon Simple Queue Service Developer Guide.     deadLetterTargetArn - The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.    maxReceiveCount - The number of times a message is delivered to the source queue before being moved to the dead-letter queue.    The dead-letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter queue of a standard queue must also be a standard queue.     VisibilityTimeout - The visibility timeout for the queue. Valid values: An integer from 0 to 43,200 (12 hours). The default is 30. For more information about the visibility timeout, see Visibility Timeout in the Amazon Simple Queue Service Developer Guide.   The following attributes apply only to server-side-encryption:    KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see Key Terms. While the alias of the AWS-managed CMK for Amazon SQS is always alias/aws/sqs, the alias of a custom CMK can, for example, be alias/MyAlias . For more examples, see KeyId in the AWS Key Management Service API Reference.     KmsDataKeyReusePeriodSeconds - The length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). The default is 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which might incur charges after Free Tier. For more information, see How Does the Data Key Reuse Period Work?.    The following attributes apply only to FIFO (first-in-first-out) queues:    FifoQueue - Designates a queue as FIFO. Valid values: true, false. You can provide this attribute only during queue creation. You can't change it for an existing queue. When you set this attribute, you must also provide the MessageGroupId for your messages explicitly. For more information, see FIFO Queue Logic in the Amazon Simple Queue Service Developer Guide.    ContentBasedDeduplication - Enables content-based deduplication. Valid values: true, false. For more information, see Exactly-Once Processing in the Amazon Simple Queue Service Developer Guide.    Every message must have a unique MessageDeduplicationId,   You may provide a MessageDeduplicationId explicitly.   If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.   If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.   If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.      Any other valid special request parameters (such as the following) are ignored:    ApproximateNumberOfMessages     ApproximateNumberOfMessagesDelayed     ApproximateNumberOfMessagesNotVisible     CreatedTimestamp     LastModifiedTimestamp     QueueArn   
         public let attributes: [QueueAttributeName: String]?
 
         public init(queueName: String, attributes: [QueueAttributeName: String]? = nil) {
@@ -439,10 +476,10 @@ extension Sqs {
     }
 
     public struct ListDeadLetterSourceQueuesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "queueUrls", required: true, type: .structure)
         ]
-        /// A list of source queue URLs that have the RedrivePolicy queue attribute configured with a dead letter queue.
+        /// A list of source queue URLs that have the RedrivePolicy queue attribute configured with a dead-letter queue.
         public let queueUrls: QueueUrlList
 
         public init(queueUrls: QueueUrlList) {
@@ -455,7 +492,7 @@ extension Sqs {
     }
 
     public struct AWSAccountIdList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AWSAccountId", required: false, type: .list)
         ]
         public let aWSAccountId: [String]?
@@ -470,7 +507,7 @@ extension Sqs {
     }
 
     public struct QueueUrlList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueueUrl", required: false, type: .list)
         ]
         public let queueUrl: [String]?
@@ -507,7 +544,7 @@ extension Sqs {
     }
 
     public struct ListQueuesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueueNamePrefix", required: false, type: .string)
         ]
         /// A string to use for filtering the list results. Only those queues whose name begins with the specified string are returned. Queue names are case-sensitive.
@@ -523,7 +560,7 @@ extension Sqs {
     }
 
     public struct RemovePermissionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueueUrl", required: true, type: .string), 
             AWSShapeMember(label: "Label", required: true, type: .string)
         ]
@@ -544,7 +581,7 @@ extension Sqs {
     }
 
     public struct SendMessageBatchResultEntryList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SendMessageBatchResultEntry", required: false, type: .list)
         ]
         public let sendMessageBatchResultEntry: [SendMessageBatchResultEntry]?
@@ -559,7 +596,7 @@ extension Sqs {
     }
 
     public struct ChangeMessageVisibilityBatchResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Successful", required: true, type: .structure), 
             AWSShapeMember(label: "Failed", required: true, type: .structure)
         ]
@@ -580,7 +617,7 @@ extension Sqs {
     }
 
     public struct DeleteMessageBatchResultEntryList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeleteMessageBatchResultEntry", required: false, type: .list)
         ]
         public let deleteMessageBatchResultEntry: [DeleteMessageBatchResultEntry]?
@@ -594,8 +631,29 @@ extension Sqs {
         }
     }
 
+    public struct TagQueueRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .map), 
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
+        ]
+        /// The list of tags to be added to the specified queue.
+        public let tags: [String: String]
+        /// The URL of the queue.
+        public let queueUrl: String
+
+        public init(tags: [String: String], queueUrl: String) {
+            self.tags = tags
+            self.queueUrl = queueUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case queueUrl = "QueueUrl"
+        }
+    }
+
     public struct MessageList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Message", required: false, type: .list)
         ]
         public let message: [Message]?
@@ -609,24 +667,8 @@ extension Sqs {
         }
     }
 
-    public struct ListDeadLetterSourceQueuesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
-        ]
-        /// The URL of a dead letter queue. Queue URLs are case-sensitive.
-        public let queueUrl: String
-
-        public init(queueUrl: String) {
-            self.queueUrl = queueUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case queueUrl = "QueueUrl"
-        }
-    }
-
     public struct SendMessageBatchResultEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MD5OfMessageAttributes", required: false, type: .string), 
             AWSShapeMember(label: "MD5OfMessageBody", required: true, type: .string), 
             AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
@@ -662,11 +704,11 @@ extension Sqs {
     }
 
     public struct SetQueueAttributesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: true, type: .map), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
-        /// A map of attributes to set. The following lists the names, descriptions, and values of the special request parameters that the SetQueueAttributes action uses:    DelaySeconds - The length of time, in seconds, for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 (15 minutes). The default is 0 (zero).     MaximumMessageSize - The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) up to 262,144 bytes (256 KiB). The default is 262,144 (256 KiB).     MessageRetentionPeriod - The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer representing seconds, from 60 (1 minute) to 1,209,600 (14 days). The default is 345,600 (4 days).     Policy - The queue's policy. A valid AWS policy. For more information about policy structure, see Overview of AWS IAM Policies in the Amazon IAM User Guide.     ReceiveMessageWaitTimeSeconds - The length of time, in seconds, for which a  ReceiveMessage  action waits for a message to arrive. Valid values: an integer from 0 to 20 (seconds). The default is 0.     RedrivePolicy - The parameters for the dead letter queue functionality of the source queue. For more information about the redrive policy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide.   The dead letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead letter queue of a standard queue must also be a standard queue.     VisibilityTimeout - The visibility timeout for the queue. Valid values: an integer from 0 to 43,200 (12 hours). The default is 30. For more information about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide.   The following attributes apply only to server-side-encryption:    KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see Key Terms. While the alias of the AWS-managed CMK for Amazon SQS is always alias/aws/sqs, the alias of a custom CMK can, for example, be alias/aws/sqs. For more examples, see KeyId in the AWS Key Management Service API Reference.     KmsDataKeyReusePeriodSeconds - The length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). The default is 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which incur charges after Free Tier. For more information, see How Does the Data Key Reuse Period Work?.    The following attribute applies only to FIFO (first-in-first-out) queues:    ContentBasedDeduplication - Enables content-based deduplication. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide.    Every message must have a unique MessageDeduplicationId,   You may provide a MessageDeduplicationId explicitly.   If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.   If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.   If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.      Any other valid special request parameters (such as the following) are ignored:    ApproximateNumberOfMessages     ApproximateNumberOfMessagesDelayed     ApproximateNumberOfMessagesNotVisible     CreatedTimestamp     LastModifiedTimestamp     QueueArn   
+        /// A map of attributes to set. The following lists the names, descriptions, and values of the special request parameters that the SetQueueAttributes action uses:    DelaySeconds - The length of time, in seconds, for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 (15 minutes). The default is 0 (zero).     MaximumMessageSize - The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) up to 262,144 bytes (256 KiB). The default is 262,144 (256 KiB).     MessageRetentionPeriod - The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer representing seconds, from 60 (1 minute) to 1,209,600 (14 days). The default is 345,600 (4 days).     Policy - The queue's policy. A valid AWS policy. For more information about policy structure, see Overview of AWS IAM Policies in the Amazon IAM User Guide.     ReceiveMessageWaitTimeSeconds - The length of time, in seconds, for which a  ReceiveMessage  action waits for a message to arrive. Valid values: an integer from 0 to 20 (seconds). The default is 0.     RedrivePolicy - The string that includes the parameters for the dead-letter queue functionality of the source queue. For more information about the redrive policy and dead-letter queues, see Using Amazon SQS Dead-Letter Queues in the Amazon Simple Queue Service Developer Guide.     deadLetterTargetArn - The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.    maxReceiveCount - The number of times a message is delivered to the source queue before being moved to the dead-letter queue.    The dead-letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead-letter queue of a standard queue must also be a standard queue.     VisibilityTimeout - The visibility timeout for the queue. Valid values: an integer from 0 to 43,200 (12 hours). The default is 30. For more information about the visibility timeout, see Visibility Timeout in the Amazon Simple Queue Service Developer Guide.   The following attributes apply only to server-side-encryption:    KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see Key Terms. While the alias of the AWS-managed CMK for Amazon SQS is always alias/aws/sqs, the alias of a custom CMK can, for example, be alias/MyAlias . For more examples, see KeyId in the AWS Key Management Service API Reference.     KmsDataKeyReusePeriodSeconds - The length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). The default is 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which might incur charges after Free Tier. For more information, see How Does the Data Key Reuse Period Work?.    The following attribute applies only to FIFO (first-in-first-out) queues:    ContentBasedDeduplication - Enables content-based deduplication. For more information, see Exactly-Once Processing in the Amazon Simple Queue Service Developer Guide.    Every message must have a unique MessageDeduplicationId,   You may provide a MessageDeduplicationId explicitly.   If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.   If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.   If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.      Any other valid special request parameters (such as the following) are ignored:    ApproximateNumberOfMessages     ApproximateNumberOfMessagesDelayed     ApproximateNumberOfMessagesNotVisible     CreatedTimestamp     LastModifiedTimestamp     QueueArn   
         public let attributes: [QueueAttributeName: String]
         /// The URL of the Amazon SQS queue whose attributes are set. Queue URLs are case-sensitive.
         public let queueUrl: String
@@ -683,7 +725,7 @@ extension Sqs {
     }
 
     public struct AttributeNameList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeName", required: false, type: .list)
         ]
         public let attributeName: [QueueAttributeName]?
@@ -698,7 +740,7 @@ extension Sqs {
     }
 
     public struct GetQueueAttributesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", location: .body(locationName: "Attribute"), required: false, type: .map)
         ]
         /// A map of attributes to their respective values.
@@ -713,8 +755,24 @@ extension Sqs {
         }
     }
 
+    public struct ListDeadLetterSourceQueuesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
+        ]
+        /// The URL of a dead-letter queue. Queue URLs are case-sensitive.
+        public let queueUrl: String
+
+        public init(queueUrl: String) {
+            self.queueUrl = queueUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queueUrl = "QueueUrl"
+        }
+    }
+
     public struct CreateQueueResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueueUrl", required: false, type: .string)
         ]
         /// The URL of the created Amazon SQS queue.
@@ -730,7 +788,7 @@ extension Sqs {
     }
 
     public struct ListQueuesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueueUrls", required: false, type: .structure)
         ]
         /// A list of queue URLs, up to 1,000 entries.
@@ -746,7 +804,7 @@ extension Sqs {
     }
 
     public struct ChangeMessageVisibilityRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VisibilityTimeout", required: true, type: .integer), 
             AWSShapeMember(label: "ReceiptHandle", required: true, type: .string), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string)
@@ -772,7 +830,7 @@ extension Sqs {
     }
 
     public struct ChangeMessageVisibilityBatchRequestEntryList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeMessageVisibilityBatchRequestEntry", required: false, type: .list)
         ]
         public let changeMessageVisibilityBatchRequestEntry: [ChangeMessageVisibilityBatchRequestEntry]?
@@ -798,7 +856,7 @@ extension Sqs {
     }
 
     public struct DeleteMessageBatchRequestEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReceiptHandle", required: true, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
@@ -819,7 +877,7 @@ extension Sqs {
     }
 
     public struct BatchResultErrorEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: true, type: .string), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "SenderFault", required: true, type: .boolean), 
@@ -850,7 +908,7 @@ extension Sqs {
     }
 
     public struct ChangeMessageVisibilityBatchResultEntryList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChangeMessageVisibilityBatchResultEntry", required: false, type: .list)
         ]
         public let changeMessageVisibilityBatchResultEntry: [ChangeMessageVisibilityBatchResultEntry]?
@@ -865,7 +923,7 @@ extension Sqs {
     }
 
     public struct DeleteMessageRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReceiptHandle", required: true, type: .string), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
@@ -886,7 +944,7 @@ extension Sqs {
     }
 
     public struct ChangeMessageVisibilityBatchResultEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// Represents a message whose visibility timeout has been changed successfully.
@@ -901,8 +959,24 @@ extension Sqs {
         }
     }
 
+    public struct ListQueueTagsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueueUrl", required: true, type: .string)
+        ]
+        /// The URL of the queue.
+        public let queueUrl: String
+
+        public init(queueUrl: String) {
+            self.queueUrl = queueUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queueUrl = "QueueUrl"
+        }
+    }
+
     public struct SendMessageBatchRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Entries", required: true, type: .structure), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
@@ -923,7 +997,7 @@ extension Sqs {
     }
 
     public struct PurgeQueueRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// The URL of the queue from which the PurgeQueue action deletes messages. Queue URLs are case-sensitive.
@@ -939,7 +1013,7 @@ extension Sqs {
     }
 
     public struct DeleteMessageBatchRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Entries", required: true, type: .structure), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
@@ -960,11 +1034,11 @@ extension Sqs {
     }
 
     public struct GetQueueAttributesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeNames", required: false, type: .structure), 
             AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
-        /// A list of attributes for which to retrieve information.  In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully.  The following attributes are supported:    All - Returns all values.     ApproximateNumberOfMessages - Returns the approximate number of visible messages in a queue. For more information, see Resources Required to Process Messages in the Amazon SQS Developer Guide.     ApproximateNumberOfMessagesDelayed - Returns the approximate number of messages that are waiting to be added to the queue.     ApproximateNumberOfMessagesNotVisible - Returns the approximate number of messages that have not timed-out and aren't deleted. For more information, see Resources Required to Process Messages in the Amazon SQS Developer Guide.     CreatedTimestamp - Returns the time when the queue was created in seconds (epoch time).    DelaySeconds - Returns the default delay on the queue in seconds.    LastModifiedTimestamp - Returns the time when the queue was last changed in seconds (epoch time).    MaximumMessageSize - Returns the limit of how many bytes a message can contain before Amazon SQS rejects it.    MessageRetentionPeriod - Returns the length of time, in seconds, for which Amazon SQS retains a message.    Policy - Returns the policy of the queue.    QueueArn - Returns the Amazon resource name (ARN) of the queue.    ReceiveMessageWaitTimeSeconds - Returns the length of time, in seconds, for which the ReceiveMessage action waits for a message to arrive.     RedrivePolicy - Returns the parameters for dead letter queue functionality of the source queue. For more information about the redrive policy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide.     VisibilityTimeout - Returns the visibility timeout for the queue. For more information about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide.    The following attributes apply only to server-side-encryption:    KmsMasterKeyId - Returns the ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see Key Terms.     KmsDataKeyReusePeriodSeconds - Returns the length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again.    The following attributes apply only to FIFO (first-in-first-out) queues:    FifoQueue - Returns whether the queue is FIFO. For more information, see FIFO Queue Logic in the Amazon SQS Developer Guide.  To determine whether a queue is FIFO, you can check whether QueueName ends with the .fifo suffix.     ContentBasedDeduplication - Returns whether content-based deduplication is enabled for the queue. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide.   
+        /// A list of attributes for which to retrieve information.  In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully.  The following attributes are supported:    All - Returns all values.     ApproximateNumberOfMessages - Returns the approximate number of visible messages in a queue. For more information, see Resources Required to Process Messages in the Amazon Simple Queue Service Developer Guide.     ApproximateNumberOfMessagesDelayed - Returns the approximate number of messages that are waiting to be added to the queue.     ApproximateNumberOfMessagesNotVisible - Returns the approximate number of messages that have not timed-out and aren't deleted. For more information, see Resources Required to Process Messages in the Amazon Simple Queue Service Developer Guide.     CreatedTimestamp - Returns the time when the queue was created in seconds (epoch time).    DelaySeconds - Returns the default delay on the queue in seconds.    LastModifiedTimestamp - Returns the time when the queue was last changed in seconds (epoch time).    MaximumMessageSize - Returns the limit of how many bytes a message can contain before Amazon SQS rejects it.    MessageRetentionPeriod - Returns the length of time, in seconds, for which Amazon SQS retains a message.    Policy - Returns the policy of the queue.    QueueArn - Returns the Amazon resource name (ARN) of the queue.    ReceiveMessageWaitTimeSeconds - Returns the length of time, in seconds, for which the ReceiveMessage action waits for a message to arrive.     RedrivePolicy - Returns the string that includes the parameters for dead-letter queue functionality of the source queue. For more information about the redrive policy and dead-letter queues, see Using Amazon SQS Dead-Letter Queues in the Amazon Simple Queue Service Developer Guide.     deadLetterTargetArn - The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.    maxReceiveCount - The number of times a message is delivered to the source queue before being moved to the dead-letter queue.      VisibilityTimeout - Returns the visibility timeout for the queue. For more information about the visibility timeout, see Visibility Timeout in the Amazon Simple Queue Service Developer Guide.    The following attributes apply only to server-side-encryption:    KmsMasterKeyId - Returns the ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see Key Terms.     KmsDataKeyReusePeriodSeconds - Returns the length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again. For more information, see How Does the Data Key Reuse Period Work?.    The following attributes apply only to FIFO (first-in-first-out) queues:    FifoQueue - Returns whether the queue is FIFO. For more information, see FIFO Queue Logic in the Amazon Simple Queue Service Developer Guide.  To determine whether a queue is FIFO, you can check whether QueueName ends with the .fifo suffix.     ContentBasedDeduplication - Returns whether content-based deduplication is enabled for the queue. For more information, see Exactly-Once Processing in the Amazon Simple Queue Service Developer Guide.   
         public let attributeNames: AttributeNameList?
         /// The URL of the Amazon SQS queue whose attribute information is retrieved. Queue URLs are case-sensitive.
         public let queueUrl: String
@@ -981,7 +1055,7 @@ extension Sqs {
     }
 
     public struct BatchResultErrorEntryList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchResultErrorEntry", required: false, type: .list)
         ]
         public let batchResultErrorEntry: [BatchResultErrorEntry]?
@@ -996,7 +1070,7 @@ extension Sqs {
     }
 
     public struct DeleteQueueRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueueUrl", required: true, type: .string)
         ]
         /// The URL of the Amazon SQS queue to delete. Queue URLs are case-sensitive.
@@ -1011,8 +1085,23 @@ extension Sqs {
         }
     }
 
+    public struct TagKeyList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagKey", required: false, type: .list)
+        ]
+        public let tagKey: [String]?
+
+        public init(tagKey: [String]? = nil) {
+            self.tagKey = tagKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKey = "TagKey"
+        }
+    }
+
     public struct SendMessageBatchRequestEntryList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SendMessageBatchRequestEntry", required: false, type: .list)
         ]
         public let sendMessageBatchRequestEntry: [SendMessageBatchRequestEntry]?
@@ -1027,7 +1116,7 @@ extension Sqs {
     }
 
     public struct DeleteMessageBatchRequestEntryList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeleteMessageBatchRequestEntry", required: false, type: .list)
         ]
         public let deleteMessageBatchRequestEntry: [DeleteMessageBatchRequestEntry]?
@@ -1042,7 +1131,7 @@ extension Sqs {
     }
 
     public struct SendMessageBatchRequestEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DelaySeconds", required: false, type: .integer), 
             AWSShapeMember(label: "MessageAttributes", location: .body(locationName: "MessageAttribute"), required: false, type: .map), 
             AWSShapeMember(label: "MessageGroupId", required: false, type: .string), 
@@ -1052,11 +1141,11 @@ extension Sqs {
         ]
         /// The length of time, in seconds, for which a specific message is delayed. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue is applied.   When you set FifoQueue, you can't set DelaySeconds per message. You can set this parameter only on a queue level. 
         public let delaySeconds: Int32?
-        /// Each message attribute consists of a Name, Type, and Value. For more information, see Message Attribute Items and Validation in the Amazon SQS Developer Guide.
+        /// Each message attribute consists of a Name, Type, and Value. For more information, see Message Attribute Items and Validation in the Amazon Simple Queue Service Developer Guide.
         public let messageAttributes: [String: MessageAttributeValue]?
         /// This parameter applies only to FIFO (first-in-first-out) queues. The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single queue, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple readers can process the queue, but the session data of each user is processed in a FIFO fashion.   You must associate a non-empty MessageGroupId with a message. If you don't provide a MessageGroupId, the action fails.    ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId, the messages are sorted by time sent. The caller can't specify a MessageGroupId.   The length of MessageGroupId is 128 characters. Valid values are alphanumeric characters and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~). For best practices of using MessageGroupId, see Using the MessageGroupId Property in the Amazon Simple Queue Service Developer Guide.   MessageGroupId is required for FIFO queues. You can't use it for Standard queues. 
         public let messageGroupId: String?
-        /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of messages within a 5-minute minimum deduplication interval. If a message with a particular MessageDeduplicationId is sent successfully, subsequent messages with the same MessageDeduplicationId are accepted successfully but aren't delivered. For more information, see  Exactly-Once Processing in the Amazon SQS Developer Guide.   Every message must have a unique MessageDeduplicationId,   You may provide a MessageDeduplicationId explicitly.   If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.   If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.   If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.     The MessageDeduplicationId is available to the recipient of the message (this can be useful for troubleshooting delivery issues). If a message is sent successfully but the acknowledgement is lost and the message is resent with the same MessageDeduplicationId after the deduplication interval, Amazon SQS can't detect duplicate messages.  The length of MessageDeduplicationId is 128 characters. MessageDeduplicationId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~). For best practices of using MessageDeduplicationId, see Using the MessageDeduplicationId Property in the Amazon Simple Queue Service Developer Guide.
+        /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of messages within a 5-minute minimum deduplication interval. If a message with a particular MessageDeduplicationId is sent successfully, subsequent messages with the same MessageDeduplicationId are accepted successfully but aren't delivered. For more information, see  Exactly-Once Processing in the Amazon Simple Queue Service Developer Guide.   Every message must have a unique MessageDeduplicationId,   You may provide a MessageDeduplicationId explicitly.   If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.   If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.   If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates and only one copy of the message is delivered.     The MessageDeduplicationId is available to the recipient of the message (this can be useful for troubleshooting delivery issues). If a message is sent successfully but the acknowledgement is lost and the message is resent with the same MessageDeduplicationId after the deduplication interval, Amazon SQS can't detect duplicate messages.  The length of MessageDeduplicationId is 128 characters. MessageDeduplicationId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~). For best practices of using MessageDeduplicationId, see Using the MessageDeduplicationId Property in the Amazon Simple Queue Service Developer Guide.
         public let messageDeduplicationId: String?
         /// The body of the message.
         public let messageBody: String
@@ -1083,7 +1172,7 @@ extension Sqs {
     }
 
     public struct DeleteMessageBatchResultEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// Represents a successfully deleted message.
@@ -1099,7 +1188,7 @@ extension Sqs {
     }
 
     public struct SendMessageBatchResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Successful", required: true, type: .structure), 
             AWSShapeMember(label: "Failed", required: true, type: .structure)
         ]

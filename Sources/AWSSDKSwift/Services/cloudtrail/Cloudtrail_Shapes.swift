@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Cloudtrail {
 
     public struct PublicKey: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ValidityEndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Fingerprint", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .blob), 
@@ -37,7 +37,7 @@ extension Cloudtrail {
     }
 
     public struct CreateTrailResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
             AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
@@ -112,7 +112,7 @@ extension Cloudtrail {
     }
 
     public struct AddTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "TagsList", required: false, type: .list)
         ]
@@ -137,7 +137,7 @@ extension Cloudtrail {
     }
 
     public struct ListPublicKeysRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
@@ -163,7 +163,7 @@ extension Cloudtrail {
     }
 
     public struct LookupEventsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "LookupAttributes", required: false, type: .list), 
@@ -199,7 +199,7 @@ extension Cloudtrail {
     }
 
     public struct DataResource: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
@@ -220,7 +220,7 @@ extension Cloudtrail {
     }
 
     public struct PutEventSelectorsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSelectors", required: true, type: .list), 
             AWSShapeMember(label: "TrailName", required: true, type: .string)
         ]
@@ -241,7 +241,7 @@ extension Cloudtrail {
     }
 
     public struct RemoveTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "TagsList", required: false, type: .list)
         ]
@@ -262,7 +262,7 @@ extension Cloudtrail {
     }
 
     public struct ListTagsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceTagList", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -283,7 +283,7 @@ extension Cloudtrail {
     }
 
     public struct UpdateTrailResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "SnsTopicARN", required: false, type: .string), 
             AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
@@ -354,7 +354,7 @@ extension Cloudtrail {
     }
 
     public struct Trail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "LogFileValidationEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "HomeRegion", required: false, type: .string), 
@@ -435,7 +435,7 @@ extension Cloudtrail {
     }
 
     public struct GetTrailStatusResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LatestNotificationError", required: false, type: .string), 
             AWSShapeMember(label: "LatestDeliveryTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "TimeLoggingStarted", required: false, type: .string), 
@@ -531,7 +531,7 @@ extension Cloudtrail {
     }
 
     public struct GetEventSelectorsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSelectors", required: false, type: .list), 
             AWSShapeMember(label: "TrailARN", required: false, type: .string)
         ]
@@ -552,7 +552,7 @@ extension Cloudtrail {
     }
 
     public struct Event: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSource", required: false, type: .string), 
             AWSShapeMember(label: "EventTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Username", required: false, type: .string), 
@@ -598,7 +598,7 @@ extension Cloudtrail {
     }
 
     public struct DescribeTrailsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "trailNameList", required: false, type: .list), 
             AWSShapeMember(label: "includeShadowTrails", required: false, type: .boolean)
         ]
@@ -619,7 +619,7 @@ extension Cloudtrail {
     }
 
     public struct PutEventSelectorsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSelectors", required: false, type: .list), 
             AWSShapeMember(label: "TrailARN", required: false, type: .string)
         ]
@@ -640,7 +640,7 @@ extension Cloudtrail {
     }
 
     public struct ListPublicKeysResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PublicKeyList", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -661,7 +661,7 @@ extension Cloudtrail {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -682,7 +682,7 @@ extension Cloudtrail {
     }
 
     public struct LookupAttribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeKey", required: true, type: .enum), 
             AWSShapeMember(label: "AttributeValue", required: true, type: .string)
         ]
@@ -703,7 +703,7 @@ extension Cloudtrail {
     }
 
     public struct UpdateTrailRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EnableLogFileValidation", required: false, type: .boolean), 
             AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
             AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
@@ -764,7 +764,7 @@ extension Cloudtrail {
     }
 
     public struct CreateTrailRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EnableLogFileValidation", required: false, type: .boolean), 
             AWSShapeMember(label: "S3BucketName", required: true, type: .string), 
             AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
@@ -829,7 +829,7 @@ extension Cloudtrail {
     }
 
     public struct DeleteTrailRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// Specifies the name or the CloudTrail ARN of the trail to be deleted. The format of a trail ARN is: arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
@@ -845,7 +845,7 @@ extension Cloudtrail {
     }
 
     public struct GetEventSelectorsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TrailName", required: true, type: .string)
         ]
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
@@ -871,7 +871,7 @@ extension Cloudtrail {
     }
 
     public struct Resource: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceName", required: false, type: .string), 
             AWSShapeMember(label: "ResourceType", required: false, type: .string)
         ]
@@ -892,7 +892,7 @@ extension Cloudtrail {
     }
 
     public struct DescribeTrailsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "trailList", required: false, type: .list)
         ]
         /// The list of trail objects.
@@ -908,7 +908,7 @@ extension Cloudtrail {
     }
 
     public struct StartLoggingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
@@ -924,7 +924,7 @@ extension Cloudtrail {
     }
 
     public struct StopLoggingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will stop logging AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
@@ -940,7 +940,7 @@ extension Cloudtrail {
     }
 
     public struct EventSelector: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReadWriteType", required: false, type: .enum), 
             AWSShapeMember(label: "DataResources", required: false, type: .list), 
             AWSShapeMember(label: "IncludeManagementEvents", required: false, type: .boolean)
@@ -966,7 +966,7 @@ extension Cloudtrail {
     }
 
     public struct GetTrailStatusRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another region), you must specify its ARN. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
@@ -982,7 +982,7 @@ extension Cloudtrail {
     }
 
     public struct ResourceTag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: false, type: .string), 
             AWSShapeMember(label: "TagsList", required: false, type: .list)
         ]
@@ -1014,7 +1014,7 @@ extension Cloudtrail {
     }
 
     public struct ListTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceIdList", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -1035,7 +1035,7 @@ extension Cloudtrail {
     }
 
     public struct LookupEventsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Events", required: false, type: .list)
         ]

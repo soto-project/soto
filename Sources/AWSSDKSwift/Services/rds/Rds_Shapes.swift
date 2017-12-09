@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Rds {
 
     public struct DescribeDBParametersMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Filters", required: false, type: .structure), 
             AWSShapeMember(label: "Source", required: false, type: .string), 
@@ -21,7 +21,7 @@ extension Rds {
         public let source: String?
         ///  An optional pagination token provided by a previous DescribeDBParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        /// The name of a specific DB parameter group to return details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
         public let dBParameterGroupName: String
 
         public init(maxRecords: Int32? = nil, filters: FilterList? = nil, source: String? = nil, marker: String? = nil, dBParameterGroupName: String) {
@@ -41,23 +41,8 @@ extension Rds {
         }
     }
 
-    public struct DBInstanceStatusInfoList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceStatusInfo", required: false, type: .list)
-        ]
-        public let dBInstanceStatusInfo: [DBInstanceStatusInfo]?
-
-        public init(dBInstanceStatusInfo: [DBInstanceStatusInfo]? = nil) {
-            self.dBInstanceStatusInfo = dBInstanceStatusInfo
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBInstanceStatusInfo = "DBInstanceStatusInfo"
-        }
-    }
-
     public struct EventsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Events", required: false, type: .structure)
         ]
@@ -77,30 +62,30 @@ extension Rds {
         }
     }
 
-    public struct CreateDBSubnetGroupResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure)
+    public struct DescribeEngineDefaultParametersResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineDefaults", required: false, type: .structure)
         ]
-        public let dBSubnetGroup: DBSubnetGroup?
+        public let engineDefaults: EngineDefaults?
 
-        public init(dBSubnetGroup: DBSubnetGroup? = nil) {
-            self.dBSubnetGroup = dBSubnetGroup
+        public init(engineDefaults: EngineDefaults? = nil) {
+            self.engineDefaults = engineDefaults
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBSubnetGroup = "DBSubnetGroup"
+            case engineDefaults = "EngineDefaults"
         }
     }
 
     public struct ResetDBClusterParameterGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Parameters", required: false, type: .structure), 
             AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean), 
             AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string)
         ]
-        /// A list of parameter names in the DB cluster parameter group to reset to the default values. You cannot use this parameter if the ResetAllParameters parameter is set to true.
+        /// A list of parameter names in the DB cluster parameter group to reset to the default values. You can't use this parameter if the ResetAllParameters parameter is set to true.
         public let parameters: ParametersList?
-        /// A value that is set to true to reset all parameters in the DB cluster parameter group to their default values, and false otherwise. You cannot use this parameter if there is a list of parameter names specified for the Parameters parameter.
+        /// A value that is set to true to reset all parameters in the DB cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
         public let resetAllParameters: Bool?
         /// The name of the DB cluster parameter group to reset.
         public let dBClusterParameterGroupName: String
@@ -118,84 +103,8 @@ extension Rds {
         }
     }
 
-    public struct DescribeEngineDefaultParametersResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EngineDefaults", required: false, type: .structure)
-        ]
-        public let engineDefaults: EngineDefaults?
-
-        public init(engineDefaults: EngineDefaults? = nil) {
-            self.engineDefaults = engineDefaults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case engineDefaults = "EngineDefaults"
-        }
-    }
-
-    public struct OptionsList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Option", required: false, type: .list)
-        ]
-        public let option: [Option]?
-
-        public init(option: [Option]? = nil) {
-            self.option = option
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case option = "Option"
-        }
-    }
-
-    public struct RestoreDBClusterFromSnapshotResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
-        public let dBCluster: DBCluster?
-
-        public init(dBCluster: DBCluster? = nil) {
-            self.dBCluster = dBCluster
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
-        }
-    }
-
-    public struct PromoteReadReplicaDBClusterMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
-        ]
-        /// The identifier of the DB cluster Read Replica to promote. This parameter is not case-sensitive.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-replica1 
-        public let dBClusterIdentifier: String
-
-        public init(dBClusterIdentifier: String) {
-            self.dBClusterIdentifier = dBClusterIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBClusterIdentifier = "DBClusterIdentifier"
-        }
-    }
-
-    public struct FilterList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .list)
-        ]
-        public let filter: [Filter]?
-
-        public init(filter: [Filter]? = nil) {
-            self.filter = filter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filter = "Filter"
-        }
-    }
-
     public struct CopyOptionGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetOptionGroupDescription", required: true, type: .string), 
             AWSShapeMember(label: "TargetOptionGroupIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .structure), 
@@ -203,10 +112,10 @@ extension Rds {
         ]
         /// The description for the copied option group.
         public let targetOptionGroupDescription: String
-        /// The identifier for the copied option group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-option-group 
+        /// The identifier for the copied option group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-option-group 
         public let targetOptionGroupIdentifier: String
         public let tags: TagList?
-        /// The identifier or ARN for the source option group. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).  Constraints:   Must specify a valid option group.   If the source option group is in the same region as the copy, specify a valid option group identifier, for example my-option-group, or a valid ARN.   If the source option group is in a different region than the copy, specify a valid option group ARN, for example arn:aws:rds:us-west-2:123456789012:og:special-options.  
+        /// The identifier or ARN for the source option group. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).  Constraints:   Must specify a valid option group.   If the source option group is in the same AWS Region as the copy, specify a valid option group identifier, for example my-option-group, or a valid ARN.   If the source option group is in a different AWS Region than the copy, specify a valid option group ARN, for example arn:aws:rds:us-west-2:123456789012:og:special-options.  
         public let sourceOptionGroupIdentifier: String
 
         public init(targetOptionGroupDescription: String, targetOptionGroupIdentifier: String, tags: TagList? = nil, sourceOptionGroupIdentifier: String) {
@@ -224,8 +133,23 @@ extension Rds {
         }
     }
 
+    public struct OptionsList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Option", required: false, type: .list)
+        ]
+        public let option: [Option]?
+
+        public init(option: [Option]? = nil) {
+            self.option = option
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case option = "Option"
+        }
+    }
+
     public struct DBClusterMember: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "PromotionTier", required: false, type: .integer), 
             AWSShapeMember(label: "IsClusterWriter", required: false, type: .boolean), 
@@ -255,114 +179,8 @@ extension Rds {
         }
     }
 
-    public struct OptionGroupOption: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PortRequired", required: false, type: .boolean), 
-            AWSShapeMember(label: "OptionsConflictsWith", required: false, type: .structure), 
-            AWSShapeMember(label: "MinimumRequiredMinorEngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "MajorEngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Persistent", required: false, type: .boolean), 
-            AWSShapeMember(label: "OptionGroupOptionSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "Permanent", required: false, type: .boolean), 
-            AWSShapeMember(label: "OptionsDependedOn", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupOptionVersions", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultPort", required: false, type: .integer), 
-            AWSShapeMember(label: "EngineName", required: false, type: .string)
-        ]
-        /// Specifies whether the option requires a port.
-        public let portRequired: Bool?
-        /// The options that conflict with this option.
-        public let optionsConflictsWith: OptionsConflictsWith?
-        /// The minimum required engine version for the option to be applied.
-        public let minimumRequiredMinorEngineVersion: String?
-        /// Indicates the major engine version that the option is available for.
-        public let majorEngineVersion: String?
-        /// Persistent options can't be removed from an option group while DB instances are associated with the option group. If you disassociate all DB instances from the option group, your can remove the persistent option from the option group.
-        public let persistent: Bool?
-        /// The option settings that are available (and the default value) for each option in an option group.
-        public let optionGroupOptionSettings: OptionGroupOptionSettingsList?
-        /// Permanent options can never be removed from an option group. An option group containing a permanent option can't be removed from a DB instance.
-        public let permanent: Bool?
-        /// The options that are prerequisites for this option.
-        public let optionsDependedOn: OptionsDependedOn?
-        /// The description of the option.
-        public let description: String?
-        /// The versions that are available for the option.
-        public let optionGroupOptionVersions: OptionGroupOptionVersionsList?
-        /// The name of the option.
-        public let name: String?
-        /// If the option requires a port, specifies the default port for the option.
-        public let defaultPort: Int32?
-        /// The name of the engine that this option can be applied to.
-        public let engineName: String?
-
-        public init(portRequired: Bool? = nil, optionsConflictsWith: OptionsConflictsWith? = nil, minimumRequiredMinorEngineVersion: String? = nil, majorEngineVersion: String? = nil, persistent: Bool? = nil, optionGroupOptionSettings: OptionGroupOptionSettingsList? = nil, permanent: Bool? = nil, optionsDependedOn: OptionsDependedOn? = nil, description: String? = nil, optionGroupOptionVersions: OptionGroupOptionVersionsList? = nil, name: String? = nil, defaultPort: Int32? = nil, engineName: String? = nil) {
-            self.portRequired = portRequired
-            self.optionsConflictsWith = optionsConflictsWith
-            self.minimumRequiredMinorEngineVersion = minimumRequiredMinorEngineVersion
-            self.majorEngineVersion = majorEngineVersion
-            self.persistent = persistent
-            self.optionGroupOptionSettings = optionGroupOptionSettings
-            self.permanent = permanent
-            self.optionsDependedOn = optionsDependedOn
-            self.description = description
-            self.optionGroupOptionVersions = optionGroupOptionVersions
-            self.name = name
-            self.defaultPort = defaultPort
-            self.engineName = engineName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case portRequired = "PortRequired"
-            case optionsConflictsWith = "OptionsConflictsWith"
-            case minimumRequiredMinorEngineVersion = "MinimumRequiredMinorEngineVersion"
-            case majorEngineVersion = "MajorEngineVersion"
-            case persistent = "Persistent"
-            case optionGroupOptionSettings = "OptionGroupOptionSettings"
-            case permanent = "Permanent"
-            case optionsDependedOn = "OptionsDependedOn"
-            case description = "Description"
-            case optionGroupOptionVersions = "OptionGroupOptionVersions"
-            case name = "Name"
-            case defaultPort = "DefaultPort"
-            case engineName = "EngineName"
-        }
-    }
-
-    public struct CreateDBClusterParameterGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
-            AWSShapeMember(label: "Description", required: true, type: .string)
-        ]
-        /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family.
-        public let dBParameterGroupFamily: String
-        /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
-        public let dBClusterParameterGroupName: String
-        public let tags: TagList?
-        /// The description for the DB cluster parameter group.
-        public let description: String
-
-        public init(dBParameterGroupFamily: String, dBClusterParameterGroupName: String, tags: TagList? = nil, description: String) {
-            self.dBParameterGroupFamily = dBParameterGroupFamily
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
-            self.tags = tags
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
-            case tags = "Tags"
-            case description = "Description"
-        }
-    }
-
     public struct DBClusterMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "DBClusters", required: false, type: .structure)
         ]
@@ -383,7 +201,7 @@ extension Rds {
     }
 
     public struct Endpoint: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Address", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "HostedZoneId", required: false, type: .string)
@@ -408,45 +226,8 @@ extension Rds {
         }
     }
 
-    public struct DeleteDBSubnetGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string)
-        ]
-        /// The name of the database subnet group to delete.  You cannot delete the default subnet group.  Constraints: Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public let dBSubnetGroupName: String
-
-        public init(dBSubnetGroupName: String) {
-            self.dBSubnetGroupName = dBSubnetGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSubnetGroupName = "DBSubnetGroupName"
-        }
-    }
-
-    public struct DBClusterSnapshotMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterSnapshots", required: false, type: .structure)
-        ]
-        ///  An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// Provides a list of DB cluster snapshots for the user.
-        public let dBClusterSnapshots: DBClusterSnapshotList?
-
-        public init(marker: String? = nil, dBClusterSnapshots: DBClusterSnapshotList? = nil) {
-            self.marker = marker
-            self.dBClusterSnapshots = dBClusterSnapshots
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case dBClusterSnapshots = "DBClusterSnapshots"
-        }
-    }
-
     public struct ModifyDBClusterResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
@@ -461,7 +242,7 @@ extension Rds {
     }
 
     public struct DescribeEngineDefaultClusterParametersResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EngineDefaults", required: false, type: .structure)
         ]
         public let engineDefaults: EngineDefaults?
@@ -475,53 +256,8 @@ extension Rds {
         }
     }
 
-    public struct PurchaseReservedDBInstancesOfferingResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedDBInstance", required: false, type: .structure)
-        ]
-        public let reservedDBInstance: ReservedDBInstance?
-
-        public init(reservedDBInstance: ReservedDBInstance? = nil) {
-            self.reservedDBInstance = reservedDBInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reservedDBInstance = "ReservedDBInstance"
-        }
-    }
-
-    public struct OptionSettingConfigurationList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionSetting", required: false, type: .list)
-        ]
-        public let optionSetting: [OptionSetting]?
-
-        public init(optionSetting: [OptionSetting]? = nil) {
-            self.optionSetting = optionSetting
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case optionSetting = "OptionSetting"
-        }
-    }
-
-    public struct OptionsConflictsWith: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionConflictName", required: false, type: .list)
-        ]
-        public let optionConflictName: [String]?
-
-        public init(optionConflictName: [String]? = nil) {
-            self.optionConflictName = optionConflictName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case optionConflictName = "OptionConflictName"
-        }
-    }
-
     public struct FailoverDBClusterResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
@@ -535,55 +271,23 @@ extension Rds {
         }
     }
 
-    public struct CreateDBClusterSnapshotMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
+    public struct RebootDBInstanceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
-        /// The tags to be assigned to the DB cluster snapshot.
-        public let tags: TagList?
-        /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1-snapshot1 
-        public let dBClusterSnapshotIdentifier: String
-        /// The identifier of the DB cluster to create a snapshot for. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
-        public let dBClusterIdentifier: String
+        public let dBInstance: DBInstance?
 
-        public init(tags: TagList? = nil, dBClusterSnapshotIdentifier: String, dBClusterIdentifier: String) {
-            self.tags = tags
-            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
-            self.dBClusterIdentifier = dBClusterIdentifier
+        public init(dBInstance: DBInstance? = nil) {
+            self.dBInstance = dBInstance
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case dBClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-        }
-    }
-
-    public struct DBClusterSnapshotAttribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "AttributeValues", required: false, type: .structure)
-        ]
-        /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBClusterSnapshotAttribute API action.
-        public let attributeName: String?
-        /// The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any AWS account to copy or restore.
-        public let attributeValues: AttributeValueList?
-
-        public init(attributeName: String? = nil, attributeValues: AttributeValueList? = nil) {
-            self.attributeName = attributeName
-            self.attributeValues = attributeValues
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeName = "AttributeName"
-            case attributeValues = "AttributeValues"
+            case dBInstance = "DBInstance"
         }
     }
 
     public struct DomainMembership: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "IAMRoleName", required: false, type: .string), 
             AWSShapeMember(label: "FQDN", required: false, type: .string), 
@@ -613,23 +317,8 @@ extension Rds {
         }
     }
 
-    public struct RebootDBInstanceResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
-        public let dBInstance: DBInstance?
-
-        public init(dBInstance: DBInstance? = nil) {
-            self.dBInstance = dBInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBInstance = "DBInstance"
-        }
-    }
-
     public struct ModifyOptionGroupResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OptionGroup", required: false, type: .structure)
         ]
         public let optionGroup: OptionGroup?
@@ -644,7 +333,7 @@ extension Rds {
     }
 
     public struct AttributeValueList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeValue", required: false, type: .list)
         ]
         public let attributeValue: [String]?
@@ -658,29 +347,8 @@ extension Rds {
         }
     }
 
-    public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "Key", required: false, type: .string)
-        ]
-        /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        public let value: String?
-        /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        public let key: String?
-
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-            case key = "Key"
-        }
-    }
-
     public struct SupportedTimezonesList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Timezone", required: false, type: .list)
         ]
         public let timezone: [Timezone]?
@@ -695,7 +363,7 @@ extension Rds {
     }
 
     public struct ListTagsForResourceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filters", required: false, type: .structure), 
             AWSShapeMember(label: "ResourceName", required: true, type: .string)
         ]
@@ -716,13 +384,13 @@ extension Rds {
     }
 
     public struct FailoverDBClusterMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetDBInstanceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string)
         ]
         /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Aurora Replica in the DB cluster. For example, mydbcluster-replica1.
         public let targetDBInstanceIdentifier: String?
-        /// A DB cluster identifier to force a failover for. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        /// A DB cluster identifier to force a failover for. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String?
 
         public init(targetDBInstanceIdentifier: String? = nil, dBClusterIdentifier: String? = nil) {
@@ -736,68 +404,8 @@ extension Rds {
         }
     }
 
-    public struct CreateEventSubscriptionMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnsTopicArn", required: true, type: .string), 
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .structure), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceIds", required: false, type: .structure)
-        ]
-        /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
-        public let snsTopicArn: String
-        /// The name of the subscription. Constraints: The name must be less than 255 characters.
-        public let subscriptionName: String
-        /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. if this value is not specified, all events are returned. Valid values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot 
-        public let sourceType: String?
-        public let tags: TagList?
-        ///  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType in the Events topic in the Amazon RDS User Guide or by using the DescribeEventCategories action. 
-        public let eventCategories: EventCategoriesList?
-        ///  A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it. 
-        public let enabled: Bool?
-        /// The list of identifiers of the event sources for which events will be returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are supplied, SourceType must also be provided.   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
-        public let sourceIds: SourceIdsList?
-
-        public init(snsTopicArn: String, subscriptionName: String, sourceType: String? = nil, tags: TagList? = nil, eventCategories: EventCategoriesList? = nil, enabled: Bool? = nil, sourceIds: SourceIdsList? = nil) {
-            self.snsTopicArn = snsTopicArn
-            self.subscriptionName = subscriptionName
-            self.sourceType = sourceType
-            self.tags = tags
-            self.eventCategories = eventCategories
-            self.enabled = enabled
-            self.sourceIds = sourceIds
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snsTopicArn = "SnsTopicArn"
-            case subscriptionName = "SubscriptionName"
-            case sourceType = "SourceType"
-            case tags = "Tags"
-            case eventCategories = "EventCategories"
-            case enabled = "Enabled"
-            case sourceIds = "SourceIds"
-        }
-    }
-
-    public struct DescribeDBSnapshotAttributesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshotAttributesResult", required: false, type: .structure)
-        ]
-        public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
-
-        public init(dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil) {
-            self.dBSnapshotAttributesResult = dBSnapshotAttributesResult
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSnapshotAttributesResult = "DBSnapshotAttributesResult"
-        }
-    }
-
     public struct CopyDBSnapshotMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetDBSnapshotIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .structure), 
@@ -806,18 +414,18 @@ extension Rds {
             AWSShapeMember(label: "SourceDBSnapshotIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
-        /// The identifier for the copy of the snapshot.  Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-db-snapshot 
+        /// The identifier for the copy of the snapshot.  Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-db-snapshot 
         public let targetDBSnapshotIdentifier: String
-        /// The name of an option group to associate with the copy.  Specify this option if you are copying a snapshot from one AWS region to another, and your DB instance uses a non-default option group. If your source DB instance uses Transparent Data Encryption for Oracle or Microsoft SQL Server, you must specify this option when copying across regions. For more information, see Option Group Considerations. 
+        /// The name of an option group to associate with the copy of the snapshot. Specify this option if you are copying a snapshot from one AWS Region to another, and your DB instance uses a nondefault option group. If your source DB instance uses Transparent Data Encryption for Oracle or Microsoft SQL Server, you must specify this option when copying across AWS Regions. For more information, see Option Group Considerations. 
         public let optionGroupName: String?
         public let tags: TagList?
-        /// True to copy all tags from the source DB snapshot to the target DB snapshot; otherwise false. The default is false.
+        /// True to copy all tags from the source DB snapshot to the target DB snapshot, and otherwise false. The default is false.
         public let copyTags: Bool?
-        /// The URL that contains a Signature Version 4 signed request for the CopyDBSnapshot API action in the source AWS region that contains the source DB snapshot to copy.  You must specify this parameter when you copy an encrypted DB snapshot from another AWS region by using the Amazon RDS API. You can specify the source region option instead of this parameter when you copy an encrypted DB snapshot from another AWS region by using the AWS CLI.  The presigned URL must be a valid request for the CopyDBSnapshot API action that can be executed in the source region that contains the encrypted DB snapshot to be copied. The presigned URL request must contain the following parameter values:     DestinationRegion - The AWS Region that the encrypted DB snapshot will be copied to. This region is the same one where the CopyDBSnapshot action is called that contains this presigned URL.  For example, if you copy an encrypted DB snapshot from the us-west-2 region to the us-east-1 region, then you will call the CopyDBSnapshot action in the us-east-1 region and provide a presigned URL that contains a call to the CopyDBSnapshot action in the us-west-2 region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 region.     KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB snapshot in the destination region. This is the same identifier for both the CopyDBSnapshot action that is called in the destination region, and the action contained in the presigned URL.     SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB snapshot from the us-west-2 region, then your SourceDBSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115.    To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process. 
+        /// The URL that contains a Signature Version 4 signed request for the CopyDBSnapshot API action in the source AWS Region that contains the source DB snapshot to copy.  You must specify this parameter when you copy an encrypted DB snapshot from another AWS Region by using the Amazon RDS API. You can specify the --source-region option instead of this parameter when you copy an encrypted DB snapshot from another AWS Region by using the AWS CLI.  The presigned URL must be a valid request for the CopyDBSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB snapshot to be copied. The presigned URL request must contain the following parameter values:     DestinationRegion - The AWS Region that the encrypted DB snapshot is copied to. This AWS Region is the same one where the CopyDBSnapshot action is called that contains this presigned URL.  For example, if you copy an encrypted DB snapshot from the us-west-2 AWS Region to the us-east-1 AWS Region, then you call the CopyDBSnapshot action in the us-east-1 AWS Region and provide a presigned URL that contains a call to the CopyDBSnapshot action in the us-west-2 AWS Region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 AWS Region.     KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB snapshot in the destination AWS Region. This is the same identifier for both the CopyDBSnapshot action that is called in the destination AWS Region, and the action contained in the presigned URL.     SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB snapshot from the us-west-2 AWS Region, then your SourceDBSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115.    To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process. 
         public let preSignedUrl: String?
-        /// The identifier for the source DB snapshot. If the source snapshot is in the same region as the copy, specify a valid DB snapshot identifier. For example, rds:mysql-instance1-snapshot-20130805.  If the source snapshot is in a different region than the copy, specify a valid DB snapshot ARN. For example, arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805.  If you are copying from a shared manual DB snapshot, this parameter must be the Amazon Resource Name (ARN) of the shared DB snapshot.  If you are copying an encrypted snapshot this parameter must be in the ARN format for the source region, and must match the SourceDBSnapshotIdentifier in the PreSignedUrl parameter.  Constraints:   Must specify a valid system snapshot in the "available" state.   Example: rds:mydb-2012-04-02-00-01  Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805 
+        /// The identifier for the source DB snapshot. If the source snapshot is in the same AWS Region as the copy, specify a valid DB snapshot identifier. For example, you might specify rds:mysql-instance1-snapshot-20130805.  If the source snapshot is in a different AWS Region than the copy, specify a valid DB snapshot ARN. For example, you might specify arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805.  If you are copying from a shared manual DB snapshot, this parameter must be the Amazon Resource Name (ARN) of the shared DB snapshot.  If you are copying an encrypted snapshot this parameter must be in the ARN format for the source AWS Region, and must match the SourceDBSnapshotIdentifier in the PreSignedUrl parameter.  Constraints:   Must specify a valid system snapshot in the "available" state.   Example: rds:mydb-2012-04-02-00-01  Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805 
         public let sourceDBSnapshotIdentifier: String
-        /// The AWS KMS key ID for an encrypted DB snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an encrypted DB snapshot from your AWS account, you can specify a value for this parameter to encrypt the copy with a new KMS encryption key. If you don't specify a value for this parameter, then the copy of the DB snapshot is encrypted with the same KMS key as the source DB snapshot.  If you copy an encrypted DB snapshot that is shared from another AWS account, then you must specify a value for this parameter.  If you specify this parameter when you copy an unencrypted snapshot, the copy is encrypted.  If you copy an encrypted snapshot to a different AWS region, then you must specify a KMS key for the destination AWS region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region. 
+        /// The AWS KMS key ID for an encrypted DB snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an encrypted DB snapshot from your AWS account, you can specify a value for this parameter to encrypt the copy with a new KMS encryption key. If you don't specify a value for this parameter, then the copy of the DB snapshot is encrypted with the same KMS key as the source DB snapshot.  If you copy an encrypted DB snapshot that is shared from another AWS account, then you must specify a value for this parameter.  If you specify this parameter when you copy an unencrypted snapshot, the copy is encrypted.  If you copy an encrypted snapshot to a different AWS Region, then you must specify a KMS key for the destination AWS Region. KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region. 
         public let kmsKeyId: String?
 
         public init(targetDBSnapshotIdentifier: String, optionGroupName: String? = nil, tags: TagList? = nil, copyTags: Bool? = nil, preSignedUrl: String? = nil, sourceDBSnapshotIdentifier: String, kmsKeyId: String? = nil) {
@@ -842,7 +450,7 @@ extension Rds {
     }
 
     public struct EventCategoriesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventCategoriesMapList", required: false, type: .structure)
         ]
         /// A list of EventCategoriesMap data types.
@@ -858,7 +466,7 @@ extension Rds {
     }
 
     public struct DBClusterParameterGroupDetails: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .structure)
         ]
@@ -878,44 +486,8 @@ extension Rds {
         }
     }
 
-    public struct RecurringCharge: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecurringChargeAmount", required: false, type: .double), 
-            AWSShapeMember(label: "RecurringChargeFrequency", required: false, type: .string)
-        ]
-        /// The amount of the recurring charge.
-        public let recurringChargeAmount: Double?
-        /// The frequency of the recurring charge.
-        public let recurringChargeFrequency: String?
-
-        public init(recurringChargeAmount: Double? = nil, recurringChargeFrequency: String? = nil) {
-            self.recurringChargeAmount = recurringChargeAmount
-            self.recurringChargeFrequency = recurringChargeFrequency
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recurringChargeAmount = "RecurringChargeAmount"
-            case recurringChargeFrequency = "RecurringChargeFrequency"
-        }
-    }
-
-    public struct ModifyDBInstanceResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
-        public let dBInstance: DBInstance?
-
-        public init(dBInstance: DBInstance? = nil) {
-            self.dBInstance = dBInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBInstance = "DBInstance"
-        }
-    }
-
     public struct OptionGroupMembership: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "OptionGroupName", required: false, type: .string)
         ]
@@ -935,23 +507,24 @@ extension Rds {
         }
     }
 
-    public struct IPRangeList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IPRange", required: false, type: .list)
+    public struct DescribeValidDBInstanceModificationsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
         ]
-        public let iPRange: [IPRange]?
+        /// The customer identifier or the ARN of your DB instance. 
+        public let dBInstanceIdentifier: String
 
-        public init(iPRange: [IPRange]? = nil) {
-            self.iPRange = iPRange
+        public init(dBInstanceIdentifier: String) {
+            self.dBInstanceIdentifier = dBInstanceIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iPRange = "IPRange"
+            case dBInstanceIdentifier = "DBInstanceIdentifier"
         }
     }
 
     public struct DeleteDBClusterSnapshotMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string)
         ]
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
@@ -966,23 +539,8 @@ extension Rds {
         }
     }
 
-    public struct RestoreDBClusterToPointInTimeResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
-        public let dBCluster: DBCluster?
-
-        public init(dBCluster: DBCluster? = nil) {
-            self.dBCluster = dBCluster
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
-        }
-    }
-
     public struct DescribeEventsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -1007,7 +565,7 @@ extension Rds {
         public let endTime: TimeStamp?
         /// This parameter is not currently supported.
         public let filters: FilterList?
-        /// The identifier of the event source for which events will be returned. If not specified, then all sources are included in the response. Constraints:   If SourceIdentifier is supplied, SourceType must also be provided.   If the source type is DBInstance, then a DBInstanceIdentifier must be supplied.   If the source type is DBSecurityGroup, a DBSecurityGroupName must be supplied.   If the source type is DBParameterGroup, a DBParameterGroupName must be supplied.   If the source type is DBSnapshot, a DBSnapshotIdentifier must be supplied.   Cannot end with a hyphen or contain two consecutive hyphens.  
+        /// The identifier of the event source for which events are returned. If not specified, then all sources are included in the response. Constraints:   If SourceIdentifier is supplied, SourceType must also be provided.   If the source type is DBInstance, then a DBInstanceIdentifier must be supplied.   If the source type is DBSecurityGroup, a DBSecurityGroupName must be supplied.   If the source type is DBParameterGroup, a DBParameterGroupName must be supplied.   If the source type is DBSnapshot, a DBSnapshotIdentifier must be supplied.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let sourceIdentifier: String?
         /// The number of minutes to retrieve events for. Default: 60
         public let duration: Int32?
@@ -1038,7 +596,7 @@ extension Rds {
     }
 
     public struct CopyOptionGroupResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OptionGroup", required: false, type: .structure)
         ]
         public let optionGroup: OptionGroup?
@@ -1052,23 +610,172 @@ extension Rds {
         }
     }
 
-    public struct AvailabilityZones: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .list)
+    public struct RemoveTagsFromResourceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceName", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
-        public let availabilityZone: [String]?
+        /// The Amazon RDS resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
+        public let resourceName: String
+        /// The tag key (name) of the tag to be removed.
+        public let tagKeys: [String]
 
-        public init(availabilityZone: [String]? = nil) {
-            self.availabilityZone = availabilityZone
+        public init(resourceName: String, tagKeys: [String]) {
+            self.resourceName = resourceName
+            self.tagKeys = tagKeys
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone = "AvailabilityZone"
+            case resourceName = "ResourceName"
+            case tagKeys = "TagKeys"
         }
     }
 
-    public struct CreateDBInstanceReadReplicaResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+    public struct EventList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Event", required: false, type: .list)
+        ]
+        public let event: [Event]?
+
+        public init(event: [Event]? = nil) {
+            self.event = event
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case event = "Event"
+        }
+    }
+
+    public struct DoubleRangeList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DoubleRange", required: false, type: .list)
+        ]
+        public let doubleRange: [DoubleRange]?
+
+        public init(doubleRange: [DoubleRange]? = nil) {
+            self.doubleRange = doubleRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case doubleRange = "DoubleRange"
+        }
+    }
+
+    public struct DBParameterGroupStatusList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBParameterGroup", required: false, type: .list)
+        ]
+        public let dBParameterGroup: [DBParameterGroupStatus]?
+
+        public init(dBParameterGroup: [DBParameterGroupStatus]? = nil) {
+            self.dBParameterGroup = dBParameterGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBParameterGroup = "DBParameterGroup"
+        }
+    }
+
+    public struct PromoteReadReplicaDBClusterResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
+        ]
+        public let dBCluster: DBCluster?
+
+        public init(dBCluster: DBCluster? = nil) {
+            self.dBCluster = dBCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBCluster = "DBCluster"
+        }
+    }
+
+    public struct ModifyDBSubnetGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure)
+        ]
+        public let dBSubnetGroup: DBSubnetGroup?
+
+        public init(dBSubnetGroup: DBSubnetGroup? = nil) {
+            self.dBSubnetGroup = dBSubnetGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSubnetGroup = "DBSubnetGroup"
+        }
+    }
+
+    public struct DeleteDBSnapshotMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSnapshotIdentifier", required: true, type: .string)
+        ]
+        /// The DBSnapshot identifier. Constraints: Must be the name of an existing DB snapshot in the available state.
+        public let dBSnapshotIdentifier: String
+
+        public init(dBSnapshotIdentifier: String) {
+            self.dBSnapshotIdentifier = dBSnapshotIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSnapshotIdentifier = "DBSnapshotIdentifier"
+        }
+    }
+
+    public struct DBInstanceStatusInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "StatusType", required: false, type: .string), 
+            AWSShapeMember(label: "Normal", required: false, type: .boolean)
+        ]
+        /// Status of the DB instance. For a StatusType of read replica, the values can be replicating, error, stopped, or terminated.
+        public let status: String?
+        /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
+        public let message: String?
+        /// This value is currently "read replication."
+        public let statusType: String?
+        /// Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
+        public let normal: Bool?
+
+        public init(status: String? = nil, message: String? = nil, statusType: String? = nil, normal: Bool? = nil) {
+            self.status = status
+            self.message = message
+            self.statusType = statusType
+            self.normal = normal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case message = "Message"
+            case statusType = "StatusType"
+            case normal = "Normal"
+        }
+    }
+
+    public struct ReservedDBInstancesOfferingMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedDBInstancesOfferings", required: false, type: .structure)
+        ]
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// A list of reserved DB instance offerings.
+        public let reservedDBInstancesOfferings: ReservedDBInstancesOfferingList?
+
+        public init(marker: String? = nil, reservedDBInstancesOfferings: ReservedDBInstancesOfferingList? = nil) {
+            self.marker = marker
+            self.reservedDBInstancesOfferings = reservedDBInstancesOfferings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case reservedDBInstancesOfferings = "ReservedDBInstancesOfferings"
+        }
+    }
+
+    public struct RestoreDBInstanceFromS3Result: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
@@ -1082,8 +789,4476 @@ extension Rds {
         }
     }
 
+    public struct Subnet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure), 
+            AWSShapeMember(label: "SubnetStatus", required: false, type: .string)
+        ]
+        /// Specifies the identifier of the subnet.
+        public let subnetIdentifier: String?
+        public let subnetAvailabilityZone: AvailabilityZone?
+        /// Specifies the status of the subnet.
+        public let subnetStatus: String?
+
+        public init(subnetIdentifier: String? = nil, subnetAvailabilityZone: AvailabilityZone? = nil, subnetStatus: String? = nil) {
+            self.subnetIdentifier = subnetIdentifier
+            self.subnetAvailabilityZone = subnetAvailabilityZone
+            self.subnetStatus = subnetStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetIdentifier = "SubnetIdentifier"
+            case subnetAvailabilityZone = "SubnetAvailabilityZone"
+            case subnetStatus = "SubnetStatus"
+        }
+    }
+
+    public struct EC2SecurityGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string)
+        ]
+        /// Provides the status of the EC2 security group. Status can be "authorizing", "authorized", "revoking", and "revoked".
+        public let status: String?
+        /// Specifies the id of the EC2 security group.
+        public let eC2SecurityGroupId: String?
+        ///  Specifies the AWS ID of the owner of the EC2 security group specified in the EC2SecurityGroupName field. 
+        public let eC2SecurityGroupOwnerId: String?
+        /// Specifies the name of the EC2 security group.
+        public let eC2SecurityGroupName: String?
+
+        public init(status: String? = nil, eC2SecurityGroupId: String? = nil, eC2SecurityGroupOwnerId: String? = nil, eC2SecurityGroupName: String? = nil) {
+            self.status = status
+            self.eC2SecurityGroupId = eC2SecurityGroupId
+            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
+            self.eC2SecurityGroupName = eC2SecurityGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case eC2SecurityGroupId = "EC2SecurityGroupId"
+            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case eC2SecurityGroupName = "EC2SecurityGroupName"
+        }
+    }
+
+    public struct OptionSettingsList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionSetting", required: false, type: .list)
+        ]
+        public let optionSetting: [OptionSetting]?
+
+        public init(optionSetting: [OptionSetting]? = nil) {
+            self.optionSetting = optionSetting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optionSetting = "OptionSetting"
+        }
+    }
+
+    public struct DBInstanceList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBInstance", required: false, type: .list)
+        ]
+        public let dBInstance: [DBInstance]?
+
+        public init(dBInstance: [DBInstance]? = nil) {
+            self.dBInstance = dBInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBInstance = "DBInstance"
+        }
+    }
+
+    public struct SupportedCharacterSetsList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CharacterSet", required: false, type: .list)
+        ]
+        public let characterSet: [CharacterSet]?
+
+        public init(characterSet: [CharacterSet]? = nil) {
+            self.characterSet = characterSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case characterSet = "CharacterSet"
+        }
+    }
+
+    public struct AccountQuota: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Max", required: false, type: .long), 
+            AWSShapeMember(label: "Used", required: false, type: .long), 
+            AWSShapeMember(label: "AccountQuotaName", required: false, type: .string)
+        ]
+        /// The maximum allowed value for the quota.
+        public let max: Int64?
+        /// The amount currently used toward the quota maximum.
+        public let used: Int64?
+        /// The name of the Amazon RDS quota for this AWS account.
+        public let accountQuotaName: String?
+
+        public init(max: Int64? = nil, used: Int64? = nil, accountQuotaName: String? = nil) {
+            self.max = max
+            self.used = used
+            self.accountQuotaName = accountQuotaName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case used = "Used"
+            case accountQuotaName = "AccountQuotaName"
+        }
+    }
+
+    public struct DBClusterSnapshotList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .list)
+        ]
+        public let dBClusterSnapshot: [DBClusterSnapshot]?
+
+        public init(dBClusterSnapshot: [DBClusterSnapshot]? = nil) {
+            self.dBClusterSnapshot = dBClusterSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterSnapshot = "DBClusterSnapshot"
+        }
+    }
+
+    public struct ValidStorageOptionsList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ValidStorageOptions", required: false, type: .list)
+        ]
+        public let validStorageOptions: [ValidStorageOptions]?
+
+        public init(validStorageOptions: [ValidStorageOptions]? = nil) {
+            self.validStorageOptions = validStorageOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validStorageOptions = "ValidStorageOptions"
+        }
+    }
+
+    public struct DescribeDBLogFilesMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "FileSize", required: false, type: .long), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "FileLastWritten", required: false, type: .long), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "FilenameContains", required: false, type: .string)
+        ]
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+        public let maxRecords: Int32?
+        /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must match the identifier of an existing DBInstance.  
+        public let dBInstanceIdentifier: String
+        /// Filters the available log files for files larger than the specified size.
+        public let fileSize: Int64?
+        /// The pagination token provided in the previous request. If this parameter is specified the response includes only records beyond the marker, up to MaxRecords.
+        public let marker: String?
+        /// Filters the available log files for files written since the specified date, in POSIX timestamp format with milliseconds.
+        public let fileLastWritten: Int64?
+        /// This parameter is not currently supported.
+        public let filters: FilterList?
+        /// Filters the available log files for log file names that contain the specified string.
+        public let filenameContains: String?
+
+        public init(maxRecords: Int32? = nil, dBInstanceIdentifier: String, fileSize: Int64? = nil, marker: String? = nil, fileLastWritten: Int64? = nil, filters: FilterList? = nil, filenameContains: String? = nil) {
+            self.maxRecords = maxRecords
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+            self.fileSize = fileSize
+            self.marker = marker
+            self.fileLastWritten = fileLastWritten
+            self.filters = filters
+            self.filenameContains = filenameContains
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case dBInstanceIdentifier = "DBInstanceIdentifier"
+            case fileSize = "FileSize"
+            case marker = "Marker"
+            case fileLastWritten = "FileLastWritten"
+            case filters = "Filters"
+            case filenameContains = "FilenameContains"
+        }
+    }
+
+    public struct DescribeDBEngineVersionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "ListSupportedTimezones", required: false, type: .boolean), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "ListSupportedCharacterSets", required: false, type: .boolean)
+        ]
+        ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so that the following results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        /// The database engine version to return. Example: 5.1.49 
+        public let engineVersion: String?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// Indicates that only the default version of the specified engine or engine and major version combination is returned.
+        public let defaultOnly: Bool?
+        /// If this parameter is specified and the requested engine supports the TimeZone parameter for CreateDBInstance, the response includes a list of supported time zones for each engine version. 
+        public let listSupportedTimezones: Bool?
+        /// The database engine to return.
+        public let engine: String?
+        /// The name of a specific DB parameter group family to return details for. Constraints:   If supplied, must match an existing DBParameterGroupFamily.  
+        public let dBParameterGroupFamily: String?
+        /// Not currently supported.
+        public let filters: FilterList?
+        /// If this parameter is specified and the requested engine supports the CharacterSetName parameter for CreateDBInstance, the response includes a list of supported character sets for each engine version. 
+        public let listSupportedCharacterSets: Bool?
+
+        public init(maxRecords: Int32? = nil, engineVersion: String? = nil, marker: String? = nil, defaultOnly: Bool? = nil, listSupportedTimezones: Bool? = nil, engine: String? = nil, dBParameterGroupFamily: String? = nil, filters: FilterList? = nil, listSupportedCharacterSets: Bool? = nil) {
+            self.maxRecords = maxRecords
+            self.engineVersion = engineVersion
+            self.marker = marker
+            self.defaultOnly = defaultOnly
+            self.listSupportedTimezones = listSupportedTimezones
+            self.engine = engine
+            self.dBParameterGroupFamily = dBParameterGroupFamily
+            self.filters = filters
+            self.listSupportedCharacterSets = listSupportedCharacterSets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case engineVersion = "EngineVersion"
+            case marker = "Marker"
+            case defaultOnly = "DefaultOnly"
+            case listSupportedTimezones = "ListSupportedTimezones"
+            case engine = "Engine"
+            case dBParameterGroupFamily = "DBParameterGroupFamily"
+            case filters = "Filters"
+            case listSupportedCharacterSets = "ListSupportedCharacterSets"
+        }
+    }
+
+    public struct DescribeDBLogFilesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "DescribeDBLogFiles", required: false, type: .structure)
+        ]
+        /// A pagination token that can be used in a subsequent DescribeDBLogFiles request.
+        public let marker: String?
+        /// The DB log files returned.
+        public let describeDBLogFiles: DescribeDBLogFilesList?
+
+        public init(marker: String? = nil, describeDBLogFiles: DescribeDBLogFilesList? = nil) {
+            self.marker = marker
+            self.describeDBLogFiles = describeDBLogFiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case describeDBLogFiles = "DescribeDBLogFiles"
+        }
+    }
+
+    public struct DescribePendingMaintenanceActionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// The ARN of a resource to return pending maintenance actions for.
+        public let resourceIdentifier: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list will only include pending maintenance actions for the DB instances identified by these ARNs.  
+        public let filters: FilterList?
+        ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords. 
+        public let marker: String?
+
+        public init(resourceIdentifier: String? = nil, maxRecords: Int32? = nil, filters: FilterList? = nil, marker: String? = nil) {
+            self.resourceIdentifier = resourceIdentifier
+            self.maxRecords = maxRecords
+            self.filters = filters
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceIdentifier = "ResourceIdentifier"
+            case maxRecords = "MaxRecords"
+            case filters = "Filters"
+            case marker = "Marker"
+        }
+    }
+
+    public struct Event: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Date", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceArn", required: false, type: .string)
+        ]
+        /// Specifies the source type for this event.
+        public let sourceType: SourceType?
+        /// Provides the text of this event.
+        public let message: String?
+        /// Provides the identifier for the source of the event.
+        public let sourceIdentifier: String?
+        /// Specifies the date and time of the event.
+        public let date: TimeStamp?
+        /// Specifies the category for the event.
+        public let eventCategories: EventCategoriesList?
+        /// The Amazon Resource Name (ARN) for the event.
+        public let sourceArn: String?
+
+        public init(sourceType: SourceType? = nil, message: String? = nil, sourceIdentifier: String? = nil, date: TimeStamp? = nil, eventCategories: EventCategoriesList? = nil, sourceArn: String? = nil) {
+            self.sourceType = sourceType
+            self.message = message
+            self.sourceIdentifier = sourceIdentifier
+            self.date = date
+            self.eventCategories = eventCategories
+            self.sourceArn = sourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceType = "SourceType"
+            case message = "Message"
+            case sourceIdentifier = "SourceIdentifier"
+            case date = "Date"
+            case eventCategories = "EventCategories"
+            case sourceArn = "SourceArn"
+        }
+    }
+
+    public struct EventCategoriesMap: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .structure)
+        ]
+        /// The source type that the returned categories belong to
+        public let sourceType: String?
+        /// The event categories for the specified source type
+        public let eventCategories: EventCategoriesList?
+
+        public init(sourceType: String? = nil, eventCategories: EventCategoriesList? = nil) {
+            self.sourceType = sourceType
+            self.eventCategories = eventCategories
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceType = "SourceType"
+            case eventCategories = "EventCategories"
+        }
+    }
+
+    public struct DescribeDBParameterGroupsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string)
+        ]
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        /// This parameter is not currently supported.
+        public let filters: FilterList?
+        ///  An optional pagination token provided by a previous DescribeDBParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
+        public let dBParameterGroupName: String?
+
+        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, marker: String? = nil, dBParameterGroupName: String? = nil) {
+            self.maxRecords = maxRecords
+            self.filters = filters
+            self.marker = marker
+            self.dBParameterGroupName = dBParameterGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case filters = "Filters"
+            case marker = "Marker"
+            case dBParameterGroupName = "DBParameterGroupName"
+        }
+    }
+
+    public struct CopyDBSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSnapshot", required: false, type: .structure)
+        ]
+        public let dBSnapshot: DBSnapshot?
+
+        public init(dBSnapshot: DBSnapshot? = nil) {
+            self.dBSnapshot = dBSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSnapshot = "DBSnapshot"
+        }
+    }
+
+    public struct ModifyEventSubscriptionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
+        ]
+        public let eventSubscription: EventSubscription?
+
+        public init(eventSubscription: EventSubscription? = nil) {
+            self.eventSubscription = eventSubscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscription = "EventSubscription"
+        }
+    }
+
+    public struct DBClusterList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBCluster", required: false, type: .list)
+        ]
+        public let dBCluster: [DBCluster]?
+
+        public init(dBCluster: [DBCluster]? = nil) {
+            self.dBCluster = dBCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBCluster = "DBCluster"
+        }
+    }
+
+    public struct ModifyOptionGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "OptionsToInclude", required: false, type: .structure), 
+            AWSShapeMember(label: "OptionsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean)
+        ]
+        /// The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
+        public let optionGroupName: String
+        /// Options in this list are added to the option group or, if already present, the specified configuration is used to update the existing configuration.
+        public let optionsToInclude: OptionConfigurationList?
+        /// Options in this list are removed from the option group.
+        public let optionsToRemove: [String]?
+        /// Indicates whether the changes should be applied immediately, or during the next maintenance window for each instance associated with the option group.
+        public let applyImmediately: Bool?
+
+        public init(optionGroupName: String, optionsToInclude: OptionConfigurationList? = nil, optionsToRemove: [String]? = nil, applyImmediately: Bool? = nil) {
+            self.optionGroupName = optionGroupName
+            self.optionsToInclude = optionsToInclude
+            self.optionsToRemove = optionsToRemove
+            self.applyImmediately = applyImmediately
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optionGroupName = "OptionGroupName"
+            case optionsToInclude = "OptionsToInclude"
+            case optionsToRemove = "OptionsToRemove"
+            case applyImmediately = "ApplyImmediately"
+        }
+    }
+
+    public struct DBParameterGroupStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string)
+        ]
+        /// The name of the DP parameter group.
+        public let dBParameterGroupName: String?
+        /// The status of parameter updates.
+        public let parameterApplyStatus: String?
+
+        public init(dBParameterGroupName: String? = nil, parameterApplyStatus: String? = nil) {
+            self.dBParameterGroupName = dBParameterGroupName
+            self.parameterApplyStatus = parameterApplyStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBParameterGroupName = "DBParameterGroupName"
+            case parameterApplyStatus = "ParameterApplyStatus"
+        }
+    }
+
+    public struct DBSnapshotList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSnapshot", required: false, type: .list)
+        ]
+        public let dBSnapshot: [DBSnapshot]?
+
+        public init(dBSnapshot: [DBSnapshot]? = nil) {
+            self.dBSnapshot = dBSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSnapshot = "DBSnapshot"
+        }
+    }
+
+    public struct OptionGroups: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "OptionGroupsList", required: false, type: .structure)
+        ]
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// List of option groups.
+        public let optionGroupsList: OptionGroupsList?
+
+        public init(marker: String? = nil, optionGroupsList: OptionGroupsList? = nil) {
+            self.marker = marker
+            self.optionGroupsList = optionGroupsList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case optionGroupsList = "OptionGroupsList"
+        }
+    }
+
+    public struct CreateOptionGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionGroup", required: false, type: .structure)
+        ]
+        public let optionGroup: OptionGroup?
+
+        public init(optionGroup: OptionGroup? = nil) {
+            self.optionGroup = optionGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optionGroup = "OptionGroup"
+        }
+    }
+
+    public struct RestoreDBInstanceFromDBSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
+        ]
+        public let dBInstance: DBInstance?
+
+        public init(dBInstance: DBInstance? = nil) {
+            self.dBInstance = dBInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBInstance = "DBInstance"
+        }
+    }
+
+    public struct OptionSetting: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
+            AWSShapeMember(label: "DataType", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ApplyType", required: false, type: .string), 
+            AWSShapeMember(label: "IsModifiable", required: false, type: .boolean), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "IsCollection", required: false, type: .boolean)
+        ]
+        /// The description of the option setting.
+        public let description: String?
+        /// The allowed values of the option setting.
+        public let allowedValues: String?
+        /// The data type of the option setting.
+        public let dataType: String?
+        /// The name of the option that has settings that you can set.
+        public let name: String?
+        /// The DB engine specific parameter type.
+        public let applyType: String?
+        /// A Boolean value that, when true, indicates the option setting can be modified from the default.
+        public let isModifiable: Bool?
+        /// The current value of the option setting.
+        public let value: String?
+        /// The default value of the option setting.
+        public let defaultValue: String?
+        /// Indicates if the option setting is part of a collection.
+        public let isCollection: Bool?
+
+        public init(description: String? = nil, allowedValues: String? = nil, dataType: String? = nil, name: String? = nil, applyType: String? = nil, isModifiable: Bool? = nil, value: String? = nil, defaultValue: String? = nil, isCollection: Bool? = nil) {
+            self.description = description
+            self.allowedValues = allowedValues
+            self.dataType = dataType
+            self.name = name
+            self.applyType = applyType
+            self.isModifiable = isModifiable
+            self.value = value
+            self.defaultValue = defaultValue
+            self.isCollection = isCollection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case allowedValues = "AllowedValues"
+            case dataType = "DataType"
+            case name = "Name"
+            case applyType = "ApplyType"
+            case isModifiable = "IsModifiable"
+            case value = "Value"
+            case defaultValue = "DefaultValue"
+            case isCollection = "IsCollection"
+        }
+    }
+
+    public struct ModifyDBSubnetGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: true, type: .structure), 
+            AWSShapeMember(label: "DBSubnetGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string)
+        ]
+        /// The EC2 subnet IDs for the DB subnet group.
+        public let subnetIds: SubnetIdentifierList
+        /// The description for the DB subnet group.
+        public let dBSubnetGroupDescription: String?
+        /// The name for the DB subnet group. This value is stored as a lowercase string. You can't modify the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
+        public let dBSubnetGroupName: String
+
+        public init(subnetIds: SubnetIdentifierList, dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String) {
+            self.subnetIds = subnetIds
+            self.dBSubnetGroupDescription = dBSubnetGroupDescription
+            self.dBSubnetGroupName = dBSubnetGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case dBSubnetGroupDescription = "DBSubnetGroupDescription"
+            case dBSubnetGroupName = "DBSubnetGroupName"
+        }
+    }
+
+    public struct DownloadDBLogFilePortionDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalDataPending", required: false, type: .boolean), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "LogFileData", required: false, type: .string)
+        ]
+        /// Boolean value that if true, indicates there is more data to be downloaded.
+        public let additionalDataPending: Bool?
+        /// A pagination token that can be used in a subsequent DownloadDBLogFilePortion request.
+        public let marker: String?
+        /// Entries from the specified log file.
+        public let logFileData: String?
+
+        public init(additionalDataPending: Bool? = nil, marker: String? = nil, logFileData: String? = nil) {
+            self.additionalDataPending = additionalDataPending
+            self.marker = marker
+            self.logFileData = logFileData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalDataPending = "AdditionalDataPending"
+            case marker = "Marker"
+            case logFileData = "LogFileData"
+        }
+    }
+
+    public struct DBSnapshotAttribute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
+            AWSShapeMember(label: "AttributeValues", required: false, type: .structure)
+        ]
+        /// The name of the manual DB snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBSnapshotAttribute API action.
+        public let attributeName: String?
+        /// The value or values for the manual DB snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB snapshot. If a value of all is in the list, then the manual DB snapshot is public and available for any AWS account to copy or restore.
+        public let attributeValues: AttributeValueList?
+
+        public init(attributeName: String? = nil, attributeValues: AttributeValueList? = nil) {
+            self.attributeName = attributeName
+            self.attributeValues = attributeValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case attributeValues = "AttributeValues"
+        }
+    }
+
+    public struct RemoveSourceIdentifierFromSubscriptionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
+        ]
+        public let eventSubscription: EventSubscription?
+
+        public init(eventSubscription: EventSubscription? = nil) {
+            self.eventSubscription = eventSubscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscription = "EventSubscription"
+        }
+    }
+
+    public struct DeleteOptionGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionGroupName", required: true, type: .string)
+        ]
+        /// The name of the option group to be deleted.  You can't delete default option groups. 
+        public let optionGroupName: String
+
+        public init(optionGroupName: String) {
+            self.optionGroupName = optionGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optionGroupName = "OptionGroupName"
+        }
+    }
+
+    public struct OrderableDBInstanceOptionsList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrderableDBInstanceOption", required: false, type: .list)
+        ]
+        public let orderableDBInstanceOption: [OrderableDBInstanceOption]?
+
+        public init(orderableDBInstanceOption: [OrderableDBInstanceOption]? = nil) {
+            self.orderableDBInstanceOption = orderableDBInstanceOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case orderableDBInstanceOption = "OrderableDBInstanceOption"
+        }
+    }
+
+    public struct AddTagsToResourceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .structure), 
+            AWSShapeMember(label: "ResourceName", required: true, type: .string)
+        ]
+        /// The tags to be assigned to the Amazon RDS resource.
+        public let tags: TagList
+        /// The Amazon RDS resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
+        public let resourceName: String
+
+        public init(tags: TagList, resourceName: String) {
+            self.tags = tags
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case resourceName = "ResourceName"
+        }
+    }
+
+    public struct DBClusterOptionGroupMemberships: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterOptionGroup", required: false, type: .list)
+        ]
+        public let dBClusterOptionGroup: [DBClusterOptionGroupStatus]?
+
+        public init(dBClusterOptionGroup: [DBClusterOptionGroupStatus]? = nil) {
+            self.dBClusterOptionGroup = dBClusterOptionGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterOptionGroup = "DBClusterOptionGroup"
+        }
+    }
+
+    public struct DeleteDBSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSnapshot", required: false, type: .structure)
+        ]
+        public let dBSnapshot: DBSnapshot?
+
+        public init(dBSnapshot: DBSnapshot? = nil) {
+            self.dBSnapshot = dBSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSnapshot = "DBSnapshot"
+        }
+    }
+
+    public struct ModifyDBClusterSnapshotAttributeMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "ValuesToAdd", required: false, type: .structure), 
+            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "ValuesToRemove", required: false, type: .structure)
+        ]
+        /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
+        public let attributeName: String
+        /// A list of DB cluster snapshot attributes to add to the attribute specified by AttributeName. To authorize other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account IDs, or all to make the manual DB cluster snapshot restorable by any AWS account. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts.
+        public let valuesToAdd: AttributeValueList?
+        /// The identifier for the DB cluster snapshot to modify the attributes for.
+        public let dBClusterSnapshotIdentifier: String
+        /// A list of DB cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account identifiers, or all to remove authorization for any AWS account to copy or restore the DB cluster snapshot. If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB cluster snapshot.
+        public let valuesToRemove: AttributeValueList?
+
+        public init(attributeName: String, valuesToAdd: AttributeValueList? = nil, dBClusterSnapshotIdentifier: String, valuesToRemove: AttributeValueList? = nil) {
+            self.attributeName = attributeName
+            self.valuesToAdd = valuesToAdd
+            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
+            self.valuesToRemove = valuesToRemove
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case valuesToAdd = "ValuesToAdd"
+            case dBClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
+            case valuesToRemove = "ValuesToRemove"
+        }
+    }
+
+    public struct DBEngineVersionList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBEngineVersion", required: false, type: .list)
+        ]
+        public let dBEngineVersion: [DBEngineVersion]?
+
+        public init(dBEngineVersion: [DBEngineVersion]? = nil) {
+            self.dBEngineVersion = dBEngineVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBEngineVersion = "DBEngineVersion"
+        }
+    }
+
+    public struct PendingMaintenanceActionDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PendingMaintenanceAction", required: false, type: .list)
+        ]
+        public let pendingMaintenanceAction: [PendingMaintenanceAction]?
+
+        public init(pendingMaintenanceAction: [PendingMaintenanceAction]? = nil) {
+            self.pendingMaintenanceAction = pendingMaintenanceAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pendingMaintenanceAction = "PendingMaintenanceAction"
+        }
+    }
+
+    public struct EventSubscriptionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscriptionsList", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// A list of EventSubscriptions data types.
+        public let eventSubscriptionsList: EventSubscriptionsList?
+        ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+
+        public init(eventSubscriptionsList: EventSubscriptionsList? = nil, marker: String? = nil) {
+            self.eventSubscriptionsList = eventSubscriptionsList
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscriptionsList = "EventSubscriptionsList"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ModifyDBSnapshotMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "DBSnapshotIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "OptionGroupName", required: false, type: .string)
+        ]
+        /// The engine version to upgrade the DB snapshot to.  The following are the database engines and engine versions that are available when you upgrade a DB snapshot.   MySQL     5.5.46 (supported for 5.1 DB snapshots)    Oracle     12.1.0.2.v8 (supported for 12.1.0.1 DB snapshots)    11.2.0.4.v12 (supported for 11.2.0.2 DB snapshots)    11.2.0.4.v11 (supported for 11.2.0.3 DB snapshots)  
+        public let engineVersion: String?
+        /// The identifier of the DB snapshot to modify.
+        public let dBSnapshotIdentifier: String
+        /// The option group to identify with the upgraded DB snapshot.  You can specify this parameter when you upgrade an Oracle DB snapshot. The same option group considerations apply when upgrading a DB snapshot as when upgrading a DB instance. For more information, see Option Group Considerations. 
+        public let optionGroupName: String?
+
+        public init(engineVersion: String? = nil, dBSnapshotIdentifier: String, optionGroupName: String? = nil) {
+            self.engineVersion = engineVersion
+            self.dBSnapshotIdentifier = dBSnapshotIdentifier
+            self.optionGroupName = optionGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineVersion = "EngineVersion"
+            case dBSnapshotIdentifier = "DBSnapshotIdentifier"
+            case optionGroupName = "OptionGroupName"
+        }
+    }
+
+    public struct EventSubscriptionsList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscription", required: false, type: .list)
+        ]
+        public let eventSubscription: [EventSubscription]?
+
+        public init(eventSubscription: [EventSubscription]? = nil) {
+            self.eventSubscription = eventSubscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscription = "EventSubscription"
+        }
+    }
+
+    public struct AddSourceIdentifierToSubscriptionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
+        ]
+        /// The identifier of the event source to be added. Constraints:   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
+        public let sourceIdentifier: String
+        /// The name of the RDS event notification subscription you want to add a source identifier to.
+        public let subscriptionName: String
+
+        public init(sourceIdentifier: String, subscriptionName: String) {
+            self.sourceIdentifier = sourceIdentifier
+            self.subscriptionName = subscriptionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceIdentifier = "SourceIdentifier"
+            case subscriptionName = "SubscriptionName"
+        }
+    }
+
+    public struct CreateEventSubscriptionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
+        ]
+        public let eventSubscription: EventSubscription?
+
+        public init(eventSubscription: EventSubscription? = nil) {
+            self.eventSubscription = eventSubscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscription = "EventSubscription"
+        }
+    }
+
+    public struct PendingMaintenanceActionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PendingMaintenanceActions", required: false, type: .structure)
+        ]
+        ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords. 
+        public let marker: String?
+        /// A list of the pending maintenance actions for the resource.
+        public let pendingMaintenanceActions: PendingMaintenanceActions?
+
+        public init(marker: String? = nil, pendingMaintenanceActions: PendingMaintenanceActions? = nil) {
+            self.marker = marker
+            self.pendingMaintenanceActions = pendingMaintenanceActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case pendingMaintenanceActions = "PendingMaintenanceActions"
+        }
+    }
+
+    public struct CopyDBClusterSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
+        ]
+        public let dBClusterSnapshot: DBClusterSnapshot?
+
+        public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
+            self.dBClusterSnapshot = dBClusterSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterSnapshot = "DBClusterSnapshot"
+        }
+    }
+
+    public struct DBInstanceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "DBInstances", required: false, type: .structure)
+        ]
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
+        public let marker: String?
+        ///  A list of DBInstance instances. 
+        public let dBInstances: DBInstanceList?
+
+        public init(marker: String? = nil, dBInstances: DBInstanceList? = nil) {
+            self.marker = marker
+            self.dBInstances = dBInstances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case dBInstances = "DBInstances"
+        }
+    }
+
+    public struct PromoteReadReplicaResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
+        ]
+        public let dBInstance: DBInstance?
+
+        public init(dBInstance: DBInstance? = nil) {
+            self.dBInstance = dBInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBInstance = "DBInstance"
+        }
+    }
+
+    public struct EventCategoriesList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventCategory", required: false, type: .list)
+        ]
+        public let eventCategory: [String]?
+
+        public init(eventCategory: [String]? = nil) {
+            self.eventCategory = eventCategory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventCategory = "EventCategory"
+        }
+    }
+
+    public struct DBSecurityGroups: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSecurityGroup", required: false, type: .list)
+        ]
+        public let dBSecurityGroup: [DBSecurityGroup]?
+
+        public init(dBSecurityGroup: [DBSecurityGroup]? = nil) {
+            self.dBSecurityGroup = dBSecurityGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSecurityGroup = "DBSecurityGroup"
+        }
+    }
+
+    public struct CopyDBParameterGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetDBParameterGroupIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "SourceDBParameterGroupIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "TargetDBParameterGroupDescription", required: true, type: .string)
+        ]
+        /// The identifier for the copied DB parameter group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-db-parameter-group 
+        public let targetDBParameterGroupIdentifier: String
+        ///  The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).  Constraints:   Must specify a valid DB parameter group.   Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.  
+        public let sourceDBParameterGroupIdentifier: String
+        public let tags: TagList?
+        /// A description for the copied DB parameter group.
+        public let targetDBParameterGroupDescription: String
+
+        public init(targetDBParameterGroupIdentifier: String, sourceDBParameterGroupIdentifier: String, tags: TagList? = nil, targetDBParameterGroupDescription: String) {
+            self.targetDBParameterGroupIdentifier = targetDBParameterGroupIdentifier
+            self.sourceDBParameterGroupIdentifier = sourceDBParameterGroupIdentifier
+            self.tags = tags
+            self.targetDBParameterGroupDescription = targetDBParameterGroupDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetDBParameterGroupIdentifier = "TargetDBParameterGroupIdentifier"
+            case sourceDBParameterGroupIdentifier = "SourceDBParameterGroupIdentifier"
+            case tags = "Tags"
+            case targetDBParameterGroupDescription = "TargetDBParameterGroupDescription"
+        }
+    }
+
+    public struct OrderableDBInstanceOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SupportsIops", required: false, type: .boolean), 
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .structure), 
+            AWSShapeMember(label: "MinIopsPerGib", required: false, type: .double), 
+            AWSShapeMember(label: "MaxIopsPerGib", required: false, type: .double), 
+            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
+            AWSShapeMember(label: "StorageType", required: false, type: .string), 
+            AWSShapeMember(label: "MinIopsPerDbInstance", required: false, type: .integer), 
+            AWSShapeMember(label: "MinStorageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "SupportsIAMDatabaseAuthentication", required: false, type: .boolean), 
+            AWSShapeMember(label: "SupportsStorageEncryption", required: false, type: .boolean), 
+            AWSShapeMember(label: "MultiAZCapable", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReadReplicaCapable", required: false, type: .boolean), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "MaxStorageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "SupportsEnhancedMonitoring", required: false, type: .boolean), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "SupportsPerformanceInsights", required: false, type: .boolean), 
+            AWSShapeMember(label: "Vpc", required: false, type: .boolean), 
+            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "MaxIopsPerDbInstance", required: false, type: .integer)
+        ]
+        /// Indicates whether a DB instance supports provisioned IOPS.
+        public let supportsIops: Bool?
+        /// A list of Availability Zones for a DB instance.
+        public let availabilityZones: AvailabilityZoneList?
+        /// Minimum provisioned IOPS per GiB for a DB instance.
+        public let minIopsPerGib: Double?
+        /// Maximum provisioned IOPS per GiB for a DB instance.
+        public let maxIopsPerGib: Double?
+        /// The license model for a DB instance.
+        public let licenseModel: String?
+        /// Indicates the storage type for a DB instance.
+        public let storageType: String?
+        /// Minimum total provisioned IOPS for a DB instance.
+        public let minIopsPerDbInstance: Int32?
+        /// Minimum storage size for a DB instance.
+        public let minStorageSize: Int32?
+        /// Indicates whether a DB instance supports IAM database authentication.
+        public let supportsIAMDatabaseAuthentication: Bool?
+        /// Indicates whether a DB instance supports encrypted storage.
+        public let supportsStorageEncryption: Bool?
+        /// Indicates whether a DB instance is Multi-AZ capable.
+        public let multiAZCapable: Bool?
+        /// Indicates whether a DB instance can have a Read Replica.
+        public let readReplicaCapable: Bool?
+        /// The engine version of a DB instance.
+        public let engineVersion: String?
+        /// Maximum storage size for a DB instance.
+        public let maxStorageSize: Int32?
+        /// Indicates whether a DB instance supports Enhanced Monitoring at intervals from 1 to 60 seconds.
+        public let supportsEnhancedMonitoring: Bool?
+        /// The engine type of a DB instance.
+        public let engine: String?
+        /// True if a DB instance supports Performance Insights, otherwise false.
+        public let supportsPerformanceInsights: Bool?
+        /// Indicates whether a DB instance is in a VPC.
+        public let vpc: Bool?
+        /// The DB instance class for a DB instance.
+        public let dBInstanceClass: String?
+        /// Maximum total provisioned IOPS for a DB instance.
+        public let maxIopsPerDbInstance: Int32?
+
+        public init(supportsIops: Bool? = nil, availabilityZones: AvailabilityZoneList? = nil, minIopsPerGib: Double? = nil, maxIopsPerGib: Double? = nil, licenseModel: String? = nil, storageType: String? = nil, minIopsPerDbInstance: Int32? = nil, minStorageSize: Int32? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsStorageEncryption: Bool? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, engineVersion: String? = nil, maxStorageSize: Int32? = nil, supportsEnhancedMonitoring: Bool? = nil, engine: String? = nil, supportsPerformanceInsights: Bool? = nil, vpc: Bool? = nil, dBInstanceClass: String? = nil, maxIopsPerDbInstance: Int32? = nil) {
+            self.supportsIops = supportsIops
+            self.availabilityZones = availabilityZones
+            self.minIopsPerGib = minIopsPerGib
+            self.maxIopsPerGib = maxIopsPerGib
+            self.licenseModel = licenseModel
+            self.storageType = storageType
+            self.minIopsPerDbInstance = minIopsPerDbInstance
+            self.minStorageSize = minStorageSize
+            self.supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication
+            self.supportsStorageEncryption = supportsStorageEncryption
+            self.multiAZCapable = multiAZCapable
+            self.readReplicaCapable = readReplicaCapable
+            self.engineVersion = engineVersion
+            self.maxStorageSize = maxStorageSize
+            self.supportsEnhancedMonitoring = supportsEnhancedMonitoring
+            self.engine = engine
+            self.supportsPerformanceInsights = supportsPerformanceInsights
+            self.vpc = vpc
+            self.dBInstanceClass = dBInstanceClass
+            self.maxIopsPerDbInstance = maxIopsPerDbInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case supportsIops = "SupportsIops"
+            case availabilityZones = "AvailabilityZones"
+            case minIopsPerGib = "MinIopsPerGib"
+            case maxIopsPerGib = "MaxIopsPerGib"
+            case licenseModel = "LicenseModel"
+            case storageType = "StorageType"
+            case minIopsPerDbInstance = "MinIopsPerDbInstance"
+            case minStorageSize = "MinStorageSize"
+            case supportsIAMDatabaseAuthentication = "SupportsIAMDatabaseAuthentication"
+            case supportsStorageEncryption = "SupportsStorageEncryption"
+            case multiAZCapable = "MultiAZCapable"
+            case readReplicaCapable = "ReadReplicaCapable"
+            case engineVersion = "EngineVersion"
+            case maxStorageSize = "MaxStorageSize"
+            case supportsEnhancedMonitoring = "SupportsEnhancedMonitoring"
+            case engine = "Engine"
+            case supportsPerformanceInsights = "SupportsPerformanceInsights"
+            case vpc = "Vpc"
+            case dBInstanceClass = "DBInstanceClass"
+            case maxIopsPerDbInstance = "MaxIopsPerDbInstance"
+        }
+    }
+
+    public struct RecurringChargeList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecurringCharge", required: false, type: .list)
+        ]
+        public let recurringCharge: [RecurringCharge]?
+
+        public init(recurringCharge: [RecurringCharge]? = nil) {
+            self.recurringCharge = recurringCharge
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recurringCharge = "RecurringCharge"
+        }
+    }
+
+    public struct EngineDefaults: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .structure)
+        ]
+        /// Specifies the name of the DB parameter group family that the engine default parameters apply to.
+        public let dBParameterGroupFamily: String?
+        ///  An optional pagination token provided by a previous EngineDefaults request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
+        public let marker: String?
+        /// Contains a list of engine default parameters.
+        public let parameters: ParametersList?
+
+        public init(dBParameterGroupFamily: String? = nil, marker: String? = nil, parameters: ParametersList? = nil) {
+            self.dBParameterGroupFamily = dBParameterGroupFamily
+            self.marker = marker
+            self.parameters = parameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBParameterGroupFamily = "DBParameterGroupFamily"
+            case marker = "Marker"
+            case parameters = "Parameters"
+        }
+    }
+
+    public struct DeleteDBClusterMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FinalDBSnapshotIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SkipFinalSnapshot", required: false, type: .boolean), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
+        ]
+        ///  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false.    Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.   Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        public let finalDBSnapshotIdentifier: String?
+        ///  Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted.   You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is false.  Default: false 
+        public let skipFinalSnapshot: Bool?
+        /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.  
+        public let dBClusterIdentifier: String
+
+        public init(finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil, dBClusterIdentifier: String) {
+            self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
+            self.skipFinalSnapshot = skipFinalSnapshot
+            self.dBClusterIdentifier = dBClusterIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case finalDBSnapshotIdentifier = "FinalDBSnapshotIdentifier"
+            case skipFinalSnapshot = "SkipFinalSnapshot"
+            case dBClusterIdentifier = "DBClusterIdentifier"
+        }
+    }
+
+    public struct DeleteEventSubscriptionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
+        ]
+        public let eventSubscription: EventSubscription?
+
+        public init(eventSubscription: EventSubscription? = nil) {
+            self.eventSubscription = eventSubscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscription = "EventSubscription"
+        }
+    }
+
+    public struct CreateDBSecurityGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSecurityGroup", required: false, type: .structure)
+        ]
+        public let dBSecurityGroup: DBSecurityGroup?
+
+        public init(dBSecurityGroup: DBSecurityGroup? = nil) {
+            self.dBSecurityGroup = dBSecurityGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSecurityGroup = "DBSecurityGroup"
+        }
+    }
+
+    public struct EventSubscription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SourceIdsList", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "CustSubscriptionId", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "EventSubscriptionArn", required: false, type: .string), 
+            AWSShapeMember(label: "CustomerAwsId", required: false, type: .string), 
+            AWSShapeMember(label: "EventCategoriesList", required: false, type: .structure), 
+            AWSShapeMember(label: "SubscriptionCreationTime", required: false, type: .string)
+        ]
+        /// The status of the RDS event notification subscription. Constraints: Can be one of the following: creating | modifying | deleting | active | no-permission | topic-not-exist The status "no-permission" indicates that RDS no longer has permission to post to the SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.
+        public let status: String?
+        /// The topic ARN of the RDS event notification subscription.
+        public let snsTopicArn: String?
+        /// A list of source IDs for the RDS event notification subscription.
+        public let sourceIdsList: SourceIdsList?
+        /// The source type for the RDS event notification subscription.
+        public let sourceType: String?
+        /// The RDS event notification subscription Id.
+        public let custSubscriptionId: String?
+        /// A Boolean value indicating if the subscription is enabled. True indicates the subscription is enabled.
+        public let enabled: Bool?
+        /// The Amazon Resource Name (ARN) for the event subscription.
+        public let eventSubscriptionArn: String?
+        /// The AWS customer account associated with the RDS event notification subscription.
+        public let customerAwsId: String?
+        /// A list of event categories for the RDS event notification subscription.
+        public let eventCategoriesList: EventCategoriesList?
+        /// The time the RDS event notification subscription was created.
+        public let subscriptionCreationTime: String?
+
+        public init(status: String? = nil, snsTopicArn: String? = nil, sourceIdsList: SourceIdsList? = nil, sourceType: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventSubscriptionArn: String? = nil, customerAwsId: String? = nil, eventCategoriesList: EventCategoriesList? = nil, subscriptionCreationTime: String? = nil) {
+            self.status = status
+            self.snsTopicArn = snsTopicArn
+            self.sourceIdsList = sourceIdsList
+            self.sourceType = sourceType
+            self.custSubscriptionId = custSubscriptionId
+            self.enabled = enabled
+            self.eventSubscriptionArn = eventSubscriptionArn
+            self.customerAwsId = customerAwsId
+            self.eventCategoriesList = eventCategoriesList
+            self.subscriptionCreationTime = subscriptionCreationTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case snsTopicArn = "SnsTopicArn"
+            case sourceIdsList = "SourceIdsList"
+            case sourceType = "SourceType"
+            case custSubscriptionId = "CustSubscriptionId"
+            case enabled = "Enabled"
+            case eventSubscriptionArn = "EventSubscriptionArn"
+            case customerAwsId = "CustomerAwsId"
+            case eventCategoriesList = "EventCategoriesList"
+            case subscriptionCreationTime = "SubscriptionCreationTime"
+        }
+    }
+
+    public struct RestoreDBClusterToPointInTimeMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "RestoreToTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "UseLatestRestorableTime", required: false, type: .boolean), 
+            AWSShapeMember(label: "RestoreType", required: false, type: .string), 
+            AWSShapeMember(label: "SourceDBClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
+        ]
+        /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.
+        public let kmsKeyId: String?
+        /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        public let dBClusterIdentifier: String
+        /// The DB subnet group name to use for the new DB cluster. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
+        public let dBSubnetGroupName: String?
+        /// The name of the option group for the new DB cluster.
+        public let optionGroupName: String?
+        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
+        public let enableIAMDatabaseAuthentication: Bool?
+        public let tags: TagList?
+        /// A list of VPC security groups that the new DB cluster belongs to.
+        public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
+        /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Must be specified if UseLatestRestorableTime parameter is not provided   Cannot be specified if UseLatestRestorableTime parameter is true   Cannot be specified if RestoreType parameter is copy-on-write    Example: 2015-03-07T23:45:00Z 
+        public let restoreToTime: TimeStamp?
+        /// A value that is set to true to restore the DB cluster to the latest restorable backup time, and false otherwise.  Default: false  Constraints: Cannot be specified if RestoreToTime parameter is provided.
+        public let useLatestRestorableTime: Bool?
+        /// The type of restore to be performed. You can specify one of the following values:    full-copy - The new DB cluster is restored as a full copy of the source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.   Constraints: You can't specify copy-on-write if the engine version of the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
+        public let restoreType: String?
+        /// The identifier of the source DB cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.  
+        public let sourceDBClusterIdentifier: String
+        /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
+        public let port: Int32?
+
+        public init(kmsKeyId: String? = nil, dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, optionGroupName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, tags: TagList? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, restoreToTime: TimeStamp? = nil, useLatestRestorableTime: Bool? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, port: Int32? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.dBSubnetGroupName = dBSubnetGroupName
+            self.optionGroupName = optionGroupName
+            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+            self.tags = tags
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.restoreToTime = restoreToTime
+            self.useLatestRestorableTime = useLatestRestorableTime
+            self.restoreType = restoreType
+            self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
+            self.port = port
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dBSubnetGroupName = "DBSubnetGroupName"
+            case optionGroupName = "OptionGroupName"
+            case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
+            case tags = "Tags"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+            case restoreToTime = "RestoreToTime"
+            case useLatestRestorableTime = "UseLatestRestorableTime"
+            case restoreType = "RestoreType"
+            case sourceDBClusterIdentifier = "SourceDBClusterIdentifier"
+            case port = "Port"
+        }
+    }
+
+    public struct DescribeEventCategoriesMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure)
+        ]
+        /// The type of source that is generating the events. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
+        public let sourceType: String?
+        /// This parameter is not currently supported.
+        public let filters: FilterList?
+
+        public init(sourceType: String? = nil, filters: FilterList? = nil) {
+            self.sourceType = sourceType
+            self.filters = filters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceType = "SourceType"
+            case filters = "Filters"
+        }
+    }
+
+    public struct AvailabilityZoneList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .list)
+        ]
+        public let availabilityZone: [AvailabilityZone]?
+
+        public init(availabilityZone: [AvailabilityZone]? = nil) {
+            self.availabilityZone = availabilityZone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+        }
+    }
+
+    public struct AuthorizeDBSecurityGroupIngressResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSecurityGroup", required: false, type: .structure)
+        ]
+        public let dBSecurityGroup: DBSecurityGroup?
+
+        public init(dBSecurityGroup: DBSecurityGroup? = nil) {
+            self.dBSecurityGroup = dBSecurityGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSecurityGroup = "DBSecurityGroup"
+        }
+    }
+
+    public struct DBSecurityGroupMembership: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "DBSecurityGroupName", required: false, type: .string)
+        ]
+        /// The status of the DB security group.
+        public let status: String?
+        /// The name of the DB security group.
+        public let dBSecurityGroupName: String?
+
+        public init(status: String? = nil, dBSecurityGroupName: String? = nil) {
+            self.status = status
+            self.dBSecurityGroupName = dBSecurityGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case dBSecurityGroupName = "DBSecurityGroupName"
+        }
+    }
+
+    public struct DBClusterParameterGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterParameterGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// Provides the name of the DB parameter group family that this DB cluster parameter group is compatible with.
+        public let dBParameterGroupFamily: String?
+        /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
+        public let dBClusterParameterGroupArn: String?
+        /// Provides the name of the DB cluster parameter group.
+        public let dBClusterParameterGroupName: String?
+        /// Provides the customer-specified description for this DB cluster parameter group.
+        public let description: String?
+
+        public init(dBParameterGroupFamily: String? = nil, dBClusterParameterGroupArn: String? = nil, dBClusterParameterGroupName: String? = nil, description: String? = nil) {
+            self.dBParameterGroupFamily = dBParameterGroupFamily
+            self.dBClusterParameterGroupArn = dBClusterParameterGroupArn
+            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBParameterGroupFamily = "DBParameterGroupFamily"
+            case dBClusterParameterGroupArn = "DBClusterParameterGroupArn"
+            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
+            case description = "Description"
+        }
+    }
+
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case dbInstance = "db-instance"
+        case dbParameterGroup = "db-parameter-group"
+        case dbSecurityGroup = "db-security-group"
+        case dbSnapshot = "db-snapshot"
+        case dbCluster = "db-cluster"
+        case dbClusterSnapshot = "db-cluster-snapshot"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DBSecurityGroupNameList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSecurityGroupName", required: false, type: .list)
+        ]
+        public let dBSecurityGroupName: [String]?
+
+        public init(dBSecurityGroupName: [String]? = nil) {
+            self.dBSecurityGroupName = dBSecurityGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSecurityGroupName = "DBSecurityGroupName"
+        }
+    }
+
+    public struct CreateDBClusterResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
+        ]
+        public let dBCluster: DBCluster?
+
+        public init(dBCluster: DBCluster? = nil) {
+            self.dBCluster = dBCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBCluster = "DBCluster"
+        }
+    }
+
+    public struct DeleteDBInstanceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FinalDBSnapshotIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SkipFinalSnapshot", required: false, type: .boolean), 
+            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
+        ]
+        ///  The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is set to false.   Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Cannot be specified when deleting a Read Replica.  
+        public let finalDBSnapshotIdentifier: String?
+        ///  Determines whether a final DB snapshot is created before the DB instance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB instance is deleted.  Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter is set to "true". Specify true when deleting a Read Replica.  The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is false.  Default: false 
+        public let skipFinalSnapshot: Bool?
+        /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:   Must match the name of an existing DB instance.  
+        public let dBInstanceIdentifier: String
+
+        public init(finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil, dBInstanceIdentifier: String) {
+            self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
+            self.skipFinalSnapshot = skipFinalSnapshot
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case finalDBSnapshotIdentifier = "FinalDBSnapshotIdentifier"
+            case skipFinalSnapshot = "SkipFinalSnapshot"
+            case dBInstanceIdentifier = "DBInstanceIdentifier"
+        }
+    }
+
+    public struct Timezone: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimezoneName", required: false, type: .string)
+        ]
+        /// The name of the time zone.
+        public let timezoneName: String?
+
+        public init(timezoneName: String? = nil) {
+            self.timezoneName = timezoneName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timezoneName = "TimezoneName"
+        }
+    }
+
+    public struct RebootDBInstanceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "ForceFailover", required: false, type: .boolean)
+        ]
+        /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
+        public let dBInstanceIdentifier: String
+        ///  When true, the reboot is conducted through a MultiAZ failover.  Constraint: You can't specify true if the instance is not configured for MultiAZ.
+        public let forceFailover: Bool?
+
+        public init(dBInstanceIdentifier: String, forceFailover: Bool? = nil) {
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+            self.forceFailover = forceFailover
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBInstanceIdentifier = "DBInstanceIdentifier"
+            case forceFailover = "ForceFailover"
+        }
+    }
+
+    public struct ReservedDBInstanceList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedDBInstance", required: false, type: .list)
+        ]
+        public let reservedDBInstance: [ReservedDBInstance]?
+
+        public init(reservedDBInstance: [ReservedDBInstance]? = nil) {
+            self.reservedDBInstance = reservedDBInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedDBInstance = "ReservedDBInstance"
+        }
+    }
+
+    public struct DBClusterSnapshotAttributesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterSnapshotAttributes", required: false, type: .structure)
+        ]
+        /// The identifier of the manual DB cluster snapshot that the attributes apply to.
+        public let dBClusterSnapshotIdentifier: String?
+        /// The list of attributes and values for the manual DB cluster snapshot.
+        public let dBClusterSnapshotAttributes: DBClusterSnapshotAttributeList?
+
+        public init(dBClusterSnapshotIdentifier: String? = nil, dBClusterSnapshotAttributes: DBClusterSnapshotAttributeList? = nil) {
+            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
+            self.dBClusterSnapshotAttributes = dBClusterSnapshotAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
+            case dBClusterSnapshotAttributes = "DBClusterSnapshotAttributes"
+        }
+    }
+
+    public struct DescribeDBLogFilesDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastWritten", required: false, type: .long), 
+            AWSShapeMember(label: "Size", required: false, type: .long), 
+            AWSShapeMember(label: "LogFileName", required: false, type: .string)
+        ]
+        /// A POSIX timestamp when the last log entry was written.
+        public let lastWritten: Int64?
+        /// The size, in bytes, of the log file for the specified DB instance.
+        public let size: Int64?
+        /// The name of the log file for the specified DB instance.
+        public let logFileName: String?
+
+        public init(lastWritten: Int64? = nil, size: Int64? = nil, logFileName: String? = nil) {
+            self.lastWritten = lastWritten
+            self.size = size
+            self.logFileName = logFileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastWritten = "LastWritten"
+            case size = "Size"
+            case logFileName = "LogFileName"
+        }
+    }
+
+    public struct DBInstance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "DomainMemberships", required: false, type: .structure), 
+            AWSShapeMember(label: "DBInstanceStatus", required: false, type: .string), 
+            AWSShapeMember(label: "DBParameterGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "DBSecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "CharacterSetName", required: false, type: .string), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "PerformanceInsightsKMSKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestRestorableTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DbiResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
+            AWSShapeMember(label: "PerformanceInsightsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DbInstancePort", required: false, type: .integer), 
+            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "IAMDatabaseAuthenticationEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "StatusInfos", required: false, type: .structure), 
+            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
+            AWSShapeMember(label: "SecondaryAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "ReadReplicaDBInstanceIdentifiers", required: false, type: .structure), 
+            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
+            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBName", required: false, type: .string), 
+            AWSShapeMember(label: "EnhancedMonitoringResourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "OptionGroupMemberships", required: false, type: .structure), 
+            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "PromotionTier", required: false, type: .integer), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
+            AWSShapeMember(label: "DBInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
+            AWSShapeMember(label: "ReadReplicaSourceDBInstanceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Timezone", required: false, type: .string), 
+            AWSShapeMember(label: "StorageType", required: false, type: .string), 
+            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReadReplicaDBClusterIdentifiers", required: false, type: .structure)
+        ]
+        /// Provides a list of VPC security group elements that the DB instance belongs to.
+        public let vpcSecurityGroups: VpcSecurityGroupMembershipList?
+        /// The Active Directory Domain membership records associated with the DB instance.
+        public let domainMemberships: DomainMembershipList?
+        /// Specifies the current state of this database.
+        public let dBInstanceStatus: String?
+        /// Provides the list of DB parameter groups applied to this DB instance.
+        public let dBParameterGroups: DBParameterGroupStatusList?
+        ///  Provides List of DB security group elements containing only DBSecurityGroup.Name and DBSecurityGroup.Status subelements. 
+        public let dBSecurityGroups: DBSecurityGroupMembershipList?
+        /// Specifies the name of the Availability Zone the DB instance is located in.
+        public let availabilityZone: String?
+        /// If present, specifies the name of the character set that this instance is associated with.
+        public let characterSetName: String?
+        /// Indicates that minor version patches are applied automatically.
+        public let autoMinorVersionUpgrade: Bool?
+        /// Specifies the Provisioned IOPS (I/O operations per second) value.
+        public let iops: Int32?
+        /// If the DB instance is a member of a DB cluster, contains the name of the DB cluster that the DB instance is a member of.
+        public let dBClusterIdentifier: String?
+        /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.
+        public let performanceInsightsKMSKeyId: String?
+        /// Indicates the database engine version.
+        public let engineVersion: String?
+        /// Specifies the latest time to which a database can be restored with point-in-time restore.
+        public let latestRestorableTime: TimeStamp?
+        /// The AWS Region-unique, immutable identifier for the DB instance. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB instance is accessed.
+        public let dbiResourceId: String?
+        /// Specifies the connection endpoint.
+        public let endpoint: Endpoint?
+        /// Contains the name of the compute and memory capacity class of the DB instance.
+        public let dBInstanceClass: String?
+        /// Provides the date and time the DB instance was created.
+        public let instanceCreateTime: TimeStamp?
+        /// Specifies if the DB instance is a Multi-AZ deployment.
+        public let multiAZ: Bool?
+        /// Specifies the allocated storage size specified in gigabytes.
+        public let allocatedStorage: Int32?
+        /// License model information for this DB instance.
+        public let licenseModel: String?
+        /// True if Performance Insights is enabled for the DB instance, and otherwise false.
+        public let performanceInsightsEnabled: Bool?
+        /// Specifies the port that the DB instance listens on. If the DB instance is part of a DB cluster, this can be a different port than the DB cluster port.
+        public let dbInstancePort: Int32?
+        ///  Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod. 
+        public let preferredBackupWindow: String?
+        /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false. IAM database authentication can be enabled for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora 5.6 or higher. To enable IAM database authentication for Aurora, see DBCluster Type.  
+        public let iAMDatabaseAuthenticationEnabled: Bool?
+        /// The ARN for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs.
+        public let monitoringRoleArn: String?
+        /// The status of a Read Replica. If the instance is not a Read Replica, this is blank.
+        public let statusInfos: DBInstanceStatusInfoList?
+        /// Contains the master username for the DB instance.
+        public let masterUsername: String?
+        /// If present, specifies the name of the secondary Availability Zone for a DB instance with multi-AZ support.
+        public let secondaryAvailabilityZone: String?
+        /// Provides the name of the database engine to be used for this DB instance.
+        public let engine: String?
+        /// Contains one or more identifiers of the Read Replicas associated with this DB instance.
+        public let readReplicaDBInstanceIdentifiers: ReadReplicaDBInstanceIdentifierList?
+        /// Specifies information on the subnet group associated with the DB instance, including the name, description, and subnets in the subnet group.
+        public let dBSubnetGroup: DBSubnetGroup?
+        /// Specifies whether the DB instance is encrypted.
+        public let storageEncrypted: Bool?
+        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance.
+        public let monitoringInterval: Int32?
+        /// Contains a user-supplied database identifier. This identifier is the unique key that identifies a DB instance.
+        public let dBInstanceIdentifier: String?
+        /// The meaning of this parameter differs according to the database engine you use. For example, this value returns MySQL, MariaDB, or PostgreSQL information when returning values from CreateDBInstanceReadReplica since Read Replicas are only supported for these engines.  MySQL, MariaDB, SQL Server, PostgreSQL  Contains the name of the initial database of this instance that was provided at create time, if one was specified when the DB instance was created. This same name is returned for the life of the DB instance. Type: String  Oracle  Contains the Oracle System ID (SID) of the created DB instance. Not shown when the returned parameters do not apply to an Oracle DB instance.
+        public let dBName: String?
+        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log stream that receives the Enhanced Monitoring metrics data for the DB instance.
+        public let enhancedMonitoringResourceArn: String?
+        /// Specifies the number of days for which automatic DB snapshots are retained.
+        public let backupRetentionPeriod: Int32?
+        /// Provides the list of option group memberships for this DB instance.
+        public let optionGroupMemberships: OptionGroupMembershipList?
+        /// The identifier of the CA certificate for this DB instance.
+        public let cACertificateIdentifier: String?
+        /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster. 
+        public let promotionTier: Int32?
+        /// Specifies the weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
+        public let preferredMaintenanceWindow: String?
+        /// Specifies whether tags are copied from the DB instance to snapshots of the DB instance.
+        public let copyTagsToSnapshot: Bool?
+        /// The Amazon Resource Name (ARN) for the DB instance.
+        public let dBInstanceArn: String?
+        ///  If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB instance. 
+        public let kmsKeyId: String?
+        /// Specifies that changes to the DB instance are pending. This element is only included when changes are pending. Specific changes are identified by subelements.
+        public let pendingModifiedValues: PendingModifiedValues?
+        /// Contains the identifier of the source DB instance if this DB instance is a Read Replica.
+        public let readReplicaSourceDBInstanceIdentifier: String?
+        /// The time zone of the DB instance. In most cases, the Timezone element is empty. Timezone content appears only for Microsoft SQL Server DB instances that were created with a time zone specified. 
+        public let timezone: String?
+        /// Specifies the storage type associated with DB instance.
+        public let storageType: String?
+        /// The ARN from the key store with which the instance is associated for TDE encryption.
+        public let tdeCredentialArn: String?
+        /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC:true    VPC:false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance is publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance is private.
+        public let publiclyAccessible: Bool?
+        /// Contains one or more identifiers of Aurora DB clusters that are Read Replicas of this DB instance.
+        public let readReplicaDBClusterIdentifiers: ReadReplicaDBClusterIdentifierList?
+
+        public init(vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, domainMemberships: DomainMembershipList? = nil, dBInstanceStatus: String? = nil, dBParameterGroups: DBParameterGroupStatusList? = nil, dBSecurityGroups: DBSecurityGroupMembershipList? = nil, availabilityZone: String? = nil, characterSetName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, iops: Int32? = nil, dBClusterIdentifier: String? = nil, performanceInsightsKMSKeyId: String? = nil, engineVersion: String? = nil, latestRestorableTime: TimeStamp? = nil, dbiResourceId: String? = nil, endpoint: Endpoint? = nil, dBInstanceClass: String? = nil, instanceCreateTime: TimeStamp? = nil, multiAZ: Bool? = nil, allocatedStorage: Int32? = nil, licenseModel: String? = nil, performanceInsightsEnabled: Bool? = nil, dbInstancePort: Int32? = nil, preferredBackupWindow: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, monitoringRoleArn: String? = nil, statusInfos: DBInstanceStatusInfoList? = nil, masterUsername: String? = nil, secondaryAvailabilityZone: String? = nil, engine: String? = nil, readReplicaDBInstanceIdentifiers: ReadReplicaDBInstanceIdentifierList? = nil, dBSubnetGroup: DBSubnetGroup? = nil, storageEncrypted: Bool? = nil, monitoringInterval: Int32? = nil, dBInstanceIdentifier: String? = nil, dBName: String? = nil, enhancedMonitoringResourceArn: String? = nil, backupRetentionPeriod: Int32? = nil, optionGroupMemberships: OptionGroupMembershipList? = nil, cACertificateIdentifier: String? = nil, promotionTier: Int32? = nil, preferredMaintenanceWindow: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceArn: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, timezone: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: ReadReplicaDBClusterIdentifierList? = nil) {
+            self.vpcSecurityGroups = vpcSecurityGroups
+            self.domainMemberships = domainMemberships
+            self.dBInstanceStatus = dBInstanceStatus
+            self.dBParameterGroups = dBParameterGroups
+            self.dBSecurityGroups = dBSecurityGroups
+            self.availabilityZone = availabilityZone
+            self.characterSetName = characterSetName
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.iops = iops
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
+            self.engineVersion = engineVersion
+            self.latestRestorableTime = latestRestorableTime
+            self.dbiResourceId = dbiResourceId
+            self.endpoint = endpoint
+            self.dBInstanceClass = dBInstanceClass
+            self.instanceCreateTime = instanceCreateTime
+            self.multiAZ = multiAZ
+            self.allocatedStorage = allocatedStorage
+            self.licenseModel = licenseModel
+            self.performanceInsightsEnabled = performanceInsightsEnabled
+            self.dbInstancePort = dbInstancePort
+            self.preferredBackupWindow = preferredBackupWindow
+            self.iAMDatabaseAuthenticationEnabled = iAMDatabaseAuthenticationEnabled
+            self.monitoringRoleArn = monitoringRoleArn
+            self.statusInfos = statusInfos
+            self.masterUsername = masterUsername
+            self.secondaryAvailabilityZone = secondaryAvailabilityZone
+            self.engine = engine
+            self.readReplicaDBInstanceIdentifiers = readReplicaDBInstanceIdentifiers
+            self.dBSubnetGroup = dBSubnetGroup
+            self.storageEncrypted = storageEncrypted
+            self.monitoringInterval = monitoringInterval
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+            self.dBName = dBName
+            self.enhancedMonitoringResourceArn = enhancedMonitoringResourceArn
+            self.backupRetentionPeriod = backupRetentionPeriod
+            self.optionGroupMemberships = optionGroupMemberships
+            self.cACertificateIdentifier = cACertificateIdentifier
+            self.promotionTier = promotionTier
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.copyTagsToSnapshot = copyTagsToSnapshot
+            self.dBInstanceArn = dBInstanceArn
+            self.kmsKeyId = kmsKeyId
+            self.pendingModifiedValues = pendingModifiedValues
+            self.readReplicaSourceDBInstanceIdentifier = readReplicaSourceDBInstanceIdentifier
+            self.timezone = timezone
+            self.storageType = storageType
+            self.tdeCredentialArn = tdeCredentialArn
+            self.publiclyAccessible = publiclyAccessible
+            self.readReplicaDBClusterIdentifiers = readReplicaDBClusterIdentifiers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcSecurityGroups = "VpcSecurityGroups"
+            case domainMemberships = "DomainMemberships"
+            case dBInstanceStatus = "DBInstanceStatus"
+            case dBParameterGroups = "DBParameterGroups"
+            case dBSecurityGroups = "DBSecurityGroups"
+            case availabilityZone = "AvailabilityZone"
+            case characterSetName = "CharacterSetName"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case iops = "Iops"
+            case dBClusterIdentifier = "DBClusterIdentifier"
+            case performanceInsightsKMSKeyId = "PerformanceInsightsKMSKeyId"
+            case engineVersion = "EngineVersion"
+            case latestRestorableTime = "LatestRestorableTime"
+            case dbiResourceId = "DbiResourceId"
+            case endpoint = "Endpoint"
+            case dBInstanceClass = "DBInstanceClass"
+            case instanceCreateTime = "InstanceCreateTime"
+            case multiAZ = "MultiAZ"
+            case allocatedStorage = "AllocatedStorage"
+            case licenseModel = "LicenseModel"
+            case performanceInsightsEnabled = "PerformanceInsightsEnabled"
+            case dbInstancePort = "DbInstancePort"
+            case preferredBackupWindow = "PreferredBackupWindow"
+            case iAMDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
+            case monitoringRoleArn = "MonitoringRoleArn"
+            case statusInfos = "StatusInfos"
+            case masterUsername = "MasterUsername"
+            case secondaryAvailabilityZone = "SecondaryAvailabilityZone"
+            case engine = "Engine"
+            case readReplicaDBInstanceIdentifiers = "ReadReplicaDBInstanceIdentifiers"
+            case dBSubnetGroup = "DBSubnetGroup"
+            case storageEncrypted = "StorageEncrypted"
+            case monitoringInterval = "MonitoringInterval"
+            case dBInstanceIdentifier = "DBInstanceIdentifier"
+            case dBName = "DBName"
+            case enhancedMonitoringResourceArn = "EnhancedMonitoringResourceArn"
+            case backupRetentionPeriod = "BackupRetentionPeriod"
+            case optionGroupMemberships = "OptionGroupMemberships"
+            case cACertificateIdentifier = "CACertificateIdentifier"
+            case promotionTier = "PromotionTier"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
+            case dBInstanceArn = "DBInstanceArn"
+            case kmsKeyId = "KmsKeyId"
+            case pendingModifiedValues = "PendingModifiedValues"
+            case readReplicaSourceDBInstanceIdentifier = "ReadReplicaSourceDBInstanceIdentifier"
+            case timezone = "Timezone"
+            case storageType = "StorageType"
+            case tdeCredentialArn = "TdeCredentialArn"
+            case publiclyAccessible = "PubliclyAccessible"
+            case readReplicaDBClusterIdentifiers = "ReadReplicaDBClusterIdentifiers"
+        }
+    }
+
+    public struct ModifyDBSnapshotAttributeResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSnapshotAttributesResult", required: false, type: .structure)
+        ]
+        public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
+
+        public init(dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil) {
+            self.dBSnapshotAttributesResult = dBSnapshotAttributesResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSnapshotAttributesResult = "DBSnapshotAttributesResult"
+        }
+    }
+
+    public struct RevokeDBSecurityGroupIngressResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSecurityGroup", required: false, type: .structure)
+        ]
+        public let dBSecurityGroup: DBSecurityGroup?
+
+        public init(dBSecurityGroup: DBSecurityGroup? = nil) {
+            self.dBSecurityGroup = dBSecurityGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSecurityGroup = "DBSecurityGroup"
+        }
+    }
+
+    public struct ApplyPendingMaintenanceActionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourcePendingMaintenanceActions", required: false, type: .structure)
+        ]
+        public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
+
+        public init(resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil) {
+            self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcePendingMaintenanceActions = "ResourcePendingMaintenanceActions"
+        }
+    }
+
+    public struct SourceRegionList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceRegion", required: false, type: .list)
+        ]
+        public let sourceRegion: [SourceRegion]?
+
+        public init(sourceRegion: [SourceRegion]? = nil) {
+            self.sourceRegion = sourceRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceRegion = "SourceRegion"
+        }
+    }
+
+    public struct DescribeOptionGroupOptionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "EngineName", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MajorEngineVersion", required: false, type: .string)
+        ]
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        /// This parameter is not currently supported.
+        public let filters: FilterList?
+        /// A required parameter. Options available for the given engine name are described.
+        public let engineName: String
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// If specified, filters the results to include only options for the specified major engine version.
+        public let majorEngineVersion: String?
+
+        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, engineName: String, marker: String? = nil, majorEngineVersion: String? = nil) {
+            self.maxRecords = maxRecords
+            self.filters = filters
+            self.engineName = engineName
+            self.marker = marker
+            self.majorEngineVersion = majorEngineVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case filters = "Filters"
+            case engineName = "EngineName"
+            case marker = "Marker"
+            case majorEngineVersion = "MajorEngineVersion"
+        }
+    }
+
+    public struct CreateDBSnapshotMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "DBSnapshotIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
+        ]
+        public let tags: TagList?
+        /// The identifier for the DB snapshot. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
+        public let dBSnapshotIdentifier: String
+        /// The identifier of the DB instance that you want to create the snapshot of. Constraints:   Must match the identifier of an existing DBInstance.  
+        public let dBInstanceIdentifier: String
+
+        public init(tags: TagList? = nil, dBSnapshotIdentifier: String, dBInstanceIdentifier: String) {
+            self.tags = tags
+            self.dBSnapshotIdentifier = dBSnapshotIdentifier
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case dBSnapshotIdentifier = "DBSnapshotIdentifier"
+            case dBInstanceIdentifier = "DBInstanceIdentifier"
+        }
+    }
+
+    public struct ReservedDBInstancesOffering: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
+            AWSShapeMember(label: "RecurringCharges", required: false, type: .structure), 
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "UsagePrice", required: false, type: .double), 
+            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedDBInstancesOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
+            AWSShapeMember(label: "FixedPrice", required: false, type: .double), 
+            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string)
+        ]
+        /// The database engine used by the offering.
+        public let productDescription: String?
+        /// The recurring price charged to run this reserved DB instance.
+        public let recurringCharges: RecurringChargeList?
+        /// Indicates if the offering applies to Multi-AZ deployments.
+        public let multiAZ: Bool?
+        /// The hourly price charged for this offering.
+        public let usagePrice: Double?
+        /// The currency code for the reserved DB instance offering.
+        public let currencyCode: String?
+        /// The offering identifier.
+        public let reservedDBInstancesOfferingId: String?
+        /// The duration of the offering in seconds.
+        public let duration: Int32?
+        /// The offering type.
+        public let offeringType: String?
+        /// The fixed price charged for this offering.
+        public let fixedPrice: Double?
+        /// The DB instance class for the reserved DB instance.
+        public let dBInstanceClass: String?
+
+        public init(productDescription: String? = nil, recurringCharges: RecurringChargeList? = nil, multiAZ: Bool? = nil, usagePrice: Double? = nil, currencyCode: String? = nil, reservedDBInstancesOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil, dBInstanceClass: String? = nil) {
+            self.productDescription = productDescription
+            self.recurringCharges = recurringCharges
+            self.multiAZ = multiAZ
+            self.usagePrice = usagePrice
+            self.currencyCode = currencyCode
+            self.reservedDBInstancesOfferingId = reservedDBInstancesOfferingId
+            self.duration = duration
+            self.offeringType = offeringType
+            self.fixedPrice = fixedPrice
+            self.dBInstanceClass = dBInstanceClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productDescription = "ProductDescription"
+            case recurringCharges = "RecurringCharges"
+            case multiAZ = "MultiAZ"
+            case usagePrice = "UsagePrice"
+            case currencyCode = "CurrencyCode"
+            case reservedDBInstancesOfferingId = "ReservedDBInstancesOfferingId"
+            case duration = "Duration"
+            case offeringType = "OfferingType"
+            case fixedPrice = "FixedPrice"
+            case dBInstanceClass = "DBInstanceClass"
+        }
+    }
+
+    public struct ValidStorageOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StorageSize", required: false, type: .structure), 
+            AWSShapeMember(label: "ProvisionedIops", required: false, type: .structure), 
+            AWSShapeMember(label: "IopsToStorageRatio", required: false, type: .structure), 
+            AWSShapeMember(label: "StorageType", required: false, type: .string)
+        ]
+        /// The valid range of storage in gigabytes. For example, 100 to 6144. 
+        public let storageSize: RangeList?
+        /// The valid range of provisioned IOPS. For example, 1000-20000. 
+        public let provisionedIops: RangeList?
+        /// The valid range of Provisioned IOPS to gigabytes of storage multiplier. For example, 3-10, which means that provisioned IOPS can be between 3 and 10 times storage. 
+        public let iopsToStorageRatio: DoubleRangeList?
+        /// The valid storage types for your DB instance. For example, gp2, io1. 
+        public let storageType: String?
+
+        public init(storageSize: RangeList? = nil, provisionedIops: RangeList? = nil, iopsToStorageRatio: DoubleRangeList? = nil, storageType: String? = nil) {
+            self.storageSize = storageSize
+            self.provisionedIops = provisionedIops
+            self.iopsToStorageRatio = iopsToStorageRatio
+            self.storageType = storageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageSize = "StorageSize"
+            case provisionedIops = "ProvisionedIops"
+            case iopsToStorageRatio = "IopsToStorageRatio"
+            case storageType = "StorageType"
+        }
+    }
+
+    public struct DescribeDBClusterParameterGroupsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        /// This parameter is not currently supported.
+        public let filters: FilterList?
+        /// The name of a specific DB cluster parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
+        public let dBClusterParameterGroupName: String?
+        ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+
+        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, dBClusterParameterGroupName: String? = nil, marker: String? = nil) {
+            self.maxRecords = maxRecords
+            self.filters = filters
+            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case filters = "Filters"
+            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DescribeSourceRegionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "RegionName", required: false, type: .string)
+        ]
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        /// This parameter is not currently supported.
+        public let filters: FilterList?
+        /// An optional pagination token provided by a previous DescribeSourceRegions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The source AWS Region name. For example, us-east-1. Constraints:   Must specify a valid AWS Region name.  
+        public let regionName: String?
+
+        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, marker: String? = nil, regionName: String? = nil) {
+            self.maxRecords = maxRecords
+            self.filters = filters
+            self.marker = marker
+            self.regionName = regionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case filters = "Filters"
+            case marker = "Marker"
+            case regionName = "RegionName"
+        }
+    }
+
+    public struct Certificate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "Thumbprint", required: false, type: .string), 
+            AWSShapeMember(label: "ValidFrom", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ValidTill", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateType", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) for the certificate.
+        public let certificateArn: String?
+        /// The thumbprint of the certificate.
+        public let thumbprint: String?
+        /// The starting date from which the certificate is valid.
+        public let validFrom: TimeStamp?
+        /// The final date that the certificate continues to be valid.
+        public let validTill: TimeStamp?
+        /// The unique key that identifies a certificate.
+        public let certificateIdentifier: String?
+        /// The type of the certificate.
+        public let certificateType: String?
+
+        public init(certificateArn: String? = nil, thumbprint: String? = nil, validFrom: TimeStamp? = nil, validTill: TimeStamp? = nil, certificateIdentifier: String? = nil, certificateType: String? = nil) {
+            self.certificateArn = certificateArn
+            self.thumbprint = thumbprint
+            self.validFrom = validFrom
+            self.validTill = validTill
+            self.certificateIdentifier = certificateIdentifier
+            self.certificateType = certificateType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case thumbprint = "Thumbprint"
+            case validFrom = "ValidFrom"
+            case validTill = "ValidTill"
+            case certificateIdentifier = "CertificateIdentifier"
+            case certificateType = "CertificateType"
+        }
+    }
+
+    public struct DeleteDBClusterParameterGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string)
+        ]
+        /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.  
+        public let dBClusterParameterGroupName: String
+
+        public init(dBClusterParameterGroupName: String) {
+            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
+        }
+    }
+
+    public struct AvailabilityZone: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        /// The name of the availability zone.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct RestoreDBInstanceToPointInTimeMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domain", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "DBName", required: false, type: .string), 
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "TdeCredentialPassword", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
+            AWSShapeMember(label: "StorageType", required: false, type: .string), 
+            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
+            AWSShapeMember(label: "RestoreTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "TargetDBInstanceIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
+            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "DomainIAMRoleName", required: false, type: .string), 
+            AWSShapeMember(label: "UseLatestRestorableTime", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceDBInstanceIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string)
+        ]
+        /// Specify the Active Directory Domain to restore the instance in.
+        public let domain: String?
+        /// The port number on which the database accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB instance.
+        public let port: Int32?
+        /// The database name for the restored DB instance.  This parameter is not used for the MySQL or MariaDB engines. 
+        public let dBName: String?
+        /// Specifies if the DB instance is a Multi-AZ deployment. Constraint: You can't specify the AvailabilityZone parameter if the MultiAZ parameter is set to true.
+        public let multiAZ: Bool?
+        /// The password for the given ARN from the key store in order to access the device.
+        public let tdeCredentialPassword: String?
+        public let tags: TagList?
+        /// License model information for the restored DB instance. Default: Same as source.  Valid values: license-included | bring-your-own-license | general-public-license 
+        public let licenseModel: String?
+        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise standard 
+        public let storageType: String?
+        /// The ARN from the key store with which to associate the instance for TDE encryption.
+        public let tdeCredentialArn: String?
+        /// The date and time to restore from. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Cannot be specified if UseLatestRestorableTime parameter is true   Example: 2009-09-07T23:45:00Z 
+        public let restoreTime: TimeStamp?
+        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. Constraints: Must be an integer greater than 1000.  SQL Server  Setting the IOPS value for the SQL Server database engine is not supported.
+        public let iops: Int32?
+        /// The EC2 Availability Zone that the DB instance is created in. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the MultiAZ parameter is set to true. Example: us-east-1a 
+        public let availabilityZone: String?
+        /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC:true    VPC:false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance is publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance is private.
+        public let publiclyAccessible: Bool?
+        /// Indicates that minor version upgrades are applied automatically to the DB instance during the maintenance window.
+        public let autoMinorVersionUpgrade: Bool?
+        /// The name of the new DB instance to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        public let targetDBInstanceIdentifier: String
+        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. You can enable IAM database authentication for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora 5.6 or higher.   Default: false 
+        public let enableIAMDatabaseAuthentication: Bool?
+        /// The name of the option group to be used for the restored DB instance. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
+        public let optionGroupName: String?
+        /// The DB subnet group name to use for the new instance. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
+        public let dBSubnetGroupName: String?
+        /// True to copy all tags from the restored DB instance to snapshots of the DB instance, and otherwise false. The default is false.
+        public let copyTagsToSnapshot: Bool?
+        /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source Valid Values:    aurora     aurora-postgresql     mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web   
+        public let engine: String?
+        /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
+        public let domainIAMRoleName: String?
+        ///  Specifies whether (true) or not (false) the DB instance is restored from the latest backup time.  Default: false  Constraints: Cannot be specified if RestoreTime parameter is provided.
+        public let useLatestRestorableTime: Bool?
+        /// The identifier of the source DB instance from which to restore. Constraints:   Must match the identifier of an existing DBInstance.  
+        public let sourceDBInstanceIdentifier: String
+        /// The compute and memory capacity of the Amazon RDS DB instance, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Default: The same DBInstanceClass as the original DB instance.
+        public let dBInstanceClass: String?
+
+        public init(domain: String? = nil, port: Int32? = nil, dBName: String? = nil, multiAZ: Bool? = nil, tdeCredentialPassword: String? = nil, tags: TagList? = nil, licenseModel: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, restoreTime: TimeStamp? = nil, iops: Int32? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, targetDBInstanceIdentifier: String, enableIAMDatabaseAuthentication: Bool? = nil, optionGroupName: String? = nil, dBSubnetGroupName: String? = nil, copyTagsToSnapshot: Bool? = nil, engine: String? = nil, domainIAMRoleName: String? = nil, useLatestRestorableTime: Bool? = nil, sourceDBInstanceIdentifier: String, dBInstanceClass: String? = nil) {
+            self.domain = domain
+            self.port = port
+            self.dBName = dBName
+            self.multiAZ = multiAZ
+            self.tdeCredentialPassword = tdeCredentialPassword
+            self.tags = tags
+            self.licenseModel = licenseModel
+            self.storageType = storageType
+            self.tdeCredentialArn = tdeCredentialArn
+            self.restoreTime = restoreTime
+            self.iops = iops
+            self.availabilityZone = availabilityZone
+            self.publiclyAccessible = publiclyAccessible
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.targetDBInstanceIdentifier = targetDBInstanceIdentifier
+            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+            self.optionGroupName = optionGroupName
+            self.dBSubnetGroupName = dBSubnetGroupName
+            self.copyTagsToSnapshot = copyTagsToSnapshot
+            self.engine = engine
+            self.domainIAMRoleName = domainIAMRoleName
+            self.useLatestRestorableTime = useLatestRestorableTime
+            self.sourceDBInstanceIdentifier = sourceDBInstanceIdentifier
+            self.dBInstanceClass = dBInstanceClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case port = "Port"
+            case dBName = "DBName"
+            case multiAZ = "MultiAZ"
+            case tdeCredentialPassword = "TdeCredentialPassword"
+            case tags = "Tags"
+            case licenseModel = "LicenseModel"
+            case storageType = "StorageType"
+            case tdeCredentialArn = "TdeCredentialArn"
+            case restoreTime = "RestoreTime"
+            case iops = "Iops"
+            case availabilityZone = "AvailabilityZone"
+            case publiclyAccessible = "PubliclyAccessible"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case targetDBInstanceIdentifier = "TargetDBInstanceIdentifier"
+            case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
+            case optionGroupName = "OptionGroupName"
+            case dBSubnetGroupName = "DBSubnetGroupName"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
+            case engine = "Engine"
+            case domainIAMRoleName = "DomainIAMRoleName"
+            case useLatestRestorableTime = "UseLatestRestorableTime"
+            case sourceDBInstanceIdentifier = "SourceDBInstanceIdentifier"
+            case dBInstanceClass = "DBInstanceClass"
+        }
+    }
+
+    public struct CreateDBInstanceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
+        ]
+        public let dBInstance: DBInstance?
+
+        public init(dBInstance: DBInstance? = nil) {
+            self.dBInstance = dBInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBInstance = "DBInstance"
+        }
+    }
+
+    public struct StopDBInstanceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
+        ]
+        public let dBInstance: DBInstance?
+
+        public init(dBInstance: DBInstance? = nil) {
+            self.dBInstance = dBInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBInstance = "DBInstance"
+        }
+    }
+
+    public struct ReservedDBInstance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecurringCharges", required: false, type: .structure), 
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "UsagePrice", required: false, type: .double), 
+            AWSShapeMember(label: "State", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedDBInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
+            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReservedDBInstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "DBInstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedDBInstancesOfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "FixedPrice", required: false, type: .double)
+        ]
+        /// The recurring price charged to run this reserved DB instance.
+        public let recurringCharges: RecurringChargeList?
+        /// Indicates if the reservation applies to Multi-AZ deployments.
+        public let multiAZ: Bool?
+        /// The hourly price charged for this reserved DB instance.
+        public let usagePrice: Double?
+        /// The state of the reserved DB instance.
+        public let state: String?
+        /// The Amazon Resource Name (ARN) for the reserved DB instance.
+        public let reservedDBInstanceArn: String?
+        /// The offering type of this reserved DB instance.
+        public let offeringType: String?
+        /// The description of the reserved DB instance.
+        public let productDescription: String?
+        /// The time the reservation started.
+        public let startTime: TimeStamp?
+        /// The unique identifier for the reservation.
+        public let reservedDBInstanceId: String?
+        /// The number of reserved DB instances.
+        public let dBInstanceCount: Int32?
+        /// The currency code for the reserved DB instance.
+        public let currencyCode: String?
+        /// The offering identifier.
+        public let reservedDBInstancesOfferingId: String?
+        /// The duration of the reservation in seconds.
+        public let duration: Int32?
+        /// The DB instance class for the reserved DB instance.
+        public let dBInstanceClass: String?
+        /// The fixed price charged for this reserved DB instance.
+        public let fixedPrice: Double?
+
+        public init(recurringCharges: RecurringChargeList? = nil, multiAZ: Bool? = nil, usagePrice: Double? = nil, state: String? = nil, reservedDBInstanceArn: String? = nil, offeringType: String? = nil, productDescription: String? = nil, startTime: TimeStamp? = nil, reservedDBInstanceId: String? = nil, dBInstanceCount: Int32? = nil, currencyCode: String? = nil, reservedDBInstancesOfferingId: String? = nil, duration: Int32? = nil, dBInstanceClass: String? = nil, fixedPrice: Double? = nil) {
+            self.recurringCharges = recurringCharges
+            self.multiAZ = multiAZ
+            self.usagePrice = usagePrice
+            self.state = state
+            self.reservedDBInstanceArn = reservedDBInstanceArn
+            self.offeringType = offeringType
+            self.productDescription = productDescription
+            self.startTime = startTime
+            self.reservedDBInstanceId = reservedDBInstanceId
+            self.dBInstanceCount = dBInstanceCount
+            self.currencyCode = currencyCode
+            self.reservedDBInstancesOfferingId = reservedDBInstancesOfferingId
+            self.duration = duration
+            self.dBInstanceClass = dBInstanceClass
+            self.fixedPrice = fixedPrice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recurringCharges = "RecurringCharges"
+            case multiAZ = "MultiAZ"
+            case usagePrice = "UsagePrice"
+            case state = "State"
+            case reservedDBInstanceArn = "ReservedDBInstanceArn"
+            case offeringType = "OfferingType"
+            case productDescription = "ProductDescription"
+            case startTime = "StartTime"
+            case reservedDBInstanceId = "ReservedDBInstanceId"
+            case dBInstanceCount = "DBInstanceCount"
+            case currencyCode = "CurrencyCode"
+            case reservedDBInstancesOfferingId = "ReservedDBInstancesOfferingId"
+            case duration = "Duration"
+            case dBInstanceClass = "DBInstanceClass"
+            case fixedPrice = "FixedPrice"
+        }
+    }
+
+    public struct DBSubnetGroups: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .list)
+        ]
+        public let dBSubnetGroup: [DBSubnetGroup]?
+
+        public init(dBSubnetGroup: [DBSubnetGroup]? = nil) {
+            self.dBSubnetGroup = dBSubnetGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSubnetGroup = "DBSubnetGroup"
+        }
+    }
+
+    public struct DoubleRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "From", required: false, type: .double), 
+            AWSShapeMember(label: "To", required: false, type: .double)
+        ]
+        /// The minimum value in the range.
+        public let from: Double?
+        /// The maximum value in the range.
+        public let to: Double?
+
+        public init(from: Double? = nil, to: Double? = nil) {
+            self.from = from
+            self.to = to
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case from = "From"
+            case to = "To"
+        }
+    }
+
+    public struct RemoveRoleFromDBClusterMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole.
+        public let roleArn: String
+        /// The name of the DB cluster to disassociate the IAM role from.
+        public let dBClusterIdentifier: String
+
+        public init(roleArn: String, dBClusterIdentifier: String) {
+            self.roleArn = roleArn
+            self.dBClusterIdentifier = dBClusterIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
+            case dBClusterIdentifier = "DBClusterIdentifier"
+        }
+    }
+
+    public struct DescribeDBSubnetGroupsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        /// This parameter is not currently supported.
+        public let filters: FilterList?
+        /// The name of the DB subnet group to return details for.
+        public let dBSubnetGroupName: String?
+        ///  An optional pagination token provided by a previous DescribeDBSubnetGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+
+        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, dBSubnetGroupName: String? = nil, marker: String? = nil) {
+            self.maxRecords = maxRecords
+            self.filters = filters
+            self.dBSubnetGroupName = dBSubnetGroupName
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case filters = "Filters"
+            case dBSubnetGroupName = "DBSubnetGroupName"
+            case marker = "Marker"
+        }
+    }
+
+    public struct RangeList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Range", required: false, type: .list)
+        ]
+        public let range: [Range]?
+
+        public init(range: [Range]? = nil) {
+            self.range = range
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case range = "Range"
+        }
+    }
+
+    public struct DescribeDBClusterSnapshotAttributesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
+        ]
+        public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
+
+        public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
+            self.dBClusterSnapshotAttributesResult = dBClusterSnapshotAttributesResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterSnapshotAttributesResult = "DBClusterSnapshotAttributesResult"
+        }
+    }
+
+    public struct OptionGroupOptionsList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionGroupOption", required: false, type: .list)
+        ]
+        public let optionGroupOption: [OptionGroupOption]?
+
+        public init(optionGroupOption: [OptionGroupOption]? = nil) {
+            self.optionGroupOption = optionGroupOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optionGroupOption = "OptionGroupOption"
+        }
+    }
+
+    public struct SourceRegion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "RegionName", required: false, type: .string)
+        ]
+        /// The status of the source AWS Region.
+        public let status: String?
+        /// The endpoint for the source AWS Region endpoint.
+        public let endpoint: String?
+        /// The name of the source AWS Region.
+        public let regionName: String?
+
+        public init(status: String? = nil, endpoint: String? = nil, regionName: String? = nil) {
+            self.status = status
+            self.endpoint = endpoint
+            self.regionName = regionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case endpoint = "Endpoint"
+            case regionName = "RegionName"
+        }
+    }
+
+    public struct Range: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Step", required: false, type: .integer), 
+            AWSShapeMember(label: "From", required: false, type: .integer), 
+            AWSShapeMember(label: "To", required: false, type: .integer)
+        ]
+        /// The step value for the range. For example, if you have a range of 5,000 to 10,000, with a step value of 1,000, the valid values start at 5,000 and step up by 1,000. Even though 7,500 is within the range, it isn't a valid value for the range. The valid values are 5,000, 6,000, 7,000, 8,000... 
+        public let step: Int32?
+        /// The minimum value in the range.
+        public let from: Int32?
+        /// The maximum value in the range.
+        public let to: Int32?
+
+        public init(step: Int32? = nil, from: Int32? = nil, to: Int32? = nil) {
+            self.step = step
+            self.from = from
+            self.to = to
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case step = "Step"
+            case from = "From"
+            case to = "To"
+        }
+    }
+
+    public struct CreateDBSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSnapshot", required: false, type: .structure)
+        ]
+        public let dBSnapshot: DBSnapshot?
+
+        public init(dBSnapshot: DBSnapshot? = nil) {
+            self.dBSnapshot = dBSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSnapshot = "DBSnapshot"
+        }
+    }
+
+    public struct RestoreDBClusterFromS3Result: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
+        ]
+        public let dBCluster: DBCluster?
+
+        public init(dBCluster: DBCluster? = nil) {
+            self.dBCluster = dBCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBCluster = "DBCluster"
+        }
+    }
+
+    public struct EC2SecurityGroupList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2SecurityGroup", required: false, type: .list)
+        ]
+        public let eC2SecurityGroup: [EC2SecurityGroup]?
+
+        public init(eC2SecurityGroup: [EC2SecurityGroup]? = nil) {
+            self.eC2SecurityGroup = eC2SecurityGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eC2SecurityGroup = "EC2SecurityGroup"
+        }
+    }
+
+    public struct ModifyDBClusterMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
+            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "NewDBClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
+        ]
+        /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        public let preferredBackupWindow: String?
+        /// The new password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
+        public let masterUserPassword: String?
+        /// The DB cluster identifier for the cluster being modified. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
+        public let dBClusterIdentifier: String
+        /// A value that indicates that the DB cluster should be associated with the specified option group. Changing this parameter does not result in an outage except in the following case, and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. If the parameter change results in an option group that enables OEM, this change can cause a brief (sub-second) period during which new connections are rejected but existing connections are not interrupted.  Permanent options can't be removed from an option group. The option group can't be removed from a DB cluster once it is associated with a DB cluster.
+        public let optionGroupName: String?
+        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
+        public let enableIAMDatabaseAuthentication: Bool?
+        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
+        public let preferredMaintenanceWindow: String?
+        /// A list of VPC security groups that the DB cluster will belong to.
+        public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
+        /// The name of the DB cluster parameter group to use for the DB cluster.
+        public let dBClusterParameterGroupName: String?
+        /// A value that specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects the NewDBClusterIdentifier and MasterUserPassword values. If you set the ApplyImmediately parameter value to false, then changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false 
+        public let applyImmediately: Bool?
+        /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
+        public let backupRetentionPeriod: Int32?
+        /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster2 
+        public let newDBClusterIdentifier: String?
+        /// The port number on which the DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
+        public let port: Int32?
+
+        public init(preferredBackupWindow: String? = nil, masterUserPassword: String? = nil, dBClusterIdentifier: String, optionGroupName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, dBClusterParameterGroupName: String? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int32? = nil, newDBClusterIdentifier: String? = nil, port: Int32? = nil) {
+            self.preferredBackupWindow = preferredBackupWindow
+            self.masterUserPassword = masterUserPassword
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.optionGroupName = optionGroupName
+            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+            self.applyImmediately = applyImmediately
+            self.backupRetentionPeriod = backupRetentionPeriod
+            self.newDBClusterIdentifier = newDBClusterIdentifier
+            self.port = port
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preferredBackupWindow = "PreferredBackupWindow"
+            case masterUserPassword = "MasterUserPassword"
+            case dBClusterIdentifier = "DBClusterIdentifier"
+            case optionGroupName = "OptionGroupName"
+            case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
+            case applyImmediately = "ApplyImmediately"
+            case backupRetentionPeriod = "BackupRetentionPeriod"
+            case newDBClusterIdentifier = "NewDBClusterIdentifier"
+            case port = "Port"
+        }
+    }
+
+    public struct DBParameterGroupList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBParameterGroup", required: false, type: .list)
+        ]
+        public let dBParameterGroup: [DBParameterGroup]?
+
+        public init(dBParameterGroup: [DBParameterGroup]? = nil) {
+            self.dBParameterGroup = dBParameterGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBParameterGroup = "DBParameterGroup"
+        }
+    }
+
+    public struct AddSourceIdentifierToSubscriptionResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
+        ]
+        public let eventSubscription: EventSubscription?
+
+        public init(eventSubscription: EventSubscription? = nil) {
+            self.eventSubscription = eventSubscription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscription = "EventSubscription"
+        }
+    }
+
+    public struct ValidUpgradeTargetList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UpgradeTarget", required: false, type: .list)
+        ]
+        public let upgradeTarget: [UpgradeTarget]?
+
+        public init(upgradeTarget: [UpgradeTarget]? = nil) {
+            self.upgradeTarget = upgradeTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case upgradeTarget = "UpgradeTarget"
+        }
+    }
+
+    public struct DBSubnetGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSubnetGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetGroupStatus", required: false, type: .string), 
+            AWSShapeMember(label: "DBSubnetGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "Subnets", required: false, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) for the DB subnet group.
+        public let dBSubnetGroupArn: String?
+        /// Provides the status of the DB subnet group.
+        public let subnetGroupStatus: String?
+        /// Provides the description of the DB subnet group.
+        public let dBSubnetGroupDescription: String?
+        /// The name of the DB subnet group.
+        public let dBSubnetGroupName: String?
+        /// Provides the VpcId of the DB subnet group.
+        public let vpcId: String?
+        ///  Contains a list of Subnet elements. 
+        public let subnets: SubnetList?
+
+        public init(dBSubnetGroupArn: String? = nil, subnetGroupStatus: String? = nil, dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String? = nil, vpcId: String? = nil, subnets: SubnetList? = nil) {
+            self.dBSubnetGroupArn = dBSubnetGroupArn
+            self.subnetGroupStatus = subnetGroupStatus
+            self.dBSubnetGroupDescription = dBSubnetGroupDescription
+            self.dBSubnetGroupName = dBSubnetGroupName
+            self.vpcId = vpcId
+            self.subnets = subnets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSubnetGroupArn = "DBSubnetGroupArn"
+            case subnetGroupStatus = "SubnetGroupStatus"
+            case dBSubnetGroupDescription = "DBSubnetGroupDescription"
+            case dBSubnetGroupName = "DBSubnetGroupName"
+            case vpcId = "VpcId"
+            case subnets = "Subnets"
+        }
+    }
+
+    public struct SubnetList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnet", required: false, type: .list)
+        ]
+        public let subnet: [Subnet]?
+
+        public init(subnet: [Subnet]? = nil) {
+            self.subnet = subnet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnet = "Subnet"
+        }
+    }
+
+    public struct ReadReplicaIdentifierList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReadReplicaIdentifier", required: false, type: .list)
+        ]
+        public let readReplicaIdentifier: [String]?
+
+        public init(readReplicaIdentifier: [String]? = nil) {
+            self.readReplicaIdentifier = readReplicaIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case readReplicaIdentifier = "ReadReplicaIdentifier"
+        }
+    }
+
+    public struct TagListMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: false, type: .structure)
+        ]
+        /// List of tags returned by the ListTagsForResource operation.
+        public let tagList: TagList?
+
+        public init(tagList: TagList? = nil) {
+            self.tagList = tagList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagList = "TagList"
+        }
+    }
+
+    public struct AuthorizeDBSecurityGroupIngressMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "DBSecurityGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
+            AWSShapeMember(label: "CIDRIP", required: false, type: .string)
+        ]
+        ///  Name of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
+        public let eC2SecurityGroupName: String?
+        /// The name of the DB security group to add authorization to.
+        public let dBSecurityGroupName: String
+        ///  Id of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
+        public let eC2SecurityGroupId: String?
+        ///  AWS account number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
+        public let eC2SecurityGroupOwnerId: String?
+        /// The IP range to authorize.
+        public let cidrip: String?
+
+        public init(eC2SecurityGroupName: String? = nil, dBSecurityGroupName: String, eC2SecurityGroupId: String? = nil, eC2SecurityGroupOwnerId: String? = nil, cidrip: String? = nil) {
+            self.eC2SecurityGroupName = eC2SecurityGroupName
+            self.dBSecurityGroupName = dBSecurityGroupName
+            self.eC2SecurityGroupId = eC2SecurityGroupId
+            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
+            self.cidrip = cidrip
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eC2SecurityGroupName = "EC2SecurityGroupName"
+            case dBSecurityGroupName = "DBSecurityGroupName"
+            case eC2SecurityGroupId = "EC2SecurityGroupId"
+            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case cidrip = "CIDRIP"
+        }
+    }
+
+    public struct CertificateMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Certificates", required: false, type: .structure)
+        ]
+        ///  An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
+        public let marker: String?
+        /// The list of Certificate objects for the AWS account.
+        public let certificates: CertificateList?
+
+        public init(marker: String? = nil, certificates: CertificateList? = nil) {
+            self.marker = marker
+            self.certificates = certificates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case certificates = "Certificates"
+        }
+    }
+
+    public struct DBClusterParameterGroupList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .list)
+        ]
+        public let dBClusterParameterGroup: [DBClusterParameterGroup]?
+
+        public init(dBClusterParameterGroup: [DBClusterParameterGroup]? = nil) {
+            self.dBClusterParameterGroup = dBClusterParameterGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterParameterGroup = "DBClusterParameterGroup"
+        }
+    }
+
+    public struct CopyDBClusterSnapshotMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceDBClusterSnapshotIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "CopyTags", required: false, type: .boolean), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "TargetDBClusterSnapshotIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "PreSignedUrl", required: false, type: .string)
+        ]
+        /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. You can't copy an encrypted, shared DB cluster snapshot from one AWS Region to another. Constraints:   Must specify a valid system snapshot in the "available" state.   If the source snapshot is in the same AWS Region as the copy, specify a valid DB snapshot identifier.   If the source snapshot is in a different AWS Region than the copy, specify a valid DB cluster snapshot ARN. For more information, go to  Copying a DB Snapshot or DB Cluster Snapshot.   Example: my-cluster-snapshot1 
+        public let sourceDBClusterSnapshotIdentifier: String
+        /// True to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot, and otherwise false. The default is false.
+        public let copyTags: Bool?
+        /// The AWS AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target DB cluster snapshot using the specified KMS encryption key.  If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot.  If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted DB cluster snapshot to another AWS Region, you must set KmsKeyId to the KMS key ID you want to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region.
+        public let kmsKeyId: String?
+        public let tags: TagList?
+        /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot2 
+        public let targetDBClusterSnapshotIdentifier: String
+        /// The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS Region that contains the source DB cluster snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB cluster snapshot from another AWS Region. The pre-signed URL must be a valid request for the CopyDBSClusterSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 AWS Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
+        public let preSignedUrl: String?
+
+        public init(sourceDBClusterSnapshotIdentifier: String, copyTags: Bool? = nil, kmsKeyId: String? = nil, tags: TagList? = nil, targetDBClusterSnapshotIdentifier: String, preSignedUrl: String? = nil) {
+            self.sourceDBClusterSnapshotIdentifier = sourceDBClusterSnapshotIdentifier
+            self.copyTags = copyTags
+            self.kmsKeyId = kmsKeyId
+            self.tags = tags
+            self.targetDBClusterSnapshotIdentifier = targetDBClusterSnapshotIdentifier
+            self.preSignedUrl = preSignedUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceDBClusterSnapshotIdentifier = "SourceDBClusterSnapshotIdentifier"
+            case copyTags = "CopyTags"
+            case kmsKeyId = "KmsKeyId"
+            case tags = "Tags"
+            case targetDBClusterSnapshotIdentifier = "TargetDBClusterSnapshotIdentifier"
+            case preSignedUrl = "PreSignedUrl"
+        }
+    }
+
+    public struct ValidDBInstanceModificationsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Storage", required: false, type: .structure)
+        ]
+        /// Valid storage options for your DB instance. 
+        public let storage: ValidStorageOptionsList?
+
+        public init(storage: ValidStorageOptionsList? = nil) {
+            self.storage = storage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storage = "Storage"
+        }
+    }
+
+    public struct ReservedDBInstancesOfferingList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedDBInstancesOffering", required: false, type: .list)
+        ]
+        public let reservedDBInstancesOffering: [ReservedDBInstancesOffering]?
+
+        public init(reservedDBInstancesOffering: [ReservedDBInstancesOffering]? = nil) {
+            self.reservedDBInstancesOffering = reservedDBInstancesOffering
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedDBInstancesOffering = "ReservedDBInstancesOffering"
+        }
+    }
+
+    public struct OptionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "OptionName", required: true, type: .string), 
+            AWSShapeMember(label: "DBSecurityGroupMemberships", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcSecurityGroupMemberships", required: false, type: .structure), 
+            AWSShapeMember(label: "OptionVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
+        ]
+        /// The option settings to include in an option group.
+        public let optionSettings: OptionSettingsList?
+        /// The configuration of options to include in a group.
+        public let optionName: String
+        /// A list of DBSecurityGroupMemebrship name strings used for this option.
+        public let dBSecurityGroupMemberships: DBSecurityGroupNameList?
+        /// A list of VpcSecurityGroupMemebrship name strings used for this option.
+        public let vpcSecurityGroupMemberships: VpcSecurityGroupIdList?
+        /// The version for the option.
+        public let optionVersion: String?
+        /// The optional port for the option.
+        public let port: Int32?
+
+        public init(optionSettings: OptionSettingsList? = nil, optionName: String, dBSecurityGroupMemberships: DBSecurityGroupNameList? = nil, vpcSecurityGroupMemberships: VpcSecurityGroupIdList? = nil, optionVersion: String? = nil, port: Int32? = nil) {
+            self.optionSettings = optionSettings
+            self.optionName = optionName
+            self.dBSecurityGroupMemberships = dBSecurityGroupMemberships
+            self.vpcSecurityGroupMemberships = vpcSecurityGroupMemberships
+            self.optionVersion = optionVersion
+            self.port = port
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optionSettings = "OptionSettings"
+            case optionName = "OptionName"
+            case dBSecurityGroupMemberships = "DBSecurityGroupMemberships"
+            case vpcSecurityGroupMemberships = "VpcSecurityGroupMemberships"
+            case optionVersion = "OptionVersion"
+            case port = "Port"
+        }
+    }
+
+    public struct RestoreDBClusterFromSnapshotMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "Engine", required: true, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
+        ]
+        /// Provides the list of EC2 Availability Zones that instances in the restored DB cluster can be created in.
+        public let availabilityZones: AvailabilityZones?
+        /// The tags to be assigned to the restored DB cluster.
+        public let tags: TagList?
+        /// A list of VPC security groups that the new DB cluster will belong to.
+        public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
+        /// The name of the DB cluster to create from the DB snapshot or DB cluster snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
+        public let dBClusterIdentifier: String
+        /// The name of the DB subnet group to use for the new DB cluster. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
+        public let dBSubnetGroupName: String?
+        /// The name of the option group to use for the restored DB cluster.
+        public let optionGroupName: String?
+        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
+        public let enableIAMDatabaseAuthentication: Bool?
+        /// The version of the database engine to use for the new DB cluster.
+        public let engineVersion: String?
+        /// The identifier for the DB snapshot or DB cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a DB cluster snapshot. However, you can use only the ARN to specify a DB snapshot. Constraints:   Must match the identifier of an existing Snapshot.  
+        public let snapshotIdentifier: String
+        /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source
+        public let engine: String
+        /// The database name for the restored DB cluster.
+        public let databaseName: String?
+        /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
+        public let port: Int32?
+        /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from a DB snapshot or DB cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the DB snapshot or DB cluster snapshot.   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.  
+        public let kmsKeyId: String?
+
+        public init(availabilityZones: AvailabilityZones? = nil, tags: TagList? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, optionGroupName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, snapshotIdentifier: String, engine: String, databaseName: String? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
+            self.availabilityZones = availabilityZones
+            self.tags = tags
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.dBSubnetGroupName = dBSubnetGroupName
+            self.optionGroupName = optionGroupName
+            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+            self.engineVersion = engineVersion
+            self.snapshotIdentifier = snapshotIdentifier
+            self.engine = engine
+            self.databaseName = databaseName
+            self.port = port
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case tags = "Tags"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+            case dBClusterIdentifier = "DBClusterIdentifier"
+            case dBSubnetGroupName = "DBSubnetGroupName"
+            case optionGroupName = "OptionGroupName"
+            case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
+            case engineVersion = "EngineVersion"
+            case snapshotIdentifier = "SnapshotIdentifier"
+            case engine = "Engine"
+            case databaseName = "DatabaseName"
+            case port = "Port"
+            case kmsKeyId = "KmsKeyId"
+        }
+    }
+
+    public struct SourceRegionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "SourceRegions", required: false, type: .structure)
+        ]
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// A list of SourceRegion instances that contains each source AWS Region that the current AWS Region can get a Read Replica or a DB snapshot from.
+        public let sourceRegions: SourceRegionList?
+
+        public init(marker: String? = nil, sourceRegions: SourceRegionList? = nil) {
+            self.marker = marker
+            self.sourceRegions = sourceRegions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case sourceRegions = "SourceRegions"
+        }
+    }
+
+    public struct DescribeDBInstancesMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string)
+        ]
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs). The results list will only include information about the DB instances identified by these ARNs.  
+        public let filters: FilterList?
+        ///  An optional pagination token provided by a previous DescribeDBInstances request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBInstance.  
+        public let dBInstanceIdentifier: String?
+
+        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, marker: String? = nil, dBInstanceIdentifier: String? = nil) {
+            self.maxRecords = maxRecords
+            self.filters = filters
+            self.marker = marker
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case filters = "Filters"
+            case marker = "Marker"
+            case dBInstanceIdentifier = "DBInstanceIdentifier"
+        }
+    }
+
+    public struct PendingModifiedValues: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
+            AWSShapeMember(label: "StorageType", required: false, type: .string), 
+            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
+            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string)
+        ]
+        ///  Contains the new DBInstanceClass for the DB instance that will be applied or is currently being applied. 
+        public let dBInstanceClass: String?
+        /// Indicates that the Single-AZ DB instance is to change to a Multi-AZ deployment.
+        public let multiAZ: Bool?
+        /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license 
+        public let licenseModel: String?
+        /// Specifies the storage type to be associated with the DB instance.
+        public let storageType: String?
+        ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is currently being applied. 
+        public let allocatedStorage: Int32?
+        /// Contains the pending or currently-in-progress change of the master credentials for the DB instance.
+        public let masterUserPassword: String?
+        /// Specifies the pending number of days for which automated backups are retained.
+        public let backupRetentionPeriod: Int32?
+        /// Specifies the new Provisioned IOPS value for the DB instance that will be applied or is currently being applied.
+        public let iops: Int32?
+        /// Specifies the identifier of the CA certificate for the DB instance.
+        public let cACertificateIdentifier: String?
+        /// The new DB subnet group for the DB instance. 
+        public let dBSubnetGroupName: String?
+        /// Indicates the database engine version.
+        public let engineVersion: String?
+        /// Specifies the pending port for the DB instance.
+        public let port: Int32?
+        ///  Contains the new DBInstanceIdentifier for the DB instance that will be applied or is currently being applied. 
+        public let dBInstanceIdentifier: String?
+
+        public init(dBInstanceClass: String? = nil, multiAZ: Bool? = nil, licenseModel: String? = nil, storageType: String? = nil, allocatedStorage: Int32? = nil, masterUserPassword: String? = nil, backupRetentionPeriod: Int32? = nil, iops: Int32? = nil, cACertificateIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, port: Int32? = nil, dBInstanceIdentifier: String? = nil) {
+            self.dBInstanceClass = dBInstanceClass
+            self.multiAZ = multiAZ
+            self.licenseModel = licenseModel
+            self.storageType = storageType
+            self.allocatedStorage = allocatedStorage
+            self.masterUserPassword = masterUserPassword
+            self.backupRetentionPeriod = backupRetentionPeriod
+            self.iops = iops
+            self.cACertificateIdentifier = cACertificateIdentifier
+            self.dBSubnetGroupName = dBSubnetGroupName
+            self.engineVersion = engineVersion
+            self.port = port
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBInstanceClass = "DBInstanceClass"
+            case multiAZ = "MultiAZ"
+            case licenseModel = "LicenseModel"
+            case storageType = "StorageType"
+            case allocatedStorage = "AllocatedStorage"
+            case masterUserPassword = "MasterUserPassword"
+            case backupRetentionPeriod = "BackupRetentionPeriod"
+            case iops = "Iops"
+            case cACertificateIdentifier = "CACertificateIdentifier"
+            case dBSubnetGroupName = "DBSubnetGroupName"
+            case engineVersion = "EngineVersion"
+            case port = "Port"
+            case dBInstanceIdentifier = "DBInstanceIdentifier"
+        }
+    }
+
+    public struct ModifyDBSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSnapshot", required: false, type: .structure)
+        ]
+        public let dBSnapshot: DBSnapshot?
+
+        public init(dBSnapshot: DBSnapshot? = nil) {
+            self.dBSnapshot = dBSnapshot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSnapshot = "DBSnapshot"
+        }
+    }
+
+    public struct StartDBInstanceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
+        ]
+        ///  The user-supplied instance identifier. 
+        public let dBInstanceIdentifier: String
+
+        public init(dBInstanceIdentifier: String) {
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBInstanceIdentifier = "DBInstanceIdentifier"
+        }
+    }
+
+    public struct ModifyDBInstanceMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "TdeCredentialPassword", required: false, type: .string), 
+            AWSShapeMember(label: "DBPortNumber", required: false, type: .integer), 
+            AWSShapeMember(label: "EnablePerformanceInsights", required: false, type: .boolean), 
+            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
+            AWSShapeMember(label: "DBSecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "PerformanceInsightsKMSKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
+            AWSShapeMember(label: "PromotionTier", required: false, type: .integer), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
+            AWSShapeMember(label: "DomainIAMRoleName", required: false, type: .string), 
+            AWSShapeMember(label: "Domain", required: false, type: .string), 
+            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "StorageType", required: false, type: .string), 
+            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
+            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
+            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
+            AWSShapeMember(label: "NewDBInstanceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
+        ]
+        /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the DB instance's current version.
+        public let allowMajorVersionUpgrade: Bool?
+        /// The password for the given ARN from the key store in order to access the device.
+        public let tdeCredentialPassword: String?
+        /// The port number on which the database accepts connections. The value of the DBPortNumber parameter must not match any of the port values specified for options in the option group for the DB instance. Your database will restart when you change the DBPortNumber value regardless of the value of the ApplyImmediately parameter.  MySQL   Default: 3306   Valid Values: 1150-65535   MariaDB   Default: 3306   Valid Values: 1150-65535   PostgreSQL   Default: 5432   Valid Values: 1150-65535  Type: Integer  Oracle   Default: 1521   Valid Values: 1150-65535   SQL Server   Default: 1433   Valid Values: 1150-65535 except for 1434, 3389, 47001, 49152, and 49152 through 49156.   Amazon Aurora   Default: 3306   Valid Values: 1150-65535 
+        public let dBPortNumber: Int32?
+        /// True to enable Performance Insights for the DB instance, and otherwise false.
+        public let enablePerformanceInsights: Bool?
+        /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB instance.   If this parameter is set to false, changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next call to RebootDBInstance, or the next failure reboot. Review the table of parameters in Modifying a DB Instance and Using the Apply Immediately Parameter to see the impact that setting ApplyImmediately to true or false has for each modified parameter and to determine when the changes are applied.  Default: false 
+        public let applyImmediately: Bool?
+        ///  The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting does not result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  Default: Uses existing setting Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. If you are migrating from Provisioned IOPS to standard storage, set this value to 0. The DB instance will require a reboot for the change in storage type to take effect.  SQL Server  Setting the IOPS value for the SQL Server database engine is not supported. Type: Integer If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a Read Replica for the instance, and creating a DB snapshot of the instance.
+        public let iops: Int32?
+        /// The new password for the master user. The password can include any printable ASCII character except "/", """, or "@".  Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.   Amazon Aurora  Not applicable. The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.  Default: Uses existing setting  MariaDB  Constraints: Must contain from 8 to 41 characters.  Microsoft SQL Server  Constraints: Must contain from 8 to 128 characters.  MySQL  Constraints: Must contain from 8 to 41 characters.  Oracle  Constraints: Must contain from 8 to 30 characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.  Amazon RDS API actions never return the password, so this action provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked.  
+        public let masterUserPassword: String?
+        /// A list of DB security groups to authorize on this DB instance. Changing this setting does not result in an outage and the change is asynchronously applied as soon as possible. Constraints:   If supplied, must match existing DBSecurityGroups.  
+        public let dBSecurityGroups: DBSecurityGroupNameList?
+        ///  Indicates that minor version upgrades are applied automatically to the DB instance during the maintenance window. Changing this parameter does not result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance window, and a newer minor version is available, and RDS has enabled auto patching for that engine version. 
+        public let autoMinorVersionUpgrade: Bool?
+        /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Changing this parameter can result in an outage if you change from 0 to a non-zero value or from a non-zero value to 0. These changes are applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. If you change the parameter from one non-zero value to another non-zero value, the change is asynchronously applied as soon as possible.  Amazon Aurora  Not applicable. The retention period for automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses existing setting Constraints:   Must be a value from 0 to 35   Can be specified for a MySQL Read Replica only if the source is running MySQL 5.6   Can be specified for a PostgreSQL Read Replica only if the source is running PostgreSQL 9.3.5   Cannot be set to 0 if the DB instance is a source to Read Replicas  
+        public let backupRetentionPeriod: Int32?
+        /// Indicates the certificate that needs to be associated with the instance.
+        public let cACertificateIdentifier: String?
+        /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.
+        public let performanceInsightsKMSKeyId: String?
+        ///  The version number of the database engine to upgrade to. Changing this parameter results in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  For major version upgrades, if a nondefault DB parameter group is currently in use, a new DB parameter group in the DB parameter group family for the new engine version must be specified. The new DB parameter group can be the default for that DB parameter group family. For a list of valid engine versions, see CreateDBInstance.
+        public let engineVersion: String?
+        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. You can enable IAM database authentication for the following database engines  Amazon Aurora  Not applicable. Mapping AWS IAM accounts to database accounts is managed by the DB cluster. For more information, see ModifyDBCluster.  MySQL    For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Default: false 
+        public let enableIAMDatabaseAuthentication: Bool?
+        /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster.  Default: 1 Valid Values: 0 - 15
+        public let promotionTier: Int32?
+        /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If there are pending actions that cause a reboot, and the maintenance window is changed to include the current time, then changing this parameter will cause a reboot of the DB instance. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
+        public let preferredMaintenanceWindow: String?
+        /// True to copy all tags from the DB instance to snapshots of the DB instance, and otherwise false. The default is false.
+        public let copyTagsToSnapshot: Bool?
+        /// The name of the IAM role to use when making API calls to the Directory Service.
+        public let domainIAMRoleName: String?
+        /// The Active Directory Domain to move the instance to. Specify none to remove the instance from its current domain. The domain must be created prior to this operation. Currently only a Microsoft SQL Server instance can be created in a Active Directory Domain. 
+        public let domain: String?
+        /// The new compute and memory capacity of the DB instance, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request.  Default: Uses existing setting
+        public let dBInstanceClass: String?
+        ///  Specifies if the DB instance is a Multi-AZ deployment. Changing this parameter does not result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  Constraints: Cannot be specified if the DB instance is a Read Replica.
+        public let multiAZ: Bool?
+        ///  The new storage capacity of the RDS instance. Changing this setting does not result in an outage and the change is applied during the next maintenance window unless ApplyImmediately is set to true for this request.   MySQL  Default: Uses existing setting Valid Values: 5-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. Type: Integer  MariaDB  Default: Uses existing setting Valid Values: 5-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. Type: Integer  PostgreSQL  Default: Uses existing setting Valid Values: 5-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. Type: Integer  Oracle  Default: Uses existing setting Valid Values: 10-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.  SQL Server  Cannot be modified. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a Read Replica for the instance, and creating a DB snapshot of the instance.
+        public let allocatedStorage: Int32?
+        /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible.  Amazon Aurora  Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   If supplied, must match existing VpcSecurityGroupIds.  
+        public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
+        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise standard 
+        public let storageType: String?
+        /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license 
+        public let licenseModel: String?
+        /// The ARN from the key store with which to associate the instance for TDE encryption.
+        public let tdeCredentialArn: String?
+        /// The name of the DB parameter group to apply to the DB instance. Changing this setting does not result in an outage. The parameter group name itself is changed immediately, but the actual parameter changes are not applied until you reboot the instance without failover. The db instance will NOT be rebooted automatically and the parameter changes will NOT be applied during the next maintenance window. Default: Uses existing setting Constraints: The DB parameter group must be in the same DB parameter group family as this DB instance.
+        public let dBParameterGroupName: String?
+        /// Boolean value that indicates if the DB instance has a publicly resolvable DNS name. Set to True to make the DB instance Internet-facing with a publicly resolvable DNS name, which resolves to a public IP address. Set to False to make the DB instance internal with a DNS name that resolves to a private IP address.   PubliclyAccessible only applies to DB instances in a VPC. The DB instance must be part of a public subnet and PubliclyAccessible must be true in order for it to be publicly accessible.  Changes to the PubliclyAccessible parameter are applied immediately regardless of the value of the ApplyImmediately parameter. Default: false
+        public let publiclyAccessible: Bool?
+        ///  The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod parameter. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible.   Amazon Aurora  Not applicable. The daily time range for creating automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   Must be in the format hh24:mi-hh24:mi   Must be in Universal Time Coordinated (UTC)   Must not conflict with the preferred maintenance window   Must be at least 30 minutes  
+        public let preferredBackupWindow: String?
+        /// The new DB subnet group for the DB instance. You can use this parameter to move your DB instance to a different VPC. If your DB instance is not in a VPC, you can also use this parameter to move your DB instance into a VPC. For more information, see Updating the VPC for a DB Instance.  Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you specify true for the ApplyImmediately parameter.  Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetGroup 
+        public let dBSubnetGroupName: String?
+        ///  Indicates that the DB instance should be associated with the specified option group. Changing this parameter does not result in an outage except in the following case and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. If the parameter change results in an option group that enables OEM, this change can cause a brief (sub-second) period during which new connections are rejected but existing connections are not interrupted.  Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
+        public let optionGroupName: String?
+        /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
+        public let monitoringRoleArn: String?
+        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
+        public let monitoringInterval: Int32?
+        ///  The new DB instance identifier for the DB instance when renaming a DB instance. When you change the DB instance identifier, an instance reboot will occur immediately if you set Apply Immediately to true, or will occur during the next maintenance window if Apply Immediately to false. This value is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance 
+        public let newDBInstanceIdentifier: String?
+        /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
+        public let dBInstanceIdentifier: String
+
+        public init(allowMajorVersionUpgrade: Bool? = nil, tdeCredentialPassword: String? = nil, dBPortNumber: Int32? = nil, enablePerformanceInsights: Bool? = nil, applyImmediately: Bool? = nil, iops: Int32? = nil, masterUserPassword: String? = nil, dBSecurityGroups: DBSecurityGroupNameList? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, performanceInsightsKMSKeyId: String? = nil, engineVersion: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, promotionTier: Int32? = nil, preferredMaintenanceWindow: String? = nil, copyTagsToSnapshot: Bool? = nil, domainIAMRoleName: String? = nil, domain: String? = nil, dBInstanceClass: String? = nil, multiAZ: Bool? = nil, allocatedStorage: Int32? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, storageType: String? = nil, licenseModel: String? = nil, tdeCredentialArn: String? = nil, dBParameterGroupName: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, dBSubnetGroupName: String? = nil, optionGroupName: String? = nil, monitoringRoleArn: String? = nil, monitoringInterval: Int32? = nil, newDBInstanceIdentifier: String? = nil, dBInstanceIdentifier: String) {
+            self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
+            self.tdeCredentialPassword = tdeCredentialPassword
+            self.dBPortNumber = dBPortNumber
+            self.enablePerformanceInsights = enablePerformanceInsights
+            self.applyImmediately = applyImmediately
+            self.iops = iops
+            self.masterUserPassword = masterUserPassword
+            self.dBSecurityGroups = dBSecurityGroups
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.backupRetentionPeriod = backupRetentionPeriod
+            self.cACertificateIdentifier = cACertificateIdentifier
+            self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
+            self.engineVersion = engineVersion
+            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+            self.promotionTier = promotionTier
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.copyTagsToSnapshot = copyTagsToSnapshot
+            self.domainIAMRoleName = domainIAMRoleName
+            self.domain = domain
+            self.dBInstanceClass = dBInstanceClass
+            self.multiAZ = multiAZ
+            self.allocatedStorage = allocatedStorage
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.storageType = storageType
+            self.licenseModel = licenseModel
+            self.tdeCredentialArn = tdeCredentialArn
+            self.dBParameterGroupName = dBParameterGroupName
+            self.publiclyAccessible = publiclyAccessible
+            self.preferredBackupWindow = preferredBackupWindow
+            self.dBSubnetGroupName = dBSubnetGroupName
+            self.optionGroupName = optionGroupName
+            self.monitoringRoleArn = monitoringRoleArn
+            self.monitoringInterval = monitoringInterval
+            self.newDBInstanceIdentifier = newDBInstanceIdentifier
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
+            case tdeCredentialPassword = "TdeCredentialPassword"
+            case dBPortNumber = "DBPortNumber"
+            case enablePerformanceInsights = "EnablePerformanceInsights"
+            case applyImmediately = "ApplyImmediately"
+            case iops = "Iops"
+            case masterUserPassword = "MasterUserPassword"
+            case dBSecurityGroups = "DBSecurityGroups"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case backupRetentionPeriod = "BackupRetentionPeriod"
+            case cACertificateIdentifier = "CACertificateIdentifier"
+            case performanceInsightsKMSKeyId = "PerformanceInsightsKMSKeyId"
+            case engineVersion = "EngineVersion"
+            case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
+            case promotionTier = "PromotionTier"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
+            case domainIAMRoleName = "DomainIAMRoleName"
+            case domain = "Domain"
+            case dBInstanceClass = "DBInstanceClass"
+            case multiAZ = "MultiAZ"
+            case allocatedStorage = "AllocatedStorage"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+            case storageType = "StorageType"
+            case licenseModel = "LicenseModel"
+            case tdeCredentialArn = "TdeCredentialArn"
+            case dBParameterGroupName = "DBParameterGroupName"
+            case publiclyAccessible = "PubliclyAccessible"
+            case preferredBackupWindow = "PreferredBackupWindow"
+            case dBSubnetGroupName = "DBSubnetGroupName"
+            case optionGroupName = "OptionGroupName"
+            case monitoringRoleArn = "MonitoringRoleArn"
+            case monitoringInterval = "MonitoringInterval"
+            case newDBInstanceIdentifier = "NewDBInstanceIdentifier"
+            case dBInstanceIdentifier = "DBInstanceIdentifier"
+        }
+    }
+
+    public struct DBParameterGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
+            AWSShapeMember(label: "DBParameterGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// Provides the name of the DB parameter group family that this DB parameter group is compatible with.
+        public let dBParameterGroupFamily: String?
+        /// The Amazon Resource Name (ARN) for the DB parameter group.
+        public let dBParameterGroupArn: String?
+        /// Provides the name of the DB parameter group.
+        public let dBParameterGroupName: String?
+        /// Provides the customer-specified description for this DB parameter group.
+        public let description: String?
+
+        public init(dBParameterGroupFamily: String? = nil, dBParameterGroupArn: String? = nil, dBParameterGroupName: String? = nil, description: String? = nil) {
+            self.dBParameterGroupFamily = dBParameterGroupFamily
+            self.dBParameterGroupArn = dBParameterGroupArn
+            self.dBParameterGroupName = dBParameterGroupName
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBParameterGroupFamily = "DBParameterGroupFamily"
+            case dBParameterGroupArn = "DBParameterGroupArn"
+            case dBParameterGroupName = "DBParameterGroupName"
+            case description = "Description"
+        }
+    }
+
+    public struct PurchaseReservedDBInstancesOfferingMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedDBInstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "ReservedDBInstancesOfferingId", required: true, type: .string), 
+            AWSShapeMember(label: "DBInstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure)
+        ]
+        /// Customer-specified identifier to track this reservation. Example: myreservationID
+        public let reservedDBInstanceId: String?
+        /// The ID of the Reserved DB instance offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
+        public let reservedDBInstancesOfferingId: String
+        /// The number of instances to reserve. Default: 1 
+        public let dBInstanceCount: Int32?
+        public let tags: TagList?
+
+        public init(reservedDBInstanceId: String? = nil, reservedDBInstancesOfferingId: String, dBInstanceCount: Int32? = nil, tags: TagList? = nil) {
+            self.reservedDBInstanceId = reservedDBInstanceId
+            self.reservedDBInstancesOfferingId = reservedDBInstancesOfferingId
+            self.dBInstanceCount = dBInstanceCount
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedDBInstanceId = "ReservedDBInstanceId"
+            case reservedDBInstancesOfferingId = "ReservedDBInstancesOfferingId"
+            case dBInstanceCount = "DBInstanceCount"
+            case tags = "Tags"
+        }
+    }
+
+    public struct DescribeDBSnapshotAttributesMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSnapshotIdentifier", required: true, type: .string)
+        ]
+        /// The identifier for the DB snapshot to describe the attributes for.
+        public let dBSnapshotIdentifier: String
+
+        public init(dBSnapshotIdentifier: String) {
+            self.dBSnapshotIdentifier = dBSnapshotIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSnapshotIdentifier = "DBSnapshotIdentifier"
+        }
+    }
+
+    public struct DescribeDBSecurityGroupsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "DBSecurityGroupName", required: false, type: .string)
+        ]
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        /// This parameter is not currently supported.
+        public let filters: FilterList?
+        ///  An optional pagination token provided by a previous DescribeDBSecurityGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// The name of the DB security group to return details for.
+        public let dBSecurityGroupName: String?
+
+        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, marker: String? = nil, dBSecurityGroupName: String? = nil) {
+            self.maxRecords = maxRecords
+            self.filters = filters
+            self.marker = marker
+            self.dBSecurityGroupName = dBSecurityGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case filters = "Filters"
+            case marker = "Marker"
+            case dBSecurityGroupName = "DBSecurityGroupName"
+        }
+    }
+
+    public struct DownloadDBLogFilePortionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NumberOfLines", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "LogFileName", required: true, type: .string), 
+            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
+        ]
+        /// The number of lines to download. If the number of lines specified results in a file over 1 MB in size, the file is truncated at 1 MB in size. If the NumberOfLines parameter is specified, then the block of lines returned can be from the beginning or the end of the log file, depending on the value of the Marker parameter.   If neither Marker or NumberOfLines are specified, the entire log file is returned up to a maximum of 10000 lines, starting with the most recent log entries first.   If NumberOfLines is specified and Marker is not specified, then the most recent lines from the end of the log file are returned.   If Marker is specified as "0", then the specified number of lines from the beginning of the log file are returned.   You can download the log file in blocks of lines by specifying the size of the block using the NumberOfLines parameter, and by specifying a value of "0" for the Marker parameter in your first request. Include the Marker value returned in the response as the Marker value for the next request, continuing until the AdditionalDataPending response element returns false.  
+        public let numberOfLines: Int32?
+        /// The pagination token provided in the previous request or "0". If the Marker parameter is specified the response includes only records beyond the marker until the end of the file or up to NumberOfLines.
+        public let marker: String?
+        /// The name of the log file to be downloaded.
+        public let logFileName: String
+        /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must match the identifier of an existing DBInstance.  
+        public let dBInstanceIdentifier: String
+
+        public init(numberOfLines: Int32? = nil, marker: String? = nil, logFileName: String, dBInstanceIdentifier: String) {
+            self.numberOfLines = numberOfLines
+            self.marker = marker
+            self.logFileName = logFileName
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberOfLines = "NumberOfLines"
+            case marker = "Marker"
+            case logFileName = "LogFileName"
+            case dBInstanceIdentifier = "DBInstanceIdentifier"
+        }
+    }
+
+    public struct PendingMaintenanceActions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourcePendingMaintenanceActions", required: false, type: .list)
+        ]
+        public let resourcePendingMaintenanceActions: [ResourcePendingMaintenanceActions]?
+
+        public init(resourcePendingMaintenanceActions: [ResourcePendingMaintenanceActions]? = nil) {
+            self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcePendingMaintenanceActions = "ResourcePendingMaintenanceActions"
+        }
+    }
+
+    public struct Filter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: true, type: .structure)
+        ]
+        /// This parameter is not currently supported.
+        public let name: String
+        /// This parameter is not currently supported.
+        public let values: FilterValueList
+
+        public init(name: String, values: FilterValueList) {
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct DBInstanceStatusInfoList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBInstanceStatusInfo", required: false, type: .list)
+        ]
+        public let dBInstanceStatusInfo: [DBInstanceStatusInfo]?
+
+        public init(dBInstanceStatusInfo: [DBInstanceStatusInfo]? = nil) {
+            self.dBInstanceStatusInfo = dBInstanceStatusInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBInstanceStatusInfo = "DBInstanceStatusInfo"
+        }
+    }
+
+    public struct CreateDBSubnetGroupResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure)
+        ]
+        public let dBSubnetGroup: DBSubnetGroup?
+
+        public init(dBSubnetGroup: DBSubnetGroup? = nil) {
+            self.dBSubnetGroup = dBSubnetGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSubnetGroup = "DBSubnetGroup"
+        }
+    }
+
+    public struct RestoreDBInstanceFromS3Message: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3IngestionRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "DBName", required: false, type: .string), 
+            AWSShapeMember(label: "EnablePerformanceInsights", required: false, type: .boolean), 
+            AWSShapeMember(label: "S3Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
+            AWSShapeMember(label: "DBSecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "PerformanceInsightsKMSKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
+            AWSShapeMember(label: "DBInstanceClass", required: true, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "StorageType", required: false, type: .string), 
+            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
+            AWSShapeMember(label: "SourceEngine", required: true, type: .string), 
+            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "SourceEngineVersion", required: true, type: .string), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
+            AWSShapeMember(label: "S3BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
+            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "Engine", required: true, type: .string), 
+            AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
+            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
+        ]
+        /// An AWS Identity and Access Management (IAM) role to allow Amazon RDS to access your Amazon S3 bucket. 
+        public let s3IngestionRoleArn: String
+        /// The name of the database to create when the DB instance is created. Follow the naming rules specified in CreateDBInstance. 
+        public let dBName: String?
+        /// True to enable Performance Insights for the DB instance, and otherwise false. 
+        public let enablePerformanceInsights: Bool?
+        /// The prefix of your Amazon S3 bucket. 
+        public let s3Prefix: String?
+        /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. For more information, see CreateDBInstance. 
+        public let backupRetentionPeriod: Int32?
+        /// The amount of Provisioned IOPS (input/output operations per second) to allocate initially for the DB instance. For information about valid Iops values, see see Amazon RDS Provisioned IOPS Storage to Improve Performance. 
+        public let iops: Int32?
+        /// The password for the master user. The password can include any printable ASCII character except "/", """, or "@".  Constraints: Must contain from 8 to 41 characters.
+        public let masterUserPassword: String?
+        /// A list of DB security groups to associate with this DB instance. Default: The default DB security group for the database engine.
+        public let dBSecurityGroups: DBSecurityGroupNameList?
+        /// The Availability Zone that the DB instance is created in. For information about AWS Regions and Availability Zones, see Regions and Availability Zones.  Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.   Example: us-east-1d  Constraint: The AvailabilityZone parameter can't be specified if the MultiAZ parameter is set to true. The specified Availability Zone must be in the same AWS Region as the current endpoint. 
+        public let availabilityZone: String?
+        /// True to indicate that minor engine upgrades are applied automatically to the DB instance during the maintenance window, and otherwise false.  Default: true 
+        public let autoMinorVersionUpgrade: Bool?
+        /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), the KMS key identifier, or the KMS key alias for the KMS encryption key. 
+        public let performanceInsightsKMSKeyId: String?
+        /// The version number of the database engine to use. Choose the latest minor version of your database engine as specified in CreateDBInstance. 
+        public let engineVersion: String?
+        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false.  Default: false 
+        public let enableIAMDatabaseAuthentication: Bool?
+        /// The time range each week during which system maintenance can occur, in Universal Coordinated Time (UTC). For more information, see Amazon RDS Maintenance Window.  Constraints:   Must be in the format ddd:hh24:mi-ddd:hh24:mi.   Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred backup window.   Must be at least 30 minutes.  
+        public let preferredMaintenanceWindow: String?
+        /// True to copy all tags from the DB instance to snapshots of the DB instance, and otherwise false.  Default: false. 
+        public let copyTagsToSnapshot: Bool?
+        /// The compute and memory capacity of the DB instance, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Importing from Amazon S3 is not supported on the db.t2.micro DB instance class. 
+        public let dBInstanceClass: String
+        /// The AWS KMS key identifier for an encrypted DB instance.  The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key.  If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region. 
+        public let kmsKeyId: String?
+        /// Specifies whether the DB instance is a Multi-AZ deployment. If MultiAZ is set to true, you can't set the AvailabilityZone parameter. 
+        public let multiAZ: Bool?
+        /// A list of tags to associate with this DB instance. For more information, see Tagging Amazon RDS Resources. 
+        public let tags: TagList?
+        /// The amount of storage (in gigabytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance.   Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.  
+        public let allocatedStorage: Int32?
+        /// A list of VPC security groups to associate with this DB instance. 
+        public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
+        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1  If you specify io1, you must also include a value for the Iops parameter.  Default: io1 if the Iops parameter is specified; otherwise standard 
+        public let storageType: String?
+        /// The license model for this DB instance. Use general-public-license. 
+        public let licenseModel: String?
+        /// The name of the engine of your source database.  Valid Values: mysql 
+        public let sourceEngine: String
+        /// The name of the DB parameter group to associate with this DB instance. If this argument is omitted, the default parameter group for the specified engine is used. 
+        public let dBParameterGroupName: String?
+        /// The engine version of your source database.  Valid Values: 5.6 
+        public let sourceEngineVersion: String
+        /// Specifies whether the DB instance is publicly accessible or not. For more information, see CreateDBInstance. 
+        public let publiclyAccessible: Bool?
+        /// The time range each day during which automated backups are created if automated backups are enabled. For more information, see The Backup Window.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        public let preferredBackupWindow: String?
+        /// The name of your Amazon S3 bucket that contains your database backup file. 
+        public let s3BucketName: String
+        /// A DB subnet group to associate with this DB instance.
+        public let dBSubnetGroupName: String?
+        /// The name of the option group to associate with this DB instance. If this argument is omitted, the default option group for the specified engine is used. 
+        public let optionGroupName: String?
+        /// The name for the master user.  Constraints:    Must be 1 to 16 letters or numbers.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.  
+        public let masterUsername: String?
+        /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, see Setting Up and Enabling Enhanced Monitoring.  If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value. 
+        public let monitoringRoleArn: String?
+        /// The name of the database engine to be used for this instance.  Valid Values: mysql 
+        public let engine: String
+        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0.  If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0.  Valid Values: 0, 1, 5, 10, 15, 30, 60  Default: 0 
+        public let monitoringInterval: Int32?
+        /// Specifies whether the new DB instance is encrypted or not. 
+        public let storageEncrypted: Bool?
+        /// The port number on which the database accepts connections.  Type: Integer  Valid Values: 1150-65535  Default: 3306 
+        public let port: Int32?
+        /// The DB instance identifier. This parameter is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance 
+        public let dBInstanceIdentifier: String
+
+        public init(s3IngestionRoleArn: String, dBName: String? = nil, enablePerformanceInsights: Bool? = nil, s3Prefix: String? = nil, backupRetentionPeriod: Int32? = nil, iops: Int32? = nil, masterUserPassword: String? = nil, dBSecurityGroups: DBSecurityGroupNameList? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, engineVersion: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, preferredMaintenanceWindow: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String, kmsKeyId: String? = nil, multiAZ: Bool? = nil, tags: TagList? = nil, allocatedStorage: Int32? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, storageType: String? = nil, licenseModel: String? = nil, sourceEngine: String, dBParameterGroupName: String? = nil, sourceEngineVersion: String, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, s3BucketName: String, dBSubnetGroupName: String? = nil, optionGroupName: String? = nil, masterUsername: String? = nil, monitoringRoleArn: String? = nil, engine: String, monitoringInterval: Int32? = nil, storageEncrypted: Bool? = nil, port: Int32? = nil, dBInstanceIdentifier: String) {
+            self.s3IngestionRoleArn = s3IngestionRoleArn
+            self.dBName = dBName
+            self.enablePerformanceInsights = enablePerformanceInsights
+            self.s3Prefix = s3Prefix
+            self.backupRetentionPeriod = backupRetentionPeriod
+            self.iops = iops
+            self.masterUserPassword = masterUserPassword
+            self.dBSecurityGroups = dBSecurityGroups
+            self.availabilityZone = availabilityZone
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
+            self.engineVersion = engineVersion
+            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.copyTagsToSnapshot = copyTagsToSnapshot
+            self.dBInstanceClass = dBInstanceClass
+            self.kmsKeyId = kmsKeyId
+            self.multiAZ = multiAZ
+            self.tags = tags
+            self.allocatedStorage = allocatedStorage
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.storageType = storageType
+            self.licenseModel = licenseModel
+            self.sourceEngine = sourceEngine
+            self.dBParameterGroupName = dBParameterGroupName
+            self.sourceEngineVersion = sourceEngineVersion
+            self.publiclyAccessible = publiclyAccessible
+            self.preferredBackupWindow = preferredBackupWindow
+            self.s3BucketName = s3BucketName
+            self.dBSubnetGroupName = dBSubnetGroupName
+            self.optionGroupName = optionGroupName
+            self.masterUsername = masterUsername
+            self.monitoringRoleArn = monitoringRoleArn
+            self.engine = engine
+            self.monitoringInterval = monitoringInterval
+            self.storageEncrypted = storageEncrypted
+            self.port = port
+            self.dBInstanceIdentifier = dBInstanceIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3IngestionRoleArn = "S3IngestionRoleArn"
+            case dBName = "DBName"
+            case enablePerformanceInsights = "EnablePerformanceInsights"
+            case s3Prefix = "S3Prefix"
+            case backupRetentionPeriod = "BackupRetentionPeriod"
+            case iops = "Iops"
+            case masterUserPassword = "MasterUserPassword"
+            case dBSecurityGroups = "DBSecurityGroups"
+            case availabilityZone = "AvailabilityZone"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case performanceInsightsKMSKeyId = "PerformanceInsightsKMSKeyId"
+            case engineVersion = "EngineVersion"
+            case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
+            case dBInstanceClass = "DBInstanceClass"
+            case kmsKeyId = "KmsKeyId"
+            case multiAZ = "MultiAZ"
+            case tags = "Tags"
+            case allocatedStorage = "AllocatedStorage"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+            case storageType = "StorageType"
+            case licenseModel = "LicenseModel"
+            case sourceEngine = "SourceEngine"
+            case dBParameterGroupName = "DBParameterGroupName"
+            case sourceEngineVersion = "SourceEngineVersion"
+            case publiclyAccessible = "PubliclyAccessible"
+            case preferredBackupWindow = "PreferredBackupWindow"
+            case s3BucketName = "S3BucketName"
+            case dBSubnetGroupName = "DBSubnetGroupName"
+            case optionGroupName = "OptionGroupName"
+            case masterUsername = "MasterUsername"
+            case monitoringRoleArn = "MonitoringRoleArn"
+            case engine = "Engine"
+            case monitoringInterval = "MonitoringInterval"
+            case storageEncrypted = "StorageEncrypted"
+            case port = "Port"
+            case dBInstanceIdentifier = "DBInstanceIdentifier"
+        }
+    }
+
+    public struct RestoreDBClusterFromSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
+        ]
+        public let dBCluster: DBCluster?
+
+        public init(dBCluster: DBCluster? = nil) {
+            self.dBCluster = dBCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBCluster = "DBCluster"
+        }
+    }
+
+    public struct PromoteReadReplicaDBClusterMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
+        ]
+        /// The identifier of the DB cluster Read Replica to promote. This parameter is not case-sensitive.  Constraints:   Must match the identifier of an existing DBCluster Read Replica.   Example: my-cluster-replica1 
+        public let dBClusterIdentifier: String
+
+        public init(dBClusterIdentifier: String) {
+            self.dBClusterIdentifier = dBClusterIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterIdentifier = "DBClusterIdentifier"
+        }
+    }
+
+    public struct FilterList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .list)
+        ]
+        public let filter: [Filter]?
+
+        public init(filter: [Filter]? = nil) {
+            self.filter = filter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+        }
+    }
+
+    public struct OptionGroupOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequiresAutoMinorEngineVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "PortRequired", required: false, type: .boolean), 
+            AWSShapeMember(label: "OptionsConflictsWith", required: false, type: .structure), 
+            AWSShapeMember(label: "MinimumRequiredMinorEngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "MajorEngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Persistent", required: false, type: .boolean), 
+            AWSShapeMember(label: "OptionGroupOptionSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "Permanent", required: false, type: .boolean), 
+            AWSShapeMember(label: "VpcOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "OptionsDependedOn", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "OptionGroupOptionVersions", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SupportsOptionVersionDowngrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultPort", required: false, type: .integer), 
+            AWSShapeMember(label: "EngineName", required: false, type: .string)
+        ]
+        /// If true, you must enable the Auto Minor Version Upgrade setting for your DB instance before you can use this option. You can enable Auto Minor Version Upgrade when you first create your DB instance, or by modifying your DB instance later. 
+        public let requiresAutoMinorEngineVersionUpgrade: Bool?
+        /// Specifies whether the option requires a port.
+        public let portRequired: Bool?
+        /// The options that conflict with this option.
+        public let optionsConflictsWith: OptionsConflictsWith?
+        /// The minimum required engine version for the option to be applied.
+        public let minimumRequiredMinorEngineVersion: String?
+        /// Indicates the major engine version that the option is available for.
+        public let majorEngineVersion: String?
+        /// Persistent options can't be removed from an option group while DB instances are associated with the option group. If you disassociate all DB instances from the option group, your can remove the persistent option from the option group.
+        public let persistent: Bool?
+        /// The option settings that are available (and the default value) for each option in an option group.
+        public let optionGroupOptionSettings: OptionGroupOptionSettingsList?
+        /// Permanent options can never be removed from an option group. An option group containing a permanent option can't be removed from a DB instance.
+        public let permanent: Bool?
+        /// If true, you can only use this option with a DB instance that is in a VPC. 
+        public let vpcOnly: Bool?
+        /// The options that are prerequisites for this option.
+        public let optionsDependedOn: OptionsDependedOn?
+        /// The description of the option.
+        public let description: String?
+        /// The versions that are available for the option.
+        public let optionGroupOptionVersions: OptionGroupOptionVersionsList?
+        /// The name of the option.
+        public let name: String?
+        /// If true, you can change the option to an earlier version of the option. This only applies to options that have different versions available. 
+        public let supportsOptionVersionDowngrade: Bool?
+        /// If the option requires a port, specifies the default port for the option.
+        public let defaultPort: Int32?
+        /// The name of the engine that this option can be applied to.
+        public let engineName: String?
+
+        public init(requiresAutoMinorEngineVersionUpgrade: Bool? = nil, portRequired: Bool? = nil, optionsConflictsWith: OptionsConflictsWith? = nil, minimumRequiredMinorEngineVersion: String? = nil, majorEngineVersion: String? = nil, persistent: Bool? = nil, optionGroupOptionSettings: OptionGroupOptionSettingsList? = nil, permanent: Bool? = nil, vpcOnly: Bool? = nil, optionsDependedOn: OptionsDependedOn? = nil, description: String? = nil, optionGroupOptionVersions: OptionGroupOptionVersionsList? = nil, name: String? = nil, supportsOptionVersionDowngrade: Bool? = nil, defaultPort: Int32? = nil, engineName: String? = nil) {
+            self.requiresAutoMinorEngineVersionUpgrade = requiresAutoMinorEngineVersionUpgrade
+            self.portRequired = portRequired
+            self.optionsConflictsWith = optionsConflictsWith
+            self.minimumRequiredMinorEngineVersion = minimumRequiredMinorEngineVersion
+            self.majorEngineVersion = majorEngineVersion
+            self.persistent = persistent
+            self.optionGroupOptionSettings = optionGroupOptionSettings
+            self.permanent = permanent
+            self.vpcOnly = vpcOnly
+            self.optionsDependedOn = optionsDependedOn
+            self.description = description
+            self.optionGroupOptionVersions = optionGroupOptionVersions
+            self.name = name
+            self.supportsOptionVersionDowngrade = supportsOptionVersionDowngrade
+            self.defaultPort = defaultPort
+            self.engineName = engineName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requiresAutoMinorEngineVersionUpgrade = "RequiresAutoMinorEngineVersionUpgrade"
+            case portRequired = "PortRequired"
+            case optionsConflictsWith = "OptionsConflictsWith"
+            case minimumRequiredMinorEngineVersion = "MinimumRequiredMinorEngineVersion"
+            case majorEngineVersion = "MajorEngineVersion"
+            case persistent = "Persistent"
+            case optionGroupOptionSettings = "OptionGroupOptionSettings"
+            case permanent = "Permanent"
+            case vpcOnly = "VpcOnly"
+            case optionsDependedOn = "OptionsDependedOn"
+            case description = "Description"
+            case optionGroupOptionVersions = "OptionGroupOptionVersions"
+            case name = "Name"
+            case supportsOptionVersionDowngrade = "SupportsOptionVersionDowngrade"
+            case defaultPort = "DefaultPort"
+            case engineName = "EngineName"
+        }
+    }
+
+    public struct CreateDBClusterParameterGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBParameterGroupFamily", required: true, type: .string), 
+            AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
+        ]
+        /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family.
+        public let dBParameterGroupFamily: String
+        /// The name of the DB cluster parameter group. Constraints:   Must match the name of an existing DBClusterParameterGroup.    This value is stored as a lowercase string. 
+        public let dBClusterParameterGroupName: String
+        public let tags: TagList?
+        /// The description for the DB cluster parameter group.
+        public let description: String
+
+        public init(dBParameterGroupFamily: String, dBClusterParameterGroupName: String, tags: TagList? = nil, description: String) {
+            self.dBParameterGroupFamily = dBParameterGroupFamily
+            self.dBClusterParameterGroupName = dBClusterParameterGroupName
+            self.tags = tags
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBParameterGroupFamily = "DBParameterGroupFamily"
+            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
+            case tags = "Tags"
+            case description = "Description"
+        }
+    }
+
+    public struct DeleteDBSubnetGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string)
+        ]
+        /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
+        public let dBSubnetGroupName: String
+
+        public init(dBSubnetGroupName: String) {
+            self.dBSubnetGroupName = dBSubnetGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSubnetGroupName = "DBSubnetGroupName"
+        }
+    }
+
+    public struct OptionSettingConfigurationList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionSetting", required: false, type: .list)
+        ]
+        public let optionSetting: [OptionSetting]?
+
+        public init(optionSetting: [OptionSetting]? = nil) {
+            self.optionSetting = optionSetting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optionSetting = "OptionSetting"
+        }
+    }
+
+    public struct DBClusterSnapshotMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterSnapshots", required: false, type: .structure)
+        ]
+        ///  An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// Provides a list of DB cluster snapshots for the user.
+        public let dBClusterSnapshots: DBClusterSnapshotList?
+
+        public init(marker: String? = nil, dBClusterSnapshots: DBClusterSnapshotList? = nil) {
+            self.marker = marker
+            self.dBClusterSnapshots = dBClusterSnapshots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case dBClusterSnapshots = "DBClusterSnapshots"
+        }
+    }
+
+    public struct OptionsConflictsWith: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OptionConflictName", required: false, type: .list)
+        ]
+        public let optionConflictName: [String]?
+
+        public init(optionConflictName: [String]? = nil) {
+            self.optionConflictName = optionConflictName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optionConflictName = "OptionConflictName"
+        }
+    }
+
+    public struct PurchaseReservedDBInstancesOfferingResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedDBInstance", required: false, type: .structure)
+        ]
+        public let reservedDBInstance: ReservedDBInstance?
+
+        public init(reservedDBInstance: ReservedDBInstance? = nil) {
+            self.reservedDBInstance = reservedDBInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedDBInstance = "ReservedDBInstance"
+        }
+    }
+
+    public struct CreateDBClusterSnapshotMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
+        ]
+        /// The tags to be assigned to the DB cluster snapshot.
+        public let tags: TagList?
+        /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1-snapshot1 
+        public let dBClusterSnapshotIdentifier: String
+        /// The identifier of the DB cluster to create a snapshot for. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster1 
+        public let dBClusterIdentifier: String
+
+        public init(tags: TagList? = nil, dBClusterSnapshotIdentifier: String, dBClusterIdentifier: String) {
+            self.tags = tags
+            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
+            self.dBClusterIdentifier = dBClusterIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case dBClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
+            case dBClusterIdentifier = "DBClusterIdentifier"
+        }
+    }
+
+    public struct DBClusterSnapshotAttribute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
+            AWSShapeMember(label: "AttributeValues", required: false, type: .structure)
+        ]
+        /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBClusterSnapshotAttribute API action.
+        public let attributeName: String?
+        /// The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any AWS account to copy or restore.
+        public let attributeValues: AttributeValueList?
+
+        public init(attributeName: String? = nil, attributeValues: AttributeValueList? = nil) {
+            self.attributeName = attributeName
+            self.attributeValues = attributeValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case attributeValues = "AttributeValues"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
+        ]
+        /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+        public let value: String?
+        /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+        public let key: String?
+
+        public init(value: String? = nil, key: String? = nil) {
+            self.value = value
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
+        }
+    }
+
+    public struct CreateEventSubscriptionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnsTopicArn", required: true, type: .string), 
+            AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .structure), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceIds", required: false, type: .structure)
+        ]
+        /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
+        public let snsTopicArn: String
+        /// The name of the subscription. Constraints: The name must be less than 255 characters.
+        public let subscriptionName: String
+        /// The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. if this value is not specified, all events are returned. Valid values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot 
+        public let sourceType: String?
+        public let tags: TagList?
+        ///  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType in the Events topic in the Amazon RDS User Guide or by using the DescribeEventCategories action. 
+        public let eventCategories: EventCategoriesList?
+        ///  A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it. 
+        public let enabled: Bool?
+        /// The list of identifiers of the event sources for which events are returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are supplied, SourceType must also be provided.   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
+        public let sourceIds: SourceIdsList?
+
+        public init(snsTopicArn: String, subscriptionName: String, sourceType: String? = nil, tags: TagList? = nil, eventCategories: EventCategoriesList? = nil, enabled: Bool? = nil, sourceIds: SourceIdsList? = nil) {
+            self.snsTopicArn = snsTopicArn
+            self.subscriptionName = subscriptionName
+            self.sourceType = sourceType
+            self.tags = tags
+            self.eventCategories = eventCategories
+            self.enabled = enabled
+            self.sourceIds = sourceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snsTopicArn = "SnsTopicArn"
+            case subscriptionName = "SubscriptionName"
+            case sourceType = "SourceType"
+            case tags = "Tags"
+            case eventCategories = "EventCategories"
+            case enabled = "Enabled"
+            case sourceIds = "SourceIds"
+        }
+    }
+
+    public struct DescribeDBSnapshotAttributesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBSnapshotAttributesResult", required: false, type: .structure)
+        ]
+        public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
+
+        public init(dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil) {
+            self.dBSnapshotAttributesResult = dBSnapshotAttributesResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBSnapshotAttributesResult = "DBSnapshotAttributesResult"
+        }
+    }
+
+    public struct ModifyDBInstanceResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
+        ]
+        public let dBInstance: DBInstance?
+
+        public init(dBInstance: DBInstance? = nil) {
+            self.dBInstance = dBInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBInstance = "DBInstance"
+        }
+    }
+
+    public struct IPRangeList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IPRange", required: false, type: .list)
+        ]
+        public let iPRange: [IPRange]?
+
+        public init(iPRange: [IPRange]? = nil) {
+            self.iPRange = iPRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iPRange = "IPRange"
+        }
+    }
+
+    public struct RecurringCharge: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecurringChargeAmount", required: false, type: .double), 
+            AWSShapeMember(label: "RecurringChargeFrequency", required: false, type: .string)
+        ]
+        /// The amount of the recurring charge.
+        public let recurringChargeAmount: Double?
+        /// The frequency of the recurring charge.
+        public let recurringChargeFrequency: String?
+
+        public init(recurringChargeAmount: Double? = nil, recurringChargeFrequency: String? = nil) {
+            self.recurringChargeAmount = recurringChargeAmount
+            self.recurringChargeFrequency = recurringChargeFrequency
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recurringChargeAmount = "RecurringChargeAmount"
+            case recurringChargeFrequency = "RecurringChargeFrequency"
+        }
+    }
+
+    public struct RestoreDBClusterToPointInTimeResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
+        ]
+        public let dBCluster: DBCluster?
+
+        public init(dBCluster: DBCluster? = nil) {
+            self.dBCluster = dBCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBCluster = "DBCluster"
+        }
+    }
+
+    public struct CreateDBInstanceReadReplicaResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
+        ]
+        public let dBInstance: DBInstance?
+
+        public init(dBInstance: DBInstance? = nil) {
+            self.dBInstance = dBInstance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBInstance = "DBInstance"
+        }
+    }
+
+    public struct AvailabilityZones: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .list)
+        ]
+        public let availabilityZone: [String]?
+
+        public init(availabilityZone: [String]? = nil) {
+            self.availabilityZone = availabilityZone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+        }
+    }
+
     public struct Option: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OptionSettings", required: false, type: .structure), 
             AWSShapeMember(label: "OptionDescription", required: false, type: .string), 
             AWSShapeMember(label: "OptionVersion", required: false, type: .string), 
@@ -1139,7 +5314,7 @@ extension Rds {
     }
 
     public struct VpcSecurityGroupIdList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .list)
         ]
         public let vpcSecurityGroupId: [String]?
@@ -1153,29 +5328,8 @@ extension Rds {
         }
     }
 
-    public struct RemoveTagsFromResourceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceName", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: true, type: .list)
-        ]
-        /// The Amazon RDS resource the tags will be removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
-        public let resourceName: String
-        /// The tag key (name) of the tag to be removed.
-        public let tagKeys: [String]
-
-        public init(resourceName: String, tagKeys: [String]) {
-            self.resourceName = resourceName
-            self.tagKeys = tagKeys
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceName = "ResourceName"
-            case tagKeys = "TagKeys"
-        }
-    }
-
     public struct OptionsDependedOn: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OptionName", required: false, type: .list)
         ]
         public let optionName: [String]?
@@ -1190,7 +5344,7 @@ extension Rds {
     }
 
     public struct DBClusterMemberList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterMember", required: false, type: .list)
         ]
         public let dBClusterMember: [DBClusterMember]?
@@ -1204,23 +5358,8 @@ extension Rds {
         }
     }
 
-    public struct EventList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Event", required: false, type: .list)
-        ]
-        public let event: [Event]?
-
-        public init(event: [Event]? = nil) {
-            self.event = event
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case event = "Event"
-        }
-    }
-
     public struct OptionGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Options", required: false, type: .structure), 
             AWSShapeMember(label: "AllowsVpcAndNonVpcInstanceMemberships", required: false, type: .boolean), 
             AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
@@ -1270,23 +5409,8 @@ extension Rds {
         }
     }
 
-    public struct DBParameterGroupStatusList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroup", required: false, type: .list)
-        ]
-        public let dBParameterGroup: [DBParameterGroupStatus]?
-
-        public init(dBParameterGroup: [DBParameterGroupStatus]? = nil) {
-            self.dBParameterGroup = dBParameterGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBParameterGroup = "DBParameterGroup"
-        }
-    }
-
     public struct RestoreDBInstanceFromDBSnapshotMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "Domain", required: false, type: .string), 
             AWSShapeMember(label: "DBName", required: false, type: .string), 
@@ -1316,42 +5440,42 @@ extension Rds {
         public let domain: String?
         /// The database name for the restored DB instance.  This parameter doesn't apply to the MySQL, PostgreSQL, or MariaDB engines. 
         public let dBName: String?
-        /// Specifies if the DB instance is a Multi-AZ deployment. Constraint: You cannot specify the AvailabilityZone parameter if the MultiAZ parameter is set to true.
+        /// Specifies if the DB instance is a Multi-AZ deployment. Constraint: You can't specify the AvailabilityZone parameter if the MultiAZ parameter is set to true.
         public let multiAZ: Bool?
-        /// The password for the given ARN from the Key Store in order to access the device.
+        /// The password for the given ARN from the key store in order to access the device.
         public let tdeCredentialPassword: String?
         public let tags: TagList?
         /// License model information for the restored DB instance. Default: Same as source.  Valid values: license-included | bring-your-own-license | general-public-license 
         public let licenseModel: String?
-        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
+        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise standard 
         public let storageType: String?
-        /// The ARN from the Key Store with which to associate the instance for TDE encryption.
+        /// The ARN from the key store with which to associate the instance for TDE encryption.
         public let tdeCredentialArn: String?
-        /// Name of the DB instance to create from the DB snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens (1 to 15 for SQL Server)   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
+        /// Name of the DB instance to create from the DB snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 numbers, letters, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
         public let dBInstanceIdentifier: String
-        /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second. If this parameter is not specified, the IOPS value will be taken from the backup. If this parameter is set to 0, the new instance will be converted to a non-PIOPS instance, which will take additional time, though your DB instance will be available for connections before the conversion starts. Constraints: Must be an integer greater than 1000.  SQL Server  Setting the IOPS value for the SQL Server database engine is not supported.
+        /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second. If this parameter is not specified, the IOPS value is taken from the backup. If this parameter is set to 0, the new instance is converted to a non-PIOPS instance. The conversion takes additional time, though your DB instance is available for connections before the conversion starts.  The provisioned IOPS value must follow the requirements for your database engine. For more information, see Amazon RDS Provisioned IOPS Storage to Improve Performance.  Constraints: Must be an integer greater than 1000.
         public let iops: Int32?
-        /// The EC2 Availability Zone that the database instance will be created in. Default: A random, system-chosen Availability Zone. Constraint: You cannot specify the AvailabilityZone parameter if the MultiAZ parameter is set to true. Example: us-east-1a 
+        /// The EC2 Availability Zone that the DB instance is created in. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the MultiAZ parameter is set to true. Example: us-east-1a 
         public let availabilityZone: String?
-        /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC: true    VPC: false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
+        /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC: true    VPC: false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance is publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance is private.
         public let publiclyAccessible: Bool?
-        /// Indicates that minor version upgrades will be applied automatically to the DB instance during the maintenance window.
+        /// Indicates that minor version upgrades are applied automatically to the DB instance during the maintenance window.
         public let autoMinorVersionUpgrade: Bool?
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts; otherwise false. You can enable IAM database authentication for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora 5.6 or higher.   Default: false 
+        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. You can enable IAM database authentication for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora 5.6 or higher.   Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
-        /// The name of the option group to be used for the restored DB instance. Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
+        /// The name of the option group to be used for the restored DB instance. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
         public let optionGroupName: String?
-        /// The DB subnet group name to use for the new instance. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
+        /// The DB subnet group name to use for the new instance. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
         public let dBSubnetGroupName: String?
-        /// True to copy all tags from the restored DB instance to snapshots of the DB instance; otherwise false. The default is false.
+        /// True to copy all tags from the restored DB instance to snapshots of the DB instance, and otherwise false. The default is false.
         public let copyTagsToSnapshot: Bool?
-        /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source. You can restore a MariaDB 10.1 DB instance from a MySQL 5.6 snapshot.  Valid Values: MySQL | mariadb | oracle-se1 | oracle-se | oracle-ee | sqlserver-ee | sqlserver-se | sqlserver-ex | sqlserver-web | postgres | aurora 
+        /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source. You can restore a MariaDB 10.1 DB instance from a MySQL 5.6 snapshot. Valid Values:    aurora     aurora-postgresql     mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web   
         public let engine: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
-        /// The identifier for the DB snapshot to restore from. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.
+        /// The identifier for the DB snapshot to restore from. Constraints:   Must match the identifier of an existing DBSnapshot.   If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.  
         public let dBSnapshotIdentifier: String
-        /// The compute and memory capacity of the Amazon RDS DB instance. Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large 
+        /// The compute and memory capacity of the Amazon RDS DB instance, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Default: The same DBInstanceClass as the original DB instance.
         public let dBInstanceClass: String?
 
         public init(port: Int32? = nil, domain: String? = nil, dBName: String? = nil, multiAZ: Bool? = nil, tdeCredentialPassword: String? = nil, tags: TagList? = nil, licenseModel: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, dBInstanceIdentifier: String, iops: Int32? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, optionGroupName: String? = nil, dBSubnetGroupName: String? = nil, copyTagsToSnapshot: Bool? = nil, engine: String? = nil, domainIAMRoleName: String? = nil, dBSnapshotIdentifier: String, dBInstanceClass: String? = nil) {
@@ -1406,7 +5530,7 @@ extension Rds {
     }
 
     public struct OrderableDBInstanceOptionsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "OrderableDBInstanceOptions", required: false, type: .structure)
         ]
@@ -1427,7 +5551,7 @@ extension Rds {
     }
 
     public struct DescribeDBClusterSnapshotsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -1439,19 +5563,19 @@ extension Rds {
         ]
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter cannot be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter is not case-sensitive.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter can't be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter is not case-sensitive.  Constraints:   If supplied, must match the identifier of an existing DBCluster.  
         public let dBClusterIdentifier: String?
         /// An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        /// Set this value to true to include manual DB cluster snapshots that are public and can be copied or restored by any AWS account, otherwise set this value to false. The default is false. The default is false. You can share a manual DB cluster snapshot as public by using the ModifyDBClusterSnapshotAttribute API action.
+        /// True to include manual DB cluster snapshots that are public and can be copied or restored by any AWS account, and otherwise false. The default is false. The default is false. You can share a manual DB cluster snapshot as public by using the ModifyDBClusterSnapshotAttribute API action.
         public let includePublic: Bool?
         /// The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that have been automatically taken by Amazon RDS for my AWS account.    manual - Return all DB cluster snapshots that have been taken by my AWS account.    shared - Return all manual DB cluster snapshots that have been shared to my AWS account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public DB cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
-        /// Set this value to true to include shared manual DB cluster snapshots from other AWS accounts that this AWS account has been given permission to copy or restore, otherwise set this value to false. The default is false. You can give an AWS account permission to restore a manual DB cluster snapshot from another AWS account by the ModifyDBClusterSnapshotAttribute API action.
+        /// True to include shared manual DB cluster snapshots from other AWS accounts that this AWS account has been given permission to copy or restore, and otherwise false. The default is false. You can give an AWS account permission to restore a manual DB cluster snapshot from another AWS account by the ModifyDBClusterSnapshotAttribute API action.
         public let includeShared: Bool?
         /// This parameter is not currently supported.
         public let filters: FilterList?
-        /// A specific DB cluster snapshot identifier to describe. This parameter cannot be used in conjunction with the DBClusterIdentifier parameter. This value is stored as a lowercase string.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
+        /// A specific DB cluster snapshot identifier to describe. This parameter can't be used in conjunction with the DBClusterIdentifier parameter. This value is stored as a lowercase string.  Constraints:   If supplied, must match the identifier of an existing DBClusterSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
         public let dBClusterSnapshotIdentifier: String?
 
         public init(maxRecords: Int32? = nil, dBClusterIdentifier: String? = nil, marker: String? = nil, includePublic: Bool? = nil, snapshotType: String? = nil, includeShared: Bool? = nil, filters: FilterList? = nil, dBClusterSnapshotIdentifier: String? = nil) {
@@ -1478,7 +5602,7 @@ extension Rds {
     }
 
     public struct DBClusterSnapshot: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .structure), 
             AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
             AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
@@ -1512,7 +5636,7 @@ extension Rds {
         public let dBClusterSnapshotArn: String?
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
         public let clusterCreateTime: TimeStamp?
-        /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled; otherwise false.
+        /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
         public let iAMDatabaseAuthenticationEnabled: Bool?
         /// Specifies the DB cluster identifier of the DB cluster that this DB cluster snapshot was created from.
         public let dBClusterIdentifier: String?
@@ -1532,13 +5656,13 @@ extension Rds {
         public let percentProgress: Int32?
         /// Specifies whether the DB cluster snapshot is encrypted.
         public let storageEncrypted: Bool?
-        /// If the DB cluster snapshot was copied from a source DB cluster snapshot, the Amazon Resource Name (ARN) for the source DB cluster snapshot; otherwise, a null value.
+        /// If the DB cluster snapshot was copied from a source DB cluster snapshot, the Amazon Resource Name (ARN) for the source DB cluster snapshot, otherwise, a null value.
         public let sourceDBClusterSnapshotArn: String?
         /// Specifies the identifier for the DB cluster snapshot.
         public let dBClusterSnapshotIdentifier: String?
         /// Specifies the port that the DB cluster was listening on at the time of the snapshot.
         public let port: Int32?
-        /// If StorageEncrypted is true, the KMS key identifier for the encrypted DB cluster snapshot.
+        /// If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB cluster snapshot.
         public let kmsKeyId: String?
 
         public init(availabilityZones: AvailabilityZones? = nil, allocatedStorage: Int32? = nil, licenseModel: String? = nil, snapshotType: String? = nil, dBClusterSnapshotArn: String? = nil, clusterCreateTime: TimeStamp? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, dBClusterIdentifier: String? = nil, engineVersion: String? = nil, vpcId: String? = nil, masterUsername: String? = nil, status: String? = nil, engine: String? = nil, snapshotCreateTime: TimeStamp? = nil, percentProgress: Int32? = nil, storageEncrypted: Bool? = nil, sourceDBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
@@ -1589,7 +5713,7 @@ extension Rds {
     }
 
     public struct DBSnapshotAttributeList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBSnapshotAttribute", required: false, type: .list)
         ]
         public let dBSnapshotAttribute: [DBSnapshotAttribute]?
@@ -1603,38 +5727,8 @@ extension Rds {
         }
     }
 
-    public struct PromoteReadReplicaDBClusterResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
-        public let dBCluster: DBCluster?
-
-        public init(dBCluster: DBCluster? = nil) {
-            self.dBCluster = dBCluster
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
-        }
-    }
-
-    public struct ModifyDBSubnetGroupResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure)
-        ]
-        public let dBSubnetGroup: DBSubnetGroup?
-
-        public init(dBSubnetGroup: DBSubnetGroup? = nil) {
-            self.dBSubnetGroup = dBSubnetGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSubnetGroup = "DBSubnetGroup"
-        }
-    }
-
     public struct DeleteEventSubscriptionMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
         ]
         /// The name of the RDS event notification subscription you want to delete.
@@ -1649,55 +5743,8 @@ extension Rds {
         }
     }
 
-    public struct DeleteDBSnapshotMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshotIdentifier", required: true, type: .string)
-        ]
-        /// The DBSnapshot identifier. Constraints: Must be the name of an existing DB snapshot in the available state.
-        public let dBSnapshotIdentifier: String
-
-        public init(dBSnapshotIdentifier: String) {
-            self.dBSnapshotIdentifier = dBSnapshotIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSnapshotIdentifier = "DBSnapshotIdentifier"
-        }
-    }
-
-    public struct DBInstanceStatusInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "StatusType", required: false, type: .string), 
-            AWSShapeMember(label: "Normal", required: false, type: .boolean)
-        ]
-        /// Status of the DB instance. For a StatusType of read replica, the values can be replicating, error, stopped, or terminated.
-        public let status: String?
-        /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
-        public let message: String?
-        /// This value is currently "read replication."
-        public let statusType: String?
-        /// Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
-        public let normal: Bool?
-
-        public init(status: String? = nil, message: String? = nil, statusType: String? = nil, normal: Bool? = nil) {
-            self.status = status
-            self.message = message
-            self.statusType = statusType
-            self.normal = normal
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case message = "Message"
-            case statusType = "StatusType"
-            case normal = "Normal"
-        }
-    }
-
     public struct SourceIdsList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourceId", required: false, type: .list)
         ]
         public let sourceId: [String]?
@@ -1712,7 +5759,7 @@ extension Rds {
     }
 
     public struct SubnetIdentifierList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetIdentifier", required: false, type: .list)
         ]
         public let subnetIdentifier: [String]?
@@ -1726,85 +5773,8 @@ extension Rds {
         }
     }
 
-    public struct ReservedDBInstancesOfferingMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedDBInstancesOfferings", required: false, type: .structure)
-        ]
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// A list of reserved DB instance offerings.
-        public let reservedDBInstancesOfferings: ReservedDBInstancesOfferingList?
-
-        public init(marker: String? = nil, reservedDBInstancesOfferings: ReservedDBInstancesOfferingList? = nil) {
-            self.marker = marker
-            self.reservedDBInstancesOfferings = reservedDBInstancesOfferings
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case reservedDBInstancesOfferings = "ReservedDBInstancesOfferings"
-        }
-    }
-
-    public struct Subnet: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure), 
-            AWSShapeMember(label: "SubnetStatus", required: false, type: .string)
-        ]
-        /// Specifies the identifier of the subnet.
-        public let subnetIdentifier: String?
-        public let subnetAvailabilityZone: AvailabilityZone?
-        /// Specifies the status of the subnet.
-        public let subnetStatus: String?
-
-        public init(subnetIdentifier: String? = nil, subnetAvailabilityZone: AvailabilityZone? = nil, subnetStatus: String? = nil) {
-            self.subnetIdentifier = subnetIdentifier
-            self.subnetAvailabilityZone = subnetAvailabilityZone
-            self.subnetStatus = subnetStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetIdentifier = "SubnetIdentifier"
-            case subnetAvailabilityZone = "SubnetAvailabilityZone"
-            case subnetStatus = "SubnetStatus"
-        }
-    }
-
-    public struct EC2SecurityGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string)
-        ]
-        /// Provides the status of the EC2 security group. Status can be "authorizing", "authorized", "revoking", and "revoked".
-        public let status: String?
-        /// Specifies the id of the EC2 security group.
-        public let eC2SecurityGroupId: String?
-        ///  Specifies the AWS ID of the owner of the EC2 security group specified in the EC2SecurityGroupName field. 
-        public let eC2SecurityGroupOwnerId: String?
-        /// Specifies the name of the EC2 security group.
-        public let eC2SecurityGroupName: String?
-
-        public init(status: String? = nil, eC2SecurityGroupId: String? = nil, eC2SecurityGroupOwnerId: String? = nil, eC2SecurityGroupName: String? = nil) {
-            self.status = status
-            self.eC2SecurityGroupId = eC2SecurityGroupId
-            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
-            self.eC2SecurityGroupName = eC2SecurityGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case eC2SecurityGroupId = "EC2SecurityGroupId"
-            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
-            case eC2SecurityGroupName = "EC2SecurityGroupName"
-        }
-    }
-
     public struct Parameter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
             AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
             AWSShapeMember(label: "DataType", required: false, type: .string), 
@@ -1865,14 +5835,14 @@ extension Rds {
     }
 
     public struct ResetDBParameterGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Parameters", required: false, type: .structure), 
             AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string), 
             AWSShapeMember(label: "ResetAllParameters", required: false, type: .boolean)
         ]
         /// To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod. A maximum of 20 parameters can be modified in a single request.  MySQL  Valid Values (for Apply method): immediate | pending-reboot  You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when DB instance reboots.  MariaDB  Valid Values (for Apply method): immediate | pending-reboot  You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when DB instance reboots.  Oracle  Valid Values (for Apply method): pending-reboot 
         public let parameters: ParametersList?
-        /// The name of the DB parameter group. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        /// The name of the DB parameter group. Constraints:   Must match the name of an existing DBParameterGroup.  
         public let dBParameterGroupName: String
         ///  Specifies whether (true) or not (false) to reset all parameters in the DB parameter group to default values.  Default: true 
         public let resetAllParameters: Bool?
@@ -1890,23 +5860,8 @@ extension Rds {
         }
     }
 
-    public struct OptionSettingsList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionSetting", required: false, type: .list)
-        ]
-        public let optionSetting: [OptionSetting]?
-
-        public init(optionSetting: [OptionSetting]? = nil) {
-            self.optionSetting = optionSetting
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case optionSetting = "OptionSetting"
-        }
-    }
-
     public struct OptionGroupOptionVersionsList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OptionVersion", required: false, type: .list)
         ]
         public let optionVersion: [OptionVersion]?
@@ -1920,38 +5875,8 @@ extension Rds {
         }
     }
 
-    public struct DBInstanceList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .list)
-        ]
-        public let dBInstance: [DBInstance]?
-
-        public init(dBInstance: [DBInstance]? = nil) {
-            self.dBInstance = dBInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBInstance = "DBInstance"
-        }
-    }
-
-    public struct SupportedCharacterSetsList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CharacterSet", required: false, type: .list)
-        ]
-        public let characterSet: [CharacterSet]?
-
-        public init(characterSet: [CharacterSet]? = nil) {
-            self.characterSet = characterSet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case characterSet = "CharacterSet"
-        }
-    }
-
     public struct DescribeEngineDefaultClusterParametersMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBParameterGroupFamily", required: true, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Filters", required: false, type: .structure), 
@@ -1982,7 +5907,7 @@ extension Rds {
     }
 
     public struct DBEngineVersion: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "SupportedCharacterSets", required: false, type: .structure), 
             AWSShapeMember(label: "DefaultCharacterSet", required: false, type: .structure), 
@@ -2038,7 +5963,7 @@ extension Rds {
     }
 
     public struct OptionGroupMembershipList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OptionGroupMembership", required: false, type: .list)
         ]
         public let optionGroupMembership: [OptionGroupMembership]?
@@ -2053,7 +5978,7 @@ extension Rds {
     }
 
     public struct ReadReplicaDBClusterIdentifierList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReadReplicaDBClusterIdentifier", required: false, type: .list)
         ]
         public let readReplicaDBClusterIdentifier: [String]?
@@ -2067,244 +5992,8 @@ extension Rds {
         }
     }
 
-    public struct DBClusterSnapshotList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .list)
-        ]
-        public let dBClusterSnapshot: [DBClusterSnapshot]?
-
-        public init(dBClusterSnapshot: [DBClusterSnapshot]? = nil) {
-            self.dBClusterSnapshot = dBClusterSnapshot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBClusterSnapshot = "DBClusterSnapshot"
-        }
-    }
-
-    public struct DescribeDBLogFilesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "FileSize", required: false, type: .long), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "FileLastWritten", required: false, type: .long), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "FilenameContains", required: false, type: .string)
-        ]
-        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
-        public let maxRecords: Int32?
-        /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let dBInstanceIdentifier: String
-        /// Filters the available log files for files larger than the specified size.
-        public let fileSize: Int64?
-        /// The pagination token provided in the previous request. If this parameter is specified the response includes only records beyond the marker, up to MaxRecords.
-        public let marker: String?
-        /// Filters the available log files for files written since the specified date, in POSIX timestamp format with milliseconds.
-        public let fileLastWritten: Int64?
-        /// This parameter is not currently supported.
-        public let filters: FilterList?
-        /// Filters the available log files for log file names that contain the specified string.
-        public let filenameContains: String?
-
-        public init(maxRecords: Int32? = nil, dBInstanceIdentifier: String, fileSize: Int64? = nil, marker: String? = nil, fileLastWritten: Int64? = nil, filters: FilterList? = nil, filenameContains: String? = nil) {
-            self.maxRecords = maxRecords
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-            self.fileSize = fileSize
-            self.marker = marker
-            self.fileLastWritten = fileLastWritten
-            self.filters = filters
-            self.filenameContains = filenameContains
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
-            case fileSize = "FileSize"
-            case marker = "Marker"
-            case fileLastWritten = "FileLastWritten"
-            case filters = "Filters"
-            case filenameContains = "FilenameContains"
-        }
-    }
-
-    public struct AccountQuota: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Max", required: false, type: .long), 
-            AWSShapeMember(label: "Used", required: false, type: .long), 
-            AWSShapeMember(label: "AccountQuotaName", required: false, type: .string)
-        ]
-        /// The maximum allowed value for the quota.
-        public let max: Int64?
-        /// The amount currently used toward the quota maximum.
-        public let used: Int64?
-        /// The name of the Amazon RDS quota for this AWS account.
-        public let accountQuotaName: String?
-
-        public init(max: Int64? = nil, used: Int64? = nil, accountQuotaName: String? = nil) {
-            self.max = max
-            self.used = used
-            self.accountQuotaName = accountQuotaName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case max = "Max"
-            case used = "Used"
-            case accountQuotaName = "AccountQuotaName"
-        }
-    }
-
-    public struct DescribeDBEngineVersionsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultOnly", required: false, type: .boolean), 
-            AWSShapeMember(label: "ListSupportedTimezones", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "ListSupportedCharacterSets", required: false, type: .boolean)
-        ]
-        ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so that the following results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        /// The database engine version to return. Example: 5.1.49 
-        public let engineVersion: String?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// Indicates that only the default version of the specified engine or engine and major version combination is returned.
-        public let defaultOnly: Bool?
-        /// If this parameter is specified and the requested engine supports the TimeZone parameter for CreateDBInstance, the response includes a list of supported time zones for each engine version. 
-        public let listSupportedTimezones: Bool?
-        /// The database engine to return.
-        public let engine: String?
-        /// The name of a specific DB parameter group family to return details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let dBParameterGroupFamily: String?
-        /// Not currently supported.
-        public let filters: FilterList?
-        /// If this parameter is specified and the requested engine supports the CharacterSetName parameter for CreateDBInstance, the response includes a list of supported character sets for each engine version. 
-        public let listSupportedCharacterSets: Bool?
-
-        public init(maxRecords: Int32? = nil, engineVersion: String? = nil, marker: String? = nil, defaultOnly: Bool? = nil, listSupportedTimezones: Bool? = nil, engine: String? = nil, dBParameterGroupFamily: String? = nil, filters: FilterList? = nil, listSupportedCharacterSets: Bool? = nil) {
-            self.maxRecords = maxRecords
-            self.engineVersion = engineVersion
-            self.marker = marker
-            self.defaultOnly = defaultOnly
-            self.listSupportedTimezones = listSupportedTimezones
-            self.engine = engine
-            self.dBParameterGroupFamily = dBParameterGroupFamily
-            self.filters = filters
-            self.listSupportedCharacterSets = listSupportedCharacterSets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case engineVersion = "EngineVersion"
-            case marker = "Marker"
-            case defaultOnly = "DefaultOnly"
-            case listSupportedTimezones = "ListSupportedTimezones"
-            case engine = "Engine"
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
-            case filters = "Filters"
-            case listSupportedCharacterSets = "ListSupportedCharacterSets"
-        }
-    }
-
-    public struct DescribeDBLogFilesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "DescribeDBLogFiles", required: false, type: .structure)
-        ]
-        /// A pagination token that can be used in a subsequent DescribeDBLogFiles request.
-        public let marker: String?
-        /// The DB log files returned.
-        public let describeDBLogFiles: DescribeDBLogFilesList?
-
-        public init(marker: String? = nil, describeDBLogFiles: DescribeDBLogFilesList? = nil) {
-            self.marker = marker
-            self.describeDBLogFiles = describeDBLogFiles
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case describeDBLogFiles = "DescribeDBLogFiles"
-        }
-    }
-
-    public struct DescribePendingMaintenanceActionsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// The ARN of a resource to return pending maintenance actions for.
-        public let resourceIdentifier: String?
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list will only include pending maintenance actions for the DB instances identified by these ARNs.  
-        public let filters: FilterList?
-        ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords. 
-        public let marker: String?
-
-        public init(resourceIdentifier: String? = nil, maxRecords: Int32? = nil, filters: FilterList? = nil, marker: String? = nil) {
-            self.resourceIdentifier = resourceIdentifier
-            self.maxRecords = maxRecords
-            self.filters = filters
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourceIdentifier = "ResourceIdentifier"
-            case maxRecords = "MaxRecords"
-            case filters = "Filters"
-            case marker = "Marker"
-        }
-    }
-
-    public struct Event: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "Message", required: false, type: .string), 
-            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Date", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceArn", required: false, type: .string)
-        ]
-        /// Specifies the source type for this event.
-        public let sourceType: SourceType?
-        /// Provides the text of this event.
-        public let message: String?
-        /// Provides the identifier for the source of the event.
-        public let sourceIdentifier: String?
-        /// Specifies the date and time of the event.
-        public let date: TimeStamp?
-        /// Specifies the category for the event.
-        public let eventCategories: EventCategoriesList?
-        /// The Amazon Resource Name (ARN) for the event.
-        public let sourceArn: String?
-
-        public init(sourceType: SourceType? = nil, message: String? = nil, sourceIdentifier: String? = nil, date: TimeStamp? = nil, eventCategories: EventCategoriesList? = nil, sourceArn: String? = nil) {
-            self.sourceType = sourceType
-            self.message = message
-            self.sourceIdentifier = sourceIdentifier
-            self.date = date
-            self.eventCategories = eventCategories
-            self.sourceArn = sourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceType = "SourceType"
-            case message = "Message"
-            case sourceIdentifier = "SourceIdentifier"
-            case date = "Date"
-            case eventCategories = "EventCategories"
-            case sourceArn = "SourceArn"
-        }
-    }
-
     public struct DescribeDBClusterSnapshotAttributesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string)
         ]
         /// The identifier for the DB cluster snapshot to describe the attributes for.
@@ -2320,7 +6009,7 @@ extension Rds {
     }
 
     public struct DBSecurityGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBSecurityGroupDescription", required: false, type: .string), 
             AWSShapeMember(label: "EC2SecurityGroups", required: false, type: .structure), 
             AWSShapeMember(label: "DBSecurityGroupArn", required: false, type: .string), 
@@ -2366,7 +6055,7 @@ extension Rds {
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Filters", required: false, type: .structure), 
             AWSShapeMember(label: "SubscriptionName", required: false, type: .string), 
@@ -2397,16 +6086,16 @@ extension Rds {
     }
 
     public struct PromoteReadReplicaMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
             AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
             AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
         ]
         /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 8  
         public let backupRetentionPeriod: Int32?
-        ///  The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.   Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        ///  The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.   The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
         public let preferredBackupWindow: String?
-        /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must be the identifier for an existing Read Replica DB instance   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: mydbinstance 
+        /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing Read Replica DB instance.   Example: mydbinstance 
         public let dBInstanceIdentifier: String
 
         public init(backupRetentionPeriod: Int32? = nil, preferredBackupWindow: String? = nil, dBInstanceIdentifier: String) {
@@ -2422,75 +6111,8 @@ extension Rds {
         }
     }
 
-    public struct EventCategoriesMap: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .structure)
-        ]
-        /// The source type that the returned categories belong to
-        public let sourceType: String?
-        /// The event categories for the specified source type
-        public let eventCategories: EventCategoriesList?
-
-        public init(sourceType: String? = nil, eventCategories: EventCategoriesList? = nil) {
-            self.sourceType = sourceType
-            self.eventCategories = eventCategories
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceType = "SourceType"
-            case eventCategories = "EventCategories"
-        }
-    }
-
-    public struct DescribeDBParameterGroupsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string)
-        ]
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        /// This parameter is not currently supported.
-        public let filters: FilterList?
-        ///  An optional pagination token provided by a previous DescribeDBParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// The name of a specific DB parameter group to return details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let dBParameterGroupName: String?
-
-        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, marker: String? = nil, dBParameterGroupName: String? = nil) {
-            self.maxRecords = maxRecords
-            self.filters = filters
-            self.marker = marker
-            self.dBParameterGroupName = dBParameterGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case filters = "Filters"
-            case marker = "Marker"
-            case dBParameterGroupName = "DBParameterGroupName"
-        }
-    }
-
-    public struct CopyDBSnapshotResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshot", required: false, type: .structure)
-        ]
-        public let dBSnapshot: DBSnapshot?
-
-        public init(dBSnapshot: DBSnapshot? = nil) {
-            self.dBSnapshot = dBSnapshot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSnapshot = "DBSnapshot"
-        }
-    }
-
     public struct DBClusterRoles: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterRole", required: false, type: .list)
         ]
         public let dBClusterRole: [DBClusterRole]?
@@ -2504,23 +6126,8 @@ extension Rds {
         }
     }
 
-    public struct ModifyEventSubscriptionResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
-        public let eventSubscription: EventSubscription?
-
-        public init(eventSubscription: EventSubscription? = nil) {
-            self.eventSubscription = eventSubscription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventSubscription = "EventSubscription"
-        }
-    }
-
     public struct StartDBInstanceResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
@@ -2534,75 +6141,8 @@ extension Rds {
         }
     }
 
-    public struct DBClusterList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .list)
-        ]
-        public let dBCluster: [DBCluster]?
-
-        public init(dBCluster: [DBCluster]? = nil) {
-            self.dBCluster = dBCluster
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
-        }
-    }
-
-    public struct ModifyOptionGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "OptionsToInclude", required: false, type: .structure), 
-            AWSShapeMember(label: "OptionsToRemove", required: false, type: .list), 
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean)
-        ]
-        /// The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
-        public let optionGroupName: String
-        /// Options in this list are added to the option group or, if already present, the specified configuration is used to update the existing configuration.
-        public let optionsToInclude: OptionConfigurationList?
-        /// Options in this list are removed from the option group.
-        public let optionsToRemove: [String]?
-        /// Indicates whether the changes should be applied immediately, or during the next maintenance window for each instance associated with the option group.
-        public let applyImmediately: Bool?
-
-        public init(optionGroupName: String, optionsToInclude: OptionConfigurationList? = nil, optionsToRemove: [String]? = nil, applyImmediately: Bool? = nil) {
-            self.optionGroupName = optionGroupName
-            self.optionsToInclude = optionsToInclude
-            self.optionsToRemove = optionsToRemove
-            self.applyImmediately = applyImmediately
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case optionGroupName = "OptionGroupName"
-            case optionsToInclude = "OptionsToInclude"
-            case optionsToRemove = "OptionsToRemove"
-            case applyImmediately = "ApplyImmediately"
-        }
-    }
-
-    public struct DBParameterGroupStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string)
-        ]
-        /// The name of the DP parameter group.
-        public let dBParameterGroupName: String?
-        /// The status of parameter updates.
-        public let parameterApplyStatus: String?
-
-        public init(dBParameterGroupName: String? = nil, parameterApplyStatus: String? = nil) {
-            self.dBParameterGroupName = dBParameterGroupName
-            self.parameterApplyStatus = parameterApplyStatus
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupName = "DBParameterGroupName"
-            case parameterApplyStatus = "ParameterApplyStatus"
-        }
-    }
-
     public struct DBClusterParameterGroupsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "DBClusterParameterGroups", required: false, type: .structure)
         ]
@@ -2622,114 +6162,18 @@ extension Rds {
         }
     }
 
-    public struct DBSnapshotList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshot", required: false, type: .list)
-        ]
-        public let dBSnapshot: [DBSnapshot]?
-
-        public init(dBSnapshot: [DBSnapshot]? = nil) {
-            self.dBSnapshot = dBSnapshot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSnapshot = "DBSnapshot"
-        }
-    }
-
-    public struct ReadReplicaDBInstanceIdentifierList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReadReplicaDBInstanceIdentifier", required: false, type: .list)
-        ]
-        public let readReplicaDBInstanceIdentifier: [String]?
-
-        public init(readReplicaDBInstanceIdentifier: [String]? = nil) {
-            self.readReplicaDBInstanceIdentifier = readReplicaDBInstanceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case readReplicaDBInstanceIdentifier = "ReadReplicaDBInstanceIdentifier"
-        }
-    }
-
-    public struct OptionGroups: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupsList", required: false, type: .structure)
-        ]
-        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// List of option groups.
-        public let optionGroupsList: OptionGroupsList?
-
-        public init(marker: String? = nil, optionGroupsList: OptionGroupsList? = nil) {
-            self.marker = marker
-            self.optionGroupsList = optionGroupsList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case optionGroupsList = "OptionGroupsList"
-        }
-    }
-
-    public struct CreateDBSubnetGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIds", required: true, type: .structure), 
-            AWSShapeMember(label: "DBSubnetGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure)
-        ]
-        /// The EC2 Subnet IDs for the DB subnet group.
-        public let subnetIds: SubnetIdentifierList
-        /// The description for the DB subnet group.
-        public let dBSubnetGroupDescription: String
-        /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public let dBSubnetGroupName: String
-        public let tags: TagList?
-
-        public init(subnetIds: SubnetIdentifierList, dBSubnetGroupDescription: String, dBSubnetGroupName: String, tags: TagList? = nil) {
-            self.subnetIds = subnetIds
-            self.dBSubnetGroupDescription = dBSubnetGroupDescription
-            self.dBSubnetGroupName = dBSubnetGroupName
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetIds = "SubnetIds"
-            case dBSubnetGroupDescription = "DBSubnetGroupDescription"
-            case dBSubnetGroupName = "DBSubnetGroupName"
-            case tags = "Tags"
-        }
-    }
-
-    public struct CreateOptionGroupResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionGroup", required: false, type: .structure)
-        ]
-        public let optionGroup: OptionGroup?
-
-        public init(optionGroup: OptionGroup? = nil) {
-            self.optionGroup = optionGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case optionGroup = "OptionGroup"
-        }
-    }
-
     public struct CopyDBClusterParameterGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourceDBClusterParameterGroupIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "TargetDBClusterParameterGroupDescription", required: true, type: .string), 
             AWSShapeMember(label: "TargetDBClusterParameterGroupIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .structure)
         ]
-        /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).  Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.  
+        /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).  Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same AWS Region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different AWS Region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.  
         public let sourceDBClusterParameterGroupIdentifier: String
         /// A description for the copied DB cluster parameter group.
         public let targetDBClusterParameterGroupDescription: String
-        /// The identifier for the copied DB cluster parameter group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster-param-group1 
+        /// The identifier for the copied DB cluster parameter group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster-param-group1 
         public let targetDBClusterParameterGroupIdentifier: String
         public let tags: TagList?
 
@@ -2748,23 +6192,53 @@ extension Rds {
         }
     }
 
-    public struct RestoreDBInstanceFromDBSnapshotResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
+    public struct ReadReplicaDBInstanceIdentifierList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReadReplicaDBInstanceIdentifier", required: false, type: .list)
         ]
-        public let dBInstance: DBInstance?
+        public let readReplicaDBInstanceIdentifier: [String]?
 
-        public init(dBInstance: DBInstance? = nil) {
-            self.dBInstance = dBInstance
+        public init(readReplicaDBInstanceIdentifier: [String]? = nil) {
+            self.readReplicaDBInstanceIdentifier = readReplicaDBInstanceIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBInstance = "DBInstance"
+            case readReplicaDBInstanceIdentifier = "ReadReplicaDBInstanceIdentifier"
+        }
+    }
+
+    public struct CreateDBSubnetGroupMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: true, type: .structure), 
+            AWSShapeMember(label: "DBSubnetGroupDescription", required: true, type: .string), 
+            AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure)
+        ]
+        /// The EC2 Subnet IDs for the DB subnet group.
+        public let subnetIds: SubnetIdentifierList
+        /// The description for the DB subnet group.
+        public let dBSubnetGroupDescription: String
+        /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
+        public let dBSubnetGroupName: String
+        public let tags: TagList?
+
+        public init(subnetIds: SubnetIdentifierList, dBSubnetGroupDescription: String, dBSubnetGroupName: String, tags: TagList? = nil) {
+            self.subnetIds = subnetIds
+            self.dBSubnetGroupDescription = dBSubnetGroupDescription
+            self.dBSubnetGroupName = dBSubnetGroupName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case dBSubnetGroupDescription = "DBSubnetGroupDescription"
+            case dBSubnetGroupName = "DBSubnetGroupName"
+            case tags = "Tags"
         }
     }
 
     public struct CreateDBParameterGroupResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBParameterGroup", required: false, type: .structure)
         ]
         public let dBParameterGroup: DBParameterGroup?
@@ -2778,168 +6252,8 @@ extension Rds {
         }
     }
 
-    public struct OptionSetting: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", required: false, type: .string), 
-            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
-            AWSShapeMember(label: "DataType", required: false, type: .string), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "ApplyType", required: false, type: .string), 
-            AWSShapeMember(label: "IsModifiable", required: false, type: .boolean), 
-            AWSShapeMember(label: "Value", required: false, type: .string), 
-            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
-            AWSShapeMember(label: "IsCollection", required: false, type: .boolean)
-        ]
-        /// The description of the option setting.
-        public let description: String?
-        /// The allowed values of the option setting.
-        public let allowedValues: String?
-        /// The data type of the option setting.
-        public let dataType: String?
-        /// The name of the option that has settings that you can set.
-        public let name: String?
-        /// The DB engine specific parameter type.
-        public let applyType: String?
-        /// A Boolean value that, when true, indicates the option setting can be modified from the default.
-        public let isModifiable: Bool?
-        /// The current value of the option setting.
-        public let value: String?
-        /// The default value of the option setting.
-        public let defaultValue: String?
-        /// Indicates if the option setting is part of a collection.
-        public let isCollection: Bool?
-
-        public init(description: String? = nil, allowedValues: String? = nil, dataType: String? = nil, name: String? = nil, applyType: String? = nil, isModifiable: Bool? = nil, value: String? = nil, defaultValue: String? = nil, isCollection: Bool? = nil) {
-            self.description = description
-            self.allowedValues = allowedValues
-            self.dataType = dataType
-            self.name = name
-            self.applyType = applyType
-            self.isModifiable = isModifiable
-            self.value = value
-            self.defaultValue = defaultValue
-            self.isCollection = isCollection
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case description = "Description"
-            case allowedValues = "AllowedValues"
-            case dataType = "DataType"
-            case name = "Name"
-            case applyType = "ApplyType"
-            case isModifiable = "IsModifiable"
-            case value = "Value"
-            case defaultValue = "DefaultValue"
-            case isCollection = "IsCollection"
-        }
-    }
-
-    public struct ModifyDBSubnetGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIds", required: true, type: .structure), 
-            AWSShapeMember(label: "DBSubnetGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: true, type: .string)
-        ]
-        /// The EC2 subnet IDs for the DB subnet group.
-        public let subnetIds: SubnetIdentifierList
-        /// The description for the DB subnet group.
-        public let dBSubnetGroupDescription: String?
-        /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public let dBSubnetGroupName: String
-
-        public init(subnetIds: SubnetIdentifierList, dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String) {
-            self.subnetIds = subnetIds
-            self.dBSubnetGroupDescription = dBSubnetGroupDescription
-            self.dBSubnetGroupName = dBSubnetGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetIds = "SubnetIds"
-            case dBSubnetGroupDescription = "DBSubnetGroupDescription"
-            case dBSubnetGroupName = "DBSubnetGroupName"
-        }
-    }
-
-    public struct DownloadDBLogFilePortionDetails: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AdditionalDataPending", required: false, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "LogFileData", required: false, type: .string)
-        ]
-        /// Boolean value that if true, indicates there is more data to be downloaded.
-        public let additionalDataPending: Bool?
-        /// A pagination token that can be used in a subsequent DownloadDBLogFilePortion request.
-        public let marker: String?
-        /// Entries from the specified log file.
-        public let logFileData: String?
-
-        public init(additionalDataPending: Bool? = nil, marker: String? = nil, logFileData: String? = nil) {
-            self.additionalDataPending = additionalDataPending
-            self.marker = marker
-            self.logFileData = logFileData
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case additionalDataPending = "AdditionalDataPending"
-            case marker = "Marker"
-            case logFileData = "LogFileData"
-        }
-    }
-
-    public struct DBSnapshotAttribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: false, type: .string), 
-            AWSShapeMember(label: "AttributeValues", required: false, type: .structure)
-        ]
-        /// The name of the manual DB snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBSnapshotAttribute API action.
-        public let attributeName: String?
-        /// The value or values for the manual DB snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB snapshot. If a value of all is in the list, then the manual DB snapshot is public and available for any AWS account to copy or restore.
-        public let attributeValues: AttributeValueList?
-
-        public init(attributeName: String? = nil, attributeValues: AttributeValueList? = nil) {
-            self.attributeName = attributeName
-            self.attributeValues = attributeValues
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeName = "AttributeName"
-            case attributeValues = "AttributeValues"
-        }
-    }
-
-    public struct RemoveSourceIdentifierFromSubscriptionResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
-        public let eventSubscription: EventSubscription?
-
-        public init(eventSubscription: EventSubscription? = nil) {
-            self.eventSubscription = eventSubscription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventSubscription = "EventSubscription"
-        }
-    }
-
-    public struct DeleteOptionGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionGroupName", required: true, type: .string)
-        ]
-        /// The name of the option group to be deleted.  You cannot delete default option groups. 
-        public let optionGroupName: String
-
-        public init(optionGroupName: String) {
-            self.optionGroupName = optionGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case optionGroupName = "OptionGroupName"
-        }
-    }
-
     public struct DeleteDBClusterResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBCluster", required: false, type: .structure)
         ]
         public let dBCluster: DBCluster?
@@ -2953,59 +6267,8 @@ extension Rds {
         }
     }
 
-    public struct OrderableDBInstanceOptionsList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrderableDBInstanceOption", required: false, type: .list)
-        ]
-        public let orderableDBInstanceOption: [OrderableDBInstanceOption]?
-
-        public init(orderableDBInstanceOption: [OrderableDBInstanceOption]? = nil) {
-            self.orderableDBInstanceOption = orderableDBInstanceOption
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case orderableDBInstanceOption = "OrderableDBInstanceOption"
-        }
-    }
-
-    public struct AddTagsToResourceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: true, type: .structure), 
-            AWSShapeMember(label: "ResourceName", required: true, type: .string)
-        ]
-        /// The tags to be assigned to the Amazon RDS resource.
-        public let tags: TagList
-        /// The Amazon RDS resource the tags will be added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
-        public let resourceName: String
-
-        public init(tags: TagList, resourceName: String) {
-            self.tags = tags
-            self.resourceName = resourceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case resourceName = "ResourceName"
-        }
-    }
-
-    public struct DBClusterOptionGroupMemberships: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterOptionGroup", required: false, type: .list)
-        ]
-        public let dBClusterOptionGroup: [DBClusterOptionGroupStatus]?
-
-        public init(dBClusterOptionGroup: [DBClusterOptionGroupStatus]? = nil) {
-            self.dBClusterOptionGroup = dBClusterOptionGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBClusterOptionGroup = "DBClusterOptionGroup"
-        }
-    }
-
     public struct PendingMaintenanceAction: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoAppliedAfterDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "OptInStatus", required: false, type: .string), 
             AWSShapeMember(label: "Action", required: false, type: .string), 
@@ -3013,15 +6276,15 @@ extension Rds {
             AWSShapeMember(label: "CurrentApplyDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// The date of the maintenance window when the action will be applied. The maintenance action will be applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
+        /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
         public let autoAppliedAfterDate: TimeStamp?
         /// Indicates the type of opt-in request that has been received for the resource.
         public let optInStatus: String?
         /// The type of pending maintenance action that is available for the resource.
         public let action: String?
-        /// The date when the maintenance action will be automatically applied. The maintenance action will be applied to the resource on this date regardless of the maintenance window for the resource. If this date is specified, any immediate opt-in requests are ignored.
+        /// The date when the maintenance action is automatically applied. The maintenance action is applied to the resource on this date regardless of the maintenance window for the resource. If this date is specified, any immediate opt-in requests are ignored.
         public let forcedApplyDate: TimeStamp?
-        /// The effective date when the pending maintenance action will be applied to the resource. This date takes into account opt-in requests received from the ApplyPendingMaintenanceAction API, the AutoAppliedAfterDate, and the ForcedApplyDate. This value is blank if an opt-in request has not been received and nothing has been specified as AutoAppliedAfterDate or ForcedApplyDate.
+        /// The effective date when the pending maintenance action is applied to the resource. This date takes into account opt-in requests received from the ApplyPendingMaintenanceAction API, the AutoAppliedAfterDate, and the ForcedApplyDate. This value is blank if an opt-in request has not been received and nothing has been specified as AutoAppliedAfterDate or ForcedApplyDate.
         public let currentApplyDate: TimeStamp?
         /// A description providing more detail about the maintenance action.
         public let description: String?
@@ -3045,54 +6308,8 @@ extension Rds {
         }
     }
 
-    public struct DeleteDBSnapshotResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshot", required: false, type: .structure)
-        ]
-        public let dBSnapshot: DBSnapshot?
-
-        public init(dBSnapshot: DBSnapshot? = nil) {
-            self.dBSnapshot = dBSnapshot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSnapshot = "DBSnapshot"
-        }
-    }
-
-    public struct ModifyDBClusterSnapshotAttributeMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
-            AWSShapeMember(label: "ValuesToAdd", required: false, type: .structure), 
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "ValuesToRemove", required: false, type: .structure)
-        ]
-        /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
-        public let attributeName: String
-        /// A list of DB cluster snapshot attributes to add to the attribute specified by AttributeName. To authorize other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account IDs, or all to make the manual DB cluster snapshot restorable by any AWS account. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts.
-        public let valuesToAdd: AttributeValueList?
-        /// The identifier for the DB cluster snapshot to modify the attributes for.
-        public let dBClusterSnapshotIdentifier: String
-        /// A list of DB cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account identifiers, or all to remove authorization for any AWS account to copy or restore the DB cluster snapshot. If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB cluster snapshot.
-        public let valuesToRemove: AttributeValueList?
-
-        public init(attributeName: String, valuesToAdd: AttributeValueList? = nil, dBClusterSnapshotIdentifier: String, valuesToRemove: AttributeValueList? = nil) {
-            self.attributeName = attributeName
-            self.valuesToAdd = valuesToAdd
-            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
-            self.valuesToRemove = valuesToRemove
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attributeName = "AttributeName"
-            case valuesToAdd = "ValuesToAdd"
-            case dBClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
-            case valuesToRemove = "ValuesToRemove"
-        }
-    }
-
     public struct DBClusterSnapshotAttributeList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshotAttribute", required: false, type: .list)
         ]
         public let dBClusterSnapshotAttribute: [DBClusterSnapshotAttribute]?
@@ -3106,111 +6323,8 @@ extension Rds {
         }
     }
 
-    public struct DBEngineVersionList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBEngineVersion", required: false, type: .list)
-        ]
-        public let dBEngineVersion: [DBEngineVersion]?
-
-        public init(dBEngineVersion: [DBEngineVersion]? = nil) {
-            self.dBEngineVersion = dBEngineVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBEngineVersion = "DBEngineVersion"
-        }
-    }
-
-    public struct PendingMaintenanceActionDetails: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PendingMaintenanceAction", required: false, type: .list)
-        ]
-        public let pendingMaintenanceAction: [PendingMaintenanceAction]?
-
-        public init(pendingMaintenanceAction: [PendingMaintenanceAction]? = nil) {
-            self.pendingMaintenanceAction = pendingMaintenanceAction
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case pendingMaintenanceAction = "PendingMaintenanceAction"
-        }
-    }
-
-    public struct EventSubscriptionsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscriptionsList", required: false, type: .structure), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// A list of EventSubscriptions data types.
-        public let eventSubscriptionsList: EventSubscriptionsList?
-        ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-
-        public init(eventSubscriptionsList: EventSubscriptionsList? = nil, marker: String? = nil) {
-            self.eventSubscriptionsList = eventSubscriptionsList
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventSubscriptionsList = "EventSubscriptionsList"
-            case marker = "Marker"
-        }
-    }
-
-    public struct DBClusterParameterGroupNameMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string)
-        ]
-        /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
-        public let dBClusterParameterGroupName: String?
-
-        public init(dBClusterParameterGroupName: String? = nil) {
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
-        }
-    }
-
-    public struct ModifyDBSnapshotMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string)
-        ]
-        /// The identifier of the DB snapshot to modify.
-        public let dBSnapshotIdentifier: String
-        /// The engine version to update the DB snapshot to. 
-        public let engineVersion: String?
-
-        public init(dBSnapshotIdentifier: String, engineVersion: String? = nil) {
-            self.dBSnapshotIdentifier = dBSnapshotIdentifier
-            self.engineVersion = engineVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSnapshotIdentifier = "DBSnapshotIdentifier"
-            case engineVersion = "EngineVersion"
-        }
-    }
-
-    public struct EventSubscriptionsList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .list)
-        ]
-        public let eventSubscription: [EventSubscription]?
-
-        public init(eventSubscription: [EventSubscription]? = nil) {
-            self.eventSubscription = eventSubscription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventSubscription = "EventSubscription"
-        }
-    }
-
     public struct ModifyDBClusterParameterGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Parameters", required: true, type: .structure), 
             AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string)
         ]
@@ -3230,29 +6344,24 @@ extension Rds {
         }
     }
 
-    public struct AddSourceIdentifierToSubscriptionMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
+    public struct DBClusterParameterGroupNameMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string)
         ]
-        /// The identifier of the event source to be added. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens. Constraints:   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
-        public let sourceIdentifier: String
-        /// The name of the RDS event notification subscription you want to add a source identifier to.
-        public let subscriptionName: String
+        /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
+        public let dBClusterParameterGroupName: String?
 
-        public init(sourceIdentifier: String, subscriptionName: String) {
-            self.sourceIdentifier = sourceIdentifier
-            self.subscriptionName = subscriptionName
+        public init(dBClusterParameterGroupName: String? = nil) {
+            self.dBClusterParameterGroupName = dBClusterParameterGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceIdentifier = "SourceIdentifier"
-            case subscriptionName = "SubscriptionName"
+            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
         }
     }
 
     public struct DescribeOptionGroupsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Filters", required: false, type: .structure), 
             AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
@@ -3292,23 +6401,8 @@ extension Rds {
         }
     }
 
-    public struct CreateEventSubscriptionResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
-        public let eventSubscription: EventSubscription?
-
-        public init(eventSubscription: EventSubscription? = nil) {
-            self.eventSubscription = eventSubscription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventSubscription = "EventSubscription"
-        }
-    }
-
     public struct DBParameterGroupDetails: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .structure)
         ]
@@ -3329,7 +6423,7 @@ extension Rds {
     }
 
     public struct VpcSecurityGroupMembership: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
         ]
@@ -3349,111 +6443,8 @@ extension Rds {
         }
     }
 
-    public struct PendingMaintenanceActionsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PendingMaintenanceActions", required: false, type: .structure)
-        ]
-        ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords. 
-        public let marker: String?
-        /// A list of the pending maintenance actions for the resource.
-        public let pendingMaintenanceActions: PendingMaintenanceActions?
-
-        public init(marker: String? = nil, pendingMaintenanceActions: PendingMaintenanceActions? = nil) {
-            self.marker = marker
-            self.pendingMaintenanceActions = pendingMaintenanceActions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case pendingMaintenanceActions = "PendingMaintenanceActions"
-        }
-    }
-
-    public struct CopyDBClusterSnapshotResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
-        ]
-        public let dBClusterSnapshot: DBClusterSnapshot?
-
-        public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
-            self.dBClusterSnapshot = dBClusterSnapshot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBClusterSnapshot = "DBClusterSnapshot"
-        }
-    }
-
-    public struct DBInstanceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstances", required: false, type: .structure)
-        ]
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        public let marker: String?
-        ///  A list of DBInstance instances. 
-        public let dBInstances: DBInstanceList?
-
-        public init(marker: String? = nil, dBInstances: DBInstanceList? = nil) {
-            self.marker = marker
-            self.dBInstances = dBInstances
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case dBInstances = "DBInstances"
-        }
-    }
-
-    public struct PromoteReadReplicaResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
-        public let dBInstance: DBInstance?
-
-        public init(dBInstance: DBInstance? = nil) {
-            self.dBInstance = dBInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBInstance = "DBInstance"
-        }
-    }
-
-    public struct DescribeEngineDefaultParametersMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: true, type: .string), 
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// The name of the DB parameter group family.
-        public let dBParameterGroupFamily: String
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        /// Not currently supported.
-        public let filters: FilterList?
-        ///  An optional pagination token provided by a previous DescribeEngineDefaultParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-
-        public init(dBParameterGroupFamily: String, maxRecords: Int32? = nil, filters: FilterList? = nil, marker: String? = nil) {
-            self.dBParameterGroupFamily = dBParameterGroupFamily
-            self.maxRecords = maxRecords
-            self.filters = filters
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
-            case maxRecords = "MaxRecords"
-            case filters = "Filters"
-            case marker = "Marker"
-        }
-    }
-
     public struct DescribeReservedDBInstancesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
             AWSShapeMember(label: "ReservedDBInstanceId", required: false, type: .string), 
@@ -3513,38 +6504,39 @@ extension Rds {
         }
     }
 
-    public struct EventCategoriesList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventCategory", required: false, type: .list)
+    public struct DescribeEngineDefaultParametersMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBParameterGroupFamily", required: true, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
-        public let eventCategory: [String]?
+        /// The name of the DB parameter group family.
+        public let dBParameterGroupFamily: String
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        /// Not currently supported.
+        public let filters: FilterList?
+        ///  An optional pagination token provided by a previous DescribeEngineDefaultParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
 
-        public init(eventCategory: [String]? = nil) {
-            self.eventCategory = eventCategory
+        public init(dBParameterGroupFamily: String, maxRecords: Int32? = nil, filters: FilterList? = nil, marker: String? = nil) {
+            self.dBParameterGroupFamily = dBParameterGroupFamily
+            self.maxRecords = maxRecords
+            self.filters = filters
+            self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventCategory = "EventCategory"
-        }
-    }
-
-    public struct DBSecurityGroups: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroup", required: false, type: .list)
-        ]
-        public let dBSecurityGroup: [DBSecurityGroup]?
-
-        public init(dBSecurityGroup: [DBSecurityGroup]? = nil) {
-            self.dBSecurityGroup = dBSecurityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSecurityGroup = "DBSecurityGroup"
+            case dBParameterGroupFamily = "DBParameterGroupFamily"
+            case maxRecords = "MaxRecords"
+            case filters = "Filters"
+            case marker = "Marker"
         }
     }
 
     public struct DeleteDBInstanceResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
         public let dBInstance: DBInstance?
@@ -3558,281 +6550,118 @@ extension Rds {
         }
     }
 
-    public struct OrderableDBInstanceOption: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SupportsIops", required: false, type: .boolean), 
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .structure), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "SupportsIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "SupportsStorageEncryption", required: false, type: .boolean), 
-            AWSShapeMember(label: "MultiAZCapable", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReadReplicaCapable", required: false, type: .boolean), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "SupportsEnhancedMonitoring", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "Vpc", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string)
-        ]
-        /// Indicates whether this orderable DB instance supports provisioned IOPS.
-        public let supportsIops: Bool?
-        /// A list of Availability Zones for the orderable DB instance.
-        public let availabilityZones: AvailabilityZoneList?
-        /// The license model for the orderable DB instance.
-        public let licenseModel: String?
-        /// Indicates the storage type for this orderable DB instance.
-        public let storageType: String?
-        /// Indicates whether this orderable DB instance supports IAM database authentication.
-        public let supportsIAMDatabaseAuthentication: Bool?
-        /// Indicates whether this orderable DB instance supports encrypted storage.
-        public let supportsStorageEncryption: Bool?
-        /// Indicates whether this orderable DB instance is multi-AZ capable.
-        public let multiAZCapable: Bool?
-        /// Indicates whether this orderable DB instance can have a Read Replica.
-        public let readReplicaCapable: Bool?
-        /// The engine version of the orderable DB instance.
-        public let engineVersion: String?
-        /// Indicates whether the DB instance supports enhanced monitoring at intervals from 1 to 60 seconds.
-        public let supportsEnhancedMonitoring: Bool?
-        /// The engine type of the orderable DB instance.
-        public let engine: String?
-        /// Indicates whether this is a VPC orderable DB instance.
-        public let vpc: Bool?
-        /// The DB instance class for the orderable DB instance.
-        public let dBInstanceClass: String?
-
-        public init(supportsIops: Bool? = nil, availabilityZones: AvailabilityZoneList? = nil, licenseModel: String? = nil, storageType: String? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsStorageEncryption: Bool? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, engineVersion: String? = nil, supportsEnhancedMonitoring: Bool? = nil, engine: String? = nil, vpc: Bool? = nil, dBInstanceClass: String? = nil) {
-            self.supportsIops = supportsIops
-            self.availabilityZones = availabilityZones
-            self.licenseModel = licenseModel
-            self.storageType = storageType
-            self.supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication
-            self.supportsStorageEncryption = supportsStorageEncryption
-            self.multiAZCapable = multiAZCapable
-            self.readReplicaCapable = readReplicaCapable
-            self.engineVersion = engineVersion
-            self.supportsEnhancedMonitoring = supportsEnhancedMonitoring
-            self.engine = engine
-            self.vpc = vpc
-            self.dBInstanceClass = dBInstanceClass
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case supportsIops = "SupportsIops"
-            case availabilityZones = "AvailabilityZones"
-            case licenseModel = "LicenseModel"
-            case storageType = "StorageType"
-            case supportsIAMDatabaseAuthentication = "SupportsIAMDatabaseAuthentication"
-            case supportsStorageEncryption = "SupportsStorageEncryption"
-            case multiAZCapable = "MultiAZCapable"
-            case readReplicaCapable = "ReadReplicaCapable"
-            case engineVersion = "EngineVersion"
-            case supportsEnhancedMonitoring = "SupportsEnhancedMonitoring"
-            case engine = "Engine"
-            case vpc = "Vpc"
-            case dBInstanceClass = "DBInstanceClass"
-        }
-    }
-
-    public struct RecurringChargeList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecurringCharge", required: false, type: .list)
-        ]
-        public let recurringCharge: [RecurringCharge]?
-
-        public init(recurringCharge: [RecurringCharge]? = nil) {
-            self.recurringCharge = recurringCharge
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recurringCharge = "RecurringCharge"
-        }
-    }
-
-    public struct EngineDefaults: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Parameters", required: false, type: .structure)
-        ]
-        /// Specifies the name of the DB parameter group family that the engine default parameters apply to.
-        public let dBParameterGroupFamily: String?
-        ///  An optional pagination token provided by a previous EngineDefaults request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        public let marker: String?
-        /// Contains a list of engine default parameters.
-        public let parameters: ParametersList?
-
-        public init(dBParameterGroupFamily: String? = nil, marker: String? = nil, parameters: ParametersList? = nil) {
-            self.dBParameterGroupFamily = dBParameterGroupFamily
-            self.marker = marker
-            self.parameters = parameters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
-            case marker = "Marker"
-            case parameters = "Parameters"
-        }
-    }
-
-    public struct CopyDBParameterGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TargetDBParameterGroupIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "SourceDBParameterGroupIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
-            AWSShapeMember(label: "TargetDBParameterGroupDescription", required: true, type: .string)
-        ]
-        /// The identifier for the copied DB parameter group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-db-parameter-group 
-        public let targetDBParameterGroupIdentifier: String
-        ///  The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).  Constraints:   Must specify a valid DB parameter group.    Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.  
-        public let sourceDBParameterGroupIdentifier: String
-        public let tags: TagList?
-        /// A description for the copied DB parameter group.
-        public let targetDBParameterGroupDescription: String
-
-        public init(targetDBParameterGroupIdentifier: String, sourceDBParameterGroupIdentifier: String, tags: TagList? = nil, targetDBParameterGroupDescription: String) {
-            self.targetDBParameterGroupIdentifier = targetDBParameterGroupIdentifier
-            self.sourceDBParameterGroupIdentifier = sourceDBParameterGroupIdentifier
-            self.tags = tags
-            self.targetDBParameterGroupDescription = targetDBParameterGroupDescription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case targetDBParameterGroupIdentifier = "TargetDBParameterGroupIdentifier"
-            case sourceDBParameterGroupIdentifier = "SourceDBParameterGroupIdentifier"
-            case tags = "Tags"
-            case targetDBParameterGroupDescription = "TargetDBParameterGroupDescription"
-        }
-    }
-
-    public struct DeleteDBClusterMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FinalDBSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SkipFinalSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
-        ]
-        ///  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false.    Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.   Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let finalDBSnapshotIdentifier: String?
-        ///  Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted.   You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is false.  Default: false 
-        public let skipFinalSnapshot: Bool?
-        /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let dBClusterIdentifier: String
-
-        public init(finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil, dBClusterIdentifier: String) {
-            self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
-            self.skipFinalSnapshot = skipFinalSnapshot
-            self.dBClusterIdentifier = dBClusterIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case finalDBSnapshotIdentifier = "FinalDBSnapshotIdentifier"
-            case skipFinalSnapshot = "SkipFinalSnapshot"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-        }
-    }
-
     public struct CreateDBInstanceReadReplicaMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceDBInstanceIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .structure), 
             AWSShapeMember(label: "StorageType", required: false, type: .string), 
+            AWSShapeMember(label: "EnablePerformanceInsights", required: false, type: .boolean), 
             AWSShapeMember(label: "Iops", required: false, type: .integer), 
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "PerformanceInsightsKMSKeyId", required: false, type: .string), 
             AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
             AWSShapeMember(label: "PreSignedUrl", required: false, type: .string), 
             AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "SourceDBInstanceIdentifier", required: true, type: .string)
+            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
-        /// The AWS KMS key ID for an encrypted Read Replica. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you create an unencrypted Read Replica and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target Read Replica using the specified KMS encryption key.  If you create an encrypted Read Replica from your AWS account, you can specify a value for KmsKeyId to encrypt the Read Replica with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the Read Replica is encrypted with the same KMS key as the source DB instance.   If you create an encrypted Read Replica in a different AWS region, then you must specify a KMS key for the destination AWS region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region.
-        public let kmsKeyId: String?
-        /// The compute and memory capacity of the Read Replica. Note that not all instance classes are available in all regions for all DB engines.  Valid Values: db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge |db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large  Default: Inherits from the source DB instance.
-        public let dBInstanceClass: String?
+        /// The identifier of the DB instance that will act as the source for the Read Replica. Each DB instance can have up to five Read Replicas. Constraints:   Must be the identifier of an existing MySQL, MariaDB, or PostgreSQL DB instance.   Can specify a DB instance that is a MySQL Read Replica only if the source is running MySQL 5.6.   Can specify a DB instance that is a PostgreSQL DB instance only if the source is running PostgreSQL 9.3.5 or later (9.4.7 and higher for cross-region replication).   The specified DB instance must have automatic backups enabled, its backup retention period must be greater than 0.   If the source DB instance is in the same AWS Region as the Read Replica, specify a valid DB instance identifier.   If the source DB instance is in a different AWS Region than the Read Replica, specify a valid DB instance ARN. For more information, go to  Constructing a Amazon RDS Amazon Resource Name (ARN).  
+        public let sourceDBInstanceIdentifier: String
+        /// The port number that the DB instance uses for connections. Default: Inherits from the source DB instance Valid Values: 1150-65535 
+        public let port: Int32?
         /// The DB instance identifier of the Read Replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
         public let dBInstanceIdentifier: String
         public let tags: TagList?
-        /// Specifies the storage type to be associated with the Read Replica.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
+        /// Specifies the storage type to be associated with the Read Replica.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise standard 
         public let storageType: String?
+        /// True to enable Performance Insights for the read replica, and otherwise false. 
+        public let enablePerformanceInsights: Bool?
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance.
         public let iops: Int32?
-        /// The Amazon EC2 Availability Zone that the Read Replica will be created in. Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d 
+        /// The Amazon EC2 Availability Zone that the Read Replica is created in. Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.  Example: us-east-1d 
         public let availabilityZone: String?
-        /// Indicates that minor engine upgrades will be applied automatically to the Read Replica during the maintenance window. Default: Inherits from the source DB instance
-        public let autoMinorVersionUpgrade: Bool?
-        /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC:true    VPC:false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
+        /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC:true    VPC:false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance is publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance is private.
         public let publiclyAccessible: Bool?
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts; otherwise false. You can enable IAM database authentication for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora 5.6 or higher.   Default: false 
+        /// Indicates that minor engine upgrades are applied automatically to the Read Replica during the maintenance window. Default: Inherits from the source DB instance
+        public let autoMinorVersionUpgrade: Bool?
+        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. You can enable IAM database authentication for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora 5.6 or higher.   Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
-        /// Specifies a DB subnet group for the DB instance. The new DB instance will be created in the VPC associated with the DB subnet group. If no DB subnet group is specified, then the new DB instance is not created in a VPC. Constraints:   Can only be specified if the source DB instance identifier specifies a DB instance in another region.   The specified DB subnet group must be in the same region in which the operation is running.   All Read Replicas in one region that are created from the same source DB instance must either:&gt;   Specify DB subnet groups from the same VPC. All these Read Replicas will be created in the same VPC.   Not specify a DB subnet group. All these Read Replicas will be created outside of any VPC.     Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public let dBSubnetGroupName: String?
-        /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
-        public let monitoringRoleArn: String?
-        /// The option group the DB instance will be associated with. If omitted, the default option group for the engine specified will be used.
+        /// The option group the DB instance is associated with. If omitted, the default option group for the engine specified is used.
         public let optionGroupName: String?
-        /// True to copy all tags from the Read Replica to snapshots of the Read Replica; otherwise false. The default is false.
+        /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
+        public let monitoringRoleArn: String?
+        /// Specifies a DB subnet group for the DB instance. The new DB instance is created in the VPC associated with the DB subnet group. If no DB subnet group is specified, then the new DB instance is not created in a VPC. Constraints:   Can only be specified if the source DB instance identifier specifies a DB instance in another AWS Region.   If supplied, must match the name of an existing DBSubnetGroup.   The specified DB subnet group must be in the same AWS Region in which the operation is running.   All Read Replicas in one AWS Region that are created from the same source DB instance must either:&gt;   Specify DB subnet groups from the same VPC. All these Read Replicas are created in the same VPC.   Not specify a DB subnet group. All these Read Replicas are created outside of any VPC.     Example: mySubnetgroup 
+        public let dBSubnetGroupName: String?
+        /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.
+        public let performanceInsightsKMSKeyId: String?
+        /// True to copy all tags from the Read Replica to snapshots of the Read Replica, and otherwise false. The default is false.
         public let copyTagsToSnapshot: Bool?
-        /// The URL that contains a Signature Version 4 signed request for the  CreateDBInstanceReadReplica API action in the AWS region that contains the source DB instance. The PreSignedUrl parameter must be used when encrypting a Read Replica from another AWS region. The presigned URL must be a valid request for the CreateDBInstanceReadReplica API action that can be executed in the source region that contains the encrypted DB instance. The presigned URL request must contain the following parameter values:    DestinationRegion - The AWS Region that the Read Replica is created in. This region is the same one where the CreateDBInstanceReadReplica action is called that contains this presigned URL.   For example, if you create an encrypted Read Replica in the us-east-1 region, and the source DB instance is in the west-2 region, then you call the CreateDBInstanceReadReplica action in the us-east-1 region and provide a presigned URL that contains a call to the CreateDBInstanceReadReplica action in the us-west-2 region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 region.    KmsKeyId - The KMS key identifier for the key to use to encrypt the Read Replica in the destination region. This is the same identifier for both the CreateDBInstanceReadReplica action that is called in the destination region, and the action contained in the presigned URL.    SourceDBInstanceIdentifier - The DB instance identifier for the encrypted Read Replica to be created. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you create an encrypted Read Replica from a DB instance in the us-west-2 region, then your SourceDBInstanceIdentifier would look like this example:  arn:aws:rds:us-west-2:123456789012:instance:mysql-instance1-instance-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
+        /// The URL that contains a Signature Version 4 signed request for the CreateDBInstanceReadReplica API action in the source AWS Region that contains the source DB instance.  You must specify this parameter when you create an encrypted Read Replica from another AWS Region by using the Amazon RDS API. You can specify the --source-region option instead of this parameter when you create an encrypted Read Replica from another AWS Region by using the AWS CLI.  The presigned URL must be a valid request for the CreateDBInstanceReadReplica API action that can be executed in the source AWS Region that contains the encrypted source DB instance. The presigned URL request must contain the following parameter values:     DestinationRegion - The AWS Region that the encrypted Read Replica is created in. This AWS Region is the same one where the CreateDBInstanceReadReplica action is called that contains this presigned URL.  For example, if you create an encrypted DB instance in the us-west-1 AWS Region, from a source DB instance in the us-east-2 AWS Region, then you call the CreateDBInstanceReadReplica action in the us-east-1 AWS Region and provide a presigned URL that contains a call to the CreateDBInstanceReadReplica action in the us-west-2 AWS Region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 AWS Region.     KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the Read Replica in the destination AWS Region. This is the same identifier for both the CreateDBInstanceReadReplica action that is called in the destination AWS Region, and the action contained in the presigned URL.     SourceDBInstanceIdentifier - The DB instance identifier for the encrypted DB instance to be replicated. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are creating an encrypted Read Replica from a DB instance in the us-west-2 AWS Region, then your SourceDBInstanceIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:instance:mysql-instance1-20161115.    To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process. 
         public let preSignedUrl: String?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the Read Replica. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
         public let monitoringInterval: Int32?
-        /// The port number that the DB instance uses for connections. Default: Inherits from the source DB instance Valid Values: 1150-65535 
-        public let port: Int32?
-        /// The identifier of the DB instance that will act as the source for the Read Replica. Each DB instance can have up to five Read Replicas. Constraints:   Must be the identifier of an existing MySQL, MariaDB, or PostgreSQL DB instance.   Can specify a DB instance that is a MySQL Read Replica only if the source is running MySQL 5.6.   Can specify a DB instance that is a PostgreSQL DB instance only if the source is running PostgreSQL 9.3.5 or later.   The specified DB instance must have automatic backups enabled, its backup retention period must be greater than 0.   If the source DB instance is in the same region as the Read Replica, specify a valid DB instance identifier.   If the source DB instance is in a different region than the Read Replica, specify a valid DB instance ARN. For more information, go to  Constructing a Amazon RDS Amazon Resource Name (ARN).  
-        public let sourceDBInstanceIdentifier: String
+        /// The compute and memory capacity of the Read Replica, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Default: Inherits from the source DB instance.
+        public let dBInstanceClass: String?
+        /// The AWS KMS key ID for an encrypted Read Replica. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you specify this parameter when you create a Read Replica from an unencrypted DB instance, the Read Replica is encrypted.  If you create an encrypted Read Replica in the same AWS Region as the source DB instance, then you do not have to specify a value for this parameter. The Read Replica is encrypted with the same KMS key as the source DB instance.  If you create an encrypted Read Replica in a different AWS Region, then you must specify a KMS key for the destination AWS Region. KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region. 
+        public let kmsKeyId: String?
 
-        public init(kmsKeyId: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, tags: TagList? = nil, storageType: String? = nil, iops: Int32? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, dBSubnetGroupName: String? = nil, monitoringRoleArn: String? = nil, optionGroupName: String? = nil, copyTagsToSnapshot: Bool? = nil, preSignedUrl: String? = nil, monitoringInterval: Int32? = nil, port: Int32? = nil, sourceDBInstanceIdentifier: String) {
-            self.kmsKeyId = kmsKeyId
-            self.dBInstanceClass = dBInstanceClass
+        public init(sourceDBInstanceIdentifier: String, port: Int32? = nil, dBInstanceIdentifier: String, tags: TagList? = nil, storageType: String? = nil, enablePerformanceInsights: Bool? = nil, iops: Int32? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, optionGroupName: String? = nil, monitoringRoleArn: String? = nil, dBSubnetGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, copyTagsToSnapshot: Bool? = nil, preSignedUrl: String? = nil, monitoringInterval: Int32? = nil, dBInstanceClass: String? = nil, kmsKeyId: String? = nil) {
+            self.sourceDBInstanceIdentifier = sourceDBInstanceIdentifier
+            self.port = port
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.tags = tags
             self.storageType = storageType
+            self.enablePerformanceInsights = enablePerformanceInsights
             self.iops = iops
             self.availabilityZone = availabilityZone
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.publiclyAccessible = publiclyAccessible
+            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
-            self.dBSubnetGroupName = dBSubnetGroupName
-            self.monitoringRoleArn = monitoringRoleArn
             self.optionGroupName = optionGroupName
+            self.monitoringRoleArn = monitoringRoleArn
+            self.dBSubnetGroupName = dBSubnetGroupName
+            self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.preSignedUrl = preSignedUrl
             self.monitoringInterval = monitoringInterval
-            self.port = port
-            self.sourceDBInstanceIdentifier = sourceDBInstanceIdentifier
+            self.dBInstanceClass = dBInstanceClass
+            self.kmsKeyId = kmsKeyId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId = "KmsKeyId"
-            case dBInstanceClass = "DBInstanceClass"
+            case sourceDBInstanceIdentifier = "SourceDBInstanceIdentifier"
+            case port = "Port"
             case dBInstanceIdentifier = "DBInstanceIdentifier"
             case tags = "Tags"
             case storageType = "StorageType"
+            case enablePerformanceInsights = "EnablePerformanceInsights"
             case iops = "Iops"
             case availabilityZone = "AvailabilityZone"
-            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case publiclyAccessible = "PubliclyAccessible"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
-            case dBSubnetGroupName = "DBSubnetGroupName"
-            case monitoringRoleArn = "MonitoringRoleArn"
             case optionGroupName = "OptionGroupName"
+            case monitoringRoleArn = "MonitoringRoleArn"
+            case dBSubnetGroupName = "DBSubnetGroupName"
+            case performanceInsightsKMSKeyId = "PerformanceInsightsKMSKeyId"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case preSignedUrl = "PreSignedUrl"
             case monitoringInterval = "MonitoringInterval"
-            case port = "Port"
-            case sourceDBInstanceIdentifier = "SourceDBInstanceIdentifier"
+            case dBInstanceClass = "DBInstanceClass"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
     public struct DescribeDBClustersMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Filters", required: false, type: .structure), 
@@ -3840,11 +6669,11 @@ extension Rds {
         ]
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
-        /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.  
         public let dBClusterIdentifier: String?
         /// A filter that specifies one or more DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.  
         public let filters: FilterList?
-        ///  An optional pagination token provided by a previous DescribeDBClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        /// An optional pagination token provided by a previous DescribeDBClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
 
         public init(maxRecords: Int32? = nil, dBClusterIdentifier: String? = nil, filters: FilterList? = nil, marker: String? = nil) {
@@ -3863,7 +6692,7 @@ extension Rds {
     }
 
     public struct OptionGroupOptionsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "OptionGroupOptions", required: false, type: .structure)
         ]
@@ -3883,7 +6712,7 @@ extension Rds {
     }
 
     public struct FilterValueList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .list)
         ]
         public let value: [String]?
@@ -3897,23 +6726,8 @@ extension Rds {
         }
     }
 
-    public struct DeleteEventSubscriptionResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
-        public let eventSubscription: EventSubscription?
-
-        public init(eventSubscription: EventSubscription? = nil) {
-            self.eventSubscription = eventSubscription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventSubscription = "EventSubscription"
-        }
-    }
-
     public struct CreateDBParameterGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBParameterGroupFamily", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .structure), 
             AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string), 
@@ -3922,7 +6736,7 @@ extension Rds {
         /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.
         public let dBParameterGroupFamily: String
         public let tags: TagList?
-        /// The name of the DB parameter group. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
+        /// The name of the DB parameter group. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
         public let dBParameterGroupName: String
         /// The description for the DB parameter group.
         public let description: String
@@ -3942,23 +6756,8 @@ extension Rds {
         }
     }
 
-    public struct CreateDBSecurityGroupResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroup", required: false, type: .structure)
-        ]
-        public let dBSecurityGroup: DBSecurityGroup?
-
-        public init(dBSecurityGroup: DBSecurityGroup? = nil) {
-            self.dBSecurityGroup = dBSecurityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSecurityGroup = "DBSecurityGroup"
-        }
-    }
-
     public struct OptionGroupOptionSettingsList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OptionGroupOptionSetting", required: false, type: .list)
         ]
         public let optionGroupOptionSetting: [OptionGroupOptionSetting]?
@@ -3973,7 +6772,7 @@ extension Rds {
     }
 
     public struct CopyDBParameterGroupResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBParameterGroup", required: false, type: .structure)
         ]
         public let dBParameterGroup: DBParameterGroup?
@@ -3987,69 +6786,8 @@ extension Rds {
         }
     }
 
-    public struct EventSubscription: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "SourceIdsList", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "CustSubscriptionId", required: false, type: .string), 
-            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "EventSubscriptionArn", required: false, type: .string), 
-            AWSShapeMember(label: "CustomerAwsId", required: false, type: .string), 
-            AWSShapeMember(label: "EventCategoriesList", required: false, type: .structure), 
-            AWSShapeMember(label: "SubscriptionCreationTime", required: false, type: .string)
-        ]
-        /// The status of the RDS event notification subscription. Constraints: Can be one of the following: creating | modifying | deleting | active | no-permission | topic-not-exist The status "no-permission" indicates that RDS no longer has permission to post to the SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.
-        public let status: String?
-        /// The topic ARN of the RDS event notification subscription.
-        public let snsTopicArn: String?
-        /// A list of source IDs for the RDS event notification subscription.
-        public let sourceIdsList: SourceIdsList?
-        /// The source type for the RDS event notification subscription.
-        public let sourceType: String?
-        /// The RDS event notification subscription Id.
-        public let custSubscriptionId: String?
-        /// A Boolean value indicating if the subscription is enabled. True indicates the subscription is enabled.
-        public let enabled: Bool?
-        /// The Amazon Resource Name (ARN) for the event subscription.
-        public let eventSubscriptionArn: String?
-        /// The AWS customer account associated with the RDS event notification subscription.
-        public let customerAwsId: String?
-        /// A list of event categories for the RDS event notification subscription.
-        public let eventCategoriesList: EventCategoriesList?
-        /// The time the RDS event notification subscription was created.
-        public let subscriptionCreationTime: String?
-
-        public init(status: String? = nil, snsTopicArn: String? = nil, sourceIdsList: SourceIdsList? = nil, sourceType: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventSubscriptionArn: String? = nil, customerAwsId: String? = nil, eventCategoriesList: EventCategoriesList? = nil, subscriptionCreationTime: String? = nil) {
-            self.status = status
-            self.snsTopicArn = snsTopicArn
-            self.sourceIdsList = sourceIdsList
-            self.sourceType = sourceType
-            self.custSubscriptionId = custSubscriptionId
-            self.enabled = enabled
-            self.eventSubscriptionArn = eventSubscriptionArn
-            self.customerAwsId = customerAwsId
-            self.eventCategoriesList = eventCategoriesList
-            self.subscriptionCreationTime = subscriptionCreationTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case snsTopicArn = "SnsTopicArn"
-            case sourceIdsList = "SourceIdsList"
-            case sourceType = "SourceType"
-            case custSubscriptionId = "CustSubscriptionId"
-            case enabled = "Enabled"
-            case eventSubscriptionArn = "EventSubscriptionArn"
-            case customerAwsId = "CustomerAwsId"
-            case eventCategoriesList = "EventCategoriesList"
-            case subscriptionCreationTime = "SubscriptionCreationTime"
-        }
-    }
-
     public struct AccountAttributesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountQuotas", required: false, type: .structure)
         ]
         /// A list of AccountQuota objects. Within this list, each quota has a name, a count of usage toward the quota maximum, and a maximum value for the quota.
@@ -4065,7 +6803,7 @@ extension Rds {
     }
 
     public struct VpcSecurityGroupMembershipList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VpcSecurityGroupMembership", required: false, type: .list)
         ]
         public let vpcSecurityGroupMembership: [VpcSecurityGroupMembership]?
@@ -4080,7 +6818,7 @@ extension Rds {
     }
 
     public struct DBClusterRole: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
@@ -4101,9 +6839,10 @@ extension Rds {
     }
 
     public struct CreateDBInstanceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBName", required: false, type: .string), 
             AWSShapeMember(label: "TdeCredentialPassword", required: false, type: .string), 
+            AWSShapeMember(label: "EnablePerformanceInsights", required: false, type: .boolean), 
             AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
             AWSShapeMember(label: "Iops", required: false, type: .integer), 
             AWSShapeMember(label: "DBSecurityGroups", required: false, type: .structure), 
@@ -4111,13 +6850,14 @@ extension Rds {
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
+            AWSShapeMember(label: "PerformanceInsightsKMSKeyId", required: false, type: .string), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
             AWSShapeMember(label: "PromotionTier", required: false, type: .integer), 
             AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "DomainIAMRoleName", required: false, type: .string), 
             AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "DBInstanceClass", required: true, type: .string), 
             AWSShapeMember(label: "Domain", required: false, type: .string), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
@@ -4142,87 +6882,92 @@ extension Rds {
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
         ]
-        /// The meaning of this parameter differs according to the database engine you use. Type: String  MySQL  The name of the database to create when the DB instance is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 alphanumeric characters   Cannot be a word reserved by the specified database engine    MariaDB  The name of the database to create when the DB instance is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 alphanumeric characters   Cannot be a word reserved by the specified database engine    PostgreSQL  The name of the database to create when the DB instance is created. If this parameter is not specified, the default "postgres" database is created in the DB instance. Constraints:   Must contain 1 to 63 alphanumeric characters   Must begin with a letter or an underscore. Subsequent characters can be letters, underscores, or digits (0-9).   Cannot be a word reserved by the specified database engine    Oracle  The Oracle System ID (SID) of the created DB instance. If you specify null, the default value ORCL is used. You can't specify the string NULL, or any other reserved word, for DBName.  Default: ORCL  Constraints:   Cannot be longer than 8 characters    SQL Server  Not applicable. Must be null.  Amazon Aurora  The name of the database to create when the primary instance of the DB cluster is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 alphanumeric characters   Cannot be a word reserved by the specified database engine  
+        /// The meaning of this parameter differs according to the database engine you use. Type: String  MySQL  The name of the database to create when the DB instance is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Cannot be a word reserved by the specified database engine    MariaDB  The name of the database to create when the DB instance is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Cannot be a word reserved by the specified database engine    PostgreSQL  The name of the database to create when the DB instance is created. If this parameter is not specified, the default "postgres" database is created in the DB instance. Constraints:   Must contain 1 to 63 letters, numbers, or underscores.   Must begin with a letter or an underscore. Subsequent characters can be letters, underscores, or digits (0-9).   Cannot be a word reserved by the specified database engine    Oracle  The Oracle System ID (SID) of the created DB instance. If you specify null, the default value ORCL is used. You can't specify the string NULL, or any other reserved word, for DBName.  Default: ORCL  Constraints:   Cannot be longer than 8 characters    SQL Server  Not applicable. Must be null.  Amazon Aurora  The name of the database to create when the primary instance of the DB cluster is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Cannot be a word reserved by the specified database engine  
         public let dBName: String?
-        /// The password for the given ARN from the Key Store in order to access the device.
+        /// The password for the given ARN from the key store in order to access the device.
         public let tdeCredentialPassword: String?
-        /// The password for the master database user. Can be any printable ASCII character except "/", """, or "@".  Amazon Aurora  Not applicable. You specify the password for the master database user when you create your DB cluster.   MariaDB  Constraints: Must contain from 8 to 41 characters.  Microsoft SQL Server  Constraints: Must contain from 8 to 128 characters.  MySQL  Constraints: Must contain from 8 to 41 characters.  Oracle  Constraints: Must contain from 8 to 30 characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.
+        /// True to enable Performance Insights for the DB instance, and otherwise false. 
+        public let enablePerformanceInsights: Bool?
+        /// The password for the master user. The password can include any printable ASCII character except "/", """, or "@".  Amazon Aurora  Not applicable. The password for the master user is managed by the DB cluster. For more information, see CreateDBCluster.  MariaDB  Constraints: Must contain from 8 to 41 characters.  Microsoft SQL Server  Constraints: Must contain from 8 to 128 characters.  MySQL  Constraints: Must contain from 8 to 41 characters.  Oracle  Constraints: Must contain from 8 to 30 characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.
         public let masterUserPassword: String?
-        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. Constraints: Must be a multiple between 3 and 10 of the storage amount for the DB instance. Must also be an integer multiple of 1000. For example, if the size of your DB instance is 500 GB, then your Iops value can be 2000, 3000, 4000, or 5000. 
+        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. For information about valid Iops values, see see Amazon RDS Provisioned IOPS Storage to Improve Performance.  Constraints: Must be a multiple between 3 and 10 of the storage amount for the DB instance. Must also be an integer multiple of 1000. For example, if the size of your DB instance is 500 GB, then your Iops value can be 2000, 3000, 4000, or 5000. 
         public let iops: Int32?
         /// A list of DB security groups to associate with this DB instance. Default: The default DB security group for the database engine.
         public let dBSecurityGroups: DBSecurityGroupNameList?
-        /// For supported engines, indicates that the DB instance should be associated with the specified CharacterSet.
+        /// For supported engines, indicates that the DB instance should be associated with the specified CharacterSet.  Amazon Aurora  Not applicable. The character set is managed by the DB cluster. For more information, see CreateDBCluster.
         public let characterSetName: String?
-        ///  The EC2 Availability Zone that the database instance will be created in. For information on regions and Availability Zones, see Regions and Availability Zones.  Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter cannot be specified if the MultiAZ parameter is set to true. The specified Availability Zone must be in the same region as the current endpoint. 
+        ///  The EC2 Availability Zone that the DB instance is created in. For information on AWS Regions and Availability Zones, see Regions and Availability Zones.  Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter can't be specified if the MultiAZ parameter is set to true. The specified Availability Zone must be in the same AWS Region as the current endpoint. 
         public let availabilityZone: String?
-        /// Indicates that minor engine upgrades will be applied automatically to the DB instance during the maintenance window. Default: true 
+        /// Indicates that minor engine upgrades are applied automatically to the DB instance during the maintenance window. Default: true 
         public let autoMinorVersionUpgrade: Bool?
-        /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 35   Cannot be set to 0 if the DB instance is a source to Read Replicas  
+        /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups.  Amazon Aurora  Not applicable. The retention period for automated backups is managed by the DB cluster. For more information, see CreateDBCluster. Default: 1 Constraints:   Must be a value from 0 to 35   Cannot be set to 0 if the DB instance is a source to Read Replicas  
         public let backupRetentionPeriod: Int32?
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts; otherwise false.   You can enable IAM database authentication for the following database engines:   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Default: false 
-        public let enableIAMDatabaseAuthentication: Bool?
-        /// The version number of the database engine to use. The following are the database engines and major and minor versions that are available with Amazon RDS. Not every database engine is available for every AWS region.  Amazon Aurora    Version 5.6 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-2, eu-west-1, us-east-1, us-east-2, us-west-2):  5.6.10a     MariaDB     10.1.19 (supported in all AWS regions)    10.1.14 (supported in all regions except us-east-2)       10.0.28 (supported in all AWS regions)    10.0.24 (supported in all AWS regions)    10.0.17 (supported in all regions except us-east-2, ca-central-1, eu-west-2)    Microsoft SQL Server 2016     13.00.4422.0.v1 (supported for all editions, and all AWS regions)    13.00.2164.0.v1 (supported for all editions, and all AWS regions)    Microsoft SQL Server 2014     12.00.5546.0.v1 (supported for all editions, and all AWS regions)    12.00.5000.0.v1 (supported for all editions, and all AWS regions)    12.00.4422.0.v1 (supported for all editions except Enterprise Edition, and all AWS regions except ca-central-1 and eu-west-2)    Microsoft SQL Server 2012     11.00.6594.0.v1 (supported for all editions, and all AWS regions)    11.00.6020.0.v1 (supported for all editions, and all AWS regions)    11.00.5058.0.v1 (supported for all editions, and all AWS regions except us-east-2, ca-central-1, and eu-west-2)    11.00.2100.60.v1 (supported for all editions, and all AWS regions except us-east-2, ca-central-1, and eu-west-2)    Microsoft SQL Server 2008 R2     10.50.6529.0.v1 (supported for all editions, and all AWS regions except us-east-2, ca-central-1, and eu-west-2)    10.50.6000.34.v1 (supported for all editions, and all AWS regions except us-east-2, ca-central-1, and eu-west-2)    10.50.2789.0.v1 (supported for all editions, and all AWS regions except us-east-2, ca-central-1, and eu-west-2)    MySQL     5.7.17 (supported in all AWS regions)    5.7.16 (supported in all AWS regions)    5.7.11 (supported in all AWS regions)    5.7.10 (supported in all regions except us-east-2, ca-central-1, eu-west-2)       5.6.35 (supported in all AWS regions)    5.6.34 (supported in all AWS regions)    5.6.29 (supported in all AWS regions)    5.6.27 (supported in all regions except us-east-2, ca-central-1, eu-west-2)    5.6.23 (supported in all regions except us-east-2, ap-south-1, ca-central-1, eu-west-2)    5.6.22 (supported in all regions except us-east-2, ap-south-1, ap-northeast-2, ca-central-1, eu-west-2)    5.6.21b (supported in all regions except us-east-2, ap-south-1, ap-northeast-2, ca-central-1, eu-west-2)    5.6.21 (supported in all regions except us-east-2, ap-south-1, ap-northeast-2, ca-central-1, eu-west-2)    5.6.19b (supported in all regions except us-east-2, ap-south-1, ap-northeast-2, ca-central-1, eu-west-2)    5.6.19a (supported in all regions except us-east-2, ap-south-1, ap-northeast-2, ca-central-1, eu-west-2)       5.5.54 (supported in all AWS regions)    5.5.53 (supported in all AWS regions)    5.5.46 (supported in all AWS regions)    Oracle 12c     12.1.0.2.v8 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v7 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v6 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v5 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v4 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v3 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v2 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v1 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    Oracle 11g     11.2.0.4.v12 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v11 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v10 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v9 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v8 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v7 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v6 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v5 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v4 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v3 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v1 (supported for EE, SE1, and SE, in all AWS regions)    PostgreSQL     Version 9.6.x:  9.6.1 | 9.6.2     Version 9.5.x: 9.5.6 | 9.5.4 | 9.5.2     Version 9.4.x: 9.4.11 | 9.4.9 | 9.4.7     Version 9.3.x: 9.3.16 | 9.3.14 | 9.3.12   
+        /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.
+        public let performanceInsightsKMSKeyId: String?
+        /// The version number of the database engine to use. The following are the database engines and major and minor versions that are available with Amazon RDS. Not every database engine is available for every AWS Region.  Amazon Aurora  Not applicable. The version number of the database engine to be used by the DB instance is managed by the DB cluster. For more information, see CreateDBCluster.  MariaDB     10.1.23 (supported in all AWS Regions)    10.1.19 (supported in all AWS Regions)    10.1.14 (supported in all AWS Regions except us-east-2)       10.0.31 (supported in all AWS Regions)    10.0.28 (supported in all AWS Regions)    10.0.24 (supported in all AWS Regions)    10.0.17 (supported in all AWS Regions except us-east-2, ca-central-1, eu-west-2)    Microsoft SQL Server 2016     13.00.4422.0.v1 (supported for all editions, and all AWS Regions)    13.00.2164.0.v1 (supported for all editions, and all AWS Regions)    Microsoft SQL Server 2014     12.00.5546.0.v1 (supported for all editions, and all AWS Regions)    12.00.5000.0.v1 (supported for all editions, and all AWS Regions)    12.00.4422.0.v1 (supported for all editions except Enterprise Edition, and all AWS Regions except ca-central-1 and eu-west-2)    Microsoft SQL Server 2012     11.00.6594.0.v1 (supported for all editions, and all AWS Regions)    11.00.6020.0.v1 (supported for all editions, and all AWS Regions)    11.00.5058.0.v1 (supported for all editions, and all AWS Regions except us-east-2, ca-central-1, and eu-west-2)    11.00.2100.60.v1 (supported for all editions, and all AWS Regions except us-east-2, ca-central-1, and eu-west-2)    Microsoft SQL Server 2008 R2     10.50.6529.0.v1 (supported for all editions, and all AWS Regions except us-east-2, ca-central-1, and eu-west-2)    10.50.6000.34.v1 (supported for all editions, and all AWS Regions except us-east-2, ca-central-1, and eu-west-2)    10.50.2789.0.v1 (supported for all editions, and all AWS Regions except us-east-2, ca-central-1, and eu-west-2)    MySQL     5.7.19 (supported in all AWS regions)    5.7.17 (supported in all AWS regions)    5.7.16 (supported in all AWS regions)       5.6.37 (supported in all AWS Regions)    5.6.35 (supported in all AWS Regions)    5.6.34 (supported in all AWS Regions)    5.6.29 (supported in all AWS Regions)    5.6.27 (supported in all AWS Regions except us-east-2, ca-central-1, eu-west-2)       5.5.57 (supported in all AWS Regions)    5.5.54 (supported in all AWS Regions)    5.5.53 (supported in all AWS Regions)    5.5.46 (supported in all AWS Regions)    Oracle 12c     12.1.0.2.v9 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v8 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v7 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v6 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v5 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v4 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v3 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v2 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v1 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    Oracle 11g     11.2.0.4.v13 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v12 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v11 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v10 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v9 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v8 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v7 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v6 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v5 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v4 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v3 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v1 (supported for EE, SE1, and SE, in all AWS regions)    PostgreSQL     Version 9.6.x:  9.6.5 | 9.6.3 | 9.6.2 | 9.6.1     Version 9.5.x:  9.5.9 | 9.5.7 | 9.5.6 | 9.5.4 | 9.5.2     Version 9.4.x:  9.4.14 | 9.4.12 | 9.4.11 | 9.4.9 | 9.4.7     Version 9.3.x:  9.3.19 | 9.3.17 | 9.3.16 | 9.3.14 | 9.3.12   
         public let engineVersion: String?
+        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false.  You can enable IAM database authentication for the following database engines:  Amazon Aurora  Not applicable. Mapping AWS IAM accounts to database accounts is managed by the DB cluster. For more information, see CreateDBCluster.  MySQL    For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Default: false 
+        public let enableIAMDatabaseAuthentication: Bool?
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster.  Default: 1 Valid Values: 0 - 15
         public let promotionTier: Int32?
-        ///  The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). For more information, see DB Instance Maintenance.   Format: ddd:hh24:mi-ddd:hh24:mi   Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
+        /// The time range each week during which system maintenance can occur, in Universal Coordinated Time (UTC). For more information, see Amazon RDS Maintenance Window.   Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
-        /// The identifier of the DB cluster that the instance will belong to. For information on creating a DB cluster, see CreateDBCluster. Type: String
-        public let dBClusterIdentifier: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
-        /// True to copy all tags from the DB instance to snapshots of the DB instance; otherwise false. The default is false.
+        /// True to copy all tags from the DB instance to snapshots of the DB instance, and otherwise false. The default is false.
         public let copyTagsToSnapshot: Bool?
-        /// The compute and memory capacity of the DB instance. Note that not all instance classes are available in all regions for all DB engines.  Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge |db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large 
+        /// The identifier of the DB cluster that the instance will belong to. For information on creating a DB cluster, see CreateDBCluster. Type: String
+        public let dBClusterIdentifier: String?
+        /// The compute and memory capacity of the DB instance, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide. 
         public let dBInstanceClass: String
         /// Specify the Active Directory Domain to create the instance in.
         public let domain: String?
-        /// The KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
+        /// The AWS KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key.  Amazon Aurora  Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
-        /// Specifies if the DB instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the MultiAZ parameter is set to true.
+        /// Specifies if the DB instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the MultiAZ parameter is set to true.
         public let multiAZ: Bool?
         public let tags: TagList?
         /// The time zone of the DB instance. The time zone parameter is currently supported only by Microsoft SQL Server. 
         public let timezone: String?
-        /// A list of EC2 VPC security groups to associate with this DB instance. Default: The default EC2 VPC security group for the DB subnet group's VPC.
+        /// A list of EC2 VPC security groups to associate with this DB instance.  Amazon Aurora  Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see CreateDBCluster. Default: The default EC2 VPC security group for the DB subnet group's VPC.
         public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
-        /// The amount of storage (in gigabytes) to be initially allocated for the database instance. Type: Integer  Amazon Aurora  Not applicable. Aurora cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in an Aurora cluster volume.  MySQL  Constraints: Must be an integer from 5 to 6144.  MariaDB  Constraints: Must be an integer from 5 to 6144.  PostgreSQL  Constraints: Must be an integer from 5 to 6144.  Oracle  Constraints: Must be an integer from 10 to 6144.  SQL Server  Constraints: Must be an integer from 200 to 4096 (Standard Edition and Enterprise Edition) or from 20 to 4096 (Express Edition and Web Edition)
+        /// The amount of storage (in gigabytes) to be initially allocated for the DB instance. Type: Integer  Amazon Aurora  Not applicable. Aurora cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in an Aurora cluster volume.  MySQL  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 5 to 6144.   Provisioned IOPS storage (io1): Must be an integer from 100 to 6144.   Magnetic storage (standard): Must be an integer from 5 to 3072.    MariaDB  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 5 to 6144.   Provisioned IOPS storage (io1): Must be an integer from 100 to 6144.   Magnetic storage (standard): Must be an integer from 5 to 3072.    PostgreSQL  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 5 to 6144.   Provisioned IOPS storage (io1): Must be an integer from 100 to 6144.   Magnetic storage (standard): Must be an integer from 5 to 3072.    Oracle  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 10 to 6144.   Provisioned IOPS storage (io1): Must be an integer from 100 to 6144.   Magnetic storage (standard): Must be an integer from 10 to 3072.    SQL Server  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2):   Enterprise and Standard editions: Must be an integer from 200 to 16384.   Web and Express editions: Must be an integer from 20 to 16384.     Provisioned IOPS storage (io1):   Enterprise and Standard editions: Must be an integer from 200 to 16384.   Web and Express editions: Must be an integer from 100 to 16384.     Magnetic storage (standard):   Enterprise and Standard editions: Must be an integer from 200 to 1024.   Web and Express editions: Must be an integer from 20 to 1024.    
         public let allocatedStorage: Int32?
-        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
+        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise standard 
         public let storageType: String?
         /// License model information for this DB instance.  Valid values: license-included | bring-your-own-license | general-public-license 
         public let licenseModel: String?
-        /// The ARN from the Key Store with which to associate the instance for TDE encryption.
+        /// The ARN from the key store with which to associate the instance for TDE encryption.
         public let tdeCredentialArn: String?
-        /// The name of the DB parameter group to associate with this DB instance. If this argument is omitted, the default DBParameterGroup for the specified engine will be used. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        /// The name of the DB parameter group to associate with this DB instance. If this argument is omitted, the default DBParameterGroup for the specified engine is used. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
         public let dBParameterGroupName: String?
-        /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC: true    VPC: false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
+        /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC: true    VPC: false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance is publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance is private.
         public let publiclyAccessible: Bool?
-        ///  The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. For more information, see DB Instance Backups.   Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred DB Instance Maintenance Window.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        ///  The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. For more information, see The Backup Window.   Amazon Aurora  Not applicable. The daily time range for creating automated backups is managed by the DB cluster. For more information, see CreateDBCluster.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred DB Instance Maintenance Window.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
         public let preferredBackupWindow: String?
         /// A DB subnet group to associate with this DB instance. If there is no DB subnet group, then it is a non-VPC DB instance.
         public let dBSubnetGroupName: String?
-        /// Indicates that the DB instance should be associated with the specified option group. Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
+        /// Indicates that the DB instance should be associated with the specified option group. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
         public let optionGroupName: String?
-        /// The name for the master database user.  Amazon Aurora  Not applicable. You specify the name for the master database user when you create your DB cluster.   MariaDB  Constraints:   Must be 1 to 16 alphanumeric characters.   Cannot be a reserved word for the chosen database engine.    Microsoft SQL Server  Constraints:   Must be 1 to 128 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.    MySQL  Constraints:   Must be 1 to 16 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.    Oracle  Constraints:   Must be 1 to 30 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.    PostgreSQL  Constraints:   Must be 1 to 63 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.  
+        /// The name for the master user.  Amazon Aurora  Not applicable. The name for the master user is managed by the DB cluster. For more information, see CreateDBCluster.   MariaDB  Constraints:   Required for MariaDB.   Must be 1 to 16 letters or numbers.   Cannot be a reserved word for the chosen database engine.    Microsoft SQL Server  Constraints:   Required for SQL Server.   Must be 1 to 128 letters or numbers.   The first character must be a letter.   Cannot be a reserved word for the chosen database engine.    MySQL  Constraints:   Required for MySQL.   Must be 1 to 16 letters or numbers.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.    Oracle  Constraints:   Required for Oracle.   Must be 1 to 30 letters or numbers.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.    PostgreSQL  Constraints:   Required for PostgreSQL.   Must be 1 to 63 letters or numbers.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.  
         public let masterUsername: String?
-        /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to Setting Up and Enabling Enhanced Monitoring. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
+        /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to Setting Up and Enabling Enhanced Monitoring. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
         public let monitoringRoleArn: String?
-        /// The name of the database engine to be used for this instance.  Not every database engine is available for every AWS region.  Valid Values:     aurora     mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web   
+        /// The name of the database engine to be used for this instance.  Not every database engine is available for every AWS Region.  Valid Values:     aurora     aurora-postgresql     mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web   
         public let engine: String
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
         public let monitoringInterval: Int32?
-        /// Specifies whether the DB instance is encrypted. Default: false
+        /// Specifies whether the DB instance is encrypted.  Amazon Aurora  Not applicable. The encryption for DB instances is managed by the DB cluster. For more information, see CreateDBCluster. Default: false
         public let storageEncrypted: Bool?
         /// The port number on which the database accepts connections.  MySQL   Default: 3306   Valid Values: 1150-65535  Type: Integer  MariaDB   Default: 3306   Valid Values: 1150-65535  Type: Integer  PostgreSQL   Default: 5432   Valid Values: 1150-65535  Type: Integer  Oracle   Default: 1521   Valid Values: 1150-65535   SQL Server   Default: 1433   Valid Values: 1150-65535 except for 1434, 3389, 47001, 49152, and 49152 through 49156.   Amazon Aurora   Default: 3306   Valid Values: 1150-65535  Type: Integer
         public let port: Int32?
-        /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens (1 to 15 for SQL Server).   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance 
+        /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance 
         public let dBInstanceIdentifier: String
 
-        public init(dBName: String? = nil, tdeCredentialPassword: String? = nil, masterUserPassword: String? = nil, iops: Int32? = nil, dBSecurityGroups: DBSecurityGroupNameList? = nil, characterSetName: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int32? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, promotionTier: Int32? = nil, preferredMaintenanceWindow: String? = nil, dBClusterIdentifier: String? = nil, domainIAMRoleName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String, domain: String? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, tags: TagList? = nil, timezone: String? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, licenseModel: String? = nil, tdeCredentialArn: String? = nil, dBParameterGroupName: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, dBSubnetGroupName: String? = nil, optionGroupName: String? = nil, masterUsername: String? = nil, monitoringRoleArn: String? = nil, engine: String, monitoringInterval: Int32? = nil, storageEncrypted: Bool? = nil, port: Int32? = nil, dBInstanceIdentifier: String) {
+        public init(dBName: String? = nil, tdeCredentialPassword: String? = nil, enablePerformanceInsights: Bool? = nil, masterUserPassword: String? = nil, iops: Int32? = nil, dBSecurityGroups: DBSecurityGroupNameList? = nil, characterSetName: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int32? = nil, performanceInsightsKMSKeyId: String? = nil, engineVersion: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, promotionTier: Int32? = nil, preferredMaintenanceWindow: String? = nil, domainIAMRoleName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String, domain: String? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, tags: TagList? = nil, timezone: String? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, licenseModel: String? = nil, tdeCredentialArn: String? = nil, dBParameterGroupName: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, dBSubnetGroupName: String? = nil, optionGroupName: String? = nil, masterUsername: String? = nil, monitoringRoleArn: String? = nil, engine: String, monitoringInterval: Int32? = nil, storageEncrypted: Bool? = nil, port: Int32? = nil, dBInstanceIdentifier: String) {
             self.dBName = dBName
             self.tdeCredentialPassword = tdeCredentialPassword
+            self.enablePerformanceInsights = enablePerformanceInsights
             self.masterUserPassword = masterUserPassword
             self.iops = iops
             self.dBSecurityGroups = dBSecurityGroups
@@ -4230,13 +6975,14 @@ extension Rds {
             self.availabilityZone = availabilityZone
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.backupRetentionPeriod = backupRetentionPeriod
-            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+            self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
             self.engineVersion = engineVersion
+            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.promotionTier = promotionTier
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.dBClusterIdentifier = dBClusterIdentifier
             self.domainIAMRoleName = domainIAMRoleName
             self.copyTagsToSnapshot = copyTagsToSnapshot
+            self.dBClusterIdentifier = dBClusterIdentifier
             self.dBInstanceClass = dBInstanceClass
             self.domain = domain
             self.kmsKeyId = kmsKeyId
@@ -4265,6 +7011,7 @@ extension Rds {
         private enum CodingKeys: String, CodingKey {
             case dBName = "DBName"
             case tdeCredentialPassword = "TdeCredentialPassword"
+            case enablePerformanceInsights = "EnablePerformanceInsights"
             case masterUserPassword = "MasterUserPassword"
             case iops = "Iops"
             case dBSecurityGroups = "DBSecurityGroups"
@@ -4272,13 +7019,14 @@ extension Rds {
             case availabilityZone = "AvailabilityZone"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case backupRetentionPeriod = "BackupRetentionPeriod"
-            case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
+            case performanceInsightsKMSKeyId = "PerformanceInsightsKMSKeyId"
             case engineVersion = "EngineVersion"
+            case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case promotionTier = "PromotionTier"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case dBClusterIdentifier = "DBClusterIdentifier"
             case domainIAMRoleName = "DomainIAMRoleName"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
+            case dBClusterIdentifier = "DBClusterIdentifier"
             case dBInstanceClass = "DBInstanceClass"
             case domain = "Domain"
             case kmsKeyId = "KmsKeyId"
@@ -4306,14 +7054,14 @@ extension Rds {
     }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "OptInType", required: true, type: .string), 
             AWSShapeMember(label: "ApplyAction", required: true, type: .string)
         ]
         /// The RDS Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
         public let resourceIdentifier: String
-        /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate cannot be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.  
+        /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.  
         public let optInType: String
         /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade 
         public let applyAction: String
@@ -4332,7 +7080,7 @@ extension Rds {
     }
 
     public struct TagList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
@@ -4347,7 +7095,7 @@ extension Rds {
     }
 
     public struct CreateDBClusterParameterGroupResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .structure)
         ]
         public let dBClusterParameterGroup: DBClusterParameterGroup?
@@ -4362,7 +7110,7 @@ extension Rds {
     }
 
     public struct ModifyDBSnapshotAttributeMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeName", required: true, type: .string), 
             AWSShapeMember(label: "ValuesToAdd", required: false, type: .structure), 
             AWSShapeMember(label: "ValuesToRemove", required: false, type: .structure), 
@@ -4392,93 +7140,8 @@ extension Rds {
         }
     }
 
-    public struct RestoreDBClusterToPointInTimeMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
-            AWSShapeMember(label: "RestoreToTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "UseLatestRestorableTime", required: false, type: .boolean), 
-            AWSShapeMember(label: "RestoreType", required: false, type: .string), 
-            AWSShapeMember(label: "SourceDBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer)
-        ]
-        /// The KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster will be encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.
-        public let kmsKeyId: String?
-        /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let dBClusterIdentifier: String
-        /// The DB subnet group name to use for the new DB cluster. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public let dBSubnetGroupName: String?
-        /// The name of the option group for the new DB cluster.
-        public let optionGroupName: String?
-        /// A Boolean value that is true to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
-        public let enableIAMDatabaseAuthentication: Bool?
-        public let tags: TagList?
-        /// A list of VPC security groups that the new DB cluster belongs to.
-        public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
-        /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Must be specified if UseLatestRestorableTime parameter is not provided   Cannot be specified if UseLatestRestorableTime parameter is true   Cannot be specified if RestoreType parameter is copy-on-write    Example: 2015-03-07T23:45:00Z 
-        public let restoreToTime: TimeStamp?
-        /// A value that is set to true to restore the DB cluster to the latest restorable backup time, and false otherwise.  Default: false  Constraints: Cannot be specified if RestoreToTime parameter is provided.
-        public let useLatestRestorableTime: Bool?
-        /// The type of restore to be performed. You can specify one of the following values:    full-copy - The new DB cluster is restored as a full copy of the source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.   Constraints: You cannot specify copy-on-write if the engine version of the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
-        public let restoreType: String?
-        /// The identifier of the source DB cluster from which to restore. Constraints:   Must be the identifier of an existing database instance   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let sourceDBClusterIdentifier: String
-        /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
-        public let port: Int32?
-
-        public init(kmsKeyId: String? = nil, dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, optionGroupName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, tags: TagList? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, restoreToTime: TimeStamp? = nil, useLatestRestorableTime: Bool? = nil, restoreType: String? = nil, sourceDBClusterIdentifier: String, port: Int32? = nil) {
-            self.kmsKeyId = kmsKeyId
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBSubnetGroupName = dBSubnetGroupName
-            self.optionGroupName = optionGroupName
-            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
-            self.tags = tags
-            self.vpcSecurityGroupIds = vpcSecurityGroupIds
-            self.restoreToTime = restoreToTime
-            self.useLatestRestorableTime = useLatestRestorableTime
-            self.restoreType = restoreType
-            self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
-            self.port = port
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case kmsKeyId = "KmsKeyId"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case dBSubnetGroupName = "DBSubnetGroupName"
-            case optionGroupName = "OptionGroupName"
-            case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
-            case tags = "Tags"
-            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
-            case restoreToTime = "RestoreToTime"
-            case useLatestRestorableTime = "UseLatestRestorableTime"
-            case restoreType = "RestoreType"
-            case sourceDBClusterIdentifier = "SourceDBClusterIdentifier"
-            case port = "Port"
-        }
-    }
-
-    public struct AvailabilityZoneList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .list)
-        ]
-        public let availabilityZone: [AvailabilityZone]?
-
-        public init(availabilityZone: [AvailabilityZone]? = nil) {
-            self.availabilityZone = availabilityZone
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case availabilityZone = "AvailabilityZone"
-        }
-    }
-
     public struct DBCluster: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterArn", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .structure), 
             AWSShapeMember(label: "ReadReplicaIdentifiers", required: false, type: .structure), 
@@ -4543,13 +7206,13 @@ extension Rds {
         public let replicationSourceIdentifier: String?
         /// Specifies the progress of the operation as a percentage.
         public let percentProgress: String?
-        /// The reader endpoint for the DB cluster. The reader endpoint for a DB cluster load-balances connections across the Aurora Replicas that are available in a DB cluster. As clients request new connections to the reader endpoint, Aurora distributes the connection requests among the Aurora Replicas in the DB cluster. This functionality can help balance your read workload across multiple Aurora Replicas in your DB cluster.  If a failover occurs, and the Aurora Replica that you are connected to is promoted to be the primary instance, your connection will be dropped. To continue sending your read workload to other Aurora Replicas in the cluster, you can then reconnect to the reader endpoint.
+        /// The reader endpoint for the DB cluster. The reader endpoint for a DB cluster load-balances connections across the Aurora Replicas that are available in a DB cluster. As clients request new connections to the reader endpoint, Aurora distributes the connection requests among the Aurora Replicas in the DB cluster. This functionality can help balance your read workload across multiple Aurora Replicas in your DB cluster.  If a failover occurs, and the Aurora Replica that you are connected to is promoted to be the primary instance, your connection is dropped. To continue sending your read workload to other Aurora Replicas in the cluster, you can then reconnect to the reader endpoint.
         public let readerEndpoint: String?
-        /// The region-unique, immutable identifier for the DB cluster. This identifier is found in AWS CloudTrail log entries whenever the KMS key for the DB cluster is accessed.
+        /// The AWS Region-unique, immutable identifier for the DB cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB cluster is accessed.
         public let dbClusterResourceId: String?
         /// Specifies the connection endpoint for the primary instance of the DB cluster.
         public let endpoint: String?
-        /// If StorageEncrypted is true, the KMS key identifier for the encrypted DB cluster.
+        /// If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB cluster.
         public let kmsKeyId: String?
         /// Provides the list of EC2 Availability Zones that instances in the DB cluster can be created in.
         public let availabilityZones: AvailabilityZones?
@@ -4569,7 +7232,7 @@ extension Rds {
         public let cloneGroupId: String?
         /// Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod. 
         public let preferredBackupWindow: String?
-        /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled; otherwise false.
+        /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
         public let iAMDatabaseAuthenticationEnabled: Bool?
         /// Contains the master username for the DB cluster.
         public let masterUsername: String?
@@ -4663,29 +7326,8 @@ extension Rds {
         }
     }
 
-    public struct DescribeEventCategoriesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure)
-        ]
-        /// The type of source that will be generating the events. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
-        public let sourceType: String?
-        /// This parameter is not currently supported.
-        public let filters: FilterList?
-
-        public init(sourceType: String? = nil, filters: FilterList? = nil) {
-            self.sourceType = sourceType
-            self.filters = filters
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceType = "SourceType"
-            case filters = "Filters"
-        }
-    }
-
     public struct CreateDBClusterSnapshotResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
         ]
         public let dBClusterSnapshot: DBClusterSnapshot?
@@ -4700,7 +7342,7 @@ extension Rds {
     }
 
     public struct ModifyDBClusterSnapshotAttributeResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
         ]
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
@@ -4715,7 +7357,7 @@ extension Rds {
     }
 
     public struct DescribeDBLogFilesList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DescribeDBLogFilesDetails", required: false, type: .list)
         ]
         public let describeDBLogFilesDetails: [DescribeDBLogFilesDetails]?
@@ -4729,23 +7371,8 @@ extension Rds {
         }
     }
 
-    public struct AuthorizeDBSecurityGroupIngressResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroup", required: false, type: .structure)
-        ]
-        public let dBSecurityGroup: DBSecurityGroup?
-
-        public init(dBSecurityGroup: DBSecurityGroup? = nil) {
-            self.dBSecurityGroup = dBSecurityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSecurityGroup = "DBSecurityGroup"
-        }
-    }
-
     public struct ReservedDBInstanceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "ReservedDBInstances", required: false, type: .structure)
         ]
@@ -4766,7 +7393,7 @@ extension Rds {
     }
 
     public struct DescribeDBClusterParametersMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Filters", required: false, type: .structure), 
             AWSShapeMember(label: "Source", required: false, type: .string), 
@@ -4781,7 +7408,7 @@ extension Rds {
         public let source: String?
         ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
         public let dBClusterParameterGroupName: String
 
         public init(maxRecords: Int32? = nil, filters: FilterList? = nil, source: String? = nil, marker: String? = nil, dBClusterParameterGroupName: String) {
@@ -4802,10 +7429,10 @@ extension Rds {
     }
 
     public struct DeleteDBParameterGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string)
         ]
-        /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You cannot delete a default DB parameter group   Cannot be associated with any DB instances  
+        /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You can't delete a default DB parameter group   Cannot be associated with any DB instances  
         public let dBParameterGroupName: String
 
         public init(dBParameterGroupName: String) {
@@ -4817,33 +7444,12 @@ extension Rds {
         }
     }
 
-    public struct DBSecurityGroupMembership: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "DBSecurityGroupName", required: false, type: .string)
-        ]
-        /// The status of the DB security group.
-        public let status: String?
-        /// The name of the DB security group.
-        public let dBSecurityGroupName: String?
-
-        public init(status: String? = nil, dBSecurityGroupName: String? = nil) {
-            self.status = status
-            self.dBSecurityGroupName = dBSecurityGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case dBSecurityGroupName = "DBSecurityGroupName"
-        }
-    }
-
     public struct OptionVersion: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
-        /// True if the version is the default version of the option; otherwise, false.
+        /// True if the version is the default version of the option, and otherwise false.
         public let isDefault: Bool?
         /// The version of the option.
         public let version: String?
@@ -4859,49 +7465,8 @@ extension Rds {
         }
     }
 
-    public struct DBClusterParameterGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterParameterGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// Provides the name of the DB parameter group family that this DB cluster parameter group is compatible with.
-        public let dBParameterGroupFamily: String?
-        /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
-        public let dBClusterParameterGroupArn: String?
-        /// Provides the name of the DB cluster parameter group.
-        public let dBClusterParameterGroupName: String?
-        /// Provides the customer-specified description for this DB cluster parameter group.
-        public let description: String?
-
-        public init(dBParameterGroupFamily: String? = nil, dBClusterParameterGroupArn: String? = nil, dBClusterParameterGroupName: String? = nil, description: String? = nil) {
-            self.dBParameterGroupFamily = dBParameterGroupFamily
-            self.dBClusterParameterGroupArn = dBClusterParameterGroupArn
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
-            case dBClusterParameterGroupArn = "DBClusterParameterGroupArn"
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
-            case description = "Description"
-        }
-    }
-
-    public enum SourceType: String, CustomStringConvertible, Codable {
-        case dbInstance = "db-instance"
-        case dbParameterGroup = "db-parameter-group"
-        case dbSecurityGroup = "db-security-group"
-        case dbSnapshot = "db-snapshot"
-        case dbCluster = "db-cluster"
-        case dbClusterSnapshot = "db-cluster-snapshot"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CreateDBSecurityGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .structure), 
             AWSShapeMember(label: "DBSecurityGroupDescription", required: true, type: .string), 
             AWSShapeMember(label: "DBSecurityGroupName", required: true, type: .string)
@@ -4909,7 +7474,7 @@ extension Rds {
         public let tags: TagList?
         /// The description for the DB security group.
         public let dBSecurityGroupDescription: String
-        /// The name for the DB security group. This value is stored as a lowercase string. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Must not be "Default"   Example: mysecuritygroup 
+        /// The name for the DB security group. This value is stored as a lowercase string. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Must not be "Default"   Example: mysecuritygroup 
         public let dBSecurityGroupName: String
 
         public init(tags: TagList? = nil, dBSecurityGroupDescription: String, dBSecurityGroupName: String) {
@@ -4926,7 +7491,7 @@ extension Rds {
     }
 
     public struct OptionGroupOptionSetting: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SettingName", required: false, type: .string), 
             AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
             AWSShapeMember(label: "IsModifiable", required: false, type: .boolean), 
@@ -4972,23 +7537,8 @@ extension Rds {
         public var description: String { return self.rawValue }
     }
 
-    public struct DBSecurityGroupNameList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroupName", required: false, type: .list)
-        ]
-        public let dBSecurityGroupName: [String]?
-
-        public init(dBSecurityGroupName: [String]? = nil) {
-            self.dBSecurityGroupName = dBSecurityGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSecurityGroupName = "DBSecurityGroupName"
-        }
-    }
-
     public struct DomainMembershipList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainMembership", required: false, type: .list)
         ]
         public let domainMembership: [DomainMembership]?
@@ -5002,86 +7552,23 @@ extension Rds {
         }
     }
 
-    public struct CreateDBClusterResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
+    public struct RestoreDBInstanceToPointInTimeResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
         ]
-        public let dBCluster: DBCluster?
+        public let dBInstance: DBInstance?
 
-        public init(dBCluster: DBCluster? = nil) {
-            self.dBCluster = dBCluster
+        public init(dBInstance: DBInstance? = nil) {
+            self.dBInstance = dBInstance
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
-        }
-    }
-
-    public struct DeleteDBInstanceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FinalDBSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "SkipFinalSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
-        ]
-        ///  The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is set to false.   Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Cannot be specified when deleting a Read Replica.  
-        public let finalDBSnapshotIdentifier: String?
-        ///  Determines whether a final DB snapshot is created before the DB instance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB instance is deleted.  Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter is set to "true". Specify true when deleting a Read Replica.  The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is false.  Default: false 
-        public let skipFinalSnapshot: Bool?
-        /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let dBInstanceIdentifier: String
-
-        public init(finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil, dBInstanceIdentifier: String) {
-            self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
-            self.skipFinalSnapshot = skipFinalSnapshot
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case finalDBSnapshotIdentifier = "FinalDBSnapshotIdentifier"
-            case skipFinalSnapshot = "SkipFinalSnapshot"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
-        }
-    }
-
-    public struct Timezone: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TimezoneName", required: false, type: .string)
-        ]
-        /// The name of the time zone.
-        public let timezoneName: String?
-
-        public init(timezoneName: String? = nil) {
-            self.timezoneName = timezoneName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case timezoneName = "TimezoneName"
-        }
-    }
-
-    public struct RebootDBInstanceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "ForceFailover", required: false, type: .boolean)
-        ]
-        /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let dBInstanceIdentifier: String
-        ///  When true, the reboot will be conducted through a MultiAZ failover.  Constraint: You cannot specify true if the instance is not configured for MultiAZ.
-        public let forceFailover: Bool?
-
-        public init(dBInstanceIdentifier: String, forceFailover: Bool? = nil) {
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-            self.forceFailover = forceFailover
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
-            case forceFailover = "ForceFailover"
+            case dBInstance = "DBInstance"
         }
     }
 
     public struct DescribeDBSnapshotsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "IncludePublic", required: false, type: .boolean), 
@@ -5095,17 +7582,17 @@ extension Rds {
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous DescribeDBSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        /// Set this value to true to include manual DB snapshots that are public and can be copied or restored by any AWS account, otherwise set this value to false. The default is false. You can share a manual DB snapshot as public by using the ModifyDBSnapshotAttribute API.
+        /// True to include manual DB snapshots that are public and can be copied or restored by any AWS account, and otherwise false. The default is false. You can share a manual DB snapshot as public by using the ModifyDBSnapshotAttribute API.
         public let includePublic: Bool?
         /// The type of snapshots to be returned. You can specify one of the following values:    automated - Return all DB snapshots that have been automatically taken by Amazon RDS for my AWS account.    manual - Return all DB snapshots that have been taken by my AWS account.    shared - Return all manual DB snapshots that have been shared to my AWS account.    public - Return all DB snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual snapshots are returned. Shared and public DB snapshots are not included in the returned results by default. You can include shared snapshots with these results by setting the IncludeShared parameter to true. You can include public snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
-        /// Set this value to true to include shared manual DB snapshots from other AWS accounts that this AWS account has been given permission to copy or restore, otherwise set this value to false. The default is false. You can give an AWS account permission to restore a manual DB snapshot from another AWS account by using the ModifyDBSnapshotAttribute API action.
+        /// True to include shared manual DB snapshots from other AWS accounts that this AWS account has been given permission to copy or restore, and otherwise false. The default is false. You can give an AWS account permission to restore a manual DB snapshot from another AWS account by using the ModifyDBSnapshotAttribute API action.
         public let includeShared: Bool?
         /// This parameter is not currently supported.
         public let filters: FilterList?
-        ///  A specific DB snapshot identifier to describe. This parameter cannot be used in conjunction with DBInstanceIdentifier. This value is stored as a lowercase string.  Constraints:   Must be 1 to 255 alphanumeric characters.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
+        ///  A specific DB snapshot identifier to describe. This parameter can't be used in conjunction with DBInstanceIdentifier. This value is stored as a lowercase string.  Constraints:   If supplied, must match the identifier of an existing DBSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
         public let dBSnapshotIdentifier: String?
-        /// The ID of the DB instance to retrieve the list of DB snapshots for. This parameter cannot be used in conjunction with DBSnapshotIdentifier. This parameter is not case-sensitive.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        /// The ID of the DB instance to retrieve the list of DB snapshots for. This parameter can't be used in conjunction with DBSnapshotIdentifier. This parameter is not case-sensitive.  Constraints:   If supplied, must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String?
 
         public init(maxRecords: Int32? = nil, marker: String? = nil, includePublic: Bool? = nil, snapshotType: String? = nil, includeShared: Bool? = nil, filters: FilterList? = nil, dBSnapshotIdentifier: String? = nil, dBInstanceIdentifier: String? = nil) {
@@ -5131,23 +7618,8 @@ extension Rds {
         }
     }
 
-    public struct ReservedDBInstanceList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedDBInstance", required: false, type: .list)
-        ]
-        public let reservedDBInstance: [ReservedDBInstance]?
-
-        public init(reservedDBInstance: [ReservedDBInstance]? = nil) {
-            self.reservedDBInstance = reservedDBInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reservedDBInstance = "ReservedDBInstance"
-        }
-    }
-
     public struct DeleteDBClusterSnapshotResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterSnapshot", required: false, type: .structure)
         ]
         public let dBClusterSnapshot: DBClusterSnapshot?
@@ -5161,70 +7633,8 @@ extension Rds {
         }
     }
 
-    public struct RestoreDBInstanceToPointInTimeResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
-        public let dBInstance: DBInstance?
-
-        public init(dBInstance: DBInstance? = nil) {
-            self.dBInstance = dBInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBInstance = "DBInstance"
-        }
-    }
-
-    public struct DBClusterSnapshotAttributesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshotIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterSnapshotAttributes", required: false, type: .structure)
-        ]
-        /// The identifier of the manual DB cluster snapshot that the attributes apply to.
-        public let dBClusterSnapshotIdentifier: String?
-        /// The list of attributes and values for the manual DB cluster snapshot.
-        public let dBClusterSnapshotAttributes: DBClusterSnapshotAttributeList?
-
-        public init(dBClusterSnapshotIdentifier: String? = nil, dBClusterSnapshotAttributes: DBClusterSnapshotAttributeList? = nil) {
-            self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
-            self.dBClusterSnapshotAttributes = dBClusterSnapshotAttributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
-            case dBClusterSnapshotAttributes = "DBClusterSnapshotAttributes"
-        }
-    }
-
-    public struct DescribeDBLogFilesDetails: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastWritten", required: false, type: .long), 
-            AWSShapeMember(label: "Size", required: false, type: .long), 
-            AWSShapeMember(label: "LogFileName", required: false, type: .string)
-        ]
-        /// A POSIX timestamp when the last log entry was written.
-        public let lastWritten: Int64?
-        /// The size, in bytes, of the log file for the specified DB instance.
-        public let size: Int64?
-        /// The name of the log file for the specified DB instance.
-        public let logFileName: String?
-
-        public init(lastWritten: Int64? = nil, size: Int64? = nil, logFileName: String? = nil) {
-            self.lastWritten = lastWritten
-            self.size = size
-            self.logFileName = logFileName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastWritten = "LastWritten"
-            case size = "Size"
-            case logFileName = "LogFileName"
-        }
-    }
-
     public struct DBClusterOptionGroupStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "DBClusterOptionGroupName", required: false, type: .string)
         ]
@@ -5244,294 +7654,8 @@ extension Rds {
         }
     }
 
-    public struct DBInstance: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .structure), 
-            AWSShapeMember(label: "DomainMemberships", required: false, type: .structure), 
-            AWSShapeMember(label: "DBInstanceStatus", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroups", required: false, type: .structure), 
-            AWSShapeMember(label: "DBSecurityGroups", required: false, type: .structure), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "CharacterSetName", required: false, type: .string), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "LatestRestorableTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "DbiResourceId", required: false, type: .string), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .structure), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "InstanceCreateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "DbInstancePort", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "IAMDatabaseAuthenticationEnabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "StatusInfos", required: false, type: .structure), 
-            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
-            AWSShapeMember(label: "SecondaryAvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "ReadReplicaDBInstanceIdentifiers", required: false, type: .structure), 
-            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .structure), 
-            AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
-            AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBName", required: false, type: .string), 
-            AWSShapeMember(label: "EnhancedMonitoringResourceArn", required: false, type: .string), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "OptionGroupMemberships", required: false, type: .structure), 
-            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "PromotionTier", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DBInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
-            AWSShapeMember(label: "ReadReplicaSourceDBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Timezone", required: false, type: .string), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "ReadReplicaDBClusterIdentifiers", required: false, type: .structure)
-        ]
-        /// Provides a list of VPC security group elements that the DB instance belongs to.
-        public let vpcSecurityGroups: VpcSecurityGroupMembershipList?
-        /// The Active Directory Domain membership records associated with the DB instance.
-        public let domainMemberships: DomainMembershipList?
-        /// Specifies the current state of this database.
-        public let dBInstanceStatus: String?
-        /// Provides the list of DB parameter groups applied to this DB instance.
-        public let dBParameterGroups: DBParameterGroupStatusList?
-        ///  Provides List of DB security group elements containing only DBSecurityGroup.Name and DBSecurityGroup.Status subelements. 
-        public let dBSecurityGroups: DBSecurityGroupMembershipList?
-        /// Specifies the name of the Availability Zone the DB instance is located in.
-        public let availabilityZone: String?
-        /// If present, specifies the name of the character set that this instance is associated with.
-        public let characterSetName: String?
-        /// Indicates that minor version patches are applied automatically.
-        public let autoMinorVersionUpgrade: Bool?
-        /// Specifies the Provisioned IOPS (I/O operations per second) value.
-        public let iops: Int32?
-        /// If the DB instance is a member of a DB cluster, contains the name of the DB cluster that the DB instance is a member of.
-        public let dBClusterIdentifier: String?
-        /// Indicates the database engine version.
-        public let engineVersion: String?
-        /// Specifies the latest time to which a database can be restored with point-in-time restore.
-        public let latestRestorableTime: TimeStamp?
-        /// The region-unique, immutable identifier for the DB instance. This identifier is found in AWS CloudTrail log entries whenever the KMS key for the DB instance is accessed.
-        public let dbiResourceId: String?
-        /// Specifies the connection endpoint.
-        public let endpoint: Endpoint?
-        /// Contains the name of the compute and memory capacity class of the DB instance.
-        public let dBInstanceClass: String?
-        /// Provides the date and time the DB instance was created.
-        public let instanceCreateTime: TimeStamp?
-        /// Specifies if the DB instance is a Multi-AZ deployment.
-        public let multiAZ: Bool?
-        /// Specifies the allocated storage size specified in gigabytes.
-        public let allocatedStorage: Int32?
-        /// License model information for this DB instance.
-        public let licenseModel: String?
-        /// Specifies the port that the DB instance listens on. If the DB instance is part of a DB cluster, this can be a different port than the DB cluster port.
-        public let dbInstancePort: Int32?
-        ///  Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod. 
-        public let preferredBackupWindow: String?
-        /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled; otherwise false. IAM database authentication can be enabled for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora 5.6 or higher. To enable IAM database authentication for Aurora, see DBCluster Type.  
-        public let iAMDatabaseAuthenticationEnabled: Bool?
-        /// The ARN for the IAM role that permits RDS to send Enhanced Monitoring metrics to CloudWatch Logs.
-        public let monitoringRoleArn: String?
-        /// The status of a Read Replica. If the instance is not a Read Replica, this will be blank.
-        public let statusInfos: DBInstanceStatusInfoList?
-        /// Contains the master username for the DB instance.
-        public let masterUsername: String?
-        /// If present, specifies the name of the secondary Availability Zone for a DB instance with multi-AZ support.
-        public let secondaryAvailabilityZone: String?
-        /// Provides the name of the database engine to be used for this DB instance.
-        public let engine: String?
-        /// Contains one or more identifiers of the Read Replicas associated with this DB instance.
-        public let readReplicaDBInstanceIdentifiers: ReadReplicaDBInstanceIdentifierList?
-        /// Specifies information on the subnet group associated with the DB instance, including the name, description, and subnets in the subnet group.
-        public let dBSubnetGroup: DBSubnetGroup?
-        /// Specifies whether the DB instance is encrypted.
-        public let storageEncrypted: Bool?
-        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance.
-        public let monitoringInterval: Int32?
-        /// Contains a user-supplied database identifier. This identifier is the unique key that identifies a DB instance.
-        public let dBInstanceIdentifier: String?
-        /// The meaning of this parameter differs according to the database engine you use. For example, this value returns MySQL, MariaDB, or PostgreSQL information when returning values from CreateDBInstanceReadReplica since Read Replicas are only supported for these engines.  MySQL, MariaDB, SQL Server, PostgreSQL  Contains the name of the initial database of this instance that was provided at create time, if one was specified when the DB instance was created. This same name is returned for the life of the DB instance. Type: String  Oracle  Contains the Oracle System ID (SID) of the created DB instance. Not shown when the returned parameters do not apply to an Oracle DB instance.
-        public let dBName: String?
-        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log stream that receives the Enhanced Monitoring metrics data for the DB instance.
-        public let enhancedMonitoringResourceArn: String?
-        /// Specifies the number of days for which automatic DB snapshots are retained.
-        public let backupRetentionPeriod: Int32?
-        /// Provides the list of option group memberships for this DB instance.
-        public let optionGroupMemberships: OptionGroupMembershipList?
-        /// The identifier of the CA certificate for this DB instance.
-        public let cACertificateIdentifier: String?
-        /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster. 
-        public let promotionTier: Int32?
-        /// Specifies the weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
-        public let preferredMaintenanceWindow: String?
-        /// Specifies whether tags are copied from the DB instance to snapshots of the DB instance.
-        public let copyTagsToSnapshot: Bool?
-        /// The Amazon Resource Name (ARN) for the DB instance.
-        public let dBInstanceArn: String?
-        ///  If StorageEncrypted is true, the KMS key identifier for the encrypted DB instance. 
-        public let kmsKeyId: String?
-        /// Specifies that changes to the DB instance are pending. This element is only included when changes are pending. Specific changes are identified by subelements.
-        public let pendingModifiedValues: PendingModifiedValues?
-        /// Contains the identifier of the source DB instance if this DB instance is a Read Replica.
-        public let readReplicaSourceDBInstanceIdentifier: String?
-        /// The time zone of the DB instance. In most cases, the Timezone element is empty. Timezone content appears only for Microsoft SQL Server DB instances that were created with a time zone specified. 
-        public let timezone: String?
-        /// Specifies the storage type associated with DB instance.
-        public let storageType: String?
-        /// The ARN from the key store with which the instance is associated for TDE encryption.
-        public let tdeCredentialArn: String?
-        /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC:true    VPC:false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
-        public let publiclyAccessible: Bool?
-        /// Contains one or more identifiers of Aurora DB clusters that are Read Replicas of this DB instance.
-        public let readReplicaDBClusterIdentifiers: ReadReplicaDBClusterIdentifierList?
-
-        public init(vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, domainMemberships: DomainMembershipList? = nil, dBInstanceStatus: String? = nil, dBParameterGroups: DBParameterGroupStatusList? = nil, dBSecurityGroups: DBSecurityGroupMembershipList? = nil, availabilityZone: String? = nil, characterSetName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, iops: Int32? = nil, dBClusterIdentifier: String? = nil, engineVersion: String? = nil, latestRestorableTime: TimeStamp? = nil, dbiResourceId: String? = nil, endpoint: Endpoint? = nil, dBInstanceClass: String? = nil, instanceCreateTime: TimeStamp? = nil, multiAZ: Bool? = nil, allocatedStorage: Int32? = nil, licenseModel: String? = nil, dbInstancePort: Int32? = nil, preferredBackupWindow: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, monitoringRoleArn: String? = nil, statusInfos: DBInstanceStatusInfoList? = nil, masterUsername: String? = nil, secondaryAvailabilityZone: String? = nil, engine: String? = nil, readReplicaDBInstanceIdentifiers: ReadReplicaDBInstanceIdentifierList? = nil, dBSubnetGroup: DBSubnetGroup? = nil, storageEncrypted: Bool? = nil, monitoringInterval: Int32? = nil, dBInstanceIdentifier: String? = nil, dBName: String? = nil, enhancedMonitoringResourceArn: String? = nil, backupRetentionPeriod: Int32? = nil, optionGroupMemberships: OptionGroupMembershipList? = nil, cACertificateIdentifier: String? = nil, promotionTier: Int32? = nil, preferredMaintenanceWindow: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceArn: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, timezone: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: ReadReplicaDBClusterIdentifierList? = nil) {
-            self.vpcSecurityGroups = vpcSecurityGroups
-            self.domainMemberships = domainMemberships
-            self.dBInstanceStatus = dBInstanceStatus
-            self.dBParameterGroups = dBParameterGroups
-            self.dBSecurityGroups = dBSecurityGroups
-            self.availabilityZone = availabilityZone
-            self.characterSetName = characterSetName
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.iops = iops
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.engineVersion = engineVersion
-            self.latestRestorableTime = latestRestorableTime
-            self.dbiResourceId = dbiResourceId
-            self.endpoint = endpoint
-            self.dBInstanceClass = dBInstanceClass
-            self.instanceCreateTime = instanceCreateTime
-            self.multiAZ = multiAZ
-            self.allocatedStorage = allocatedStorage
-            self.licenseModel = licenseModel
-            self.dbInstancePort = dbInstancePort
-            self.preferredBackupWindow = preferredBackupWindow
-            self.iAMDatabaseAuthenticationEnabled = iAMDatabaseAuthenticationEnabled
-            self.monitoringRoleArn = monitoringRoleArn
-            self.statusInfos = statusInfos
-            self.masterUsername = masterUsername
-            self.secondaryAvailabilityZone = secondaryAvailabilityZone
-            self.engine = engine
-            self.readReplicaDBInstanceIdentifiers = readReplicaDBInstanceIdentifiers
-            self.dBSubnetGroup = dBSubnetGroup
-            self.storageEncrypted = storageEncrypted
-            self.monitoringInterval = monitoringInterval
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-            self.dBName = dBName
-            self.enhancedMonitoringResourceArn = enhancedMonitoringResourceArn
-            self.backupRetentionPeriod = backupRetentionPeriod
-            self.optionGroupMemberships = optionGroupMemberships
-            self.cACertificateIdentifier = cACertificateIdentifier
-            self.promotionTier = promotionTier
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.copyTagsToSnapshot = copyTagsToSnapshot
-            self.dBInstanceArn = dBInstanceArn
-            self.kmsKeyId = kmsKeyId
-            self.pendingModifiedValues = pendingModifiedValues
-            self.readReplicaSourceDBInstanceIdentifier = readReplicaSourceDBInstanceIdentifier
-            self.timezone = timezone
-            self.storageType = storageType
-            self.tdeCredentialArn = tdeCredentialArn
-            self.publiclyAccessible = publiclyAccessible
-            self.readReplicaDBClusterIdentifiers = readReplicaDBClusterIdentifiers
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vpcSecurityGroups = "VpcSecurityGroups"
-            case domainMemberships = "DomainMemberships"
-            case dBInstanceStatus = "DBInstanceStatus"
-            case dBParameterGroups = "DBParameterGroups"
-            case dBSecurityGroups = "DBSecurityGroups"
-            case availabilityZone = "AvailabilityZone"
-            case characterSetName = "CharacterSetName"
-            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
-            case iops = "Iops"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case engineVersion = "EngineVersion"
-            case latestRestorableTime = "LatestRestorableTime"
-            case dbiResourceId = "DbiResourceId"
-            case endpoint = "Endpoint"
-            case dBInstanceClass = "DBInstanceClass"
-            case instanceCreateTime = "InstanceCreateTime"
-            case multiAZ = "MultiAZ"
-            case allocatedStorage = "AllocatedStorage"
-            case licenseModel = "LicenseModel"
-            case dbInstancePort = "DbInstancePort"
-            case preferredBackupWindow = "PreferredBackupWindow"
-            case iAMDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
-            case monitoringRoleArn = "MonitoringRoleArn"
-            case statusInfos = "StatusInfos"
-            case masterUsername = "MasterUsername"
-            case secondaryAvailabilityZone = "SecondaryAvailabilityZone"
-            case engine = "Engine"
-            case readReplicaDBInstanceIdentifiers = "ReadReplicaDBInstanceIdentifiers"
-            case dBSubnetGroup = "DBSubnetGroup"
-            case storageEncrypted = "StorageEncrypted"
-            case monitoringInterval = "MonitoringInterval"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
-            case dBName = "DBName"
-            case enhancedMonitoringResourceArn = "EnhancedMonitoringResourceArn"
-            case backupRetentionPeriod = "BackupRetentionPeriod"
-            case optionGroupMemberships = "OptionGroupMemberships"
-            case cACertificateIdentifier = "CACertificateIdentifier"
-            case promotionTier = "PromotionTier"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case copyTagsToSnapshot = "CopyTagsToSnapshot"
-            case dBInstanceArn = "DBInstanceArn"
-            case kmsKeyId = "KmsKeyId"
-            case pendingModifiedValues = "PendingModifiedValues"
-            case readReplicaSourceDBInstanceIdentifier = "ReadReplicaSourceDBInstanceIdentifier"
-            case timezone = "Timezone"
-            case storageType = "StorageType"
-            case tdeCredentialArn = "TdeCredentialArn"
-            case publiclyAccessible = "PubliclyAccessible"
-            case readReplicaDBClusterIdentifiers = "ReadReplicaDBClusterIdentifiers"
-        }
-    }
-
-    public struct ModifyDBSnapshotAttributeResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshotAttributesResult", required: false, type: .structure)
-        ]
-        public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
-
-        public init(dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil) {
-            self.dBSnapshotAttributesResult = dBSnapshotAttributesResult
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSnapshotAttributesResult = "DBSnapshotAttributesResult"
-        }
-    }
-
-    public struct RevokeDBSecurityGroupIngressResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSecurityGroup", required: false, type: .structure)
-        ]
-        public let dBSecurityGroup: DBSecurityGroup?
-
-        public init(dBSecurityGroup: DBSecurityGroup? = nil) {
-            self.dBSecurityGroup = dBSecurityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSecurityGroup = "DBSecurityGroup"
-        }
-    }
-
     public struct UpgradeTarget: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Engine", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
@@ -5544,9 +7668,9 @@ extension Rds {
         public let description: String?
         /// The version number of the upgrade target database engine.
         public let engineVersion: String?
-        /// A value that indicates whether the target version will be applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
+        /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
         public let autoUpgrade: Bool?
-        /// A value that indicates whether a database engine will be upgraded to a major version.
+        /// A value that indicates whether a database engine is upgraded to a major version.
         public let isMajorVersionUpgrade: Bool?
 
         public init(engine: String? = nil, description: String? = nil, engineVersion: String? = nil, autoUpgrade: Bool? = nil, isMajorVersionUpgrade: Bool? = nil) {
@@ -5567,7 +7691,7 @@ extension Rds {
     }
 
     public struct DBSecurityGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "DBSecurityGroups", required: false, type: .structure)
         ]
@@ -5587,110 +7711,19 @@ extension Rds {
         }
     }
 
-    public struct ApplyPendingMaintenanceActionResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourcePendingMaintenanceActions", required: false, type: .structure)
-        ]
-        public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
-
-        public init(resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil) {
-            self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourcePendingMaintenanceActions = "ResourcePendingMaintenanceActions"
-        }
-    }
-
-    public struct SourceRegionList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceRegion", required: false, type: .list)
-        ]
-        public let sourceRegion: [SourceRegion]?
-
-        public init(sourceRegion: [SourceRegion]? = nil) {
-            self.sourceRegion = sourceRegion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceRegion = "SourceRegion"
-        }
-    }
-
     public struct DescribeAccountAttributesMessage: AWSShape {
 
     }
 
-    public struct DescribeOptionGroupOptionsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "EngineName", required: true, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MajorEngineVersion", required: false, type: .string)
-        ]
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        /// This parameter is not currently supported.
-        public let filters: FilterList?
-        /// A required parameter. Options available for the given engine name will be described.
-        public let engineName: String
-        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public let marker: String?
-        /// If specified, filters the results to include only options for the specified major engine version.
-        public let majorEngineVersion: String?
-
-        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, engineName: String, marker: String? = nil, majorEngineVersion: String? = nil) {
-            self.maxRecords = maxRecords
-            self.filters = filters
-            self.engineName = engineName
-            self.marker = marker
-            self.majorEngineVersion = majorEngineVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case filters = "Filters"
-            case engineName = "EngineName"
-            case marker = "Marker"
-            case majorEngineVersion = "MajorEngineVersion"
-        }
-    }
-
-    public struct CreateDBSnapshotMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
-            AWSShapeMember(label: "DBSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
-        ]
-        public let tags: TagList?
-        /// The identifier for the DB snapshot. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
-        public let dBSnapshotIdentifier: String
-        /// The DB instance identifier. This is the unique key that identifies a DB instance. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let dBInstanceIdentifier: String
-
-        public init(tags: TagList? = nil, dBSnapshotIdentifier: String, dBInstanceIdentifier: String) {
-            self.tags = tags
-            self.dBSnapshotIdentifier = dBSnapshotIdentifier
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-            case dBSnapshotIdentifier = "DBSnapshotIdentifier"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
-        }
-    }
-
     public struct CreateOptionGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OptionGroupName", required: true, type: .string), 
             AWSShapeMember(label: "EngineName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .structure), 
             AWSShapeMember(label: "OptionGroupDescription", required: true, type: .string), 
             AWSShapeMember(label: "MajorEngineVersion", required: true, type: .string)
         ]
-        /// Specifies the name of the option group to be created. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: myoptiongroup 
+        /// Specifies the name of the option group to be created. Constraints:   Must be 1 to 255 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: myoptiongroup 
         public let optionGroupName: String
         /// Specifies the name of the engine that this option group should be associated with.
         public let engineName: String
@@ -5718,7 +7751,7 @@ extension Rds {
     }
 
     public struct CertificateList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Certificate", required: false, type: .list)
         ]
         public let certificate: [Certificate]?
@@ -5732,209 +7765,8 @@ extension Rds {
         }
     }
 
-    public struct DescribeDBClusterParameterGroupsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        /// This parameter is not currently supported.
-        public let filters: FilterList?
-        /// The name of a specific DB cluster parameter group to return details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let dBClusterParameterGroupName: String?
-        ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-
-        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, dBClusterParameterGroupName: String? = nil, marker: String? = nil) {
-            self.maxRecords = maxRecords
-            self.filters = filters
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case filters = "Filters"
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
-            case marker = "Marker"
-        }
-    }
-
-    public struct DescribeSourceRegionsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "RegionName", required: false, type: .string)
-        ]
-        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        /// This parameter is not currently supported.
-        public let filters: FilterList?
-        ///  An optional pagination token provided by a previous DescribeSourceRegions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public let marker: String?
-        /// The source region name. For example, us-east-1. Constraints:   Must specify a valid AWS Region name.  
-        public let regionName: String?
-
-        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, marker: String? = nil, regionName: String? = nil) {
-            self.maxRecords = maxRecords
-            self.filters = filters
-            self.marker = marker
-            self.regionName = regionName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case filters = "Filters"
-            case marker = "Marker"
-            case regionName = "RegionName"
-        }
-    }
-
-    public struct Certificate: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeMember(label: "Thumbprint", required: false, type: .string), 
-            AWSShapeMember(label: "ValidFrom", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ValidTill", required: false, type: .timestamp), 
-            AWSShapeMember(label: "CertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateType", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) for the certificate.
-        public let certificateArn: String?
-        /// The thumbprint of the certificate.
-        public let thumbprint: String?
-        /// The starting date from which the certificate is valid.
-        public let validFrom: TimeStamp?
-        /// The final date that the certificate continues to be valid.
-        public let validTill: TimeStamp?
-        /// The unique key that identifies a certificate.
-        public let certificateIdentifier: String?
-        /// The type of the certificate.
-        public let certificateType: String?
-
-        public init(certificateArn: String? = nil, thumbprint: String? = nil, validFrom: TimeStamp? = nil, validTill: TimeStamp? = nil, certificateIdentifier: String? = nil, certificateType: String? = nil) {
-            self.certificateArn = certificateArn
-            self.thumbprint = thumbprint
-            self.validFrom = validFrom
-            self.validTill = validTill
-            self.certificateIdentifier = certificateIdentifier
-            self.certificateType = certificateType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateArn = "CertificateArn"
-            case thumbprint = "Thumbprint"
-            case validFrom = "ValidFrom"
-            case validTill = "ValidTill"
-            case certificateIdentifier = "CertificateIdentifier"
-            case certificateType = "CertificateType"
-        }
-    }
-
-    public struct ReservedDBInstancesOffering: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
-            AWSShapeMember(label: "RecurringCharges", required: false, type: .structure), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "UsagePrice", required: false, type: .double), 
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedDBInstancesOfferingId", required: false, type: .string), 
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
-            AWSShapeMember(label: "FixedPrice", required: false, type: .double), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string)
-        ]
-        /// The database engine used by the offering.
-        public let productDescription: String?
-        /// The recurring price charged to run this reserved DB instance.
-        public let recurringCharges: RecurringChargeList?
-        /// Indicates if the offering applies to Multi-AZ deployments.
-        public let multiAZ: Bool?
-        /// The hourly price charged for this offering.
-        public let usagePrice: Double?
-        /// The currency code for the reserved DB instance offering.
-        public let currencyCode: String?
-        /// The offering identifier.
-        public let reservedDBInstancesOfferingId: String?
-        /// The duration of the offering in seconds.
-        public let duration: Int32?
-        /// The offering type.
-        public let offeringType: String?
-        /// The fixed price charged for this offering.
-        public let fixedPrice: Double?
-        /// The DB instance class for the reserved DB instance.
-        public let dBInstanceClass: String?
-
-        public init(productDescription: String? = nil, recurringCharges: RecurringChargeList? = nil, multiAZ: Bool? = nil, usagePrice: Double? = nil, currencyCode: String? = nil, reservedDBInstancesOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil, dBInstanceClass: String? = nil) {
-            self.productDescription = productDescription
-            self.recurringCharges = recurringCharges
-            self.multiAZ = multiAZ
-            self.usagePrice = usagePrice
-            self.currencyCode = currencyCode
-            self.reservedDBInstancesOfferingId = reservedDBInstancesOfferingId
-            self.duration = duration
-            self.offeringType = offeringType
-            self.fixedPrice = fixedPrice
-            self.dBInstanceClass = dBInstanceClass
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case productDescription = "ProductDescription"
-            case recurringCharges = "RecurringCharges"
-            case multiAZ = "MultiAZ"
-            case usagePrice = "UsagePrice"
-            case currencyCode = "CurrencyCode"
-            case reservedDBInstancesOfferingId = "ReservedDBInstancesOfferingId"
-            case duration = "Duration"
-            case offeringType = "OfferingType"
-            case fixedPrice = "FixedPrice"
-            case dBInstanceClass = "DBInstanceClass"
-        }
-    }
-
-    public struct AvailabilityZone: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string)
-        ]
-        /// The name of the availability zone.
-        public let name: String?
-
-        public init(name: String? = nil) {
-            self.name = name
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-        }
-    }
-
-    public struct CharacterSet: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CharacterSetDescription", required: false, type: .string), 
-            AWSShapeMember(label: "CharacterSetName", required: false, type: .string)
-        ]
-        /// The description of the character set.
-        public let characterSetDescription: String?
-        /// The name of the character set.
-        public let characterSetName: String?
-
-        public init(characterSetDescription: String? = nil, characterSetName: String? = nil) {
-            self.characterSetDescription = characterSetDescription
-            self.characterSetName = characterSetName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case characterSetDescription = "CharacterSetDescription"
-            case characterSetName = "CharacterSetName"
-        }
-    }
-
     public struct ModifyEventSubscriptionMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
             AWSShapeMember(label: "SourceType", required: false, type: .string), 
@@ -5945,7 +7777,7 @@ extension Rds {
         public let snsTopicArn: String?
         /// The name of the RDS event notification subscription.
         public let subscriptionName: String
-        /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. if this value is not specified, all events are returned. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
+        /// The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. if this value is not specified, all events are returned. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
         public let sourceType: String?
         ///  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType in the Events topic in the Amazon RDS User Guide or by using the DescribeEventCategories action. 
         public let eventCategories: EventCategoriesList?
@@ -5969,260 +7801,35 @@ extension Rds {
         }
     }
 
-    public struct RestoreDBInstanceToPointInTimeMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "DBName", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "TdeCredentialPassword", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
-            AWSShapeMember(label: "RestoreTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "TargetDBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "Engine", required: false, type: .string), 
-            AWSShapeMember(label: "DomainIAMRoleName", required: false, type: .string), 
-            AWSShapeMember(label: "UseLatestRestorableTime", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceDBInstanceIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string)
+    public struct CharacterSet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CharacterSetDescription", required: false, type: .string), 
+            AWSShapeMember(label: "CharacterSetName", required: false, type: .string)
         ]
-        /// Specify the Active Directory Domain to restore the instance in.
-        public let domain: String?
-        /// The port number on which the database accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB instance.
-        public let port: Int32?
-        /// The database name for the restored DB instance.  This parameter is not used for the MySQL or MariaDB engines. 
-        public let dBName: String?
-        /// Specifies if the DB instance is a Multi-AZ deployment. Constraint: You cannot specify the AvailabilityZone parameter if the MultiAZ parameter is set to true.
-        public let multiAZ: Bool?
-        /// The password for the given ARN from the Key Store in order to access the device.
-        public let tdeCredentialPassword: String?
-        public let tags: TagList?
-        /// License model information for the restored DB instance. Default: Same as source.  Valid values: license-included | bring-your-own-license | general-public-license 
-        public let licenseModel: String?
-        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
-        public let storageType: String?
-        /// The ARN from the Key Store with which to associate the instance for TDE encryption.
-        public let tdeCredentialArn: String?
-        /// The date and time to restore from. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Cannot be specified if UseLatestRestorableTime parameter is true   Example: 2009-09-07T23:45:00Z 
-        public let restoreTime: TimeStamp?
-        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. Constraints: Must be an integer greater than 1000.  SQL Server  Setting the IOPS value for the SQL Server database engine is not supported.
-        public let iops: Int32?
-        /// The EC2 Availability Zone that the database instance will be created in. Default: A random, system-chosen Availability Zone. Constraint: You cannot specify the AvailabilityZone parameter if the MultiAZ parameter is set to true. Example: us-east-1a 
-        public let availabilityZone: String?
-        /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC:true    VPC:false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
-        public let publiclyAccessible: Bool?
-        /// Indicates that minor version upgrades will be applied automatically to the DB instance during the maintenance window.
-        public let autoMinorVersionUpgrade: Bool?
-        /// The name of the new database instance to be created. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let targetDBInstanceIdentifier: String
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts; otherwise false.  You can enable IAM database authentication for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora 5.6 or higher.   Default: false 
-        public let enableIAMDatabaseAuthentication: Bool?
-        /// The name of the option group to be used for the restored DB instance. Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
-        public let optionGroupName: String?
-        /// The DB subnet group name to use for the new instance. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public let dBSubnetGroupName: String?
-        /// True to copy all tags from the restored DB instance to snapshots of the DB instance; otherwise false. The default is false.
-        public let copyTagsToSnapshot: Bool?
-        /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source  Valid Values: MySQL | mariadb | oracle-se1 | oracle-se | oracle-ee | sqlserver-ee | sqlserver-se | sqlserver-ex | sqlserver-web | postgres | aurora 
-        public let engine: String?
-        /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
-        public let domainIAMRoleName: String?
-        ///  Specifies whether (true) or not (false) the DB instance is restored from the latest backup time.  Default: false  Constraints: Cannot be specified if RestoreTime parameter is provided.
-        public let useLatestRestorableTime: Bool?
-        /// The identifier of the source DB instance from which to restore. Constraints:   Must be the identifier of an existing database instance   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let sourceDBInstanceIdentifier: String
-        /// The compute and memory capacity of the Amazon RDS DB instance. Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large  Default: The same DBInstanceClass as the original DB instance.
-        public let dBInstanceClass: String?
+        /// The description of the character set.
+        public let characterSetDescription: String?
+        /// The name of the character set.
+        public let characterSetName: String?
 
-        public init(domain: String? = nil, port: Int32? = nil, dBName: String? = nil, multiAZ: Bool? = nil, tdeCredentialPassword: String? = nil, tags: TagList? = nil, licenseModel: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, restoreTime: TimeStamp? = nil, iops: Int32? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, targetDBInstanceIdentifier: String, enableIAMDatabaseAuthentication: Bool? = nil, optionGroupName: String? = nil, dBSubnetGroupName: String? = nil, copyTagsToSnapshot: Bool? = nil, engine: String? = nil, domainIAMRoleName: String? = nil, useLatestRestorableTime: Bool? = nil, sourceDBInstanceIdentifier: String, dBInstanceClass: String? = nil) {
-            self.domain = domain
-            self.port = port
-            self.dBName = dBName
-            self.multiAZ = multiAZ
-            self.tdeCredentialPassword = tdeCredentialPassword
-            self.tags = tags
-            self.licenseModel = licenseModel
-            self.storageType = storageType
-            self.tdeCredentialArn = tdeCredentialArn
-            self.restoreTime = restoreTime
-            self.iops = iops
-            self.availabilityZone = availabilityZone
-            self.publiclyAccessible = publiclyAccessible
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.targetDBInstanceIdentifier = targetDBInstanceIdentifier
-            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
-            self.optionGroupName = optionGroupName
-            self.dBSubnetGroupName = dBSubnetGroupName
-            self.copyTagsToSnapshot = copyTagsToSnapshot
-            self.engine = engine
-            self.domainIAMRoleName = domainIAMRoleName
-            self.useLatestRestorableTime = useLatestRestorableTime
-            self.sourceDBInstanceIdentifier = sourceDBInstanceIdentifier
-            self.dBInstanceClass = dBInstanceClass
+        public init(characterSetDescription: String? = nil, characterSetName: String? = nil) {
+            self.characterSetDescription = characterSetDescription
+            self.characterSetName = characterSetName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain = "Domain"
-            case port = "Port"
-            case dBName = "DBName"
-            case multiAZ = "MultiAZ"
-            case tdeCredentialPassword = "TdeCredentialPassword"
-            case tags = "Tags"
-            case licenseModel = "LicenseModel"
-            case storageType = "StorageType"
-            case tdeCredentialArn = "TdeCredentialArn"
-            case restoreTime = "RestoreTime"
-            case iops = "Iops"
-            case availabilityZone = "AvailabilityZone"
-            case publiclyAccessible = "PubliclyAccessible"
-            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
-            case targetDBInstanceIdentifier = "TargetDBInstanceIdentifier"
-            case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
-            case optionGroupName = "OptionGroupName"
-            case dBSubnetGroupName = "DBSubnetGroupName"
-            case copyTagsToSnapshot = "CopyTagsToSnapshot"
-            case engine = "Engine"
-            case domainIAMRoleName = "DomainIAMRoleName"
-            case useLatestRestorableTime = "UseLatestRestorableTime"
-            case sourceDBInstanceIdentifier = "SourceDBInstanceIdentifier"
-            case dBInstanceClass = "DBInstanceClass"
-        }
-    }
-
-    public struct CreateDBInstanceResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
-        public let dBInstance: DBInstance?
-
-        public init(dBInstance: DBInstance? = nil) {
-            self.dBInstance = dBInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBInstance = "DBInstance"
-        }
-    }
-
-    public struct StopDBInstanceResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstance", required: false, type: .structure)
-        ]
-        public let dBInstance: DBInstance?
-
-        public init(dBInstance: DBInstance? = nil) {
-            self.dBInstance = dBInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBInstance = "DBInstance"
-        }
-    }
-
-    public struct ReservedDBInstance: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RecurringCharges", required: false, type: .structure), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "UsagePrice", required: false, type: .double), 
-            AWSShapeMember(label: "State", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedDBInstanceArn", required: false, type: .string), 
-            AWSShapeMember(label: "OfferingType", required: false, type: .string), 
-            AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
-            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "ReservedDBInstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedDBInstancesOfferingId", required: false, type: .string), 
-            AWSShapeMember(label: "Duration", required: false, type: .integer), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "FixedPrice", required: false, type: .double)
-        ]
-        /// The recurring price charged to run this reserved DB instance.
-        public let recurringCharges: RecurringChargeList?
-        /// Indicates if the reservation applies to Multi-AZ deployments.
-        public let multiAZ: Bool?
-        /// The hourly price charged for this reserved DB instance.
-        public let usagePrice: Double?
-        /// The state of the reserved DB instance.
-        public let state: String?
-        /// The Amazon Resource Name (ARN) for the reserved DB instance.
-        public let reservedDBInstanceArn: String?
-        /// The offering type of this reserved DB instance.
-        public let offeringType: String?
-        /// The description of the reserved DB instance.
-        public let productDescription: String?
-        /// The time the reservation started.
-        public let startTime: TimeStamp?
-        /// The unique identifier for the reservation.
-        public let reservedDBInstanceId: String?
-        /// The number of reserved DB instances.
-        public let dBInstanceCount: Int32?
-        /// The currency code for the reserved DB instance.
-        public let currencyCode: String?
-        /// The offering identifier.
-        public let reservedDBInstancesOfferingId: String?
-        /// The duration of the reservation in seconds.
-        public let duration: Int32?
-        /// The DB instance class for the reserved DB instance.
-        public let dBInstanceClass: String?
-        /// The fixed price charged for this reserved DB instance.
-        public let fixedPrice: Double?
-
-        public init(recurringCharges: RecurringChargeList? = nil, multiAZ: Bool? = nil, usagePrice: Double? = nil, state: String? = nil, reservedDBInstanceArn: String? = nil, offeringType: String? = nil, productDescription: String? = nil, startTime: TimeStamp? = nil, reservedDBInstanceId: String? = nil, dBInstanceCount: Int32? = nil, currencyCode: String? = nil, reservedDBInstancesOfferingId: String? = nil, duration: Int32? = nil, dBInstanceClass: String? = nil, fixedPrice: Double? = nil) {
-            self.recurringCharges = recurringCharges
-            self.multiAZ = multiAZ
-            self.usagePrice = usagePrice
-            self.state = state
-            self.reservedDBInstanceArn = reservedDBInstanceArn
-            self.offeringType = offeringType
-            self.productDescription = productDescription
-            self.startTime = startTime
-            self.reservedDBInstanceId = reservedDBInstanceId
-            self.dBInstanceCount = dBInstanceCount
-            self.currencyCode = currencyCode
-            self.reservedDBInstancesOfferingId = reservedDBInstancesOfferingId
-            self.duration = duration
-            self.dBInstanceClass = dBInstanceClass
-            self.fixedPrice = fixedPrice
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recurringCharges = "RecurringCharges"
-            case multiAZ = "MultiAZ"
-            case usagePrice = "UsagePrice"
-            case state = "State"
-            case reservedDBInstanceArn = "ReservedDBInstanceArn"
-            case offeringType = "OfferingType"
-            case productDescription = "ProductDescription"
-            case startTime = "StartTime"
-            case reservedDBInstanceId = "ReservedDBInstanceId"
-            case dBInstanceCount = "DBInstanceCount"
-            case currencyCode = "CurrencyCode"
-            case reservedDBInstancesOfferingId = "ReservedDBInstancesOfferingId"
-            case duration = "Duration"
-            case dBInstanceClass = "DBInstanceClass"
-            case fixedPrice = "FixedPrice"
+            case characterSetDescription = "CharacterSetDescription"
+            case characterSetName = "CharacterSetName"
         }
     }
 
     public struct ModifyDBParameterGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Parameters", required: true, type: .structure), 
             AWSShapeMember(label: "DBParameterGroupName", required: true, type: .string)
         ]
         /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-reboot   You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover. 
         public let parameters: ParametersList
-        /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        /// The name of the DB parameter group. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
         public let dBParameterGroupName: String
 
         public init(parameters: ParametersList, dBParameterGroupName: String) {
@@ -6237,7 +7844,7 @@ extension Rds {
     }
 
     public struct DescribeCertificatesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Filters", required: false, type: .structure), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -6249,7 +7856,7 @@ extension Rds {
         public let filters: FilterList?
         ///  An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        /// The user-supplied certificate identifier. If this parameter is specified, information for only the identified certificate is returned. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        /// The user-supplied certificate identifier. If this parameter is specified, information for only the identified certificate is returned. This parameter isn't case-sensitive. Constraints:   Must match an existing CertificateIdentifier.  
         public let certificateIdentifier: String?
 
         public init(maxRecords: Int32? = nil, filters: FilterList? = nil, marker: String? = nil, certificateIdentifier: String? = nil) {
@@ -6267,91 +7874,8 @@ extension Rds {
         }
     }
 
-    public struct DBSubnetGroups: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroup", required: false, type: .list)
-        ]
-        public let dBSubnetGroup: [DBSubnetGroup]?
-
-        public init(dBSubnetGroup: [DBSubnetGroup]? = nil) {
-            self.dBSubnetGroup = dBSubnetGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSubnetGroup = "DBSubnetGroup"
-        }
-    }
-
-    public struct RemoveRoleFromDBClusterMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole.
-        public let roleArn: String
-        /// The name of the DB cluster to disassociate the IAM role from.
-        public let dBClusterIdentifier: String
-
-        public init(roleArn: String, dBClusterIdentifier: String) {
-            self.roleArn = roleArn
-            self.dBClusterIdentifier = dBClusterIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleArn = "RoleArn"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-        }
-    }
-
-    public struct DeleteDBClusterParameterGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: true, type: .string)
-        ]
-        /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You cannot delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.  
-        public let dBClusterParameterGroupName: String
-
-        public init(dBClusterParameterGroupName: String) {
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
-        }
-    }
-
-    public struct DescribeDBSubnetGroupsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        /// This parameter is not currently supported.
-        public let filters: FilterList?
-        /// The name of the DB subnet group to return details for.
-        public let dBSubnetGroupName: String?
-        ///  An optional pagination token provided by a previous DescribeDBSubnetGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-
-        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, dBSubnetGroupName: String? = nil, marker: String? = nil) {
-            self.maxRecords = maxRecords
-            self.filters = filters
-            self.dBSubnetGroupName = dBSubnetGroupName
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case filters = "Filters"
-            case dBSubnetGroupName = "DBSubnetGroupName"
-            case marker = "Marker"
-        }
-    }
-
     public struct StopDBInstanceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBSnapshotIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
         ]
@@ -6371,64 +7895,8 @@ extension Rds {
         }
     }
 
-    public struct DescribeDBClusterSnapshotAttributesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterSnapshotAttributesResult", required: false, type: .structure)
-        ]
-        public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
-
-        public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
-            self.dBClusterSnapshotAttributesResult = dBClusterSnapshotAttributesResult
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBClusterSnapshotAttributesResult = "DBClusterSnapshotAttributesResult"
-        }
-    }
-
-    public struct OptionGroupOptionsList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionGroupOption", required: false, type: .list)
-        ]
-        public let optionGroupOption: [OptionGroupOption]?
-
-        public init(optionGroupOption: [OptionGroupOption]? = nil) {
-            self.optionGroupOption = optionGroupOption
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case optionGroupOption = "OptionGroupOption"
-        }
-    }
-
-    public struct SourceRegion: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Status", required: false, type: .string), 
-            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
-            AWSShapeMember(label: "RegionName", required: false, type: .string)
-        ]
-        /// The status of the source region.
-        public let status: String?
-        /// The source region endpoint.
-        public let endpoint: String?
-        /// The source region name.
-        public let regionName: String?
-
-        public init(status: String? = nil, endpoint: String? = nil, regionName: String? = nil) {
-            self.status = status
-            self.endpoint = endpoint
-            self.regionName = regionName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
-            case endpoint = "Endpoint"
-            case regionName = "RegionName"
-        }
-    }
-
     public struct ResourcePendingMaintenanceActions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "PendingMaintenanceActionDetails", required: false, type: .structure)
         ]
@@ -6449,10 +7917,10 @@ extension Rds {
     }
 
     public struct DeleteDBSecurityGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBSecurityGroupName", required: true, type: .string)
         ]
-        /// The name of the DB security group to delete.  You cannot delete the default DB security group.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Must not be "Default"  
+        /// The name of the DB security group to delete.  You can't delete the default DB security group.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Must not be "Default"  
         public let dBSecurityGroupName: String
 
         public init(dBSecurityGroupName: String) {
@@ -6464,23 +7932,8 @@ extension Rds {
         }
     }
 
-    public struct CreateDBSnapshotResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshot", required: false, type: .structure)
-        ]
-        public let dBSnapshot: DBSnapshot?
-
-        public init(dBSnapshot: DBSnapshot? = nil) {
-            self.dBSnapshot = dBSnapshot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSnapshot = "DBSnapshot"
-        }
-    }
-
     public struct DBSubnetGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "DBSubnetGroups", required: false, type: .structure)
         ]
@@ -6500,23 +7953,8 @@ extension Rds {
         }
     }
 
-    public struct RestoreDBClusterFromS3Result: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBCluster", required: false, type: .structure)
-        ]
-        public let dBCluster: DBCluster?
-
-        public init(dBCluster: DBCluster? = nil) {
-            self.dBCluster = dBCluster
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBCluster = "DBCluster"
-        }
-    }
-
     public struct DBSnapshotMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "DBSnapshots", required: false, type: .structure)
         ]
@@ -6537,7 +7975,7 @@ extension Rds {
     }
 
     public struct CopyDBClusterParameterGroupResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .structure)
         ]
         public let dBClusterParameterGroup: DBClusterParameterGroup?
@@ -6552,7 +7990,7 @@ extension Rds {
     }
 
     public struct DBSecurityGroupMembershipList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBSecurityGroup", required: false, type: .list)
         ]
         public let dBSecurityGroup: [DBSecurityGroupMembership]?
@@ -6566,53 +8004,8 @@ extension Rds {
         }
     }
 
-    public struct DBParameterGroupList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroup", required: false, type: .list)
-        ]
-        public let dBParameterGroup: [DBParameterGroup]?
-
-        public init(dBParameterGroup: [DBParameterGroup]? = nil) {
-            self.dBParameterGroup = dBParameterGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBParameterGroup = "DBParameterGroup"
-        }
-    }
-
-    public struct EC2SecurityGroupList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2SecurityGroup", required: false, type: .list)
-        ]
-        public let eC2SecurityGroup: [EC2SecurityGroup]?
-
-        public init(eC2SecurityGroup: [EC2SecurityGroup]? = nil) {
-            self.eC2SecurityGroup = eC2SecurityGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eC2SecurityGroup = "EC2SecurityGroup"
-        }
-    }
-
-    public struct AddSourceIdentifierToSubscriptionResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
-        ]
-        public let eventSubscription: EventSubscription?
-
-        public init(eventSubscription: EventSubscription? = nil) {
-            self.eventSubscription = eventSubscription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventSubscription = "EventSubscription"
-        }
-    }
-
     public struct DBSnapshotAttributesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBSnapshotAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "DBSnapshotIdentifier", required: false, type: .string)
         ]
@@ -6633,7 +8026,7 @@ extension Rds {
     }
 
     public struct AddRoleToDBClusterMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string)
         ]
@@ -6653,64 +8046,8 @@ extension Rds {
         }
     }
 
-    public struct ValidUpgradeTargetList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UpgradeTarget", required: false, type: .list)
-        ]
-        public let upgradeTarget: [UpgradeTarget]?
-
-        public init(upgradeTarget: [UpgradeTarget]? = nil) {
-            self.upgradeTarget = upgradeTarget
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case upgradeTarget = "UpgradeTarget"
-        }
-    }
-
-    public struct DBSubnetGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSubnetGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "SubnetGroupStatus", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupDescription", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "VpcId", required: false, type: .string), 
-            AWSShapeMember(label: "Subnets", required: false, type: .structure)
-        ]
-        /// The Amazon Resource Name (ARN) for the DB subnet group.
-        public let dBSubnetGroupArn: String?
-        /// Provides the status of the DB subnet group.
-        public let subnetGroupStatus: String?
-        /// Provides the description of the DB subnet group.
-        public let dBSubnetGroupDescription: String?
-        /// The name of the DB subnet group.
-        public let dBSubnetGroupName: String?
-        /// Provides the VpcId of the DB subnet group.
-        public let vpcId: String?
-        ///  Contains a list of Subnet elements. 
-        public let subnets: SubnetList?
-
-        public init(dBSubnetGroupArn: String? = nil, subnetGroupStatus: String? = nil, dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String? = nil, vpcId: String? = nil, subnets: SubnetList? = nil) {
-            self.dBSubnetGroupArn = dBSubnetGroupArn
-            self.subnetGroupStatus = subnetGroupStatus
-            self.dBSubnetGroupDescription = dBSubnetGroupDescription
-            self.dBSubnetGroupName = dBSubnetGroupName
-            self.vpcId = vpcId
-            self.subnets = subnets
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSubnetGroupArn = "DBSubnetGroupArn"
-            case subnetGroupStatus = "SubnetGroupStatus"
-            case dBSubnetGroupDescription = "DBSubnetGroupDescription"
-            case dBSubnetGroupName = "DBSubnetGroupName"
-            case vpcId = "VpcId"
-            case subnets = "Subnets"
-        }
-    }
-
     public struct RemoveSourceIdentifierFromSubscriptionMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourceIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
         ]
@@ -6730,74 +8067,23 @@ extension Rds {
         }
     }
 
-    public struct SubnetList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subnet", required: false, type: .list)
+    public struct DescribeValidDBInstanceModificationsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ValidDBInstanceModificationsMessage", required: false, type: .structure)
         ]
-        public let subnet: [Subnet]?
+        public let validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage?
 
-        public init(subnet: [Subnet]? = nil) {
-            self.subnet = subnet
+        public init(validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage? = nil) {
+            self.validDBInstanceModificationsMessage = validDBInstanceModificationsMessage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subnet = "Subnet"
-        }
-    }
-
-    public struct AuthorizeDBSecurityGroupIngressMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "DBSecurityGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroupId", required: false, type: .string), 
-            AWSShapeMember(label: "EC2SecurityGroupOwnerId", required: false, type: .string), 
-            AWSShapeMember(label: "CIDRIP", required: false, type: .string)
-        ]
-        ///  Name of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        public let eC2SecurityGroupName: String?
-        /// The name of the DB security group to add authorization to.
-        public let dBSecurityGroupName: String
-        ///  Id of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        public let eC2SecurityGroupId: String?
-        ///  AWS account number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        public let eC2SecurityGroupOwnerId: String?
-        /// The IP range to authorize.
-        public let cidrip: String?
-
-        public init(eC2SecurityGroupName: String? = nil, dBSecurityGroupName: String, eC2SecurityGroupId: String? = nil, eC2SecurityGroupOwnerId: String? = nil, cidrip: String? = nil) {
-            self.eC2SecurityGroupName = eC2SecurityGroupName
-            self.dBSecurityGroupName = dBSecurityGroupName
-            self.eC2SecurityGroupId = eC2SecurityGroupId
-            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
-            self.cidrip = cidrip
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eC2SecurityGroupName = "EC2SecurityGroupName"
-            case dBSecurityGroupName = "DBSecurityGroupName"
-            case eC2SecurityGroupId = "EC2SecurityGroupId"
-            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
-            case cidrip = "CIDRIP"
-        }
-    }
-
-    public struct ReadReplicaIdentifierList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReadReplicaIdentifier", required: false, type: .list)
-        ]
-        public let readReplicaIdentifier: [String]?
-
-        public init(readReplicaIdentifier: [String]? = nil) {
-            self.readReplicaIdentifier = readReplicaIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case readReplicaIdentifier = "ReadReplicaIdentifier"
+            case validDBInstanceModificationsMessage = "ValidDBInstanceModificationsMessage"
         }
     }
 
     public struct RestoreDBClusterFromS3Message: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MasterUserPassword", required: true, type: .string), 
             AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
             AWSShapeMember(label: "S3Prefix", required: false, type: .string), 
@@ -6832,15 +8118,15 @@ extension Rds {
         public let s3Prefix: String?
         /// A value that indicates that the restored DB cluster should be associated with the specified CharacterSet.
         public let characterSetName: String?
-        /// The name of the DB cluster to create from the source data in the S3 bucket. This parameter is isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
+        /// The name of the DB cluster to create from the source data in the Amazon S3 bucket. This parameter is isn't case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
         public let dBClusterIdentifier: String
         /// The version number of the database engine to use.  Aurora  Example: 5.6.10a 
         public let engineVersion: String?
-        /// A Boolean value that is true to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
+        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
-        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
+        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
-        /// The KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KM encryption key. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
+        /// The AWS KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KM encryption key. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
         /// A list of EC2 Availability Zones that instances in the restored DB cluster can be created in.
         public let availabilityZones: AvailabilityZones?
@@ -6851,23 +8137,23 @@ extension Rds {
         public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
         /// The identifier for the database engine that was backed up to create the files stored in the Amazon S3 bucket.  Valid values: mysql 
         public let sourceEngine: String
-        /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
         public let preferredBackupWindow: String?
         /// The name of the Amazon S3 bucket that contains the data used to create the Amazon Aurora DB cluster.
         public let s3BucketName: String
-        /// A value that indicates that the restored DB cluster should be associated with the specified option group. Permanent options cannot be removed from an option group. An option group cannot be removed from a DB cluster once it is associated with a DB cluster.
+        /// A value that indicates that the restored DB cluster should be associated with the specified option group. Permanent options can't be removed from an option group. An option group can't be removed from a DB cluster once it is associated with a DB cluster.
         public let optionGroupName: String?
-        /// The name of the master user for the restored DB cluster. Constraints:   Must be 1 to 16 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.  
+        /// The name of the master user for the restored DB cluster. Constraints:   Must be 1 to 16 letters or numbers.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.  
         public let masterUsername: String
-        /// A DB subnet group to associate with the restored DB cluster. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
+        /// A DB subnet group to associate with the restored DB cluster. Constraints: If supplied, must match the name of an existing DBSubnetGroup.  Example: mySubnetgroup 
         public let dBSubnetGroupName: String?
         /// The database name for the restored DB cluster.
         public let databaseName: String?
-        /// The name of the database engine to be used for the restored DB cluster. Valid Values: aurora 
+        /// The name of the database engine to be used for the restored DB cluster. Valid Values: aurora, aurora-postgresql 
         public let engine: String
         /// Specifies whether the restored DB cluster is encrypted.
         public let storageEncrypted: Bool?
-        /// The name of the DB cluster parameter group to associate with the restored DB cluster. If this argument is omitted, default.aurora5.6 will be used.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        /// The name of the DB cluster parameter group to associate with the restored DB cluster. If this argument is omitted, default.aurora5.6 is used.  Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
         public let dBClusterParameterGroupName: String?
         /// The port number on which the instances in the restored DB cluster accept connections.  Default: 3306 
         public let port: Int32?
@@ -6931,171 +8217,8 @@ extension Rds {
         }
     }
 
-    public struct ModifyDBClusterMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
-            AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "NewDBClusterIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer)
-        ]
-        /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.  Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
-        public let preferredBackupWindow: String?
-        /// The new password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
-        public let masterUserPassword: String?
-        /// The DB cluster identifier for the cluster being modified. This parameter is not case-sensitive. Constraints:   Must be the identifier for an existing DB cluster.   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
-        public let dBClusterIdentifier: String
-        /// A value that indicates that the DB cluster should be associated with the specified option group. Changing this parameter does not result in an outage except in the following case, and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. If the parameter change results in an option group that enables OEM, this change can cause a brief (sub-second) period during which new connections are rejected but existing connections are not interrupted.  Permanent options cannot be removed from an option group. The option group cannot be removed from a DB cluster once it is associated with a DB cluster.
-        public let optionGroupName: String?
-        /// A Boolean value that is true to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
-        public let enableIAMDatabaseAuthentication: Bool?
-        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
-        public let preferredMaintenanceWindow: String?
-        /// A list of VPC security groups that the DB cluster will belong to.
-        public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
-        /// The name of the DB cluster parameter group to use for the DB cluster.
-        public let dBClusterParameterGroupName: String?
-        /// A value that specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects the NewDBClusterIdentifier and MasterUserPassword values. If you set the ApplyImmediately parameter value to false, then changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false 
-        public let applyImmediately: Bool?
-        /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
-        public let backupRetentionPeriod: Int32?
-        /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster2 
-        public let newDBClusterIdentifier: String?
-        /// The port number on which the DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
-        public let port: Int32?
-
-        public init(preferredBackupWindow: String? = nil, masterUserPassword: String? = nil, dBClusterIdentifier: String, optionGroupName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, dBClusterParameterGroupName: String? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int32? = nil, newDBClusterIdentifier: String? = nil, port: Int32? = nil) {
-            self.preferredBackupWindow = preferredBackupWindow
-            self.masterUserPassword = masterUserPassword
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.optionGroupName = optionGroupName
-            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.vpcSecurityGroupIds = vpcSecurityGroupIds
-            self.dBClusterParameterGroupName = dBClusterParameterGroupName
-            self.applyImmediately = applyImmediately
-            self.backupRetentionPeriod = backupRetentionPeriod
-            self.newDBClusterIdentifier = newDBClusterIdentifier
-            self.port = port
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case preferredBackupWindow = "PreferredBackupWindow"
-            case masterUserPassword = "MasterUserPassword"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case optionGroupName = "OptionGroupName"
-            case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
-            case dBClusterParameterGroupName = "DBClusterParameterGroupName"
-            case applyImmediately = "ApplyImmediately"
-            case backupRetentionPeriod = "BackupRetentionPeriod"
-            case newDBClusterIdentifier = "NewDBClusterIdentifier"
-            case port = "Port"
-        }
-    }
-
-    public struct CertificateMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Certificates", required: false, type: .structure)
-        ]
-        ///  An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        public let marker: String?
-        /// The list of Certificate objects for the AWS account.
-        public let certificates: CertificateList?
-
-        public init(marker: String? = nil, certificates: CertificateList? = nil) {
-            self.marker = marker
-            self.certificates = certificates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case certificates = "Certificates"
-        }
-    }
-
-    public struct TagListMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: false, type: .structure)
-        ]
-        /// List of tags returned by the ListTagsForResource operation.
-        public let tagList: TagList?
-
-        public init(tagList: TagList? = nil) {
-            self.tagList = tagList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tagList = "TagList"
-        }
-    }
-
-    public struct DBClusterParameterGroupList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBClusterParameterGroup", required: false, type: .list)
-        ]
-        public let dBClusterParameterGroup: [DBClusterParameterGroup]?
-
-        public init(dBClusterParameterGroup: [DBClusterParameterGroup]? = nil) {
-            self.dBClusterParameterGroup = dBClusterParameterGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBClusterParameterGroup = "DBClusterParameterGroup"
-        }
-    }
-
-    public struct CopyDBClusterSnapshotMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceDBClusterSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "CopyTags", required: false, type: .boolean), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
-            AWSShapeMember(label: "TargetDBClusterSnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "PreSignedUrl", required: false, type: .string)
-        ]
-        /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. You cannot copy an encrypted, shared DB cluster snapshot from one AWS region to another. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must specify a valid system snapshot in the "available" state.   If the source snapshot is in the same region as the copy, specify a valid DB snapshot identifier.   If the source snapshot is in a different region than the copy, specify a valid DB cluster snapshot ARN. For more information, go to  Copying a DB Snapshot or DB Cluster Snapshot.   Example: my-cluster-snapshot1 
-        public let sourceDBClusterSnapshotIdentifier: String
-        /// True to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot; otherwise false. The default is false.
-        public let copyTags: Bool?
-        /// The AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target DB cluster snapshot using the specified KMS encryption key.  If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot.  If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted DB cluster snapshot to another region, you must set KmsKeyId to the KMS key ID you want to use to encrypt the copy of the DB cluster snapshot in the destination region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region.
-        public let kmsKeyId: String?
-        public let tags: TagList?
-        /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot2 
-        public let targetDBClusterSnapshotIdentifier: String
-        /// The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS region that contains the source DB cluster snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB cluster snapshot from another AWS region. The pre-signed URL must be a valid request for the CopyDBSClusterSnapshot API action that can be executed in the source region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
-        public let preSignedUrl: String?
-
-        public init(sourceDBClusterSnapshotIdentifier: String, copyTags: Bool? = nil, kmsKeyId: String? = nil, tags: TagList? = nil, targetDBClusterSnapshotIdentifier: String, preSignedUrl: String? = nil) {
-            self.sourceDBClusterSnapshotIdentifier = sourceDBClusterSnapshotIdentifier
-            self.copyTags = copyTags
-            self.kmsKeyId = kmsKeyId
-            self.tags = tags
-            self.targetDBClusterSnapshotIdentifier = targetDBClusterSnapshotIdentifier
-            self.preSignedUrl = preSignedUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceDBClusterSnapshotIdentifier = "SourceDBClusterSnapshotIdentifier"
-            case copyTags = "CopyTags"
-            case kmsKeyId = "KmsKeyId"
-            case tags = "Tags"
-            case targetDBClusterSnapshotIdentifier = "TargetDBClusterSnapshotIdentifier"
-            case preSignedUrl = "PreSignedUrl"
-        }
-    }
-
     public struct DescribeReservedDBInstancesOfferingsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -7151,7 +8274,7 @@ extension Rds {
     }
 
     public struct DBEngineVersionMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "DBEngineVersions", required: false, type: .structure)
         ]
@@ -7172,7 +8295,7 @@ extension Rds {
     }
 
     public struct DBParameterGroupsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "DBParameterGroups", required: false, type: .structure)
         ]
@@ -7192,23 +8315,8 @@ extension Rds {
         }
     }
 
-    public struct ReservedDBInstancesOfferingList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedDBInstancesOffering", required: false, type: .list)
-        ]
-        public let reservedDBInstancesOffering: [ReservedDBInstancesOffering]?
-
-        public init(reservedDBInstancesOffering: [ReservedDBInstancesOffering]? = nil) {
-            self.reservedDBInstancesOffering = reservedDBInstancesOffering
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reservedDBInstancesOffering = "ReservedDBInstancesOffering"
-        }
-    }
-
     public struct RevokeDBSecurityGroupIngressMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EC2SecurityGroupName", required: false, type: .string), 
             AWSShapeMember(label: "DBSecurityGroupName", required: true, type: .string), 
             AWSShapeMember(label: "EC2SecurityGroupId", required: false, type: .string), 
@@ -7223,7 +8331,7 @@ extension Rds {
         public let eC2SecurityGroupId: String?
         ///  The AWS Account Number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
         public let eC2SecurityGroupOwnerId: String?
-        ///  The IP range to revoke access from. Must be a valid CIDR range. If CIDRIP is specified, EC2SecurityGroupName, EC2SecurityGroupId and EC2SecurityGroupOwnerId cannot be provided. 
+        ///  The IP range to revoke access from. Must be a valid CIDR range. If CIDRIP is specified, EC2SecurityGroupName, EC2SecurityGroupId and EC2SecurityGroupOwnerId can't be provided. 
         public let cidrip: String?
 
         public init(eC2SecurityGroupName: String? = nil, dBSecurityGroupName: String, eC2SecurityGroupId: String? = nil, eC2SecurityGroupOwnerId: String? = nil, cidrip: String? = nil) {
@@ -7243,125 +8351,8 @@ extension Rds {
         }
     }
 
-    public struct OptionConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OptionSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "OptionName", required: true, type: .string), 
-            AWSShapeMember(label: "DBSecurityGroupMemberships", required: false, type: .structure), 
-            AWSShapeMember(label: "VpcSecurityGroupMemberships", required: false, type: .structure), 
-            AWSShapeMember(label: "OptionVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer)
-        ]
-        /// The option settings to include in an option group.
-        public let optionSettings: OptionSettingsList?
-        /// The configuration of options to include in a group.
-        public let optionName: String
-        /// A list of DBSecurityGroupMemebrship name strings used for this option.
-        public let dBSecurityGroupMemberships: DBSecurityGroupNameList?
-        /// A list of VpcSecurityGroupMemebrship name strings used for this option.
-        public let vpcSecurityGroupMemberships: VpcSecurityGroupIdList?
-        /// The version for the option.
-        public let optionVersion: String?
-        /// The optional port for the option.
-        public let port: Int32?
-
-        public init(optionSettings: OptionSettingsList? = nil, optionName: String, dBSecurityGroupMemberships: DBSecurityGroupNameList? = nil, vpcSecurityGroupMemberships: VpcSecurityGroupIdList? = nil, optionVersion: String? = nil, port: Int32? = nil) {
-            self.optionSettings = optionSettings
-            self.optionName = optionName
-            self.dBSecurityGroupMemberships = dBSecurityGroupMemberships
-            self.vpcSecurityGroupMemberships = vpcSecurityGroupMemberships
-            self.optionVersion = optionVersion
-            self.port = port
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case optionSettings = "OptionSettings"
-            case optionName = "OptionName"
-            case dBSecurityGroupMemberships = "DBSecurityGroupMemberships"
-            case vpcSecurityGroupMemberships = "VpcSecurityGroupMemberships"
-            case optionVersion = "OptionVersion"
-            case port = "Port"
-        }
-    }
-
-    public struct RestoreDBClusterFromSnapshotMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AvailabilityZones", required: false, type: .structure), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
-            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "SnapshotIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Engine", required: true, type: .string), 
-            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
-        ]
-        /// Provides the list of EC2 Availability Zones that instances in the restored DB cluster can be created in.
-        public let availabilityZones: AvailabilityZones?
-        /// The tags to be assigned to the restored DB cluster.
-        public let tags: TagList?
-        /// A list of VPC security groups that the new DB cluster will belong to.
-        public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
-        /// The name of the DB cluster to create from the DB cluster snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
-        public let dBClusterIdentifier: String
-        /// The name of the DB subnet group to use for the new DB cluster. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public let dBSubnetGroupName: String?
-        /// The name of the option group to use for the restored DB cluster.
-        public let optionGroupName: String?
-        /// A Boolean value that is true to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
-        public let enableIAMDatabaseAuthentication: Bool?
-        /// The version of the database engine to use for the new DB cluster.
-        public let engineVersion: String?
-        /// The identifier for the DB cluster snapshot to restore from. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let snapshotIdentifier: String
-        /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source
-        public let engine: String
-        /// The database name for the restored DB cluster.
-        public let databaseName: String?
-        /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
-        public let port: Int32?
-        /// The KMS key identifier to use when restoring an encrypted DB cluster from a DB cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB cluster snapshot is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the DB cluster snapshot.   If the DB cluster snapshot is not encrypted, then the restored DB cluster is encrypted using the specified encryption key.  
-        public let kmsKeyId: String?
-
-        public init(availabilityZones: AvailabilityZones? = nil, tags: TagList? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, optionGroupName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, snapshotIdentifier: String, engine: String, databaseName: String? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
-            self.availabilityZones = availabilityZones
-            self.tags = tags
-            self.vpcSecurityGroupIds = vpcSecurityGroupIds
-            self.dBClusterIdentifier = dBClusterIdentifier
-            self.dBSubnetGroupName = dBSubnetGroupName
-            self.optionGroupName = optionGroupName
-            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
-            self.engineVersion = engineVersion
-            self.snapshotIdentifier = snapshotIdentifier
-            self.engine = engine
-            self.databaseName = databaseName
-            self.port = port
-            self.kmsKeyId = kmsKeyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case availabilityZones = "AvailabilityZones"
-            case tags = "Tags"
-            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
-            case dBClusterIdentifier = "DBClusterIdentifier"
-            case dBSubnetGroupName = "DBSubnetGroupName"
-            case optionGroupName = "OptionGroupName"
-            case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
-            case engineVersion = "EngineVersion"
-            case snapshotIdentifier = "SnapshotIdentifier"
-            case engine = "Engine"
-            case databaseName = "DatabaseName"
-            case port = "Port"
-            case kmsKeyId = "KmsKeyId"
-        }
-    }
-
     public struct CreateDBClusterMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .structure), 
             AWSShapeMember(label: "DBClusterParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .structure), 
@@ -7385,9 +8376,9 @@ extension Rds {
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
-        /// A list of EC2 Availability Zones that instances in the DB cluster can be created in. For information on regions and Availability Zones, see Regions and Availability Zones. 
+        /// A list of EC2 Availability Zones that instances in the DB cluster can be created in. For information on AWS Regions and Availability Zones, see Regions and Availability Zones. 
         public let availabilityZones: AvailabilityZones?
-        ///  The name of the DB cluster parameter group to associate with this DB cluster. If this argument is omitted, default.aurora5.6 will be used.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+        ///  The name of the DB cluster parameter group to associate with this DB cluster. If this argument is omitted, default.aurora5.6 is used.  Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
         public let dBClusterParameterGroupName: String?
         public let tags: TagList?
         /// A list of EC2 VPC security groups to associate with this DB cluster.
@@ -7398,35 +8389,35 @@ extension Rds {
         public let backupRetentionPeriod: Int32?
         /// A value that indicates that the DB cluster should be associated with the specified CharacterSet.
         public let characterSetName: String?
-        /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
         public let preferredBackupWindow: String?
-        /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
+        /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
         public let dBClusterIdentifier: String
-        /// A value that indicates that the DB cluster should be associated with the specified option group. Permanent options cannot be removed from an option group. The option group cannot be removed from a DB cluster once it is associated with a DB cluster.
+        /// A value that indicates that the DB cluster should be associated with the specified option group. Permanent options can't be removed from an option group. The option group can't be removed from a DB cluster once it is associated with a DB cluster.
         public let optionGroupName: String?
         /// The version number of the database engine to use.  Aurora  Example: 5.6.10a 
         public let engineVersion: String?
-        /// The name of the master user for the DB cluster. Constraints:   Must be 1 to 16 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.  
+        /// The name of the master user for the DB cluster. Constraints:   Must be 1 to 16 letters or numbers.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.  
         public let masterUsername: String?
-        /// A DB subnet group to associate with this DB cluster. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
+        /// A DB subnet group to associate with this DB cluster. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
         public let dBSubnetGroupName: String?
-        /// A Boolean value that is true to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
+        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a Read Replica.
         public let replicationSourceIdentifier: String?
-        /// A URL that contains a Signature Version 4 signed request for the CreateDBCluster action to be called in the source region where the DB cluster will be replicated from. You only need to specify PreSignedUrl when you are performing cross-region replication from an encrypted DB cluster. The pre-signed URL must be a valid request for the CreateDBCluster API action that can be executed in the source region that contains the encrypted DB cluster to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster in the destination region. This should refer to the same KMS key for both the CreateDBCluster action that is called in the destination region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the region that Aurora Read Replica will be created in.    ReplicationSourceIdentifier - The DB cluster identifier for the encrypted DB cluster to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB cluster from the us-west-2 region, then your ReplicationSourceIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:cluster:aurora-cluster1.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
+        /// A URL that contains a Signature Version 4 signed request for the CreateDBCluster action to be called in the source AWS Region where the DB cluster is replicated from. You only need to specify PreSignedUrl when you are performing cross-region replication from an encrypted DB cluster. The pre-signed URL must be a valid request for the CreateDBCluster API action that can be executed in the source AWS Region that contains the encrypted DB cluster to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB cluster in the destination AWS Region. This should refer to the same KMS key for both the CreateDBCluster action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that Aurora Read Replica will be created in.    ReplicationSourceIdentifier - The DB cluster identifier for the encrypted DB cluster to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster from the us-west-2 AWS Region, then your ReplicationSourceIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:cluster:aurora-cluster1.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
         public let preSignedUrl: String?
-        /// The name of the database engine to be used for this DB cluster. Valid Values: aurora 
+        /// The name of the database engine to be used for this DB cluster. Valid Values: aurora, aurora-postgresql 
         public let engine: String
         /// Specifies whether the DB cluster is encrypted.
         public let storageEncrypted: Bool?
-        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
+        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
         /// The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon RDS will not create a database in the DB cluster you are creating.
         public let databaseName: String?
         /// The port number on which the instances in the DB cluster accept connections.  Default: 3306 
         public let port: Int32?
-        /// The KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region. If you create a Read Replica of an encrypted DB cluster in another region, you must set KmsKeyId to a KMS key ID that is valid in the destination region. This key is used to encrypt the Read Replica in that region.
+        /// The AWS KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId:   If ReplicationSourceIdentifier identifies an encrypted source, then Amazon RDS will use the encryption key used to encrypt the source. Otherwise, Amazon RDS will use your default encryption key.    If the StorageEncrypted parameter is true and ReplicationSourceIdentifier is not specified, then Amazon RDS will use your default encryption key.   AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region. If you create a Read Replica of an encrypted DB cluster in another AWS Region, you must set KmsKeyId to a KMS key ID that is valid in the destination AWS Region. This key is used to encrypt the Read Replica in that AWS Region.
         public let kmsKeyId: String?
 
         public init(availabilityZones: AvailabilityZones? = nil, dBClusterParameterGroupName: String? = nil, tags: TagList? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, masterUserPassword: String? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, preferredBackupWindow: String? = nil, dBClusterIdentifier: String, optionGroupName: String? = nil, engineVersion: String? = nil, masterUsername: String? = nil, dBSubnetGroupName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, replicationSourceIdentifier: String? = nil, preSignedUrl: String? = nil, engine: String, storageEncrypted: Bool? = nil, preferredMaintenanceWindow: String? = nil, databaseName: String? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
@@ -7480,39 +8471,8 @@ extension Rds {
         }
     }
 
-    public struct DescribeDBInstancesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string)
-        ]
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB Clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs). The results list will only include information about the DB instances identified by these ARNs.  
-        public let filters: FilterList?
-        ///  An optional pagination token provided by a previous DescribeDBInstances request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let dBInstanceIdentifier: String?
-
-        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, marker: String? = nil, dBInstanceIdentifier: String? = nil) {
-            self.maxRecords = maxRecords
-            self.filters = filters
-            self.marker = marker
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case filters = "Filters"
-            case marker = "Marker"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
-        }
-    }
-
     public struct OptionGroupsList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OptionGroup", required: false, type: .list)
         ]
         public let optionGroup: [OptionGroup]?
@@ -7527,7 +8487,7 @@ extension Rds {
     }
 
     public struct DescribeOrderableDBInstanceOptionsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -7577,136 +8537,8 @@ extension Rds {
         }
     }
 
-    public struct PendingModifiedValues: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "Port", required: false, type: .integer), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: false, type: .string)
-        ]
-        ///  Contains the new DBInstanceClass for the DB instance that will be applied or is in progress. 
-        public let dBInstanceClass: String?
-        /// Indicates that the Single-AZ DB instance is to change to a Multi-AZ deployment.
-        public let multiAZ: Bool?
-        /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license 
-        public let licenseModel: String?
-        /// Specifies the storage type to be associated with the DB instance.
-        public let storageType: String?
-        ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is in progress. 
-        public let allocatedStorage: Int32?
-        /// Contains the pending or in-progress change of the master credentials for the DB instance.
-        public let masterUserPassword: String?
-        /// Specifies the pending number of days for which automated backups are retained.
-        public let backupRetentionPeriod: Int32?
-        /// Specifies the new Provisioned IOPS value for the DB instance that will be applied or is being applied.
-        public let iops: Int32?
-        /// Specifies the identifier of the CA certificate for the DB instance.
-        public let cACertificateIdentifier: String?
-        /// The new DB subnet group for the DB instance. 
-        public let dBSubnetGroupName: String?
-        /// Indicates the database engine version.
-        public let engineVersion: String?
-        /// Specifies the pending port for the DB instance.
-        public let port: Int32?
-        ///  Contains the new DBInstanceIdentifier for the DB instance that will be applied or is in progress. 
-        public let dBInstanceIdentifier: String?
-
-        public init(dBInstanceClass: String? = nil, multiAZ: Bool? = nil, licenseModel: String? = nil, storageType: String? = nil, allocatedStorage: Int32? = nil, masterUserPassword: String? = nil, backupRetentionPeriod: Int32? = nil, iops: Int32? = nil, cACertificateIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, port: Int32? = nil, dBInstanceIdentifier: String? = nil) {
-            self.dBInstanceClass = dBInstanceClass
-            self.multiAZ = multiAZ
-            self.licenseModel = licenseModel
-            self.storageType = storageType
-            self.allocatedStorage = allocatedStorage
-            self.masterUserPassword = masterUserPassword
-            self.backupRetentionPeriod = backupRetentionPeriod
-            self.iops = iops
-            self.cACertificateIdentifier = cACertificateIdentifier
-            self.dBSubnetGroupName = dBSubnetGroupName
-            self.engineVersion = engineVersion
-            self.port = port
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBInstanceClass = "DBInstanceClass"
-            case multiAZ = "MultiAZ"
-            case licenseModel = "LicenseModel"
-            case storageType = "StorageType"
-            case allocatedStorage = "AllocatedStorage"
-            case masterUserPassword = "MasterUserPassword"
-            case backupRetentionPeriod = "BackupRetentionPeriod"
-            case iops = "Iops"
-            case cACertificateIdentifier = "CACertificateIdentifier"
-            case dBSubnetGroupName = "DBSubnetGroupName"
-            case engineVersion = "EngineVersion"
-            case port = "Port"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
-        }
-    }
-
-    public struct ModifyDBSnapshotResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshot", required: false, type: .structure)
-        ]
-        public let dBSnapshot: DBSnapshot?
-
-        public init(dBSnapshot: DBSnapshot? = nil) {
-            self.dBSnapshot = dBSnapshot
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSnapshot = "DBSnapshot"
-        }
-    }
-
-    public struct SourceRegionMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "SourceRegions", required: false, type: .structure)
-        ]
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// A list of SourceRegion instances that contains each source AWS Region that the current region can get a Read Replica or a DB snapshot from.
-        public let sourceRegions: SourceRegionList?
-
-        public init(marker: String? = nil, sourceRegions: SourceRegionList? = nil) {
-            self.marker = marker
-            self.sourceRegions = sourceRegions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case sourceRegions = "SourceRegions"
-        }
-    }
-
-    public struct StartDBInstanceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
-        ]
-        ///  The user-supplied instance identifier. 
-        public let dBInstanceIdentifier: String
-
-        public init(dBInstanceIdentifier: String) {
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
-        }
-    }
-
     public struct AccountQuotaList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountQuota", required: false, type: .list)
         ]
         public let accountQuota: [AccountQuota]?
@@ -7720,184 +8552,8 @@ extension Rds {
         }
     }
 
-    public struct ModifyDBInstanceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "TdeCredentialPassword", required: false, type: .string), 
-            AWSShapeMember(label: "DBPortNumber", required: false, type: .integer), 
-            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeMember(label: "Iops", required: false, type: .integer), 
-            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
-            AWSShapeMember(label: "DBSecurityGroups", required: false, type: .structure), 
-            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
-            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
-            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeMember(label: "PromotionTier", required: false, type: .integer), 
-            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
-            AWSShapeMember(label: "DomainIAMRoleName", required: false, type: .string), 
-            AWSShapeMember(label: "Domain", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
-            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
-            AWSShapeMember(label: "StorageType", required: false, type: .string), 
-            AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
-            AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
-            AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
-            AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
-            AWSShapeMember(label: "NewDBInstanceIdentifier", required: false, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
-        ]
-        /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the DB instance's current version.
-        public let allowMajorVersionUpgrade: Bool?
-        /// The password for the given ARN from the Key Store in order to access the device.
-        public let tdeCredentialPassword: String?
-        /// The port number on which the database accepts connections. The value of the DBPortNumber parameter must not match any of the port values specified for options in the option group for the DB instance. Your database will restart when you change the DBPortNumber value regardless of the value of the ApplyImmediately parameter.  MySQL   Default: 3306   Valid Values: 1150-65535   MariaDB   Default: 3306   Valid Values: 1150-65535   PostgreSQL   Default: 5432   Valid Values: 1150-65535  Type: Integer  Oracle   Default: 1521   Valid Values: 1150-65535   SQL Server   Default: 1433   Valid Values: 1150-65535 except for 1434, 3389, 47001, 49152, and 49152 through 49156.   Amazon Aurora   Default: 3306   Valid Values: 1150-65535 
-        public let dBPortNumber: Int32?
-        /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB instance.   If this parameter is set to false, changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and will be applied on the next call to RebootDBInstance, or the next failure reboot. Review the table of parameters in Modifying a DB Instance and Using the Apply Immediately Parameter to see the impact that setting ApplyImmediately to true or false has for each modified parameter and to determine when the changes will be applied.  Default: false 
-        public let applyImmediately: Bool?
-        ///  The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting does not result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  Default: Uses existing setting Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. If you are migrating from Provisioned IOPS to standard storage, set this value to 0. The DB instance will require a reboot for the change in storage type to take effect.  SQL Server  Setting the IOPS value for the SQL Server database engine is not supported. Type: Integer If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance will be available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance will be suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a Read Replica for the instance, and creating a DB snapshot of the instance.
-        public let iops: Int32?
-        /// The new password for the DB instance master user. Can be any printable ASCII character except "/", """, or "@".  Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.  Default: Uses existing setting Constraints: Must be 8 to 41 alphanumeric characters (MySQL, MariaDB, and Amazon Aurora), 8 to 30 alphanumeric characters (Oracle), or 8 to 128 alphanumeric characters (SQL Server).  Amazon RDS API actions never return the password, so this action provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked. 
-        public let masterUserPassword: String?
-        /// A list of DB security groups to authorize on this DB instance. Changing this setting does not result in an outage and the change is asynchronously applied as soon as possible. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let dBSecurityGroups: DBSecurityGroupNameList?
-        ///  Indicates that minor version upgrades will be applied automatically to the DB instance during the maintenance window. Changing this parameter does not result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance window, and a newer minor version is available, and RDS has enabled auto patching for that engine version. 
-        public let autoMinorVersionUpgrade: Bool?
-        /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Changing this parameter can result in an outage if you change from 0 to a non-zero value or from a non-zero value to 0. These changes are applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. If you change the parameter from one non-zero value to another non-zero value, the change is asynchronously applied as soon as possible. Default: Uses existing setting Constraints:   Must be a value from 0 to 35   Can be specified for a MySQL Read Replica only if the source is running MySQL 5.6   Can be specified for a PostgreSQL Read Replica only if the source is running PostgreSQL 9.3.5   Cannot be set to 0 if the DB instance is a source to Read Replicas  
-        public let backupRetentionPeriod: Int32?
-        /// Indicates the certificate that needs to be associated with the instance.
-        public let cACertificateIdentifier: String?
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts; otherwise false.  You can enable IAM database authentication for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Default: false 
-        public let enableIAMDatabaseAuthentication: Bool?
-        ///  The version number of the database engine to upgrade to. Changing this parameter results in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  For major version upgrades, if a non-default DB parameter group is currently in use, a new DB parameter group in the DB parameter group family for the new engine version must be specified. The new DB parameter group can be the default for that DB parameter group family. For a list of valid engine versions, see CreateDBInstance.
-        public let engineVersion: String?
-        /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster.  Default: 1 Valid Values: 0 - 15
-        public let promotionTier: Int32?
-        /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If there are pending actions that cause a reboot, and the maintenance window is changed to include the current time, then changing this parameter will cause a reboot of the DB instance. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
-        public let preferredMaintenanceWindow: String?
-        /// True to copy all tags from the DB instance to snapshots of the DB instance; otherwise false. The default is false.
-        public let copyTagsToSnapshot: Bool?
-        /// The name of the IAM role to use when making API calls to the Directory Service.
-        public let domainIAMRoleName: String?
-        /// The Active Directory Domain to move the instance to. Specify none to remove the instance from its current domain. The domain must be created prior to this operation. Currently only a Microsoft SQL Server instance can be created in a Active Directory Domain. 
-        public let domain: String?
-        ///  The new compute and memory capacity of the DB instance. To determine the instance classes that are available for a particular DB engine, use the DescribeOrderableDBInstanceOptions action. Note that not all instance classes are available in all regions for all DB engines.   Passing a value for this setting causes an outage during the change and is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request.  Default: Uses existing setting Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge | db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large 
-        public let dBInstanceClass: String?
-        ///  Specifies if the DB instance is a Multi-AZ deployment. Changing this parameter does not result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  Constraints: Cannot be specified if the DB instance is a Read Replica.
-        public let multiAZ: Bool?
-        ///  The new storage capacity of the RDS instance. Changing this setting does not result in an outage and the change is applied during the next maintenance window unless ApplyImmediately is set to true for this request.   MySQL  Default: Uses existing setting Valid Values: 5-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. Type: Integer  MariaDB  Default: Uses existing setting Valid Values: 5-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. Type: Integer  PostgreSQL  Default: Uses existing setting Valid Values: 5-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. Type: Integer  Oracle  Default: Uses existing setting Valid Values: 10-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.  SQL Server  Cannot be modified. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance will be available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance will be suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a Read Replica for the instance, and creating a DB snapshot of the instance.
-        public let allocatedStorage: Int32?
-        /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
-        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
-        public let storageType: String?
-        /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license 
-        public let licenseModel: String?
-        /// The ARN from the Key Store with which to associate the instance for TDE encryption.
-        public let tdeCredentialArn: String?
-        /// The name of the DB parameter group to apply to the DB instance. Changing this setting does not result in an outage. The parameter group name itself is changed immediately, but the actual parameter changes are not applied until you reboot the instance without failover. The db instance will NOT be rebooted automatically and the parameter changes will NOT be applied during the next maintenance window. Default: Uses existing setting Constraints: The DB parameter group must be in the same DB parameter group family as this DB instance.
-        public let dBParameterGroupName: String?
-        /// Boolean value that indicates if the DB instance has a publicly resolvable DNS name. Set to True to make the DB instance Internet-facing with a publicly resolvable DNS name, which resolves to a public IP address. Set to False to make the DB instance internal with a DNS name that resolves to a private IP address.   PubliclyAccessible only applies to DB instances in a VPC. The DB instance must be part of a public subnet and PubliclyAccessible must be true in order for it to be publicly accessible.  Changes to the PubliclyAccessible parameter are applied immediately regardless of the value of the ApplyImmediately parameter. Default: false
-        public let publiclyAccessible: Bool?
-        ///  The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod parameter. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible.  Constraints:   Must be in the format hh24:mi-hh24:mi   Times should be in Universal Time Coordinated (UTC)   Must not conflict with the preferred maintenance window   Must be at least 30 minutes  
-        public let preferredBackupWindow: String?
-        /// The new DB subnet group for the DB instance. You can use this parameter to move your DB instance to a different VPC. If your DB instance is not in a VPC, you can also use this parameter to move your DB instance into a VPC. For more information, see Updating the VPC for a DB Instance.  Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you specify true for the ApplyImmediately parameter.  Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Example: mySubnetGroup 
-        public let dBSubnetGroupName: String?
-        ///  Indicates that the DB instance should be associated with the specified option group. Changing this parameter does not result in an outage except in the following case and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. If the parameter change results in an option group that enables OEM, this change can cause a brief (sub-second) period during which new connections are rejected but existing connections are not interrupted.  Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
-        public let optionGroupName: String?
-        /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
-        public let monitoringRoleArn: String?
-        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
-        public let monitoringInterval: Int32?
-        ///  The new DB instance identifier for the DB instance when renaming a DB instance. When you change the DB instance identifier, an instance reboot will occur immediately if you set Apply Immediately to true, or will occur during the next maintenance window if Apply Immediately to false. This value is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let newDBInstanceIdentifier: String?
-        /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must be the identifier for an existing DB instance   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let dBInstanceIdentifier: String
-
-        public init(allowMajorVersionUpgrade: Bool? = nil, tdeCredentialPassword: String? = nil, dBPortNumber: Int32? = nil, applyImmediately: Bool? = nil, iops: Int32? = nil, masterUserPassword: String? = nil, dBSecurityGroups: DBSecurityGroupNameList? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int32? = nil, cACertificateIdentifier: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, promotionTier: Int32? = nil, preferredMaintenanceWindow: String? = nil, copyTagsToSnapshot: Bool? = nil, domainIAMRoleName: String? = nil, domain: String? = nil, dBInstanceClass: String? = nil, multiAZ: Bool? = nil, allocatedStorage: Int32? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, storageType: String? = nil, licenseModel: String? = nil, tdeCredentialArn: String? = nil, dBParameterGroupName: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, dBSubnetGroupName: String? = nil, optionGroupName: String? = nil, monitoringRoleArn: String? = nil, monitoringInterval: Int32? = nil, newDBInstanceIdentifier: String? = nil, dBInstanceIdentifier: String) {
-            self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
-            self.tdeCredentialPassword = tdeCredentialPassword
-            self.dBPortNumber = dBPortNumber
-            self.applyImmediately = applyImmediately
-            self.iops = iops
-            self.masterUserPassword = masterUserPassword
-            self.dBSecurityGroups = dBSecurityGroups
-            self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
-            self.backupRetentionPeriod = backupRetentionPeriod
-            self.cACertificateIdentifier = cACertificateIdentifier
-            self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
-            self.engineVersion = engineVersion
-            self.promotionTier = promotionTier
-            self.preferredMaintenanceWindow = preferredMaintenanceWindow
-            self.copyTagsToSnapshot = copyTagsToSnapshot
-            self.domainIAMRoleName = domainIAMRoleName
-            self.domain = domain
-            self.dBInstanceClass = dBInstanceClass
-            self.multiAZ = multiAZ
-            self.allocatedStorage = allocatedStorage
-            self.vpcSecurityGroupIds = vpcSecurityGroupIds
-            self.storageType = storageType
-            self.licenseModel = licenseModel
-            self.tdeCredentialArn = tdeCredentialArn
-            self.dBParameterGroupName = dBParameterGroupName
-            self.publiclyAccessible = publiclyAccessible
-            self.preferredBackupWindow = preferredBackupWindow
-            self.dBSubnetGroupName = dBSubnetGroupName
-            self.optionGroupName = optionGroupName
-            self.monitoringRoleArn = monitoringRoleArn
-            self.monitoringInterval = monitoringInterval
-            self.newDBInstanceIdentifier = newDBInstanceIdentifier
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
-            case tdeCredentialPassword = "TdeCredentialPassword"
-            case dBPortNumber = "DBPortNumber"
-            case applyImmediately = "ApplyImmediately"
-            case iops = "Iops"
-            case masterUserPassword = "MasterUserPassword"
-            case dBSecurityGroups = "DBSecurityGroups"
-            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
-            case backupRetentionPeriod = "BackupRetentionPeriod"
-            case cACertificateIdentifier = "CACertificateIdentifier"
-            case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
-            case engineVersion = "EngineVersion"
-            case promotionTier = "PromotionTier"
-            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
-            case copyTagsToSnapshot = "CopyTagsToSnapshot"
-            case domainIAMRoleName = "DomainIAMRoleName"
-            case domain = "Domain"
-            case dBInstanceClass = "DBInstanceClass"
-            case multiAZ = "MultiAZ"
-            case allocatedStorage = "AllocatedStorage"
-            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
-            case storageType = "StorageType"
-            case licenseModel = "LicenseModel"
-            case tdeCredentialArn = "TdeCredentialArn"
-            case dBParameterGroupName = "DBParameterGroupName"
-            case publiclyAccessible = "PubliclyAccessible"
-            case preferredBackupWindow = "PreferredBackupWindow"
-            case dBSubnetGroupName = "DBSubnetGroupName"
-            case optionGroupName = "OptionGroupName"
-            case monitoringRoleArn = "MonitoringRoleArn"
-            case monitoringInterval = "MonitoringInterval"
-            case newDBInstanceIdentifier = "NewDBInstanceIdentifier"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
-        }
-    }
-
     public struct OptionConfigurationList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OptionConfiguration", required: false, type: .list)
         ]
         public let optionConfiguration: [OptionConfiguration]?
@@ -7912,7 +8568,7 @@ extension Rds {
     }
 
     public struct IPRange: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "CIDRIP", required: false, type: .string)
         ]
@@ -7933,7 +8589,7 @@ extension Rds {
     }
 
     public struct DBSnapshot: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
             AWSShapeMember(label: "Iops", required: false, type: .integer), 
@@ -7969,7 +8625,7 @@ extension Rds {
         public let iops: Int32?
         /// Specifies the name of the Availability Zone the DB instance was located in at the time of the DB snapshot.
         public let availabilityZone: String?
-        /// The DB snapshot Arn that the DB snapshot was copied from. It only has value in case of cross customer or cross region copy.
+        /// The DB snapshot Amazon Resource Name (ARN) that the DB snapshot was copied from. It only has value in case of cross-customer or cross-region copy.
         public let sourceDBSnapshotIdentifier: String?
         /// Specifies the status of this DB snapshot.
         public let status: String?
@@ -7983,11 +8639,11 @@ extension Rds {
         public let snapshotCreateTime: TimeStamp?
         /// The Amazon Resource Name (ARN) for the DB snapshot.
         public let dBSnapshotArn: String?
-        ///  If Encrypted is true, the KMS key identifier for the encrypted DB snapshot. 
+        ///  If Encrypted is true, the AWS KMS key identifier for the encrypted DB snapshot. 
         public let kmsKeyId: String?
         /// Specifies the time when the snapshot was taken, in Universal Coordinated Time (UTC).
         public let instanceCreateTime: TimeStamp?
-        /// The region that the DB snapshot was created in or copied from.
+        /// The AWS Region that the DB snapshot was created in or copied from.
         public let sourceRegion: String?
         /// Specifies the allocated storage size in gigabytes (GB).
         public let allocatedStorage: Int32?
@@ -8001,7 +8657,7 @@ extension Rds {
         public let snapshotType: String?
         /// License model information for the restored DB instance.
         public let licenseModel: String?
-        /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled; otherwise false.
+        /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
         public let iAMDatabaseAuthenticationEnabled: Bool?
         /// Provides the option group name for the DB snapshot.
         public let optionGroupName: String?
@@ -8073,69 +8729,8 @@ extension Rds {
         }
     }
 
-    public struct DBParameterGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBParameterGroupFamily", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupArn", required: false, type: .string), 
-            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        /// Provides the name of the DB parameter group family that this DB parameter group is compatible with.
-        public let dBParameterGroupFamily: String?
-        /// The Amazon Resource Name (ARN) for the DB parameter group.
-        public let dBParameterGroupArn: String?
-        /// Provides the name of the DB parameter group.
-        public let dBParameterGroupName: String?
-        /// Provides the customer-specified description for this DB parameter group.
-        public let description: String?
-
-        public init(dBParameterGroupFamily: String? = nil, dBParameterGroupArn: String? = nil, dBParameterGroupName: String? = nil, description: String? = nil) {
-            self.dBParameterGroupFamily = dBParameterGroupFamily
-            self.dBParameterGroupArn = dBParameterGroupArn
-            self.dBParameterGroupName = dBParameterGroupName
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBParameterGroupFamily = "DBParameterGroupFamily"
-            case dBParameterGroupArn = "DBParameterGroupArn"
-            case dBParameterGroupName = "DBParameterGroupName"
-            case description = "Description"
-        }
-    }
-
-    public struct PurchaseReservedDBInstancesOfferingMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReservedDBInstanceId", required: false, type: .string), 
-            AWSShapeMember(label: "ReservedDBInstancesOfferingId", required: true, type: .string), 
-            AWSShapeMember(label: "DBInstanceCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure)
-        ]
-        /// Customer-specified identifier to track this reservation. Example: myreservationID
-        public let reservedDBInstanceId: String?
-        /// The ID of the Reserved DB instance offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
-        public let reservedDBInstancesOfferingId: String
-        /// The number of instances to reserve. Default: 1 
-        public let dBInstanceCount: Int32?
-        public let tags: TagList?
-
-        public init(reservedDBInstanceId: String? = nil, reservedDBInstancesOfferingId: String, dBInstanceCount: Int32? = nil, tags: TagList? = nil) {
-            self.reservedDBInstanceId = reservedDBInstanceId
-            self.reservedDBInstancesOfferingId = reservedDBInstancesOfferingId
-            self.dBInstanceCount = dBInstanceCount
-            self.tags = tags
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case reservedDBInstanceId = "ReservedDBInstanceId"
-            case reservedDBInstancesOfferingId = "ReservedDBInstancesOfferingId"
-            case dBInstanceCount = "DBInstanceCount"
-            case tags = "Tags"
-        }
-    }
-
     public struct ParametersList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Parameter", required: false, type: .list)
         ]
         public let parameter: [Parameter]?
@@ -8150,7 +8745,7 @@ extension Rds {
     }
 
     public struct DBParameterGroupNameMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string)
         ]
         /// Provides the name of the DB parameter group.
@@ -8165,122 +8760,8 @@ extension Rds {
         }
     }
 
-    public struct DescribeDBSnapshotAttributesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DBSnapshotIdentifier", required: true, type: .string)
-        ]
-        /// The identifier for the DB snapshot to describe the attributes for.
-        public let dBSnapshotIdentifier: String
-
-        public init(dBSnapshotIdentifier: String) {
-            self.dBSnapshotIdentifier = dBSnapshotIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dBSnapshotIdentifier = "DBSnapshotIdentifier"
-        }
-    }
-
-    public struct DescribeDBSecurityGroupsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "DBSecurityGroupName", required: false, type: .string)
-        ]
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
-        /// This parameter is not currently supported.
-        public let filters: FilterList?
-        ///  An optional pagination token provided by a previous DescribeDBSecurityGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        /// The name of the DB security group to return details for.
-        public let dBSecurityGroupName: String?
-
-        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, marker: String? = nil, dBSecurityGroupName: String? = nil) {
-            self.maxRecords = maxRecords
-            self.filters = filters
-            self.marker = marker
-            self.dBSecurityGroupName = dBSecurityGroupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxRecords = "MaxRecords"
-            case filters = "Filters"
-            case marker = "Marker"
-            case dBSecurityGroupName = "DBSecurityGroupName"
-        }
-    }
-
-    public struct Filter: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Values", required: true, type: .structure)
-        ]
-        /// This parameter is not currently supported.
-        public let name: String
-        /// This parameter is not currently supported.
-        public let values: FilterValueList
-
-        public init(name: String, values: FilterValueList) {
-            self.name = name
-            self.values = values
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case values = "Values"
-        }
-    }
-
-    public struct DownloadDBLogFilePortionMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NumberOfLines", required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "LogFileName", required: true, type: .string), 
-            AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string)
-        ]
-        /// The number of lines to download. If the number of lines specified results in a file over 1 MB in size, the file will be truncated at 1 MB in size. If the NumberOfLines parameter is specified, then the block of lines returned can be from the beginning or the end of the log file, depending on the value of the Marker parameter.   If neither Marker or NumberOfLines are specified, the entire log file is returned up to a maximum of 10000 lines, starting with the most recent log entries first.   If NumberOfLines is specified and Marker is not specified, then the most recent lines from the end of the log file are returned.   If Marker is specified as "0", then the specified number of lines from the beginning of the log file are returned.   You can download the log file in blocks of lines by specifying the size of the block using the NumberOfLines parameter, and by specifying a value of "0" for the Marker parameter in your first request. Include the Marker value returned in the response as the Marker value for the next request, continuing until the AdditionalDataPending response element returns false.  
-        public let numberOfLines: Int32?
-        /// The pagination token provided in the previous request or "0". If the Marker parameter is specified the response includes only records beyond the marker until the end of the file or up to NumberOfLines.
-        public let marker: String?
-        /// The name of the log file to be downloaded.
-        public let logFileName: String
-        /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let dBInstanceIdentifier: String
-
-        public init(numberOfLines: Int32? = nil, marker: String? = nil, logFileName: String, dBInstanceIdentifier: String) {
-            self.numberOfLines = numberOfLines
-            self.marker = marker
-            self.logFileName = logFileName
-            self.dBInstanceIdentifier = dBInstanceIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case numberOfLines = "NumberOfLines"
-            case marker = "Marker"
-            case logFileName = "LogFileName"
-            case dBInstanceIdentifier = "DBInstanceIdentifier"
-        }
-    }
-
-    public struct PendingMaintenanceActions: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourcePendingMaintenanceActions", required: false, type: .list)
-        ]
-        public let resourcePendingMaintenanceActions: [ResourcePendingMaintenanceActions]?
-
-        public init(resourcePendingMaintenanceActions: [ResourcePendingMaintenanceActions]? = nil) {
-            self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case resourcePendingMaintenanceActions = "ResourcePendingMaintenanceActions"
-        }
-    }
-
     public struct EventCategoriesMapList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventCategoriesMap", required: false, type: .list)
         ]
         public let eventCategoriesMap: [EventCategoriesMap]?

@@ -5,24 +5,8 @@ import AWSSDKSwiftCore
 
 extension Iam {
 
-    public struct CreatePolicyResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: false, type: .structure)
-        ]
-        /// A structure containing details about the new policy.
-        public let policy: Policy?
-
-        public init(policy: Policy? = nil) {
-            self.policy = policy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policy = "Policy"
-        }
-    }
-
     public struct GetSAMLProviderResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "SAMLMetadataDocument", required: false, type: .string), 
             AWSShapeMember(label: "ValidUntil", required: false, type: .timestamp)
@@ -48,7 +32,7 @@ extension Iam {
     }
 
     public struct Policy: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DefaultVersionId", required: false, type: .string), 
             AWSShapeMember(label: "PolicyId", required: false, type: .string), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -107,8 +91,2437 @@ extension Iam {
         }
     }
 
+    public struct GetOpenIDConnectProviderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpenIDConnectProviderArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the ListOpenIDConnectProviders action. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        public let openIDConnectProviderArn: String
+
+        public init(openIDConnectProviderArn: String) {
+            self.openIDConnectProviderArn = openIDConnectProviderArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case openIDConnectProviderArn = "OpenIDConnectProviderArn"
+        }
+    }
+
+    public struct DeleteRolePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
+        ]
+        /// The name (friendly name, not ARN) identifying the role that the policy is embedded in. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+        public let roleName: String
+        /// The name of the inline policy to delete from the specified IAM role. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-+
+        public let policyName: String
+
+        public init(roleName: String, policyName: String) {
+            self.roleName = roleName
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleName = "RoleName"
+            case policyName = "PolicyName"
+        }
+    }
+
+    public struct DeleteRoleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
+        ]
+        /// The name of the role to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+        public let roleName: String
+
+        public init(roleName: String) {
+            self.roleName = roleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleName = "RoleName"
+        }
+    }
+
+    public struct ListOpenIDConnectProvidersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpenIDConnectProviderList", required: false, type: .list)
+        ]
+        /// The list of IAM OIDC provider resource objects defined in the AWS account.
+        public let openIDConnectProviderList: [OpenIDConnectProviderListEntry]?
+
+        public init(openIDConnectProviderList: [OpenIDConnectProviderListEntry]? = nil) {
+            self.openIDConnectProviderList = openIDConnectProviderList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case openIDConnectProviderList = "OpenIDConnectProviderList"
+        }
+    }
+
+    public struct GetUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+        /// The name of the user to get information about. This parameter is optional. If it is not included, it defaults to the user making the request. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String?
+
+        public init(userName: String? = nil) {
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+        }
+    }
+
+    public struct UpdateSAMLProviderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SAMLMetadataDocument", required: true, type: .string), 
+            AWSShapeMember(label: "SAMLProviderArn", required: true, type: .string)
+        ]
+        /// An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP.
+        public let sAMLMetadataDocument: String
+        /// The Amazon Resource Name (ARN) of the SAML provider to update. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        public let sAMLProviderArn: String
+
+        public init(sAMLMetadataDocument: String, sAMLProviderArn: String) {
+            self.sAMLMetadataDocument = sAMLMetadataDocument
+            self.sAMLProviderArn = sAMLProviderArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sAMLMetadataDocument = "SAMLMetadataDocument"
+            case sAMLProviderArn = "SAMLProviderArn"
+        }
+    }
+
+    public enum EncodingType: String, CustomStringConvertible, Codable {
+        case ssh = "SSH"
+        case pem = "PEM"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UploadServerCertificateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerCertificateMetadata", required: false, type: .structure)
+        ]
+        /// The meta information of the uploaded server certificate without its certificate body, certificate chain, and private key.
+        public let serverCertificateMetadata: ServerCertificateMetadata?
+
+        public init(serverCertificateMetadata: ServerCertificateMetadata? = nil) {
+            self.serverCertificateMetadata = serverCertificateMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverCertificateMetadata = "ServerCertificateMetadata"
+        }
+    }
+
+    public enum StatusType: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SSHPublicKeyMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "UploadDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "SSHPublicKeyId", required: true, type: .string)
+        ]
+        /// The name of the IAM user associated with the SSH public key.
+        public let userName: String
+        /// The status of the SSH public key. Active means the key can be used for authentication with an AWS CodeCommit repository. Inactive means the key cannot be used.
+        public let status: StatusType
+        /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
+        public let uploadDate: TimeStamp
+        /// The unique identifier for the SSH public key.
+        public let sSHPublicKeyId: String
+
+        public init(userName: String, status: StatusType, uploadDate: TimeStamp, sSHPublicKeyId: String) {
+            self.userName = userName
+            self.status = status
+            self.uploadDate = uploadDate
+            self.sSHPublicKeyId = sSHPublicKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case status = "Status"
+            case uploadDate = "UploadDate"
+            case sSHPublicKeyId = "SSHPublicKeyId"
+        }
+    }
+
+    public struct ListGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Groups", required: true, type: .list)
+        ]
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
+        public let isTruncated: Bool?
+        /// A list of groups.
+        public let groups: [Group]
+
+        public init(marker: String? = nil, isTruncated: Bool? = nil, groups: [Group]) {
+            self.marker = marker
+            self.isTruncated = isTruncated
+            self.groups = groups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case groups = "Groups"
+        }
+    }
+
+    public struct ListGroupsForUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Groups", required: true, type: .list)
+        ]
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
+        public let isTruncated: Bool?
+        /// A list of groups.
+        public let groups: [Group]
+
+        public init(marker: String? = nil, isTruncated: Bool? = nil, groups: [Group]) {
+            self.marker = marker
+            self.isTruncated = isTruncated
+            self.groups = groups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case groups = "Groups"
+        }
+    }
+
+    public struct ListInstanceProfilesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
+        ]
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
+        ///  The path prefix for filtering the results. For example, the prefix /application_abc/component_xyz/ gets all instance profiles whose path starts with /application_abc/component_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all instance profiles. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
+        public let pathPrefix: String?
+
+        public init(marker: String? = nil, maxItems: Int32? = nil, pathPrefix: String? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.pathPrefix = pathPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case pathPrefix = "PathPrefix"
+        }
+    }
+
+    public struct UploadServerCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerCertificateName", required: true, type: .string), 
+            AWSShapeMember(label: "CertificateBody", required: true, type: .string), 
+            AWSShapeMember(label: "PrivateKey", required: true, type: .string), 
+            AWSShapeMember(label: "CertificateChain", required: false, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
+        ]
+        /// The name for the server certificate. Do not include the path in this value. The name of the certificate cannot contain any spaces. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let serverCertificateName: String
+        /// The contents of the public key certificate in PEM-encoded format. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+        public let certificateBody: String
+        /// The contents of the private key in PEM-encoded format. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+        public let privateKey: String
+        /// The contents of the certificate chain. This is typically a concatenation of the PEM-encoded public key certificates of the chain. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+        public let certificateChain: String?
+        /// The path for the server certificate. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.   If you are uploading a server certificate specifically for use with Amazon CloudFront distributions, you must specify a path using the --path option. The path must begin with /cloudfront and must include a trailing slash (for example, /cloudfront/test/). 
+        public let path: String?
+
+        public init(serverCertificateName: String, certificateBody: String, privateKey: String, certificateChain: String? = nil, path: String? = nil) {
+            self.serverCertificateName = serverCertificateName
+            self.certificateBody = certificateBody
+            self.privateKey = privateKey
+            self.certificateChain = certificateChain
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverCertificateName = "ServerCertificateName"
+            case certificateBody = "CertificateBody"
+            case privateKey = "PrivateKey"
+            case certificateChain = "CertificateChain"
+            case path = "Path"
+        }
+    }
+
+    public struct ListOpenIDConnectProvidersRequest: AWSShape {
+
+    }
+
+    public struct UpdateAccessKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "AccessKeyId", required: true, type: .string)
+        ]
+        /// The name of the user whose key you want to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String?
+        ///  The status you want to assign to the secret access key. Active means the key can be used for API calls to AWS, while Inactive means the key cannot be used.
+        public let status: StatusType
+        /// The access key ID of the secret access key you want to update. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
+        public let accessKeyId: String
+
+        public init(userName: String? = nil, status: StatusType, accessKeyId: String) {
+            self.userName = userName
+            self.status = status
+            self.accessKeyId = accessKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case status = "Status"
+            case accessKeyId = "AccessKeyId"
+        }
+    }
+
+    public struct ListVirtualMFADevicesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        ///  The status (Unassigned or Assigned) of the devices to list. If you do not specify an AssignmentStatus, the action defaults to Any which lists both assigned and unassigned virtual MFA devices.
+        public let assignmentStatus: AssignmentStatusType?
+        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+
+        public init(assignmentStatus: AssignmentStatusType? = nil, maxItems: Int32? = nil, marker: String? = nil) {
+            self.assignmentStatus = assignmentStatus
+            self.maxItems = maxItems
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentStatus = "AssignmentStatus"
+            case maxItems = "MaxItems"
+            case marker = "Marker"
+        }
+    }
+
+    public struct PutUserPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
+        ]
+        /// The name of the user to associate the policy with. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+        /// The policy document. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+        public let policyDocument: String
+        /// The name of the policy document. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-+
+        public let policyName: String
+
+        public init(userName: String, policyDocument: String, policyName: String) {
+            self.userName = userName
+            self.policyDocument = policyDocument
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
+        }
+    }
+
+    public struct AddUserToGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string)
+        ]
+        /// The name of the user to add. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+        /// The name of the group to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let groupName: String
+
+        public init(userName: String, groupName: String) {
+            self.userName = userName
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case groupName = "GroupName"
+        }
+    }
+
+    public struct ListAttachedRolePoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
+        ]
+        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
+        /// The name (friendly name, not ARN) of the role to list attached policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+        public let roleName: String
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
+        public let pathPrefix: String?
+
+        public init(maxItems: Int32? = nil, roleName: String, marker: String? = nil, pathPrefix: String? = nil) {
+            self.maxItems = maxItems
+            self.roleName = roleName
+            self.marker = marker
+            self.pathPrefix = pathPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case roleName = "RoleName"
+            case marker = "Marker"
+            case pathPrefix = "PathPrefix"
+        }
+    }
+
+    public struct ListUserPoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
+        ]
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+        /// A list of policy names.
+        public let policyNames: [String]
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
+        public let isTruncated: Bool?
+
+        public init(marker: String? = nil, policyNames: [String], isTruncated: Bool? = nil) {
+            self.marker = marker
+            self.policyNames = policyNames
+            self.isTruncated = isTruncated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case policyNames = "PolicyNames"
+            case isTruncated = "IsTruncated"
+        }
+    }
+
+    public struct ListAccessKeysResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "AccessKeyMetadata", required: true, type: .list)
+        ]
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
+        public let isTruncated: Bool?
+        /// A list of objects containing metadata about the access keys.
+        public let accessKeyMetadata: [AccessKeyMetadata]
+
+        public init(marker: String? = nil, isTruncated: Bool? = nil, accessKeyMetadata: [AccessKeyMetadata]) {
+            self.marker = marker
+            self.isTruncated = isTruncated
+            self.accessKeyMetadata = accessKeyMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case accessKeyMetadata = "AccessKeyMetadata"
+        }
+    }
+
+    public struct DetachRolePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        public let policyArn: String
+        /// The name (friendly name, not ARN) of the IAM role to detach the policy from. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+        public let roleName: String
+
+        public init(policyArn: String, roleName: String) {
+            self.policyArn = policyArn
+            self.roleName = roleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case roleName = "RoleName"
+        }
+    }
+
+    public struct UpdateServiceSpecificCredentialRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceSpecificCredentialId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum)
+        ]
+        /// The unique identifier of the service-specific credential. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
+        public let serviceSpecificCredentialId: String
+        /// The name of the IAM user associated with the service-specific credential. If you do not specify this value, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String?
+        /// The status to be assigned to the service-specific credential.
+        public let status: StatusType
+
+        public init(serviceSpecificCredentialId: String, userName: String? = nil, status: StatusType) {
+            self.serviceSpecificCredentialId = serviceSpecificCredentialId
+            self.userName = userName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceSpecificCredentialId = "ServiceSpecificCredentialId"
+            case userName = "UserName"
+            case status = "Status"
+        }
+    }
+
+    public struct CreateSAMLProviderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SAMLMetadataDocument", required: true, type: .string)
+        ]
+        /// The name of the provider to create. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let name: String
+        /// An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP. For more information, see About SAML 2.0-based Federation in the IAM User Guide 
+        public let sAMLMetadataDocument: String
+
+        public init(name: String, sAMLMetadataDocument: String) {
+            self.name = name
+            self.sAMLMetadataDocument = sAMLMetadataDocument
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case sAMLMetadataDocument = "SAMLMetadataDocument"
+        }
+    }
+
+    public struct GetRoleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
+        ]
+        /// The name of the IAM role to get information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+        public let roleName: String
+
+        public init(roleName: String) {
+            self.roleName = roleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleName = "RoleName"
+        }
+    }
+
+    public struct CreateServiceSpecificCredentialRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceName", required: true, type: .string)
+        ]
+        /// The name of the IAM user that is to be associated with the credentials. The new service-specific credentials have the same permissions as the associated user except that they can be used only to access the specified service. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+        /// The name of the AWS service that is to be associated with the credentials. The service you specify here is the only service that can be accessed using these credentials.
+        public let serviceName: String
+
+        public init(userName: String, serviceName: String) {
+            self.userName = userName
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case serviceName = "ServiceName"
+        }
+    }
+
+    public struct OpenIDConnectProviderListEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string)
+        ]
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct UpdateServerCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NewPath", required: false, type: .string), 
+            AWSShapeMember(label: "ServerCertificateName", required: true, type: .string), 
+            AWSShapeMember(label: "NewServerCertificateName", required: false, type: .string)
+        ]
+        /// The new path for the server certificate. Include this only if you are updating the server certificate's path. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
+        public let newPath: String?
+        /// The name of the server certificate that you want to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let serverCertificateName: String
+        /// The new name for the server certificate. Include this only if you are updating the server certificate's name. The name of the certificate cannot contain any spaces. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let newServerCertificateName: String?
+
+        public init(newPath: String? = nil, serverCertificateName: String, newServerCertificateName: String? = nil) {
+            self.newPath = newPath
+            self.serverCertificateName = serverCertificateName
+            self.newServerCertificateName = newServerCertificateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case newPath = "NewPath"
+            case serverCertificateName = "ServerCertificateName"
+            case newServerCertificateName = "NewServerCertificateName"
+        }
+    }
+
+    public struct GetServerCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerCertificateName", required: true, type: .string)
+        ]
+        /// The name of the server certificate you want to retrieve information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let serverCertificateName: String
+
+        public init(serverCertificateName: String) {
+            self.serverCertificateName = serverCertificateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverCertificateName = "ServerCertificateName"
+        }
+    }
+
+    public struct GetOpenIDConnectProviderResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Url", required: false, type: .string), 
+            AWSShapeMember(label: "ThumbprintList", required: false, type: .list), 
+            AWSShapeMember(label: "ClientIDList", required: false, type: .list)
+        ]
+        /// The date and time when the IAM OIDC provider resource object was created in the AWS account.
+        public let createDate: TimeStamp?
+        /// The URL that the IAM OIDC provider resource object is associated with. For more information, see CreateOpenIDConnectProvider.
+        public let url: String?
+        /// A list of certificate thumbprints that are associated with the specified IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider. 
+        public let thumbprintList: [String]?
+        /// A list of client IDs (also known as audiences) that are associated with the specified IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider.
+        public let clientIDList: [String]?
+
+        public init(createDate: TimeStamp? = nil, url: String? = nil, thumbprintList: [String]? = nil, clientIDList: [String]? = nil) {
+            self.createDate = createDate
+            self.url = url
+            self.thumbprintList = thumbprintList
+            self.clientIDList = clientIDList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case url = "Url"
+            case thumbprintList = "ThumbprintList"
+            case clientIDList = "ClientIDList"
+        }
+    }
+
+    public struct UserDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "UserId", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "GroupList", required: false, type: .list), 
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "UserPolicyList", required: false, type: .list), 
+            AWSShapeMember(label: "AttachedManagedPolicies", required: false, type: .list)
+        ]
+        /// The friendly name identifying the user.
+        public let userName: String?
+        /// The stable and unique string identifying the user. For more information about IDs, see IAM Identifiers in the Using IAM guide.
+        public let userId: String?
+        public let arn: String?
+        /// A list of IAM groups that the user is in.
+        public let groupList: [String]?
+        /// The path to the user. For more information about paths, see IAM Identifiers in the Using IAM guide.
+        public let path: String?
+        /// The date and time, in ISO 8601 date-time format, when the user was created.
+        public let createDate: TimeStamp?
+        /// A list of the inline policies embedded in the user.
+        public let userPolicyList: [PolicyDetail]?
+        /// A list of the managed policies attached to the user.
+        public let attachedManagedPolicies: [AttachedPolicy]?
+
+        public init(userName: String? = nil, userId: String? = nil, arn: String? = nil, groupList: [String]? = nil, path: String? = nil, createDate: TimeStamp? = nil, userPolicyList: [PolicyDetail]? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil) {
+            self.userName = userName
+            self.userId = userId
+            self.arn = arn
+            self.groupList = groupList
+            self.path = path
+            self.createDate = createDate
+            self.userPolicyList = userPolicyList
+            self.attachedManagedPolicies = attachedManagedPolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case userId = "UserId"
+            case arn = "Arn"
+            case groupList = "GroupList"
+            case path = "Path"
+            case createDate = "CreateDate"
+            case userPolicyList = "UserPolicyList"
+            case attachedManagedPolicies = "AttachedManagedPolicies"
+        }
+    }
+
+    public struct ListAttachedGroupPoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "AttachedPolicies", required: false, type: .list)
+        ]
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
+        public let isTruncated: Bool?
+        /// A list of the attached policies.
+        public let attachedPolicies: [AttachedPolicy]?
+
+        public init(marker: String? = nil, isTruncated: Bool? = nil, attachedPolicies: [AttachedPolicy]? = nil) {
+            self.marker = marker
+            self.isTruncated = isTruncated
+            self.attachedPolicies = attachedPolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case attachedPolicies = "AttachedPolicies"
+        }
+    }
+
+    public struct DeactivateMFADeviceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "SerialNumber", required: true, type: .string)
+        ]
+        /// The name of the user whose MFA device you want to deactivate. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+        /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
+        public let serialNumber: String
+
+        public init(userName: String, serialNumber: String) {
+            self.userName = userName
+            self.serialNumber = serialNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case serialNumber = "SerialNumber"
+        }
+    }
+
+    public struct UploadSigningCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateBody", required: true, type: .string)
+        ]
+        /// The name of the user the signing certificate is for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String?
+        /// The contents of the signing certificate. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+        public let certificateBody: String
+
+        public init(userName: String? = nil, certificateBody: String) {
+            self.userName = userName
+            self.certificateBody = certificateBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case certificateBody = "CertificateBody"
+        }
+    }
+
+    public struct DeleteAccountAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountAlias", required: true, type: .string)
+        ]
+        /// The name of the account alias to delete. This parameter allows (per its regex pattern) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
+        public let accountAlias: String
+
+        public init(accountAlias: String) {
+            self.accountAlias = accountAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountAlias = "AccountAlias"
+        }
+    }
+
+    public struct ListGroupPoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
+        ]
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+        /// A list of policy names. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-+
+        public let policyNames: [String]
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
+        public let isTruncated: Bool?
+
+        public init(marker: String? = nil, policyNames: [String], isTruncated: Bool? = nil) {
+            self.marker = marker
+            self.policyNames = policyNames
+            self.isTruncated = isTruncated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case policyNames = "PolicyNames"
+            case isTruncated = "IsTruncated"
+        }
+    }
+
+    public struct CreateUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "User", required: false, type: .structure)
+        ]
+        /// A structure with details about the new IAM user.
+        public let user: User?
+
+        public init(user: User? = nil) {
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case user = "User"
+        }
+    }
+
+    public struct ChangePasswordRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OldPassword", required: true, type: .string), 
+            AWSShapeMember(label: "NewPassword", required: true, type: .string)
+        ]
+        /// The IAM user's current password.
+        public let oldPassword: String
+        /// The new password. The new password must conform to the AWS account's password policy, if one exists. The regex pattern used to validate this parameter is a string of characters consisting of almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
+        public let newPassword: String
+
+        public init(oldPassword: String, newPassword: String) {
+            self.oldPassword = oldPassword
+            self.newPassword = newPassword
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oldPassword = "OldPassword"
+            case newPassword = "NewPassword"
+        }
+    }
+
+    public struct UpdateOpenIDConnectProviderThumbprintRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ThumbprintList", required: true, type: .list), 
+            AWSShapeMember(label: "OpenIDConnectProviderArn", required: true, type: .string)
+        ]
+        /// A list of certificate thumbprints that are associated with the specified IAM OpenID Connect provider. For more information, see CreateOpenIDConnectProvider. 
+        public let thumbprintList: [String]
+        /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders action. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        public let openIDConnectProviderArn: String
+
+        public init(thumbprintList: [String], openIDConnectProviderArn: String) {
+            self.thumbprintList = thumbprintList
+            self.openIDConnectProviderArn = openIDConnectProviderArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thumbprintList = "ThumbprintList"
+            case openIDConnectProviderArn = "OpenIDConnectProviderArn"
+        }
+    }
+
+    public struct User: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "PasswordLastUsed", required: false, type: .timestamp), 
+            AWSShapeMember(label: "UserId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "Path", required: true, type: .string)
+        ]
+        /// The date and time, in ISO 8601 date-time format, when the user was created.
+        public let createDate: TimeStamp
+        /// The date and time, in ISO 8601 date-time format, when the user's password was last used to sign in to an AWS website. For a list of AWS websites that capture a user's last sign-in time, see the Credential Reports topic in the Using IAM guide. If a password is used more than once in a five-minute span, only the first use is returned in this field. If the field is null (no value) then it indicates that they never signed in with a password. This can be because:   The user never had a password.   A password exists but has not been used since IAM started tracking this information on October 20th, 2014.   A null does not mean that the user never had a password. Also, if the user does not currently have a password, but had one in the past, then this field contains the date and time the most recent password was used. This value is returned only in the GetUser and ListUsers actions. 
+        public let passwordLastUsed: TimeStamp?
+        /// The stable and unique string identifying the user. For more information about IDs, see IAM Identifiers in the Using IAM guide.
+        public let userId: String
+        /// The friendly name identifying the user.
+        public let userName: String
+        /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see IAM Identifiers in the Using IAM guide. 
+        public let arn: String
+        /// The path to the user. For more information about paths, see IAM Identifiers in the Using IAM guide.
+        public let path: String
+
+        public init(createDate: TimeStamp, passwordLastUsed: TimeStamp? = nil, userId: String, userName: String, arn: String, path: String) {
+            self.createDate = createDate
+            self.passwordLastUsed = passwordLastUsed
+            self.userId = userId
+            self.userName = userName
+            self.arn = arn
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case passwordLastUsed = "PasswordLastUsed"
+            case userId = "UserId"
+            case userName = "UserName"
+            case arn = "Arn"
+            case path = "Path"
+        }
+    }
+
+    public struct CreatePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        /// The path for the policy. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
+        public let path: String?
+        /// The friendly name of the policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-+
+        public let policyName: String
+        /// The JSON policy document that you want to use as the content for the new policy. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+        public let policyDocument: String
+        /// A friendly description of the policy. Typically used to store information about the permissions defined in the policy. For example, "Grants access to production DynamoDB tables." The policy description is immutable. After a value is assigned, it cannot be changed.
+        public let description: String?
+
+        public init(path: String? = nil, policyName: String, policyDocument: String, description: String? = nil) {
+            self.path = path
+            self.policyName = policyName
+            self.policyDocument = policyDocument
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+            case policyName = "PolicyName"
+            case policyDocument = "PolicyDocument"
+            case description = "Description"
+        }
+    }
+
+    public enum SummaryKeyType: String, CustomStringConvertible, Codable {
+        case users = "Users"
+        case usersquota = "UsersQuota"
+        case groups = "Groups"
+        case groupsquota = "GroupsQuota"
+        case servercertificates = "ServerCertificates"
+        case servercertificatesquota = "ServerCertificatesQuota"
+        case userpolicysizequota = "UserPolicySizeQuota"
+        case grouppolicysizequota = "GroupPolicySizeQuota"
+        case groupsperuserquota = "GroupsPerUserQuota"
+        case signingcertificatesperuserquota = "SigningCertificatesPerUserQuota"
+        case accesskeysperuserquota = "AccessKeysPerUserQuota"
+        case mfadevices = "MFADevices"
+        case mfadevicesinuse = "MFADevicesInUse"
+        case accountmfaenabled = "AccountMFAEnabled"
+        case accountaccesskeyspresent = "AccountAccessKeysPresent"
+        case accountsigningcertificatespresent = "AccountSigningCertificatesPresent"
+        case attachedpoliciespergroupquota = "AttachedPoliciesPerGroupQuota"
+        case attachedpoliciesperrolequota = "AttachedPoliciesPerRoleQuota"
+        case attachedpoliciesperuserquota = "AttachedPoliciesPerUserQuota"
+        case policies = "Policies"
+        case policiesquota = "PoliciesQuota"
+        case policysizequota = "PolicySizeQuota"
+        case policyversionsinuse = "PolicyVersionsInUse"
+        case policyversionsinusequota = "PolicyVersionsInUseQuota"
+        case versionsperpolicyquota = "VersionsPerPolicyQuota"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteSSHPublicKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "SSHPublicKeyId", required: true, type: .string)
+        ]
+        /// The name of the IAM user associated with the SSH public key. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+        /// The unique identifier for the SSH public key. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
+        public let sSHPublicKeyId: String
+
+        public init(userName: String, sSHPublicKeyId: String) {
+            self.userName = userName
+            self.sSHPublicKeyId = sSHPublicKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case sSHPublicKeyId = "SSHPublicKeyId"
+        }
+    }
+
+    public struct DeleteServerCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerCertificateName", required: true, type: .string)
+        ]
+        /// The name of the server certificate you want to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let serverCertificateName: String
+
+        public init(serverCertificateName: String) {
+            self.serverCertificateName = serverCertificateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverCertificateName = "ServerCertificateName"
+        }
+    }
+
+    public struct SAMLProviderListEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "ValidUntil", required: false, type: .timestamp)
+        ]
+        /// The date and time when the SAML provider was created.
+        public let createDate: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the SAML provider.
+        public let arn: String?
+        /// The expiration date and time for the SAML provider.
+        public let validUntil: TimeStamp?
+
+        public init(createDate: TimeStamp? = nil, arn: String? = nil, validUntil: TimeStamp? = nil) {
+            self.createDate = createDate
+            self.arn = arn
+            self.validUntil = validUntil
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case arn = "Arn"
+            case validUntil = "ValidUntil"
+        }
+    }
+
+    public struct ResourceSpecificResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MissingContextValues", required: false, type: .list), 
+            AWSShapeMember(label: "EvalResourceDecision", required: true, type: .enum), 
+            AWSShapeMember(label: "EvalDecisionDetails", required: false, type: .map), 
+            AWSShapeMember(label: "MatchedStatements", required: false, type: .list), 
+            AWSShapeMember(label: "EvalResourceName", required: true, type: .string)
+        ]
+        /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when a list of ARNs is included in the ResourceArns parameter instead of "*". If you do not specify individual resources, by setting ResourceArns to "*" or by not including the ResourceArns parameter, then any missing context values are instead included under the EvaluationResults section. To discover the context keys used by a set of policies, you can call GetContextKeysForCustomPolicy or GetContextKeysForPrincipalPolicy.
+        public let missingContextValues: [String]?
+        /// The result of the simulation of the simulated API action on the resource specified in EvalResourceName.
+        public let evalResourceDecision: PolicyEvaluationDecisionType
+        /// Additional details about the results of the evaluation decision. When there are both IAM policies and resource policies, this parameter explains how each set of policies contributes to the final evaluation decision. When simulating cross-account access to a resource, both the resource-based policy and the caller's IAM policy must grant access.
+        public let evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
+        /// A list of the statements in the input policies that determine the result for this part of the simulation. Remember that even if multiple statements allow the action on the resource, if any statement denies that action, then the explicit deny overrides any allow, and the deny statement is the only entry included in the result.
+        public let matchedStatements: [Statement]?
+        /// The name of the simulated resource, in Amazon Resource Name (ARN) format.
+        public let evalResourceName: String
+
+        public init(missingContextValues: [String]? = nil, evalResourceDecision: PolicyEvaluationDecisionType, evalDecisionDetails: [String: PolicyEvaluationDecisionType]? = nil, matchedStatements: [Statement]? = nil, evalResourceName: String) {
+            self.missingContextValues = missingContextValues
+            self.evalResourceDecision = evalResourceDecision
+            self.evalDecisionDetails = evalDecisionDetails
+            self.matchedStatements = matchedStatements
+            self.evalResourceName = evalResourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case missingContextValues = "MissingContextValues"
+            case evalResourceDecision = "EvalResourceDecision"
+            case evalDecisionDetails = "EvalDecisionDetails"
+            case matchedStatements = "MatchedStatements"
+            case evalResourceName = "EvalResourceName"
+        }
+    }
+
+    public struct GetContextKeysForPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContextKeyNames", required: false, type: .list)
+        ]
+        /// The list of context keys that are referenced in the input policies.
+        public let contextKeyNames: [String]?
+
+        public init(contextKeyNames: [String]? = nil) {
+            self.contextKeyNames = contextKeyNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextKeyNames = "ContextKeyNames"
+        }
+    }
+
+    public struct CreateAccountAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountAlias", required: true, type: .string)
+        ]
+        /// The account alias to create. This parameter allows (per its regex pattern) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
+        public let accountAlias: String
+
+        public init(accountAlias: String) {
+            self.accountAlias = accountAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountAlias = "AccountAlias"
+        }
+    }
+
+    public struct EvaluationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvalDecision", required: true, type: .enum), 
+            AWSShapeMember(label: "EvalDecisionDetails", required: false, type: .map), 
+            AWSShapeMember(label: "EvalResourceName", required: false, type: .string), 
+            AWSShapeMember(label: "MatchedStatements", required: false, type: .list), 
+            AWSShapeMember(label: "EvalActionName", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationsDecisionDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "MissingContextValues", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceSpecificResults", required: false, type: .list)
+        ]
+        /// The result of the simulation.
+        public let evalDecision: PolicyEvaluationDecisionType
+        /// Additional details about the results of the evaluation decision. When there are both IAM policies and resource policies, this parameter explains how each set of policies contributes to the final evaluation decision. When simulating cross-account access to a resource, both the resource-based policy and the caller's IAM policy must grant access. See How IAM Roles Differ from Resource-based Policies 
+        public let evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
+        /// The ARN of the resource that the indicated API action was tested on.
+        public let evalResourceName: String?
+        /// A list of the statements in the input policies that determine the result for this scenario. Remember that even if multiple statements allow the action on the resource, if only one statement denies that action, then the explicit deny overrides any allow, and the deny statement is the only entry included in the result.
+        public let matchedStatements: [Statement]?
+        /// The name of the API action tested on the indicated resource.
+        public let evalActionName: String
+        /// A structure that details how AWS Organizations and its service control policies affect the results of the simulation. Only applies if the simulated user's account is part of an organization.
+        public let organizationsDecisionDetail: OrganizationsDecisionDetail?
+        /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when the resource in a simulation is "*", either explicitly, or when the ResourceArns parameter blank. If you include a list of resources, then any missing context values are instead included under the ResourceSpecificResults section. To discover the context keys used by a set of policies, you can call GetContextKeysForCustomPolicy or GetContextKeysForPrincipalPolicy.
+        public let missingContextValues: [String]?
+        /// The individual results of the simulation of the API action specified in EvalActionName on each resource.
+        public let resourceSpecificResults: [ResourceSpecificResult]?
+
+        public init(evalDecision: PolicyEvaluationDecisionType, evalDecisionDetails: [String: PolicyEvaluationDecisionType]? = nil, evalResourceName: String? = nil, matchedStatements: [Statement]? = nil, evalActionName: String, organizationsDecisionDetail: OrganizationsDecisionDetail? = nil, missingContextValues: [String]? = nil, resourceSpecificResults: [ResourceSpecificResult]? = nil) {
+            self.evalDecision = evalDecision
+            self.evalDecisionDetails = evalDecisionDetails
+            self.evalResourceName = evalResourceName
+            self.matchedStatements = matchedStatements
+            self.evalActionName = evalActionName
+            self.organizationsDecisionDetail = organizationsDecisionDetail
+            self.missingContextValues = missingContextValues
+            self.resourceSpecificResults = resourceSpecificResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evalDecision = "EvalDecision"
+            case evalDecisionDetails = "EvalDecisionDetails"
+            case evalResourceName = "EvalResourceName"
+            case matchedStatements = "MatchedStatements"
+            case evalActionName = "EvalActionName"
+            case organizationsDecisionDetail = "OrganizationsDecisionDetail"
+            case missingContextValues = "MissingContextValues"
+            case resourceSpecificResults = "ResourceSpecificResults"
+        }
+    }
+
+    public struct GetUserPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
+        ]
+        /// The name of the user who the policy is associated with. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+        /// The name of the policy document to get. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-+
+        public let policyName: String
+
+        public init(userName: String, policyName: String) {
+            self.userName = userName
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case policyName = "PolicyName"
+        }
+    }
+
+    public struct CreateGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string)
+        ]
+        ///  The path to the group. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
+        public let path: String?
+        /// The name of the group to create. Do not include the path in this value. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-. The group name must be unique within the account. Group names are not distinguished by case. For example, you cannot create groups named both "ADMINS" and "admins".
+        public let groupName: String
+
+        public init(path: String? = nil, groupName: String) {
+            self.path = path
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+            case groupName = "GroupName"
+        }
+    }
+
+    public struct CreateLoginProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "PasswordResetRequired", required: false, type: .boolean)
+        ]
+        /// The new password for the user. The regex pattern used to validate this parameter is a string of characters consisting of almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
+        public let password: String
+        /// The name of the IAM user to create a password for. The user must already exist. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+        /// Specifies whether the user is required to set a new password on next sign-in.
+        public let passwordResetRequired: Bool?
+
+        public init(password: String, userName: String, passwordResetRequired: Bool? = nil) {
+            self.password = password
+            self.userName = userName
+            self.passwordResetRequired = passwordResetRequired
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case userName = "UserName"
+            case passwordResetRequired = "PasswordResetRequired"
+        }
+    }
+
+    public struct DeleteLoginProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string)
+        ]
+        /// The name of the user whose password you want to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+
+        public init(userName: String) {
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+        }
+    }
+
+    public enum EntityType: String, CustomStringConvertible, Codable {
+        case user = "User"
+        case role = "Role"
+        case group = "Group"
+        case localmanagedpolicy = "LocalManagedPolicy"
+        case awsmanagedpolicy = "AWSManagedPolicy"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetAccountAuthorizationDetailsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "Filter", required: false, type: .list)
+        ]
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
+        /// A list of entity types used to filter the results. Only the entities that match the types you specify are included in the output. Use the value LocalManagedPolicy to include customer managed policies. The format for this parameter is a comma-separated (if more than one) list of strings. Each string value in the list must be one of the valid values listed below.
+        public let filter: [EntityType]?
+
+        public init(marker: String? = nil, maxItems: Int32? = nil, filter: [EntityType]? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.filter = filter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case filter = "Filter"
+        }
+    }
+
+    public struct GetLoginProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string)
+        ]
+        /// The name of the user whose login profile you want to retrieve. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+
+        public init(userName: String) {
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+        }
+    }
+
+    public struct AccessKeyMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "AccessKeyId", required: false, type: .string)
+        ]
+        /// The date when the access key was created.
+        public let createDate: TimeStamp?
+        /// The name of the IAM user that the key is associated with.
+        public let userName: String?
+        /// The status of the access key. Active means the key is valid for API calls; Inactive means it is not.
+        public let status: StatusType?
+        /// The ID for this access key.
+        public let accessKeyId: String?
+
+        public init(createDate: TimeStamp? = nil, userName: String? = nil, status: StatusType? = nil, accessKeyId: String? = nil) {
+            self.createDate = createDate
+            self.userName = userName
+            self.status = status
+            self.accessKeyId = accessKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case userName = "UserName"
+            case status = "Status"
+            case accessKeyId = "AccessKeyId"
+        }
+    }
+
+    public struct ListAttachedUserPoliciesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "AttachedPolicies", required: false, type: .list)
+        ]
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
+        public let isTruncated: Bool?
+        /// A list of the attached policies.
+        public let attachedPolicies: [AttachedPolicy]?
+
+        public init(marker: String? = nil, isTruncated: Bool? = nil, attachedPolicies: [AttachedPolicy]? = nil) {
+            self.marker = marker
+            self.isTruncated = isTruncated
+            self.attachedPolicies = attachedPolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case attachedPolicies = "AttachedPolicies"
+        }
+    }
+
+    public struct RemoveRoleFromInstanceProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceProfileName", required: true, type: .string), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
+        ]
+        /// The name of the instance profile to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let instanceProfileName: String
+        /// The name of the role to remove. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+        public let roleName: String
+
+        public init(instanceProfileName: String, roleName: String) {
+            self.instanceProfileName = instanceProfileName
+            self.roleName = roleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfileName = "InstanceProfileName"
+            case roleName = "RoleName"
+        }
+    }
+
+    public struct UpdateRoleDescriptionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Role", required: false, type: .structure)
+        ]
+        /// A structure that contains details about the modified role.
+        public let role: Role?
+
+        public init(role: Role? = nil) {
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
+        }
+    }
+
+    public struct ResetServiceSpecificCredentialRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceSpecificCredentialId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+        /// The unique identifier of the service-specific credential. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
+        public let serviceSpecificCredentialId: String
+        /// The name of the IAM user associated with the service-specific credential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String?
+
+        public init(serviceSpecificCredentialId: String, userName: String? = nil) {
+            self.serviceSpecificCredentialId = serviceSpecificCredentialId
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceSpecificCredentialId = "ServiceSpecificCredentialId"
+            case userName = "UserName"
+        }
+    }
+
+    public struct EnableMFADeviceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationCode1", required: true, type: .string), 
+            AWSShapeMember(label: "SerialNumber", required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationCode2", required: true, type: .string)
+        ]
+        /// The name of the IAM user for whom you want to enable the MFA device. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+        /// An authentication code emitted by the device.  The format for this parameter is a string of 6 digits.  Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device. 
+        public let authenticationCode1: String
+        /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
+        public let serialNumber: String
+        /// A subsequent authentication code emitted by the device. The format for this parameter is a string of 6 digits.  Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device. 
+        public let authenticationCode2: String
+
+        public init(userName: String, authenticationCode1: String, serialNumber: String, authenticationCode2: String) {
+            self.userName = userName
+            self.authenticationCode1 = authenticationCode1
+            self.serialNumber = serialNumber
+            self.authenticationCode2 = authenticationCode2
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case authenticationCode1 = "AuthenticationCode1"
+            case serialNumber = "SerialNumber"
+            case authenticationCode2 = "AuthenticationCode2"
+        }
+    }
+
+    public struct UpdateAssumeRolePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
+        ]
+        /// The policy that grants an entity permission to assume the role. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+        public let policyDocument: String
+        /// The name of the role to update with the new policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+        public let roleName: String
+
+        public init(policyDocument: String, roleName: String) {
+            self.policyDocument = policyDocument
+            self.roleName = roleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "PolicyDocument"
+            case roleName = "RoleName"
+        }
+    }
+
+    public struct SSHPublicKey: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SSHPublicKeyBody", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "Fingerprint", required: true, type: .string), 
+            AWSShapeMember(label: "UploadDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SSHPublicKeyId", required: true, type: .string)
+        ]
+        /// The SSH public key.
+        public let sSHPublicKeyBody: String
+        /// The name of the IAM user associated with the SSH public key.
+        public let userName: String
+        /// The status of the SSH public key. Active means the key can be used for authentication with an AWS CodeCommit repository. Inactive means the key cannot be used.
+        public let status: StatusType
+        /// The MD5 message digest of the SSH public key.
+        public let fingerprint: String
+        /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
+        public let uploadDate: TimeStamp?
+        /// The unique identifier for the SSH public key.
+        public let sSHPublicKeyId: String
+
+        public init(sSHPublicKeyBody: String, userName: String, status: StatusType, fingerprint: String, uploadDate: TimeStamp? = nil, sSHPublicKeyId: String) {
+            self.sSHPublicKeyBody = sSHPublicKeyBody
+            self.userName = userName
+            self.status = status
+            self.fingerprint = fingerprint
+            self.uploadDate = uploadDate
+            self.sSHPublicKeyId = sSHPublicKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sSHPublicKeyBody = "SSHPublicKeyBody"
+            case userName = "UserName"
+            case status = "Status"
+            case fingerprint = "Fingerprint"
+            case uploadDate = "UploadDate"
+            case sSHPublicKeyId = "SSHPublicKeyId"
+        }
+    }
+
+    public struct ListPolicyVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
+        ]
+        /// The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        public let policyArn: String
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
+
+        public init(policyArn: String, marker: String? = nil, maxItems: Int32? = nil) {
+            self.policyArn = policyArn
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct PolicyVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string), 
+            AWSShapeMember(label: "Document", required: false, type: .string), 
+            AWSShapeMember(label: "IsDefaultVersion", required: false, type: .boolean)
+        ]
+        /// The date and time, in ISO 8601 date-time format, when the policy version was created.
+        public let createDate: TimeStamp?
+        /// The identifier for the policy version. Policy version identifiers always begin with v (always lowercase). When a policy is created, the first policy version is v1. 
+        public let versionId: String?
+        /// The policy document. The policy document is returned in the response to the GetPolicyVersion and GetAccountAuthorizationDetails operations. It is not returned in the response to the CreatePolicyVersion or ListPolicyVersions operations. 
+        public let document: String?
+        /// Specifies whether the policy version is set as the policy's default version.
+        public let isDefaultVersion: Bool?
+
+        public init(createDate: TimeStamp? = nil, versionId: String? = nil, document: String? = nil, isDefaultVersion: Bool? = nil) {
+            self.createDate = createDate
+            self.versionId = versionId
+            self.document = document
+            self.isDefaultVersion = isDefaultVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case versionId = "VersionId"
+            case document = "Document"
+            case isDefaultVersion = "IsDefaultVersion"
+        }
+    }
+
+    public struct ListUsersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Users", required: true, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
+        ]
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+        /// A list of users.
+        public let users: [User]
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
+        public let isTruncated: Bool?
+
+        public init(marker: String? = nil, users: [User], isTruncated: Bool? = nil) {
+            self.marker = marker
+            self.users = users
+            self.isTruncated = isTruncated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case users = "Users"
+            case isTruncated = "IsTruncated"
+        }
+    }
+
+    public struct DeleteInstanceProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceProfileName", required: true, type: .string)
+        ]
+        /// The name of the instance profile to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let instanceProfileName: String
+
+        public init(instanceProfileName: String) {
+            self.instanceProfileName = instanceProfileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfileName = "InstanceProfileName"
+        }
+    }
+
+    public struct RoleUsageType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "Resources", required: false, type: .list)
+        ]
+        /// The name of the region where the service-linked role is being used.
+        public let region: String?
+        /// The name of the resource that is using the service-linked role.
+        public let resources: [String]?
+
+        public init(region: String? = nil, resources: [String]? = nil) {
+            self.region = region
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case region = "Region"
+            case resources = "Resources"
+        }
+    }
+
+    public struct ListAccessKeysRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
+        ]
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// The name of the user. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String?
+        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
+
+        public init(marker: String? = nil, userName: String? = nil, maxItems: Int32? = nil) {
+            self.marker = marker
+            self.userName = userName
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case userName = "UserName"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct DeleteServiceLinkedRoleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeletionTaskId", required: true, type: .string)
+        ]
+        /// The deletion task identifier that you can use to check the status of the deletion. This identifier is returned in the format task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;.
+        public let deletionTaskId: String
+
+        public init(deletionTaskId: String) {
+            self.deletionTaskId = deletionTaskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionTaskId = "DeletionTaskId"
+        }
+    }
+
+    public struct GetAccountPasswordPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PasswordPolicy", required: true, type: .structure)
+        ]
+        /// A structure that contains details about the account's password policy.
+        public let passwordPolicy: PasswordPolicy
+
+        public init(passwordPolicy: PasswordPolicy) {
+            self.passwordPolicy = passwordPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case passwordPolicy = "PasswordPolicy"
+        }
+    }
+
+    public enum ReportStateType: String, CustomStringConvertible, Codable {
+        case started = "STARTED"
+        case inprogress = "INPROGRESS"
+        case complete = "COMPLETE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetPolicyVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyVersion", required: false, type: .structure)
+        ]
+        /// A structure containing details about the policy version.
+        public let policyVersion: PolicyVersion?
+
+        public init(policyVersion: PolicyVersion? = nil) {
+            self.policyVersion = policyVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyVersion = "PolicyVersion"
+        }
+    }
+
+    public struct PolicyUser: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "UserId", required: false, type: .string)
+        ]
+        /// The name (friendly name, not ARN) identifying the user.
+        public let userName: String?
+        /// The stable and unique string identifying the user. For more information about IDs, see IAM Identifiers in the IAM User Guide.
+        public let userId: String?
+
+        public init(userName: String? = nil, userId: String? = nil) {
+            self.userName = userName
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case userId = "UserId"
+        }
+    }
+
+    public struct ListGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
+        ]
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
+        ///  The path prefix for filtering the results. For example, the prefix /division_abc/subdivision_xyz/ gets all groups whose path starts with /division_abc/subdivision_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all groups. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
+        public let pathPrefix: String?
+
+        public init(marker: String? = nil, maxItems: Int32? = nil, pathPrefix: String? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.pathPrefix = pathPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case pathPrefix = "PathPrefix"
+        }
+    }
+
+    public struct ListServiceSpecificCredentialsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceName", required: false, type: .string)
+        ]
+        /// The name of the user whose service-specific credentials you want information about. If this value is not specified then the operation assumes the user whose credentials are used to call the operation. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String?
+        /// Filters the returned results to only those for the specified AWS service. If not specified, then AWS returns service-specific credentials for all services.
+        public let serviceName: String?
+
+        public init(userName: String? = nil, serviceName: String? = nil) {
+            self.userName = userName
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case serviceName = "ServiceName"
+        }
+    }
+
+    public struct CreateRoleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string), 
+            AWSShapeMember(label: "AssumeRolePolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
+        ]
+        ///  The path to the role. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
+        public let path: String?
+        /// The name of the role to create. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Role names are not distinguished by case. For example, you cannot create roles named both "PRODROLE" and "prodrole".
+        public let roleName: String
+        /// The trust relationship policy document that grants an entity permission to assume the role. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+        public let assumeRolePolicyDocument: String
+        /// A customer-provided description of the role.
+        public let description: String?
+
+        public init(path: String? = nil, roleName: String, assumeRolePolicyDocument: String, description: String? = nil) {
+            self.path = path
+            self.roleName = roleName
+            self.assumeRolePolicyDocument = assumeRolePolicyDocument
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+            case roleName = "RoleName"
+            case assumeRolePolicyDocument = "AssumeRolePolicyDocument"
+            case description = "Description"
+        }
+    }
+
+    public struct DeleteOpenIDConnectProviderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpenIDConnectProviderArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the IAM OpenID Connect provider resource object to delete. You can get a list of OpenID Connect provider resource ARNs by using the ListOpenIDConnectProviders action.
+        public let openIDConnectProviderArn: String
+
+        public init(openIDConnectProviderArn: String) {
+            self.openIDConnectProviderArn = openIDConnectProviderArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case openIDConnectProviderArn = "OpenIDConnectProviderArn"
+        }
+    }
+
+    public struct GetGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Users", required: true, type: .list), 
+            AWSShapeMember(label: "Group", required: true, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
+        public let isTruncated: Bool?
+        /// A list of users in the group.
+        public let users: [User]
+        /// A structure that contains details about the group.
+        public let group: Group
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+
+        public init(isTruncated: Bool? = nil, users: [User], group: Group, marker: String? = nil) {
+            self.isTruncated = isTruncated
+            self.users = users
+            self.group = group
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case users = "Users"
+            case group = "Group"
+            case marker = "Marker"
+        }
+    }
+
+    public struct PolicyDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyDocument", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string)
+        ]
+        /// The policy document.
+        public let policyDocument: String?
+        /// The name of the policy.
+        public let policyName: String?
+
+        public init(policyDocument: String? = nil, policyName: String? = nil) {
+            self.policyDocument = policyDocument
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
+        }
+    }
+
+    public struct UpdateSigningCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum)
+        ]
+        /// The ID of the signing certificate you want to update. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
+        public let certificateId: String
+        /// The name of the IAM user the signing certificate belongs to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String?
+        ///  The status you want to assign to the certificate. Active means the certificate can be used for API calls to AWS, while Inactive means the certificate cannot be used.
+        public let status: StatusType
+
+        public init(certificateId: String, userName: String? = nil, status: StatusType) {
+            self.certificateId = certificateId
+            self.userName = userName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "CertificateId"
+            case userName = "UserName"
+            case status = "Status"
+        }
+    }
+
+    public struct VirtualMFADevice: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnableDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "QRCodePNG", required: false, type: .blob), 
+            AWSShapeMember(label: "Base32StringSeed", required: false, type: .blob), 
+            AWSShapeMember(label: "User", required: false, type: .structure), 
+            AWSShapeMember(label: "SerialNumber", required: true, type: .string)
+        ]
+        /// The date and time on which the virtual MFA device was enabled.
+        public let enableDate: TimeStamp?
+        ///  A QR code PNG image that encodes otpauth://totp/$virtualMFADeviceName@$AccountName?secret=$Base32String where $virtualMFADeviceName is one of the create call arguments, AccountName is the user name if set (otherwise, the account ID otherwise), and Base32String is the seed in Base32 format. The Base32String value is Base64-encoded. 
+        public let qRCodePNG: Data?
+        ///  The Base32 seed defined as specified in RFC3548. The Base32StringSeed is Base64-encoded. 
+        public let base32StringSeed: Data?
+        /// The IAM user associated with this virtual MFA device.
+        public let user: User?
+        /// The serial number associated with VirtualMFADevice.
+        public let serialNumber: String
+
+        public init(enableDate: TimeStamp? = nil, qRCodePNG: Data? = nil, base32StringSeed: Data? = nil, user: User? = nil, serialNumber: String) {
+            self.enableDate = enableDate
+            self.qRCodePNG = qRCodePNG
+            self.base32StringSeed = base32StringSeed
+            self.user = user
+            self.serialNumber = serialNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableDate = "EnableDate"
+            case qRCodePNG = "QRCodePNG"
+            case base32StringSeed = "Base32StringSeed"
+            case user = "User"
+            case serialNumber = "SerialNumber"
+        }
+    }
+
+    public struct ListAttachedUserPoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
+        ]
+        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
+        /// The name (friendly name, not ARN) of the user to list attached policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
+        public let pathPrefix: String?
+
+        public init(maxItems: Int32? = nil, userName: String, marker: String? = nil, pathPrefix: String? = nil) {
+            self.maxItems = maxItems
+            self.userName = userName
+            self.marker = marker
+            self.pathPrefix = pathPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case userName = "UserName"
+            case marker = "Marker"
+            case pathPrefix = "PathPrefix"
+        }
+    }
+
+    public struct GetRolePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
+        ]
+        /// The name of the role associated with the policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+        public let roleName: String
+        /// The name of the policy document to get. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-+
+        public let policyName: String
+
+        public init(roleName: String, policyName: String) {
+            self.roleName = roleName
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleName = "RoleName"
+            case policyName = "PolicyName"
+        }
+    }
+
+    public struct DetachUserPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        public let policyArn: String
+        /// The name (friendly name, not ARN) of the IAM user to detach the policy from. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+
+        public init(policyArn: String, userName: String) {
+            self.policyArn = policyArn
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case userName = "UserName"
+        }
+    }
+
+    public struct ListSigningCertificatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Certificates", required: true, type: .list)
+        ]
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
+        public let isTruncated: Bool?
+        /// A list of the user's signing certificate information.
+        public let certificates: [SigningCertificate]
+
+        public init(marker: String? = nil, isTruncated: Bool? = nil, certificates: [SigningCertificate]) {
+            self.marker = marker
+            self.isTruncated = isTruncated
+            self.certificates = certificates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case certificates = "Certificates"
+        }
+    }
+
+    public struct GetCredentialReportResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: false, type: .blob), 
+            AWSShapeMember(label: "ReportFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "GeneratedTime", required: false, type: .timestamp)
+        ]
+        /// Contains the credential report. The report is Base64-encoded.
+        public let content: Data?
+        /// The format (MIME type) of the credential report.
+        public let reportFormat: ReportFormatType?
+        ///  The date and time when the credential report was created, in ISO 8601 date-time format.
+        public let generatedTime: TimeStamp?
+
+        public init(content: Data? = nil, reportFormat: ReportFormatType? = nil, generatedTime: TimeStamp? = nil) {
+            self.content = content
+            self.reportFormat = reportFormat
+            self.generatedTime = generatedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case reportFormat = "ReportFormat"
+            case generatedTime = "GeneratedTime"
+        }
+    }
+
+    public struct CreateInstanceProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceProfile", required: true, type: .structure)
+        ]
+        /// A structure containing details about the new instance profile.
+        public let instanceProfile: InstanceProfile
+
+        public init(instanceProfile: InstanceProfile) {
+            self.instanceProfile = instanceProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfile = "InstanceProfile"
+        }
+    }
+
+    public struct GetSSHPublicKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Encoding", required: true, type: .enum), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "SSHPublicKeyId", required: true, type: .string)
+        ]
+        /// Specifies the public key encoding format to use in the response. To retrieve the public key in ssh-rsa format, use SSH. To retrieve the public key in PEM format, use PEM.
+        public let encoding: EncodingType
+        /// The name of the IAM user associated with the SSH public key. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+        /// The unique identifier for the SSH public key. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
+        public let sSHPublicKeyId: String
+
+        public init(encoding: EncodingType, userName: String, sSHPublicKeyId: String) {
+            self.encoding = encoding
+            self.userName = userName
+            self.sSHPublicKeyId = sSHPublicKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encoding = "Encoding"
+            case userName = "UserName"
+            case sSHPublicKeyId = "SSHPublicKeyId"
+        }
+    }
+
+    public struct GetPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .structure)
+        ]
+        /// A structure containing details about the policy.
+        public let policy: Policy?
+
+        public init(policy: Policy? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
+    public struct ListSigningCertificatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
+        ]
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// The name of the IAM user whose signing certificates you want to examine. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String?
+        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
+
+        public init(marker: String? = nil, userName: String? = nil, maxItems: Int32? = nil) {
+            self.marker = marker
+            self.userName = userName
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case userName = "UserName"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListAttachedGroupPoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
+        ]
+        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
+        /// The name (friendly name, not ARN) of the group to list attached policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let groupName: String
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
+        public let pathPrefix: String?
+
+        public init(maxItems: Int32? = nil, groupName: String, marker: String? = nil, pathPrefix: String? = nil) {
+            self.maxItems = maxItems
+            self.groupName = groupName
+            self.marker = marker
+            self.pathPrefix = pathPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case groupName = "GroupName"
+            case marker = "Marker"
+            case pathPrefix = "PathPrefix"
+        }
+    }
+
+    public struct DeletePolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the IAM policy you want to delete. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        public let policyArn: String
+
+        public init(policyArn: String) {
+            self.policyArn = policyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+        }
+    }
+
+    public struct ResyncMFADeviceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationCode1", required: true, type: .string), 
+            AWSShapeMember(label: "SerialNumber", required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationCode2", required: true, type: .string)
+        ]
+        /// The name of the user whose MFA device you want to resynchronize. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+        /// An authentication code emitted by the device. The format for this parameter is a sequence of six digits.
+        public let authenticationCode1: String
+        /// Serial number that uniquely identifies the MFA device. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let serialNumber: String
+        /// A subsequent authentication code emitted by the device. The format for this parameter is a sequence of six digits.
+        public let authenticationCode2: String
+
+        public init(userName: String, authenticationCode1: String, serialNumber: String, authenticationCode2: String) {
+            self.userName = userName
+            self.authenticationCode1 = authenticationCode1
+            self.serialNumber = serialNumber
+            self.authenticationCode2 = authenticationCode2
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case authenticationCode1 = "AuthenticationCode1"
+            case serialNumber = "SerialNumber"
+            case authenticationCode2 = "AuthenticationCode2"
+        }
+    }
+
+    public struct DeleteSAMLProviderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SAMLProviderArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the SAML provider to delete.
+        public let sAMLProviderArn: String
+
+        public init(sAMLProviderArn: String) {
+            self.sAMLProviderArn = sAMLProviderArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sAMLProviderArn = "SAMLProviderArn"
+        }
+    }
+
+    public struct PolicyRole: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleId", required: false, type: .string), 
+            AWSShapeMember(label: "RoleName", required: false, type: .string)
+        ]
+        /// The stable and unique string identifying the role. For more information about IDs, see IAM Identifiers in the IAM User Guide.
+        public let roleId: String?
+        /// The name (friendly name, not ARN) identifying the role.
+        public let roleName: String?
+
+        public init(roleId: String? = nil, roleName: String? = nil) {
+            self.roleId = roleId
+            self.roleName = roleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleId = "RoleId"
+            case roleName = "RoleName"
+        }
+    }
+
+    public struct OrganizationsDecisionDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowedByOrganizations", required: false, type: .boolean)
+        ]
+        /// Specifies whether the simulated action is allowed by the AWS Organizations service control policies that impact the simulated user's account.
+        public let allowedByOrganizations: Bool?
+
+        public init(allowedByOrganizations: Bool? = nil) {
+            self.allowedByOrganizations = allowedByOrganizations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedByOrganizations = "AllowedByOrganizations"
+        }
+    }
+
+    public enum ReportFormatType: String, CustomStringConvertible, Codable {
+        case textCsv = "text/csv"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListVirtualMFADevicesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VirtualMFADevices", required: true, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
+        ]
+        ///  The list of virtual MFA devices in the current account that match the AssignmentStatus value that was passed in the request.
+        public let virtualMFADevices: [VirtualMFADevice]
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
+        public let isTruncated: Bool?
+
+        public init(virtualMFADevices: [VirtualMFADevice], marker: String? = nil, isTruncated: Bool? = nil) {
+            self.virtualMFADevices = virtualMFADevices
+            self.marker = marker
+            self.isTruncated = isTruncated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualMFADevices = "VirtualMFADevices"
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+        }
+    }
+
+    public enum ContextKeyTypeEnum: String, CustomStringConvertible, Codable {
+        case string = "string"
+        case stringlist = "stringList"
+        case numeric = "numeric"
+        case numericlist = "numericList"
+        case boolean = "boolean"
+        case booleanlist = "booleanList"
+        case ip = "ip"
+        case iplist = "ipList"
+        case binary = "binary"
+        case binarylist = "binaryList"
+        case date = "date"
+        case datelist = "dateList"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateLoginProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "PasswordResetRequired", required: false, type: .boolean)
+        ]
+        /// The new password for the specified IAM user. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D). However, the format can be further restricted by the account administrator by setting a password policy on the AWS account. For more information, see UpdateAccountPasswordPolicy.
+        public let password: String?
+        /// The name of the user whose password you want to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+        /// Allows this new password to be used only once by requiring the specified IAM user to set a new password on next sign-in.
+        public let passwordResetRequired: Bool?
+
+        public init(password: String? = nil, userName: String, passwordResetRequired: Bool? = nil) {
+            self.password = password
+            self.userName = userName
+            self.passwordResetRequired = passwordResetRequired
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case userName = "UserName"
+            case passwordResetRequired = "PasswordResetRequired"
+        }
+    }
+
+    public struct ListAccountAliasesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "AccountAliases", required: true, type: .list)
+        ]
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
+        public let isTruncated: Bool?
+        /// A list of aliases associated with the account. AWS supports only one alias per account.
+        public let accountAliases: [String]
+
+        public init(marker: String? = nil, isTruncated: Bool? = nil, accountAliases: [String]) {
+            self.marker = marker
+            self.isTruncated = isTruncated
+            self.accountAliases = accountAliases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case accountAliases = "AccountAliases"
+        }
+    }
+
+    public struct ListMFADevicesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
+        ]
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// The name of the user whose MFA devices you want to list. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String?
+        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
+
+        public init(marker: String? = nil, userName: String? = nil, maxItems: Int32? = nil) {
+            self.marker = marker
+            self.userName = userName
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case userName = "UserName"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct DeleteGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: true, type: .string)
+        ]
+        /// The name of the IAM group to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let groupName: String
+
+        public init(groupName: String) {
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+        }
+    }
+
+    public struct CreatePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .structure)
+        ]
+        /// A structure containing details about the new policy.
+        public let policy: Policy?
+
+        public init(policy: Policy? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
     public struct ListRolePoliciesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
             AWSShapeMember(label: "RoleName", required: true, type: .string)
@@ -133,45 +2546,8 @@ extension Iam {
         }
     }
 
-    public struct GetOpenIDConnectProviderRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OpenIDConnectProviderArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the ListOpenIDConnectProviders action. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        public let openIDConnectProviderArn: String
-
-        public init(openIDConnectProviderArn: String) {
-            self.openIDConnectProviderArn = openIDConnectProviderArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case openIDConnectProviderArn = "OpenIDConnectProviderArn"
-        }
-    }
-
-    public struct DeleteRolePolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string)
-        ]
-        /// The name (friendly name, not ARN) identifying the role that the policy is embedded in. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let roleName: String
-        /// The name of the inline policy to delete from the specified IAM role. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let policyName: String
-
-        public init(roleName: String, policyName: String) {
-            self.roleName = roleName
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleName = "RoleName"
-            case policyName = "PolicyName"
-        }
-    }
-
     public struct UpdateGroupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NewPath", required: false, type: .string), 
             AWSShapeMember(label: "NewGroupName", required: false, type: .string), 
             AWSShapeMember(label: "GroupName", required: true, type: .string)
@@ -196,24 +2572,8 @@ extension Iam {
         }
     }
 
-    public struct DeleteRoleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleName", required: true, type: .string)
-        ]
-        /// The name of the role to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let roleName: String
-
-        public init(roleName: String) {
-            self.roleName = roleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleName = "RoleName"
-        }
-    }
-
     public struct DeleteVirtualMFADeviceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SerialNumber", required: true, type: .string)
         ]
         /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
@@ -228,8 +2588,24 @@ extension Iam {
         }
     }
 
+    public struct CreateVirtualMFADeviceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VirtualMFADevice", required: true, type: .structure)
+        ]
+        /// A structure containing details about the new virtual MFA device.
+        public let virtualMFADevice: VirtualMFADevice
+
+        public init(virtualMFADevice: VirtualMFADevice) {
+            self.virtualMFADevice = virtualMFADevice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualMFADevice = "VirtualMFADevice"
+        }
+    }
+
     public struct AttachUserPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
             AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
@@ -249,56 +2625,8 @@ extension Iam {
         }
     }
 
-    public struct CreateVirtualMFADeviceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VirtualMFADevice", required: true, type: .structure)
-        ]
-        /// A structure containing details about the new virtual MFA device.
-        public let virtualMFADevice: VirtualMFADevice
-
-        public init(virtualMFADevice: VirtualMFADevice) {
-            self.virtualMFADevice = virtualMFADevice
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualMFADevice = "VirtualMFADevice"
-        }
-    }
-
-    public struct ListOpenIDConnectProvidersResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OpenIDConnectProviderList", required: false, type: .list)
-        ]
-        /// The list of IAM OIDC provider resource objects defined in the AWS account.
-        public let openIDConnectProviderList: [OpenIDConnectProviderListEntry]?
-
-        public init(openIDConnectProviderList: [OpenIDConnectProviderListEntry]? = nil) {
-            self.openIDConnectProviderList = openIDConnectProviderList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case openIDConnectProviderList = "OpenIDConnectProviderList"
-        }
-    }
-
-    public struct GetUserRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
-        /// The name of the user to get information about. This parameter is optional. If it is not included, it defaults to the user making the request. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String?
-
-        public init(userName: String? = nil) {
-            self.userName = userName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-        }
-    }
-
     public struct InstanceProfile: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceProfileName", required: true, type: .string), 
             AWSShapeMember(label: "CreateDate", required: true, type: .timestamp), 
             AWSShapeMember(label: "Arn", required: true, type: .string), 
@@ -339,7 +2667,7 @@ extension Iam {
     }
 
     public struct CreateServiceSpecificCredentialResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceSpecificCredential", required: false, type: .structure)
         ]
         /// A structure that contains information about the newly created service-specific credential.  This is the only time that the password for this credential set is available. It cannot be recovered later. Instead, you will have to reset the password with ResetServiceSpecificCredential. 
@@ -354,35 +2682,14 @@ extension Iam {
         }
     }
 
-    public struct UpdateSAMLProviderRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SAMLMetadataDocument", required: true, type: .string), 
-            AWSShapeMember(label: "SAMLProviderArn", required: true, type: .string)
-        ]
-        /// An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP.
-        public let sAMLMetadataDocument: String
-        /// The Amazon Resource Name (ARN) of the SAML provider to update. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        public let sAMLProviderArn: String
-
-        public init(sAMLMetadataDocument: String, sAMLProviderArn: String) {
-            self.sAMLMetadataDocument = sAMLMetadataDocument
-            self.sAMLProviderArn = sAMLProviderArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sAMLMetadataDocument = "SAMLMetadataDocument"
-            case sAMLProviderArn = "SAMLProviderArn"
-        }
-    }
-
     public struct GetGroupPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name of the group the policy is associated with. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let groupName: String
-        /// The name of the policy document to get. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the policy document to get. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-+
         public let policyName: String
 
         public init(groupName: String, policyName: String) {
@@ -396,30 +2703,8 @@ extension Iam {
         }
     }
 
-    public enum EncodingType: String, CustomStringConvertible, Codable {
-        case ssh = "SSH"
-        case pem = "PEM"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct UploadServerCertificateResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerCertificateMetadata", required: false, type: .structure)
-        ]
-        /// The meta information of the uploaded server certificate without its certificate body, certificate chain, and private key.
-        public let serverCertificateMetadata: ServerCertificateMetadata?
-
-        public init(serverCertificateMetadata: ServerCertificateMetadata? = nil) {
-            self.serverCertificateMetadata = serverCertificateMetadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverCertificateMetadata = "ServerCertificateMetadata"
-        }
-    }
-
     public struct ContextEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContextKeyValues", required: false, type: .list), 
             AWSShapeMember(label: "ContextKeyName", required: false, type: .string), 
             AWSShapeMember(label: "ContextKeyType", required: false, type: .enum)
@@ -445,7 +2730,7 @@ extension Iam {
     }
 
     public struct GetSSHPublicKeyResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SSHPublicKey", required: false, type: .structure)
         ]
         /// A structure containing details about the SSH public key.
@@ -460,14 +2745,8 @@ extension Iam {
         }
     }
 
-    public enum StatusType: String, CustomStringConvertible, Codable {
-        case active = "Active"
-        case inactive = "Inactive"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AttachGroupPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
             AWSShapeMember(label: "GroupName", required: true, type: .string)
         ]
@@ -488,7 +2767,7 @@ extension Iam {
     }
 
     public struct ListEntitiesForPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EntityFilter", required: false, type: .enum), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
             AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
@@ -523,39 +2802,34 @@ extension Iam {
         }
     }
 
-    public struct SSHPublicKeyMetadata: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "UploadDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "SSHPublicKeyId", required: true, type: .string)
+    public struct ListInstanceProfilesForRoleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
         ]
-        /// The name of the IAM user associated with the SSH public key.
-        public let userName: String
-        /// The status of the SSH public key. Active means the key can be used for authentication with an AWS CodeCommit repository. Inactive means the key cannot be used.
-        public let status: StatusType
-        /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
-        public let uploadDate: TimeStamp
-        /// The unique identifier for the SSH public key.
-        public let sSHPublicKeyId: String
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
+        /// The name of the role to list instance profiles for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+        public let roleName: String
 
-        public init(userName: String, status: StatusType, uploadDate: TimeStamp, sSHPublicKeyId: String) {
-            self.userName = userName
-            self.status = status
-            self.uploadDate = uploadDate
-            self.sSHPublicKeyId = sSHPublicKeyId
+        public init(marker: String? = nil, maxItems: Int32? = nil, roleName: String) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.roleName = roleName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case status = "Status"
-            case uploadDate = "UploadDate"
-            case sSHPublicKeyId = "SSHPublicKeyId"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case roleName = "RoleName"
         }
     }
 
     public struct ListAttachedRolePoliciesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "AttachedPolicies", required: false, type: .list)
@@ -581,7 +2855,7 @@ extension Iam {
     }
 
     public struct ListMFADevicesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "MFADevices", required: true, type: .list)
@@ -606,81 +2880,8 @@ extension Iam {
         }
     }
 
-    public struct ListInstanceProfilesForRoleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "RoleName", required: true, type: .string)
-        ]
-        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-        public let marker: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
-        /// The name of the role to list instance profiles for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let roleName: String
-
-        public init(marker: String? = nil, maxItems: Int32? = nil, roleName: String) {
-            self.marker = marker
-            self.maxItems = maxItems
-            self.roleName = roleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-            case roleName = "RoleName"
-        }
-    }
-
-    public struct ListGroupsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "Groups", required: true, type: .list)
-        ]
-        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
-        public let marker: String?
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
-        public let isTruncated: Bool?
-        /// A list of groups.
-        public let groups: [Group]
-
-        public init(marker: String? = nil, isTruncated: Bool? = nil, groups: [Group]) {
-            self.marker = marker
-            self.isTruncated = isTruncated
-            self.groups = groups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case isTruncated = "IsTruncated"
-            case groups = "Groups"
-        }
-    }
-
-    public struct CreateUserRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "Path", required: false, type: .string)
-        ]
-        /// The name of the user to create. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-. User names are not distinguished by case. For example, you cannot create users named both "TESTUSER" and "testuser".
-        public let userName: String
-        ///  The path for the user name. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
-        public let path: String?
-
-        public init(userName: String, path: String? = nil) {
-            self.userName = userName
-            self.path = path
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case path = "Path"
-        }
-    }
-
     public struct AccessKey: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "UserName", required: true, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .enum), 
@@ -715,8 +2916,29 @@ extension Iam {
         }
     }
 
+    public struct CreateUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
+        ]
+        /// The name of the user to create. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-. User names are not distinguished by case. For example, you cannot create users named both "TESTUSER" and "testuser".
+        public let userName: String
+        ///  The path for the user name. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
+        public let path: String?
+
+        public init(userName: String, path: String? = nil) {
+            self.userName = userName
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case path = "Path"
+        }
+    }
+
     public struct AddRoleToInstanceProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceProfileName", required: true, type: .string), 
             AWSShapeMember(label: "RoleName", required: true, type: .string)
         ]
@@ -737,7 +2959,7 @@ extension Iam {
     }
 
     public struct CreateInstanceProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceProfileName", required: true, type: .string), 
             AWSShapeMember(label: "Path", required: false, type: .string)
         ]
@@ -757,60 +2979,8 @@ extension Iam {
         }
     }
 
-    public struct ListGroupsForUserResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "Groups", required: true, type: .list)
-        ]
-        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
-        public let marker: String?
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
-        public let isTruncated: Bool?
-        /// A list of groups.
-        public let groups: [Group]
-
-        public init(marker: String? = nil, isTruncated: Bool? = nil, groups: [Group]) {
-            self.marker = marker
-            self.isTruncated = isTruncated
-            self.groups = groups
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case isTruncated = "IsTruncated"
-            case groups = "Groups"
-        }
-    }
-
-    public struct ListInstanceProfilesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
-        ]
-        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-        public let marker: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
-        ///  The path prefix for filtering the results. For example, the prefix /application_abc/component_xyz/ gets all instance profiles whose path starts with /application_abc/component_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all instance profiles. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
-        public let pathPrefix: String?
-
-        public init(marker: String? = nil, maxItems: Int32? = nil, pathPrefix: String? = nil) {
-            self.marker = marker
-            self.maxItems = maxItems
-            self.pathPrefix = pathPrefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-            case pathPrefix = "PathPrefix"
-        }
-    }
-
     public struct UploadSSHPublicKeyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SSHPublicKeyBody", required: true, type: .string), 
             AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
@@ -831,7 +3001,7 @@ extension Iam {
     }
 
     public struct DeleteUserRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
         /// The name of the user to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
@@ -847,7 +3017,7 @@ extension Iam {
     }
 
     public struct ListSSHPublicKeysRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "UserName", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer)
@@ -872,70 +3042,24 @@ extension Iam {
         }
     }
 
-    public struct UpdateAccessKeyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "AccessKeyId", required: true, type: .string)
+    public struct CreateLoginProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoginProfile", required: true, type: .structure)
         ]
-        /// The name of the user whose key you want to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String?
-        ///  The status you want to assign to the secret access key. Active means the key can be used for API calls to AWS, while Inactive means the key cannot be used.
-        public let status: StatusType
-        /// The access key ID of the secret access key you want to update. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
-        public let accessKeyId: String
+        /// A structure containing the user name and password create date.
+        public let loginProfile: LoginProfile
 
-        public init(userName: String? = nil, status: StatusType, accessKeyId: String) {
-            self.userName = userName
-            self.status = status
-            self.accessKeyId = accessKeyId
+        public init(loginProfile: LoginProfile) {
+            self.loginProfile = loginProfile
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case status = "Status"
-            case accessKeyId = "AccessKeyId"
-        }
-    }
-
-    public struct UploadServerCertificateRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerCertificateName", required: true, type: .string), 
-            AWSShapeMember(label: "CertificateBody", required: true, type: .string), 
-            AWSShapeMember(label: "PrivateKey", required: true, type: .string), 
-            AWSShapeMember(label: "CertificateChain", required: false, type: .string), 
-            AWSShapeMember(label: "Path", required: false, type: .string)
-        ]
-        /// The name for the server certificate. Do not include the path in this value. The name of the certificate cannot contain any spaces. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let serverCertificateName: String
-        /// The contents of the public key certificate in PEM-encoded format. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
-        public let certificateBody: String
-        /// The contents of the private key in PEM-encoded format. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
-        public let privateKey: String
-        /// The contents of the certificate chain. This is typically a concatenation of the PEM-encoded public key certificates of the chain. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
-        public let certificateChain: String?
-        /// The path for the server certificate. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.   If you are uploading a server certificate specifically for use with Amazon CloudFront distributions, you must specify a path using the --path option. The path must begin with /cloudfront and must include a trailing slash (for example, /cloudfront/test/). 
-        public let path: String?
-
-        public init(serverCertificateName: String, certificateBody: String, privateKey: String, certificateChain: String? = nil, path: String? = nil) {
-            self.serverCertificateName = serverCertificateName
-            self.certificateBody = certificateBody
-            self.privateKey = privateKey
-            self.certificateChain = certificateChain
-            self.path = path
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverCertificateName = "ServerCertificateName"
-            case certificateBody = "CertificateBody"
-            case privateKey = "PrivateKey"
-            case certificateChain = "CertificateChain"
-            case path = "Path"
+            case loginProfile = "LoginProfile"
         }
     }
 
     public struct SimulateCustomPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
             AWSShapeMember(label: "ActionNames", required: true, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -995,66 +3119,8 @@ extension Iam {
         }
     }
 
-    public struct GetGroupPolicyResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string)
-        ]
-        /// The group the policy is associated with.
-        public let groupName: String
-        /// The policy document.
-        public let policyDocument: String
-        /// The name of the policy.
-        public let policyName: String
-
-        public init(groupName: String, policyDocument: String, policyName: String) {
-            self.groupName = groupName
-            self.policyDocument = policyDocument
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-            case policyDocument = "PolicyDocument"
-            case policyName = "PolicyName"
-        }
-    }
-
-    public struct GetAccountSummaryResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SummaryMap", required: false, type: .map)
-        ]
-        /// A set of key value pairs containing information about IAM entity usage and IAM quotas.
-        public let summaryMap: [SummaryKeyType: Int32]?
-
-        public init(summaryMap: [SummaryKeyType: Int32]? = nil) {
-            self.summaryMap = summaryMap
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case summaryMap = "SummaryMap"
-        }
-    }
-
-    public struct CreateLoginProfileResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoginProfile", required: true, type: .structure)
-        ]
-        /// A structure containing the user name and password create date.
-        public let loginProfile: LoginProfile
-
-        public init(loginProfile: LoginProfile) {
-            self.loginProfile = loginProfile
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loginProfile = "LoginProfile"
-        }
-    }
-
     public struct RoleDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttachedManagedPolicies", required: false, type: .list), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "AssumeRolePolicyDocument", required: false, type: .string), 
@@ -1108,34 +3174,50 @@ extension Iam {
         }
     }
 
-    public struct PutUserPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
+    public struct GetAccountSummaryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SummaryMap", required: false, type: .map)
+        ]
+        /// A set of key value pairs containing information about IAM entity usage and IAM quotas.
+        public let summaryMap: [SummaryKeyType: Int32]?
+
+        public init(summaryMap: [SummaryKeyType: Int32]? = nil) {
+            self.summaryMap = summaryMap
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case summaryMap = "SummaryMap"
+        }
+    }
+
+    public struct GetGroupPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
-        /// The name of the user to associate the policy with. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// The policy document. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+        /// The group the policy is associated with.
+        public let groupName: String
+        /// The policy document.
         public let policyDocument: String
-        /// The name of the policy document. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the policy.
         public let policyName: String
 
-        public init(userName: String, policyDocument: String, policyName: String) {
-            self.userName = userName
+        public init(groupName: String, policyDocument: String, policyName: String) {
+            self.groupName = groupName
             self.policyDocument = policyDocument
             self.policyName = policyName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
+            case groupName = "GroupName"
             case policyDocument = "PolicyDocument"
             case policyName = "PolicyName"
         }
     }
 
     public struct PutRolePolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoleName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
@@ -1144,7 +3226,7 @@ extension Iam {
         public let roleName: String
         /// The policy document. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
         public let policyDocument: String
-        /// The name of the policy document. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the policy document. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-+
         public let policyName: String
 
         public init(roleName: String, policyDocument: String, policyName: String) {
@@ -1160,269 +3242,8 @@ extension Iam {
         }
     }
 
-    public struct ListAttachedRolePoliciesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "RoleName", required: true, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
-        ]
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
-        /// The name (friendly name, not ARN) of the role to list attached policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let roleName: String
-        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-        public let marker: String?
-        /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
-        public let pathPrefix: String?
-
-        public init(maxItems: Int32? = nil, roleName: String, marker: String? = nil, pathPrefix: String? = nil) {
-            self.maxItems = maxItems
-            self.roleName = roleName
-            self.marker = marker
-            self.pathPrefix = pathPrefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxItems = "MaxItems"
-            case roleName = "RoleName"
-            case marker = "Marker"
-            case pathPrefix = "PathPrefix"
-        }
-    }
-
-    public struct Position: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Line", required: false, type: .integer), 
-            AWSShapeMember(label: "Column", required: false, type: .integer)
-        ]
-        /// The line containing the specified position in the document.
-        public let line: Int32?
-        /// The column in the line containing the specified position in the document.
-        public let column: Int32?
-
-        public init(line: Int32? = nil, column: Int32? = nil) {
-            self.line = line
-            self.column = column
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case line = "Line"
-            case column = "Column"
-        }
-    }
-
-    public struct ListAccessKeysResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "AccessKeyMetadata", required: true, type: .list)
-        ]
-        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
-        public let marker: String?
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
-        public let isTruncated: Bool?
-        /// A list of objects containing metadata about the access keys.
-        public let accessKeyMetadata: [AccessKeyMetadata]
-
-        public init(marker: String? = nil, isTruncated: Bool? = nil, accessKeyMetadata: [AccessKeyMetadata]) {
-            self.marker = marker
-            self.isTruncated = isTruncated
-            self.accessKeyMetadata = accessKeyMetadata
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case isTruncated = "IsTruncated"
-            case accessKeyMetadata = "AccessKeyMetadata"
-        }
-    }
-
-    public struct UpdateServiceSpecificCredentialRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceSpecificCredentialId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .enum)
-        ]
-        /// The unique identifier of the service-specific credential. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
-        public let serviceSpecificCredentialId: String
-        /// The name of the IAM user associated with the service-specific credential. If you do not specify this value, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String?
-        /// The status to be assigned to the service-specific credential.
-        public let status: StatusType
-
-        public init(serviceSpecificCredentialId: String, userName: String? = nil, status: StatusType) {
-            self.serviceSpecificCredentialId = serviceSpecificCredentialId
-            self.userName = userName
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceSpecificCredentialId = "ServiceSpecificCredentialId"
-            case userName = "UserName"
-            case status = "Status"
-        }
-    }
-
-    public struct DetachRolePolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeMember(label: "RoleName", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        public let policyArn: String
-        /// The name (friendly name, not ARN) of the IAM role to detach the policy from. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let roleName: String
-
-        public init(policyArn: String, roleName: String) {
-            self.policyArn = policyArn
-            self.roleName = roleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyArn = "PolicyArn"
-            case roleName = "RoleName"
-        }
-    }
-
-    public struct CreateSAMLProviderRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "SAMLMetadataDocument", required: true, type: .string)
-        ]
-        /// The name of the provider to create. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let name: String
-        /// An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP. For more information, see About SAML 2.0-based Federation in the IAM User Guide 
-        public let sAMLMetadataDocument: String
-
-        public init(name: String, sAMLMetadataDocument: String) {
-            self.name = name
-            self.sAMLMetadataDocument = sAMLMetadataDocument
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case sAMLMetadataDocument = "SAMLMetadataDocument"
-        }
-    }
-
-    public struct ListVirtualMFADevicesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        ///  The status (Unassigned or Assigned) of the devices to list. If you do not specify an AssignmentStatus, the action defaults to Any which lists both assigned and unassigned virtual MFA devices.
-        public let assignmentStatus: AssignmentStatusType?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
-        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-        public let marker: String?
-
-        public init(assignmentStatus: AssignmentStatusType? = nil, maxItems: Int32? = nil, marker: String? = nil) {
-            self.assignmentStatus = assignmentStatus
-            self.maxItems = maxItems
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assignmentStatus = "AssignmentStatus"
-            case maxItems = "MaxItems"
-            case marker = "Marker"
-        }
-    }
-
-    public struct GetRoleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleName", required: true, type: .string)
-        ]
-        /// The name of the IAM role to get information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let roleName: String
-
-        public init(roleName: String) {
-            self.roleName = roleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleName = "RoleName"
-        }
-    }
-
-    public struct AddUserToGroupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string)
-        ]
-        /// The name of the user to add. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// The name of the group to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let groupName: String
-
-        public init(userName: String, groupName: String) {
-            self.userName = userName
-            self.groupName = groupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case groupName = "GroupName"
-        }
-    }
-
-    public struct UpdateUserRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NewPath", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "NewUserName", required: false, type: .string)
-        ]
-        /// New path for the IAM user. Include this parameter only if you're changing the user's path. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
-        public let newPath: String?
-        /// Name of the user to update. If you're changing the name of the user, this is the original user name. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// New name for the user. Include this parameter only if you're changing the user's name. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let newUserName: String?
-
-        public init(newPath: String? = nil, userName: String, newUserName: String? = nil) {
-            self.newPath = newPath
-            self.userName = userName
-            self.newUserName = newUserName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case newPath = "NewPath"
-            case userName = "UserName"
-            case newUserName = "NewUserName"
-        }
-    }
-
-    public struct OpenIDConnectProviderListEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", required: false, type: .string)
-        ]
-        public let arn: String?
-
-        public init(arn: String? = nil) {
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "Arn"
-        }
-    }
-
-    public enum PolicySourceType: String, CustomStringConvertible, Codable {
-        case user = "user"
-        case group = "group"
-        case role = "role"
-        case awsManaged = "aws-managed"
-        case userManaged = "user-managed"
-        case resource = "resource"
-        case none = "none"
-        public var description: String { return self.rawValue }
-    }
-
     public struct CreatePolicyVersionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
             AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeMember(label: "SetAsDefault", required: false, type: .boolean)
@@ -1447,29 +3268,66 @@ extension Iam {
         }
     }
 
-    public struct CreateServiceSpecificCredentialRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "ServiceName", required: true, type: .string)
+    public struct Position: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Line", required: false, type: .integer), 
+            AWSShapeMember(label: "Column", required: false, type: .integer)
         ]
-        /// The name of the IAM user that is to be associated with the credentials. The new service-specific credentials have the same permissions as the associated user except that they can be used only to access the specified service. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// The name of the AWS service that is to be associated with the credentials. The service you specify here is the only service that can be accessed using these credentials.
-        public let serviceName: String
+        /// The line containing the specified position in the document.
+        public let line: Int32?
+        /// The column in the line containing the specified position in the document.
+        public let column: Int32?
 
-        public init(userName: String, serviceName: String) {
-            self.userName = userName
-            self.serviceName = serviceName
+        public init(line: Int32? = nil, column: Int32? = nil) {
+            self.line = line
+            self.column = column
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case serviceName = "ServiceName"
+            case line = "Line"
+            case column = "Column"
         }
     }
 
+    public struct UpdateUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NewPath", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "NewUserName", required: false, type: .string)
+        ]
+        /// New path for the IAM user. Include this parameter only if you're changing the user's path. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
+        public let newPath: String?
+        /// Name of the user to update. If you're changing the name of the user, this is the original user name. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+        /// New name for the user. Include this parameter only if you're changing the user's name. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let newUserName: String?
+
+        public init(newPath: String? = nil, userName: String, newUserName: String? = nil) {
+            self.newPath = newPath
+            self.userName = userName
+            self.newUserName = newUserName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case newPath = "NewPath"
+            case userName = "UserName"
+            case newUserName = "NewUserName"
+        }
+    }
+
+    public enum PolicySourceType: String, CustomStringConvertible, Codable {
+        case user = "user"
+        case group = "group"
+        case role = "role"
+        case awsManaged = "aws-managed"
+        case userManaged = "user-managed"
+        case resource = "resource"
+        case none = "none"
+        public var description: String { return self.rawValue }
+    }
+
     public struct PasswordPolicy: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequireNumbers", required: false, type: .boolean), 
             AWSShapeMember(label: "ExpirePasswords", required: false, type: .boolean), 
             AWSShapeMember(label: "MaxPasswordAge", required: false, type: .integer), 
@@ -1530,7 +3388,7 @@ extension Iam {
     }
 
     public struct CreateRoleResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Role", required: true, type: .structure)
         ]
         /// A structure containing details about the new role.
@@ -1546,7 +3404,7 @@ extension Iam {
     }
 
     public struct ListServerCertificatesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
             AWSShapeMember(label: "PathPrefix", required: false, type: .string)
@@ -1572,7 +3430,7 @@ extension Iam {
     }
 
     public struct SetDefaultPolicyVersionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
             AWSShapeMember(label: "VersionId", required: true, type: .string)
         ]
@@ -1592,38 +3450,8 @@ extension Iam {
         }
     }
 
-    public struct ListOpenIDConnectProvidersRequest: AWSShape {
-
-    }
-
-    public struct UpdateServerCertificateRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NewPath", required: false, type: .string), 
-            AWSShapeMember(label: "ServerCertificateName", required: true, type: .string), 
-            AWSShapeMember(label: "NewServerCertificateName", required: false, type: .string)
-        ]
-        /// The new path for the server certificate. Include this only if you are updating the server certificate's path. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
-        public let newPath: String?
-        /// The name of the server certificate that you want to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let serverCertificateName: String
-        /// The new name for the server certificate. Include this only if you are updating the server certificate's name. The name of the certificate cannot contain any spaces. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let newServerCertificateName: String?
-
-        public init(newPath: String? = nil, serverCertificateName: String, newServerCertificateName: String? = nil) {
-            self.newPath = newPath
-            self.serverCertificateName = serverCertificateName
-            self.newServerCertificateName = newServerCertificateName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case newPath = "NewPath"
-            case serverCertificateName = "ServerCertificateName"
-            case newServerCertificateName = "NewServerCertificateName"
-        }
-    }
-
     public struct ListPoliciesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Policies", required: false, type: .list), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
@@ -1648,24 +3476,8 @@ extension Iam {
         }
     }
 
-    public struct GetServerCertificateRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerCertificateName", required: true, type: .string)
-        ]
-        /// The name of the server certificate you want to retrieve information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let serverCertificateName: String
-
-        public init(serverCertificateName: String) {
-            self.serverCertificateName = serverCertificateName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverCertificateName = "ServerCertificateName"
-        }
-    }
-
     public struct ServiceSpecificCredential: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceSpecificCredentialId", required: true, type: .string), 
             AWSShapeMember(label: "UserName", required: true, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .enum), 
@@ -1710,145 +3522,12 @@ extension Iam {
         }
     }
 
-    public struct GetOpenIDConnectProviderResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Url", required: false, type: .string), 
-            AWSShapeMember(label: "ThumbprintList", required: false, type: .list), 
-            AWSShapeMember(label: "ClientIDList", required: false, type: .list)
-        ]
-        /// The date and time when the IAM OIDC provider resource object was created in the AWS account.
-        public let createDate: TimeStamp?
-        /// The URL that the IAM OIDC provider resource object is associated with. For more information, see CreateOpenIDConnectProvider.
-        public let url: String?
-        /// A list of certificate thumbprints that are associated with the specified IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider. 
-        public let thumbprintList: [String]?
-        /// A list of client IDs (also known as audiences) that are associated with the specified IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider.
-        public let clientIDList: [String]?
-
-        public init(createDate: TimeStamp? = nil, url: String? = nil, thumbprintList: [String]? = nil, clientIDList: [String]? = nil) {
-            self.createDate = createDate
-            self.url = url
-            self.thumbprintList = thumbprintList
-            self.clientIDList = clientIDList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createDate = "CreateDate"
-            case url = "Url"
-            case thumbprintList = "ThumbprintList"
-            case clientIDList = "ClientIDList"
-        }
-    }
-
-    public struct UserDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "UserId", required: false, type: .string), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "GroupList", required: false, type: .list), 
-            AWSShapeMember(label: "Path", required: false, type: .string), 
-            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "UserPolicyList", required: false, type: .list), 
-            AWSShapeMember(label: "AttachedManagedPolicies", required: false, type: .list)
-        ]
-        /// The friendly name identifying the user.
-        public let userName: String?
-        /// The stable and unique string identifying the user. For more information about IDs, see IAM Identifiers in the Using IAM guide.
-        public let userId: String?
-        public let arn: String?
-        /// A list of IAM groups that the user is in.
-        public let groupList: [String]?
-        /// The path to the user. For more information about paths, see IAM Identifiers in the Using IAM guide.
-        public let path: String?
-        /// The date and time, in ISO 8601 date-time format, when the user was created.
-        public let createDate: TimeStamp?
-        /// A list of the inline policies embedded in the user.
-        public let userPolicyList: [PolicyDetail]?
-        /// A list of the managed policies attached to the user.
-        public let attachedManagedPolicies: [AttachedPolicy]?
-
-        public init(userName: String? = nil, userId: String? = nil, arn: String? = nil, groupList: [String]? = nil, path: String? = nil, createDate: TimeStamp? = nil, userPolicyList: [PolicyDetail]? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil) {
-            self.userName = userName
-            self.userId = userId
-            self.arn = arn
-            self.groupList = groupList
-            self.path = path
-            self.createDate = createDate
-            self.userPolicyList = userPolicyList
-            self.attachedManagedPolicies = attachedManagedPolicies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case userId = "UserId"
-            case arn = "Arn"
-            case groupList = "GroupList"
-            case path = "Path"
-            case createDate = "CreateDate"
-            case userPolicyList = "UserPolicyList"
-            case attachedManagedPolicies = "AttachedManagedPolicies"
-        }
-    }
-
     public struct ListSAMLProvidersRequest: AWSShape {
 
     }
 
-    public struct ListAttachedGroupPoliciesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "AttachedPolicies", required: false, type: .list)
-        ]
-        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
-        public let marker: String?
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
-        public let isTruncated: Bool?
-        /// A list of the attached policies.
-        public let attachedPolicies: [AttachedPolicy]?
-
-        public init(marker: String? = nil, isTruncated: Bool? = nil, attachedPolicies: [AttachedPolicy]? = nil) {
-            self.marker = marker
-            self.isTruncated = isTruncated
-            self.attachedPolicies = attachedPolicies
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case isTruncated = "IsTruncated"
-            case attachedPolicies = "AttachedPolicies"
-        }
-    }
-
-    public struct ListUserPoliciesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
-        ]
-        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
-        public let marker: String?
-        /// A list of policy names.
-        public let policyNames: [String]
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
-        public let isTruncated: Bool?
-
-        public init(marker: String? = nil, policyNames: [String], isTruncated: Bool? = nil) {
-            self.marker = marker
-            self.policyNames = policyNames
-            self.isTruncated = isTruncated
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case policyNames = "PolicyNames"
-            case isTruncated = "IsTruncated"
-        }
-    }
-
     public struct ListAccountAliasesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
@@ -1868,66 +3547,8 @@ extension Iam {
         }
     }
 
-    public struct UploadSigningCertificateRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "CertificateBody", required: true, type: .string)
-        ]
-        /// The name of the user the signing certificate is for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String?
-        /// The contents of the signing certificate. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
-        public let certificateBody: String
-
-        public init(userName: String? = nil, certificateBody: String) {
-            self.userName = userName
-            self.certificateBody = certificateBody
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case certificateBody = "CertificateBody"
-        }
-    }
-
-    public struct DeactivateMFADeviceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "SerialNumber", required: true, type: .string)
-        ]
-        /// The name of the user whose MFA device you want to deactivate. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
-        public let serialNumber: String
-
-        public init(userName: String, serialNumber: String) {
-            self.userName = userName
-            self.serialNumber = serialNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case serialNumber = "SerialNumber"
-        }
-    }
-
-    public struct DeleteAccountAliasRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountAlias", required: true, type: .string)
-        ]
-        /// The name of the account alias to delete. This parameter allows (per its regex pattern) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
-        public let accountAlias: String
-
-        public init(accountAlias: String) {
-            self.accountAlias = accountAlias
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountAlias = "AccountAlias"
-        }
-    }
-
     public struct GetSAMLProviderRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SAMLProviderArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the SAML provider resource object in IAM to get information about. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
@@ -1943,7 +3564,7 @@ extension Iam {
     }
 
     public struct GenerateCredentialReportResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
@@ -1963,50 +3584,8 @@ extension Iam {
         }
     }
 
-    public struct ListGroupPoliciesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
-        ]
-        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
-        public let marker: String?
-        /// A list of policy names.
-        public let policyNames: [String]
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
-        public let isTruncated: Bool?
-
-        public init(marker: String? = nil, policyNames: [String], isTruncated: Bool? = nil) {
-            self.marker = marker
-            self.policyNames = policyNames
-            self.isTruncated = isTruncated
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case policyNames = "PolicyNames"
-            case isTruncated = "IsTruncated"
-        }
-    }
-
-    public struct CreateUserResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "User", required: false, type: .structure)
-        ]
-        /// A structure with details about the new IAM user.
-        public let user: User?
-
-        public init(user: User? = nil) {
-            self.user = user
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case user = "User"
-        }
-    }
-
     public struct SigningCertificate: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateId", required: true, type: .string), 
             AWSShapeMember(label: "UserName", required: true, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .enum), 
@@ -2042,7 +3621,7 @@ extension Iam {
     }
 
     public struct GetGroupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
             AWSShapeMember(label: "GroupName", required: true, type: .string)
@@ -2068,7 +3647,7 @@ extension Iam {
     }
 
     public struct AttachRolePolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
             AWSShapeMember(label: "RoleName", required: true, type: .string)
         ]
@@ -2088,167 +3667,34 @@ extension Iam {
         }
     }
 
-    public struct ChangePasswordRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OldPassword", required: true, type: .string), 
-            AWSShapeMember(label: "NewPassword", required: true, type: .string)
-        ]
-        /// The IAM user's current password.
-        public let oldPassword: String
-        /// The new password. The new password must conform to the AWS account's password policy, if one exists. The regex pattern used to validate this parameter is a string of characters consisting of almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
-        public let newPassword: String
-
-        public init(oldPassword: String, newPassword: String) {
-            self.oldPassword = oldPassword
-            self.newPassword = newPassword
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case oldPassword = "OldPassword"
-            case newPassword = "NewPassword"
-        }
-    }
-
-    public struct UpdateOpenIDConnectProviderThumbprintRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ThumbprintList", required: true, type: .list), 
-            AWSShapeMember(label: "OpenIDConnectProviderArn", required: true, type: .string)
-        ]
-        /// A list of certificate thumbprints that are associated with the specified IAM OpenID Connect provider. For more information, see CreateOpenIDConnectProvider. 
-        public let thumbprintList: [String]
-        /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders action. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        public let openIDConnectProviderArn: String
-
-        public init(thumbprintList: [String], openIDConnectProviderArn: String) {
-            self.thumbprintList = thumbprintList
-            self.openIDConnectProviderArn = openIDConnectProviderArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case thumbprintList = "ThumbprintList"
-            case openIDConnectProviderArn = "OpenIDConnectProviderArn"
-        }
-    }
-
-    public struct User: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "PasswordLastUsed", required: false, type: .timestamp), 
-            AWSShapeMember(label: "UserId", required: true, type: .string), 
+    public struct ListUserPoliciesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "Arn", required: true, type: .string), 
-            AWSShapeMember(label: "Path", required: true, type: .string)
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
-        /// The date and time, in ISO 8601 date-time format, when the user was created.
-        public let createDate: TimeStamp
-        /// The date and time, in ISO 8601 date-time format, when the user's password was last used to sign in to an AWS website. For a list of AWS websites that capture a user's last sign-in time, see the Credential Reports topic in the Using IAM guide. If a password is used more than once in a five-minute span, only the first use is returned in this field. This field is null (not present) when:   The user does not have a password   The password exists but has never been used (at least not since IAM started tracking this information on October 20th, 2014   there is no sign-in data associated with the user   This value is returned only in the GetUser and ListUsers actions. 
-        public let passwordLastUsed: TimeStamp?
-        /// The stable and unique string identifying the user. For more information about IDs, see IAM Identifiers in the Using IAM guide.
-        public let userId: String
-        /// The friendly name identifying the user.
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// The name of the user to list policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
-        /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see IAM Identifiers in the Using IAM guide. 
-        public let arn: String
-        /// The path to the user. For more information about paths, see IAM Identifiers in the Using IAM guide.
-        public let path: String
+        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
 
-        public init(createDate: TimeStamp, passwordLastUsed: TimeStamp? = nil, userId: String, userName: String, arn: String, path: String) {
-            self.createDate = createDate
-            self.passwordLastUsed = passwordLastUsed
-            self.userId = userId
+        public init(marker: String? = nil, userName: String, maxItems: Int32? = nil) {
+            self.marker = marker
             self.userName = userName
-            self.arn = arn
-            self.path = path
+            self.maxItems = maxItems
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createDate = "CreateDate"
-            case passwordLastUsed = "PasswordLastUsed"
-            case userId = "UserId"
+            case marker = "Marker"
             case userName = "UserName"
-            case arn = "Arn"
-            case path = "Path"
-        }
-    }
-
-    public enum SummaryKeyType: String, CustomStringConvertible, Codable {
-        case users = "Users"
-        case usersquota = "UsersQuota"
-        case groups = "Groups"
-        case groupsquota = "GroupsQuota"
-        case servercertificates = "ServerCertificates"
-        case servercertificatesquota = "ServerCertificatesQuota"
-        case userpolicysizequota = "UserPolicySizeQuota"
-        case grouppolicysizequota = "GroupPolicySizeQuota"
-        case groupsperuserquota = "GroupsPerUserQuota"
-        case signingcertificatesperuserquota = "SigningCertificatesPerUserQuota"
-        case accesskeysperuserquota = "AccessKeysPerUserQuota"
-        case mfadevices = "MFADevices"
-        case mfadevicesinuse = "MFADevicesInUse"
-        case accountmfaenabled = "AccountMFAEnabled"
-        case accountaccesskeyspresent = "AccountAccessKeysPresent"
-        case accountsigningcertificatespresent = "AccountSigningCertificatesPresent"
-        case attachedpoliciespergroupquota = "AttachedPoliciesPerGroupQuota"
-        case attachedpoliciesperrolequota = "AttachedPoliciesPerRoleQuota"
-        case attachedpoliciesperuserquota = "AttachedPoliciesPerUserQuota"
-        case policies = "Policies"
-        case policiesquota = "PoliciesQuota"
-        case policysizequota = "PolicySizeQuota"
-        case policyversionsinuse = "PolicyVersionsInUse"
-        case policyversionsinusequota = "PolicyVersionsInUseQuota"
-        case versionsperpolicyquota = "VersionsPerPolicyQuota"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteSSHPublicKeyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "SSHPublicKeyId", required: true, type: .string)
-        ]
-        /// The name of the IAM user associated with the SSH public key. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// The unique identifier for the SSH public key. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
-        public let sSHPublicKeyId: String
-
-        public init(userName: String, sSHPublicKeyId: String) {
-            self.userName = userName
-            self.sSHPublicKeyId = sSHPublicKeyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case sSHPublicKeyId = "SSHPublicKeyId"
-        }
-    }
-
-    public struct CreateOpenIDConnectProviderRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Url", required: true, type: .string), 
-            AWSShapeMember(label: "ThumbprintList", required: true, type: .list), 
-            AWSShapeMember(label: "ClientIDList", required: false, type: .list)
-        ]
-        /// The URL of the identity provider. The URL must begin with "https://" and should correspond to the iss claim in the provider's OpenID Connect ID tokens. Per the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a host name, like "https://server.example.org" or "https://example.com". You cannot register the same provider multiple times in a single AWS account. If you try to submit a URL that has already been used for an OpenID Connect provider in the AWS account, you will get an error.
-        public let url: String
-        /// A list of server certificate thumbprints for the OpenID Connect (OIDC) identity provider's server certificate(s). Typically this list includes only one entry. However, IAM lets you have up to five thumbprints for an OIDC provider. This lets you maintain multiple thumbprints if the identity provider is rotating certificates. The server certificate thumbprint is the hex-encoded SHA-1 hash value of the X.509 certificate used by the domain where the OpenID Connect provider makes its keys available. It is always a 40-character string. You must provide at least one thumbprint when creating an IAM OIDC provider. For example, if the OIDC provider is server.example.com and the provider stores its keys at "https://keys.server.example.com/openid-connect", the thumbprint string would be the hex-encoded SHA-1 hash value of the certificate used by https://keys.server.example.com. For more information about obtaining the OIDC provider's thumbprint, see Obtaining the Thumbprint for an OpenID Connect Provider in the IAM User Guide.
-        public let thumbprintList: [String]
-        /// A list of client IDs (also known as audiences). When a mobile or web app registers with an OpenID Connect provider, they establish a value that identifies the application. (This is the value that's sent as the client_id parameter on OAuth requests.) You can register multiple client IDs with the same provider. For example, you might have multiple applications that use the same OIDC provider. You cannot register more than 100 client IDs with a single IAM OIDC provider. There is no defined format for a client ID. The CreateOpenIDConnectProviderRequest action accepts client IDs up to 255 characters long.
-        public let clientIDList: [String]?
-
-        public init(url: String, thumbprintList: [String], clientIDList: [String]? = nil) {
-            self.url = url
-            self.thumbprintList = thumbprintList
-            self.clientIDList = clientIDList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case url = "Url"
-            case thumbprintList = "ThumbprintList"
-            case clientIDList = "ClientIDList"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct CreateServiceLinkedRoleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AWSServiceName", required: true, type: .string), 
             AWSShapeMember(label: "CustomSuffix", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
@@ -2273,55 +3719,34 @@ extension Iam {
         }
     }
 
-    public struct CreatePolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
+    public struct CreateOpenIDConnectProviderRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Url", required: true, type: .string), 
+            AWSShapeMember(label: "ThumbprintList", required: true, type: .list), 
+            AWSShapeMember(label: "ClientIDList", required: false, type: .list)
         ]
-        /// The path for the policy. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
-        public let path: String?
-        /// The friendly name of the policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let policyName: String
-        /// The JSON policy document that you want to use as the content for the new policy. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
-        public let policyDocument: String
-        /// A friendly description of the policy. Typically used to store information about the permissions defined in the policy. For example, "Grants access to production DynamoDB tables." The policy description is immutable. After a value is assigned, it cannot be changed.
-        public let description: String?
+        /// The URL of the identity provider. The URL must begin with "https://" and should correspond to the iss claim in the provider's OpenID Connect ID tokens. Per the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a host name, like "https://server.example.org" or "https://example.com". You cannot register the same provider multiple times in a single AWS account. If you try to submit a URL that has already been used for an OpenID Connect provider in the AWS account, you will get an error.
+        public let url: String
+        /// A list of server certificate thumbprints for the OpenID Connect (OIDC) identity provider's server certificate(s). Typically this list includes only one entry. However, IAM lets you have up to five thumbprints for an OIDC provider. This lets you maintain multiple thumbprints if the identity provider is rotating certificates. The server certificate thumbprint is the hex-encoded SHA-1 hash value of the X.509 certificate used by the domain where the OpenID Connect provider makes its keys available. It is always a 40-character string. You must provide at least one thumbprint when creating an IAM OIDC provider. For example, if the OIDC provider is server.example.com and the provider stores its keys at "https://keys.server.example.com/openid-connect", the thumbprint string would be the hex-encoded SHA-1 hash value of the certificate used by https://keys.server.example.com. For more information about obtaining the OIDC provider's thumbprint, see Obtaining the Thumbprint for an OpenID Connect Provider in the IAM User Guide.
+        public let thumbprintList: [String]
+        /// A list of client IDs (also known as audiences). When a mobile or web app registers with an OpenID Connect provider, they establish a value that identifies the application. (This is the value that's sent as the client_id parameter on OAuth requests.) You can register multiple client IDs with the same provider. For example, you might have multiple applications that use the same OIDC provider. You cannot register more than 100 client IDs with a single IAM OIDC provider. There is no defined format for a client ID. The CreateOpenIDConnectProviderRequest action accepts client IDs up to 255 characters long.
+        public let clientIDList: [String]?
 
-        public init(path: String? = nil, policyName: String, policyDocument: String, description: String? = nil) {
-            self.path = path
-            self.policyName = policyName
-            self.policyDocument = policyDocument
-            self.description = description
+        public init(url: String, thumbprintList: [String], clientIDList: [String]? = nil) {
+            self.url = url
+            self.thumbprintList = thumbprintList
+            self.clientIDList = clientIDList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case path = "Path"
-            case policyName = "PolicyName"
-            case policyDocument = "PolicyDocument"
-            case description = "Description"
-        }
-    }
-
-    public struct DeleteServerCertificateRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServerCertificateName", required: true, type: .string)
-        ]
-        /// The name of the server certificate you want to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let serverCertificateName: String
-
-        public init(serverCertificateName: String) {
-            self.serverCertificateName = serverCertificateName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serverCertificateName = "ServerCertificateName"
+            case url = "Url"
+            case thumbprintList = "ThumbprintList"
+            case clientIDList = "ClientIDList"
         }
     }
 
     public struct SimulatePolicyResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "EvaluationResults", required: false, type: .list)
@@ -2347,7 +3772,7 @@ extension Iam {
     }
 
     public struct GetUserPolicyResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
@@ -2373,7 +3798,7 @@ extension Iam {
     }
 
     public struct DeletePolicyVersionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
             AWSShapeMember(label: "VersionId", required: true, type: .string)
         ]
@@ -2393,34 +3818,45 @@ extension Iam {
         }
     }
 
-    public struct SAMLProviderListEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Arn", required: false, type: .string), 
-            AWSShapeMember(label: "ValidUntil", required: false, type: .timestamp)
+    public struct DeleteServiceLinkedRoleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
         ]
-        /// The date and time when the SAML provider was created.
-        public let createDate: TimeStamp?
-        /// The Amazon Resource Name (ARN) of the SAML provider.
-        public let arn: String?
-        /// The expiration date and time for the SAML provider.
-        public let validUntil: TimeStamp?
+        /// The name of the service-linked role to be deleted.
+        public let roleName: String
 
-        public init(createDate: TimeStamp? = nil, arn: String? = nil, validUntil: TimeStamp? = nil) {
-            self.createDate = createDate
-            self.arn = arn
-            self.validUntil = validUntil
+        public init(roleName: String) {
+            self.roleName = roleName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createDate = "CreateDate"
-            case arn = "Arn"
-            case validUntil = "ValidUntil"
+            case roleName = "RoleName"
+        }
+    }
+
+    public struct DeleteAccessKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "AccessKeyId", required: true, type: .string)
+        ]
+        /// The name of the user whose access key pair you want to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String?
+        /// The access key ID for the access key ID and secret access key you want to delete. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
+        public let accessKeyId: String
+
+        public init(userName: String? = nil, accessKeyId: String) {
+            self.userName = userName
+            self.accessKeyId = accessKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case accessKeyId = "AccessKeyId"
         }
     }
 
     public struct UpdateSAMLProviderResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SAMLProviderArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the SAML provider that was updated.
@@ -2435,127 +3871,8 @@ extension Iam {
         }
     }
 
-    public struct GetContextKeysForPolicyResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContextKeyNames", required: false, type: .list)
-        ]
-        /// The list of context keys that are referenced in the input policies.
-        public let contextKeyNames: [String]?
-
-        public init(contextKeyNames: [String]? = nil) {
-            self.contextKeyNames = contextKeyNames
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contextKeyNames = "ContextKeyNames"
-        }
-    }
-
-    public struct CreateAccountAliasRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountAlias", required: true, type: .string)
-        ]
-        /// The account alias to create. This parameter allows (per its regex pattern) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
-        public let accountAlias: String
-
-        public init(accountAlias: String) {
-            self.accountAlias = accountAlias
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountAlias = "AccountAlias"
-        }
-    }
-
-    public struct EvaluationResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EvalDecision", required: true, type: .enum), 
-            AWSShapeMember(label: "EvalDecisionDetails", required: false, type: .map), 
-            AWSShapeMember(label: "EvalResourceName", required: false, type: .string), 
-            AWSShapeMember(label: "MatchedStatements", required: false, type: .list), 
-            AWSShapeMember(label: "EvalActionName", required: true, type: .string), 
-            AWSShapeMember(label: "OrganizationsDecisionDetail", required: false, type: .structure), 
-            AWSShapeMember(label: "MissingContextValues", required: false, type: .list), 
-            AWSShapeMember(label: "ResourceSpecificResults", required: false, type: .list)
-        ]
-        /// The result of the simulation.
-        public let evalDecision: PolicyEvaluationDecisionType
-        /// Additional details about the results of the evaluation decision. When there are both IAM policies and resource policies, this parameter explains how each set of policies contributes to the final evaluation decision. When simulating cross-account access to a resource, both the resource-based policy and the caller's IAM policy must grant access. See How IAM Roles Differ from Resource-based Policies 
-        public let evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
-        /// The ARN of the resource that the indicated API action was tested on.
-        public let evalResourceName: String?
-        /// A list of the statements in the input policies that determine the result for this scenario. Remember that even if multiple statements allow the action on the resource, if only one statement denies that action, then the explicit deny overrides any allow, and the deny statement is the only entry included in the result.
-        public let matchedStatements: [Statement]?
-        /// The name of the API action tested on the indicated resource.
-        public let evalActionName: String
-        /// A structure that details how AWS Organizations and its service control policies affect the results of the simulation. Only applies if the simulated user's account is part of an organization.
-        public let organizationsDecisionDetail: OrganizationsDecisionDetail?
-        /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when the resource in a simulation is "*", either explicitly, or when the ResourceArns parameter blank. If you include a list of resources, then any missing context values are instead included under the ResourceSpecificResults section. To discover the context keys used by a set of policies, you can call GetContextKeysForCustomPolicy or GetContextKeysForPrincipalPolicy.
-        public let missingContextValues: [String]?
-        /// The individual results of the simulation of the API action specified in EvalActionName on each resource.
-        public let resourceSpecificResults: [ResourceSpecificResult]?
-
-        public init(evalDecision: PolicyEvaluationDecisionType, evalDecisionDetails: [String: PolicyEvaluationDecisionType]? = nil, evalResourceName: String? = nil, matchedStatements: [Statement]? = nil, evalActionName: String, organizationsDecisionDetail: OrganizationsDecisionDetail? = nil, missingContextValues: [String]? = nil, resourceSpecificResults: [ResourceSpecificResult]? = nil) {
-            self.evalDecision = evalDecision
-            self.evalDecisionDetails = evalDecisionDetails
-            self.evalResourceName = evalResourceName
-            self.matchedStatements = matchedStatements
-            self.evalActionName = evalActionName
-            self.organizationsDecisionDetail = organizationsDecisionDetail
-            self.missingContextValues = missingContextValues
-            self.resourceSpecificResults = resourceSpecificResults
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case evalDecision = "EvalDecision"
-            case evalDecisionDetails = "EvalDecisionDetails"
-            case evalResourceName = "EvalResourceName"
-            case matchedStatements = "MatchedStatements"
-            case evalActionName = "EvalActionName"
-            case organizationsDecisionDetail = "OrganizationsDecisionDetail"
-            case missingContextValues = "MissingContextValues"
-            case resourceSpecificResults = "ResourceSpecificResults"
-        }
-    }
-
-    public struct ResourceSpecificResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MissingContextValues", required: false, type: .list), 
-            AWSShapeMember(label: "EvalResourceDecision", required: true, type: .enum), 
-            AWSShapeMember(label: "EvalDecisionDetails", required: false, type: .map), 
-            AWSShapeMember(label: "MatchedStatements", required: false, type: .list), 
-            AWSShapeMember(label: "EvalResourceName", required: true, type: .string)
-        ]
-        /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when a list of ARNs is included in the ResourceArns parameter instead of "*". If you do not specify individual resources, by setting ResourceArns to "*" or by not including the ResourceArns parameter, then any missing context values are instead included under the EvaluationResults section. To discover the context keys used by a set of policies, you can call GetContextKeysForCustomPolicy or GetContextKeysForPrincipalPolicy.
-        public let missingContextValues: [String]?
-        /// The result of the simulation of the simulated API action on the resource specified in EvalResourceName.
-        public let evalResourceDecision: PolicyEvaluationDecisionType
-        /// Additional details about the results of the evaluation decision. When there are both IAM policies and resource policies, this parameter explains how each set of policies contributes to the final evaluation decision. When simulating cross-account access to a resource, both the resource-based policy and the caller's IAM policy must grant access.
-        public let evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
-        /// A list of the statements in the input policies that determine the result for this part of the simulation. Remember that even if multiple statements allow the action on the resource, if any statement denies that action, then the explicit deny overrides any allow, and the deny statement is the only entry included in the result.
-        public let matchedStatements: [Statement]?
-        /// The name of the simulated resource, in Amazon Resource Name (ARN) format.
-        public let evalResourceName: String
-
-        public init(missingContextValues: [String]? = nil, evalResourceDecision: PolicyEvaluationDecisionType, evalDecisionDetails: [String: PolicyEvaluationDecisionType]? = nil, matchedStatements: [Statement]? = nil, evalResourceName: String) {
-            self.missingContextValues = missingContextValues
-            self.evalResourceDecision = evalResourceDecision
-            self.evalDecisionDetails = evalDecisionDetails
-            self.matchedStatements = matchedStatements
-            self.evalResourceName = evalResourceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case missingContextValues = "MissingContextValues"
-            case evalResourceDecision = "EvalResourceDecision"
-            case evalDecisionDetails = "EvalDecisionDetails"
-            case matchedStatements = "MatchedStatements"
-            case evalResourceName = "EvalResourceName"
-        }
-    }
-
     public struct ListEntitiesForPolicyResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "PolicyUsers", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -2590,148 +3907,8 @@ extension Iam {
         }
     }
 
-    public struct GetUserPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string)
-        ]
-        /// The name of the user who the policy is associated with. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// The name of the policy document to get. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let policyName: String
-
-        public init(userName: String, policyName: String) {
-            self.userName = userName
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case policyName = "PolicyName"
-        }
-    }
-
-    public struct CreateGroupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", required: false, type: .string), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string)
-        ]
-        ///  The path to the group. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
-        public let path: String?
-        /// The name of the group to create. Do not include the path in this value. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-. The group name must be unique within the account. Group names are not distinguished by case. For example, you cannot create groups named both "ADMINS" and "admins".
-        public let groupName: String
-
-        public init(path: String? = nil, groupName: String) {
-            self.path = path
-            self.groupName = groupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case path = "Path"
-            case groupName = "GroupName"
-        }
-    }
-
-    public struct DeleteAccessKeyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "AccessKeyId", required: true, type: .string)
-        ]
-        /// The name of the user whose access key pair you want to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String?
-        /// The access key ID for the access key ID and secret access key you want to delete. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
-        public let accessKeyId: String
-
-        public init(userName: String? = nil, accessKeyId: String) {
-            self.userName = userName
-            self.accessKeyId = accessKeyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case accessKeyId = "AccessKeyId"
-        }
-    }
-
-    public struct ListUserPoliciesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
-        ]
-        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-        public let marker: String?
-        /// The name of the user to list policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
-
-        public init(marker: String? = nil, userName: String, maxItems: Int32? = nil) {
-            self.marker = marker
-            self.userName = userName
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case userName = "UserName"
-            case maxItems = "MaxItems"
-        }
-    }
-
-    public struct CreateLoginProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Password", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "PasswordResetRequired", required: false, type: .boolean)
-        ]
-        /// The new password for the user. The regex pattern used to validate this parameter is a string of characters consisting of almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
-        public let password: String
-        /// The name of the IAM user to create a password for. The user must already exist. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// Specifies whether the user is required to set a new password on next sign-in.
-        public let passwordResetRequired: Bool?
-
-        public init(password: String, userName: String, passwordResetRequired: Bool? = nil) {
-            self.password = password
-            self.userName = userName
-            self.passwordResetRequired = passwordResetRequired
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case password = "Password"
-            case userName = "UserName"
-            case passwordResetRequired = "PasswordResetRequired"
-        }
-    }
-
-    public enum EntityType: String, CustomStringConvertible, Codable {
-        case user = "User"
-        case role = "Role"
-        case group = "Group"
-        case localmanagedpolicy = "LocalManagedPolicy"
-        case awsmanagedpolicy = "AWSManagedPolicy"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DeleteLoginProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
-        /// The name of the user whose password you want to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-
-        public init(userName: String) {
-            self.userName = userName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-        }
-    }
-
     public struct UploadSSHPublicKeyResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SSHPublicKey", required: false, type: .structure)
         ]
         /// Contains information about the SSH public key.
@@ -2746,81 +3923,29 @@ extension Iam {
         }
     }
 
-    public struct GetLoginProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string)
+    public struct GetServiceLinkedRoleDeletionStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .enum)
         ]
-        /// The name of the user whose login profile you want to retrieve. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
+        /// An object that contains details about the reason the deletion failed.
+        public let reason: DeletionTaskFailureReasonType?
+        /// The status of the deletion.
+        public let status: DeletionTaskStatusType
 
-        public init(userName: String) {
-            self.userName = userName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-        }
-    }
-
-    public struct GetAccountAuthorizationDetailsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "Filter", required: false, type: .list)
-        ]
-        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-        public let marker: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
-        /// A list of entity types used to filter the results. Only the entities that match the types you specify are included in the output. Use the value LocalManagedPolicy to include customer managed policies. The format for this parameter is a comma-separated (if more than one) list of strings. Each string value in the list must be one of the valid values listed below.
-        public let filter: [EntityType]?
-
-        public init(marker: String? = nil, maxItems: Int32? = nil, filter: [EntityType]? = nil) {
-            self.marker = marker
-            self.maxItems = maxItems
-            self.filter = filter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-            case filter = "Filter"
-        }
-    }
-
-    public struct AccessKeyMetadata: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: false, type: .enum), 
-            AWSShapeMember(label: "AccessKeyId", required: false, type: .string)
-        ]
-        /// The date when the access key was created.
-        public let createDate: TimeStamp?
-        /// The name of the IAM user that the key is associated with.
-        public let userName: String?
-        /// The status of the access key. Active means the key is valid for API calls; Inactive means it is not.
-        public let status: StatusType?
-        /// The ID for this access key.
-        public let accessKeyId: String?
-
-        public init(createDate: TimeStamp? = nil, userName: String? = nil, status: StatusType? = nil, accessKeyId: String? = nil) {
-            self.createDate = createDate
-            self.userName = userName
+        public init(reason: DeletionTaskFailureReasonType? = nil, status: DeletionTaskStatusType) {
+            self.reason = reason
             self.status = status
-            self.accessKeyId = accessKeyId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createDate = "CreateDate"
-            case userName = "UserName"
+            case reason = "Reason"
             case status = "Status"
-            case accessKeyId = "AccessKeyId"
         }
     }
 
     public struct Statement: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourcePolicyType", required: false, type: .enum), 
             AWSShapeMember(label: "StartPosition", required: false, type: .structure), 
             AWSShapeMember(label: "SourcePolicyId", required: false, type: .string), 
@@ -2850,8 +3975,24 @@ extension Iam {
         }
     }
 
+    public struct GetUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "User", required: true, type: .structure)
+        ]
+        /// A structure containing details about the IAM user.
+        public let user: User
+
+        public init(user: User) {
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case user = "User"
+        }
+    }
+
     public struct SimulatePrincipalPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
             AWSShapeMember(label: "ActionNames", required: true, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -2916,24 +4057,8 @@ extension Iam {
         }
     }
 
-    public struct GetUserResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "User", required: true, type: .structure)
-        ]
-        /// A structure containing details about the IAM user.
-        public let user: User
-
-        public init(user: User) {
-            self.user = user
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case user = "User"
-        }
-    }
-
     public struct RemoveClientIDFromOpenIDConnectProviderRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientID", required: true, type: .string), 
             AWSShapeMember(label: "OpenIDConnectProviderArn", required: true, type: .string)
         ]
@@ -2954,7 +4079,7 @@ extension Iam {
     }
 
     public struct LoginProfile: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreateDate", required: true, type: .timestamp), 
             AWSShapeMember(label: "UserName", required: true, type: .string), 
             AWSShapeMember(label: "PasswordResetRequired", required: false, type: .boolean)
@@ -2986,71 +4111,29 @@ extension Iam {
         public var description: String { return self.rawValue }
     }
 
-    public struct ListAttachedUserPoliciesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "AttachedPolicies", required: false, type: .list)
+    public struct DeletionTaskFailureReasonType: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: false, type: .string), 
+            AWSShapeMember(label: "RoleUsageList", required: false, type: .list)
         ]
-        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
-        public let marker: String?
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
-        public let isTruncated: Bool?
-        /// A list of the attached policies.
-        public let attachedPolicies: [AttachedPolicy]?
+        /// A short description of the reason that the service-linked role deletion failed.
+        public let reason: String?
+        /// A list of objects that contains details about the service-linked role deletion failure. If the service-linked role has active sessions or if any resources that were used by the role have not been deleted from the linked service, the role can't be deleted. This parameter includes a list of the resources that are associated with the role and the region in which the resources are being used.
+        public let roleUsageList: [RoleUsageType]?
 
-        public init(marker: String? = nil, isTruncated: Bool? = nil, attachedPolicies: [AttachedPolicy]? = nil) {
-            self.marker = marker
-            self.isTruncated = isTruncated
-            self.attachedPolicies = attachedPolicies
+        public init(reason: String? = nil, roleUsageList: [RoleUsageType]? = nil) {
+            self.reason = reason
+            self.roleUsageList = roleUsageList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case isTruncated = "IsTruncated"
-            case attachedPolicies = "AttachedPolicies"
-        }
-    }
-
-    public struct RemoveRoleFromInstanceProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceProfileName", required: true, type: .string), 
-            AWSShapeMember(label: "RoleName", required: true, type: .string)
-        ]
-        /// The name of the instance profile to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let instanceProfileName: String
-        /// The name of the role to remove. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let roleName: String
-
-        public init(instanceProfileName: String, roleName: String) {
-            self.instanceProfileName = instanceProfileName
-            self.roleName = roleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceProfileName = "InstanceProfileName"
-            case roleName = "RoleName"
-        }
-    }
-
-    public struct UpdateRoleDescriptionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Role", required: false, type: .structure)
-        ]
-        /// A structure that contains details about the modified role.
-        public let role: Role?
-
-        public init(role: Role? = nil) {
-            self.role = role
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case role = "Role"
+            case reason = "Reason"
+            case roleUsageList = "RoleUsageList"
         }
     }
 
     public struct CreateSAMLProviderResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SAMLProviderArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the new SAML provider resource in IAM.
@@ -3066,7 +4149,7 @@ extension Iam {
     }
 
     public struct CreateVirtualMFADeviceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VirtualMFADeviceName", required: true, type: .string), 
             AWSShapeMember(label: "Path", required: false, type: .string)
         ]
@@ -3086,76 +4169,8 @@ extension Iam {
         }
     }
 
-    public struct EnableMFADeviceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationCode1", required: true, type: .string), 
-            AWSShapeMember(label: "SerialNumber", required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationCode2", required: true, type: .string)
-        ]
-        /// The name of the IAM user for whom you want to enable the MFA device. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// An authentication code emitted by the device.  The format for this parameter is a string of 6 digits.  Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device. 
-        public let authenticationCode1: String
-        /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
-        public let serialNumber: String
-        /// A subsequent authentication code emitted by the device. The format for this parameter is a string of 6 digits.  Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device. 
-        public let authenticationCode2: String
-
-        public init(userName: String, authenticationCode1: String, serialNumber: String, authenticationCode2: String) {
-            self.userName = userName
-            self.authenticationCode1 = authenticationCode1
-            self.serialNumber = serialNumber
-            self.authenticationCode2 = authenticationCode2
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case authenticationCode1 = "AuthenticationCode1"
-            case serialNumber = "SerialNumber"
-            case authenticationCode2 = "AuthenticationCode2"
-        }
-    }
-
-    public struct UpdateAssumeRolePolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
-            AWSShapeMember(label: "RoleName", required: true, type: .string)
-        ]
-        /// The policy that grants an entity permission to assume the role. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
-        public let policyDocument: String
-        /// The name of the role to update with the new policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let roleName: String
-
-        public init(policyDocument: String, roleName: String) {
-            self.policyDocument = policyDocument
-            self.roleName = roleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyDocument = "PolicyDocument"
-            case roleName = "RoleName"
-        }
-    }
-
-    public struct ListSAMLProvidersResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SAMLProviderList", required: false, type: .list)
-        ]
-        /// The list of SAML provider resource objects defined in IAM for this AWS account.
-        public let sAMLProviderList: [SAMLProviderListEntry]?
-
-        public init(sAMLProviderList: [SAMLProviderListEntry]? = nil) {
-            self.sAMLProviderList = sAMLProviderList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sAMLProviderList = "SAMLProviderList"
-        }
-    }
-
     public struct ServiceSpecificCredentialMetadata: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceSpecificCredentialId", required: true, type: .string), 
             AWSShapeMember(label: "UserName", required: true, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .enum), 
@@ -3195,138 +4210,8 @@ extension Iam {
         }
     }
 
-    public struct SSHPublicKey: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SSHPublicKeyBody", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .enum), 
-            AWSShapeMember(label: "Fingerprint", required: true, type: .string), 
-            AWSShapeMember(label: "UploadDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SSHPublicKeyId", required: true, type: .string)
-        ]
-        /// The SSH public key.
-        public let sSHPublicKeyBody: String
-        /// The name of the IAM user associated with the SSH public key.
-        public let userName: String
-        /// The status of the SSH public key. Active means the key can be used for authentication with an AWS CodeCommit repository. Inactive means the key cannot be used.
-        public let status: StatusType
-        /// The MD5 message digest of the SSH public key.
-        public let fingerprint: String
-        /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
-        public let uploadDate: TimeStamp?
-        /// The unique identifier for the SSH public key.
-        public let sSHPublicKeyId: String
-
-        public init(sSHPublicKeyBody: String, userName: String, status: StatusType, fingerprint: String, uploadDate: TimeStamp? = nil, sSHPublicKeyId: String) {
-            self.sSHPublicKeyBody = sSHPublicKeyBody
-            self.userName = userName
-            self.status = status
-            self.fingerprint = fingerprint
-            self.uploadDate = uploadDate
-            self.sSHPublicKeyId = sSHPublicKeyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sSHPublicKeyBody = "SSHPublicKeyBody"
-            case userName = "UserName"
-            case status = "Status"
-            case fingerprint = "Fingerprint"
-            case uploadDate = "UploadDate"
-            case sSHPublicKeyId = "SSHPublicKeyId"
-        }
-    }
-
-    public struct AccessKeyLastUsed: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LastUsedDate", required: true, type: .timestamp), 
-            AWSShapeMember(label: "Region", required: true, type: .string), 
-            AWSShapeMember(label: "ServiceName", required: true, type: .string)
-        ]
-        /// The date and time, in ISO 8601 date-time format, when the access key was most recently used. This field is null when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user  
-        public let lastUsedDate: TimeStamp
-        /// The AWS region where this access key was most recently used. This field is displays "N/A" when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user   For more information about AWS regions, see Regions and Endpoints in the Amazon Web Services General Reference.
-        public let region: String
-        /// The name of the AWS service with which this access key was most recently used. This field displays "N/A" when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user  
-        public let serviceName: String
-
-        public init(lastUsedDate: TimeStamp, region: String, serviceName: String) {
-            self.lastUsedDate = lastUsedDate
-            self.region = region
-            self.serviceName = serviceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case lastUsedDate = "LastUsedDate"
-            case region = "Region"
-            case serviceName = "ServiceName"
-        }
-    }
-
-    public struct ResetServiceSpecificCredentialRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ServiceSpecificCredentialId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
-        /// The unique identifier of the service-specific credential. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
-        public let serviceSpecificCredentialId: String
-        /// The name of the IAM user associated with the service-specific credential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String?
-
-        public init(serviceSpecificCredentialId: String, userName: String? = nil) {
-            self.serviceSpecificCredentialId = serviceSpecificCredentialId
-            self.userName = userName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case serviceSpecificCredentialId = "ServiceSpecificCredentialId"
-            case userName = "UserName"
-        }
-    }
-
-    public struct ListPolicyVersionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
-        ]
-        /// The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        public let policyArn: String
-        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-        public let marker: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
-
-        public init(policyArn: String, marker: String? = nil, maxItems: Int32? = nil) {
-            self.policyArn = policyArn
-            self.marker = marker
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyArn = "PolicyArn"
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-        }
-    }
-
-    public struct GetLoginProfileResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "LoginProfile", required: true, type: .structure)
-        ]
-        /// A structure containing the user name and password create date for the user.
-        public let loginProfile: LoginProfile
-
-        public init(loginProfile: LoginProfile) {
-            self.loginProfile = loginProfile
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case loginProfile = "LoginProfile"
-        }
-    }
-
     public struct ManagedPolicyDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "PolicyId", required: false, type: .string), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -3390,8 +4275,66 @@ extension Iam {
         }
     }
 
+    public struct AccessKeyLastUsed: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastUsedDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Region", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceName", required: true, type: .string)
+        ]
+        /// The date and time, in ISO 8601 date-time format, when the access key was most recently used. This field is null when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user  
+        public let lastUsedDate: TimeStamp
+        /// The AWS region where this access key was most recently used. This field is displays "N/A" when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user   For more information about AWS regions, see Regions and Endpoints in the Amazon Web Services General Reference.
+        public let region: String
+        /// The name of the AWS service with which this access key was most recently used. This field displays "N/A" when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user  
+        public let serviceName: String
+
+        public init(lastUsedDate: TimeStamp, region: String, serviceName: String) {
+            self.lastUsedDate = lastUsedDate
+            self.region = region
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUsedDate = "LastUsedDate"
+            case region = "Region"
+            case serviceName = "ServiceName"
+        }
+    }
+
+    public struct ListSAMLProvidersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SAMLProviderList", required: false, type: .list)
+        ]
+        /// The list of SAML provider resource objects defined in IAM for this AWS account.
+        public let sAMLProviderList: [SAMLProviderListEntry]?
+
+        public init(sAMLProviderList: [SAMLProviderListEntry]? = nil) {
+            self.sAMLProviderList = sAMLProviderList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sAMLProviderList = "SAMLProviderList"
+        }
+    }
+
+    public struct GetLoginProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoginProfile", required: true, type: .structure)
+        ]
+        /// A structure containing the user name and password create date for the user.
+        public let loginProfile: LoginProfile
+
+        public init(loginProfile: LoginProfile) {
+            self.loginProfile = loginProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loginProfile = "LoginProfile"
+        }
+    }
+
     public struct GetAccountAuthorizationDetailsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoleDetailList", required: false, type: .list), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "Policies", required: false, type: .list), 
@@ -3431,81 +4374,8 @@ extension Iam {
         }
     }
 
-    public struct ListUsersResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Users", required: true, type: .list), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
-        ]
-        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
-        public let marker: String?
-        /// A list of users.
-        public let users: [User]
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
-        public let isTruncated: Bool?
-
-        public init(marker: String? = nil, users: [User], isTruncated: Bool? = nil) {
-            self.marker = marker
-            self.users = users
-            self.isTruncated = isTruncated
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case users = "Users"
-            case isTruncated = "IsTruncated"
-        }
-    }
-
-    public struct PolicyVersion: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "VersionId", required: false, type: .string), 
-            AWSShapeMember(label: "Document", required: false, type: .string), 
-            AWSShapeMember(label: "IsDefaultVersion", required: false, type: .boolean)
-        ]
-        /// The date and time, in ISO 8601 date-time format, when the policy version was created.
-        public let createDate: TimeStamp?
-        /// The identifier for the policy version. Policy version identifiers always begin with v (always lowercase). When a policy is created, the first policy version is v1. 
-        public let versionId: String?
-        /// The policy document. The policy document is returned in the response to the GetPolicyVersion and GetAccountAuthorizationDetails operations. It is not returned in the response to the CreatePolicyVersion or ListPolicyVersions operations. 
-        public let document: String?
-        /// Specifies whether the policy version is set as the policy's default version.
-        public let isDefaultVersion: Bool?
-
-        public init(createDate: TimeStamp? = nil, versionId: String? = nil, document: String? = nil, isDefaultVersion: Bool? = nil) {
-            self.createDate = createDate
-            self.versionId = versionId
-            self.document = document
-            self.isDefaultVersion = isDefaultVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createDate = "CreateDate"
-            case versionId = "VersionId"
-            case document = "Document"
-            case isDefaultVersion = "IsDefaultVersion"
-        }
-    }
-
-    public struct DeleteInstanceProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceProfileName", required: true, type: .string)
-        ]
-        /// The name of the instance profile to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let instanceProfileName: String
-
-        public init(instanceProfileName: String) {
-            self.instanceProfileName = instanceProfileName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceProfileName = "InstanceProfileName"
-        }
-    }
-
     public struct MFADevice: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserName", required: true, type: .string), 
             AWSShapeMember(label: "EnableDate", required: true, type: .timestamp), 
             AWSShapeMember(label: "SerialNumber", required: true, type: .string)
@@ -3531,7 +4401,7 @@ extension Iam {
     }
 
     public struct ServerCertificateMetadata: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServerCertificateName", required: true, type: .string), 
             AWSShapeMember(label: "ServerCertificateId", required: true, type: .string), 
             AWSShapeMember(label: "Arn", required: true, type: .string), 
@@ -3572,7 +4442,7 @@ extension Iam {
     }
 
     public struct GroupDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "GroupName", required: false, type: .string), 
             AWSShapeMember(label: "GroupPolicyList", required: false, type: .list), 
@@ -3616,8 +4486,29 @@ extension Iam {
         }
     }
 
+    public struct DeleteSigningCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+        /// The ID of the signing certificate to delete. The format of this parameter, as described by its regex pattern, is a string of characters that can be upper- or lower-cased letters or digits.
+        public let certificateId: String
+        /// The name of the user the signing certificate belongs to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String?
+
+        public init(certificateId: String, userName: String? = nil) {
+            self.certificateId = certificateId
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "CertificateId"
+            case userName = "UserName"
+        }
+    }
+
     public struct ListPoliciesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OnlyAttached", required: false, type: .boolean), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
             AWSShapeMember(label: "Scope", required: false, type: .enum), 
@@ -3652,55 +4543,8 @@ extension Iam {
         }
     }
 
-    public struct DeleteSigningCertificateRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
-        /// The ID of the signing certificate to delete. The format of this parameter, as described by its regex pattern, is a string of characters that can be upper- or lower-cased letters or digits.
-        public let certificateId: String
-        /// The name of the user the signing certificate belongs to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String?
-
-        public init(certificateId: String, userName: String? = nil) {
-            self.certificateId = certificateId
-            self.userName = userName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "CertificateId"
-            case userName = "UserName"
-        }
-    }
-
-    public struct ListAccessKeysRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
-        ]
-        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-        public let marker: String?
-        /// The name of the user. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
-
-        public init(marker: String? = nil, userName: String? = nil, maxItems: Int32? = nil) {
-            self.marker = marker
-            self.userName = userName
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case userName = "UserName"
-            case maxItems = "MaxItems"
-        }
-    }
-
     public struct ListGroupsForUserRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "UserName", required: true, type: .string), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer)
@@ -3726,7 +4570,7 @@ extension Iam {
     }
 
     public struct ListInstanceProfilesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "InstanceProfiles", required: true, type: .list), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
@@ -3752,7 +4596,7 @@ extension Iam {
     }
 
     public struct UpdateRoleDescriptionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoleName", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: true, type: .string)
         ]
@@ -3772,31 +4616,8 @@ extension Iam {
         }
     }
 
-    public struct GetAccountPasswordPolicyResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PasswordPolicy", required: true, type: .structure)
-        ]
-        /// A structure that contains details about the account's password policy.
-        public let passwordPolicy: PasswordPolicy
-
-        public init(passwordPolicy: PasswordPolicy) {
-            self.passwordPolicy = passwordPolicy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case passwordPolicy = "PasswordPolicy"
-        }
-    }
-
-    public enum ReportStateType: String, CustomStringConvertible, Codable {
-        case started = "STARTED"
-        case inprogress = "INPROGRESS"
-        case complete = "COMPLETE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AddClientIDToOpenIDConnectProviderRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientID", required: true, type: .string), 
             AWSShapeMember(label: "OpenIDConnectProviderArn", required: true, type: .string)
         ]
@@ -3817,7 +4638,7 @@ extension Iam {
     }
 
     public struct ListPolicyVersionsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "Versions", required: false, type: .list)
@@ -3842,71 +4663,8 @@ extension Iam {
         }
     }
 
-    public struct GetPolicyVersionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyVersion", required: false, type: .structure)
-        ]
-        /// A structure containing details about the policy version.
-        public let policyVersion: PolicyVersion?
-
-        public init(policyVersion: PolicyVersion? = nil) {
-            self.policyVersion = policyVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyVersion = "PolicyVersion"
-        }
-    }
-
-    public struct PolicyUser: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "UserId", required: false, type: .string)
-        ]
-        /// The name (friendly name, not ARN) identifying the user.
-        public let userName: String?
-        /// The stable and unique string identifying the user. For more information about IDs, see IAM Identifiers in the IAM User Guide.
-        public let userId: String?
-
-        public init(userName: String? = nil, userId: String? = nil) {
-            self.userName = userName
-            self.userId = userId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case userId = "UserId"
-        }
-    }
-
-    public struct ListGroupsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
-        ]
-        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-        public let marker: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
-        ///  The path prefix for filtering the results. For example, the prefix /division_abc/subdivision_xyz/ gets all groups whose path starts with /division_abc/subdivision_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all groups. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
-        public let pathPrefix: String?
-
-        public init(marker: String? = nil, maxItems: Int32? = nil, pathPrefix: String? = nil) {
-            self.marker = marker
-            self.maxItems = maxItems
-            self.pathPrefix = pathPrefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case maxItems = "MaxItems"
-            case pathPrefix = "PathPrefix"
-        }
-    }
-
     public struct GetAccessKeyLastUsedRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessKeyId", required: true, type: .string)
         ]
         /// The identifier of an access key. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
@@ -3922,7 +4680,7 @@ extension Iam {
     }
 
     public struct GetRoleResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Role", required: true, type: .structure)
         ]
         /// A structure containing details about the IAM role.
@@ -3938,7 +4696,7 @@ extension Iam {
     }
 
     public struct GetPolicyVersionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
             AWSShapeMember(label: "VersionId", required: true, type: .string)
         ]
@@ -3959,7 +4717,7 @@ extension Iam {
     }
 
     public struct DeleteServiceSpecificCredentialRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceSpecificCredentialId", required: true, type: .string), 
             AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
@@ -3979,29 +4737,8 @@ extension Iam {
         }
     }
 
-    public struct ListServiceSpecificCredentialsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceName", required: false, type: .string)
-        ]
-        /// The name of the user whose service-specific credentials you want information about. If this value is not specified then the operation assumes the user whose credentials are used to call the operation. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String?
-        /// Filters the returned results to only those for the specified AWS service. If not specified, then AWS returns service-specific credentials for all services.
-        public let serviceName: String?
-
-        public init(userName: String? = nil, serviceName: String? = nil) {
-            self.userName = userName
-            self.serviceName = serviceName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case serviceName = "ServiceName"
-        }
-    }
-
     public struct GetInstanceProfileResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceProfile", required: true, type: .structure)
         ]
         /// A structure containing details about the instance profile.
@@ -4017,7 +4754,7 @@ extension Iam {
     }
 
     public struct UpdateSSHPublicKeyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserName", required: true, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .enum), 
             AWSShapeMember(label: "SSHPublicKeyId", required: true, type: .string)
@@ -4043,7 +4780,7 @@ extension Iam {
     }
 
     public struct GetServerCertificateResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServerCertificate", required: true, type: .structure)
         ]
         /// A structure containing details about the server certificate.
@@ -4058,86 +4795,8 @@ extension Iam {
         }
     }
 
-    public struct CreateRoleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Path", required: false, type: .string), 
-            AWSShapeMember(label: "RoleName", required: true, type: .string), 
-            AWSShapeMember(label: "AssumeRolePolicyDocument", required: true, type: .string), 
-            AWSShapeMember(label: "Description", required: false, type: .string)
-        ]
-        ///  The path to the role. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
-        public let path: String?
-        /// The name of the role to create. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Role names are not distinguished by case. For example, you cannot create roles named both "PRODROLE" and "prodrole".
-        public let roleName: String
-        /// The trust relationship policy document that grants an entity permission to assume the role. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
-        public let assumeRolePolicyDocument: String
-        /// A customer-provided description of the role.
-        public let description: String?
-
-        public init(path: String? = nil, roleName: String, assumeRolePolicyDocument: String, description: String? = nil) {
-            self.path = path
-            self.roleName = roleName
-            self.assumeRolePolicyDocument = assumeRolePolicyDocument
-            self.description = description
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case path = "Path"
-            case roleName = "RoleName"
-            case assumeRolePolicyDocument = "AssumeRolePolicyDocument"
-            case description = "Description"
-        }
-    }
-
-    public struct GetGroupResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "Users", required: true, type: .list), 
-            AWSShapeMember(label: "Group", required: true, type: .structure), 
-            AWSShapeMember(label: "Marker", required: false, type: .string)
-        ]
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
-        public let isTruncated: Bool?
-        /// A list of users in the group.
-        public let users: [User]
-        /// A structure that contains details about the group.
-        public let group: Group
-        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
-        public let marker: String?
-
-        public init(isTruncated: Bool? = nil, users: [User], group: Group, marker: String? = nil) {
-            self.isTruncated = isTruncated
-            self.users = users
-            self.group = group
-            self.marker = marker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case isTruncated = "IsTruncated"
-            case users = "Users"
-            case group = "Group"
-            case marker = "Marker"
-        }
-    }
-
-    public struct DeleteOpenIDConnectProviderRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OpenIDConnectProviderArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the IAM OpenID Connect provider resource object to delete. You can get a list of OpenID Connect provider resource ARNs by using the ListOpenIDConnectProviders action.
-        public let openIDConnectProviderArn: String
-
-        public init(openIDConnectProviderArn: String) {
-            self.openIDConnectProviderArn = openIDConnectProviderArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case openIDConnectProviderArn = "OpenIDConnectProviderArn"
-        }
-    }
-
     public struct CreatePolicyVersionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyVersion", required: false, type: .structure)
         ]
         /// A structure containing details about the new policy version.
@@ -4153,7 +4812,7 @@ extension Iam {
     }
 
     public struct PutGroupPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
@@ -4162,7 +4821,7 @@ extension Iam {
         public let groupName: String
         /// The policy document. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
         public let policyDocument: String
-        /// The name of the policy document. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the policy document. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-+
         public let policyName: String
 
         public init(groupName: String, policyDocument: String, policyName: String) {
@@ -4178,70 +4837,8 @@ extension Iam {
         }
     }
 
-    public struct VirtualMFADevice: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EnableDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "QRCodePNG", required: false, type: .blob), 
-            AWSShapeMember(label: "Base32StringSeed", required: false, type: .blob), 
-            AWSShapeMember(label: "User", required: false, type: .structure), 
-            AWSShapeMember(label: "SerialNumber", required: true, type: .string)
-        ]
-        /// The date and time on which the virtual MFA device was enabled.
-        public let enableDate: TimeStamp?
-        ///  A QR code PNG image that encodes otpauth://totp/$virtualMFADeviceName@$AccountName?secret=$Base32String where $virtualMFADeviceName is one of the create call arguments, AccountName is the user name if set (otherwise, the account ID otherwise), and Base32String is the seed in Base32 format. The Base32String value is Base64-encoded. 
-        public let qRCodePNG: Data?
-        ///  The Base32 seed defined as specified in RFC3548. The Base32StringSeed is Base64-encoded. 
-        public let base32StringSeed: Data?
-        /// The IAM user associated with this virtual MFA device.
-        public let user: User?
-        /// The serial number associated with VirtualMFADevice.
-        public let serialNumber: String
-
-        public init(enableDate: TimeStamp? = nil, qRCodePNG: Data? = nil, base32StringSeed: Data? = nil, user: User? = nil, serialNumber: String) {
-            self.enableDate = enableDate
-            self.qRCodePNG = qRCodePNG
-            self.base32StringSeed = base32StringSeed
-            self.user = user
-            self.serialNumber = serialNumber
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case enableDate = "EnableDate"
-            case qRCodePNG = "QRCodePNG"
-            case base32StringSeed = "Base32StringSeed"
-            case user = "User"
-            case serialNumber = "SerialNumber"
-        }
-    }
-
-    public struct GetRolePolicyResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string)
-        ]
-        /// The role the policy is associated with.
-        public let roleName: String
-        /// The policy document.
-        public let policyDocument: String
-        /// The name of the policy.
-        public let policyName: String
-
-        public init(roleName: String, policyDocument: String, policyName: String) {
-            self.roleName = roleName
-            self.policyDocument = policyDocument
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleName = "RoleName"
-            case policyDocument = "PolicyDocument"
-            case policyName = "PolicyName"
-        }
-    }
-
     public struct CreateGroupResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Group", required: true, type: .structure)
         ]
         /// A structure containing details about the new group.
@@ -4256,55 +4853,8 @@ extension Iam {
         }
     }
 
-    public struct UpdateSigningCertificateRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CertificateId", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "Status", required: true, type: .enum)
-        ]
-        /// The ID of the signing certificate you want to update. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
-        public let certificateId: String
-        /// The name of the IAM user the signing certificate belongs to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String?
-        ///  The status you want to assign to the certificate. Active means the certificate can be used for API calls to AWS, while Inactive means the certificate cannot be used.
-        public let status: StatusType
-
-        public init(certificateId: String, userName: String? = nil, status: StatusType) {
-            self.certificateId = certificateId
-            self.userName = userName
-            self.status = status
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificateId = "CertificateId"
-            case userName = "UserName"
-            case status = "Status"
-        }
-    }
-
-    public struct PolicyDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyDocument", required: false, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: false, type: .string)
-        ]
-        /// The policy document.
-        public let policyDocument: String?
-        /// The name of the policy.
-        public let policyName: String?
-
-        public init(policyDocument: String? = nil, policyName: String? = nil) {
-            self.policyDocument = policyDocument
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyDocument = "PolicyDocument"
-            case policyName = "PolicyName"
-        }
-    }
-
     public struct UpdateAccountPasswordPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequireNumbers", required: false, type: .boolean), 
             AWSShapeMember(label: "MaxPasswordAge", required: false, type: .integer), 
             AWSShapeMember(label: "MinimumPasswordLength", required: false, type: .integer), 
@@ -4359,34 +4909,34 @@ extension Iam {
         }
     }
 
-    public struct GetCredentialReportResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Content", required: false, type: .blob), 
-            AWSShapeMember(label: "ReportFormat", required: false, type: .enum), 
-            AWSShapeMember(label: "GeneratedTime", required: false, type: .timestamp)
+    public struct GetRolePolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
-        /// Contains the credential report. The report is Base64-encoded.
-        public let content: Data?
-        /// The format (MIME type) of the credential report.
-        public let reportFormat: ReportFormatType?
-        ///  The date and time when the credential report was created, in ISO 8601 date-time format.
-        public let generatedTime: TimeStamp?
+        /// The role the policy is associated with.
+        public let roleName: String
+        /// The policy document.
+        public let policyDocument: String
+        /// The name of the policy.
+        public let policyName: String
 
-        public init(content: Data? = nil, reportFormat: ReportFormatType? = nil, generatedTime: TimeStamp? = nil) {
-            self.content = content
-            self.reportFormat = reportFormat
-            self.generatedTime = generatedTime
+        public init(roleName: String, policyDocument: String, policyName: String) {
+            self.roleName = roleName
+            self.policyDocument = policyDocument
+            self.policyName = policyName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content = "Content"
-            case reportFormat = "ReportFormat"
-            case generatedTime = "GeneratedTime"
+            case roleName = "RoleName"
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
         }
     }
 
     public struct Group: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreateDate", required: true, type: .timestamp), 
             AWSShapeMember(label: "Arn", required: true, type: .string), 
             AWSShapeMember(label: "GroupName", required: true, type: .string), 
@@ -4421,107 +4971,8 @@ extension Iam {
         }
     }
 
-    public struct ListSigningCertificatesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "Certificates", required: true, type: .list)
-        ]
-        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
-        public let marker: String?
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
-        public let isTruncated: Bool?
-        /// A list of the user's signing certificate information.
-        public let certificates: [SigningCertificate]
-
-        public init(marker: String? = nil, isTruncated: Bool? = nil, certificates: [SigningCertificate]) {
-            self.marker = marker
-            self.isTruncated = isTruncated
-            self.certificates = certificates
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case isTruncated = "IsTruncated"
-            case certificates = "Certificates"
-        }
-    }
-
-    public struct DetachUserPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        public let policyArn: String
-        /// The name (friendly name, not ARN) of the IAM user to detach the policy from. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-
-        public init(policyArn: String, userName: String) {
-            self.policyArn = policyArn
-            self.userName = userName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyArn = "PolicyArn"
-            case userName = "UserName"
-        }
-    }
-
-    public struct GetRolePolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string)
-        ]
-        /// The name of the role associated with the policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let roleName: String
-        /// The name of the policy document to get. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let policyName: String
-
-        public init(roleName: String, policyName: String) {
-            self.roleName = roleName
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleName = "RoleName"
-            case policyName = "PolicyName"
-        }
-    }
-
-    public struct ListAttachedUserPoliciesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
-        ]
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
-        /// The name (friendly name, not ARN) of the user to list attached policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-        public let marker: String?
-        /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
-        public let pathPrefix: String?
-
-        public init(maxItems: Int32? = nil, userName: String, marker: String? = nil, pathPrefix: String? = nil) {
-            self.maxItems = maxItems
-            self.userName = userName
-            self.marker = marker
-            self.pathPrefix = pathPrefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxItems = "MaxItems"
-            case userName = "UserName"
-            case marker = "Marker"
-            case pathPrefix = "PathPrefix"
-        }
-    }
-
     public struct PolicyGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupId", required: false, type: .string), 
             AWSShapeMember(label: "GroupName", required: false, type: .string)
         ]
@@ -4542,7 +4993,7 @@ extension Iam {
     }
 
     public struct CreateAccessKeyResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessKey", required: true, type: .structure)
         ]
         /// A structure with details about the access key.
@@ -4557,119 +5008,8 @@ extension Iam {
         }
     }
 
-    public struct CreateInstanceProfileResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InstanceProfile", required: true, type: .structure)
-        ]
-        /// A structure containing details about the new instance profile.
-        public let instanceProfile: InstanceProfile
-
-        public init(instanceProfile: InstanceProfile) {
-            self.instanceProfile = instanceProfile
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case instanceProfile = "InstanceProfile"
-        }
-    }
-
-    public struct CreateAccessKeyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
-        /// The name of the IAM user that the new key will belong to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String?
-
-        public init(userName: String? = nil) {
-            self.userName = userName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-        }
-    }
-
-    public struct GetAccessKeyLastUsedResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccessKeyLastUsed", required: false, type: .structure), 
-            AWSShapeMember(label: "UserName", required: false, type: .string)
-        ]
-        /// Contains information about the last time the access key was used.
-        public let accessKeyLastUsed: AccessKeyLastUsed?
-        /// The name of the AWS IAM user that owns this access key. 
-        public let userName: String?
-
-        public init(accessKeyLastUsed: AccessKeyLastUsed? = nil, userName: String? = nil) {
-            self.accessKeyLastUsed = accessKeyLastUsed
-            self.userName = userName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accessKeyLastUsed = "AccessKeyLastUsed"
-            case userName = "UserName"
-        }
-    }
-
-    public struct GetPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        public let policyArn: String
-
-        public init(policyArn: String) {
-            self.policyArn = policyArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policyArn = "PolicyArn"
-        }
-    }
-
-    public struct GetSSHPublicKeyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Encoding", required: true, type: .enum), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "SSHPublicKeyId", required: true, type: .string)
-        ]
-        /// Specifies the public key encoding format to use in the response. To retrieve the public key in ssh-rsa format, use SSH. To retrieve the public key in PEM format, use PEM.
-        public let encoding: EncodingType
-        /// The name of the IAM user associated with the SSH public key. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// The unique identifier for the SSH public key. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
-        public let sSHPublicKeyId: String
-
-        public init(encoding: EncodingType, userName: String, sSHPublicKeyId: String) {
-            self.encoding = encoding
-            self.userName = userName
-            self.sSHPublicKeyId = sSHPublicKeyId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case encoding = "Encoding"
-            case userName = "UserName"
-            case sSHPublicKeyId = "SSHPublicKeyId"
-        }
-    }
-
-    public struct CreateOpenIDConnectProviderResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OpenIDConnectProviderArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the new IAM OpenID Connect provider that is created. For more information, see OpenIDConnectProviderListEntry. 
-        public let openIDConnectProviderArn: String?
-
-        public init(openIDConnectProviderArn: String? = nil) {
-            self.openIDConnectProviderArn = openIDConnectProviderArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case openIDConnectProviderArn = "OpenIDConnectProviderArn"
-        }
-    }
-
     public struct ListRolePoliciesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
@@ -4694,8 +5034,77 @@ extension Iam {
         }
     }
 
+    public struct GetAccessKeyLastUsedResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessKeyLastUsed", required: false, type: .structure), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+        /// Contains information about the last time the access key was used.
+        public let accessKeyLastUsed: AccessKeyLastUsed?
+        /// The name of the AWS IAM user that owns this access key. 
+        public let userName: String?
+
+        public init(accessKeyLastUsed: AccessKeyLastUsed? = nil, userName: String? = nil) {
+            self.accessKeyLastUsed = accessKeyLastUsed
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyLastUsed = "AccessKeyLastUsed"
+            case userName = "UserName"
+        }
+    }
+
+    public struct GetPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        public let policyArn: String
+
+        public init(policyArn: String) {
+            self.policyArn = policyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+        }
+    }
+
+    public struct CreateOpenIDConnectProviderResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpenIDConnectProviderArn", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the new IAM OpenID Connect provider that is created. For more information, see OpenIDConnectProviderListEntry. 
+        public let openIDConnectProviderArn: String?
+
+        public init(openIDConnectProviderArn: String? = nil) {
+            self.openIDConnectProviderArn = openIDConnectProviderArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case openIDConnectProviderArn = "OpenIDConnectProviderArn"
+        }
+    }
+
+    public struct CreateAccessKeyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+        /// The name of the IAM user that the new key will belong to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String?
+
+        public init(userName: String? = nil) {
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+        }
+    }
+
     public struct UploadSigningCertificateResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Certificate", required: true, type: .structure)
         ]
         /// Information about the certificate.
@@ -4710,24 +5119,8 @@ extension Iam {
         }
     }
 
-    public struct GetPolicyResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: false, type: .structure)
-        ]
-        /// A structure containing details about the policy.
-        public let policy: Policy?
-
-        public init(policy: Policy? = nil) {
-            self.policy = policy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case policy = "Policy"
-        }
-    }
-
     public struct RemoveUserFromGroupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserName", required: true, type: .string), 
             AWSShapeMember(label: "GroupName", required: true, type: .string)
         ]
@@ -4748,7 +5141,7 @@ extension Iam {
     }
 
     public struct ServerCertificate: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateChain", required: false, type: .string), 
             AWSShapeMember(label: "ServerCertificateMetadata", required: true, type: .structure), 
             AWSShapeMember(label: "CertificateBody", required: true, type: .string)
@@ -4773,34 +5166,8 @@ extension Iam {
         }
     }
 
-    public struct ListSigningCertificatesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
-        ]
-        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-        public let marker: String?
-        /// The name of the IAM user whose signing certificates you want to examine. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
-
-        public init(marker: String? = nil, userName: String? = nil, maxItems: Int32? = nil) {
-            self.marker = marker
-            self.userName = userName
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case userName = "UserName"
-            case maxItems = "MaxItems"
-        }
-    }
-
     public struct AttachedPolicy: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyArn", required: false, type: .string), 
             AWSShapeMember(label: "PolicyName", required: false, type: .string)
         ]
@@ -4819,8 +5186,45 @@ extension Iam {
         }
     }
 
+    public struct DeleteGroupPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
+        ]
+        /// The name (friendly name, not ARN) identifying the group that the policy is embedded in. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let groupName: String
+        /// The name identifying the policy document to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-+
+        public let policyName: String
+
+        public init(groupName: String, policyName: String) {
+            self.groupName = groupName
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+            case policyName = "PolicyName"
+        }
+    }
+
+    public struct GetServiceLinkedRoleDeletionStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeletionTaskId", required: true, type: .string)
+        ]
+        /// The deletion task identifier. This identifier is returned by the DeleteServiceLinkedRole operation in the format task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;.
+        public let deletionTaskId: String
+
+        public init(deletionTaskId: String) {
+            self.deletionTaskId = deletionTaskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionTaskId = "DeletionTaskId"
+        }
+    }
+
     public struct Role: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: true, type: .string), 
             AWSShapeMember(label: "AssumeRolePolicyDocument", required: false, type: .string), 
             AWSShapeMember(label: "Path", required: true, type: .string), 
@@ -4865,65 +5269,8 @@ extension Iam {
         }
     }
 
-    public struct ListAttachedGroupPoliciesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
-        ]
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
-        /// The name (friendly name, not ARN) of the group to list attached policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let groupName: String
-        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-        public let marker: String?
-        /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
-        public let pathPrefix: String?
-
-        public init(maxItems: Int32? = nil, groupName: String, marker: String? = nil, pathPrefix: String? = nil) {
-            self.maxItems = maxItems
-            self.groupName = groupName
-            self.marker = marker
-            self.pathPrefix = pathPrefix
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxItems = "MaxItems"
-            case groupName = "GroupName"
-            case marker = "Marker"
-            case pathPrefix = "PathPrefix"
-        }
-    }
-
-    public struct ListServerCertificatesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "ServerCertificateMetadataList", required: true, type: .list)
-        ]
-        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
-        public let marker: String?
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
-        public let isTruncated: Bool?
-        /// A list of server certificates.
-        public let serverCertificateMetadataList: [ServerCertificateMetadata]
-
-        public init(marker: String? = nil, isTruncated: Bool? = nil, serverCertificateMetadataList: [ServerCertificateMetadata]) {
-            self.marker = marker
-            self.isTruncated = isTruncated
-            self.serverCertificateMetadataList = serverCertificateMetadataList
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case isTruncated = "IsTruncated"
-            case serverCertificateMetadataList = "ServerCertificateMetadataList"
-        }
-    }
-
     public struct ListRolesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
             AWSShapeMember(label: "PathPrefix", required: false, type: .string)
@@ -4948,76 +5295,41 @@ extension Iam {
         }
     }
 
-    public struct DeletePolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PolicyArn", required: true, type: .string)
+    public struct ListServerCertificatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "ServerCertificateMetadataList", required: true, type: .list)
         ]
-        /// The Amazon Resource Name (ARN) of the IAM policy you want to delete. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        public let policyArn: String
+        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
+        public let isTruncated: Bool?
+        /// A list of server certificates.
+        public let serverCertificateMetadataList: [ServerCertificateMetadata]
 
-        public init(policyArn: String) {
-            self.policyArn = policyArn
+        public init(marker: String? = nil, isTruncated: Bool? = nil, serverCertificateMetadataList: [ServerCertificateMetadata]) {
+            self.marker = marker
+            self.isTruncated = isTruncated
+            self.serverCertificateMetadataList = serverCertificateMetadataList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyArn = "PolicyArn"
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case serverCertificateMetadataList = "ServerCertificateMetadataList"
         }
     }
 
-    public struct DeleteGroupPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: true, type: .string), 
-            AWSShapeMember(label: "PolicyName", required: true, type: .string)
-        ]
-        /// The name (friendly name, not ARN) identifying the group that the policy is embedded in. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let groupName: String
-        /// The name identifying the policy document to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let policyName: String
-
-        public init(groupName: String, policyName: String) {
-            self.groupName = groupName
-            self.policyName = policyName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-            case policyName = "PolicyName"
-        }
-    }
-
-    public struct ResyncMFADeviceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationCode1", required: true, type: .string), 
-            AWSShapeMember(label: "SerialNumber", required: true, type: .string), 
-            AWSShapeMember(label: "AuthenticationCode2", required: true, type: .string)
-        ]
-        /// The name of the user whose MFA device you want to resynchronize. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// An authentication code emitted by the device. The format for this parameter is a sequence of six digits.
-        public let authenticationCode1: String
-        /// Serial number that uniquely identifies the MFA device. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let serialNumber: String
-        /// A subsequent authentication code emitted by the device. The format for this parameter is a sequence of six digits.
-        public let authenticationCode2: String
-
-        public init(userName: String, authenticationCode1: String, serialNumber: String, authenticationCode2: String) {
-            self.userName = userName
-            self.authenticationCode1 = authenticationCode1
-            self.serialNumber = serialNumber
-            self.authenticationCode2 = authenticationCode2
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case userName = "UserName"
-            case authenticationCode1 = "AuthenticationCode1"
-            case serialNumber = "SerialNumber"
-            case authenticationCode2 = "AuthenticationCode2"
-        }
+    public enum AssignmentStatusType: String, CustomStringConvertible, Codable {
+        case assigned = "Assigned"
+        case unassigned = "Unassigned"
+        case any = "Any"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListInstanceProfilesForRoleResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "InstanceProfiles", required: true, type: .list), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
@@ -5042,52 +5354,16 @@ extension Iam {
         }
     }
 
-    public enum AssignmentStatusType: String, CustomStringConvertible, Codable {
-        case assigned = "Assigned"
-        case unassigned = "Unassigned"
-        case any = "Any"
+    public enum DeletionTaskStatusType: String, CustomStringConvertible, Codable {
+        case succeeded = "SUCCEEDED"
+        case inProgress = "IN_PROGRESS"
+        case failed = "FAILED"
+        case notStarted = "NOT_STARTED"
         public var description: String { return self.rawValue }
     }
 
-    public struct DeleteSAMLProviderRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SAMLProviderArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the SAML provider to delete.
-        public let sAMLProviderArn: String
-
-        public init(sAMLProviderArn: String) {
-            self.sAMLProviderArn = sAMLProviderArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sAMLProviderArn = "SAMLProviderArn"
-        }
-    }
-
-    public struct PolicyRole: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RoleId", required: false, type: .string), 
-            AWSShapeMember(label: "RoleName", required: false, type: .string)
-        ]
-        /// The stable and unique string identifying the role. For more information about IDs, see IAM Identifiers in the IAM User Guide.
-        public let roleId: String?
-        /// The name (friendly name, not ARN) identifying the role.
-        public let roleName: String?
-
-        public init(roleId: String? = nil, roleName: String? = nil) {
-            self.roleId = roleId
-            self.roleName = roleName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case roleId = "RoleId"
-            case roleName = "RoleName"
-        }
-    }
-
     public struct GetContextKeysForCustomPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyInputList", required: true, type: .list)
         ]
         /// A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
@@ -5103,7 +5379,7 @@ extension Iam {
     }
 
     public struct ListUsersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
             AWSShapeMember(label: "PathPrefix", required: false, type: .string)
@@ -5128,24 +5404,8 @@ extension Iam {
         }
     }
 
-    public struct OrganizationsDecisionDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AllowedByOrganizations", required: false, type: .boolean)
-        ]
-        /// Specifies whether the simulated action is allowed by the AWS Organizations service control policies that impact the simulated user's account.
-        public let allowedByOrganizations: Bool?
-
-        public init(allowedByOrganizations: Bool? = nil) {
-            self.allowedByOrganizations = allowedByOrganizations
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case allowedByOrganizations = "AllowedByOrganizations"
-        }
-    }
-
     public struct GetContextKeysForPrincipalPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyInputList", required: false, type: .list), 
             AWSShapeMember(label: "PolicySourceArn", required: true, type: .string)
         ]
@@ -5166,7 +5426,7 @@ extension Iam {
     }
 
     public struct ListGroupPoliciesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
             AWSShapeMember(label: "GroupName", required: true, type: .string)
@@ -5191,13 +5451,8 @@ extension Iam {
         }
     }
 
-    public enum ReportFormatType: String, CustomStringConvertible, Codable {
-        case textCsv = "text/csv"
-        public var description: String { return self.rawValue }
-    }
-
     public struct DetachGroupPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
             AWSShapeMember(label: "GroupName", required: true, type: .string)
         ]
@@ -5217,34 +5472,8 @@ extension Iam {
         }
     }
 
-    public struct ListVirtualMFADevicesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VirtualMFADevices", required: true, type: .list), 
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
-        ]
-        ///  The list of virtual MFA devices in the current account that match the AssignmentStatus value that was passed in the request.
-        public let virtualMFADevices: [VirtualMFADevice]
-        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
-        public let marker: String?
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
-        public let isTruncated: Bool?
-
-        public init(virtualMFADevices: [VirtualMFADevice], marker: String? = nil, isTruncated: Bool? = nil) {
-            self.virtualMFADevices = virtualMFADevices
-            self.marker = marker
-            self.isTruncated = isTruncated
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case virtualMFADevices = "VirtualMFADevices"
-            case marker = "Marker"
-            case isTruncated = "IsTruncated"
-        }
-    }
-
     public struct GetInstanceProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceProfileName", required: true, type: .string)
         ]
         /// The name of the instance profile to get information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
@@ -5259,24 +5488,8 @@ extension Iam {
         }
     }
 
-    public struct CreateServiceLinkedRoleResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Role", required: false, type: .structure)
-        ]
-        /// A Role object that contains details about the newly created role.
-        public let role: Role?
-
-        public init(role: Role? = nil) {
-            self.role = role
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case role = "Role"
-        }
-    }
-
     public struct ListRolesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "Roles", required: true, type: .list)
@@ -5301,30 +5514,30 @@ extension Iam {
         }
     }
 
-    public enum ContextKeyTypeEnum: String, CustomStringConvertible, Codable {
-        case string = "string"
-        case stringlist = "stringList"
-        case numeric = "numeric"
-        case numericlist = "numericList"
-        case boolean = "boolean"
-        case booleanlist = "booleanList"
-        case ip = "ip"
-        case iplist = "ipList"
-        case binary = "binary"
-        case binarylist = "binaryList"
-        case date = "date"
-        case datelist = "dateList"
-        public var description: String { return self.rawValue }
+    public struct CreateServiceLinkedRoleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Role", required: false, type: .structure)
+        ]
+        /// A Role object that contains details about the newly created role.
+        public let role: Role?
+
+        public init(role: Role? = nil) {
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
+        }
     }
 
     public struct DeleteUserPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name (friendly name, not ARN) identifying the user that the policy is embedded in. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
-        /// The name identifying the policy document to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name identifying the policy document to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-+
         public let policyName: String
 
         public init(userName: String, policyName: String) {
@@ -5339,7 +5552,7 @@ extension Iam {
     }
 
     public struct ResetServiceSpecificCredentialResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceSpecificCredential", required: false, type: .structure)
         ]
         /// A structure with details about the updated service-specific credential, including the new password.  This is the only time that you can access the password. You cannot recover the password later, but you can reset it again. 
@@ -5354,60 +5567,8 @@ extension Iam {
         }
     }
 
-    public struct UpdateLoginProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Password", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: true, type: .string), 
-            AWSShapeMember(label: "PasswordResetRequired", required: false, type: .boolean)
-        ]
-        /// The new password for the specified IAM user. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D). However, the format can be further restricted by the account administrator by setting a password policy on the AWS account. For more information, see UpdateAccountPasswordPolicy.
-        public let password: String?
-        /// The name of the user whose password you want to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// Allows this new password to be used only once by requiring the specified IAM user to set a new password on next sign-in.
-        public let passwordResetRequired: Bool?
-
-        public init(password: String? = nil, userName: String, passwordResetRequired: Bool? = nil) {
-            self.password = password
-            self.userName = userName
-            self.passwordResetRequired = passwordResetRequired
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case password = "Password"
-            case userName = "UserName"
-            case passwordResetRequired = "PasswordResetRequired"
-        }
-    }
-
-    public struct ListAccountAliasesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeMember(label: "AccountAliases", required: true, type: .list)
-        ]
-        /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
-        public let marker: String?
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
-        public let isTruncated: Bool?
-        /// A list of aliases associated with the account. AWS supports only one alias per account.
-        public let accountAliases: [String]
-
-        public init(marker: String? = nil, isTruncated: Bool? = nil, accountAliases: [String]) {
-            self.marker = marker
-            self.isTruncated = isTruncated
-            self.accountAliases = accountAliases
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case isTruncated = "IsTruncated"
-            case accountAliases = "AccountAliases"
-        }
-    }
-
     public struct ListSSHPublicKeysResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "SSHPublicKeys", required: false, type: .list), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
@@ -5433,7 +5594,7 @@ extension Iam {
     }
 
     public struct ListServiceSpecificCredentialsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceSpecificCredentials", required: false, type: .list)
         ]
         /// A list of structures that each contain details about a service-specific credential.
@@ -5453,48 +5614,6 @@ extension Iam {
         case aws = "AWS"
         case local = "Local"
         public var description: String { return self.rawValue }
-    }
-
-    public struct ListMFADevicesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "UserName", required: false, type: .string), 
-            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
-        ]
-        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-        public let marker: String?
-        /// The name of the user whose MFA devices you want to list. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
-
-        public init(marker: String? = nil, userName: String? = nil, maxItems: Int32? = nil) {
-            self.marker = marker
-            self.userName = userName
-            self.maxItems = maxItems
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
-            case userName = "UserName"
-            case maxItems = "MaxItems"
-        }
-    }
-
-    public struct DeleteGroupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "GroupName", required: true, type: .string)
-        ]
-        /// The name of the IAM group to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let groupName: String
-
-        public init(groupName: String) {
-            self.groupName = groupName
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case groupName = "GroupName"
-        }
     }
 
 }

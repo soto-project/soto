@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Sts {
 
     public struct GetSessionTokenRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TokenCode", required: false, type: .string), 
             AWSShapeMember(label: "SerialNumber", required: false, type: .string), 
             AWSShapeMember(label: "DurationSeconds", required: false, type: .integer)
@@ -32,7 +32,7 @@ extension Sts {
     }
 
     public struct GetSessionTokenResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Credentials", required: false, type: .structure)
         ]
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  Note: The size of the security token that STS APIs return is not fixed. We strongly recommend that you make no assumptions about the maximum size. As of this writing, the typical size is less than 4096 bytes, but that can vary. Also, future updates to AWS might require larger sizes.
@@ -48,7 +48,7 @@ extension Sts {
     }
 
     public struct DecodeAuthorizationMessageRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EncodedMessage", required: true, type: .string)
         ]
         /// The encoded message that was returned with the response.
@@ -64,7 +64,7 @@ extension Sts {
     }
 
     public struct Credentials: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SessionToken", required: true, type: .string), 
             AWSShapeMember(label: "AccessKeyId", required: true, type: .string), 
             AWSShapeMember(label: "SecretAccessKey", required: true, type: .string), 
@@ -95,7 +95,7 @@ extension Sts {
     }
 
     public struct AssumeRoleWithWebIdentityResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Audience", required: false, type: .string), 
             AWSShapeMember(label: "Credentials", required: false, type: .structure), 
             AWSShapeMember(label: "SubjectFromWebIdentityToken", required: false, type: .string), 
@@ -136,7 +136,7 @@ extension Sts {
     }
 
     public struct GetFederationTokenResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Credentials", required: false, type: .structure), 
             AWSShapeMember(label: "FederatedUser", required: false, type: .structure), 
             AWSShapeMember(label: "PackedPolicySize", required: false, type: .integer)
@@ -162,7 +162,7 @@ extension Sts {
     }
 
     public struct AssumeRoleWithWebIdentityRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProviderId", required: false, type: .string), 
             AWSShapeMember(label: "DurationSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
@@ -203,7 +203,7 @@ extension Sts {
     }
 
     public struct AssumedRoleUser: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: true, type: .string), 
             AWSShapeMember(label: "AssumedRoleId", required: true, type: .string)
         ]
@@ -224,7 +224,7 @@ extension Sts {
     }
 
     public struct DecodeAuthorizationMessageResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DecodedMessage", required: false, type: .string)
         ]
         /// An XML document that contains the decoded message.
@@ -244,7 +244,7 @@ extension Sts {
     }
 
     public struct AssumeRoleWithSAMLRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PrincipalArn", required: true, type: .string), 
             AWSShapeMember(label: "DurationSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
@@ -280,7 +280,7 @@ extension Sts {
     }
 
     public struct AssumeRoleWithSAMLResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Credentials", required: false, type: .structure), 
             AWSShapeMember(label: "AssumedRoleUser", required: false, type: .structure), 
             AWSShapeMember(label: "SubjectType", required: false, type: .string), 
@@ -331,7 +331,7 @@ extension Sts {
     }
 
     public struct GetFederationTokenRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Policy", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "DurationSeconds", required: false, type: .integer)
@@ -357,7 +357,7 @@ extension Sts {
     }
 
     public struct GetCallerIdentityResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Account", required: false, type: .string), 
             AWSShapeMember(label: "UserId", required: false, type: .string), 
             AWSShapeMember(label: "Arn", required: false, type: .string)
@@ -383,7 +383,7 @@ extension Sts {
     }
 
     public struct AssumeRoleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DurationSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "ExternalId", required: false, type: .string), 
             AWSShapeMember(label: "TokenCode", required: false, type: .string), 
@@ -429,7 +429,7 @@ extension Sts {
     }
 
     public struct AssumeRoleResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Credentials", required: false, type: .structure), 
             AWSShapeMember(label: "AssumedRoleUser", required: false, type: .structure), 
             AWSShapeMember(label: "PackedPolicySize", required: false, type: .integer)
@@ -455,7 +455,7 @@ extension Sts {
     }
 
     public struct FederatedUser: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FederatedUserId", required: true, type: .string), 
             AWSShapeMember(label: "Arn", required: true, type: .string)
         ]

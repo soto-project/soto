@@ -6,12 +6,12 @@ import AWSSDKSwiftCore
 extension Elasticmapreduce {
 
     public struct InstanceFleetStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "Timeline", required: false, type: .structure), 
             AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
         ]
-        /// A code representing the instance fleet status.
+        /// A code representing the instance fleet status.    PROVISIONING—The instance fleet is provisioning EC2 resources and is not yet ready to run jobs.    BOOTSTRAPPING—EC2 instances and other resources have been provisioned and the bootstrap actions specified for the instances are underway.    RUNNING—EC2 instances and other resources are running. They are either executing jobs or waiting to execute jobs.    RESIZING—A resize operation is underway. EC2 instances are either being added or removed.    SUSPENDED—A resize operation could not complete. Existing EC2 instances are running, but instances can't be added or removed.    TERMINATING—The instance fleet is terminating EC2 instances.    TERMINATED—The instance fleet is no longer active, and all EC2 instances have been terminated.  
         public let state: InstanceFleetState?
         /// Provides historical timestamps for the instance fleet, including the time of creation, the time it became ready to run jobs, and the time of termination.
         public let timeline: InstanceFleetTimeline?
@@ -46,7 +46,7 @@ extension Elasticmapreduce {
     }
 
     public struct JobFlowInstancesDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MasterInstanceId", required: false, type: .string), 
             AWSShapeMember(label: "HadoopVersion", required: false, type: .string), 
             AWSShapeMember(label: "NormalizedInstanceHours", required: false, type: .integer), 
@@ -77,7 +77,7 @@ extension Elasticmapreduce {
         public let instanceGroups: [InstanceGroupDetail]?
         /// The Amazon EC2 master node instance type.
         public let masterInstanceType: String
-        /// The DNS name of the master node.
+        /// The DNS name of the master node. If the cluster is on a private subnet, this is the private DNS name. On a public subnet, this is the public DNS name.
         public let masterPublicDnsName: String?
         /// The Amazon EC2 Availability Zone for the cluster.
         public let placement: PlacementType?
@@ -129,7 +129,7 @@ extension Elasticmapreduce {
     }
 
     public struct PutAutoScalingPolicyOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
             AWSShapeMember(label: "ClusterId", required: false, type: .string), 
             AWSShapeMember(label: "AutoScalingPolicy", required: false, type: .structure)
@@ -161,7 +161,7 @@ extension Elasticmapreduce {
     }
 
     public struct ListStepsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "StepIds", required: false, type: .list), 
             AWSShapeMember(label: "StepStates", required: false, type: .list), 
@@ -192,16 +192,16 @@ extension Elasticmapreduce {
     }
 
     public struct SimpleScalingPolicyConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ScalingAdjustment", required: true, type: .integer), 
             AWSShapeMember(label: "CoolDown", required: false, type: .integer), 
             AWSShapeMember(label: "AdjustmentType", required: false, type: .enum)
         ]
-        /// The amount by which to scale in or scale out, based on the specified AdjustmentType. A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY, the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY, the value should express the percentage as a decimal. For example, -0.20 indicates a decrease in 20% increments of cluster capacity.
+        /// The amount by which to scale in or scale out, based on the specified AdjustmentType. A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY, the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY, the value should express the percentage as an integer. For example, -20 indicates a decrease in 20% increments of cluster capacity.
         public let scalingAdjustment: Int32
         /// The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. The default value is 0.
         public let coolDown: Int32?
-        /// The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment, which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment, which should be expressed as a decimal. For example, 0.20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment, which should be expressed as a positive integer.
+        /// The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment, which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment, which should be expressed as an integer. For example, 20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment, which should be expressed as a positive integer.
         public let adjustmentType: AdjustmentType?
 
         public init(scalingAdjustment: Int32, coolDown: Int32? = nil, adjustmentType: AdjustmentType? = nil) {
@@ -218,7 +218,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceFleet: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetOnDemandCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "Status", required: false, type: .structure), 
             AWSShapeMember(label: "InstanceTypeSpecifications", required: false, type: .list), 
@@ -279,7 +279,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceGroupStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "Timeline", required: false, type: .structure), 
             AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
@@ -305,7 +305,7 @@ extension Elasticmapreduce {
     }
 
     public struct CreateSecurityConfigurationOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp)
         ]
@@ -333,7 +333,7 @@ extension Elasticmapreduce {
     }
 
     public struct FailureDetails: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Reason", required: false, type: .string), 
             AWSShapeMember(label: "LogFile", required: false, type: .string), 
             AWSShapeMember(label: "Message", required: false, type: .string)
@@ -359,7 +359,7 @@ extension Elasticmapreduce {
     }
 
     public struct ListClustersInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterStates", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
@@ -390,7 +390,7 @@ extension Elasticmapreduce {
     }
 
     public struct ClusterStateChangeReason: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
@@ -411,7 +411,7 @@ extension Elasticmapreduce {
     }
 
     public struct VolumeSpecification: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Iops", required: false, type: .integer), 
             AWSShapeMember(label: "VolumeType", required: true, type: .string), 
             AWSShapeMember(label: "SizeInGB", required: true, type: .integer)
@@ -437,7 +437,7 @@ extension Elasticmapreduce {
     }
 
     public struct Application: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Version", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Args", required: false, type: .list), 
@@ -468,7 +468,7 @@ extension Elasticmapreduce {
     }
 
     public struct DescribeJobFlowsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobFlows", required: false, type: .list)
         ]
         /// A list of job flows matching the parameters supplied.
@@ -484,7 +484,7 @@ extension Elasticmapreduce {
     }
 
     public struct CloudWatchAlarmDefinition: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Threshold", required: true, type: .double), 
             AWSShapeMember(label: "MetricName", required: true, type: .string), 
             AWSShapeMember(label: "Period", required: true, type: .integer), 
@@ -540,13 +540,13 @@ extension Elasticmapreduce {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
-        /// A user-defined value, which is optional in a tag. For more information, see Tagging Amazon EMR Resources. 
+        /// A user-defined value, which is optional in a tag. For more information, see Tag Clusters. 
         public let value: String?
-        /// A user-defined key, which is the minimum required information for a valid tag. For more information, see Tagging Amazon EMR Resources. 
+        /// A user-defined key, which is the minimum required information for a valid tag. For more information, see Tag . 
         public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
@@ -561,7 +561,7 @@ extension Elasticmapreduce {
     }
 
     public struct DescribeSecurityConfigurationOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp)
@@ -587,7 +587,7 @@ extension Elasticmapreduce {
     }
 
     public struct CancelStepsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CancelStepsInfoList", required: false, type: .list)
         ]
         /// A list of CancelStepsInfo, which shows the status of specified cancel requests for each StepID specified.
@@ -603,7 +603,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceFleetProvisioningSpecifications: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SpotSpecification", required: true, type: .structure)
         ]
         /// The launch specification for Spot instances in the fleet, which determines the defined duration and provisioning timeout behavior.
@@ -619,7 +619,7 @@ extension Elasticmapreduce {
     }
 
     public struct PutAutoScalingPolicyInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceGroupId", required: true, type: .string), 
             AWSShapeMember(label: "ClusterId", required: true, type: .string), 
             AWSShapeMember(label: "AutoScalingPolicy", required: true, type: .structure)
@@ -645,7 +645,7 @@ extension Elasticmapreduce {
     }
 
     public struct ClusterTimeline: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
@@ -671,7 +671,7 @@ extension Elasticmapreduce {
     }
 
     public struct AddJobFlowStepsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StepIds", required: false, type: .list)
         ]
         /// The identifiers of the list of steps added to the job flow.
@@ -687,7 +687,7 @@ extension Elasticmapreduce {
     }
 
     public struct Instance: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EbsVolumes", required: false, type: .list), 
             AWSShapeMember(label: "InstanceFleetId", required: false, type: .string), 
             AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
@@ -758,7 +758,7 @@ extension Elasticmapreduce {
     }
 
     public struct ScalingAction: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Market", required: false, type: .enum), 
             AWSShapeMember(label: "SimpleScalingPolicyConfiguration", required: true, type: .structure)
         ]
@@ -779,7 +779,7 @@ extension Elasticmapreduce {
     }
 
     public struct Step: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActionOnFailure", required: false, type: .enum), 
             AWSShapeMember(label: "Status", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -812,6 +812,12 @@ extension Elasticmapreduce {
             case config = "Config"
             case id = "Id"
         }
+    }
+
+    public enum RepoUpgradeOnBoot: String, CustomStringConvertible, Codable {
+        case security = "SECURITY"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
     }
 
     public enum Unit: String, CustomStringConvertible, Codable {
@@ -852,11 +858,11 @@ extension Elasticmapreduce {
     }
 
     public struct CreateSecurityConfigurationInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityConfiguration", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
-        /// The security configuration details in JSON format.
+        /// The security configuration details in JSON format. For JSON parameters and examples, see Use Security Configurations to Set Up Cluster Security in the Amazon EMR Management Guide.
         public let securityConfiguration: String
         /// The name of the security configuration.
         public let name: String
@@ -873,7 +879,7 @@ extension Elasticmapreduce {
     }
 
     public struct ListInstanceGroupsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]
@@ -894,7 +900,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BidPrice", required: false, type: .string), 
             AWSShapeMember(label: "ShrinkPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
@@ -985,7 +991,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceFleetConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetOnDemandCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "InstanceTypeConfigs", required: false, type: .list), 
             AWSShapeMember(label: "LaunchSpecifications", required: false, type: .structure), 
@@ -1026,7 +1032,7 @@ extension Elasticmapreduce {
     }
 
     public struct ListInstanceFleetsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]
@@ -1058,7 +1064,7 @@ extension Elasticmapreduce {
     }
 
     public struct Command: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Args", required: false, type: .list), 
             AWSShapeMember(label: "ScriptPath", required: false, type: .string)
@@ -1084,7 +1090,7 @@ extension Elasticmapreduce {
     }
 
     public struct AutoScalingPolicyStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
         ]
@@ -1105,7 +1111,7 @@ extension Elasticmapreduce {
     }
 
     public struct ListInstanceFleetsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "InstanceFleets", required: false, type: .list)
         ]
@@ -1126,7 +1132,7 @@ extension Elasticmapreduce {
     }
 
     public struct DescribeStepOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Step", required: false, type: .structure)
         ]
         /// The step details for the requested step identifier.
@@ -1142,7 +1148,7 @@ extension Elasticmapreduce {
     }
 
     public struct PlacementType: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string)
         ]
@@ -1163,7 +1169,7 @@ extension Elasticmapreduce {
     }
 
     public struct MetricDimension: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
@@ -1184,7 +1190,7 @@ extension Elasticmapreduce {
     }
 
     public struct DeleteSecurityConfigurationInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the security configuration.
@@ -1200,7 +1206,7 @@ extension Elasticmapreduce {
     }
 
     public struct StepConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HadoopJarStep", required: true, type: .structure), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "ActionOnFailure", required: false, type: .enum)
@@ -1237,7 +1243,7 @@ extension Elasticmapreduce {
     }
 
     public struct DescribeClusterOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         /// This output contains the details for the requested cluster.
@@ -1253,7 +1259,7 @@ extension Elasticmapreduce {
     }
 
     public struct ListInstancesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
             AWSShapeMember(label: "InstanceFleetId", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -1299,7 +1305,7 @@ extension Elasticmapreduce {
     }
 
     public struct Ec2InstanceAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmrManagedSlaveSecurityGroup", required: false, type: .string), 
             AWSShapeMember(label: "IamInstanceProfile", required: false, type: .string), 
             AWSShapeMember(label: "Ec2SubnetId", required: false, type: .string), 
@@ -1320,7 +1326,7 @@ extension Elasticmapreduce {
         public let ec2SubnetId: String?
         /// The identifier of the Amazon EC2 security group for the master node.
         public let emrManagedMasterSecurityGroup: String?
-        /// Applies to clusters configured with the The list of availability zones to choose from. The service will choose the availability zone with the best mix of available capacity and lowest cost to launch the cluster. If you do not specify this value, the cluster is launched in any availability zone that the customer account has access to.
+        /// Applies to clusters configured with the instance fleets option. Specifies one or more Availability Zones in which to launch EC2 cluster instances when the EC2-Classic network configuration is supported. Amazon EMR chooses the Availability Zone with the best fit from among the list of RequestedEc2AvailabilityZones, and then launches all cluster instances within that Availability Zone. If you do not specify this value, Amazon EMR chooses the Availability Zone for you. RequestedEc2SubnetIDs and RequestedEc2AvailabilityZones cannot be specified together.
         public let requestedEc2AvailabilityZones: [String]?
         /// A list of additional Amazon EC2 security group IDs for the master node.
         public let additionalMasterSecurityGroups: [String]?
@@ -1328,7 +1334,7 @@ extension Elasticmapreduce {
         public let serviceAccessSecurityGroup: String?
         /// A list of additional Amazon EC2 security group IDs for the slave nodes.
         public let additionalSlaveSecurityGroups: [String]?
-        /// Applies to clusters configured with the instance fleets option. Specifies the unique identifier of one or more Amazon EC2 subnets in which to launch EC2 cluster instances. Amazon EMR chooses the EC2 subnet with the best performance and cost characteristics from among the list of RequestedEc2SubnetIds and launches all cluster instances within that subnet. If this value is not specified, and the account supports EC2-Classic networks, the cluster launches instances in the EC2-Classic network and uses Requested
+        /// Applies to clusters configured with the instance fleets option. Specifies the unique identifier of one or more Amazon EC2 subnets in which to launch EC2 cluster instances. Subnets must exist within the same VPC. Amazon EMR chooses the EC2 subnet with the best fit from among the list of RequestedEc2SubnetIds, and then launches all cluster instances within that Subnet. If this value is not specified, and the account and region support EC2-Classic networks, the cluster launches instances in the EC2-Classic network and uses RequestedEc2AvailabilityZones instead of this setting. If EC2-Classic is not supported, and no Subnet is specified, Amazon EMR chooses the subnet for you. RequestedEc2SubnetIDs and RequestedEc2AvailabilityZones cannot be specified together.
         public let requestedEc2SubnetIds: [String]?
         /// The Availability Zone in which the cluster will run. 
         public let ec2AvailabilityZone: String?
@@ -1365,7 +1371,7 @@ extension Elasticmapreduce {
     }
 
     public struct EbsVolume: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeId", required: false, type: .string), 
             AWSShapeMember(label: "Device", required: false, type: .string)
         ]
@@ -1386,7 +1392,7 @@ extension Elasticmapreduce {
     }
 
     public struct ListSecurityConfigurationsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "SecurityConfigurations", required: false, type: .list)
         ]
@@ -1407,7 +1413,7 @@ extension Elasticmapreduce {
     }
 
     public struct StepTimeline: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
@@ -1432,8 +1438,44 @@ extension Elasticmapreduce {
         }
     }
 
+    public struct KerberosAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Realm", required: true, type: .string), 
+            AWSShapeMember(label: "ADDomainJoinUser", required: false, type: .string), 
+            AWSShapeMember(label: "KdcAdminPassword", required: true, type: .string), 
+            AWSShapeMember(label: "CrossRealmTrustPrincipalPassword", required: false, type: .string), 
+            AWSShapeMember(label: "ADDomainJoinPassword", required: false, type: .string)
+        ]
+        /// The name of the Kerberos realm to which all nodes in a cluster belong. For example, EC2.INTERNAL. 
+        public let realm: String
+        /// Required only when establishing a cross-realm trust with an Active Directory domain. A user with sufficient privileges to join resources to the domain.
+        public let aDDomainJoinUser: String?
+        /// The password used within the cluster for the kadmin service on the cluster-dedicated KDC, which maintains Kerberos principals, password policies, and keytabs for the cluster.
+        public let kdcAdminPassword: String
+        /// Required only when establishing a cross-realm trust with a KDC in a different realm. The cross-realm principal password, which must be identical across realms.
+        public let crossRealmTrustPrincipalPassword: String?
+        /// The Active Directory password for ADDomainJoinUser.
+        public let aDDomainJoinPassword: String?
+
+        public init(realm: String, aDDomainJoinUser: String? = nil, kdcAdminPassword: String, crossRealmTrustPrincipalPassword: String? = nil, aDDomainJoinPassword: String? = nil) {
+            self.realm = realm
+            self.aDDomainJoinUser = aDDomainJoinUser
+            self.kdcAdminPassword = kdcAdminPassword
+            self.crossRealmTrustPrincipalPassword = crossRealmTrustPrincipalPassword
+            self.aDDomainJoinPassword = aDDomainJoinPassword
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case realm = "Realm"
+            case aDDomainJoinUser = "ADDomainJoinUser"
+            case kdcAdminPassword = "KdcAdminPassword"
+            case crossRealmTrustPrincipalPassword = "CrossRealmTrustPrincipalPassword"
+            case aDDomainJoinPassword = "ADDomainJoinPassword"
+        }
+    }
+
     public struct InstanceStateChangeReason: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
@@ -1466,7 +1508,7 @@ extension Elasticmapreduce {
     }
 
     public struct AutoScalingPolicy: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rules", required: true, type: .list), 
             AWSShapeMember(label: "Constraints", required: true, type: .structure)
         ]
@@ -1486,8 +1528,8 @@ extension Elasticmapreduce {
         }
     }
 
-    public struct Configuration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+    public class Configuration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Classification", required: false, type: .string), 
             AWSShapeMember(label: "Configurations", required: false, type: .list), 
             AWSShapeMember(label: "Properties", required: false, type: .map)
@@ -1513,7 +1555,7 @@ extension Elasticmapreduce {
     }
 
     public struct CancelStepsInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Reason", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StepId", required: false, type: .string)
@@ -1549,7 +1591,7 @@ extension Elasticmapreduce {
     }
 
     public struct AutoScalingPolicyStateChangeReason: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
@@ -1570,7 +1612,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceFleetStateChangeReason: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
@@ -1591,7 +1633,7 @@ extension Elasticmapreduce {
     }
 
     public struct ScalingRule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Action", required: true, type: .structure), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Trigger", required: true, type: .structure), 
@@ -1641,7 +1683,7 @@ extension Elasticmapreduce {
     }
 
     public struct ListSecurityConfigurationsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// The pagination token that indicates the set of results to retrieve.
@@ -1663,7 +1705,7 @@ extension Elasticmapreduce {
     }
 
     public struct JobFlowDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Steps", required: false, type: .list), 
             AWSShapeMember(label: "SupportedProducts", required: false, type: .list), 
             AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
@@ -1685,7 +1727,7 @@ extension Elasticmapreduce {
         public let supportedProducts: [String]?
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides a way for the automatic scaling feature to get the required permissions it needs to launch and terminate EC2 instances in an instance group.
         public let autoScalingRole: String?
-        /// The version of the AMI used to initialize Amazon EC2 instances in the job flow. For a list of AMI versions currently supported by Amazon EMR, see AMI Versions Supported in EMR in the Amazon EMR Developer Guide. 
+        /// Used only for version 2.x and 3.x of Amazon EMR. The version of the AMI used to initialize Amazon EC2 instances in the job flow. For a list of AMI versions supported by Amazon EMR, see AMI Versions Supported in EMR in the Amazon EMR Developer Guide. 
         public let amiVersion: String?
         /// Specifies whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
         public let visibleToAllUsers: Bool?
@@ -1744,7 +1786,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceGroupTimeline: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
@@ -1770,7 +1812,7 @@ extension Elasticmapreduce {
     }
 
     public struct ScalingTrigger: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudWatchAlarmDefinition", required: true, type: .structure)
         ]
         /// The definition of a CloudWatch metric alarm. When the defined alarm conditions are met along with other trigger parameters, scaling activity begins.
@@ -1789,6 +1831,7 @@ extension Elasticmapreduce {
         case internalError = "INTERNAL_ERROR"
         case validationError = "VALIDATION_ERROR"
         case instanceFailure = "INSTANCE_FAILURE"
+        case instanceFleetTimeout = "INSTANCE_FLEET_TIMEOUT"
         case bootstrapFailure = "BOOTSTRAP_FAILURE"
         case userRequest = "USER_REQUEST"
         case stepFailure = "STEP_FAILURE"
@@ -1797,7 +1840,7 @@ extension Elasticmapreduce {
     }
 
     public struct BootstrapActionDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BootstrapActionConfig", required: false, type: .structure)
         ]
         /// A description of the bootstrap action.
@@ -1821,7 +1864,7 @@ extension Elasticmapreduce {
     }
 
     public struct DescribeJobFlowsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobFlowStates", required: false, type: .list), 
             AWSShapeMember(label: "JobFlowIds", required: false, type: .list), 
             AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
@@ -1859,7 +1902,7 @@ extension Elasticmapreduce {
     }
 
     public struct EbsBlockDeviceConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeSpecification", required: true, type: .structure), 
             AWSShapeMember(label: "VolumesPerInstance", required: false, type: .integer)
         ]
@@ -1880,7 +1923,7 @@ extension Elasticmapreduce {
     }
 
     public struct SetTerminationProtectionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobFlowIds", required: true, type: .list), 
             AWSShapeMember(label: "TerminationProtected", required: true, type: .boolean)
         ]
@@ -1901,7 +1944,7 @@ extension Elasticmapreduce {
     }
 
     public struct RemoveTagsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
@@ -1922,7 +1965,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "Timeline", required: false, type: .structure), 
             AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
@@ -1948,7 +1991,7 @@ extension Elasticmapreduce {
     }
 
     public struct StepSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActionOnFailure", required: false, type: .enum), 
             AWSShapeMember(label: "Status", required: false, type: .structure), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -1984,7 +2027,7 @@ extension Elasticmapreduce {
     }
 
     public struct BootstrapActionConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "ScriptBootstrapAction", required: true, type: .structure)
         ]
@@ -2005,7 +2048,7 @@ extension Elasticmapreduce {
     }
 
     public struct AddInstanceGroupsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobFlowId", required: false, type: .string), 
             AWSShapeMember(label: "InstanceGroupIds", required: false, type: .list)
         ]
@@ -2031,7 +2074,7 @@ extension Elasticmapreduce {
     }
 
     public struct ListInstancesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Instances", required: false, type: .list)
         ]
@@ -2052,7 +2095,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceFleetModifyConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetOnDemandCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "InstanceFleetId", required: true, type: .string), 
             AWSShapeMember(label: "TargetSpotCapacity", required: false, type: .integer)
@@ -2078,7 +2121,7 @@ extension Elasticmapreduce {
     }
 
     public struct ListInstanceGroupsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "InstanceGroups", required: false, type: .list)
         ]
@@ -2099,7 +2142,7 @@ extension Elasticmapreduce {
     }
 
     public struct SecurityConfigurationSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp)
         ]
@@ -2120,7 +2163,7 @@ extension Elasticmapreduce {
     }
 
     public struct AddInstanceFleetOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterId", required: false, type: .string), 
             AWSShapeMember(label: "InstanceFleetId", required: false, type: .string)
         ]
@@ -2141,7 +2184,7 @@ extension Elasticmapreduce {
     }
 
     public struct ListBootstrapActionsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "BootstrapActions", required: false, type: .list)
         ]
@@ -2162,7 +2205,7 @@ extension Elasticmapreduce {
     }
 
     public struct CancelStepsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StepIds", required: false, type: .list), 
             AWSShapeMember(label: "ClusterId", required: false, type: .string)
         ]
@@ -2183,7 +2226,7 @@ extension Elasticmapreduce {
     }
 
     public struct ModifyInstanceFleetInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterId", required: true, type: .string), 
             AWSShapeMember(label: "InstanceFleet", required: true, type: .structure)
         ]
@@ -2204,7 +2247,7 @@ extension Elasticmapreduce {
     }
 
     public struct JobFlowInstancesConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceFleets", required: false, type: .list), 
             AWSShapeMember(label: "HadoopVersion", required: false, type: .string), 
             AWSShapeMember(label: "Ec2SubnetId", required: false, type: .string), 
@@ -2300,7 +2343,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceTypeConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WeightedCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "BidPrice", required: false, type: .string), 
             AWSShapeMember(label: "BidPriceAsPercentageOfOnDemandPrice", required: false, type: .double), 
@@ -2308,11 +2351,11 @@ extension Elasticmapreduce {
             AWSShapeMember(label: "EbsConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Configurations", required: false, type: .list)
         ]
-        /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. This value is 1 for a master instance fleet, and must be greater than 0 for core and task instance fleets. 
+        /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. This value is 1 for a master instance fleet, and must be 1 or greater for core and task instance fleets. Defaults to 1 if not specified. 
         public let weightedCapacity: Int32?
         /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%. 
         public let bidPrice: String?
-        /// The bid price, as a percentage of On-Demand price, for each EC2 Spot instance as defined by InstanceType. Expressed as a number between 0 and 1000 (for example, 20 specifies 20%). If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
+        /// The bid price, as a percentage of On-Demand price, for each EC2 Spot instance as defined by InstanceType. Expressed as a number (for example, 20 specifies 20%). If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public let bidPriceAsPercentageOfOnDemandPrice: Double?
         /// An EC2 instance type, such as m3.xlarge. 
         public let instanceType: String
@@ -2355,7 +2398,7 @@ extension Elasticmapreduce {
     }
 
     public struct TerminateJobFlowsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobFlowIds", required: true, type: .list)
         ]
         /// A list of job flows to be shutdown.
@@ -2371,7 +2414,7 @@ extension Elasticmapreduce {
     }
 
     public struct HadoopJarStepConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MainClass", required: false, type: .string), 
             AWSShapeMember(label: "Jar", required: true, type: .string), 
             AWSShapeMember(label: "Properties", required: false, type: .list), 
@@ -2402,7 +2445,7 @@ extension Elasticmapreduce {
     }
 
     public struct ShrinkPolicy: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceResizePolicy", required: false, type: .structure), 
             AWSShapeMember(label: "DecommissionTimeout", required: false, type: .integer)
         ]
@@ -2423,7 +2466,7 @@ extension Elasticmapreduce {
     }
 
     public struct ListBootstrapActionsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]
@@ -2453,7 +2496,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceFleetTimeline: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
@@ -2479,7 +2522,7 @@ extension Elasticmapreduce {
     }
 
     public struct ScalingConstraints: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxCapacity", required: true, type: .integer), 
             AWSShapeMember(label: "MinCapacity", required: true, type: .integer)
         ]
@@ -2500,7 +2543,7 @@ extension Elasticmapreduce {
     }
 
     public struct AutoScalingPolicyDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .structure), 
             AWSShapeMember(label: "Rules", required: false, type: .list), 
             AWSShapeMember(label: "Constraints", required: false, type: .structure)
@@ -2526,7 +2569,7 @@ extension Elasticmapreduce {
     }
 
     public struct SupportedProductConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Args", required: false, type: .list)
         ]
@@ -2547,7 +2590,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceTypeSpecification: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WeightedCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "BidPrice", required: false, type: .string), 
             AWSShapeMember(label: "EbsBlockDevices", required: false, type: .list), 
@@ -2593,7 +2636,7 @@ extension Elasticmapreduce {
     }
 
     public struct StepExecutionStatusDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "LastStateChangeReason", required: false, type: .string), 
             AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp), 
@@ -2638,107 +2681,127 @@ extension Elasticmapreduce {
     }
 
     public struct RunJobFlowInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Steps", required: false, type: .list), 
-            AWSShapeMember(label: "ReleaseLabel", required: false, type: .string), 
             AWSShapeMember(label: "SupportedProducts", required: false, type: .list), 
-            AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
+            AWSShapeMember(label: "ReleaseLabel", required: false, type: .string), 
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "AmiVersion", required: false, type: .string), 
+            AWSShapeMember(label: "RepoUpgradeOnBoot", required: false, type: .enum), 
+            AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
             AWSShapeMember(label: "VisibleToAllUsers", required: false, type: .boolean), 
             AWSShapeMember(label: "Applications", required: false, type: .list), 
             AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeMember(label: "CustomAmiId", required: false, type: .string), 
             AWSShapeMember(label: "NewSupportedProducts", required: false, type: .list), 
             AWSShapeMember(label: "JobFlowRole", required: false, type: .string), 
             AWSShapeMember(label: "BootstrapActions", required: false, type: .list), 
-            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "EbsRootVolumeSize", required: false, type: .integer), 
             AWSShapeMember(label: "ScaleDownBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "AdditionalInfo", required: false, type: .string), 
             AWSShapeMember(label: "LogUri", required: false, type: .string), 
             AWSShapeMember(label: "Instances", required: true, type: .structure), 
+            AWSShapeMember(label: "KerberosAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "Configurations", required: false, type: .list)
         ]
         /// A list of steps to run.
         public let steps: [StepConfig]?
-        ///  Amazon EMR releases 4.x or later.  The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x AMIs, use amiVersion instead instead of ReleaseLabel.
-        public let releaseLabel: String?
-        ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and greater, use Applications.  A list of strings that indicates third-party software to use. For more information, see Use Third Party Applications with Amazon EMR. Currently supported values are:   "mapr-m3" - launch the job flow using MapR M3 Edition.   "mapr-m5" - launch the job flow using MapR M5 Edition.  
+        ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use. For more information, see the Amazon EMR Developer Guide. Currently supported values are:   "mapr-m3" - launch the job flow using MapR M3 Edition.   "mapr-m5" - launch the job flow using MapR M5 Edition.  
         public let supportedProducts: [String]?
-        /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
-        public let autoScalingRole: String?
+        ///  The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x AMIs, use AmiVersion instead.
+        public let releaseLabel: String?
         /// The name of a security configuration to apply to the cluster.
         public let securityConfiguration: String?
         /// A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
         public let tags: [Tag]?
-        ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and greater, use ReleaseLabel.  The version of the Amazon Machine Image (AMI) to use when launching Amazon EC2 instances in the job flow. The following values are valid:   The version number of the AMI to use, for example, "2.0."   If the AMI supports multiple versions of Hadoop (for example, AMI 1.0 supports both Hadoop 0.18 and 0.20) you can use the JobFlowInstancesConfig HadoopVersion parameter to modify the version of Hadoop from the defaults shown above. For details about the AMI versions currently supported by Amazon Elastic MapReduce, see AMI Versions Supported in Elastic MapReduce in the Amazon Elastic MapReduce Developer Guide.   Previously, the EMR AMI version API parameter options allowed you to use latest for the latest AMI version rather than specify a numerical value. Some regions no longer support this deprecated option as they only have a newer release label version of EMR, which requires you to specify an EMR release label release (EMR 4.x or later). 
+        /// For Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, the Linux AMI is determined by the ReleaseLabel specified or by CustomAmiID. The version of the Amazon Machine Image (AMI) to use when launching Amazon EC2 instances in the job flow. For details about the AMI versions currently supported in EMR version 3.x and 2.x, see AMI Versions Supported in EMR in the Amazon EMR Developer Guide.  If the AMI supports multiple versions of Hadoop (for example, AMI 1.0 supports both Hadoop 0.18 and 0.20), you can use the JobFlowInstancesConfig HadoopVersion parameter to modify the version of Hadoop from the defaults shown above.  Previously, the EMR AMI version API parameter options allowed you to use latest for the latest AMI version rather than specify a numerical value. Some regions no longer support this deprecated option as they only have a newer release label version of EMR, which requires you to specify an EMR release label release (EMR 4.x or later). 
         public let amiVersion: String?
+        /// Applies only when CustomAmiID is used. Specifies which updates from the Amazon Linux AMI package repositories to apply automatically when the instance boots using the AMI. If omitted, the default is SECURITY, which indicates that only security updates are applied. If NONE is specified, no updates are applied, and all updates must be applied manually.
+        public let repoUpgradeOnBoot: RepoUpgradeOnBoot?
+        /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
+        public let autoScalingRole: String?
         /// Whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it.
         public let visibleToAllUsers: Bool?
-        ///  Amazon EMR releases 4.x or later.  A list of applications for the cluster. Valid values are: "Hadoop", "Hive", "Mahout", "Pig", and "Spark." They are case insensitive.
+        /// For Amazon EMR releases 4.0 and later. A list of applications for the cluster. Valid values are: "Hadoop", "Hive", "Mahout", "Pig", and "Spark." They are case insensitive.
         public let applications: [Application]?
         /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
         public let serviceRole: String?
-        ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and greater, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer Guide. Supported values are:   "mapr-m3" - launch the cluster using MapR M3 Edition.   "mapr-m5" - launch the cluster using MapR M5 Edition.   "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" - launch the job flow using MapR M3 or M5 Edition respectively.   "mapr-m7" - launch the cluster using MapR M7 Edition.   "hunk" - launch the cluster with the Hunk Big Data Analtics Platform.   "hue"- launch the cluster with Hue installed.   "spark" - launch the cluster with Apache Spark installed.   "ganglia" - launch the cluster with the Ganglia Monitoring System installed.  
+        /// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches cluster EC2 instances. For more information about custom AMIs in Amazon EMR, see Using a Custom AMI in the Amazon EMR Management Guide. If omitted, the cluster uses the base Linux AMI for the ReleaseLabel specified. For Amazon EMR versions 2.x and 3.x, use AmiVersion instead. For information about creating a custom AMI, see Creating an Amazon EBS-Backed Linux AMI in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For information about finding an AMI ID, see Finding a Linux AMI. 
+        public let customAmiId: String?
+        ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer Guide. Supported values are:   "mapr-m3" - launch the cluster using MapR M3 Edition.   "mapr-m5" - launch the cluster using MapR M5 Edition.   "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" - launch the job flow using MapR M3 or M5 Edition respectively.   "mapr-m7" - launch the cluster using MapR M7 Edition.   "hunk" - launch the cluster with the Hunk Big Data Analtics Platform.   "hue"- launch the cluster with Hue installed.   "spark" - launch the cluster with Apache Spark installed.   "ganglia" - launch the cluster with the Ganglia Monitoring System installed.  
         public let newSupportedProducts: [SupportedProductConfig]?
         /// Also called instance profile and EC2 role. An IAM role for an EMR cluster. The EC2 instances of the cluster assume this role. The default role is EMR_EC2_DefaultRole. In order to use the default role, you must have already created it using the CLI or console.
         public let jobFlowRole: String?
         /// A list of bootstrap actions to run before Hadoop starts on the cluster nodes.
         public let bootstrapActions: [BootstrapActionConfig]?
-        /// The name of the job flow.
-        public let name: String
+        /// The size, in GiB, of the EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
+        public let ebsRootVolumeSize: Int32?
         /// Specifies the way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
         public let scaleDownBehavior: ScaleDownBehavior?
+        /// The name of the job flow.
+        public let name: String
         /// A JSON string for selecting additional features.
         public let additionalInfo: String?
         /// The location in Amazon S3 to write the log files of the job flow. If a value is not provided, logs are not created.
         public let logUri: String?
         /// A specification of the number and type of Amazon EC2 instances.
         public let instances: JobFlowInstancesConfig
-        ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for the EMR cluster you are creating.
+        /// Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the EMR Management Guide.
+        public let kerberosAttributes: KerberosAttributes?
+        /// For Amazon EMR releases 4.0 and later. The list of configurations supplied for the EMR cluster you are creating.
         public let configurations: [Configuration]?
 
-        public init(steps: [StepConfig]? = nil, releaseLabel: String? = nil, supportedProducts: [String]? = nil, autoScalingRole: String? = nil, securityConfiguration: String? = nil, tags: [Tag]? = nil, amiVersion: String? = nil, visibleToAllUsers: Bool? = nil, applications: [Application]? = nil, serviceRole: String? = nil, newSupportedProducts: [SupportedProductConfig]? = nil, jobFlowRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, name: String, scaleDownBehavior: ScaleDownBehavior? = nil, additionalInfo: String? = nil, logUri: String? = nil, instances: JobFlowInstancesConfig, configurations: [Configuration]? = nil) {
+        public init(steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, releaseLabel: String? = nil, securityConfiguration: String? = nil, tags: [Tag]? = nil, amiVersion: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, autoScalingRole: String? = nil, visibleToAllUsers: Bool? = nil, applications: [Application]? = nil, serviceRole: String? = nil, customAmiId: String? = nil, newSupportedProducts: [SupportedProductConfig]? = nil, jobFlowRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, ebsRootVolumeSize: Int32? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, name: String, additionalInfo: String? = nil, logUri: String? = nil, instances: JobFlowInstancesConfig, kerberosAttributes: KerberosAttributes? = nil, configurations: [Configuration]? = nil) {
             self.steps = steps
-            self.releaseLabel = releaseLabel
             self.supportedProducts = supportedProducts
-            self.autoScalingRole = autoScalingRole
+            self.releaseLabel = releaseLabel
             self.securityConfiguration = securityConfiguration
             self.tags = tags
             self.amiVersion = amiVersion
+            self.repoUpgradeOnBoot = repoUpgradeOnBoot
+            self.autoScalingRole = autoScalingRole
             self.visibleToAllUsers = visibleToAllUsers
             self.applications = applications
             self.serviceRole = serviceRole
+            self.customAmiId = customAmiId
             self.newSupportedProducts = newSupportedProducts
             self.jobFlowRole = jobFlowRole
             self.bootstrapActions = bootstrapActions
-            self.name = name
+            self.ebsRootVolumeSize = ebsRootVolumeSize
             self.scaleDownBehavior = scaleDownBehavior
+            self.name = name
             self.additionalInfo = additionalInfo
             self.logUri = logUri
             self.instances = instances
+            self.kerberosAttributes = kerberosAttributes
             self.configurations = configurations
         }
 
         private enum CodingKeys: String, CodingKey {
             case steps = "Steps"
-            case releaseLabel = "ReleaseLabel"
             case supportedProducts = "SupportedProducts"
-            case autoScalingRole = "AutoScalingRole"
+            case releaseLabel = "ReleaseLabel"
             case securityConfiguration = "SecurityConfiguration"
             case tags = "Tags"
             case amiVersion = "AmiVersion"
+            case repoUpgradeOnBoot = "RepoUpgradeOnBoot"
+            case autoScalingRole = "AutoScalingRole"
             case visibleToAllUsers = "VisibleToAllUsers"
             case applications = "Applications"
             case serviceRole = "ServiceRole"
+            case customAmiId = "CustomAmiId"
             case newSupportedProducts = "NewSupportedProducts"
             case jobFlowRole = "JobFlowRole"
             case bootstrapActions = "BootstrapActions"
-            case name = "Name"
+            case ebsRootVolumeSize = "EbsRootVolumeSize"
             case scaleDownBehavior = "ScaleDownBehavior"
+            case name = "Name"
             case additionalInfo = "AdditionalInfo"
             case logUri = "LogUri"
             case instances = "Instances"
+            case kerberosAttributes = "KerberosAttributes"
             case configurations = "Configurations"
         }
     }
@@ -2756,7 +2819,7 @@ extension Elasticmapreduce {
     }
 
     public struct AddJobFlowStepsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Steps", required: true, type: .list), 
             AWSShapeMember(label: "JobFlowId", required: true, type: .string)
         ]
@@ -2787,49 +2850,43 @@ extension Elasticmapreduce {
     }
 
     public struct Cluster: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReleaseLabel", required: false, type: .string), 
-            AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
-            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list), 
-            AWSShapeMember(label: "VisibleToAllUsers", required: false, type: .boolean), 
             AWSShapeMember(label: "NormalizedInstanceHours", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
             AWSShapeMember(label: "Applications", required: false, type: .list), 
             AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
-            AWSShapeMember(label: "Ec2InstanceAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "InstanceCollectionType", required: false, type: .enum), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .structure), 
             AWSShapeMember(label: "ScaleDownBehavior", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "RunningAmiVersion", required: false, type: .string), 
+            AWSShapeMember(label: "MasterPublicDnsName", required: false, type: .string), 
             AWSShapeMember(label: "RequestedAmiVersion", required: false, type: .string), 
             AWSShapeMember(label: "LogUri", required: false, type: .string), 
-            AWSShapeMember(label: "MasterPublicDnsName", required: false, type: .string), 
+            AWSShapeMember(label: "AutoTerminate", required: false, type: .boolean), 
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "VisibleToAllUsers", required: false, type: .boolean), 
+            AWSShapeMember(label: "RepoUpgradeOnBoot", required: false, type: .enum), 
+            AWSShapeMember(label: "Ec2InstanceAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceCollectionType", required: false, type: .enum), 
+            AWSShapeMember(label: "CustomAmiId", required: false, type: .string), 
+            AWSShapeMember(label: "EbsRootVolumeSize", required: false, type: .integer), 
+            AWSShapeMember(label: "RunningAmiVersion", required: false, type: .string), 
+            AWSShapeMember(label: "KerberosAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "TerminationProtected", required: false, type: .boolean), 
-            AWSShapeMember(label: "Configurations", required: false, type: .list), 
-            AWSShapeMember(label: "AutoTerminate", required: false, type: .boolean)
+            AWSShapeMember(label: "Configurations", required: false, type: .list)
         ]
-        /// The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x AMIs, use amiVersion instead instead of ReleaseLabel.
+        /// The release label for the Amazon EMR release.
         public let releaseLabel: String?
-        /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
-        public let autoScalingRole: String?
-        /// The name of the security configuration applied to the cluster.
-        public let securityConfiguration: String?
-        /// A list of tags associated with a cluster.
-        public let tags: [Tag]?
-        /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and manage the cluster if they have the proper policy permissions set. If this value is false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
-        public let visibleToAllUsers: Bool?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
         public let normalizedInstanceHours: Int32?
+        /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
+        public let autoScalingRole: String?
         /// The applications installed on this cluster.
         public let applications: [Application]?
         /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
         public let serviceRole: String?
-        /// Provides information about the EC2 instances in a cluster grouped by category. For example, key name, subnet ID, IAM instance profile, and so on.
-        public let ec2InstanceAttributes: Ec2InstanceAttributes?
-        ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  The instance group configuration of the cluster. A value of INSTANCE_GROUP indicates a uniform instance group configuration. A value of INSTANCE_FLEET indicates an instance fleets configuration.
-        public let instanceCollectionType: InstanceCollectionType?
         /// The unique identifier for the cluster.
         public let id: String?
         /// The current status details about the cluster.
@@ -2838,72 +2895,98 @@ extension Elasticmapreduce {
         public let scaleDownBehavior: ScaleDownBehavior?
         /// The name of the cluster.
         public let name: String?
-        /// The AMI version running on this cluster.
-        public let runningAmiVersion: String?
+        /// The DNS name of the master node. If the cluster is on a private subnet, this is the private DNS name. On a public subnet, this is the public DNS name.
+        public let masterPublicDnsName: String?
         /// The AMI version requested for this cluster.
         public let requestedAmiVersion: String?
         /// The path to the Amazon S3 location where logs for this cluster are stored.
         public let logUri: String?
-        /// The public DNS name of the master EC2 instance.
-        public let masterPublicDnsName: String?
-        /// Indicates whether Amazon EMR will lock the cluster to prevent the EC2 instances from being terminated by an API call or user intervention, or in the event of a cluster error.
-        public let terminationProtected: Bool?
-        ///  Amazon EMR releases 4.x or later.  The list of Configurations supplied to the EMR cluster.
-        public let configurations: [Configuration]?
         /// Specifies whether the cluster should terminate after completing all steps.
         public let autoTerminate: Bool?
+        /// The name of the security configuration applied to the cluster.
+        public let securityConfiguration: String?
+        /// A list of tags associated with a cluster.
+        public let tags: [Tag]?
+        /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and manage the cluster if they have the proper policy permissions set. If this value is false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
+        public let visibleToAllUsers: Bool?
+        /// Applies only when CustomAmiID is used. Specifies the type of updates that are applied from the Amazon Linux AMI package repositories when an instance boots using the AMI.
+        public let repoUpgradeOnBoot: RepoUpgradeOnBoot?
+        /// Provides information about the EC2 instances in a cluster grouped by category. For example, key name, subnet ID, IAM instance profile, and so on.
+        public let ec2InstanceAttributes: Ec2InstanceAttributes?
+        ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  The instance group configuration of the cluster. A value of INSTANCE_GROUP indicates a uniform instance group configuration. A value of INSTANCE_FLEET indicates an instance fleets configuration.
+        public let instanceCollectionType: InstanceCollectionType?
+        /// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI if the cluster uses a custom AMI.
+        public let customAmiId: String?
+        /// The size, in GiB, of the EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
+        public let ebsRootVolumeSize: Int32?
+        /// The AMI version running on this cluster.
+        public let runningAmiVersion: String?
+        /// Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the EMR Management Guide.
+        public let kerberosAttributes: KerberosAttributes?
+        /// Indicates whether Amazon EMR will lock the cluster to prevent the EC2 instances from being terminated by an API call or user intervention, or in the event of a cluster error.
+        public let terminationProtected: Bool?
+        /// Applies only to Amazon EMR releases 4.x and later. The list of Configurations supplied to the EMR cluster.
+        public let configurations: [Configuration]?
 
-        public init(releaseLabel: String? = nil, autoScalingRole: String? = nil, securityConfiguration: String? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil, normalizedInstanceHours: Int32? = nil, applications: [Application]? = nil, serviceRole: String? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, instanceCollectionType: InstanceCollectionType? = nil, id: String? = nil, status: ClusterStatus? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, name: String? = nil, runningAmiVersion: String? = nil, requestedAmiVersion: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, terminationProtected: Bool? = nil, configurations: [Configuration]? = nil, autoTerminate: Bool? = nil) {
+        public init(releaseLabel: String? = nil, normalizedInstanceHours: Int32? = nil, autoScalingRole: String? = nil, applications: [Application]? = nil, serviceRole: String? = nil, id: String? = nil, status: ClusterStatus? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, name: String? = nil, masterPublicDnsName: String? = nil, requestedAmiVersion: String? = nil, logUri: String? = nil, autoTerminate: Bool? = nil, securityConfiguration: String? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, instanceCollectionType: InstanceCollectionType? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int32? = nil, runningAmiVersion: String? = nil, kerberosAttributes: KerberosAttributes? = nil, terminationProtected: Bool? = nil, configurations: [Configuration]? = nil) {
             self.releaseLabel = releaseLabel
-            self.autoScalingRole = autoScalingRole
-            self.securityConfiguration = securityConfiguration
-            self.tags = tags
-            self.visibleToAllUsers = visibleToAllUsers
             self.normalizedInstanceHours = normalizedInstanceHours
+            self.autoScalingRole = autoScalingRole
             self.applications = applications
             self.serviceRole = serviceRole
-            self.ec2InstanceAttributes = ec2InstanceAttributes
-            self.instanceCollectionType = instanceCollectionType
             self.id = id
             self.status = status
             self.scaleDownBehavior = scaleDownBehavior
             self.name = name
-            self.runningAmiVersion = runningAmiVersion
+            self.masterPublicDnsName = masterPublicDnsName
             self.requestedAmiVersion = requestedAmiVersion
             self.logUri = logUri
-            self.masterPublicDnsName = masterPublicDnsName
+            self.autoTerminate = autoTerminate
+            self.securityConfiguration = securityConfiguration
+            self.tags = tags
+            self.visibleToAllUsers = visibleToAllUsers
+            self.repoUpgradeOnBoot = repoUpgradeOnBoot
+            self.ec2InstanceAttributes = ec2InstanceAttributes
+            self.instanceCollectionType = instanceCollectionType
+            self.customAmiId = customAmiId
+            self.ebsRootVolumeSize = ebsRootVolumeSize
+            self.runningAmiVersion = runningAmiVersion
+            self.kerberosAttributes = kerberosAttributes
             self.terminationProtected = terminationProtected
             self.configurations = configurations
-            self.autoTerminate = autoTerminate
         }
 
         private enum CodingKeys: String, CodingKey {
             case releaseLabel = "ReleaseLabel"
-            case autoScalingRole = "AutoScalingRole"
-            case securityConfiguration = "SecurityConfiguration"
-            case tags = "Tags"
-            case visibleToAllUsers = "VisibleToAllUsers"
             case normalizedInstanceHours = "NormalizedInstanceHours"
+            case autoScalingRole = "AutoScalingRole"
             case applications = "Applications"
             case serviceRole = "ServiceRole"
-            case ec2InstanceAttributes = "Ec2InstanceAttributes"
-            case instanceCollectionType = "InstanceCollectionType"
             case id = "Id"
             case status = "Status"
             case scaleDownBehavior = "ScaleDownBehavior"
             case name = "Name"
-            case runningAmiVersion = "RunningAmiVersion"
+            case masterPublicDnsName = "MasterPublicDnsName"
             case requestedAmiVersion = "RequestedAmiVersion"
             case logUri = "LogUri"
-            case masterPublicDnsName = "MasterPublicDnsName"
+            case autoTerminate = "AutoTerminate"
+            case securityConfiguration = "SecurityConfiguration"
+            case tags = "Tags"
+            case visibleToAllUsers = "VisibleToAllUsers"
+            case repoUpgradeOnBoot = "RepoUpgradeOnBoot"
+            case ec2InstanceAttributes = "Ec2InstanceAttributes"
+            case instanceCollectionType = "InstanceCollectionType"
+            case customAmiId = "CustomAmiId"
+            case ebsRootVolumeSize = "EbsRootVolumeSize"
+            case runningAmiVersion = "RunningAmiVersion"
+            case kerberosAttributes = "KerberosAttributes"
             case terminationProtected = "TerminationProtected"
             case configurations = "Configurations"
-            case autoTerminate = "AutoTerminate"
         }
     }
 
     public struct StepDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExecutionStatusDetail", required: true, type: .structure), 
             AWSShapeMember(label: "StepConfig", required: true, type: .structure)
         ]
@@ -2924,7 +3007,7 @@ extension Elasticmapreduce {
     }
 
     public struct KeyValue: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
@@ -2945,7 +3028,7 @@ extension Elasticmapreduce {
     }
 
     public struct DescribeClusterInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]
         /// The identifier of the cluster to describe.
@@ -2961,7 +3044,7 @@ extension Elasticmapreduce {
     }
 
     public struct DescribeStepInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterId", required: true, type: .string), 
             AWSShapeMember(label: "StepId", required: true, type: .string)
         ]
@@ -2993,7 +3076,7 @@ extension Elasticmapreduce {
     }
 
     public struct DescribeSecurityConfigurationInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the security configuration.
@@ -3009,7 +3092,7 @@ extension Elasticmapreduce {
     }
 
     public struct RunJobFlowOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobFlowId", required: false, type: .string)
         ]
         /// An unique identifier for the job flow.
@@ -3034,7 +3117,7 @@ extension Elasticmapreduce {
     }
 
     public struct AddInstanceGroupsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobFlowId", required: true, type: .string), 
             AWSShapeMember(label: "InstanceGroups", required: true, type: .list)
         ]
@@ -3055,7 +3138,7 @@ extension Elasticmapreduce {
     }
 
     public struct ClusterSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .structure), 
             AWSShapeMember(label: "NormalizedInstanceHours", required: false, type: .integer), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -3086,7 +3169,7 @@ extension Elasticmapreduce {
     }
 
     public struct SetVisibleToAllUsersInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobFlowIds", required: true, type: .list), 
             AWSShapeMember(label: "VisibleToAllUsers", required: true, type: .boolean)
         ]
@@ -3107,7 +3190,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceGroupModifyConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceGroupId", required: true, type: .string), 
             AWSShapeMember(label: "ShrinkPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
@@ -3138,7 +3221,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceGroupStateChangeReason: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
@@ -3159,7 +3242,7 @@ extension Elasticmapreduce {
     }
 
     public struct StepStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
             AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
@@ -3190,7 +3273,7 @@ extension Elasticmapreduce {
     }
 
     public struct EbsBlockDevice: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeSpecification", required: false, type: .structure), 
             AWSShapeMember(label: "Device", required: false, type: .string)
         ]
@@ -3211,7 +3294,7 @@ extension Elasticmapreduce {
     }
 
     public struct StepStateChangeReason: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .enum), 
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
@@ -3232,7 +3315,7 @@ extension Elasticmapreduce {
     }
 
     public struct ClusterStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "Timeline", required: false, type: .structure), 
             AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
@@ -3258,7 +3341,7 @@ extension Elasticmapreduce {
     }
 
     public struct ModifyInstanceGroupsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterId", required: false, type: .string), 
             AWSShapeMember(label: "InstanceGroups", required: false, type: .list)
         ]
@@ -3283,7 +3366,7 @@ extension Elasticmapreduce {
     }
 
     public struct ListClustersOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Clusters", required: false, type: .list)
         ]
@@ -3304,7 +3387,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceGroupConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BidPrice", required: false, type: .string), 
             AWSShapeMember(label: "Market", required: false, type: .enum), 
             AWSShapeMember(label: "InstanceRole", required: true, type: .enum), 
@@ -3360,7 +3443,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceGroupDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
             AWSShapeMember(label: "BidPrice", required: false, type: .string), 
             AWSShapeMember(label: "InstanceRunningCount", required: true, type: .integer), 
@@ -3441,7 +3524,7 @@ extension Elasticmapreduce {
     }
 
     public struct ListStepsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Steps", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
@@ -3462,7 +3545,7 @@ extension Elasticmapreduce {
     }
 
     public struct HadoopStepConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MainClass", required: false, type: .string), 
             AWSShapeMember(label: "Jar", required: false, type: .string), 
             AWSShapeMember(label: "Properties", required: false, type: .map), 
@@ -3493,7 +3576,7 @@ extension Elasticmapreduce {
     }
 
     public struct EbsConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
             AWSShapeMember(label: "EbsBlockDeviceConfigs", required: false, type: .list)
         ]
@@ -3514,7 +3597,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceTimeline: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
@@ -3540,7 +3623,7 @@ extension Elasticmapreduce {
     }
 
     public struct InstanceResizePolicy: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstancesToTerminate", required: false, type: .list), 
             AWSShapeMember(label: "InstanceTerminationTimeout", required: false, type: .integer), 
             AWSShapeMember(label: "InstancesToProtect", required: false, type: .list)
@@ -3566,7 +3649,7 @@ extension Elasticmapreduce {
     }
 
     public struct AddTagsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
@@ -3595,7 +3678,7 @@ extension Elasticmapreduce {
     }
 
     public struct ScriptBootstrapActionConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Args", required: false, type: .list), 
             AWSShapeMember(label: "Path", required: true, type: .string)
         ]
@@ -3616,7 +3699,7 @@ extension Elasticmapreduce {
     }
 
     public struct AddInstanceFleetInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterId", required: true, type: .string), 
             AWSShapeMember(label: "InstanceFleet", required: true, type: .structure)
         ]
@@ -3637,14 +3720,14 @@ extension Elasticmapreduce {
     }
 
     public struct SpotProvisioningSpecification: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimeoutDurationMinutes", required: true, type: .integer), 
             AWSShapeMember(label: "TimeoutAction", required: true, type: .enum), 
             AWSShapeMember(label: "BlockDurationMinutes", required: false, type: .integer)
         ]
         /// The spot provisioning timeout period in minutes. If Spot instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
         public let timeoutDurationMinutes: Int32
-        /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired. Spot instances are not uprovisioned within the Spot provisioining timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND to fulfill the remaining capacity.
+        /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired. Spot instances are not uprovisioned within the Spot provisioining timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND. SWITCH_TO_ON_DEMAND specifies that if no Spot instances are available, On-Demand Instances should be provisioned to fulfill any remaining Spot capacity.
         public let timeoutAction: SpotProvisioningTimeoutAction
         /// The defined duration for Spot instances (also known as Spot blocks) in minutes. When specified, the Spot instance does not terminate before the defined duration expires, and defined duration pricing for Spot instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates. 
         public let blockDurationMinutes: Int32?
@@ -3663,7 +3746,7 @@ extension Elasticmapreduce {
     }
 
     public struct JobFlowExecutionStatusDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "LastStateChangeReason", required: false, type: .string), 
@@ -3704,7 +3787,7 @@ extension Elasticmapreduce {
     }
 
     public struct RemoveAutoScalingPolicyInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceGroupId", required: true, type: .string), 
             AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]

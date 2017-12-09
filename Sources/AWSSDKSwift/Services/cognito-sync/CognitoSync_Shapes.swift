@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension CognitoSync {
 
     public struct ListDatasetsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Datasets", required: false, type: .list), 
             AWSShapeMember(label: "Count", required: false, type: .integer)
@@ -32,7 +32,7 @@ extension CognitoSync {
     }
 
     public struct DescribeDatasetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
             AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
             AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string)
@@ -58,7 +58,7 @@ extension CognitoSync {
     }
 
     public struct ListIdentityPoolUsageRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
@@ -79,7 +79,7 @@ extension CognitoSync {
     }
 
     public struct UpdateRecordsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Records", required: false, type: .list)
         ]
         /// A list of records that have been updated.
@@ -95,7 +95,7 @@ extension CognitoSync {
     }
 
     public struct BulkPublishRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string)
         ]
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -111,7 +111,7 @@ extension CognitoSync {
     }
 
     public struct GetBulkPublishDetailsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BulkPublishStartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "BulkPublishCompleteTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "BulkPublishStatus", required: false, type: .enum), 
@@ -147,7 +147,7 @@ extension CognitoSync {
     }
 
     public struct GetBulkPublishDetailsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string)
         ]
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -163,7 +163,7 @@ extension CognitoSync {
     }
 
     public struct RegisterDeviceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", required: false, type: .string)
         ]
         /// The unique ID generated for this device by Cognito.
@@ -179,7 +179,7 @@ extension CognitoSync {
     }
 
     public struct ListDatasetsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
@@ -210,7 +210,7 @@ extension CognitoSync {
     }
 
     public struct GetIdentityPoolConfigurationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string)
         ]
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return a configuration.
@@ -226,7 +226,7 @@ extension CognitoSync {
     }
 
     public struct GetCognitoEventsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string)
         ]
         /// The Cognito Identity Pool ID for the request
@@ -246,7 +246,7 @@ extension CognitoSync {
     }
 
     public struct GetCognitoEventsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Events", required: false, type: .map)
         ]
         /// The Cognito Events returned from the GetCognitoEvents request
@@ -268,7 +268,7 @@ extension CognitoSync {
     }
 
     public struct RegisterDeviceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Platform", required: true, type: .enum), 
             AWSShapeMember(label: "Token", required: true, type: .string), 
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
@@ -307,7 +307,7 @@ extension CognitoSync {
     }
 
     public struct SetIdentityPoolConfigurationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
             AWSShapeMember(label: "PushSync", required: false, type: .structure), 
             AWSShapeMember(label: "CognitoStreams", required: false, type: .structure)
@@ -333,7 +333,7 @@ extension CognitoSync {
     }
 
     public struct CognitoStreams: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "StreamingStatus", required: false, type: .enum), 
             AWSShapeMember(label: "StreamName", required: false, type: .string)
@@ -359,7 +359,7 @@ extension CognitoSync {
     }
 
     public struct ListRecordsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SyncSessionToken", location: .querystring(locationName: "syncSessionToken"), required: false, type: .string), 
             AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
             AWSShapeMember(label: "LastSyncCount", location: .querystring(locationName: "lastSyncCount"), required: false, type: .long), 
@@ -405,7 +405,7 @@ extension CognitoSync {
     }
 
     public struct DescribeDatasetResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Dataset", required: false, type: .structure)
         ]
         /// Meta data for a collection of data for an identity. An identity can have multiple datasets. A dataset can be general or associated with a particular entity in an application (like a saved game). Datasets are automatically created if they don't exist. Data is synced by dataset, and a dataset can hold up to 1MB of key-value pairs.
@@ -421,7 +421,7 @@ extension CognitoSync {
     }
 
     public struct UnsubscribeFromDatasetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", location: .uri(locationName: "DeviceId"), required: true, type: .string), 
             AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
@@ -452,7 +452,7 @@ extension CognitoSync {
     }
 
     public struct PushSync: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "ApplicationArns", required: false, type: .list)
         ]
@@ -473,7 +473,7 @@ extension CognitoSync {
     }
 
     public struct Record: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "DeviceLastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -514,7 +514,7 @@ extension CognitoSync {
     }
 
     public struct IdentityUsage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DatasetCount", required: false, type: .integer), 
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "IdentityId", required: false, type: .string), 
@@ -550,7 +550,7 @@ extension CognitoSync {
     }
 
     public struct DescribeIdentityPoolUsageRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string)
         ]
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -566,7 +566,7 @@ extension CognitoSync {
     }
 
     public struct Dataset: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NumRecords", required: false, type: .long), 
             AWSShapeMember(label: "DatasetName", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
@@ -612,7 +612,7 @@ extension CognitoSync {
     }
 
     public struct SetIdentityPoolConfigurationResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
             AWSShapeMember(label: "PushSync", required: false, type: .structure), 
             AWSShapeMember(label: "CognitoStreams", required: false, type: .structure)
@@ -644,7 +644,7 @@ extension CognitoSync {
     }
 
     public struct DescribeIdentityUsageResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityUsage", required: false, type: .structure)
         ]
         /// Usage information for the identity.
@@ -660,7 +660,7 @@ extension CognitoSync {
     }
 
     public struct GetIdentityPoolConfigurationResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
             AWSShapeMember(label: "PushSync", required: false, type: .structure), 
             AWSShapeMember(label: "CognitoStreams", required: false, type: .structure)
@@ -686,7 +686,7 @@ extension CognitoSync {
     }
 
     public struct ListIdentityPoolUsageResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "IdentityPoolUsages", required: false, type: .list), 
@@ -717,7 +717,7 @@ extension CognitoSync {
     }
 
     public struct UpdateRecordsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", required: false, type: .string), 
             AWSShapeMember(label: "SyncSessionToken", required: true, type: .string), 
             AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
@@ -763,7 +763,7 @@ extension CognitoSync {
     }
 
     public struct SubscribeToDatasetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceId", location: .uri(locationName: "DeviceId"), required: true, type: .string), 
             AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string), 
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
@@ -794,7 +794,7 @@ extension CognitoSync {
     }
 
     public struct IdentityPoolUsage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SyncSessionsCount", required: false, type: .long), 
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
@@ -825,7 +825,7 @@ extension CognitoSync {
     }
 
     public struct DescribeIdentityPoolUsageResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolUsage", required: false, type: .structure)
         ]
         /// Information about the usage of the identity pool.
@@ -841,7 +841,7 @@ extension CognitoSync {
     }
 
     public struct ListRecordsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Records", required: false, type: .list), 
             AWSShapeMember(label: "MergedDatasetNames", required: false, type: .list), 
             AWSShapeMember(label: "SyncSessionToken", required: false, type: .string), 
@@ -897,7 +897,7 @@ extension CognitoSync {
     }
 
     public struct DeleteDatasetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
             AWSShapeMember(label: "DatasetName", location: .uri(locationName: "DatasetName"), required: true, type: .string), 
             AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string)
@@ -931,7 +931,7 @@ extension CognitoSync {
     }
 
     public struct DeleteDatasetResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Dataset", required: false, type: .structure)
         ]
         /// A collection of data for an identity pool. An identity pool can have multiple datasets. A dataset is per identity and can be general or associated with a particular entity in an application (like a saved game). Datasets are automatically created if they don't exist. Data is synced by dataset, and a dataset can hold up to 1MB of key-value pairs.
@@ -947,7 +947,7 @@ extension CognitoSync {
     }
 
     public struct RecordPatch: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Op", required: true, type: .enum), 
             AWSShapeMember(label: "DeviceLastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "Key", required: true, type: .string), 
@@ -983,7 +983,7 @@ extension CognitoSync {
     }
 
     public struct SetCognitoEventsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
             AWSShapeMember(label: "Events", required: true, type: .map)
         ]
@@ -1004,7 +1004,7 @@ extension CognitoSync {
     }
 
     public struct DescribeIdentityUsageRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", location: .uri(locationName: "IdentityPoolId"), required: true, type: .string), 
             AWSShapeMember(label: "IdentityId", location: .uri(locationName: "IdentityId"), required: true, type: .string)
         ]
@@ -1029,7 +1029,7 @@ extension CognitoSync {
     }
 
     public struct BulkPublishResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", required: false, type: .string)
         ]
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.

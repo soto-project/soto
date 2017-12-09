@@ -6,9 +6,11 @@ import AWSSDKSwiftCore
 public enum MonitoringError: AWSErrorType {
     case invalidNextToken(message: String?)
     case limitExceededFault(message: String?)
-    case internalServiceFault(message: String?)
     case invalidParameterValueException(message: String?)
+    case dashboardNotFoundError(message: String?)
+    case internalServiceFault(message: String?)
     case resourceNotFound(message: String?)
+    case dashboardInvalidInputError(message: String?)
     case missingRequiredParameterException(message: String?)
     case invalidParameterCombinationException(message: String?)
     case invalidFormatFault(message: String?)
@@ -25,12 +27,16 @@ extension MonitoringError {
             self = .invalidNextToken(message: message)
         case "LimitExceededFault":
             self = .limitExceededFault(message: message)
-        case "InternalServiceFault":
-            self = .internalServiceFault(message: message)
         case "InvalidParameterValueException":
             self = .invalidParameterValueException(message: message)
+        case "DashboardNotFoundError":
+            self = .dashboardNotFoundError(message: message)
+        case "InternalServiceFault":
+            self = .internalServiceFault(message: message)
         case "ResourceNotFound":
             self = .resourceNotFound(message: message)
+        case "DashboardInvalidInputError":
+            self = .dashboardInvalidInputError(message: message)
         case "MissingRequiredParameterException":
             self = .missingRequiredParameterException(message: message)
         case "InvalidParameterCombinationException":

@@ -85,7 +85,7 @@ public struct Discovery {
         return try client.send(operation: "ListConfigurations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Export the configuration data about discovered configuration items and relationships to an S3 bucket in a specified format.
+    ///   Begins the export of discovered data to an S3 bucket.  If you specify agentId in a filter, the task exports up to 72 hours of detailed data collected by the identified Application Discovery Agent, including network, process, and performance details. A time range for exported agent data may be set by using startTime and endTime. Export of detailed agent data is limited to five concurrently running exports.   If you do not include an agentId filter, summary data is exported that includes both AWS Agentless Discovery Connector data and summary data from AWS Discovery Agents. Export of summary data is limited to two exports per day. 
     public func startExportTask(_ input: StartExportTaskRequest) throws -> StartExportTaskResponse {
         return try client.send(operation: "StartExportTask", path: "/", httpMethod: "POST", input: input)
     }

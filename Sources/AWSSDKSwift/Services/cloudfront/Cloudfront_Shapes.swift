@@ -8,7 +8,7 @@ extension Cloudfront {
     public struct GetStreamingDistributionResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistribution"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure)
         ]
@@ -31,7 +31,7 @@ extension Cloudfront {
     public struct TagResourceRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Tags"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "Tags"), required: true, type: .structure)
         ]
@@ -52,7 +52,7 @@ extension Cloudfront {
     }
 
     public struct CloudFrontOriginAccessIdentitySummaryList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudFrontOriginAccessIdentitySummary", required: false, type: .list)
         ]
         public let cloudFrontOriginAccessIdentitySummary: [CloudFrontOriginAccessIdentitySummary]?
@@ -67,7 +67,7 @@ extension Cloudfront {
     }
 
     public struct Signer: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AwsAccountNumber", required: false, type: .string), 
             AWSShapeMember(label: "KeyPairIds", required: false, type: .structure)
         ]
@@ -90,7 +90,7 @@ extension Cloudfront {
     public struct CreateStreamingDistributionWithTagsResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistribution"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
             AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure)
@@ -117,7 +117,7 @@ extension Cloudfront {
     public struct UpdateStreamingDistributionResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistribution"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure)
         ]
@@ -138,7 +138,7 @@ extension Cloudfront {
     }
 
     public struct QueryStringCacheKeysList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .list)
         ]
         public let name: [String]?
@@ -160,7 +160,7 @@ extension Cloudfront {
     }
 
     public struct InvalidationSummaryList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InvalidationSummary", required: false, type: .list)
         ]
         public let invalidationSummary: [InvalidationSummary]?
@@ -175,7 +175,7 @@ extension Cloudfront {
     }
 
     public struct InvalidationBatch: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
             AWSShapeMember(label: "Paths", required: true, type: .structure)
         ]
@@ -196,7 +196,7 @@ extension Cloudfront {
     }
 
     public struct TrustedSigners: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
@@ -224,7 +224,7 @@ extension Cloudfront {
     public struct ListCloudFrontOriginAccessIdentitiesResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CloudFrontOriginAccessIdentityList"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudFrontOriginAccessIdentityList", required: false, type: .structure)
         ]
         /// The CloudFrontOriginAccessIdentityList type. 
@@ -240,13 +240,13 @@ extension Cloudfront {
     }
 
     public struct Headers: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
-        /// A complex type that contains one Name element for each header that you want CloudFront to forward to the origin and to vary on for this cache behavior. If Quantity is 0, omit Items.
+        /// A list that contains one Name element for each header that you want CloudFront to use for caching in this cache behavior. If Quantity is 0, omit Items.
         public let items: HeaderList?
-        /// The number of different headers that you want CloudFront to forward to the origin for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:    Forward all headers to your origin: Specify 1 for Quantity and * for Name.  If you configure CloudFront to forward all headers to your origin, CloudFront doesn't cache the objects associated with this cache behavior. Instead, it sends every request to the origin.     Forward a whitelist of headers you specify: Specify the number of headers that you want to forward, and specify the header names in Name elements. CloudFront caches your objects based on the values in all of the specified headers. CloudFront also forwards the headers that it forwards by default, but it caches your objects based only on the headers that you specify.     Forward only the default headers: Specify 0 for Quantity and omit Items. In this configuration, CloudFront doesn't cache based on the values in the request headers.  
+        /// The number of different headers that you want CloudFront to base caching on for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:    Forward all headers to your origin: Specify 1 for Quantity and * for Name.  CloudFront doesn't cache the objects that are associated with this cache behavior. Instead, CloudFront sends every request to the origin.      Forward a whitelist of headers you specify: Specify the number of headers that you want CloudFront to base caching on. Then specify the header names in Name elements. CloudFront caches your objects based on the values in the specified headers.    Forward only the default headers: Specify 0 for Quantity and omit Items. In this configuration, CloudFront doesn't cache based on the values in the request headers.   Regardless of which option you choose, CloudFront forwards headers to your origin based on whether the origin is an S3 bucket or a custom origin. See the following documentation:    S3 bucket: See HTTP Request Headers That CloudFront Removes or Updates     Custom origin: See HTTP Request Headers and CloudFront Behavior   
         public let quantity: Int32
 
         public init(items: HeaderList? = nil, quantity: Int32) {
@@ -263,7 +263,7 @@ extension Cloudfront {
     public struct CreateStreamingDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistributionConfigWithTags"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamingDistributionConfigWithTags", location: .body(locationName: "StreamingDistributionConfigWithTags"), required: true, type: .structure)
         ]
         ///  The streaming distribution's configuration information. 
@@ -279,7 +279,7 @@ extension Cloudfront {
     }
 
     public struct QueryStringCacheKeys: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
@@ -300,7 +300,7 @@ extension Cloudfront {
     }
 
     public struct LambdaFunctionAssociations: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
@@ -321,7 +321,7 @@ extension Cloudfront {
     }
 
     public struct GetStreamingDistributionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The streaming distribution's ID.
@@ -337,7 +337,7 @@ extension Cloudfront {
     }
 
     public struct Paths: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
@@ -358,7 +358,7 @@ extension Cloudfront {
     }
 
     public struct SslProtocolsList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SslProtocol", required: false, type: .list)
         ]
         public let sslProtocol: [SslProtocol]?
@@ -373,7 +373,7 @@ extension Cloudfront {
     }
 
     public struct DefaultCacheBehavior: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DefaultTTL", required: false, type: .long), 
             AWSShapeMember(label: "TargetOriginId", required: true, type: .string), 
             AWSShapeMember(label: "ForwardedValues", required: true, type: .structure), 
@@ -437,7 +437,7 @@ extension Cloudfront {
     }
 
     public struct PathList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Path", required: false, type: .list)
         ]
         public let path: [String]?
@@ -452,7 +452,7 @@ extension Cloudfront {
     }
 
     public struct Invalidation: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InvalidationBatch", required: true, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .string), 
             AWSShapeMember(label: "CreateTime", required: true, type: .timestamp), 
@@ -483,7 +483,7 @@ extension Cloudfront {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -506,7 +506,7 @@ extension Cloudfront {
     public struct CreateDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "DistributionConfig"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"), required: true, type: .structure)
         ]
         /// The distribution's configuration information.
@@ -522,7 +522,7 @@ extension Cloudfront {
     }
 
     public struct GetCloudFrontOriginAccessIdentityRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identity's ID.
@@ -547,7 +547,7 @@ extension Cloudfront {
     public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"), required: true, type: .structure), 
             AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string)
@@ -575,7 +575,7 @@ extension Cloudfront {
     public struct GetInvalidationResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Invalidation"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Invalidation", required: false, type: .structure)
         ]
         /// The invalidation's information. For more information, see Invalidation Complex Type. 
@@ -593,7 +593,7 @@ extension Cloudfront {
     public struct CreateInvalidationResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Invalidation"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
             AWSShapeMember(label: "Invalidation", required: false, type: .structure)
         ]
@@ -614,7 +614,7 @@ extension Cloudfront {
     }
 
     public struct StreamingDistributionSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "Status", required: true, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string), 
@@ -631,7 +631,7 @@ extension Cloudfront {
         public let lastModifiedTime: TimeStamp
         ///  Indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated throughout the Amazon CloudFront system.
         public let status: String
-        /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
+        /// The identifier for the distribution, for example, EDFDVBD632BHDS5.
         public let id: String
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution.
         public let aliases: Aliases
@@ -645,7 +645,7 @@ extension Cloudfront {
         public let enabled: Bool
         ///  The ARN (Amazon Resource Name) for the streaming distribution. For example: arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
         public let arn: String
-        /// The domain name corresponding to the distribution. For example: d604721fxaaqy9.cloudfront.net.
+        /// The domain name corresponding to the distribution, for example, d111111abcdef8.cloudfront.net.
         public let domainName: String
         public let priceClass: PriceClass
 
@@ -679,7 +679,7 @@ extension Cloudfront {
     }
 
     public struct CacheBehavior: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetOriginId", required: true, type: .string), 
             AWSShapeMember(label: "PathPattern", required: true, type: .string), 
             AWSShapeMember(label: "AllowedMethods", required: false, type: .structure), 
@@ -749,7 +749,7 @@ extension Cloudfront {
     }
 
     public struct DistributionConfigWithTags: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: true, type: .structure), 
             AWSShapeMember(label: "DistributionConfig", required: true, type: .structure)
         ]
@@ -772,7 +772,7 @@ extension Cloudfront {
     public struct ListStreamingDistributionsResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistributionList"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamingDistributionList", required: false, type: .structure)
         ]
         /// The StreamingDistributionList type. 
@@ -788,7 +788,7 @@ extension Cloudfront {
     }
 
     public struct Origins: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
@@ -811,7 +811,7 @@ extension Cloudfront {
     public struct GetDistributionConfigResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "DistributionConfig"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "DistributionConfig", required: false, type: .structure)
         ]
@@ -832,7 +832,7 @@ extension Cloudfront {
     }
 
     public struct InvalidationList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
@@ -873,7 +873,7 @@ extension Cloudfront {
     }
 
     public struct GetInvalidationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
@@ -894,7 +894,7 @@ extension Cloudfront {
     }
 
     public struct ForwardedValues: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueryString", required: true, type: .boolean), 
             AWSShapeMember(label: "Headers", required: false, type: .structure), 
             AWSShapeMember(label: "Cookies", required: true, type: .structure), 
@@ -902,7 +902,7 @@ extension Cloudfront {
         ]
         /// Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior and cache based on the query string parameters. CloudFront behavior depends on the value of QueryString and on the values that you specify for QueryStringCacheKeys, if any: If you specify true for QueryString and you don't specify any values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin and caches based on all query string parameters. Depending on how many query string parameters and values you have, this can adversely affect performance because CloudFront must forward more requests to the origin. If you specify true for QueryString and you specify one or more values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin, but it only caches based on the query string parameters that you specify. If you specify false for QueryString, CloudFront doesn't forward any query string parameters to the origin, and doesn't cache based on query string parameters. For more information, see Configuring CloudFront to Cache Based on Query String Parameters in the Amazon CloudFront Developer Guide.
         public let queryString: Bool
-        /// A complex type that specifies the Headers, if any, that you want CloudFront to vary upon for this cache behavior. 
+        /// A complex type that specifies the Headers, if any, that you want CloudFront to base caching on for this cache behavior. 
         public let headers: Headers?
         /// A complex type that specifies whether you want CloudFront to forward cookies to the origin and, if so, which ones. For more information about forwarding cookies to the origin, see How CloudFront Forwards, Caches, and Logs Cookies in the Amazon CloudFront Developer Guide.
         public let cookies: CookiePreference
@@ -932,7 +932,7 @@ extension Cloudfront {
     }
 
     public struct LocationList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Location", required: false, type: .list)
         ]
         public let location: [String]?
@@ -947,7 +947,7 @@ extension Cloudfront {
     }
 
     public struct SignerList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Signer", required: false, type: .list)
         ]
         public let signer: [Signer]?
@@ -964,7 +964,7 @@ extension Cloudfront {
     public struct UpdateDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "DistributionConfig"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
             AWSShapeMember(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"), required: true, type: .structure)
@@ -990,7 +990,7 @@ extension Cloudfront {
     }
 
     public struct CacheBehaviorList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CacheBehavior", required: false, type: .list)
         ]
         public let cacheBehavior: [CacheBehavior]?
@@ -1005,13 +1005,13 @@ extension Cloudfront {
     }
 
     public struct LambdaFunctionAssociation: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventType", required: false, type: .enum), 
             AWSShapeMember(label: "LambdaFunctionARN", required: false, type: .string)
         ]
-        /// Specifies the event type that triggers a Lambda function invocation. Valid values are:    viewer-request     origin-request     viewer-response     origin-response   
+        /// Specifies the event type that triggers a Lambda function invocation. You can specify the following values:    viewer-request: The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.     origin-request: The function executes only when CloudFront forwards a request to your origin. When the requested object is in the edge cache, the function doesn't execute.    origin-response: The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.    viewer-response: The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.  
         public let eventType: EventType?
-        /// The ARN of the Lambda function.
+        /// The ARN of the Lambda function. You must specify the ARN of a function version; you can't specify a Lambda alias or $LATEST.
         public let lambdaFunctionARN: String?
 
         public init(eventType: EventType? = nil, lambdaFunctionARN: String? = nil) {
@@ -1026,7 +1026,7 @@ extension Cloudfront {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string)
         ]
         ///  An ARN of a CloudFront resource.
@@ -1042,7 +1042,7 @@ extension Cloudfront {
     }
 
     public struct OriginCustomHeader: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HeaderName", required: true, type: .string), 
             AWSShapeMember(label: "HeaderValue", required: true, type: .string)
         ]
@@ -1063,7 +1063,7 @@ extension Cloudfront {
     }
 
     public struct ListInvalidationsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string), 
             AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string)
@@ -1089,7 +1089,7 @@ extension Cloudfront {
     }
 
     public struct CacheBehaviors: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
@@ -1119,7 +1119,7 @@ extension Cloudfront {
     public struct CreateCloudFrontOriginAccessIdentityResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
             AWSShapeMember(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
@@ -1145,7 +1145,7 @@ extension Cloudfront {
     }
 
     public struct AllowedMethods: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: true, type: .structure), 
             AWSShapeMember(label: "CachedMethods", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
@@ -1172,7 +1172,7 @@ extension Cloudfront {
     public struct CreateStreamingDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistributionConfig"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"), required: true, type: .structure)
         ]
         /// The streaming distribution's configuration information.
@@ -1188,7 +1188,7 @@ extension Cloudfront {
     }
 
     public struct ListStreamingDistributionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
         ]
@@ -1211,7 +1211,7 @@ extension Cloudfront {
     public struct ListDistributionsByWebACLIdResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "DistributionList"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionList", required: false, type: .structure)
         ]
         /// The DistributionList type. 
@@ -1227,7 +1227,7 @@ extension Cloudfront {
     }
 
     public struct ListDistributionsByWebACLIdRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string), 
             AWSShapeMember(label: "WebACLId", location: .uri(locationName: "WebACLId"), required: true, type: .string)
@@ -1253,7 +1253,7 @@ extension Cloudfront {
     }
 
     public struct S3OriginConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OriginAccessIdentity", required: true, type: .string)
         ]
         /// The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/cloudfront/ID-of-origin-access-identity  where  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
@@ -1269,7 +1269,7 @@ extension Cloudfront {
     }
 
     public struct CookiePreference: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Forward", required: true, type: .enum), 
             AWSShapeMember(label: "WhitelistedNames", required: false, type: .structure)
         ]
@@ -1290,7 +1290,7 @@ extension Cloudfront {
     }
 
     public struct OriginSslProtocols: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: true, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
@@ -1313,13 +1313,16 @@ extension Cloudfront {
     public enum MinimumProtocolVersion: String, CustomStringConvertible, Codable {
         case sslv3 = "SSLv3"
         case tlsv1 = "TLSv1"
+        case tlsv12016 = "TLSv1_2016"
+        case tlsv112016 = "TLSv1.1_2016"
+        case tlsv122018 = "TLSv1.2_2018"
         public var description: String { return self.rawValue }
     }
 
     public struct CreateDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "DistributionConfigWithTags"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionConfigWithTags", location: .body(locationName: "DistributionConfigWithTags"), required: true, type: .structure)
         ]
         /// The distribution's configuration information. 
@@ -1337,7 +1340,7 @@ extension Cloudfront {
     public struct CreateDistributionWithTagsResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Distribution"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
             AWSShapeMember(label: "Distribution", required: false, type: .structure)
@@ -1365,7 +1368,7 @@ extension Cloudfront {
     public struct CreateDistributionResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Distribution"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
             AWSShapeMember(label: "Distribution", required: false, type: .structure)
@@ -1390,10 +1393,25 @@ extension Cloudfront {
         }
     }
 
+    public struct DeleteServiceLinkedRoleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleName", location: .uri(locationName: "RoleName"), required: true, type: .string)
+        ]
+        public let roleName: String
+
+        public init(roleName: String) {
+            self.roleName = roleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleName = "RoleName"
+        }
+    }
+
     public struct ListDistributionsResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "DistributionList"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionList", required: false, type: .structure)
         ]
         /// The DistributionList type. 
@@ -1409,7 +1427,7 @@ extension Cloudfront {
     }
 
     public struct DistributionList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
@@ -1450,7 +1468,7 @@ extension Cloudfront {
     }
 
     public struct TagKeys: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure)
         ]
         ///  A complex type that contains Tag key elements.
@@ -1474,7 +1492,7 @@ extension Cloudfront {
     }
 
     public struct LoggingConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: true, type: .string), 
             AWSShapeMember(label: "Prefix", required: true, type: .string), 
             AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
@@ -1482,11 +1500,11 @@ extension Cloudfront {
         ]
         /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
         public let bucket: String
-        /// An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/. If you want to enable logging, but you do not want to specify a prefix, you still must include an empty Prefix element in the Logging element.
+        /// An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/. If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
         public let prefix: String
-        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you do not want to enable logging when you create a distribution or if you want to disable logging for an existing distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket, prefix, and IncludeCookies, the values are automatically deleted.
+        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a distribution or if you want to disable logging for an existing distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket, prefix, and IncludeCookies, the values are automatically deleted.
         public let enabled: Bool
-        /// Specifies whether you want CloudFront to include cookies in access logs, specify true for IncludeCookies. If you choose to include cookies in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for this distribution. If you do not want to include cookies when you create a distribution or if you want to disable include cookies for an existing distribution, specify false for IncludeCookies.
+        /// Specifies whether you want CloudFront to include cookies in access logs, specify true for IncludeCookies. If you choose to include cookies in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for this distribution. If you don't want to include cookies when you create a distribution or if you want to disable include cookies for an existing distribution, specify false for IncludeCookies.
         public let includeCookies: Bool
 
         public init(bucket: String, prefix: String, enabled: Bool, includeCookies: Bool) {
@@ -1505,7 +1523,7 @@ extension Cloudfront {
     }
 
     public struct ListCloudFrontOriginAccessIdentitiesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
         ]
@@ -1528,7 +1546,7 @@ extension Cloudfront {
     public struct ListTagsForResourceResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Tags"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: true, type: .structure)
         ]
         ///  A complex type that contains zero or more Tag elements.
@@ -1544,7 +1562,7 @@ extension Cloudfront {
     }
 
     public struct HeaderList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .list)
         ]
         public let name: [String]?
@@ -1559,7 +1577,7 @@ extension Cloudfront {
     }
 
     public struct ListDistributionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
         ]
@@ -1580,7 +1598,7 @@ extension Cloudfront {
     }
 
     public struct DistributionConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HttpVersion", required: false, type: .enum), 
             AWSShapeMember(label: "DefaultRootObject", required: false, type: .string), 
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
@@ -1600,7 +1618,7 @@ extension Cloudfront {
         ]
         /// (Optional) Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2 or later, and must support Server Name Identification (SNI). In general, configuring CloudFront to communicate with viewers using HTTP/2 reduces latency. You can improve performance by optimizing for HTTP/2. For more information, do an Internet search for "http/2 optimization." 
         public let httpVersion: HttpVersion?
-        /// The object that you want CloudFront to request from your origin (for example, index.html) when a viewer requests the root URL for your distribution (http://www.example.com) instead of an object in your distribution (http://www.example.com/product-description.html). Specifying a default root object avoids exposing the contents of your distribution. Specify only the object name, for example, index.html. Do not add a / before the object name. If you don't want to specify a default root object when you create a distribution, include an empty DefaultRootObject element. To delete the default root object from an existing distribution, update the distribution configuration and include an empty DefaultRootObject element. To replace the default root object, update the distribution configuration and specify the new object. For more information about the default root object, see Creating a Default Root Object in the Amazon CloudFront Developer Guide.
+        /// The object that you want CloudFront to request from your origin (for example, index.html) when a viewer requests the root URL for your distribution (http://www.example.com) instead of an object in your distribution (http://www.example.com/product-description.html). Specifying a default root object avoids exposing the contents of your distribution. Specify only the object name, for example, index.html. Don't add a / before the object name. If you don't want to specify a default root object when you create a distribution, include an empty DefaultRootObject element. To delete the default root object from an existing distribution, update the distribution configuration and include an empty DefaultRootObject element. To replace the default root object, update the distribution configuration and specify the new object. For more information about the default root object, see Creating a Default Root Object in the Amazon CloudFront Developer Guide.
         public let defaultRootObject: String?
         /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the DistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value you already sent in a previous request to create a distribution, and if the content of the DistributionConfig is identical to the original request (ignoring white space), CloudFront returns the same the response that it returned to the original request. If CallerReference is a value you already sent in a previous request to create a distribution but the content of the DistributionConfig is different from the original request, CloudFront returns a DistributionAlreadyExists error.
         public let callerReference: String
@@ -1614,7 +1632,7 @@ extension Cloudfront {
         public let comment: String
         /// From this field, you can enable or disable the selected distribution. If you specify false for Enabled but you specify values for Bucket and Prefix, the values are automatically deleted.
         public let enabled: Bool
-        /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution.  In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, do not enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide. If you're using an Amazon Route 53 alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Amazon Route 53 Developer Guide. If you created a CNAME resource record set, either with Amazon Route 53 or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
+        /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution.  In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide. If you're using an Amazon Route 53 alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Amazon Route 53 Developer Guide. If you created a CNAME resource record set, either with Amazon Route 53 or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
         public let isIPV6Enabled: Bool?
         /// The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All, CloudFront responds to requests for your objects from all CloudFront edge locations. If you specify a price class other than PriceClass_All, CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance. For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide. For information about CloudFront pricing, including how price classes map to CloudFront regions, see Amazon CloudFront Pricing.
         public let priceClass: PriceClass?
@@ -1626,7 +1644,7 @@ extension Cloudfront {
         public let logging: LoggingConfig?
         /// A complex type that contains zero or more CacheBehavior elements. 
         public let cacheBehaviors: CacheBehaviors?
-        /// A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
+        /// A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
         public let defaultCacheBehavior: DefaultCacheBehavior
 
         public init(httpVersion: HttpVersion? = nil, defaultRootObject: String? = nil, callerReference: String, customErrorResponses: CustomErrorResponses? = nil, origins: Origins, webACLId: String? = nil, comment: String, enabled: Bool, isIPV6Enabled: Bool? = nil, priceClass: PriceClass? = nil, viewerCertificate: ViewerCertificate? = nil, restrictions: Restrictions? = nil, aliases: Aliases? = nil, logging: LoggingConfig? = nil, cacheBehaviors: CacheBehaviors? = nil, defaultCacheBehavior: DefaultCacheBehavior) {
@@ -1669,7 +1687,7 @@ extension Cloudfront {
     }
 
     public struct Restrictions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GeoRestriction", required: true, type: .structure)
         ]
         public let geoRestriction: GeoRestriction
@@ -1684,7 +1702,7 @@ extension Cloudfront {
     }
 
     public struct ViewerCertificate: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SSLSupportMethod", required: false, type: .enum), 
             AWSShapeMember(label: "IAMCertificateId", required: false, type: .string), 
             AWSShapeMember(label: "MinimumProtocolVersion", required: false, type: .enum), 
@@ -1693,16 +1711,19 @@ extension Cloudfront {
             AWSShapeMember(label: "CloudFrontDefaultCertificate", required: false, type: .boolean), 
             AWSShapeMember(label: "CertificateSource", required: false, type: .enum)
         ]
-        /// If you specify a value for ACMCertificateArn or for IAMCertificateId, you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:    vip: CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.    sni-only: CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:   Use the vip option (dedicated IP addresses) instead of sni-only.   Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png.   If you can control which browser your users use, upgrade the browser to one that supports SNI.   Use HTTP instead of HTTPS.     Do not specify a value for SSLSupportMethod if you specified &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;. For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide.
+        /// If you specify a value for ViewerCertificate$ACMCertificateArn or for ViewerCertificate$IAMCertificateId, you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:    vip: CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.    sni-only: CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:   Use the vip option (dedicated IP addresses) instead of sni-only.   Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png.   If you can control which browser your users use, upgrade the browser to one that supports SNI.   Use HTTP instead of HTTPS.     Don't specify a value for SSLSupportMethod if you specified &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;. For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide.
         public let sSLSupportMethod: SSLSupportMethod?
+        /// For information about how and when to use IAMCertificateId, see ViewerCertificate.
         public let iAMCertificateId: String?
-        /// Specify the minimum version of the SSL/TLS protocol that you want CloudFront to use for HTTPS connections between viewers and CloudFront: SSLv3 or TLSv1. CloudFront serves your objects only to viewers that support SSL/TLS version that you specify and later versions. The TLSv1 protocol is more secure, so we recommend that you specify SSLv3 only if your users are using browsers or devices that don't support TLSv1. Note the following:   If you specify &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;, the minimum SSL protocol version is TLSv1 and can't be changed.   If you're using a custom certificate (if you specify a value for ACMCertificateArn or for IAMCertificateId) and if you're using SNI (if you specify sni-only for SSLSupportMethod), you must specify TLSv1 for MinimumProtocolVersion.  
+        /// Specify the security policy that you want CloudFront to use for HTTPS connections. A security policy determines two settings:   The minimum SSL/TLS protocol that CloudFront uses to communicate with viewers   The cipher that CloudFront uses to encrypt the content that it returns to viewers    On the CloudFront console, this setting is called Security policy.  We recommend that you specify TLSv1.1_2016 unless your users are using browsers or devices that do not support TLSv1.1 or later. When both of the following are true, you must specify TLSv1 or later for the security policy:    You're using a custom certificate: you specified a value for ACMCertificateArn or for IAMCertificateId    You're using SNI: you specified sni-only for SSLSupportMethod    If you specify true for CloudFrontDefaultCertificate, CloudFront automatically sets the security policy to TLSv1 regardless of the value that you specify for MinimumProtocolVersion. For information about the relationship between the security policy that you choose and the protocols and ciphers that CloudFront uses to communicate with viewers, see  Supported SSL/TLS Protocols and Ciphers for Communication Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.
         public let minimumProtocolVersion: MinimumProtocolVersion?
+        /// For information about how and when to use ACMCertificateArn, see ViewerCertificate.
         public let aCMCertificateArn: String?
-        /// Include one of these values to specify the following:   Whether you want viewers to use HTTP or HTTPS to request your objects.   If you want viewers to use HTTPS, whether you're using an alternate domain name such as example.com or the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net.   If you're using an alternate domain name, whether AWS Certificate Manager (ACM) provided the certificate, or you purchased a certificate from a third-party certificate authority and imported it into ACM or uploaded it to the IAM certificate store.   You must specify one (and only one) of the three values. Do not specify false for CloudFrontDefaultCertificate.  If you want viewers to use HTTP to request your objects: Specify the following value:  &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;  In addition, specify allow-all for ViewerProtocolPolicy for all of your cache behaviors.  If you want viewers to use HTTPS to request your objects: Choose the type of certificate that you want to use based on whether you're using an alternate domain name for your objects or the CloudFront domain name:    If you're using an alternate domain name, such as example.com: Specify one of the following values, depending on whether ACM provided your certificate or you purchased your certificate from third-party certificate authority:    &lt;ACMCertificateArn&gt;ARN for ACM SSL/TLS certificate&lt;ACMCertificateArn&gt; where ARN for ACM SSL/TLS certificate is the ARN for the ACM SSL/TLS certificate that you want to use for this distribution.    &lt;IAMCertificateId&gt;IAM certificate ID&lt;IAMCertificateId&gt; where IAM certificate ID is the ID that IAM returned when you added the certificate to the IAM certificate store.   If you specify ACMCertificateArn or IAMCertificateId, you must also specify a value for SSLSupportMethod. If you choose to use an ACM certificate or a certificate in the IAM certificate store, we recommend that you use only an alternate domain name in your object URLs (https://example.com/logo.jpg). If you use the domain name that is associated with your CloudFront distribution (https://d111111abcdef8.cloudfront.net/logo.jpg) and the viewer supports SNI, then CloudFront behaves normally. However, if the browser does not support SNI, the user's experience depends on the value that you choose for SSLSupportMethod:    vip: The viewer displays a warning because there is a mismatch between the CloudFront domain name and the domain name in your SSL/TLS certificate.    sni-only: CloudFront drops the connection with the browser without returning the object.      If you're using the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net : Specify the following value:   &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;   If you want viewers to use HTTPS, you must also specify one of the following values in your cache behaviors:     &lt;ViewerProtocolPolicy&gt;https-only&lt;ViewerProtocolPolicy&gt;       &lt;ViewerProtocolPolicy&gt;redirect-to-https&lt;ViewerProtocolPolicy&gt;     You can also optionally require that CloudFront use HTTPS to communicate with your origin by specifying one of the following values for the applicable origins:     &lt;OriginProtocolPolicy&gt;https-only&lt;OriginProtocolPolicy&gt;       &lt;OriginProtocolPolicy&gt;match-viewer&lt;OriginProtocolPolicy&gt;     For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide.  
+        /// This field has been deprecated. Use one of the following fields instead:    ViewerCertificate$ACMCertificateArn     ViewerCertificate$IAMCertificateId     ViewerCertificate$CloudFrontDefaultCertificate   
         public let certificate: String?
+        /// For information about how and when to use CloudFrontDefaultCertificate, see ViewerCertificate.
         public let cloudFrontDefaultCertificate: Bool?
-        ///  This field is deprecated. You can use one of the following: [ACMCertificateArn, IAMCertificateId, or CloudFrontDefaultCertificate]. 
+        /// This field has been deprecated. Use one of the following fields instead:    ViewerCertificate$ACMCertificateArn     ViewerCertificate$IAMCertificateId     ViewerCertificate$CloudFrontDefaultCertificate   
         public let certificateSource: CertificateSource?
 
         public init(sSLSupportMethod: SSLSupportMethod? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, aCMCertificateArn: String? = nil, certificate: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, certificateSource: CertificateSource? = nil) {
@@ -1729,7 +1750,7 @@ extension Cloudfront {
     public struct UntagResourceRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "TagKeys"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", location: .body(locationName: "TagKeys"), required: true, type: .structure)
         ]
@@ -1750,7 +1771,7 @@ extension Cloudfront {
     }
 
     public struct GetStreamingDistributionConfigRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The streaming distribution's ID.
@@ -1766,7 +1787,7 @@ extension Cloudfront {
     }
 
     public struct StreamingDistribution: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Status", required: true, type: .string), 
             AWSShapeMember(label: "StreamingDistributionConfig", required: true, type: .structure), 
@@ -1784,7 +1805,7 @@ extension Cloudfront {
         /// A complex type that lists the AWS accounts, if any, that you included in the TrustedSigners complex type for this distribution. These are the accounts that you want to allow to create signed URLs for private content. The Signer complex type lists the AWS account number of the trusted signer or self if the signer is the AWS account that created the distribution. The Signer element also includes the IDs of any active CloudFront key pairs that are associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create signed URLs. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide. 
         public let activeTrustedSigners: ActiveTrustedSigners
         public let arn: String
-        /// The domain name that corresponds to the streaming distribution. For example: s5c39gqb8ow64r.cloudfront.net. 
+        /// The domain name that corresponds to the streaming distribution, for example, s5c39gqb8ow64r.cloudfront.net. 
         public let domainName: String
         /// The identifier for the RTMP distribution. For example: EGTXBD79EXAMPLE.
         public let id: String
@@ -1811,7 +1832,7 @@ extension Cloudfront {
     }
 
     public struct CustomHeaders: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
@@ -1832,7 +1853,7 @@ extension Cloudfront {
     }
 
     public struct CachedMethods: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: true, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
@@ -1853,7 +1874,7 @@ extension Cloudfront {
     }
 
     public struct DistributionSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HttpVersion", required: true, type: .enum), 
             AWSShapeMember(label: "CustomErrorResponses", required: true, type: .structure), 
             AWSShapeMember(label: "Origins", required: true, type: .structure), 
@@ -1902,9 +1923,9 @@ extension Cloudfront {
         public let priceClass: PriceClass
         /// A complex type that contains zero or more CacheBehavior elements.
         public let cacheBehaviors: CacheBehaviors
-        /// The domain name that corresponds to the distribution. For example: d604721fxaaqy9.cloudfront.net.
+        /// The domain name that corresponds to the distribution, for example, d111111abcdef8.cloudfront.net.
         public let domainName: String
-        /// A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
+        /// A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
         public let defaultCacheBehavior: DefaultCacheBehavior
 
         public init(httpVersion: HttpVersion, customErrorResponses: CustomErrorResponses, origins: Origins, comment: String, enabled: Bool, webACLId: String, arn: String, isIPV6Enabled: Bool, restrictions: Restrictions, lastModifiedTime: TimeStamp, viewerCertificate: ViewerCertificate, id: String, status: String, aliases: Aliases, priceClass: PriceClass, cacheBehaviors: CacheBehaviors, domainName: String, defaultCacheBehavior: DefaultCacheBehavior) {
@@ -1951,7 +1972,7 @@ extension Cloudfront {
     }
 
     public struct CustomOriginConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OriginProtocolPolicy", required: true, type: .enum), 
             AWSShapeMember(label: "HTTPPort", required: true, type: .integer), 
             AWSShapeMember(label: "OriginKeepaliveTimeout", required: false, type: .integer), 
@@ -1994,7 +2015,7 @@ extension Cloudfront {
     public struct CreateStreamingDistributionResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistribution"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
             AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure)
@@ -2020,7 +2041,7 @@ extension Cloudfront {
     }
 
     public struct KeyPairIdList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyPairId", required: false, type: .list)
         ]
         public let keyPairId: [String]?
@@ -2035,7 +2056,7 @@ extension Cloudfront {
     }
 
     public struct CustomErrorResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResponseCode", required: false, type: .string), 
             AWSShapeMember(label: "ErrorCachingMinTTL", required: false, type: .long), 
             AWSShapeMember(label: "ErrorCode", required: true, type: .integer), 
@@ -2074,7 +2095,7 @@ extension Cloudfront {
     public struct GetCloudFrontOriginAccessIdentityConfigResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure)
         ]
@@ -2095,7 +2116,7 @@ extension Cloudfront {
     }
 
     public struct CloudFrontOriginAccessIdentity: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3CanonicalUserId", required: true, type: .string), 
             AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: true, type: .string)
@@ -2104,7 +2125,7 @@ extension Cloudfront {
         public let s3CanonicalUserId: String
         /// The current configuration information for the identity. 
         public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig?
-        /// The ID for the origin access identity. For example: E74FTE3AJFJ256A. 
+        /// The ID for the origin access identity, for example, E74FTE3AJFJ256A. 
         public let id: String
 
         public init(s3CanonicalUserId: String, cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig? = nil, id: String) {
@@ -2121,7 +2142,7 @@ extension Cloudfront {
     }
 
     public struct TagList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
@@ -2136,7 +2157,7 @@ extension Cloudfront {
     }
 
     public struct GetDistributionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The distribution's ID.
@@ -2160,16 +2181,16 @@ extension Cloudfront {
     }
 
     public struct StreamingLoggingConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: true, type: .string), 
             AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
             AWSShapeMember(label: "Prefix", required: true, type: .string)
         ]
         /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
         public let bucket: String
-        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you do not want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix, the values are automatically deleted. 
+        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix, the values are automatically deleted. 
         public let enabled: Bool
-        /// An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for example, myprefix/. If you want to enable logging, but you do not want to specify a prefix, you still must include an empty Prefix element in the Logging element.
+        /// An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for example, myprefix/. If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
         public let prefix: String
 
         public init(bucket: String, enabled: Bool, prefix: String) {
@@ -2193,14 +2214,14 @@ extension Cloudfront {
     }
 
     public struct GeoRestriction: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "RestrictionType", required: true, type: .enum), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
-        ///  A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list in the CloudFront console, which includes both country names and codes.
+        ///  A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list on the CloudFront console, which includes both country names and codes.
         public let items: LocationList?
-        /// The method that you want to use to restrict distribution of your content by country:    none: No geo restriction is enabled, meaning access to content is not restricted by client geo location.    blacklist: The Location elements specify the countries in which you do not want CloudFront to distribute your content.    whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.  
+        /// The method that you want to use to restrict distribution of your content by country:    none: No geo restriction is enabled, meaning access to content is not restricted by client geo location.    blacklist: The Location elements specify the countries in which you don't want CloudFront to distribute your content.    whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.  
         public let restrictionType: GeoRestrictionType
         /// When geo restriction is enabled, this is the number of countries in your whitelist or blacklist. Otherwise, when it is not enabled, Quantity is 0, and you can omit Items.
         public let quantity: Int32
@@ -2219,7 +2240,7 @@ extension Cloudfront {
     }
 
     public struct StreamingDistributionList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
@@ -2260,7 +2281,7 @@ extension Cloudfront {
     }
 
     public struct S3Origin: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OriginAccessIdentity", required: true, type: .string), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -2281,7 +2302,7 @@ extension Cloudfront {
     }
 
     public struct AliasList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CNAME", required: false, type: .list)
         ]
         public let cname: [String]?
@@ -2298,7 +2319,7 @@ extension Cloudfront {
     public struct ListInvalidationsResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "InvalidationList"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InvalidationList", required: false, type: .structure)
         ]
         /// Information about invalidation batches. 
@@ -2314,7 +2335,7 @@ extension Cloudfront {
     }
 
     public struct CustomErrorResponseList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomErrorResponse", required: false, type: .list)
         ]
         public let customErrorResponse: [CustomErrorResponse]?
@@ -2329,7 +2350,7 @@ extension Cloudfront {
     }
 
     public struct DistributionSummaryList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionSummary", required: false, type: .list)
         ]
         public let distributionSummary: [DistributionSummary]?
@@ -2344,7 +2365,7 @@ extension Cloudfront {
     }
 
     public struct OriginCustomHeadersList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OriginCustomHeader", required: false, type: .list)
         ]
         public let originCustomHeader: [OriginCustomHeader]?
@@ -2365,7 +2386,7 @@ extension Cloudfront {
     }
 
     public struct CloudFrontOriginAccessIdentitySummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "S3CanonicalUserId", required: true, type: .string), 
             AWSShapeMember(label: "Comment", required: true, type: .string)
@@ -2391,7 +2412,7 @@ extension Cloudfront {
     }
 
     public struct InvalidationSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .string), 
             AWSShapeMember(label: "CreateTime", required: true, type: .timestamp)
@@ -2416,7 +2437,7 @@ extension Cloudfront {
     }
 
     public struct ActiveTrustedSigners: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
@@ -2442,7 +2463,7 @@ extension Cloudfront {
     }
 
     public struct StreamingDistributionConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Aliases", required: false, type: .structure), 
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
             AWSShapeMember(label: "Logging", required: false, type: .structure), 
@@ -2493,7 +2514,7 @@ extension Cloudfront {
     }
 
     public struct MethodsList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Method", required: false, type: .list)
         ]
         public let method: [Method]?
@@ -2508,7 +2529,7 @@ extension Cloudfront {
     }
 
     public struct DeleteCloudFrontOriginAccessIdentityRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
@@ -2531,7 +2552,7 @@ extension Cloudfront {
     public struct CreateInvalidationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "InvalidationBatch"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InvalidationBatch", location: .body(locationName: "InvalidationBatch"), required: true, type: .structure), 
             AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string)
         ]
@@ -2552,7 +2573,7 @@ extension Cloudfront {
     }
 
     public struct TagKeyList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .list)
         ]
         public let key: [String]?
@@ -2567,7 +2588,7 @@ extension Cloudfront {
     }
 
     public struct OriginList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Origin", required: false, type: .list)
         ]
         public let origin: [Origin]?
@@ -2582,7 +2603,7 @@ extension Cloudfront {
     }
 
     public struct GetDistributionConfigRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The distribution's ID.
@@ -2600,7 +2621,7 @@ extension Cloudfront {
     public struct UpdateDistributionResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Distribution"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "Distribution", required: false, type: .structure)
         ]
@@ -2630,7 +2651,7 @@ extension Cloudfront {
     public struct GetStreamingDistributionConfigResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistributionConfig"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "StreamingDistributionConfig", required: false, type: .structure)
         ]
@@ -2651,7 +2672,7 @@ extension Cloudfront {
     }
 
     public struct KeyPairIds: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
@@ -2672,7 +2693,7 @@ extension Cloudfront {
     }
 
     public struct Origin: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomHeaders", required: false, type: .structure), 
             AWSShapeMember(label: "CustomOriginConfig", required: false, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
@@ -2684,7 +2705,7 @@ extension Cloudfront {
         public let customHeaders: CustomHeaders?
         /// A complex type that contains information about a custom origin. If the origin is an Amazon S3 bucket, use the S3OriginConfig element instead.
         public let customOriginConfig: CustomOriginConfig?
-        ///  Amazon S3 origins: The DNS name of the Amazon S3 bucket from which you want CloudFront to get objects for this origin, for example, myawsbucket.s3.amazonaws.com. Constraints for Amazon S3 origins:    If you configured Amazon S3 Transfer Acceleration for your bucket, do not specify the s3-accelerate endpoint for DomainName.   The bucket name must be between 3 and 63 characters long (inclusive).   The bucket name must contain only lowercase characters, numbers, periods, underscores, and dashes.   The bucket name must not contain adjacent periods.    Custom Origins: The DNS domain name for the HTTP server from which you want CloudFront to get objects for this origin, for example, www.example.com.  Constraints for custom origins:    DomainName must be a valid DNS name that contains only a-z, A-Z, 0-9, dot (.), hyphen (-), or underscore (_) characters.   The name cannot exceed 128 characters.  
+        ///  Amazon S3 origins: The DNS name of the Amazon S3 bucket from which you want CloudFront to get objects for this origin, for example, myawsbucket.s3.amazonaws.com. Constraints for Amazon S3 origins:    If you configured Amazon S3 Transfer Acceleration for your bucket, don't specify the s3-accelerate endpoint for DomainName.   The bucket name must be between 3 and 63 characters long (inclusive).   The bucket name must contain only lowercase characters, numbers, periods, underscores, and dashes.   The bucket name must not contain adjacent periods.    Custom Origins: The DNS domain name for the HTTP server from which you want CloudFront to get objects for this origin, for example, www.example.com.  Constraints for custom origins:    DomainName must be a valid DNS name that contains only a-z, A-Z, 0-9, dot (.), hyphen (-), or underscore (_) characters.   The name cannot exceed 128 characters.  
         public let domainName: String
         /// An optional element that causes CloudFront to request your content from a directory in your Amazon S3 bucket or your custom origin. When you include the OriginPath element, specify the directory name, beginning with a /. CloudFront appends the directory name to the value of DomainName, for example, example.com/production. Do not include a / at the end of the directory name. For example, suppose you've specified the following values for your distribution:    DomainName: An Amazon S3 bucket named myawsbucket.    OriginPath: /production     CNAME: example.com    When a user enters example.com/index.html in a browser, CloudFront sends a request to Amazon S3 for myawsbucket/production/index.html. When a user enters example.com/acme/index.html in a browser, CloudFront sends a request to Amazon S3 for myawsbucket/production/acme/index.html.
         public let originPath: String?
@@ -2713,7 +2734,7 @@ extension Cloudfront {
     }
 
     public struct Tags: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure)
         ]
         ///  A complex type that contains Tag elements.
@@ -2729,7 +2750,7 @@ extension Cloudfront {
     }
 
     public struct LambdaFunctionAssociationList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LambdaFunctionAssociation", required: false, type: .list)
         ]
         public let lambdaFunctionAssociation: [LambdaFunctionAssociation]?
@@ -2744,7 +2765,7 @@ extension Cloudfront {
     }
 
     public struct StreamingDistributionSummaryList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamingDistributionSummary", required: false, type: .list)
         ]
         public let streamingDistributionSummary: [StreamingDistributionSummary]?
@@ -2761,7 +2782,7 @@ extension Cloudfront {
     public struct GetCloudFrontOriginAccessIdentityResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
         ]
@@ -2784,7 +2805,7 @@ extension Cloudfront {
     public struct GetDistributionResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Distribution"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "Distribution", required: false, type: .structure)
         ]
@@ -2807,7 +2828,7 @@ extension Cloudfront {
     public struct UpdateStreamingDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "StreamingDistributionConfig"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
             AWSShapeMember(label: "StreamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"), required: true, type: .structure), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
@@ -2833,7 +2854,7 @@ extension Cloudfront {
     }
 
     public struct CloudFrontOriginAccessIdentityList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string), 
@@ -2874,7 +2895,7 @@ extension Cloudfront {
     }
 
     public struct GetCloudFrontOriginAccessIdentityConfigRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identity's ID. 
@@ -2892,7 +2913,7 @@ extension Cloudfront {
     public struct CreateCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"), required: true, type: .structure)
         ]
         /// The current configuration information for the identity.
@@ -2908,7 +2929,7 @@ extension Cloudfront {
     }
 
     public struct Distribution: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "Status", required: true, type: .string), 
             AWSShapeMember(label: "ActiveTrustedSigners", required: true, type: .structure), 
@@ -2928,7 +2949,7 @@ extension Cloudfront {
         public let arn: String
         /// The current configuration information for the distribution. Send a GET request to the /CloudFront API version/distribution ID/config resource.
         public let distributionConfig: DistributionConfig
-        /// The domain name corresponding to the distribution. For example: d604721fxaaqy9.cloudfront.net. 
+        /// The domain name corresponding to the distribution, for example, d111111abcdef8.cloudfront.net. 
         public let domainName: String
         /// The number of invalidation batches currently in progress. 
         public let inProgressInvalidationBatches: Int32
@@ -2959,7 +2980,7 @@ extension Cloudfront {
     }
 
     public struct StreamingDistributionConfigWithTags: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: true, type: .structure), 
             AWSShapeMember(label: "StreamingDistributionConfig", required: true, type: .structure)
         ]
@@ -2980,7 +3001,7 @@ extension Cloudfront {
     }
 
     public struct CloudFrontOriginAccessIdentityConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CallerReference", required: true, type: .string), 
             AWSShapeMember(label: "Comment", required: true, type: .string)
         ]
@@ -3003,7 +3024,7 @@ extension Cloudfront {
     public struct UpdateCloudFrontOriginAccessIdentityResult: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
             AWSShapeMember(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
         ]
@@ -3024,7 +3045,7 @@ extension Cloudfront {
     }
 
     public struct DeleteStreamingDistributionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
@@ -3045,7 +3066,7 @@ extension Cloudfront {
     }
 
     public struct CustomErrorResponses: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
@@ -3066,7 +3087,7 @@ extension Cloudfront {
     }
 
     public struct CookieNames: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
@@ -3087,7 +3108,7 @@ extension Cloudfront {
     }
 
     public struct CookieNameList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .list)
         ]
         public let name: [String]?
@@ -3113,7 +3134,7 @@ extension Cloudfront {
     }
 
     public struct AwsAccountNumberList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AwsAccountNumber", required: false, type: .list)
         ]
         public let awsAccountNumber: [String]?
@@ -3128,7 +3149,7 @@ extension Cloudfront {
     }
 
     public struct Aliases: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
@@ -3149,7 +3170,7 @@ extension Cloudfront {
     }
 
     public struct DeleteDistributionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]

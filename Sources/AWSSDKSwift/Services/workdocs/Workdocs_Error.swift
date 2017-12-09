@@ -15,6 +15,7 @@ public enum WorkdocsError: AWSErrorType {
     case entityAlreadyExistsException(message: String?)
     case limitExceededException(message: String?)
     case concurrentModificationException(message: String?)
+    case invalidPasswordException(message: String?)
     case invalidOperationException(message: String?)
     case illegalUserStateException(message: String?)
     case deactivatingLastSystemUserException(message: String?)
@@ -56,6 +57,8 @@ extension WorkdocsError {
             self = .limitExceededException(message: message)
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
+        case "InvalidPasswordException":
+            self = .invalidPasswordException(message: message)
         case "InvalidOperationException":
             self = .invalidOperationException(message: message)
         case "IllegalUserStateException":

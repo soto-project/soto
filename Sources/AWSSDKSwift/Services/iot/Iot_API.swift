@@ -24,9 +24,29 @@ public struct Iot {
         )
     }
 
+    ///  Cancels a bulk thing provisioning task.
+    public func stopThingRegistrationTask(_ input: StopThingRegistrationTaskRequest) throws -> StopThingRegistrationTaskResponse {
+        return try client.send(operation: "StopThingRegistrationTask", path: "/thing-registration-tasks/{taskId}/cancel", httpMethod: "PUT", input: input)
+    }
+
+    ///  Deletes a role alias
+    public func deleteRoleAlias(_ input: DeleteRoleAliasRequest) throws -> DeleteRoleAliasResponse {
+        return try client.send(operation: "DeleteRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Updates the status of the specified certificate. This operation is idempotent. Moving a certificate from the ACTIVE state (including REVOKED) will not disconnect currently connected devices, but these devices will be unable to reconnect. The ACTIVE state is required to authenticate devices connecting to AWS IoT using a certificate.
     public func updateCertificate(_ input: UpdateCertificateRequest) throws {
         _ = try client.send(operation: "UpdateCertificate", path: "/certificates/{certificateId}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Describes a bulk thing provisioning task.
+    public func describeThingRegistrationTask(_ input: DescribeThingRegistrationTaskRequest) throws -> DescribeThingRegistrationTaskResponse {
+        return try client.send(operation: "DescribeThingRegistrationTask", path: "/thing-registration-tasks/{taskId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Creates a bulk thing provisioning task.
+    public func startThingRegistrationTask(_ input: StartThingRegistrationTaskRequest) throws -> StartThingRegistrationTaskResponse {
+        return try client.send(operation: "StartThingRegistrationTask", path: "/thing-registration-tasks", httpMethod: "POST", input: input)
     }
 
     ///  Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the ListPrincipalPolicy API.
@@ -34,24 +54,9 @@ public struct Iot {
         _ = try client.send(operation: "SetDefaultPolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: "PATCH", input: input)
     }
 
-    ///  Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key.  Note This is the only time AWS IoT issues the private key for this certificate, so it is important to keep it in a secure location.
-    public func createKeysAndCertificate(_ input: CreateKeysAndCertificateRequest) throws -> CreateKeysAndCertificateResponse {
-        return try client.send(operation: "CreateKeysAndCertificate", path: "/keys-and-certificate", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets a registration code used to register a CA certificate with AWS IoT.
-    public func getRegistrationCode(_ input: GetRegistrationCodeRequest) throws -> GetRegistrationCodeResponse {
-        return try client.send(operation: "GetRegistrationCode", path: "/registrationcode", httpMethod: "GET", input: input)
-    }
-
-    ///  Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the DeletePolicyVersion API to delete all non-default versions of the policy; use the DetachPrincipalPolicy API to detach the policy from any certificate; and then use the DeletePolicy API to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it.
-    public func deletePolicy(_ input: DeletePolicyRequest) throws {
-        _ = try client.send(operation: "DeletePolicy", path: "/policies/{policyName}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Removes the specified policy from the specified certificate.
-    public func detachPrincipalPolicy(_ input: DetachPrincipalPolicyRequest) throws {
-        _ = try client.send(operation: "DetachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: "DELETE", input: input)
+    ///  Describes event configurations.
+    public func describeEventConfigurations(_ input: DescribeEventConfigurationsRequest) throws -> DescribeEventConfigurationsResponse {
+        return try client.send(operation: "DescribeEventConfigurations", path: "/event-configurations", httpMethod: "GET", input: input)
     }
 
     ///  Lists the things associated with the specified principal.
@@ -59,9 +64,39 @@ public struct Iot {
         return try client.send(operation: "ListPrincipalThings", path: "/principals/things", httpMethod: "GET", input: input)
     }
 
+    ///  Lists the job executions for a job.
+    public func listJobExecutionsForJob(_ input: ListJobExecutionsForJobRequest) throws -> ListJobExecutionsForJobResponse {
+        return try client.send(operation: "ListJobExecutionsForJob", path: "/jobs/{jobId}/things", httpMethod: "GET", input: input)
+    }
+
     ///  Cancels a pending transfer for the specified certificate.  Note Only the transfer source account can use this operation to cancel a transfer. (Transfer destinations can use RejectCertificateTransfer instead.) After transfer, AWS IoT returns the certificate to the source account in the INACTIVE state. After the destination account has accepted the transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the status of the certificate changes from PENDING_TRANSFER to INACTIVE.
     public func cancelCertificateTransfer(_ input: CancelCertificateTransferRequest) throws {
         _ = try client.send(operation: "CancelCertificateTransfer", path: "/cancel-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
+    }
+
+    ///  List the thing groups in your account.
+    public func listThingGroups(_ input: ListThingGroupsRequest) throws -> ListThingGroupsResponse {
+        return try client.send(operation: "ListThingGroups", path: "/thing-groups", httpMethod: "GET", input: input)
+    }
+
+    ///  Updates an authorizer.
+    public func updateAuthorizer(_ input: UpdateAuthorizerRequest) throws -> UpdateAuthorizerResponse {
+        return try client.send(operation: "UpdateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Lists logging levels.
+    public func listV2LoggingLevels(_ input: ListV2LoggingLevelsRequest) throws -> ListV2LoggingLevelsResponse {
+        return try client.send(operation: "ListV2LoggingLevels", path: "/v2LoggingLevel", httpMethod: "GET", input: input)
+    }
+
+    ///  Provisions a thing.
+    public func registerThing(_ input: RegisterThingRequest) throws -> RegisterThingResponse {
+        return try client.send(operation: "RegisterThing", path: "/things", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes a search index.
+    public func describeIndex(_ input: DescribeIndexRequest) throws -> DescribeIndexResponse {
+        return try client.send(operation: "DescribeIndex", path: "/indices/{indexName}", httpMethod: "GET", input: input)
     }
 
     ///  Accepts a pending certificate transfer. The default state of the certificate is INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates.
@@ -69,29 +104,9 @@ public struct Iot {
         _ = try client.send(operation: "AcceptCertificateTransfer", path: "/accept-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
     }
 
-    ///  Attaches the specified policy to the specified principal (certificate or other credential).
-    public func attachPrincipalPolicy(_ input: AttachPrincipalPolicyRequest) throws {
-        _ = try client.send(operation: "AttachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: "PUT", input: input)
-    }
-
-    ///  Replaces the specified rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
-    public func replaceTopicRule(_ input: ReplaceTopicRuleRequest) throws {
-        _ = try client.send(operation: "ReplaceTopicRule", path: "/rules/{ruleName}", httpMethod: "PATCH", input: input)
-    }
-
-    ///  Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.
-    public func listPrincipalPolicies(_ input: ListPrincipalPoliciesRequest) throws -> ListPrincipalPoliciesResponse {
-        return try client.send(operation: "ListPrincipalPolicies", path: "/principal-policies", httpMethod: "GET", input: input)
-    }
-
-    ///  Rejects a pending certificate transfer. After AWS IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state.
-    public func rejectCertificateTransfer(_ input: RejectCertificateTransferRequest) throws {
-        _ = try client.send(operation: "RejectCertificateTransfer", path: "/reject-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
-    }
-
-    ///  List the device certificates signed by the specified CA certificate.
-    public func listCertificatesByCA(_ input: ListCertificatesByCARequest) throws -> ListCertificatesByCAResponse {
-        return try client.send(operation: "ListCertificatesByCA", path: "/certificates-by-ca/{caCertificateId}", httpMethod: "GET", input: input)
+    ///  Update a thing group.
+    public func updateThingGroup(_ input: UpdateThingGroupRequest) throws -> UpdateThingGroupResponse {
+        return try client.send(operation: "UpdateThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: "PATCH", input: input)
     }
 
     ///  Updates a registered CA certificate.
@@ -99,9 +114,9 @@ public struct Iot {
         _ = try client.send(operation: "UpdateCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: "PUT", input: input)
     }
 
-    ///  Deletes the specified rule.
-    public func deleteTopicRule(_ input: DeleteTopicRuleRequest) throws {
-        _ = try client.send(operation: "DeleteTopicRule", path: "/rules/{ruleName}", httpMethod: "DELETE", input: input)
+    ///  Lists the job executions for the specified thing.
+    public func listJobExecutionsForThing(_ input: ListJobExecutionsForThingRequest) throws -> ListJobExecutionsForThingResponse {
+        return try client.send(operation: "ListJobExecutionsForThing", path: "/things/{thingName}/jobs", httpMethod: "GET", input: input)
     }
 
     ///  Lists the versions of the specified policy and identifies the default version.
@@ -109,9 +124,14 @@ public struct Iot {
         return try client.send(operation: "ListPolicyVersions", path: "/policies/{policyName}/version", httpMethod: "GET", input: input)
     }
 
-    ///  Attaches the specified principal to the specified thing.
-    public func attachThingPrincipal(_ input: AttachThingPrincipalRequest) throws -> AttachThingPrincipalResponse {
-        return try client.send(operation: "AttachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: "PUT", input: input)
+    ///  Remove the specified thing from the specified group.
+    public func removeThingFromThingGroup(_ input: RemoveThingFromThingGroupRequest) throws -> RemoveThingFromThingGroupResponse {
+        return try client.send(operation: "RemoveThingFromThingGroup", path: "/thing-groups/removeThingFromThingGroup", httpMethod: "PUT", input: input)
+    }
+
+    ///  Describes a job execution.
+    public func describeJobExecution(_ input: DescribeJobExecutionRequest) throws -> DescribeJobExecutionResponse {
+        return try client.send(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "GET", input: input)
     }
 
     ///  Registers a device certificate with AWS IoT. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered.
@@ -124,14 +144,24 @@ public struct Iot {
         return try client.send(operation: "ListTopicRules", path: "/rules", httpMethod: "GET", input: input)
     }
 
-    ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red. 
-    public func listThings(_ input: ListThingsRequest) throws -> ListThingsResponse {
-        return try client.send(operation: "ListThings", path: "/things", httpMethod: "GET", input: input)
+    ///  Create a thing group.
+    public func createThingGroup(_ input: CreateThingGroupRequest) throws -> CreateThingGroupResponse {
+        return try client.send(operation: "CreateThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an AWS IoT policy. The created policy is the default version for the policy. This operation creates a policy version with a version identifier of 1 and sets 1 as the policy's default version.
-    public func createPolicy(_ input: CreatePolicyRequest) throws -> CreatePolicyResponse {
-        return try client.send(operation: "CreatePolicy", path: "/policies/{policyName}", httpMethod: "POST", input: input)
+    ///  Describes a job.
+    public func describeJob(_ input: DescribeJobRequest) throws -> DescribeJobResponse {
+        return try client.send(operation: "DescribeJob", path: "/jobs/{jobId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Test custom authorization.
+    public func testAuthorization(_ input: TestAuthorizationRequest) throws -> TestAuthorizationResponse {
+        return try client.send(operation: "TestAuthorization", path: "/test-authorization", httpMethod: "POST", input: input)
+    }
+
+    ///  Cancels a job.
+    public func cancelJob(_ input: CancelJobRequest) throws -> CancelJobResponse {
+        return try client.send(operation: "CancelJob", path: "/jobs/{jobId}/cancel", httpMethod: "PUT", input: input)
     }
 
     ///  Detaches the specified principal from the specified thing.
@@ -144,9 +174,14 @@ public struct Iot {
         return try client.send(operation: "TransferCertificate", path: "/transfer-certificate/{certificateId}", httpMethod: "PATCH", input: input)
     }
 
-    ///  Gets the logging options.
-    public func getLoggingOptions(_ input: GetLoggingOptionsRequest) throws -> GetLoggingOptionsResponse {
-        return try client.send(operation: "GetLoggingOptions", path: "/loggingOptions", httpMethod: "GET", input: input)
+    ///  Lists the search indices.
+    public func listIndices(_ input: ListIndicesRequest) throws -> ListIndicesResponse {
+        return try client.send(operation: "ListIndices", path: "/indices", httpMethod: "GET", input: input)
+    }
+
+    ///  Updates a role alias.
+    public func updateRoleAlias(_ input: UpdateRoleAliasRequest) throws -> UpdateRoleAliasResponse {
+        return try client.send(operation: "UpdateRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: "PUT", input: input)
     }
 
     ///  Lists the existing thing types.
@@ -159,9 +194,304 @@ public struct Iot {
         _ = try client.send(operation: "SetLoggingOptions", path: "/loggingOptions", httpMethod: "POST", input: input)
     }
 
-    ///  Lists certificates that are being transfered but not yet accepted.
+    ///  Gets the search configuration.
+    public func getIndexingConfiguration(_ input: GetIndexingConfigurationRequest) throws -> GetIndexingConfigurationResponse {
+        return try client.send(operation: "GetIndexingConfiguration", path: "/indexing/config", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets the fine grained logging options.
+    public func getV2LoggingOptions(_ input: GetV2LoggingOptionsRequest) throws -> GetV2LoggingOptionsResponse {
+        return try client.send(operation: "GetV2LoggingOptions", path: "/v2LoggingOptions", httpMethod: "GET", input: input)
+    }
+
+    ///  Updates the search configuration.
+    public func updateIndexingConfiguration(_ input: UpdateIndexingConfigurationRequest) throws -> UpdateIndexingConfigurationResponse {
+        return try client.send(operation: "UpdateIndexingConfiguration", path: "/indexing/config", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an X.509 certificate using the specified certificate signing request.  Note: The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256 or NIST P-384 curves.   Note: Reusing the same certificate signing request (CSR) results in a distinct certificate. You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. Assuming a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is: $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr AWS CLI command to create a certificate for the corresponding CSR. The aws iot create-certificate-from-csr part of the command can also be run in parallel to speed up the certificate creation process: $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is: &gt; ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_} On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is: &gt; forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
+    public func createCertificateFromCsr(_ input: CreateCertificateFromCsrRequest) throws -> CreateCertificateFromCsrResponse {
+        return try client.send(operation: "CreateCertificateFromCsr", path: "/certificates", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the policies attached to the specified thing group.
+    public func listAttachedPolicies(_ input: ListAttachedPoliciesRequest) throws -> ListAttachedPoliciesResponse {
+        return try client.send(operation: "ListAttachedPolicies", path: "/attached-policies/{target}", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the principals associated with the specified policy.  Note: This API is deprecated. Please use ListTargetsForPolicy instead.
+    public func listPolicyPrincipals(_ input: ListPolicyPrincipalsRequest) throws -> ListPolicyPrincipalsResponse {
+        return try client.send(operation: "ListPolicyPrincipals", path: "/policy-principals", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets information about the specified thing type.
+    public func describeThingType(_ input: DescribeThingTypeRequest) throws -> DescribeThingTypeResponse {
+        return try client.send(operation: "DescribeThingType", path: "/thing-types/{thingTypeName}", httpMethod: "GET", input: input)
+    }
+
+    ///  Creates a rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
+    public func createTopicRule(_ input: CreateTopicRuleRequest) throws {
+        _ = try client.send(operation: "CreateTopicRule", path: "/rules/{ruleName}", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists jobs.
+    public func listJobs(_ input: ListJobsRequest) throws -> ListJobsResponse {
+        return try client.send(operation: "ListJobs", path: "/jobs", httpMethod: "GET", input: input)
+    }
+
+    ///  Deletes the specified certificate. A certificate cannot be deleted if it has a policy attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPrincipalPolicy API to detach all policies. Next, use the UpdateCertificate API to set the certificate to the INACTIVE status.
+    public func deleteCertificate(_ input: DeleteCertificateRequest) throws {
+        _ = try client.send(operation: "DeleteCertificate", path: "/certificates/{certificateId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Creates a role alias.
+    public func createRoleAlias(_ input: CreateRoleAliasRequest) throws -> CreateRoleAliasResponse {
+        return try client.send(operation: "CreateRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a CA certificate registration code.
+    public func deleteRegistrationCode(_ input: DeleteRegistrationCodeRequest) throws -> DeleteRegistrationCodeResponse {
+        return try client.send(operation: "DeleteRegistrationCode", path: "/registrationcode", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes a registered CA certificate.
+    public func deleteCACertificate(_ input: DeleteCACertificateRequest) throws -> DeleteCACertificateResponse {
+        return try client.send(operation: "DeleteCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Sets the logging level.
+    public func setV2LoggingLevel(_ input: SetV2LoggingLevelRequest) throws {
+        _ = try client.send(operation: "SetV2LoggingLevel", path: "/v2LoggingLevel", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes a role alias.
+    public func describeRoleAlias(_ input: DescribeRoleAliasRequest) throws -> DescribeRoleAliasResponse {
+        return try client.send(operation: "DescribeRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: "GET", input: input)
+    }
+
+    ///  Deletes the specified thing type . You cannot delete a thing type if it has things associated with it. To delete a thing type, first mark it as deprecated by calling DeprecateThingType, then remove any associated things by calling UpdateThing to change the thing type on any associated thing, and finally use DeleteThingType to delete the thing type.
+    public func deleteThingType(_ input: DeleteThingTypeRequest) throws -> DeleteThingTypeResponse {
+        return try client.send(operation: "DeleteThingType", path: "/thing-types/{thingTypeName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Adds a thing to a thing group.
+    public func addThingToThingGroup(_ input: AddThingToThingGroupRequest) throws -> AddThingToThingGroupResponse {
+        return try client.send(operation: "AddThingToThingGroup", path: "/thing-groups/addThingToThingGroup", httpMethod: "PUT", input: input)
+    }
+
+    ///  Gets information about the specified policy with the policy document of the default version.
+    public func getPolicy(_ input: GetPolicyRequest) throws -> GetPolicyResponse {
+        return try client.send(operation: "GetPolicy", path: "/policies/{policyName}", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets information about the specified thing.
+    public func describeThing(_ input: DescribeThingRequest) throws -> DescribeThingResponse {
+        return try client.send(operation: "DescribeThing", path: "/things/{thingName}", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns a unique endpoint specific to the AWS account making the call.
+    public func describeEndpoint(_ input: DescribeEndpointRequest) throws -> DescribeEndpointResponse {
+        return try client.send(operation: "DescribeEndpoint", path: "/endpoint", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists the authorizers registered in your account.
+    public func listAuthorizers(_ input: ListAuthorizersRequest) throws -> ListAuthorizersResponse {
+        return try client.send(operation: "ListAuthorizers", path: "/authorizers/", httpMethod: "GET", input: input)
+    }
+
+    ///  Sets the default authorizer. This will be used if a websocket connection is made without specifying an authorizer.
+    public func setDefaultAuthorizer(_ input: SetDefaultAuthorizerRequest) throws -> SetDefaultAuthorizerResponse {
+        return try client.send(operation: "SetDefaultAuthorizer", path: "/default-authorizer", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new thing type.
+    public func createThingType(_ input: CreateThingTypeRequest) throws -> CreateThingTypeResponse {
+        return try client.send(operation: "CreateThingType", path: "/thing-types/{thingTypeName}", httpMethod: "POST", input: input)
+    }
+
+    ///  Disables the rule.
+    public func disableTopicRule(_ input: DisableTopicRuleRequest) throws {
+        _ = try client.send(operation: "DisableTopicRule", path: "/rules/{ruleName}/disable", httpMethod: "POST", input: input)
+    }
+
+    ///  Invoke the specified custom authorizer for testing purposes.
+    public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest) throws -> TestInvokeAuthorizerResponse {
+        return try client.send(operation: "TestInvokeAuthorizer", path: "/authorizer/{authorizerName}/test", httpMethod: "POST", input: input)
+    }
+
+    ///  Registers a CA certificate with AWS IoT. This CA certificate can then be used to sign device certificates, which can be then registered with AWS IoT. You can register up to 10 CA certificates per AWS account that have the same subject field. This enables you to have up to 10 certificate authorities sign your device certificates. If you have more than one CA certificate registered, make sure you pass the CA certificate when you register your device certificates with the RegisterCertificate API.
+    public func registerCACertificate(_ input: RegisterCACertificateRequest) throws -> RegisterCACertificateResponse {
+        return try client.send(operation: "RegisterCACertificate", path: "/cacertificate", httpMethod: "POST", input: input)
+    }
+
+    ///  Detaches a policy from the specified target.
+    public func detachPolicy(_ input: DetachPolicyRequest) throws {
+        _ = try client.send(operation: "DetachPolicy", path: "/target-policies/{policyName}", httpMethod: "POST", input: input)
+    }
+
+    ///  Attaches a policy to the specified target.
+    public func attachPolicy(_ input: AttachPolicyRequest) throws {
+        _ = try client.send(operation: "AttachPolicy", path: "/target-policies/{policyName}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Deletes a thing group.
+    public func deleteThingGroup(_ input: DeleteThingGroupRequest) throws -> DeleteThingGroupResponse {
+        return try client.send(operation: "DeleteThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes a logging level.
+    public func deleteV2LoggingLevel(_ input: DeleteV2LoggingLevelRequest) throws {
+        _ = try client.send(operation: "DeleteV2LoggingLevel", path: "/v2LoggingLevel", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Gets a job document.
+    public func getJobDocument(_ input: GetJobDocumentRequest) throws -> GetJobDocumentResponse {
+        return try client.send(operation: "GetJobDocument", path: "/jobs/{jobId}/job-document", httpMethod: "GET", input: input)
+    }
+
+    ///  Describes the default authorizer.
+    public func describeDefaultAuthorizer(_ input: DescribeDefaultAuthorizerRequest) throws -> DescribeDefaultAuthorizerResponse {
+        return try client.send(operation: "DescribeDefaultAuthorizer", path: "/default-authorizer", httpMethod: "GET", input: input)
+    }
+
+    ///  Creates a job.
+    public func createJob(_ input: CreateJobRequest) throws -> CreateJobResponse {
+        return try client.send(operation: "CreateJob", path: "/jobs/{jobId}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key.  Note This is the only time AWS IoT issues the private key for this certificate, so it is important to keep it in a secure location.
+    public func createKeysAndCertificate(_ input: CreateKeysAndCertificateRequest) throws -> CreateKeysAndCertificateResponse {
+        return try client.send(operation: "CreateKeysAndCertificate", path: "/keys-and-certificate", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes an authorizer.
+    public func deleteAuthorizer(_ input: DeleteAuthorizerRequest) throws -> DeleteAuthorizerResponse {
+        return try client.send(operation: "DeleteAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Associates a group with a continuous job. The following criteria must be met:    The job must have been created with the targetSelection field set to "CONTINUOUS".   The job status must currently be "IN_PROGRESS".   The total number of targets associated with a job must not exceed 100.  
+    public func associateTargetsWithJob(_ input: AssociateTargetsWithJobRequest) throws -> AssociateTargetsWithJobResponse {
+        return try client.send(operation: "AssociateTargetsWithJob", path: "/jobs/{jobId}/targets", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an authorizer.
+    public func createAuthorizer(_ input: CreateAuthorizerRequest) throws -> CreateAuthorizerResponse {
+        return try client.send(operation: "CreateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the DeletePolicyVersion API to delete all non-default versions of the policy; use the DetachPrincipalPolicy API to detach the policy from any certificate; and then use the DeletePolicy API to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it.
+    public func deletePolicy(_ input: DeletePolicyRequest) throws {
+        _ = try client.send(operation: "DeletePolicy", path: "/policies/{policyName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Removes the specified policy from the specified certificate.  Note: This API is deprecated. Please use DetachPolicy instead.
+    public func detachPrincipalPolicy(_ input: DetachPrincipalPolicyRequest) throws {
+        _ = try client.send(operation: "DetachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  The query search index.
+    public func searchIndex(_ input: SearchIndexRequest) throws -> SearchIndexResponse {
+        return try client.send(operation: "SearchIndex", path: "/indices/search", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets a registration code used to register a CA certificate with AWS IoT.
+    public func getRegistrationCode(_ input: GetRegistrationCodeRequest) throws -> GetRegistrationCodeResponse {
+        return try client.send(operation: "GetRegistrationCode", path: "/registrationcode", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets effective policies.
+    public func getEffectivePolicies(_ input: GetEffectivePoliciesRequest) throws -> GetEffectivePoliciesResponse {
+        return try client.send(operation: "GetEffectivePolicies", path: "/effective-policies", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes an authorizer.
+    public func describeAuthorizer(_ input: DescribeAuthorizerRequest) throws -> DescribeAuthorizerResponse {
+        return try client.send(operation: "DescribeAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: "GET", input: input)
+    }
+
+    ///  Attaches the specified policy to the specified principal (certificate or other credential).  Note: This API is deprecated. Please use AttachPolicy instead.
+    public func attachPrincipalPolicy(_ input: AttachPrincipalPolicyRequest) throws {
+        _ = try client.send(operation: "AttachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Replaces the rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
+    public func replaceTopicRule(_ input: ReplaceTopicRuleRequest) throws {
+        _ = try client.send(operation: "ReplaceTopicRule", path: "/rules/{ruleName}", httpMethod: "PATCH", input: input)
+    }
+
+    ///  Lists the things in the specified group.
+    public func listThingsInThingGroup(_ input: ListThingsInThingGroupRequest) throws -> ListThingsInThingGroupResponse {
+        return try client.send(operation: "ListThingsInThingGroup", path: "/thing-groups/{thingGroupName}/things", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This API is deprecated. Please use ListAttachedPolicies instead.
+    public func listPrincipalPolicies(_ input: ListPrincipalPoliciesRequest) throws -> ListPrincipalPoliciesResponse {
+        return try client.send(operation: "ListPrincipalPolicies", path: "/principal-policies", httpMethod: "GET", input: input)
+    }
+
+    ///  Rejects a pending certificate transfer. After AWS IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state.
+    public func rejectCertificateTransfer(_ input: RejectCertificateTransferRequest) throws {
+        _ = try client.send(operation: "RejectCertificateTransfer", path: "/reject-certificate-transfer/{certificateId}", httpMethod: "PATCH", input: input)
+    }
+
+    ///  Information about the thing registration tasks.
+    public func listThingRegistrationTaskReports(_ input: ListThingRegistrationTaskReportsRequest) throws -> ListThingRegistrationTaskReportsResponse {
+        return try client.send(operation: "ListThingRegistrationTaskReports", path: "/thing-registration-tasks/{taskId}/reports", httpMethod: "GET", input: input)
+    }
+
+    ///  Updates the groups to which the thing belongs.
+    public func updateThingGroupsForThing(_ input: UpdateThingGroupsForThingRequest) throws -> UpdateThingGroupsForThingResponse {
+        return try client.send(operation: "UpdateThingGroupsForThing", path: "/thing-groups/updateThingGroupsForThing", httpMethod: "PUT", input: input)
+    }
+
+    ///  List the device certificates signed by the specified CA certificate.
+    public func listCertificatesByCA(_ input: ListCertificatesByCARequest) throws -> ListCertificatesByCAResponse {
+        return try client.send(operation: "ListCertificatesByCA", path: "/certificates-by-ca/{caCertificateId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Deletes the rule.
+    public func deleteTopicRule(_ input: DeleteTopicRuleRequest) throws {
+        _ = try client.send(operation: "DeleteTopicRule", path: "/rules/{ruleName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Lists the role aliases registered in your account.
+    public func listRoleAliases(_ input: ListRoleAliasesRequest) throws -> ListRoleAliasesResponse {
+        return try client.send(operation: "ListRoleAliases", path: "/role-aliases", httpMethod: "GET", input: input)
+    }
+
+    ///  Attaches the specified principal to the specified thing.
+    public func attachThingPrincipal(_ input: AttachThingPrincipalRequest) throws -> AttachThingPrincipalResponse {
+        return try client.send(operation: "AttachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: "PUT", input: input)
+    }
+
+    ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red. 
+    public func listThings(_ input: ListThingsRequest) throws -> ListThingsResponse {
+        return try client.send(operation: "ListThings", path: "/things", httpMethod: "GET", input: input)
+    }
+
+    ///  Creates an AWS IoT policy. The created policy is the default version for the policy. This operation creates a policy version with a version identifier of 1 and sets 1 as the policy's default version.
+    public func createPolicy(_ input: CreatePolicyRequest) throws -> CreatePolicyResponse {
+        return try client.send(operation: "CreatePolicy", path: "/policies/{policyName}", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets the logging options.
+    public func getLoggingOptions(_ input: GetLoggingOptionsRequest) throws -> GetLoggingOptionsResponse {
+        return try client.send(operation: "GetLoggingOptions", path: "/loggingOptions", httpMethod: "GET", input: input)
+    }
+
+    ///  List the thing groups to which the specified thing belongs.
+    public func listThingGroupsForThing(_ input: ListThingGroupsForThingRequest) throws -> ListThingGroupsForThingResponse {
+        return try client.send(operation: "ListThingGroupsForThing", path: "/things/{thingName}/thing-groups", httpMethod: "GET", input: input)
+    }
+
+    ///  Lists certificates that are being transferred but not yet accepted.
     public func listOutgoingCertificates(_ input: ListOutgoingCertificatesRequest) throws -> ListOutgoingCertificatesResponse {
         return try client.send(operation: "ListOutgoingCertificates", path: "/certificates-out-going", httpMethod: "GET", input: input)
+    }
+
+    ///  Sets the logging options for the V2 logging service.
+    public func setV2LoggingOptions(_ input: SetV2LoggingOptionsRequest) throws {
+        _ = try client.send(operation: "SetV2LoggingOptions", path: "/v2LoggingOptions", httpMethod: "POST", input: input)
     }
 
     ///  Describes a registered CA certificate.
@@ -174,34 +504,24 @@ public struct Iot {
         return try client.send(operation: "DeprecateThingType", path: "/thing-types/{thingTypeName}/deprecate", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an X.509 certificate using the specified certificate signing request.  Note: The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256 or NIST P-384 curves.   Note: Reusing the same certificate signing request (CSR) results in a distinct certificate. You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. Assuming a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is: $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr AWS CLI command to create a certificate for the corresponding CSR. The aws iot create-certificate-from-csr part of the command can also be run in parallel to speed up the certificate creation process: $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is: &gt; ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_} On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is: &gt; forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
-    public func createCertificateFromCsr(_ input: CreateCertificateFromCsrRequest) throws -> CreateCertificateFromCsrResponse {
-        return try client.send(operation: "CreateCertificateFromCsr", path: "/certificates", httpMethod: "POST", input: input)
-    }
-
     ///  Lists the principals associated with the specified thing.
     public func listThingPrincipals(_ input: ListThingPrincipalsRequest) throws -> ListThingPrincipalsResponse {
         return try client.send(operation: "ListThingPrincipals", path: "/things/{thingName}/principals", httpMethod: "GET", input: input)
     }
 
-    ///  Lists the principals associated with the specified policy.
-    public func listPolicyPrincipals(_ input: ListPolicyPrincipalsRequest) throws -> ListPolicyPrincipalsResponse {
-        return try client.send(operation: "ListPolicyPrincipals", path: "/policy-principals", httpMethod: "GET", input: input)
+    ///  List targets for the specified policy.
+    public func listTargetsForPolicy(_ input: ListTargetsForPolicyRequest) throws -> ListTargetsForPolicyResponse {
+        return try client.send(operation: "ListTargetsForPolicy", path: "/policy-targets/{policyName}", httpMethod: "POST", input: input)
     }
 
-    ///  Gets information about the specified rule.
+    ///  Gets information about the rule.
     public func getTopicRule(_ input: GetTopicRuleRequest) throws -> GetTopicRuleResponse {
         return try client.send(operation: "GetTopicRule", path: "/rules/{ruleName}", httpMethod: "GET", input: input)
     }
 
-    ///  Creates a rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
-    public func createTopicRule(_ input: CreateTopicRuleRequest) throws {
-        _ = try client.send(operation: "CreateTopicRule", path: "/rules/{ruleName}", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about the specified thing type.
-    public func describeThingType(_ input: DescribeThingTypeRequest) throws -> DescribeThingTypeResponse {
-        return try client.send(operation: "DescribeThingType", path: "/thing-types/{thingTypeName}", httpMethod: "GET", input: input)
+    ///  Lists the certificates registered in your AWS account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
+    public func listCertificates(_ input: ListCertificatesRequest) throws -> ListCertificatesResponse {
+        return try client.send(operation: "ListCertificates", path: "/certificates", httpMethod: "GET", input: input)
     }
 
     ///  Updates the data for a thing.
@@ -224,69 +544,29 @@ public struct Iot {
         return try client.send(operation: "ListPolicies", path: "/policies", httpMethod: "GET", input: input)
     }
 
-    ///  Lists the certificates registered in your AWS account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
-    public func listCertificates(_ input: ListCertificatesRequest) throws -> ListCertificatesResponse {
-        return try client.send(operation: "ListCertificates", path: "/certificates", httpMethod: "GET", input: input)
-    }
-
-    ///  Deletes the specified certificate. A certificate cannot be deleted if it has a policy attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPrincipalPolicy API to detach all policies. Next, use the UpdateCertificate API to set the certificate to the INACTIVE status.
-    public func deleteCertificate(_ input: DeleteCertificateRequest) throws {
-        _ = try client.send(operation: "DeleteCertificate", path: "/certificates/{certificateId}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Deletes the specified thing type . You cannot delete a thing type if it has things associated with it. To delete a thing type, first mark it as deprecated by calling DeprecateThingType, then remove any associated things by calling UpdateThing to change the thing type on any associated thing, and finally use DeleteThingType to delete the thing type.
-    public func deleteThingType(_ input: DeleteThingTypeRequest) throws -> DeleteThingTypeResponse {
-        return try client.send(operation: "DeleteThingType", path: "/thing-types/{thingTypeName}", httpMethod: "DELETE", input: input)
-    }
-
-    ///  Deletes a CA certificate registration code.
-    public func deleteRegistrationCode(_ input: DeleteRegistrationCodeRequest) throws -> DeleteRegistrationCodeResponse {
-        return try client.send(operation: "DeleteRegistrationCode", path: "/registrationcode", httpMethod: "DELETE", input: input)
-    }
-
     ///  Gets information about the specified policy version.
     public func getPolicyVersion(_ input: GetPolicyVersionRequest) throws -> GetPolicyVersionResponse {
         return try client.send(operation: "GetPolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: "GET", input: input)
     }
 
-    ///  Deletes a registered CA certificate.
-    public func deleteCACertificate(_ input: DeleteCACertificateRequest) throws -> DeleteCACertificateResponse {
-        return try client.send(operation: "DeleteCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: "DELETE", input: input)
+    ///  Updates the event configurations.
+    public func updateEventConfigurations(_ input: UpdateEventConfigurationsRequest) throws -> UpdateEventConfigurationsResponse {
+        return try client.send(operation: "UpdateEventConfigurations", path: "/event-configurations", httpMethod: "PATCH", input: input)
     }
 
-    ///  Gets information about the specified policy with the policy document of the default version.
-    public func getPolicy(_ input: GetPolicyRequest) throws -> GetPolicyResponse {
-        return try client.send(operation: "GetPolicy", path: "/policies/{policyName}", httpMethod: "GET", input: input)
+    ///  Clears the default authorizer.
+    public func clearDefaultAuthorizer(_ input: ClearDefaultAuthorizerRequest) throws -> ClearDefaultAuthorizerResponse {
+        return try client.send(operation: "ClearDefaultAuthorizer", path: "/default-authorizer", httpMethod: "DELETE", input: input)
     }
 
-    ///  Creates a new thing type.
-    public func createThingType(_ input: CreateThingTypeRequest) throws -> CreateThingTypeResponse {
-        return try client.send(operation: "CreateThingType", path: "/thing-types/{thingTypeName}", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a unique endpoint specific to the AWS account making the call.
-    public func describeEndpoint(_ input: DescribeEndpointRequest) throws -> DescribeEndpointResponse {
-        return try client.send(operation: "DescribeEndpoint", path: "/endpoint", httpMethod: "GET", input: input)
-    }
-
-    ///  Gets information about the specified thing.
-    public func describeThing(_ input: DescribeThingRequest) throws -> DescribeThingResponse {
-        return try client.send(operation: "DescribeThing", path: "/things/{thingName}", httpMethod: "GET", input: input)
-    }
-
-    ///  Enables the specified rule.
+    ///  Enables the rule.
     public func enableTopicRule(_ input: EnableTopicRuleRequest) throws {
         _ = try client.send(operation: "EnableTopicRule", path: "/rules/{ruleName}/enable", httpMethod: "POST", input: input)
     }
 
-    ///  Disables the specified rule.
-    public func disableTopicRule(_ input: DisableTopicRuleRequest) throws {
-        _ = try client.send(operation: "DisableTopicRule", path: "/rules/{ruleName}/disable", httpMethod: "POST", input: input)
-    }
-
-    ///  Registers a CA certificate with AWS IoT. This CA certificate can then be used to sign device certificates, which can be then registered with AWS IoT. You can register up to 10 CA certificates per AWS account that have the same subject field. This enables you to have up to 10 certificate authorities sign your device certificates. If you have more than one CA certificate registered, make sure you pass the CA certificate when you register your device certificates with the RegisterCertificate API.
-    public func registerCACertificate(_ input: RegisterCACertificateRequest) throws -> RegisterCACertificateResponse {
-        return try client.send(operation: "RegisterCACertificate", path: "/cacertificate", httpMethod: "POST", input: input)
+    ///  List bulk thing provisioning tasks.
+    public func listThingRegistrationTasks(_ input: ListThingRegistrationTasksRequest) throws -> ListThingRegistrationTasksResponse {
+        return try client.send(operation: "ListThingRegistrationTasks", path: "/thing-registration-tasks", httpMethod: "GET", input: input)
     }
 
     ///  Lists the CA certificates registered for your AWS account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
@@ -304,7 +584,12 @@ public struct Iot {
         _ = try client.send(operation: "DeletePolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Gets information about the specified certificate.
+    ///  Describe a thing group.
+    public func describeThingGroup(_ input: DescribeThingGroupRequest) throws -> DescribeThingGroupResponse {
+        return try client.send(operation: "DescribeThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets information about the specified certificate. You may specify the certificate using either its ID or PEM.
     public func describeCertificate(_ input: DescribeCertificateRequest) throws -> DescribeCertificateResponse {
         return try client.send(operation: "DescribeCertificate", path: "/certificates/{certificateId}", httpMethod: "GET", input: input)
     }

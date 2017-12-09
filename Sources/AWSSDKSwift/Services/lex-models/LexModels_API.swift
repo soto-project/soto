@@ -34,7 +34,7 @@ public struct LexModels {
         return try client.send(operation: "GetBuiltinSlotTypes", path: "/builtins/slottypes/", httpMethod: "GET", input: input)
     }
 
-    ///  Deletes all versions of the slot type, including the $LATEST version. To delete a specific version of the slot type, use the operation.  You can delete a version of a slot type only if it is not referenced. To delete a slot type that is referred to in one or more intents, you must remove those references first.    If you get the ResourceInUseException exception, the exception provides an example reference that shows the intent where the slot type is referenced. To remove the reference to the slot type, either update the intent or delete it. If you get the same exception when you attempt to delete the slot type again, repeat until the slot type has no references and the DeleteSlotType call is successful.   This operation requires permission for the lex:DeleteSlotType action.
+    ///  Deletes all versions of the slot type, including the $LATEST version. To delete a specific version of the slot type, use the DeleteSlotTypeVersion operation.  You can delete a version of a slot type only if it is not referenced. To delete a slot type that is referred to in one or more intents, you must remove those references first.    If you get the ResourceInUseException exception, the exception provides an example reference that shows the intent where the slot type is referenced. To remove the reference to the slot type, either update the intent or delete it. If you get the same exception when you attempt to delete the slot type again, repeat until the slot type has no references and the DeleteSlotType call is successful.   This operation requires permission for the lex:DeleteSlotType action.
     public func deleteSlotType(_ input: DeleteSlotTypeRequest) throws {
         _ = try client.send(operation: "DeleteSlotType", path: "/slottypes/{name}", httpMethod: "DELETE", input: input)
     }
@@ -59,27 +59,27 @@ public struct LexModels {
         return try client.send(operation: "GetSlotTypes", path: "/slottypes/", httpMethod: "GET", input: input)
     }
 
-    ///  Deletes a specific version of a bot. To delete all versions of a bot, use the operation.  This operation requires permissions for the lex:DeleteBotVersion action.
+    ///  Deletes a specific version of a bot. To delete all versions of a bot, use the DeleteBot operation.  This operation requires permissions for the lex:DeleteBotVersion action.
     public func deleteBotVersion(_ input: DeleteBotVersionRequest) throws {
         _ = try client.send(operation: "DeleteBotVersion", path: "/bots/{name}/versions/{version}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes a specific version of a slot type. To delete all versions of a slot type, use the operation.  This operation requires permissions for the lex:DeleteSlotTypeVersion action.
+    ///  Deletes a specific version of a slot type. To delete all versions of a slot type, use the DeleteSlotType operation.  This operation requires permissions for the lex:DeleteSlotTypeVersion action.
     public func deleteSlotTypeVersion(_ input: DeleteSlotTypeVersionRequest) throws {
         _ = try client.send(operation: "DeleteSlotTypeVersion", path: "/slottypes/{name}/version/{version}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Creates an Amazon Lex conversational bot or replaces an existing bot. When you create or update a bot you only required to specify a name. You can use this to add intents later, or to remove intents from an existing bot. When you create a bot with a name only, the bot is created or updated but Amazon Lex returns the  response FAILED. You can build the bot after you add one or more intents. For more information about Amazon Lex bots, see how-it-works.  If you specify the name of an existing bot, the fields in the request replace the existing values in the $LATEST version of the bot. Amazon Lex removes any fields that you don't provide values for in the request, except for the idleTTLInSeconds and privacySettings fields, which are set to their default values. If you don't specify values for required fields, Amazon Lex throws an exception. This operation requires permissions for the lex:PutBot action. For more information, see auth-and-access-control.
+    ///  Creates an Amazon Lex conversational bot or replaces an existing bot. When you create or update a bot you are only required to specify a name. You can use this to add intents later, or to remove intents from an existing bot. When you create a bot with a name only, the bot is created or updated but Amazon Lex returns the  response FAILED. You can build the bot after you add one or more intents. For more information about Amazon Lex bots, see how-it-works.  If you specify the name of an existing bot, the fields in the request replace the existing values in the $LATEST version of the bot. Amazon Lex removes any fields that you don't provide values for in the request, except for the idleTTLInSeconds and privacySettings fields, which are set to their default values. If you don't specify values for required fields, Amazon Lex throws an exception. This operation requires permissions for the lex:PutBot action. For more information, see auth-and-access-control.
     public func putBot(_ input: PutBotRequest) throws -> PutBotResponse {
         return try client.send(operation: "PutBot", path: "/bots/{name}/versions/$LATEST", httpMethod: "PUT", input: input)
     }
 
-    ///  Deletes all versions of the bot, including the $LATEST version. To delete a specific version of the bot, use the operation. If a bot has an alias, you can't delete it. Instead, the DeleteBot operation returns a ResourceInUseException exception that includes a reference to the alias that refers to the bot. To remove the reference to the bot, delete the alias. If you get the same exception again, delete the referring alias until the DeleteBot operation is successful. This operation requires permissions for the lex:DeleteBot action.
+    ///  Deletes all versions of the bot, including the $LATEST version. To delete a specific version of the bot, use the DeleteBotVersion operation. If a bot has an alias, you can't delete it. Instead, the DeleteBot operation returns a ResourceInUseException exception that includes a reference to the alias that refers to the bot. To remove the reference to the bot, delete the alias. If you get the same exception again, delete the referring alias until the DeleteBot operation is successful. This operation requires permissions for the lex:DeleteBot action.
     public func deleteBot(_ input: DeleteBotRequest) throws {
         _ = try client.send(operation: "DeleteBot", path: "/bots/{name}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot unless the childDirected field in the bot is set to true. Utterances are stored for 15 days for use with the operation, and then stored indefinately for use in improving the ability of your bot to respond to user input. Use the DeleteStoredUtterances operation to manually delete stored utterances for a specific user. This operation requires permissions for the lex:DeleteUtterances action.
+    ///  Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot unless the childDirected field in the bot is set to true. Utterances are stored for 15 days for use with the GetUtterancesView operation, and then stored indefinately for use in improving the ability of your bot to respond to user input. Use the DeleteStoredUtterances operation to manually delete stored utterances for a specific user. This operation requires permissions for the lex:DeleteUtterances action.
     public func deleteUtterances(_ input: DeleteUtterancesRequest) throws {
         _ = try client.send(operation: "DeleteUtterances", path: "/bots/{botName}/utterances/{userId}", httpMethod: "DELETE", input: input)
     }
@@ -99,14 +99,19 @@ public struct LexModels {
         return try client.send(operation: "CreateSlotTypeVersion", path: "/slottypes/{name}/versions", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new version of an intent based on the $LATEST version of the intent. If the $LATEST version of this intent hasn't changed since you last updated it, Amazon Lex doesn't create a new version. It returns the last version you created.  You can update only the $LATEST version of the intent. You can't update the numbered versions that you create with the CreateIntentVersion operation.   When you create a version of an intent, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.  This operation requires permissions to perform the lex:CreateIntentVersion action. 
-    public func createIntentVersion(_ input: CreateIntentVersionRequest) throws -> CreateIntentVersionResponse {
-        return try client.send(operation: "CreateIntentVersion", path: "/intents/{name}/versions", httpMethod: "POST", input: input)
+    ///  Exports the contents of a Amazon Lex resource in a specified format. 
+    public func getExport(_ input: GetExportRequest) throws -> GetExportResponse {
+        return try client.send(operation: "GetExport", path: "/exports/", httpMethod: "GET", input: input)
     }
 
     ///  Creates an intent or replaces an existing intent. To define the interaction between the user and your bot, you use one or more intents. For a pizza ordering bot, for example, you would create an OrderPizza intent.  To create an intent or replace an existing intent, you must provide the following:   Intent name. For example, OrderPizza.   Sample utterances. For example, "Can I order a pizza, please." and "I want to order a pizza."   Information to be gathered. You specify slot types for the information that your bot will request from the user. You can specify standard slot types, such as a date or a time, or custom slot types such as the size and crust of a pizza.   How the intent will be fulfilled. You can provide a Lambda function or configure the intent to return the intent information to the client application. If you use a Lambda function, when all of the intent information is available, Amazon Lex invokes your Lambda function. If you configure your intent to return the intent information to the client application.    You can specify other optional information in the request, such as:   A confirmation prompt to ask the user to confirm an intent. For example, "Shall I order your pizza?"   A conclusion statement to send to the user after the intent has been fulfilled. For example, "I placed your pizza order."   A follow-up prompt that asks the user for additional activity. For example, asking "Do you want to order a drink with your pizza?"   If you specify an existing intent name to update the intent, Amazon Lex replaces the values in the $LATEST version of the slot type with the values in the request. Amazon Lex removes fields that you don't provide in the request. If you don't specify the required fields, Amazon Lex throws an exception. For more information, see how-it-works. This operation requires permissions for the lex:PutIntent action.
     public func putIntent(_ input: PutIntentRequest) throws -> PutIntentResponse {
         return try client.send(operation: "PutIntent", path: "/intents/{name}/versions/$LATEST", httpMethod: "PUT", input: input)
+    }
+
+    ///  Creates a new version of an intent based on the $LATEST version of the intent. If the $LATEST version of this intent hasn't changed since you last updated it, Amazon Lex doesn't create a new version. It returns the last version you created.  You can update only the $LATEST version of the intent. You can't update the numbered versions that you create with the CreateIntentVersion operation.   When you create a version of an intent, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.  This operation requires permissions to perform the lex:CreateIntentVersion action. 
+    public func createIntentVersion(_ input: CreateIntentVersionRequest) throws -> CreateIntentVersionResponse {
+        return try client.send(operation: "CreateIntentVersion", path: "/intents/{name}/versions", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of aliases for a specified Amazon Lex bot. This operation requires permissions for the lex:GetBotAliases action.
@@ -134,7 +139,7 @@ public struct LexModels {
         return try client.send(operation: "CreateBotVersion", path: "/bots/{name}/versions", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes all versions of the intent, including the $LATEST version. To delete a specific version of the intent, use the operation.  You can delete a version of an intent only if it is not referenced. To delete an intent that is referred to in one or more bots (see how-it-works), you must remove those references first.    If you get the ResourceInUseException exception, it provides an example reference that shows where the intent is referenced. To remove the reference to the intent, either update the bot or delete it. If you get the same exception when you attempt to delete the intent again, repeat until the intent has no references and the call to DeleteIntent is successful.    This operation requires permission for the lex:DeleteIntent action. 
+    ///  Deletes all versions of the intent, including the $LATEST version. To delete a specific version of the intent, use the DeleteIntentVersion operation.  You can delete a version of an intent only if it is not referenced. To delete an intent that is referred to in one or more bots (see how-it-works), you must remove those references first.    If you get the ResourceInUseException exception, it provides an example reference that shows where the intent is referenced. To remove the reference to the intent, either update the bot or delete it. If you get the same exception when you attempt to delete the intent again, repeat until the intent has no references and the call to DeleteIntent is successful.    This operation requires permission for the lex:DeleteIntent action. 
     public func deleteIntent(_ input: DeleteIntentRequest) throws {
         _ = try client.send(operation: "DeleteIntent", path: "/intents/{name}", httpMethod: "DELETE", input: input)
     }
@@ -154,7 +159,7 @@ public struct LexModels {
         _ = try client.send(operation: "DeleteBotAlias", path: "/bots/{botName}/aliases/{name}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes a specific version of an intent. To delete all versions of a intent, use the operation.  This operation requires permissions for the lex:DeleteIntentVersion action.
+    ///  Deletes a specific version of an intent. To delete all versions of a intent, use the DeleteIntent operation.  This operation requires permissions for the lex:DeleteIntentVersion action.
     public func deleteIntentVersion(_ input: DeleteIntentVersionRequest) throws {
         _ = try client.send(operation: "DeleteIntentVersion", path: "/intents/{name}/versions/{version}", httpMethod: "DELETE", input: input)
     }
@@ -164,7 +169,7 @@ public struct LexModels {
         return try client.send(operation: "GetIntent", path: "/intents/{name}/versions/{version}", httpMethod: "GET", input: input)
     }
 
-    ///  Returns metadata information for a specific bot. You must provide the bot name and the bot version or alias.   The GetBot operation requires permissions for the lex:GetBot action. 
+    ///  Returns metadata information for a specific bot. You must provide the bot name and the bot version or alias.   This operation requires permissions for the lex:GetBot action. 
     public func getBot(_ input: GetBotRequest) throws -> GetBotResponse {
         return try client.send(operation: "GetBot", path: "/bots/{name}/versions/{versionoralias}", httpMethod: "GET", input: input)
     }
@@ -174,7 +179,7 @@ public struct LexModels {
         return try client.send(operation: "GetSlotTypeVersions", path: "/slottypes/{name}/versions/", httpMethod: "GET", input: input)
     }
 
-    ///  Use the GetUtterancesView operation to get information about the utterances that your users have made to your bot. You can use this list to tune the utterances that your bot responds to. For example, say that you have created a bot to order flowers. After your users have used your bot for a while, use the GetUtterancesView operation to see the requests that they have made and whether they have been successful. You might find that the utterance "I want flowers" is not being recognized. You could add this utterance to the OrderFlowers intent so that your bot recognizes that utterance. After you publish a new version of a bot, you can get information about the old version and the new so that you can compare the performance across the two versions.  Data is available for the last 15 days. You can request information for up to 5 versions in each request. The response contains information about a maximum of 100 utterances for each version. If the bot's childDirected field is set to true, utterances for the bot are not stored and cannot be retrieved with the GetUtterancesView operation. For more information, see . This operation requires permissions for the lex:GetUtterancesView action.
+    ///  Use the GetUtterancesView operation to get information about the utterances that your users have made to your bot. You can use this list to tune the utterances that your bot responds to. For example, say that you have created a bot to order flowers. After your users have used your bot for a while, use the GetUtterancesView operation to see the requests that they have made and whether they have been successful. You might find that the utterance "I want flowers" is not being recognized. You could add this utterance to the OrderFlowers intent so that your bot recognizes that utterance. After you publish a new version of a bot, you can get information about the old version and the new so that you can compare the performance across the two versions.  Data is available for the last 15 days. You can request information for up to 5 versions in each request. The response contains information about a maximum of 100 utterances for each version. If the bot's childDirected field is set to true, utterances for the bot are not stored and cannot be retrieved with the GetUtterancesView operation. For more information, see PutBot. This operation requires permissions for the lex:GetUtterancesView action.
     public func getUtterancesView(_ input: GetUtterancesViewRequest) throws -> GetUtterancesViewResponse {
         return try client.send(operation: "GetUtterancesView", path: "/bots/{botname}/utterances?view=aggregation", httpMethod: "GET", input: input)
     }

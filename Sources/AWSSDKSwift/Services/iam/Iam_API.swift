@@ -201,14 +201,19 @@ public struct Iam {
         return try client.send(operation: "GetSSHPublicKey", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the IAM users that have the specified path prefix. If no path prefix is specified, the action returns all users in the AWS account. If there are none, the action returns an empty list. You can paginate the results using the MaxItems and Marker parameters.
-    public func listUsers(_ input: ListUsersRequest) throws -> ListUsersResponse {
-        return try client.send(operation: "ListUsers", path: "/", httpMethod: "POST", input: input)
+    ///  Retrieves the status of your service-linked role deletion. After you use the DeleteServiceLinkedRole API operation to submit a service-linked role for deletion, you can use the DeletionTaskId parameter in GetServiceLinkedRoleDeletionStatus to check the status of the deletion. If the deletion fails, this operation returns the reason that it failed.
+    public func getServiceLinkedRoleDeletionStatus(_ input: GetServiceLinkedRoleDeletionStatusRequest) throws -> GetServiceLinkedRoleDeletionStatusResponse {
+        return try client.send(operation: "GetServiceLinkedRoleDeletionStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Creates a new AWS secret access key and corresponding AWS access key ID for the specified user. The default status for new keys is Active. If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.  For information about limits on the number of keys you can create, see Limitations on IAM Entities in the IAM User Guide.  To ensure the security of your AWS account, the secret access key is accessible only during key and user creation. You must save the key (for example, in a text file) if you want to be able to access it again. If a secret key is lost, you can delete the access keys for the associated user and then create new keys. 
     public func createAccessKey(_ input: CreateAccessKeyRequest) throws -> CreateAccessKeyResponse {
         return try client.send(operation: "CreateAccessKey", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the IAM users that have the specified path prefix. If no path prefix is specified, the action returns all users in the AWS account. If there are none, the action returns an empty list. You can paginate the results using the MaxItems and Marker parameters.
+    public func listUsers(_ input: ListUsersRequest) throws -> ListUsersResponse {
+        return try client.send(operation: "ListUsers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the password policy for the AWS account. There are no parameters.
@@ -329,6 +334,11 @@ public struct Iam {
     ///  Attaches the specified managed policy to the specified IAM group. You use this API to attach a managed policy to a group. To embed an inline policy in a group, use PutGroupPolicy. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
     public func attachGroupPolicy(_ input: AttachGroupPolicyRequest) throws {
         _ = try client.send(operation: "AttachGroupPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Submits a service-linked role deletion request and returns a DeletionTaskId, which you can use to check the status of the deletion. Before you call this operation, confirm that the role has no active sessions and that any resources used by the role in the linked service are deleted. If you call this operation more than once for the same service-linked role and an earlier deletion task is not complete, then the DeletionTaskId of the earlier request is returned. If you submit a deletion request for a service-linked role whose linked service is still accessing a resource, then the deletion task fails. If it fails, the GetServiceLinkedRoleDeletionStatus API operation returns the reason for the failure, including the resources that must be deleted. To delete the service-linked role, you must first remove those resources from the linked service and then submit the deletion request again. Resources are specific to the service that is linked to the role. For more information about removing resources from a service, see the AWS documentation for your service. For more information about service-linked roles, see Roles Terms and Concepts: AWS Service-Linked Role in the IAM User Guide.
+    public func deleteServiceLinkedRole(_ input: DeleteServiceLinkedRoleRequest) throws -> DeleteServiceLinkedRoleResponse {
+        return try client.send(operation: "DeleteServiceLinkedRole", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds or updates an inline policy document that is embedded in the specified IAM role. When you embed an inline policy in a role, the inline policy is used as part of the role's access (permissions) policy. The role's trust policy is created at the same time as the role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy. For more information about IAM roles, go to Using Roles to Delegate Permissions and Federate Identities. A role can also have a managed policy attached to it. To attach a managed policy to a role, use AttachRolePolicy. To create a new managed policy, use CreatePolicy. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide. For information about limits on the number of inline policies that you can embed with a role, see Limitations on IAM Entities in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutRolePolicy. For general information about using the Query API with IAM, go to Making Query Requests in the IAM User Guide. 

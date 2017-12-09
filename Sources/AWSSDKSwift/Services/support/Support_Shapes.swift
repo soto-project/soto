@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Support {
 
     public struct DescribeCommunicationsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "communications", required: false, type: .list)
         ]
@@ -27,7 +27,7 @@ extension Support {
     }
 
     public struct TrustedAdvisorCostOptimizingSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "estimatedMonthlySavings", required: true, type: .double), 
             AWSShapeMember(label: "estimatedPercentMonthlySavings", required: true, type: .double)
         ]
@@ -48,7 +48,7 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorCheckSummariesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "summaries", required: true, type: .list)
         ]
         /// The summary information for the requested Trusted Advisor checks.
@@ -64,7 +64,7 @@ extension Support {
     }
 
     public struct ResolveCaseResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "initialCaseStatus", required: false, type: .string), 
             AWSShapeMember(label: "finalCaseStatus", required: false, type: .string)
         ]
@@ -85,7 +85,7 @@ extension Support {
     }
 
     public struct DescribeCasesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cases", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -106,7 +106,7 @@ extension Support {
     }
 
     public struct CreateCaseResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "caseId", required: false, type: .string)
         ]
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
@@ -122,7 +122,7 @@ extension Support {
     }
 
     public struct DescribeCasesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "afterTime", required: false, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "includeCommunications", required: false, type: .boolean), 
@@ -178,7 +178,7 @@ extension Support {
     }
 
     public struct DescribeCommunicationsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "caseId", required: true, type: .string), 
             AWSShapeMember(label: "afterTime", required: false, type: .string), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -214,7 +214,7 @@ extension Support {
     }
 
     public struct AddCommunicationToCaseRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "caseId", required: false, type: .string), 
             AWSShapeMember(label: "ccEmailAddresses", required: false, type: .list), 
             AWSShapeMember(label: "communicationBody", required: true, type: .string), 
@@ -245,7 +245,7 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorCheckRefreshStatusesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "statuses", required: true, type: .list)
         ]
         /// The refresh status of the specified Trusted Advisor checks.
@@ -261,7 +261,7 @@ extension Support {
     }
 
     public struct TrustedAdvisorCheckSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "status", required: true, type: .string), 
             AWSShapeMember(label: "checkId", required: true, type: .string), 
             AWSShapeMember(label: "categorySpecificSummary", required: true, type: .structure), 
@@ -301,7 +301,7 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorCheckResultRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "language", required: false, type: .string), 
             AWSShapeMember(label: "checkId", required: true, type: .string)
         ]
@@ -322,7 +322,7 @@ extension Support {
     }
 
     public struct DescribeAttachmentRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attachmentId", required: true, type: .string)
         ]
         /// The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation.
@@ -338,7 +338,7 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorCheckSummariesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "checkIds", required: true, type: .list)
         ]
         /// The IDs of the Trusted Advisor checks.
@@ -354,7 +354,7 @@ extension Support {
     }
 
     public struct TrustedAdvisorCheckResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "status", required: true, type: .string), 
             AWSShapeMember(label: "checkId", required: true, type: .string), 
             AWSShapeMember(label: "flaggedResources", required: true, type: .list), 
@@ -394,7 +394,7 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorChecksResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "checks", required: true, type: .list)
         ]
         /// Information about all available Trusted Advisor checks.
@@ -410,7 +410,7 @@ extension Support {
     }
 
     public struct DescribeAttachmentResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attachment", required: false, type: .structure)
         ]
         /// The attachment content and file name.
@@ -426,7 +426,7 @@ extension Support {
     }
 
     public struct Service: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "categories", required: false, type: .list), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "code", required: false, type: .string)
@@ -452,7 +452,7 @@ extension Support {
     }
 
     public struct TrustedAdvisorResourcesSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourcesFlagged", required: true, type: .long), 
             AWSShapeMember(label: "resourcesIgnored", required: true, type: .long), 
             AWSShapeMember(label: "resourcesSuppressed", required: true, type: .long), 
@@ -483,7 +483,7 @@ extension Support {
     }
 
     public struct CaseDetails: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "submittedBy", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string), 
             AWSShapeMember(label: "serviceCode", required: false, type: .string), 
@@ -554,7 +554,7 @@ extension Support {
     }
 
     public struct DescribeServicesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "services", required: false, type: .list)
         ]
         /// A JSON-formatted list of AWS services.
@@ -570,7 +570,7 @@ extension Support {
     }
 
     public struct AddAttachmentsToSetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attachments", required: true, type: .list), 
             AWSShapeMember(label: "attachmentSetId", required: false, type: .string)
         ]
@@ -591,7 +591,7 @@ extension Support {
     }
 
     public struct ResolveCaseRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "caseId", required: false, type: .string)
         ]
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
@@ -607,7 +607,7 @@ extension Support {
     }
 
     public struct AddAttachmentsToSetResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attachmentSetId", required: false, type: .string), 
             AWSShapeMember(label: "expiryTime", required: false, type: .string)
         ]
@@ -628,7 +628,7 @@ extension Support {
     }
 
     public struct Category: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "code", required: false, type: .string)
         ]
@@ -649,7 +649,7 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorCheckRefreshStatusesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "checkIds", required: true, type: .list)
         ]
         /// The IDs of the Trusted Advisor checks to get the status of. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
@@ -665,7 +665,7 @@ extension Support {
     }
 
     public struct DescribeSeverityLevelsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "language", required: false, type: .string)
         ]
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
@@ -681,7 +681,7 @@ extension Support {
     }
 
     public struct RefreshTrustedAdvisorCheckRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "checkId", required: true, type: .string)
         ]
         /// The unique identifier for the Trusted Advisor check to refresh. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
@@ -697,7 +697,7 @@ extension Support {
     }
 
     public struct TrustedAdvisorCategorySpecificSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "costOptimizing", required: false, type: .structure)
         ]
         /// The summary information about cost savings for a Trusted Advisor check that is in the Cost Optimizing category.
@@ -713,7 +713,7 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorCheckResultResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "result", required: false, type: .structure)
         ]
         /// The detailed results of the Trusted Advisor check.
@@ -729,7 +729,7 @@ extension Support {
     }
 
     public struct DescribeSeverityLevelsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "severityLevels", required: false, type: .list)
         ]
         /// The available severity levels for the support case. Available severity levels are defined by your service level agreement with AWS.
@@ -745,7 +745,7 @@ extension Support {
     }
 
     public struct DescribeServicesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "language", required: false, type: .string), 
             AWSShapeMember(label: "serviceCodeList", required: false, type: .list)
         ]
@@ -766,7 +766,7 @@ extension Support {
     }
 
     public struct AddCommunicationToCaseResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "result", required: false, type: .boolean)
         ]
         /// True if AddCommunicationToCase succeeds. Otherwise, returns an error.
@@ -782,7 +782,7 @@ extension Support {
     }
 
     public struct TrustedAdvisorCheckDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "metadata", required: true, type: .list), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "description", required: true, type: .string), 
@@ -818,7 +818,7 @@ extension Support {
     }
 
     public struct Attachment: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "fileName", required: false, type: .string), 
             AWSShapeMember(label: "data", required: false, type: .blob)
         ]
@@ -839,7 +839,7 @@ extension Support {
     }
 
     public struct RefreshTrustedAdvisorCheckResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "status", required: true, type: .structure)
         ]
         /// The current refresh status for a check, including the amount of time until the check is eligible for refresh.
@@ -855,7 +855,7 @@ extension Support {
     }
 
     public struct TrustedAdvisorResourceDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "metadata", required: true, type: .list), 
             AWSShapeMember(label: "status", required: true, type: .string), 
             AWSShapeMember(label: "isSuppressed", required: false, type: .boolean), 
@@ -891,7 +891,7 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorChecksRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "language", required: true, type: .string)
         ]
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
@@ -907,7 +907,7 @@ extension Support {
     }
 
     public struct TrustedAdvisorCheckRefreshStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "status", required: true, type: .string), 
             AWSShapeMember(label: "checkId", required: true, type: .string), 
             AWSShapeMember(label: "millisUntilNextRefreshable", required: true, type: .long)
@@ -933,7 +933,7 @@ extension Support {
     }
 
     public struct Communication: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "caseId", required: false, type: .string), 
             AWSShapeMember(label: "submittedBy", required: false, type: .string), 
             AWSShapeMember(label: "body", required: false, type: .string), 
@@ -969,7 +969,7 @@ extension Support {
     }
 
     public struct SeverityLevel: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "code", required: false, type: .string)
         ]
@@ -990,7 +990,7 @@ extension Support {
     }
 
     public struct AttachmentDetails: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "fileName", required: false, type: .string), 
             AWSShapeMember(label: "attachmentId", required: false, type: .string)
         ]
@@ -1011,7 +1011,7 @@ extension Support {
     }
 
     public struct RecentCaseCommunications: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "communications", required: false, type: .list)
         ]
@@ -1032,7 +1032,7 @@ extension Support {
     }
 
     public struct CreateCaseRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "issueType", required: false, type: .string), 
             AWSShapeMember(label: "serviceCode", required: false, type: .string), 
             AWSShapeMember(label: "attachmentSetId", required: false, type: .string), 

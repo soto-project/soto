@@ -65,7 +65,7 @@ public struct Elasticmapreduce {
         return try client.send(operation: "ListSteps", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes tags from an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tagging Amazon EMR Resources.  The following example removes the stack tag with value Prod from a cluster:
+    ///  Removes tags from an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tag Clusters.  The following example removes the stack tag with value Prod from a cluster:
     public func removeTags(_ input: RemoveTagsInput) throws -> RemoveTagsOutput {
         return try client.send(operation: "RemoveTags", path: "/", httpMethod: "POST", input: input)
     }
@@ -100,7 +100,7 @@ public struct Elasticmapreduce {
         return try client.send(operation: "CreateSecurityConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Provides information about the cluster instances that Amazon EMR provisions on behalf of a user when it creates the cluster. For example, this operation indicates when the EC2 instances reach the Ready state, when instances become available to Amazon EMR to use for jobs, and the IP addresses for cluster instances, etc.
+    ///  Provides information for all active EC2 instances and EC2 instances terminated in the last 30 days, up to a maximum of 2,000. EC2 instances in any of the following states are considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING.
     public func listInstances(_ input: ListInstancesInput) throws -> ListInstancesOutput {
         return try client.send(operation: "ListInstances", path: "/", httpMethod: "POST", input: input)
     }
@@ -115,7 +115,7 @@ public struct Elasticmapreduce {
         return try client.send(operation: "ListBootstrapActions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds tags to an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tagging Amazon EMR Resources. 
+    ///  Adds tags to an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tag Clusters. 
     public func addTags(_ input: AddTagsInput) throws -> AddTagsOutput {
         return try client.send(operation: "AddTags", path: "/", httpMethod: "POST", input: input)
     }

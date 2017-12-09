@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Amazon EC2 Systems Manager Amazon EC2 Systems Manager is a collection of capabilities that helps you automate management tasks such as collecting system inventory, applying operating system (OS) patches, automating the creation of Amazon Machine Images (AMIs), and configuring operating systems (OSs) and applications at scale. Systems Manager lets you remotely and securely manage the configuration of your managed instances. A managed instance is any Amazon EC2 instance or on-premises machine in your hybrid environment that has been configured for Systems Manager. This reference is intended to be used with the Amazon EC2 Systems Manager User Guide. To get started, verify prerequisites and configure managed instances. For more information, see Systems Manager Prerequisites.
+AWS Systems Manager AWS Systems Manager is a collection of capabilities that helps you automate management tasks such as collecting system inventory, applying operating system (OS) patches, automating the creation of Amazon Machine Images (AMIs), and configuring operating systems (OSs) and applications at scale. Systems Manager lets you remotely and securely manage the configuration of your managed instances. A managed instance is any Amazon EC2 instance or on-premises machine in your hybrid environment that has been configured for Systems Manager. This reference is intended to be used with the AWS Systems Manager User Guide. To get started, verify prerequisites and configure managed instances. For more information, see Systems Manager Prerequisites. For information about other API actions you can perform on Amazon EC2 instances, see the Amazon EC2 API Reference. For information about how to use a Query API, see Making API Requests. 
 */
 public struct Ssm {
 
@@ -25,7 +25,237 @@ public struct Ssm {
         )
     }
 
-    ///  Describes the associations for the specified Systems Manager document or instance.
+    ///  Retrieves the individual task executions (one per target) for a particular task executed as part of a Maintenance Window execution.
+    public func describeMaintenanceWindowExecutionTaskInvocations(_ input: DescribeMaintenanceWindowExecutionTaskInvocationsRequest) throws -> DescribeMaintenanceWindowExecutionTaskInvocationsResult {
+        return try client.send(operation: "DescribeMaintenanceWindowExecutionTaskInvocations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Get detailed information about a particular Automation execution.
+    public func getAutomationExecution(_ input: GetAutomationExecutionRequest) throws -> GetAutomationExecutionResult {
+        return try client.send(operation: "GetAutomationExecution", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the specified Systems Manager document.
+    public func describeDocument(_ input: DescribeDocumentRequest) throws -> DescribeDocumentResult {
+        return try client.send(operation: "DescribeDocument", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the Maintenance Windows in an AWS account.
+    public func describeMaintenanceWindows(_ input: DescribeMaintenanceWindowsRequest) throws -> DescribeMaintenanceWindowsResult {
+        return try client.send(operation: "DescribeMaintenanceWindows", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies the target of an existing Maintenance Window. You can't change the target type, but you can change the following: The target from being an ID target to a Tag target, or a Tag target to an ID target. IDs for an ID target. Tags for a Tag target. Owner. Name. Description. If a parameter is null, then the corresponding field is not modified.
+    public func updateMaintenanceWindowTarget(_ input: UpdateMaintenanceWindowTargetRequest) throws -> UpdateMaintenanceWindowTargetResult {
+        return try client.send(operation: "UpdateMaintenanceWindowTarget", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of the tags assigned to the specified resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResult {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds a new task to a Maintenance Window.
+    public func registerTaskWithMaintenanceWindow(_ input: RegisterTaskWithMaintenanceWindowRequest) throws -> RegisterTaskWithMaintenanceWindowResult {
+        return try client.send(operation: "RegisterTaskWithMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the targets registered with the Maintenance Window.
+    public func describeMaintenanceWindowTargets(_ input: DescribeMaintenanceWindowTargetsRequest) throws -> DescribeMaintenanceWindowTargetsResult {
+        return try client.send(operation: "DescribeMaintenanceWindowTargets", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stop an Automation that is currently executing.
+    public func stopAutomationExecution(_ input: StopAutomationExecutionRequest) throws -> StopAutomationExecutionResult {
+        return try client.send(operation: "StopAutomationExecution", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the high-level patch state of one or more instances.
+    public func describeInstancePatchStates(_ input: DescribeInstancePatchStatesRequest) throws -> DescribeInstancePatchStatesResult {
+        return try client.send(operation: "DescribeInstancePatchStates", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the status of the Systems Manager document associated with the specified instance.
+    public func updateAssociationStatus(_ input: UpdateAssociationStatusRequest) throws -> UpdateAssociationStatusResult {
+        return try client.send(operation: "UpdateAssociationStatus", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a Maintenance Window.
+    public func deleteMaintenanceWindow(_ input: DeleteMaintenanceWindowRequest) throws -> DeleteMaintenanceWindowResult {
+        return try client.send(operation: "DeleteMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes all tags from the specified resource.
+    public func removeTagsFromResource(_ input: RemoveTagsFromResourceRequest) throws -> RemoveTagsFromResourceResult {
+        return try client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets the contents of the specified Systems Manager document.
+    public func getDocument(_ input: GetDocumentRequest) throws -> GetDocumentResult {
+        return try client.send(operation: "GetDocument", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Defines the default patch baseline.
+    public func registerDefaultPatchBaseline(_ input: RegisterDefaultPatchBaselineRequest) throws -> RegisterDefaultPatchBaselineResult {
+        return try client.send(operation: "RegisterDefaultPatchBaseline", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the patch baselines in your AWS account.
+    public func describePatchBaselines(_ input: DescribePatchBaselinesRequest) throws -> DescribePatchBaselinesResult {
+        return try client.send(operation: "DescribePatchBaselines", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns high-level aggregated patch compliance state for a patch group.
+    public func describePatchGroupState(_ input: DescribePatchGroupStateRequest) throws -> DescribePatchGroupStateResult {
+        return try client.send(operation: "DescribePatchGroupState", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  For a specified resource ID, this API action returns a list of compliance statuses for different resource types. Currently, you can only specify one resource ID per call. List results depend on the criteria specified in the filter. 
+    public func listComplianceItems(_ input: ListComplianceItemsRequest) throws -> ListComplianceItemsResult {
+        return try client.send(operation: "ListComplianceItems", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves a Maintenance Window.
+    public func getMaintenanceWindow(_ input: GetMaintenanceWindowRequest) throws -> GetMaintenanceWindowResult {
+        return try client.send(operation: "GetMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies a task assigned to a Maintenance Window. You can't change the task type, but you can change the following values: Task ARN. For example, you can change a RUN_COMMAND task from AWS-RunPowerShellScript to AWS-RunShellScript. Service role ARN. Task parameters. Task priority. Task MaxConcurrency and MaxErrors. Log location. If a parameter is null, then the corresponding field is not modified. Also, if you set Replace to true, then all fields required by the RegisterTaskWithMaintenanceWindow action are required for this request. Optional fields that aren't specified are set to null.
+    public func updateMaintenanceWindowTask(_ input: UpdateMaintenanceWindowTaskRequest) throws -> UpdateMaintenanceWindowTaskResult {
+        return try client.send(operation: "UpdateMaintenanceWindowTask", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a summary count of compliant and non-compliant resources for a compliance type. For example, this call can return State Manager associations, patches, or custom compliance types according to the filter criteria that you specify. 
+    public func listComplianceSummaries(_ input: ListComplianceSummariesRequest) throws -> ListComplianceSummariesResult {
+        return try client.send(operation: "ListComplianceSummaries", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Get information about a parameter by using the parameter name. 
+    public func getParameter(_ input: GetParameterRequest) throws -> GetParameterResult {
+        return try client.send(operation: "GetParameter", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the patch baseline that should be used for the specified patch group.
+    public func getPatchBaselineForPatchGroup(_ input: GetPatchBaselineForPatchGroupRequest) throws -> GetPatchBaselineForPatchGroupResult {
+        return try client.send(operation: "GetPatchBaselineForPatchGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  A list of inventory items returned by the request.
+    public func listInventoryEntries(_ input: ListInventoryEntriesRequest) throws -> ListInventoryEntriesResult {
+        return try client.send(operation: "ListInventoryEntries", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disassociates the specified Systems Manager document from the specified instance. When you disassociate a document from an instance, it does not change the configuration of the instance. To change the configuration state of an instance after you disassociate a document, you must create a new document with the desired configuration and associate it with the instance.
+    public func deleteAssociation(_ input: DeleteAssociationRequest) throws -> DeleteAssociationResult {
+        return try client.send(operation: "DeleteAssociation", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Assigns or changes an Amazon Identity and Access Management (IAM) role to the managed instance.
+    public func updateManagedInstanceRole(_ input: UpdateManagedInstanceRoleRequest) throws -> UpdateManagedInstanceRoleResult {
+        return try client.send(operation: "UpdateManagedInstanceRole", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a resource data sync configuration to a single bucket in Amazon S3. This is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data to the Amazon S3 bucket. To check the status of the sync, use the ListResourceDataSync. By default, data is not encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy. To view an example of a restrictive Amazon S3 bucket policy for Resource Data Sync, see Configuring Resource Data Sync for Inventory.
+    public func createResourceDataSync(_ input: CreateResourceDataSyncRequest) throws -> CreateResourceDataSyncResult {
+        return try client.send(operation: "CreateResourceDataSync", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the Systems Manager document and all instance associations to the document. Before you delete the document, we recommend that you use DeleteAssociation to disassociate all instances that are associated with the document.
+    public func deleteDocument(_ input: DeleteDocumentRequest) throws -> DeleteDocumentResult {
+        return try client.send(operation: "DeleteDocument", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates the specified Systems Manager document with the specified instances or targets. When you associate a document with one or more instances using instance IDs or tags, the SSM Agent running on the instance processes the document and configures the instance as specified. If you associate a document with an instance that already has an associated document, the system throws the AssociationAlreadyExists exception.
+    public func createAssociation(_ input: CreateAssociationRequest) throws -> CreateAssociationResult {
+        return try client.send(operation: "CreateAssociation", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the permissions for a Systems Manager document. If you created the document, you are the owner. If a document is shared, it can either be shared privately (by specifying a user's AWS account ID) or publicly (All). 
+    public func describeDocumentPermission(_ input: DescribeDocumentPermissionRequest) throws -> DescribeDocumentPermissionResponse {
+        return try client.send(operation: "DescribeDocumentPermission", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the tasks in a Maintenance Window.
+    public func describeMaintenanceWindowTasks(_ input: DescribeMaintenanceWindowTasksRequest) throws -> DescribeMaintenanceWindowTasksResult {
+        return try client.send(operation: "DescribeMaintenanceWindowTasks", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Delete a list of parameters. This API is used to delete parameters by using the Amazon EC2 console.
+    public func deleteParameters(_ input: DeleteParametersRequest) throws -> DeleteParametersResult {
+        return try client.send(operation: "DeleteParameters", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves information about the patches on the specified instance and their state relative to the patch baseline being used for the instance.
+    public func describeInstancePatches(_ input: DescribeInstancePatchesRequest) throws -> DescribeInstancePatchesResult {
+        return try client.send(operation: "DescribeInstancePatches", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a patch baseline.
+    public func deletePatchBaseline(_ input: DeletePatchBaselineRequest) throws -> DeletePatchBaselineResult {
+        return try client.send(operation: "DeletePatchBaseline", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all patch groups that have been registered with patch baselines.
+    public func describePatchGroups(_ input: DescribePatchGroupsRequest) throws -> DescribePatchGroupsResult {
+        return try client.send(operation: "DescribePatchGroups", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes an activation. You are not required to delete an activation. If you delete an activation, you can no longer use it to register additional managed instances. Deleting an activation does not de-register managed instances. You must manually de-register managed instances.
+    public func deleteActivation(_ input: DeleteActivationRequest) throws -> DeleteActivationResult {
+        return try client.send(operation: "DeleteActivation", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the executions of a Maintenance Window. This includes information about when the Maintenance Window was scheduled to be active, and information about tasks registered and run with the Maintenance Window.
+    public func describeMaintenanceWindowExecutions(_ input: DescribeMaintenanceWindowExecutionsRequest) throws -> DescribeMaintenanceWindowExecutionsResult {
+        return try client.send(operation: "DescribeMaintenanceWindowExecutions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates the specified Systems Manager document with the specified instances or targets. When you associate a document with one or more instances using instance IDs or tags, the SSM Agent running on the instance processes the document and configures the instance as specified. If you associate a document with an instance that already has an associated document, the system throws the AssociationAlreadyExists exception.
+    public func createAssociationBatch(_ input: CreateAssociationBatchRequest) throws -> CreateAssociationBatchResult {
+        return try client.send(operation: "CreateAssociationBatch", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Registers your on-premises server or virtual machine with Amazon EC2 so that you can manage these resources using Run Command. An on-premises server or virtual machine that has been registered with EC2 is called a managed instance. For more information about activations, see Setting Up Systems Manager in Hybrid Environments.
+    public func createActivation(_ input: CreateActivationRequest) throws -> CreateActivationResult {
+        return try client.send(operation: "CreateActivation", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the default patch baseline. Note that Systems Manager supports creating multiple default patch baselines. For example, you can create a default patch baseline for each operating system.
+    public func getDefaultPatchBaseline(_ input: GetDefaultPatchBaselineRequest) throws -> GetDefaultPatchBaselineResult {
+        return try client.send(operation: "GetDefaultPatchBaseline", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Return a list of inventory type names for the account, or return a list of attribute names for a specific Inventory item type. 
+    public func getInventorySchema(_ input: GetInventorySchemaRequest) throws -> GetInventorySchemaResult {
+        return try client.send(operation: "GetInventorySchema", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the current effective patches (the patch and the approval state) for the specified patch baseline. Note that this API applies only to Windows patch baselines.
+    public func describeEffectivePatchesForPatchBaseline(_ input: DescribeEffectivePatchesForPatchBaselineRequest) throws -> DescribeEffectivePatchesForPatchBaselineResult {
+        return try client.send(operation: "DescribeEffectivePatchesForPatchBaseline", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves all versions of an association for a specific association ID.
+    public func listAssociationVersions(_ input: ListAssociationVersionsRequest) throws -> ListAssociationVersionsResult {
+        return try client.send(operation: "ListAssociationVersions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Executes commands on one or more managed instances.
+    public func sendCommand(_ input: SendCommandRequest) throws -> SendCommandResult {
+        return try client.send(operation: "SendCommand", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Sends a signal to an Automation execution to change the current behavior or status of the execution. 
+    public func sendAutomationSignal(_ input: SendAutomationSignalRequest) throws -> SendAutomationSignalResult {
+        return try client.send(operation: "SendAutomationSignal", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes the server or virtual machine from the list of registered servers. You can reregister the instance again at any time. If you don't plan to use Run Command on the server, we suggest uninstalling the SSM Agent first.
+    public func deregisterManagedInstance(_ input: DeregisterManagedInstanceRequest) throws -> DeregisterManagedInstanceResult {
+        return try client.send(operation: "DeregisterManagedInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the association for the specified target or instance. If you created the association by using the Targets parameter, then you must retrieve the association by using the association ID. If you created the association by specifying an instance ID and a Systems Manager document, then you retrieve the association by specifying the document name and the instance ID. 
     public func describeAssociation(_ input: DescribeAssociationRequest) throws -> DescribeAssociationResult {
         return try client.send(operation: "DescribeAssociation", path: "/", httpMethod: "POST", input: input)
     }
@@ -45,44 +275,9 @@ public struct Ssm {
         return try client.send(operation: "DescribeAvailablePatches", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes the server or virtual machine from the list of registered servers. You can reregister the instance again at any time. If you don't plan to use Run Command on the server, we suggest uninstalling the SSM Agent first.
-    public func deregisterManagedInstance(_ input: DeregisterManagedInstanceRequest) throws -> DeregisterManagedInstanceResult {
-        return try client.send(operation: "DeregisterManagedInstance", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates an existing Maintenance Window. Only specified parameters are modified.
-    public func updateMaintenanceWindow(_ input: UpdateMaintenanceWindowRequest) throws -> UpdateMaintenanceWindowResult {
-        return try client.send(operation: "UpdateMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves the Maintenance Windows in an AWS account.
-    public func describeMaintenanceWindows(_ input: DescribeMaintenanceWindowsRequest) throws -> DescribeMaintenanceWindowsResult {
-        return try client.send(operation: "DescribeMaintenanceWindows", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Get information about a parameter.
-    public func describeParameters(_ input: DescribeParametersRequest) throws -> DescribeParametersResult {
-        return try client.send(operation: "DescribeParameters", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  The status of the associations for the instance(s).
-    public func describeInstanceAssociationsStatus(_ input: DescribeInstanceAssociationsStatusRequest) throws -> DescribeInstanceAssociationsStatusResult {
-        return try client.send(operation: "DescribeInstanceAssociationsStatus", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Lists the associations for the specified Systems Manager document or instance.
     public func listAssociations(_ input: ListAssociationsRequest) throws -> ListAssociationsResult {
         return try client.send(operation: "ListAssociations", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Removes a task from a Maintenance Window.
-    public func deregisterTaskFromMaintenanceWindow(_ input: DeregisterTaskFromMaintenanceWindowRequest) throws -> DeregisterTaskFromMaintenanceWindowResult {
-        return try client.send(operation: "DeregisterTaskFromMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of the tags assigned to the specified resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResult {
-        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the commands requested by users of the AWS account.
@@ -90,44 +285,19 @@ public struct Ssm {
         return try client.send(operation: "ListCommands", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds a new task to a Maintenance Window.
-    public func registerTaskWithMaintenanceWindow(_ input: RegisterTaskWithMaintenanceWindowRequest) throws -> RegisterTaskWithMaintenanceWindowResult {
-        return try client.send(operation: "RegisterTaskWithMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves the default patch baseline.
-    public func getDefaultPatchBaseline(_ input: GetDefaultPatchBaselineRequest) throws -> GetDefaultPatchBaselineResult {
-        return try client.send(operation: "GetDefaultPatchBaseline", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Adds or overwrites one or more tags for the specified resource. Tags are metadata that you assign to your managed instances, Maintenance Windows, or Parameter Store parameters. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed instances that helps you track each instance's owner and stack level. For example: Key=Owner and Value=DbAdmin, SysAdmin, or Dev. Or Key=Stack and Value=Production, Pre-Production, or Test. Each resource can have a maximum of 10 tags.  We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to Amazon EC2 and are interpreted strictly as a string of characters.  For more information about tags, see Tagging Your Amazon EC2 Resources in the Amazon EC2 User Guide.
-    public func addTagsToResource(_ input: AddTagsToResourceRequest) throws -> AddTagsToResourceResult {
-        return try client.send(operation: "AddTagsToResource", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Query inventory information.
     public func getInventory(_ input: GetInventoryRequest) throws -> GetInventoryResult {
         return try client.send(operation: "GetInventory", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the individual task executions (one per target) for a particular task executed as part of a Maintenance Window execution.
-    public func describeMaintenanceWindowExecutionTaskInvocations(_ input: DescribeMaintenanceWindowExecutionTaskInvocationsRequest) throws -> DescribeMaintenanceWindowExecutionTaskInvocationsResult {
-        return try client.send(operation: "DescribeMaintenanceWindowExecutionTaskInvocations", path: "/", httpMethod: "POST", input: input)
+    ///  Information about all active and terminated step executions in an Automation workflow.
+    public func describeAutomationStepExecutions(_ input: DescribeAutomationStepExecutionsRequest) throws -> DescribeAutomationStepExecutionsResult {
+        return try client.send(operation: "DescribeAutomationStepExecutions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes one or more of your instances. You can use this to get information about instances like the operating system platform, the SSM Agent version (Linux), status etc. If you specify one or more instance IDs, it returns information for those instances. If you do not specify instance IDs, it returns information for all your instances. If you specify an instance ID that is not valid or an instance that you do not own, you receive an error. 
-    public func describeInstanceInformation(_ input: DescribeInstanceInformationRequest) throws -> DescribeInstanceInformationResult {
-        return try client.send(operation: "DescribeInstanceInformation", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Get detailed information about a particular Automation execution.
-    public func getAutomationExecution(_ input: GetAutomationExecutionRequest) throws -> GetAutomationExecutionResult {
-        return try client.send(operation: "GetAutomationExecution", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the targets registered with the Maintenance Window.
-    public func describeMaintenanceWindowTargets(_ input: DescribeMaintenanceWindowTargetsRequest) throws -> DescribeMaintenanceWindowTargetsResult {
-        return try client.send(operation: "DescribeMaintenanceWindowTargets", path: "/", httpMethod: "POST", input: input)
+    ///  Returns a resource-level summary count. The summary includes information about compliant and non-compliant statuses and detailed compliance-item severity counts, according to the filter criteria you specify.
+    public func listResourceComplianceSummaries(_ input: ListResourceComplianceSummariesRequest) throws -> ListResourceComplianceSummariesResult {
+        return try client.send(operation: "ListResourceComplianceSummaries", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Details about the activation, including: the date and time the activation was created, the expiration date, the IAM role assigned to the instances in the activation, and the number of instances activated by this registration.
@@ -140,7 +310,7 @@ public struct Ssm {
         return try client.send(operation: "DescribeEffectiveInstanceAssociations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes one or more of your SSM documents.
+    ///  Describes one or more of your Systems Manager documents.
     public func listDocuments(_ input: ListDocumentsRequest) throws -> ListDocumentsResult {
         return try client.send(operation: "ListDocuments", path: "/", httpMethod: "POST", input: input)
     }
@@ -150,14 +320,14 @@ public struct Ssm {
         return try client.send(operation: "ListResourceDataSync", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Stop an Automation that is currently executing.
-    public func stopAutomationExecution(_ input: StopAutomationExecutionRequest) throws -> StopAutomationExecutionResult {
-        return try client.send(operation: "StopAutomationExecution", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Deletes a Resource Data Sync configuration. After the configuration is deleted, changes to inventory data on managed instances are no longer synced with the target Amazon S3 bucket. Deleting a sync configuration does not delete data in the target Amazon S3 bucket.
     public func deleteResourceDataSync(_ input: DeleteResourceDataSyncRequest) throws -> DeleteResourceDataSyncResult {
         return try client.send(operation: "DeleteResourceDataSync", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves a task invocation. A task invocation is a specific task executing on a specific target. Maintenance Windows report status for all invocations. 
+    public func getMaintenanceWindowExecutionTaskInvocation(_ input: GetMaintenanceWindowExecutionTaskInvocationRequest) throws -> GetMaintenanceWindowExecutionTaskInvocationResult {
+        return try client.send(operation: "GetMaintenanceWindowExecutionTaskInvocation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Get details of a parameter.
@@ -168,11 +338,6 @@ public struct Ssm {
     ///  Delete a parameter from the system.
     public func deleteParameter(_ input: DeleteParameterRequest) throws -> DeleteParameterResult {
         return try client.send(operation: "DeleteParameter", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves the high-level patch state of one or more instances.
-    public func describeInstancePatchStates(_ input: DescribeInstancePatchStatesRequest) throws -> DescribeInstancePatchStatesResult {
-        return try client.send(operation: "DescribeInstancePatchStates", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  The document you want to update.
@@ -195,37 +360,12 @@ public struct Ssm {
         return try client.send(operation: "UpdatePatchBaseline", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the status of the Systems Manager document associated with the specified instance.
-    public func updateAssociationStatus(_ input: UpdateAssociationStatusRequest) throws -> UpdateAssociationStatusResult {
-        return try client.send(operation: "UpdateAssociationStatus", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes a Maintenance Window.
-    public func deleteMaintenanceWindow(_ input: DeleteMaintenanceWindowRequest) throws -> DeleteMaintenanceWindowResult {
-        return try client.send(operation: "DeleteMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Removes all tags from the specified resource.
-    public func removeTagsFromResource(_ input: RemoveTagsFromResourceRequest) throws -> RemoveTagsFromResourceResult {
-        return try client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets the contents of the specified SSM document.
-    public func getDocument(_ input: GetDocumentRequest) throws -> GetDocumentResult {
-        return try client.send(operation: "GetDocument", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Shares a Systems Manager document publicly or privately. If you share a document privately, you must specify the AWS user account IDs for those people who can use the document. If you share a document publicly, you must specify All as the account ID.
     public func modifyDocumentPermission(_ input: ModifyDocumentPermissionRequest) throws -> ModifyDocumentPermissionResponse {
         return try client.send(operation: "ModifyDocumentPermission", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Defines the default patch baseline.
-    public func registerDefaultPatchBaseline(_ input: RegisterDefaultPatchBaselineRequest) throws -> RegisterDefaultPatchBaselineResult {
-        return try client.send(operation: "RegisterDefaultPatchBaseline", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieve parameters in a specific hierarchy. For more information, see Working with Systems Manager Parameters. 
+    ///  Retrieve parameters in a specific hierarchy. For more information, see Working with Systems Manager Parameters.  Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.
     public func getParametersByPath(_ input: GetParametersByPathRequest) throws -> GetParametersByPathResult {
         return try client.send(operation: "GetParametersByPath", path: "/", httpMethod: "POST", input: input)
     }
@@ -235,19 +375,9 @@ public struct Ssm {
         return try client.send(operation: "CreateDocument", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the patch baselines in your AWS account.
-    public func describePatchBaselines(_ input: DescribePatchBaselinesRequest) throws -> DescribePatchBaselinesResult {
-        return try client.send(operation: "DescribePatchBaselines", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns high-level aggregated patch compliance state for a patch group.
-    public func describePatchGroupState(_ input: DescribePatchGroupStateRequest) throws -> DescribePatchGroupStateResult {
-        return try client.send(operation: "DescribePatchGroupState", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves a Maintenance Window.
-    public func getMaintenanceWindow(_ input: GetMaintenanceWindowRequest) throws -> GetMaintenanceWindowResult {
-        return try client.send(operation: "GetMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
+    ///  Lists the tasks in a Maintenance Window.
+    public func getMaintenanceWindowTask(_ input: GetMaintenanceWindowTaskRequest) throws -> GetMaintenanceWindowTaskResult {
+        return try client.send(operation: "GetMaintenanceWindowTask", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers a target with a Maintenance Window.
@@ -270,19 +400,9 @@ public struct Ssm {
         return try client.send(operation: "DeregisterPatchBaselineForPatchGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates an association. You can only update the document version, schedule, parameters, and Amazon S3 output of an association.
+    ///  Updates an association. You can update the association name and version, the document version, schedule, parameters, and Amazon S3 output.
     public func updateAssociation(_ input: UpdateAssociationRequest) throws -> UpdateAssociationResult {
         return try client.send(operation: "UpdateAssociation", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Get information about a parameter by using the parameter name. 
-    public func getParameter(_ input: GetParameterRequest) throws -> GetParameterResult {
-        return try client.send(operation: "GetParameter", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves the patch baseline that should be used for the specified patch group.
-    public func getPatchBaselineForPatchGroup(_ input: GetPatchBaselineForPatchGroupRequest) throws -> GetPatchBaselineForPatchGroupResult {
-        return try client.send(operation: "GetPatchBaselineForPatchGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new Maintenance Window.
@@ -290,39 +410,9 @@ public struct Ssm {
         return try client.send(operation: "CreateMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Disassociates the specified Systems Manager document from the specified instance. When you disassociate a document from an instance, it does not change the configuration of the instance. To change the configuration state of an instance after you disassociate a document, you must create a new document with the desired configuration and associate it with the instance.
-    public func deleteAssociation(_ input: DeleteAssociationRequest) throws -> DeleteAssociationResult {
-        return try client.send(operation: "DeleteAssociation", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Assigns or changes an Amazon Identity and Access Management (IAM) role to the managed instance.
-    public func updateManagedInstanceRole(_ input: UpdateManagedInstanceRoleRequest) throws -> UpdateManagedInstanceRoleResult {
-        return try client.send(operation: "UpdateManagedInstanceRole", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  A list of inventory items returned by the request.
-    public func listInventoryEntries(_ input: ListInventoryEntriesRequest) throws -> ListInventoryEntriesResult {
-        return try client.send(operation: "ListInventoryEntries", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a resource data sync configuration to a single bucket in Amazon S3. This is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data to the Amazon S3 bucket. To check the status of the sync, use the ListResourceDataSync operation. By default, data is not encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy. To view an example of a restrictive Amazon S3 bucket policy for Resource Data Sync, see Creating a Resource Data Sync.
-    public func createResourceDataSync(_ input: CreateResourceDataSyncRequest) throws -> CreateResourceDataSyncResult {
-        return try client.send(operation: "CreateResourceDataSync", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the Systems Manager document and all instance associations to the document. Before you delete the document, we recommend that you use DeleteAssociation to disassociate all instances that are associated with the document.
-    public func deleteDocument(_ input: DeleteDocumentRequest) throws -> DeleteDocumentResult {
-        return try client.send(operation: "DeleteDocument", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Associates the specified Systems Manager document with the specified instances or targets. When you associate a document with one or more instances using instance IDs or tags, the SSM Agent running on the instance processes the document and configures the instance as specified. If you associate a document with an instance that already has an associated document, the system throws the AssociationAlreadyExists exception.
-    public func createAssociation(_ input: CreateAssociationRequest) throws -> CreateAssociationResult {
-        return try client.send(operation: "CreateAssociation", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Describes the permissions for a Systems Manager document. If you created the document, you are the owner. If a document is shared, it can either be shared privately (by specifying a user's AWS account ID) or publicly (All). 
-    public func describeDocumentPermission(_ input: DescribeDocumentPermissionRequest) throws -> DescribeDocumentPermissionResponse {
-        return try client.send(operation: "DescribeDocumentPermission", path: "/", httpMethod: "POST", input: input)
+    ///  Registers a compliance type and other compliance details on a designated resource. This action lets you register custom compliance details with a resource. This call overwrites existing compliance information on the resource, so you must provide a full list of compliance items each time that you send the request.
+    public func putComplianceItems(_ input: PutComplianceItemsRequest) throws -> PutComplianceItemsResult {
+        return try client.send(operation: "PutComplianceItems", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns detailed information about command execution for an invocation or plugin. 
@@ -330,39 +420,14 @@ public struct Ssm {
         return try client.send(operation: "GetCommandInvocation", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the tasks in a Maintenance Window.
-    public func describeMaintenanceWindowTasks(_ input: DescribeMaintenanceWindowTasksRequest) throws -> DescribeMaintenanceWindowTasksResult {
-        return try client.send(operation: "DescribeMaintenanceWindowTasks", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Delete a list of parameters.
-    public func deleteParameters(_ input: DeleteParametersRequest) throws -> DeleteParametersResult {
-        return try client.send(operation: "DeleteParameters", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves information about the patches on the specified instance and their state relative to the patch baseline being used for the instance.
-    public func describeInstancePatches(_ input: DescribeInstancePatchesRequest) throws -> DescribeInstancePatchesResult {
-        return try client.send(operation: "DescribeInstancePatches", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Set the default version of a document. 
     public func updateDocumentDefaultVersion(_ input: UpdateDocumentDefaultVersionRequest) throws -> UpdateDocumentDefaultVersionResult {
         return try client.send(operation: "UpdateDocumentDefaultVersion", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a patch baseline.
-    public func deletePatchBaseline(_ input: DeletePatchBaselineRequest) throws -> DeletePatchBaselineResult {
-        return try client.send(operation: "DeletePatchBaseline", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Add one or more parameters to the system.
     public func putParameter(_ input: PutParameterRequest) throws -> PutParameterResult {
         return try client.send(operation: "PutParameter", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists all patch groups that have been registered with patch baselines.
-    public func describePatchGroups(_ input: DescribePatchGroupsRequest) throws -> DescribePatchGroupsResult {
-        return try client.send(operation: "DescribePatchGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Bulk update custom inventory items on one more instance. The request adds an inventory item, if it doesn't already exist, or updates an inventory item, if it does exist.
@@ -385,54 +450,9 @@ public struct Ssm {
         return try client.send(operation: "DeregisterTargetFromMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes an activation. You are not required to delete an activation. If you delete an activation, you can no longer use it to register additional managed instances. Deleting an activation does not de-register managed instances. You must manually de-register managed instances.
-    public func deleteActivation(_ input: DeleteActivationRequest) throws -> DeleteActivationResult {
-        return try client.send(operation: "DeleteActivation", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves the current snapshot for the patch baseline the instance uses. This API is primarily used by the AWS-ApplyPatchBaseline Systems Manager document. 
+    ///  Retrieves the current snapshot for the patch baseline the instance uses. This API is primarily used by the AWS-RunPatchBaseline Systems Manager document. 
     public func getDeployablePatchSnapshotForInstance(_ input: GetDeployablePatchSnapshotForInstanceRequest) throws -> GetDeployablePatchSnapshotForInstanceResult {
         return try client.send(operation: "GetDeployablePatchSnapshotForInstance", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the executions of a Maintenance Window (meaning, information about when the Maintenance Window was scheduled to be active and information about tasks registered and run with the Maintenance Window).
-    public func describeMaintenanceWindowExecutions(_ input: DescribeMaintenanceWindowExecutionsRequest) throws -> DescribeMaintenanceWindowExecutionsResult {
-        return try client.send(operation: "DescribeMaintenanceWindowExecutions", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Query a list of all parameters used by the AWS account.
-    public func getParameterHistory(_ input: GetParameterHistoryRequest) throws -> GetParameterHistoryResult {
-        return try client.send(operation: "GetParameterHistory", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Registers your on-premises server or virtual machine with Amazon EC2 so that you can manage these resources using Run Command. An on-premises server or virtual machine that has been registered with EC2 is called a managed instance. For more information about activations, see Setting Up Systems Manager in Hybrid Environments.
-    public func createActivation(_ input: CreateActivationRequest) throws -> CreateActivationResult {
-        return try client.send(operation: "CreateActivation", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves the details about a specific task executed as part of a Maintenance Window execution.
-    public func getMaintenanceWindowExecutionTask(_ input: GetMaintenanceWindowExecutionTaskRequest) throws -> GetMaintenanceWindowExecutionTaskResult {
-        return try client.send(operation: "GetMaintenanceWindowExecutionTask", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves the current effective patches (the patch and the approval state) for the specified patch baseline.
-    public func describeEffectivePatchesForPatchBaseline(_ input: DescribeEffectivePatchesForPatchBaselineRequest) throws -> DescribeEffectivePatchesForPatchBaselineResult {
-        return try client.send(operation: "DescribeEffectivePatchesForPatchBaseline", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Return a list of inventory type names for the account, or return a list of attribute names for a specific Inventory item type. 
-    public func getInventorySchema(_ input: GetInventorySchemaRequest) throws -> GetInventorySchemaResult {
-        return try client.send(operation: "GetInventorySchema", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a patch baseline.
-    public func createPatchBaseline(_ input: CreatePatchBaselineRequest) throws -> CreatePatchBaselineResult {
-        return try client.send(operation: "CreatePatchBaseline", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Executes commands on one or more managed instances.
-    public func sendCommand(_ input: SendCommandRequest) throws -> SendCommandResult {
-        return try client.send(operation: "SendCommand", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  For a given Maintenance Window execution, lists the tasks that were executed.
@@ -440,9 +460,44 @@ public struct Ssm {
         return try client.send(operation: "DescribeMaintenanceWindowExecutionTasks", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Associates the specified Systems Manager document with the specified instances or targets. When you associate a document with one or more instances using instance IDs or tags, the SSM Agent running on the instance processes the document and configures the instance as specified. If you associate a document with an instance that already has an associated document, the system throws the AssociationAlreadyExists exception.
-    public func createAssociationBatch(_ input: CreateAssociationBatchRequest) throws -> CreateAssociationBatchResult {
-        return try client.send(operation: "CreateAssociationBatch", path: "/", httpMethod: "POST", input: input)
+    ///  Query a list of all parameters used by the AWS account.
+    public func getParameterHistory(_ input: GetParameterHistoryRequest) throws -> GetParameterHistoryResult {
+        return try client.send(operation: "GetParameterHistory", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the details about a specific task executed as part of a Maintenance Window execution.
+    public func getMaintenanceWindowExecutionTask(_ input: GetMaintenanceWindowExecutionTaskRequest) throws -> GetMaintenanceWindowExecutionTaskResult {
+        return try client.send(operation: "GetMaintenanceWindowExecutionTask", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates an existing Maintenance Window. Only specified parameters are modified.
+    public func updateMaintenanceWindow(_ input: UpdateMaintenanceWindowRequest) throws -> UpdateMaintenanceWindowResult {
+        return try client.send(operation: "UpdateMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Get information about a parameter. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.
+    public func describeParameters(_ input: DescribeParametersRequest) throws -> DescribeParametersResult {
+        return try client.send(operation: "DescribeParameters", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a patch baseline.
+    public func createPatchBaseline(_ input: CreatePatchBaselineRequest) throws -> CreatePatchBaselineResult {
+        return try client.send(operation: "CreatePatchBaseline", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes a task from a Maintenance Window.
+    public func deregisterTaskFromMaintenanceWindow(_ input: DeregisterTaskFromMaintenanceWindowRequest) throws -> DeregisterTaskFromMaintenanceWindowResult {
+        return try client.send(operation: "DeregisterTaskFromMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes one or more of your instances. You can use this to get information about instances like the operating system platform, the SSM Agent version (Linux), status etc. If you specify one or more instance IDs, it returns information for those instances. If you do not specify instance IDs, it returns information for all your instances. If you specify an instance ID that is not valid or an instance that you do not own, you receive an error. 
+    public func describeInstanceInformation(_ input: DescribeInstanceInformationRequest) throws -> DescribeInstanceInformationResult {
+        return try client.send(operation: "DescribeInstanceInformation", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your documents, managed instances, Maintenance Windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed instances that helps you track each instance's owner and stack level. For example: Key=Owner and Value=DbAdmin, SysAdmin, or Dev. Or Key=Stack and Value=Production, Pre-Production, or Test. Each resource can have a maximum of 10 tags.  We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to Amazon EC2 and are interpreted strictly as a string of characters.  For more information about tags, see Tagging Your Amazon EC2 Resources in the Amazon EC2 User Guide.
+    public func addTagsToResource(_ input: AddTagsToResourceRequest) throws -> AddTagsToResourceResult {
+        return try client.send(operation: "AddTagsToResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers a patch baseline for a patch group.
@@ -450,9 +505,9 @@ public struct Ssm {
         return try client.send(operation: "RegisterPatchBaselineForPatchGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the specified SSM document.
-    public func describeDocument(_ input: DescribeDocumentRequest) throws -> DescribeDocumentResult {
-        return try client.send(operation: "DescribeDocument", path: "/", httpMethod: "POST", input: input)
+    ///  The status of the associations for the instance(s).
+    public func describeInstanceAssociationsStatus(_ input: DescribeInstanceAssociationsStatusRequest) throws -> DescribeInstanceAssociationsStatusResult {
+        return try client.send(operation: "DescribeInstanceAssociationsStatus", path: "/", httpMethod: "POST", input: input)
     }
 
 

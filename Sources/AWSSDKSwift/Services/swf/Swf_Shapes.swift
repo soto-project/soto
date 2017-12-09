@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Swf {
 
     public struct RequestCancelWorkflowExecutionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "runId", required: false, type: .string), 
             AWSShapeMember(label: "workflowId", required: true, type: .string), 
             AWSShapeMember(label: "domain", required: true, type: .string)
@@ -32,7 +32,7 @@ extension Swf {
     }
 
     public struct CountClosedWorkflowExecutionsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "typeFilter", required: false, type: .structure), 
             AWSShapeMember(label: "closeStatusFilter", required: false, type: .structure), 
             AWSShapeMember(label: "tagFilter", required: false, type: .structure), 
@@ -41,17 +41,17 @@ extension Swf {
             AWSShapeMember(label: "startTimeFilter", required: false, type: .structure), 
             AWSShapeMember(label: "domain", required: true, type: .string)
         ]
-        /// If specified, indicates the type of the workflow executions to be counted. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
+        /// If specified, indicates the type of the workflow executions to be counted.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let typeFilter: WorkflowTypeFilter?
-        /// If specified, only workflow executions that match this close status are counted. This filter has an affect only if executionStatus is specified as CLOSED. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
+        /// If specified, only workflow executions that match this close status are counted. This filter has an affect only if executionStatus is specified as CLOSED.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let closeStatusFilter: CloseStatusFilter?
-        /// If specified, only executions that have a tag that matches the filter are counted. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
+        /// If specified, only executions that have a tag that matches the filter are counted.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let tagFilter: TagFilter?
-        /// If specified, only workflow executions matching the WorkflowId in the filter are counted. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
+        /// If specified, only workflow executions matching the WorkflowId in the filter are counted.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let executionFilter: WorkflowExecutionFilter?
-        /// If specified, only workflow executions that meet the close time criteria of the filter are counted. startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both.
+        /// If specified, only workflow executions that meet the close time criteria of the filter are counted.   startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both. 
         public let closeTimeFilter: ExecutionTimeFilter?
-        /// If specified, only workflow executions that meet the start time criteria of the filter are counted. startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both.
+        /// If specified, only workflow executions that meet the start time criteria of the filter are counted.   startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both. 
         public let startTimeFilter: ExecutionTimeFilter?
         /// The name of the domain containing the workflow executions to count.
         public let domain: String
@@ -78,14 +78,14 @@ extension Swf {
     }
 
     public struct LambdaFunctionTimedOutEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "scheduledEventId", required: true, type: .long), 
             AWSShapeMember(label: "startedEventId", required: true, type: .long), 
             AWSShapeMember(label: "timeoutType", required: false, type: .enum)
         ]
-        /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// The ID of the LambdaFunctionScheduled event that was recorded when this activity task was scheduled. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public let scheduledEventId: Int64
-        /// The ID of the LambdaFunctionStarted event recorded in the history.
+        /// The ID of the ActivityTaskStarted event that was recorded when this activity task started. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public let startedEventId: Int64
         /// The type of the timeout that caused this event.
         public let timeoutType: LambdaFunctionTimeoutType?
@@ -104,13 +104,13 @@ extension Swf {
     }
 
     public struct ActivityType: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "version", required: true, type: .string)
         ]
-        /// The name of this activity. The combination of activity type name and version must be unique within a domain.
+        /// The name of this activity.  The combination of activity type name and version must be unique within a domain. 
         public let name: String
-        /// The version of this activity. The combination of activity type name and version must be unique with in a domain.
+        /// The version of this activity.  The combination of activity type name and version must be unique with in a domain. 
         public let version: String
 
         public init(name: String, version: String) {
@@ -125,7 +125,7 @@ extension Swf {
     }
 
     public struct DecisionTask: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "previousStartedEventId", required: false, type: .long), 
             AWSShapeMember(label: "taskToken", required: true, type: .string), 
             AWSShapeMember(label: "workflowType", required: true, type: .structure), 
@@ -177,7 +177,7 @@ extension Swf {
     }
 
     public struct StartChildWorkflowExecutionFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeMember(label: "workflowType", required: true, type: .structure), 
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
@@ -185,16 +185,17 @@ extension Swf {
             AWSShapeMember(label: "cause", required: true, type: .enum), 
             AWSShapeMember(label: "control", required: false, type: .string)
         ]
-        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// When the cause is WORKFLOW_ALREADY_RUNNING, initiatedEventId is the ID of the StartChildWorkflowExecutionInitiated event that corresponds to the StartChildWorkflowExecution Decision to start the workflow execution. You can use this information to diagnose problems by tracing back the chain of events leading up to this event. When the cause isn't WORKFLOW_ALREADY_RUNNING, initiatedEventId is set to 0 because the StartChildWorkflowExecutionInitiated event doesn't exist.
         public let initiatedEventId: Int64
-        /// The workflow type provided in the StartChildWorkflowExecution decision that failed.
+        /// The workflow type provided in the StartChildWorkflowExecution Decision that failed.
         public let workflowType: WorkflowType
-        /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the StartChildWorkflowExecution decision to request this child workflow execution. This information can be useful for diagnosing problems by tracing back the cause of events.
+        /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the StartChildWorkflowExecution Decision to request this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events.
         public let decisionTaskCompletedEventId: Int64
         /// The workflowId of the child workflow execution.
         public let workflowId: String
-        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
+        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes.  When cause is set to OPERATION_NOT_PERMITTED, the decision fails because it lacks sufficient permissions. For details and example IAM policies, see  Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide. 
         public let cause: StartChildWorkflowExecutionFailedCause
+        /// The data attached to the event that the decider can use in subsequent workflow tasks. This data isn't sent to the child workflow execution.
         public let control: String?
 
         public init(initiatedEventId: Int64, workflowType: WorkflowType, decisionTaskCompletedEventId: Int64, workflowId: String, cause: StartChildWorkflowExecutionFailedCause, control: String? = nil) {
@@ -230,7 +231,7 @@ extension Swf {
     }
 
     public struct WorkflowExecutionInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "execution", required: true, type: .structure), 
             AWSShapeMember(label: "startTimestamp", required: true, type: .timestamp), 
             AWSShapeMember(label: "parent", required: false, type: .structure), 
@@ -253,7 +254,7 @@ extension Swf {
         public let cancelRequested: Bool?
         /// The time when the workflow execution was closed. Set only if the execution status is CLOSED.
         public let closeTimestamp: TimeStamp?
-        /// If the execution status is closed then this specifies how the execution was closed:   COMPLETED: the execution was successfully completed.  CANCELED: the execution was canceled.Cancellation allows the implementation to gracefully clean up before the execution is closed.  TERMINATED: the execution was force terminated.  FAILED: the execution failed to complete.  TIMED_OUT: the execution did not complete in the alloted time and was automatically timed out.  CONTINUED_AS_NEW: the execution is logically continued. This means the current execution was completed and a new execution was started to carry on the workflow. 
+        /// If the execution status is closed then this specifies how the execution was closed:    COMPLETED – the execution was successfully completed.    CANCELED – the execution was canceled.Cancellation allows the implementation to gracefully clean up before the execution is closed.    TERMINATED – the execution was force terminated.    FAILED – the execution failed to complete.    TIMED_OUT – the execution did not complete in the alloted time and was automatically timed out.    CONTINUED_AS_NEW – the execution is logically continued. This means the current execution was completed and a new execution was started to carry on the workflow.  
         public let closeStatus: CloseStatus?
         /// The type of the workflow execution.
         public let workflowType: WorkflowType
@@ -286,10 +287,10 @@ extension Swf {
     }
 
     public struct CancelWorkflowExecutionDecisionAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string)
         ]
-        /// Optional. details of the cancellation.
+        ///  Details of the cancellation.
         public let details: String?
 
         public init(details: String? = nil) {
@@ -308,13 +309,13 @@ extension Swf {
     }
 
     public struct WorkflowType: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "version", required: true, type: .string)
         ]
-        /// Required. The name of the workflow type. The combination of workflow type name and version must be unique with in a domain.
+        ///  The name of the workflow type.  The combination of workflow type name and version must be unique with in a domain. 
         public let name: String
-        /// Required. The version of the workflow type. The combination of workflow type name and version must be unique with in a domain.
+        ///  The version of the workflow type.  The combination of workflow type name and version must be unique with in a domain. 
         public let version: String
 
         public init(name: String, version: String) {
@@ -329,7 +330,7 @@ extension Swf {
     }
 
     public struct PollForDecisionTaskInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "identity", required: false, type: .string), 
             AWSShapeMember(label: "maximumPageSize", required: false, type: .integer), 
             AWSShapeMember(label: "taskList", required: true, type: .structure), 
@@ -339,13 +340,13 @@ extension Swf {
         ]
         /// Identity of the decider making the request, which is recorded in the DecisionTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
         public let identity: String?
-        /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
-        /// Specifies the task list to poll for decision tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        /// Specifies the task list to poll for decision tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let taskList: TaskList
         /// When set to true, returns the events in reverse order. By default the results are returned in ascending order of the eventTimestamp of the events.
         public let reverseOrder: Bool?
-        /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call. The nextPageToken returned by this action cannot be used with GetWorkflowExecutionHistory to get the next page. You must call PollForDecisionTask again (with the nextPageToken) to retrieve the next page of history records. Calling PollForDecisionTask with a nextPageToken will not return a new decision task..
+        /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.  The nextPageToken returned by this action cannot be used with GetWorkflowExecutionHistory to get the next page. You must call PollForDecisionTask again (with the nextPageToken) to retrieve the next page of history records. Calling PollForDecisionTask with a nextPageToken doesn't return a new decision task. 
         public let nextPageToken: String?
         /// The name of the domain containing the task lists to poll.
         public let domain: String
@@ -370,13 +371,13 @@ extension Swf {
     }
 
     public struct WorkflowTypeDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "typeInfo", required: true, type: .structure), 
             AWSShapeMember(label: "configuration", required: true, type: .structure)
         ]
-        /// General information about the workflow type. The status of the workflow type (returned in the WorkflowTypeInfo structure) can be one of the following.   REGISTERED: The type is registered and available. Workers supporting this type should be running.  DEPRECATED: The type was deprecated using DeprecateWorkflowType, but is still in use. You should keep workers supporting this type running. You cannot create new workflow executions of this type. 
+        /// General information about the workflow type. The status of the workflow type (returned in the WorkflowTypeInfo structure) can be one of the following.    REGISTERED – The type is registered and available. Workers supporting this type should be running.    DEPRECATED – The type was deprecated using DeprecateWorkflowType, but is still in use. You should keep workers supporting this type running. You cannot create new workflow executions of this type.  
         public let typeInfo: WorkflowTypeInfo
-        /// Configuration settings of the workflow type registered through RegisterWorkflowType
+        /// Configuration settings of the workflow type registered through RegisterWorkflowType 
         public let configuration: WorkflowTypeConfiguration
 
         public init(typeInfo: WorkflowTypeInfo, configuration: WorkflowTypeConfiguration) {
@@ -391,7 +392,7 @@ extension Swf {
     }
 
     public struct DecisionTaskCompletedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "scheduledEventId", required: true, type: .long), 
             AWSShapeMember(label: "startedEventId", required: true, type: .long), 
             AWSShapeMember(label: "executionContext", required: false, type: .string)
@@ -417,11 +418,13 @@ extension Swf {
     }
 
     public struct DomainDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "domainInfo", required: true, type: .structure), 
             AWSShapeMember(label: "configuration", required: true, type: .structure)
         ]
+        /// The basic information about a domain, such as its name, status, and description.
         public let domainInfo: DomainInfo
+        /// The domain configuration. Currently, this includes only the domain's retention period.
         public let configuration: DomainConfiguration
 
         public init(domainInfo: DomainInfo, configuration: DomainConfiguration) {
@@ -436,14 +439,14 @@ extension Swf {
     }
 
     public struct RespondActivityTaskFailedInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "taskToken", required: true, type: .string), 
             AWSShapeMember(label: "reason", required: false, type: .string)
         ]
-        /// Optional. Detailed information about the failure.
+        ///  Detailed information about the failure.
         public let details: String?
-        /// The taskToken of the ActivityTask.  taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
+        /// The taskToken of the ActivityTask.   taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results. 
         public let taskToken: String
         /// Description of the error that may assist in diagnostics.
         public let reason: String?
@@ -462,14 +465,14 @@ extension Swf {
     }
 
     public struct CancelTimerFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "cause", required: true, type: .enum), 
             AWSShapeMember(label: "timerId", required: true, type: .string)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelTimer decision to cancel this timer. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
+        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes.  If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide. 
         public let cause: CancelTimerFailedCause
         /// The timerId provided in the CancelTimer decision that failed.
         public let timerId: String
@@ -488,7 +491,7 @@ extension Swf {
     }
 
     public struct DescribeDomainInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// The name of the domain to describe.
@@ -511,16 +514,16 @@ extension Swf {
     }
 
     public struct StartTimerDecisionAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "timerId", required: true, type: .string), 
             AWSShapeMember(label: "startToFireTimeout", required: true, type: .string), 
             AWSShapeMember(label: "control", required: false, type: .string)
         ]
-        /// Required. The unique ID of the timer. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        ///  The unique ID of the timer. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let timerId: String
-        /// Required. The duration to wait before firing the timer. The duration is specified in seconds; an integer greater than or equal to 0.
+        ///  The duration to wait before firing the timer. The duration is specified in seconds, an integer greater than or equal to 0.
         public let startToFireTimeout: String
-        /// Optional. Data attached to the event that can be used by the decider in subsequent workflow tasks.
+        /// The data attached to the event that can be used by the decider in subsequent workflow tasks.
         public let control: String?
 
         public init(timerId: String, startToFireTimeout: String, control: String? = nil) {
@@ -537,7 +540,7 @@ extension Swf {
     }
 
     public struct DescribeWorkflowTypeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "domain", required: true, type: .string), 
             AWSShapeMember(label: "workflowType", required: true, type: .structure)
         ]
@@ -558,7 +561,7 @@ extension Swf {
     }
 
     public struct ExecutionTimeFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "oldestDate", required: true, type: .timestamp), 
             AWSShapeMember(label: "latestDate", required: false, type: .timestamp)
         ]
@@ -579,7 +582,7 @@ extension Swf {
     }
 
     public struct PollForActivityTaskInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "identity", required: false, type: .string), 
             AWSShapeMember(label: "domain", required: true, type: .string), 
             AWSShapeMember(label: "taskList", required: true, type: .structure)
@@ -588,7 +591,7 @@ extension Swf {
         public let identity: String?
         /// The name of the domain that contains the task lists being polled.
         public let domain: String
-        /// Specifies the task list to poll for activity tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        /// Specifies the task list to poll for activity tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let taskList: TaskList
 
         public init(identity: String? = nil, domain: String, taskList: TaskList) {
@@ -605,7 +608,7 @@ extension Swf {
     }
 
     public struct ListClosedWorkflowExecutionsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "typeFilter", required: false, type: .structure), 
             AWSShapeMember(label: "closeStatusFilter", required: false, type: .structure), 
             AWSShapeMember(label: "tagFilter", required: false, type: .structure), 
@@ -617,19 +620,19 @@ extension Swf {
             AWSShapeMember(label: "domain", required: true, type: .string), 
             AWSShapeMember(label: "nextPageToken", required: false, type: .string)
         ]
-        /// If specified, only executions of the type specified in the filter are returned. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
+        /// If specified, only executions of the type specified in the filter are returned.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let typeFilter: WorkflowTypeFilter?
-        /// If specified, only workflow executions that match this close status are listed. For example, if TERMINATED is specified, then only TERMINATED workflow executions are listed. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
+        /// If specified, only workflow executions that match this close status are listed. For example, if TERMINATED is specified, then only TERMINATED workflow executions are listed.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let closeStatusFilter: CloseStatusFilter?
-        /// If specified, only executions that have the matching tag are listed. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
+        /// If specified, only executions that have the matching tag are listed.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let tagFilter: TagFilter?
-        /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
-        /// If specified, only workflow executions matching the workflow ID specified in the filter are returned. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
+        /// If specified, only workflow executions matching the workflow ID specified in the filter are returned.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let executionFilter: WorkflowExecutionFilter?
-        /// If specified, the workflow executions are included in the returned results based on whether their close times are within the range specified by this filter. Also, if this parameter is specified, the returned results are ordered by their close times. startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both.
+        /// If specified, the workflow executions are included in the returned results based on whether their close times are within the range specified by this filter. Also, if this parameter is specified, the returned results are ordered by their close times.   startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both. 
         public let closeTimeFilter: ExecutionTimeFilter?
-        /// If specified, the workflow executions are included in the returned results based on whether their start times are within the range specified by this filter. Also, if this parameter is specified, the returned results are ordered by their start times. startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both.
+        /// If specified, the workflow executions are included in the returned results based on whether their start times are within the range specified by this filter. Also, if this parameter is specified, the returned results are ordered by their start times.   startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both. 
         public let startTimeFilter: ExecutionTimeFilter?
         /// When set to true, returns the results in reverse order. By default the results are returned in descending order of the start or the close time of the executions.
         public let reverseOrder: Bool?
@@ -666,7 +669,7 @@ extension Swf {
     }
 
     public struct ActivityTask: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskToken", required: true, type: .string), 
             AWSShapeMember(label: "input", required: false, type: .string), 
             AWSShapeMember(label: "startedEventId", required: true, type: .long), 
@@ -707,7 +710,7 @@ extension Swf {
     }
 
     public struct DescribeActivityTypeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "activityType", required: true, type: .structure), 
             AWSShapeMember(label: "domain", required: true, type: .string)
         ]
@@ -728,10 +731,10 @@ extension Swf {
     }
 
     public struct TagFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tag", required: true, type: .string)
         ]
-        /// Required. Specifies the tag that must be associated with the execution for it to meet the filter criteria.
+        ///  Specifies the tag that must be associated with the execution for it to meet the filter criteria.
         public let tag: String
 
         public init(tag: String) {
@@ -744,7 +747,7 @@ extension Swf {
     }
 
     public struct TaskList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// The name of the task list.
@@ -766,17 +769,17 @@ extension Swf {
     }
 
     public struct WorkflowExecutionTerminatedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "reason", required: false, type: .string), 
             AWSShapeMember(label: "childPolicy", required: true, type: .enum), 
             AWSShapeMember(label: "cause", required: false, type: .enum)
         ]
-        /// The details provided for the termination (if any).
+        /// The details provided for the termination.
         public let details: String?
-        /// The reason provided for the termination (if any).
+        /// The reason provided for the termination.
         public let reason: String?
-        /// The policy used for the child workflow executions of this workflow execution. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run. 
+        /// The policy used for the child workflow executions of this workflow execution. The supported child policies are:    TERMINATE – The child executions are terminated.    REQUEST_CANCEL – A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.    ABANDON – No action is taken. The child executions continue to run.  
         public let childPolicy: ChildPolicy
         /// If set, indicates that the workflow execution was automatically terminated, and specifies the cause. This happens if the parent workflow execution times out or is terminated and the child policy is set to terminate child executions.
         public let cause: WorkflowExecutionTerminatedCause?
@@ -803,7 +806,7 @@ extension Swf {
     }
 
     public struct ScheduleActivityTaskFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "activityType", required: true, type: .structure), 
             AWSShapeMember(label: "activityId", required: true, type: .string), 
@@ -815,7 +818,7 @@ extension Swf {
         public let activityType: ActivityType
         /// The activityId provided in the ScheduleActivityTask decision that failed.
         public let activityId: String
-        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
+        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes.  If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide. 
         public let cause: ScheduleActivityTaskFailedCause
 
         public init(decisionTaskCompletedEventId: Int64, activityType: ActivityType, activityId: String, cause: ScheduleActivityTaskFailedCause) {
@@ -834,16 +837,16 @@ extension Swf {
     }
 
     public struct RequestCancelExternalWorkflowExecutionDecisionAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "runId", required: false, type: .string), 
             AWSShapeMember(label: "workflowId", required: true, type: .string), 
             AWSShapeMember(label: "control", required: false, type: .string)
         ]
         /// The runId of the external workflow execution to cancel.
         public let runId: String?
-        /// Required. The workflowId of the external workflow execution to cancel.
+        ///  The workflowId of the external workflow execution to cancel.
         public let workflowId: String
-        /// Optional. Data attached to the event that can be used by the decider in subsequent workflow tasks.
+        /// The data attached to the event that can be used by the decider in subsequent workflow tasks.
         public let control: String?
 
         public init(runId: String? = nil, workflowId: String, control: String? = nil) {
@@ -860,7 +863,7 @@ extension Swf {
     }
 
     public struct StartWorkflowExecutionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lambdaRole", required: false, type: .string), 
             AWSShapeMember(label: "executionStartToCloseTimeout", required: false, type: .string), 
             AWSShapeMember(label: "taskList", required: false, type: .structure), 
@@ -873,15 +876,15 @@ extension Swf {
             AWSShapeMember(label: "childPolicy", required: false, type: .enum), 
             AWSShapeMember(label: "domain", required: true, type: .string)
         ]
-        /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
+        /// The IAM role to attach to this workflow execution.  Executions of this workflow type need IAM roles to invoke Lambda functions. If you don't attach an IAM role, any attempt to schedule a Lambda task fails. This results in a ScheduleLambdaFunctionFailed history event. For more information, see http://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html in the Amazon SWF Developer Guide. 
         public let lambdaRole: String?
-        /// The total duration for this workflow execution. This overrides the defaultExecutionStartToCloseTimeout specified when registering the workflow type. The duration is specified in seconds; an integer greater than or equal to 0. Exceeding this limit will cause the workflow execution to time out. Unlike some of the other timeout parameters in Amazon SWF, you cannot specify a value of "NONE" for this timeout; there is a one-year max limit on the time that a workflow execution can run.  An execution start-to-close timeout must be specified either through this parameter or as a default when the workflow type is registered. If neither this parameter nor a default execution start-to-close timeout is specified, a fault is returned.
+        /// The total duration for this workflow execution. This overrides the defaultExecutionStartToCloseTimeout specified when registering the workflow type. The duration is specified in seconds; an integer greater than or equal to 0. Exceeding this limit causes the workflow execution to time out. Unlike some of the other timeout parameters in Amazon SWF, you cannot specify a value of "NONE" for this timeout; there is a one-year max limit on the time that a workflow execution can run.  An execution start-to-close timeout must be specified either through this parameter or as a default when the workflow type is registered. If neither this parameter nor a default execution start-to-close timeout is specified, a fault is returned. 
         public let executionStartToCloseTimeout: String?
-        /// The task list to use for the decision tasks generated for this workflow execution. This overrides the defaultTaskList specified when registering the workflow type. A task list for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task list was specified at registration time then a fault will be returned. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        /// The task list to use for the decision tasks generated for this workflow execution. This overrides the defaultTaskList specified when registering the workflow type.  A task list for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task list was specified at registration time then a fault is returned.  The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let taskList: TaskList?
-        /// The user defined identifier associated with the workflow execution. You can use this to associate a custom identifier with the workflow execution. You may specify the same identifier if a workflow execution is logically a restart of a previous execution. You cannot have two open workflow executions with the same workflowId at the same time. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        /// The user defined identifier associated with the workflow execution. You can use this to associate a custom identifier with the workflow execution. You may specify the same identifier if a workflow execution is logically a restart of a previous execution. You cannot have two open workflow executions with the same workflowId at the same time. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let workflowId: String
-        /// The task priority to use for this workflow execution. This will override any default priority that was assigned when the workflow type was registered. If not set, then the default task priority for the workflow type will be used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
+        /// The task priority to use for this workflow execution. This overrides any default priority that was assigned when the workflow type was registered. If not set, then the default task priority for the workflow type is used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let taskPriority: String?
         /// The list of tags to associate with the workflow execution. You can specify a maximum of 5 tags. You can list workflow executions with a specific tag by calling ListOpenWorkflowExecutions or ListClosedWorkflowExecutions and specifying a TagFilter.
         public let tagList: [String]?
@@ -889,9 +892,9 @@ extension Swf {
         public let input: String?
         /// The type of the workflow to start.
         public let workflowType: WorkflowType
-        /// Specifies the maximum duration of decision tasks for this workflow execution. This parameter overrides the defaultTaskStartToCloseTimout specified when registering the workflow type using RegisterWorkflowType. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration. A task start-to-close timeout for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task start-to-close timeout was specified at registration time then a fault will be returned.
+        /// Specifies the maximum duration of decision tasks for this workflow execution. This parameter overrides the defaultTaskStartToCloseTimout specified when registering the workflow type using RegisterWorkflowType. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.  A task start-to-close timeout for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task start-to-close timeout was specified at registration time then a fault is returned. 
         public let taskStartToCloseTimeout: String?
-        /// If set, specifies the policy to use for the child workflow executions of this workflow execution if it is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This policy overrides the default child policy specified when registering the workflow type using RegisterWorkflowType. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run.  A child policy for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default child policy was specified at registration time then a fault will be returned.
+        /// If set, specifies the policy to use for the child workflow executions of this workflow execution if it is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This policy overrides the default child policy specified when registering the workflow type using RegisterWorkflowType. The supported child policies are:    TERMINATE – The child executions are terminated.    REQUEST_CANCEL – A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.    ABANDON – No action is taken. The child executions continue to run.    A child policy for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default child policy was specified at registration time then a fault is returned. 
         public let childPolicy: ChildPolicy?
         /// The name of the domain in which the workflow execution is created.
         public let domain: String
@@ -926,7 +929,7 @@ extension Swf {
     }
 
     public struct ListWorkflowTypesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maximumPageSize", required: false, type: .integer), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
@@ -934,7 +937,7 @@ extension Swf {
             AWSShapeMember(label: "domain", required: true, type: .string), 
             AWSShapeMember(label: "registrationStatus", required: true, type: .enum)
         ]
-        /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
         /// If specified, lists the workflow type with this name.
         public let name: String?
@@ -967,19 +970,19 @@ extension Swf {
     }
 
     public struct ScheduleLambdaFunctionFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "id", required: true, type: .string), 
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "cause", required: true, type: .enum)
         ]
-        /// The name of the scheduled AWS Lambda function.
+        /// The name of the Lambda function.
         public let name: String
-        /// The unique Amazon SWF ID of the AWS Lambda task.
+        /// The ID provided in the ScheduleLambdaFunction decision that failed. 
         public let id: String
-        /// The ID of the DecisionTaskCompleted event corresponding to the decision that resulted in the scheduling of this AWS Lambda function. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// The ID of the LambdaFunctionCompleted event corresponding to the decision that resulted in scheduling this Lambda task. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
+        /// The cause of the failure. To help diagnose issues, use this information to trace back the chain of events leading up to this event.  If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide. 
         public let cause: ScheduleLambdaFunctionFailedCause
 
         public init(name: String, id: String, decisionTaskCompletedEventId: Int64, cause: ScheduleLambdaFunctionFailedCause) {
@@ -1013,7 +1016,7 @@ extension Swf {
     }
 
     public struct ChildWorkflowExecutionCanceledEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeMember(label: "workflowType", required: true, type: .structure), 
@@ -1022,7 +1025,7 @@ extension Swf {
         ]
         /// Details of the cancellation (if provided).
         public let details: String?
-        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution Decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
         /// The type of the child workflow execution.
         public let workflowType: WorkflowType
@@ -1049,7 +1052,7 @@ extension Swf {
     }
 
     public struct ScheduleActivityTaskDecisionAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskList", required: false, type: .structure), 
             AWSShapeMember(label: "activityId", required: true, type: .string), 
             AWSShapeMember(label: "scheduleToCloseTimeout", required: false, type: .string), 
@@ -1061,25 +1064,25 @@ extension Swf {
             AWSShapeMember(label: "heartbeatTimeout", required: false, type: .string), 
             AWSShapeMember(label: "activityType", required: true, type: .structure)
         ]
-        /// If set, specifies the name of the task list in which to schedule the activity task. If not specified, the defaultTaskList registered with the activity type will be used. A task list for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default task list was specified at registration time then a fault will be returned. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        /// If set, specifies the name of the task list in which to schedule the activity task. If not specified, the defaultTaskList registered with the activity type is used.  A task list for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default task list was specified at registration time then a fault is returned.  The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let taskList: TaskList?
-        /// Required. The activityId of the activity task. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        ///  The activityId of the activity task. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let activityId: String
-        /// The maximum duration for this activity task. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration. A schedule-to-close timeout for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default schedule-to-close timeout was specified at registration time then a fault will be returned.
+        /// The maximum duration for this activity task. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.  A schedule-to-close timeout for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default schedule-to-close timeout was specified at registration time then a fault is returned. 
         public let scheduleToCloseTimeout: String?
-        /// Optional. If set, specifies the maximum duration the activity task can wait to be assigned to a worker. This overrides the default schedule-to-start timeout specified when registering the activity type using RegisterActivityType. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration. A schedule-to-start timeout for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default schedule-to-start timeout was specified at registration time then a fault will be returned.
+        ///  If set, specifies the maximum duration the activity task can wait to be assigned to a worker. This overrides the default schedule-to-start timeout specified when registering the activity type using RegisterActivityType. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.  A schedule-to-start timeout for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default schedule-to-start timeout was specified at registration time then a fault is returned. 
         public let scheduleToStartTimeout: String?
-        /// Optional. If set, specifies the priority with which the activity task is to be assigned to a worker. This overrides the defaultTaskPriority specified when registering the activity type using RegisterActivityType. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
+        ///  If set, specifies the priority with which the activity task is to be assigned to a worker. This overrides the defaultTaskPriority specified when registering the activity type using RegisterActivityType. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let taskPriority: String?
-        /// If set, specifies the maximum duration a worker may take to process this activity task. This overrides the default start-to-close timeout specified when registering the activity type using RegisterActivityType. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration. A start-to-close timeout for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default start-to-close timeout was specified at registration time then a fault will be returned.
+        /// If set, specifies the maximum duration a worker may take to process this activity task. This overrides the default start-to-close timeout specified when registering the activity type using RegisterActivityType. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.  A start-to-close timeout for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default start-to-close timeout was specified at registration time then a fault is returned. 
         public let startToCloseTimeout: String?
         /// The input provided to the activity task.
         public let input: String?
-        /// Optional. Data attached to the event that can be used by the decider in subsequent workflow tasks. This data is not sent to the activity.
+        /// Data attached to the event that can be used by the decider in subsequent workflow tasks. This data isn't sent to the activity.
         public let control: String?
-        /// If set, specifies the maximum time before which a worker processing a task of this type must report progress by calling RecordActivityTaskHeartbeat. If the timeout is exceeded, the activity task is automatically timed out. If the worker subsequently attempts to record a heartbeat or returns a result, it will be ignored. This overrides the default heartbeat timeout specified when registering the activity type using RegisterActivityType. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// If set, specifies the maximum time before which a worker processing a task of this type must report progress by calling RecordActivityTaskHeartbeat. If the timeout is exceeded, the activity task is automatically timed out. If the worker subsequently attempts to record a heartbeat or returns a result, it is ignored. This overrides the default heartbeat timeout specified when registering the activity type using RegisterActivityType. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let heartbeatTimeout: String?
-        /// Required. The type of the activity task to schedule.
+        ///  The type of the activity task to schedule.
         public let activityType: ActivityType
 
         public init(taskList: TaskList? = nil, activityId: String, scheduleToCloseTimeout: String? = nil, scheduleToStartTimeout: String? = nil, taskPriority: String? = nil, startToCloseTimeout: String? = nil, input: String? = nil, control: String? = nil, heartbeatTimeout: String? = nil, activityType: ActivityType) {
@@ -1110,13 +1113,13 @@ extension Swf {
     }
 
     public struct ChildWorkflowExecutionTerminatedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeMember(label: "workflowType", required: true, type: .structure), 
             AWSShapeMember(label: "startedEventId", required: true, type: .long), 
             AWSShapeMember(label: "workflowExecution", required: true, type: .structure)
         ]
-        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution Decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
         /// The type of the child workflow execution.
         public let workflowType: WorkflowType
@@ -1141,7 +1144,7 @@ extension Swf {
     }
 
     public struct StartChildWorkflowExecutionDecisionAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lambdaRole", required: false, type: .string), 
             AWSShapeMember(label: "taskList", required: false, type: .structure), 
             AWSShapeMember(label: "workflowId", required: true, type: .string), 
@@ -1154,27 +1157,27 @@ extension Swf {
             AWSShapeMember(label: "taskStartToCloseTimeout", required: false, type: .string), 
             AWSShapeMember(label: "executionStartToCloseTimeout", required: false, type: .string)
         ]
-        /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
+        /// The IAM role attached to the child workflow execution.
         public let lambdaRole: String?
-        /// The name of the task list to be used for decision tasks of the child workflow execution. A task list for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task list was specified at registration time then a fault will be returned. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        /// The name of the task list to be used for decision tasks of the child workflow execution.  A task list for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task list was specified at registration time then a fault is returned.  The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let taskList: TaskList?
-        /// Required. The workflowId of the workflow execution. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        ///  The workflowId of the workflow execution. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let workflowId: String
-        /// Optional. A task priority that, if set, specifies the priority for a decision task of this workflow execution. This overrides the defaultTaskPriority specified when registering the workflow type. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
+        ///  A task priority that, if set, specifies the priority for a decision task of this workflow execution. This overrides the defaultTaskPriority specified when registering the workflow type. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let taskPriority: String?
-        /// Optional. Data attached to the event that can be used by the decider in subsequent workflow tasks. This data is not sent to the child workflow execution.
+        /// The data attached to the event that can be used by the decider in subsequent workflow tasks. This data isn't sent to the child workflow execution.
         public let control: String?
         /// The list of tags to associate with the child workflow execution. A maximum of 5 tags can be specified. You can list workflow executions with a specific tag by calling ListOpenWorkflowExecutions or ListClosedWorkflowExecutions and specifying a TagFilter.
         public let tagList: [String]?
         /// The input to be provided to the workflow execution.
         public let input: String?
-        /// Required. The type of the workflow execution to be started.
+        ///  The type of the workflow execution to be started.
         public let workflowType: WorkflowType
-        /// Optional. If set, specifies the policy to use for the child workflow executions if the workflow execution being started is terminated by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This policy overrides the default child policy specified when registering the workflow type using RegisterWorkflowType. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run.  A child policy for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default child policy was specified at registration time then a fault will be returned.
+        ///  If set, specifies the policy to use for the child workflow executions if the workflow execution being started is terminated by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This policy overrides the default child policy specified when registering the workflow type using RegisterWorkflowType. The supported child policies are:    TERMINATE – The child executions are terminated.    REQUEST_CANCEL – A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.    ABANDON – No action is taken. The child executions continue to run.    A child policy for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default child policy was specified at registration time then a fault is returned. 
         public let childPolicy: ChildPolicy?
-        /// Specifies the maximum duration of decision tasks for this workflow execution. This parameter overrides the defaultTaskStartToCloseTimout specified when registering the workflow type using RegisterWorkflowType. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration. A task start-to-close timeout for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task start-to-close timeout was specified at registration time then a fault will be returned.
+        /// Specifies the maximum duration of decision tasks for this workflow execution. This parameter overrides the defaultTaskStartToCloseTimout specified when registering the workflow type using RegisterWorkflowType. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.  A task start-to-close timeout for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task start-to-close timeout was specified at registration time then a fault is returned. 
         public let taskStartToCloseTimeout: String?
-        /// The total duration for this workflow execution. This overrides the defaultExecutionStartToCloseTimeout specified when registering the workflow type. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration. An execution start-to-close timeout for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default execution start-to-close timeout was specified at registration time then a fault will be returned.
+        /// The total duration for this workflow execution. This overrides the defaultExecutionStartToCloseTimeout specified when registering the workflow type. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.  An execution start-to-close timeout for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default execution start-to-close timeout was specified at registration time then a fault is returned. 
         public let executionStartToCloseTimeout: String?
 
         public init(lambdaRole: String? = nil, taskList: TaskList? = nil, workflowId: String, taskPriority: String? = nil, control: String? = nil, tagList: [String]? = nil, input: String? = nil, workflowType: WorkflowType, childPolicy: ChildPolicy? = nil, taskStartToCloseTimeout: String? = nil, executionStartToCloseTimeout: String? = nil) {
@@ -1207,14 +1210,14 @@ extension Swf {
     }
 
     public struct WorkflowExecutionOpenCounts: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "openLambdaFunctions", required: false, type: .integer), 
             AWSShapeMember(label: "openActivityTasks", required: true, type: .integer), 
             AWSShapeMember(label: "openTimers", required: true, type: .integer), 
             AWSShapeMember(label: "openChildWorkflowExecutions", required: true, type: .integer), 
             AWSShapeMember(label: "openDecisionTasks", required: true, type: .integer)
         ]
-        /// The count of AWS Lambda functions that are currently executing.
+        /// The count of Lambda tasks whose status is OPEN.
         public let openLambdaFunctions: Int32?
         /// The count of activity tasks whose status is OPEN.
         public let openActivityTasks: Int32
@@ -1243,20 +1246,20 @@ extension Swf {
     }
 
     public struct CountOpenWorkflowExecutionsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "typeFilter", required: false, type: .structure), 
             AWSShapeMember(label: "executionFilter", required: false, type: .structure), 
             AWSShapeMember(label: "startTimeFilter", required: true, type: .structure), 
             AWSShapeMember(label: "tagFilter", required: false, type: .structure), 
             AWSShapeMember(label: "domain", required: true, type: .string)
         ]
-        /// Specifies the type of the workflow executions to be counted. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
+        /// Specifies the type of the workflow executions to be counted.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let typeFilter: WorkflowTypeFilter?
-        /// If specified, only workflow executions matching the WorkflowId in the filter are counted. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
+        /// If specified, only workflow executions matching the WorkflowId in the filter are counted.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let executionFilter: WorkflowExecutionFilter?
         /// Specifies the start time criteria that workflow executions must meet in order to be counted.
         public let startTimeFilter: ExecutionTimeFilter
-        /// If specified, only executions that have a tag that matches the filter are counted. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
+        /// If specified, only executions that have a tag that matches the filter are counted.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let tagFilter: TagFilter?
         /// The name of the domain containing the workflow executions to count.
         public let domain: String
@@ -1279,14 +1282,14 @@ extension Swf {
     }
 
     public struct ChildWorkflowExecutionTimedOutEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeMember(label: "timeoutType", required: true, type: .enum), 
             AWSShapeMember(label: "workflowType", required: true, type: .structure), 
             AWSShapeMember(label: "startedEventId", required: true, type: .long), 
             AWSShapeMember(label: "workflowExecution", required: true, type: .structure)
         ]
-        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution Decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
         /// The type of the timeout that caused the child workflow execution to time out.
         public let timeoutType: WorkflowExecutionTimeoutType
@@ -1315,30 +1318,34 @@ extension Swf {
     }
 
     public struct LambdaFunctionScheduledEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "input", required: false, type: .string), 
             AWSShapeMember(label: "startToCloseTimeout", required: false, type: .string), 
             AWSShapeMember(label: "id", required: true, type: .string), 
-            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long)
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "control", required: false, type: .string)
         ]
-        /// The name of the scheduled AWS Lambda function.
+        /// The name of the Lambda function.
         public let name: String
-        /// Input provided to the AWS Lambda function.
+        /// The input provided to the Lambda task.
         public let input: String?
-        /// The maximum time, in seconds, that the AWS Lambda function can take to execute from start to close before it is marked as failed.
+        /// The maximum amount of time a worker can take to process the Lambda task.
         public let startToCloseTimeout: String?
-        /// The unique Amazon SWF ID for the AWS Lambda task.
+        /// The unique ID of the Lambda task.
         public let id: String
-        /// The ID of the DecisionTaskCompleted event for the decision that resulted in the scheduling of this AWS Lambda function. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// The ID of the LambdaFunctionCompleted event corresponding to the decision that resulted in scheduling this activity task. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
+        /// Data attached to the event that the decider can use in subsequent workflow tasks. This data isn't sent to the Lambda task.
+        public let control: String?
 
-        public init(name: String, input: String? = nil, startToCloseTimeout: String? = nil, id: String, decisionTaskCompletedEventId: Int64) {
+        public init(name: String, input: String? = nil, startToCloseTimeout: String? = nil, id: String, decisionTaskCompletedEventId: Int64, control: String? = nil) {
             self.name = name
             self.input = input
             self.startToCloseTimeout = startToCloseTimeout
             self.id = id
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
+            self.control = control
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1347,11 +1354,12 @@ extension Swf {
             case startToCloseTimeout = "startToCloseTimeout"
             case id = "id"
             case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case control = "control"
         }
     }
 
     public struct TimerFiredEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "startedEventId", required: true, type: .long), 
             AWSShapeMember(label: "timerId", required: true, type: .string)
         ]
@@ -1372,16 +1380,16 @@ extension Swf {
     }
 
     public struct ChildWorkflowExecutionStartedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeMember(label: "workflowExecution", required: true, type: .structure), 
             AWSShapeMember(label: "workflowType", required: true, type: .structure)
         ]
-        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution Decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
         /// The child workflow execution that was started.
         public let workflowExecution: WorkflowExecution
-        /// The type of the child workflow execution. 
+        /// The type of the child workflow execution.
         public let workflowType: WorkflowType
 
         public init(initiatedEventId: Int64, workflowExecution: WorkflowExecution, workflowType: WorkflowType) {
@@ -1406,7 +1414,7 @@ extension Swf {
     }
 
     public struct DeprecateWorkflowTypeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "domain", required: true, type: .string), 
             AWSShapeMember(label: "workflowType", required: true, type: .structure)
         ]
@@ -1427,10 +1435,10 @@ extension Swf {
     }
 
     public struct CloseStatusFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "status", required: true, type: .enum)
         ]
-        /// Required. The close status that must match the close status of an execution for it to meet the criteria of this filter.
+        ///  The close status that must match the close status of an execution for it to meet the criteria of this filter.
         public let status: CloseStatus
 
         public init(status: CloseStatus) {
@@ -1448,7 +1456,7 @@ extension Swf {
     }
 
     public struct WorkflowExecutionCancelRequestedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "externalWorkflowExecution", required: false, type: .structure), 
             AWSShapeMember(label: "cause", required: false, type: .enum), 
             AWSShapeMember(label: "externalInitiatedEventId", required: false, type: .long)
@@ -1474,7 +1482,7 @@ extension Swf {
     }
 
     public struct ActivityTaskCancelRequestedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "activityId", required: true, type: .string)
         ]
@@ -1495,11 +1503,11 @@ extension Swf {
     }
 
     public struct WorkflowExecutionCanceledEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long)
         ]
-        /// Details for the cancellation (if any).
+        /// The details of the cancellation.
         public let details: String?
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelWorkflowExecution decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -1516,7 +1524,7 @@ extension Swf {
     }
 
     public struct History: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "events", required: true, type: .list)
         ]
@@ -1537,7 +1545,7 @@ extension Swf {
     }
 
     public struct DomainConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "workflowExecutionRetentionPeriodInDays", required: true, type: .string)
         ]
         /// The retention period for workflow executions in this domain.
@@ -1553,7 +1561,7 @@ extension Swf {
     }
 
     public struct WorkflowExecutionStartedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lambdaRole", required: false, type: .string), 
             AWSShapeMember(label: "parentWorkflowExecution", required: false, type: .structure), 
             AWSShapeMember(label: "executionStartToCloseTimeout", required: false, type: .string), 
@@ -1567,26 +1575,27 @@ extension Swf {
             AWSShapeMember(label: "taskStartToCloseTimeout", required: false, type: .string), 
             AWSShapeMember(label: "continuedExecutionRunId", required: false, type: .string)
         ]
-        /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
+        /// The IAM role attached to the workflow execution.
         public let lambdaRole: String?
-        /// The source workflow execution that started this workflow execution. The member is not set if the workflow execution was not started by a workflow.
+        /// The source workflow execution that started this workflow execution. The member isn't set if the workflow execution was not started by a workflow.
         public let parentWorkflowExecution: WorkflowExecution?
-        /// The maximum duration for this workflow execution. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// The maximum duration for this workflow execution. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let executionStartToCloseTimeout: String?
         /// The name of the task list for scheduling the decision tasks for this workflow execution.
         public let taskList: TaskList
+        /// The priority of the decision tasks in the workflow execution.
         public let taskPriority: String?
         /// The list of tags associated with this workflow execution. An execution can have up to 5 tags.
         public let tagList: [String]?
-        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this workflow execution. The source event with this ID can be found in the history of the source workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution Decision to start this workflow execution. The source event with this ID can be found in the history of the source workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let parentInitiatedEventId: Int64?
-        /// The input provided to the workflow execution (if any).
+        /// The input provided to the workflow execution.
         public let input: String?
         /// The workflow type of this execution.
         public let workflowType: WorkflowType
-        /// The policy to use for the child workflow executions if this workflow execution is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run. 
+        /// The policy to use for the child workflow executions if this workflow execution is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. The supported child policies are:    TERMINATE – The child executions are terminated.    REQUEST_CANCEL – A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.    ABANDON – No action is taken. The child executions continue to run.  
         public let childPolicy: ChildPolicy
-        /// The maximum duration of decision tasks for this workflow type. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// The maximum duration of decision tasks for this workflow type. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let taskStartToCloseTimeout: String?
         /// If this workflow execution was started due to a ContinueAsNewWorkflowExecution decision, then it contains the runId of the previous workflow execution that was closed and continued as this execution.
         public let continuedExecutionRunId: String?
@@ -1623,7 +1632,7 @@ extension Swf {
     }
 
     public struct WorkflowExecutionConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lambdaRole", required: false, type: .string), 
             AWSShapeMember(label: "executionStartToCloseTimeout", required: true, type: .string), 
             AWSShapeMember(label: "taskList", required: true, type: .structure), 
@@ -1631,17 +1640,17 @@ extension Swf {
             AWSShapeMember(label: "taskPriority", required: false, type: .string), 
             AWSShapeMember(label: "childPolicy", required: true, type: .enum)
         ]
-        /// The IAM role used by this workflow execution when invoking AWS Lambda functions.
+        /// The IAM role attached to the child workflow execution.
         public let lambdaRole: String?
-        /// The total duration for this workflow execution. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// The total duration for this workflow execution. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let executionStartToCloseTimeout: String
         /// The task list used for the decision tasks generated for this workflow execution.
         public let taskList: TaskList
-        /// The maximum duration allowed for decision tasks for this workflow execution. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// The maximum duration allowed for decision tasks for this workflow execution. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let taskStartToCloseTimeout: String
-        /// The priority assigned to decision tasks for this workflow execution. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
+        /// The priority assigned to decision tasks for this workflow execution. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let taskPriority: String?
-        /// The policy to use for the child workflow executions if this workflow execution is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run. 
+        /// The policy to use for the child workflow executions if this workflow execution is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. The supported child policies are:    TERMINATE – The child executions are terminated.    REQUEST_CANCEL – A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.    ABANDON – No action is taken. The child executions continue to run.  
         public let childPolicy: ChildPolicy
 
         public init(lambdaRole: String? = nil, executionStartToCloseTimeout: String, taskList: TaskList, taskStartToCloseTimeout: String, taskPriority: String? = nil, childPolicy: ChildPolicy) {
@@ -1664,7 +1673,7 @@ extension Swf {
     }
 
     public struct WorkflowExecutionInfos: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "executionInfos", required: true, type: .list)
         ]
@@ -1693,11 +1702,11 @@ extension Swf {
     }
 
     public struct ActivityTypeDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "typeInfo", required: true, type: .structure), 
             AWSShapeMember(label: "configuration", required: true, type: .structure)
         ]
-        /// General information about the activity type. The status of activity type (returned in the ActivityTypeInfo structure) can be one of the following.   REGISTERED: The type is registered and available. Workers supporting this type should be running.   DEPRECATED: The type was deprecated using DeprecateActivityType, but is still in use. You should keep workers supporting this type running. You cannot create new tasks of this type.  
+        /// General information about the activity type. The status of activity type (returned in the ActivityTypeInfo structure) can be one of the following.    REGISTERED – The type is registered and available. Workers supporting this type should be running.     DEPRECATED – The type was deprecated using DeprecateActivityType, but is still in use. You should keep workers supporting this type running. You cannot create new tasks of this type.   
         public let typeInfo: ActivityTypeInfo
         /// The configuration settings registered with the activity type.
         public let configuration: ActivityTypeConfiguration
@@ -1714,7 +1723,7 @@ extension Swf {
     }
 
     public struct RegisterWorkflowTypeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
             AWSShapeMember(label: "defaultLambdaRole", required: false, type: .string), 
@@ -1726,25 +1735,25 @@ extension Swf {
             AWSShapeMember(label: "domain", required: true, type: .string), 
             AWSShapeMember(label: "defaultChildPolicy", required: false, type: .enum)
         ]
-        /// The name of the workflow type. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        /// The name of the workflow type. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let name: String
-        /// If set, specifies the default maximum duration of decision tasks for this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// If set, specifies the default maximum duration of decision tasks for this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution Decision. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let defaultTaskStartToCloseTimeout: String?
-        /// The ARN of the default IAM role to use when a workflow execution of this type invokes AWS Lambda functions. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution and ContinueAsNewWorkflowExecution decision.
+        /// The default IAM role attached to this workflow type.  Executions of this workflow type need IAM roles to invoke Lambda functions. If you don't specify an IAM role when you start this workflow type, the default Lambda role is attached to the execution. For more information, see http://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html in the Amazon SWF Developer Guide. 
         public let defaultLambdaRole: String?
-        /// If set, specifies the default maximum duration for executions of this workflow type. You can override this default when starting an execution through the StartWorkflowExecution action or StartChildWorkflowExecution decision. The duration is specified in seconds; an integer greater than or equal to 0. Unlike some of the other timeout parameters in Amazon SWF, you cannot specify a value of "NONE" for defaultExecutionStartToCloseTimeout; there is a one-year max limit on the time that a workflow execution can run. Exceeding this limit will always cause the workflow execution to time out.
+        /// If set, specifies the default maximum duration for executions of this workflow type. You can override this default when starting an execution through the StartWorkflowExecution Action or StartChildWorkflowExecution Decision. The duration is specified in seconds; an integer greater than or equal to 0. Unlike some of the other timeout parameters in Amazon SWF, you cannot specify a value of "NONE" for defaultExecutionStartToCloseTimeout; there is a one-year max limit on the time that a workflow execution can run. Exceeding this limit always causes the workflow execution to time out.
         public let defaultExecutionStartToCloseTimeout: String?
-        /// The version of the workflow type. The workflow type consists of the name and version, the combination of which must be unique within the domain. To get a list of all currently registered workflow types, use the ListWorkflowTypes action. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        /// The version of the workflow type.  The workflow type consists of the name and version, the combination of which must be unique within the domain. To get a list of all currently registered workflow types, use the ListWorkflowTypes action.  The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let version: String
         /// Textual description of the workflow type.
         public let description: String?
-        /// The default task priority to assign to the workflow type. If not assigned, then "0" will be used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
+        /// The default task priority to assign to the workflow type. If not assigned, then 0 is used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let defaultTaskPriority: String?
-        /// If set, specifies the default task list to use for scheduling decision tasks for executions of this workflow type. This default is used only if a task list is not provided when starting the execution through the StartWorkflowExecution action or StartChildWorkflowExecution decision.
+        /// If set, specifies the default task list to use for scheduling decision tasks for executions of this workflow type. This default is used only if a task list isn't provided when starting the execution through the StartWorkflowExecution Action or StartChildWorkflowExecution Decision.
         public let defaultTaskList: TaskList?
         /// The name of the domain in which to register the workflow type.
         public let domain: String
-        /// If set, specifies the default policy to use for the child workflow executions when a workflow execution of this type is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run. 
+        /// If set, specifies the default policy to use for the child workflow executions when a workflow execution of this type is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution Decision. The supported child policies are:    TERMINATE – The child executions are terminated.    REQUEST_CANCEL – A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.    ABANDON – No action is taken. The child executions continue to run.  
         public let defaultChildPolicy: ChildPolicy?
 
         public init(name: String, defaultTaskStartToCloseTimeout: String? = nil, defaultLambdaRole: String? = nil, defaultExecutionStartToCloseTimeout: String? = nil, version: String, description: String? = nil, defaultTaskPriority: String? = nil, defaultTaskList: TaskList? = nil, domain: String, defaultChildPolicy: ChildPolicy? = nil) {
@@ -1833,7 +1842,7 @@ extension Swf {
     }
 
     public struct CompleteWorkflowExecutionDecisionAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "result", required: false, type: .string)
         ]
         /// The result of the workflow execution. The form of the result is implementation defined.
@@ -1849,7 +1858,7 @@ extension Swf {
     }
 
     public struct ActivityTypeInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "status", required: true, type: .enum), 
             AWSShapeMember(label: "deprecationDate", required: false, type: .timestamp), 
@@ -1885,13 +1894,13 @@ extension Swf {
     }
 
     public struct CompleteWorkflowExecutionFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "cause", required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CompleteWorkflowExecution decision to complete this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
+        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes.  If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide. 
         public let cause: CompleteWorkflowExecutionFailedCause
 
         public init(decisionTaskCompletedEventId: Int64, cause: CompleteWorkflowExecutionFailedCause) {
@@ -1906,7 +1915,7 @@ extension Swf {
     }
 
     public struct TimerStartedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "timerId", required: true, type: .string), 
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "startToFireTimeout", required: true, type: .string), 
@@ -1916,9 +1925,9 @@ extension Swf {
         public let timerId: String
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the StartTimer decision for this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        /// The duration of time after which the timer will fire. The duration is specified in seconds; an integer greater than or equal to 0.
+        /// The duration of time after which the timer fires. The duration is specified in seconds, an integer greater than or equal to 0.
         public let startToFireTimeout: String
-        /// Optional. Data attached to the event that can be used by the decider in subsequent workflow tasks.
+        /// Data attached to the event that can be used by the decider in subsequent workflow tasks.
         public let control: String?
 
         public init(timerId: String, decisionTaskCompletedEventId: Int64, startToFireTimeout: String, control: String? = nil) {
@@ -1937,13 +1946,13 @@ extension Swf {
     }
 
     public struct ExternalWorkflowExecutionSignaledEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeMember(label: "workflowExecution", required: true, type: .structure)
         ]
         /// The ID of the SignalExternalWorkflowExecutionInitiated event corresponding to the SignalExternalWorkflowExecution decision to request this signal. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
-        ///  The external workflow execution that the signal was delivered to.
+        /// The external workflow execution that the signal was delivered to.
         public let workflowExecution: WorkflowExecution
 
         public init(initiatedEventId: Int64, workflowExecution: WorkflowExecution) {
@@ -1958,19 +1967,19 @@ extension Swf {
     }
 
     public struct LambdaFunctionFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "reason", required: false, type: .string), 
             AWSShapeMember(label: "startedEventId", required: true, type: .long), 
             AWSShapeMember(label: "scheduledEventId", required: true, type: .long)
         ]
-        /// The details of the failure (if any).
+        /// The details of the failure.
         public let details: String?
-        /// The reason provided for the failure (if any).
+        /// The reason provided for the failure.
         public let reason: String?
-        /// The ID of the LambdaFunctionStarted event recorded in the history.
+        /// The ID of the LambdaFunctionStarted event recorded when this activity task started. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public let startedEventId: Int64
-        /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// The ID of the LambdaFunctionScheduled event that was recorded when this activity task was scheduled. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public let scheduledEventId: Int64
 
         public init(details: String? = nil, reason: String? = nil, startedEventId: Int64, scheduledEventId: Int64) {
@@ -1989,7 +1998,7 @@ extension Swf {
     }
 
     public struct DecisionTaskTimedOutEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "scheduledEventId", required: true, type: .long), 
             AWSShapeMember(label: "startedEventId", required: true, type: .long), 
             AWSShapeMember(label: "timeoutType", required: true, type: .enum)
@@ -2015,13 +2024,13 @@ extension Swf {
     }
 
     public struct RecordActivityTaskHeartbeatInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "taskToken", required: true, type: .string)
         ]
         /// If specified, contains details about the progress of the task.
         public let details: String?
-        /// The taskToken of the ActivityTask.  taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results. 
+        /// The taskToken of the ActivityTask.   taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.  
         public let taskToken: String
 
         public init(details: String? = nil, taskToken: String) {
@@ -2036,7 +2045,7 @@ extension Swf {
     }
 
     public struct RequestCancelExternalWorkflowExecutionFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "runId", required: false, type: .string), 
             AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
@@ -2052,8 +2061,9 @@ extension Swf {
         public let decisionTaskCompletedEventId: Int64
         /// The workflowId of the external workflow to which the cancel request was to be delivered.
         public let workflowId: String
-        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
+        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes.  If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide. 
         public let cause: RequestCancelExternalWorkflowExecutionFailedCause
+        /// The data attached to the event that the decider can use in subsequent workflow tasks. This data isn't sent to the workflow execution.
         public let control: String?
 
         public init(runId: String? = nil, initiatedEventId: Int64, decisionTaskCompletedEventId: Int64, workflowId: String, cause: RequestCancelExternalWorkflowExecutionFailedCause, control: String? = nil) {
@@ -2076,11 +2086,11 @@ extension Swf {
     }
 
     public struct RespondActivityTaskCompletedInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskToken", required: true, type: .string), 
             AWSShapeMember(label: "result", required: false, type: .string)
         ]
-        /// The taskToken of the ActivityTask.  taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
+        /// The taskToken of the ActivityTask.   taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results. 
         public let taskToken: String
         /// The result of the activity task. It is a free form string that is implementation specific.
         public let result: String?
@@ -2097,7 +2107,7 @@ extension Swf {
     }
 
     public struct ListOpenWorkflowExecutionsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "typeFilter", required: false, type: .structure), 
             AWSShapeMember(label: "tagFilter", required: false, type: .structure), 
             AWSShapeMember(label: "maximumPageSize", required: false, type: .integer), 
@@ -2107,13 +2117,13 @@ extension Swf {
             AWSShapeMember(label: "domain", required: true, type: .string), 
             AWSShapeMember(label: "nextPageToken", required: false, type: .string)
         ]
-        /// If specified, only executions of the type specified in the filter are returned. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
+        /// If specified, only executions of the type specified in the filter are returned.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let typeFilter: WorkflowTypeFilter?
-        /// If specified, only executions that have the matching tag are listed. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
+        /// If specified, only executions that have the matching tag are listed.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let tagFilter: TagFilter?
-        /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
-        /// If specified, only workflow executions matching the workflow ID specified in the filter are returned. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
+        /// If specified, only workflow executions matching the workflow ID specified in the filter are returned.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
         public let executionFilter: WorkflowExecutionFilter?
         /// Workflow executions are included in the returned results based on whether their start times are within the range specified by this filter.
         public let startTimeFilter: ExecutionTimeFilter
@@ -2148,10 +2158,10 @@ extension Swf {
     }
 
     public struct CancelTimerDecisionAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "timerId", required: true, type: .string)
         ]
-        /// Required. The unique ID of the timer to cancel.
+        ///  The unique ID of the timer to cancel.
         public let timerId: String
 
         public init(timerId: String) {
@@ -2164,7 +2174,7 @@ extension Swf {
     }
 
     public struct ActivityTaskStartedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "scheduledEventId", required: true, type: .long), 
             AWSShapeMember(label: "identity", required: false, type: .string)
         ]
@@ -2185,13 +2195,13 @@ extension Swf {
     }
 
     public struct RecordMarkerDecisionAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "markerName", required: true, type: .string)
         ]
-        /// Optional. details of the marker.
+        ///  The details of the marker.
         public let details: String?
-        /// Required. The name of the marker.
+        ///  The name of the marker.
         public let markerName: String
 
         public init(details: String? = nil, markerName: String) {
@@ -2206,10 +2216,10 @@ extension Swf {
     }
 
     public struct LambdaFunctionStartedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "scheduledEventId", required: true, type: .long)
         ]
-        /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// The ID of the LambdaFunctionScheduled event that was recorded when this activity task was scheduled. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public let scheduledEventId: Int64
 
         public init(scheduledEventId: Int64) {
@@ -2222,7 +2232,7 @@ extension Swf {
     }
 
     public struct DomainInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "status", required: true, type: .enum)
@@ -2231,7 +2241,7 @@ extension Swf {
         public let description: String?
         /// The name of the domain. This name is unique within the account.
         public let name: String
-        /// The status of the domain:   REGISTERED: The domain is properly registered and available. You can use this domain for registering types and creating new workflow executions.   DEPRECATED: The domain was deprecated using DeprecateDomain, but is still in use. You should not create new workflow executions in this domain.  
+        /// The status of the domain:    REGISTERED – The domain is properly registered and available. You can use this domain for registering types and creating new workflow executions.     DEPRECATED – The domain was deprecated using DeprecateDomain, but is still in use. You should not create new workflow executions in this domain.   
         public let status: RegistrationStatus
 
         public init(description: String? = nil, name: String, status: RegistrationStatus) {
@@ -2248,7 +2258,7 @@ extension Swf {
     }
 
     public struct WorkflowExecutionFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "workflowId", required: true, type: .string)
         ]
         /// The workflowId to pass of match the criteria of this filter.
@@ -2264,7 +2274,7 @@ extension Swf {
     }
 
     public struct SignalExternalWorkflowExecutionDecisionAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "runId", required: false, type: .string), 
             AWSShapeMember(label: "signalName", required: true, type: .string), 
             AWSShapeMember(label: "input", required: false, type: .string), 
@@ -2273,13 +2283,13 @@ extension Swf {
         ]
         /// The runId of the workflow execution to be signaled.
         public let runId: String?
-        /// Required. The name of the signal.The target workflow execution will use the signal name and input to process the signal.
+        ///  The name of the signal.The target workflow execution uses the signal name and input to process the signal.
         public let signalName: String
-        /// Optional. Input data to be provided with the signal. The target workflow execution will use the signal name and input data to process the signal.
+        ///  The input data to be provided with the signal. The target workflow execution uses the signal name and input data to process the signal.
         public let input: String?
-        /// Required. The workflowId of the workflow execution to be signaled.
+        ///  The workflowId of the workflow execution to be signaled.
         public let workflowId: String
-        /// Optional. Data attached to the event that can be used by the decider in subsequent decision tasks.
+        /// The data attached to the event that can be used by the decider in subsequent decision tasks.
         public let control: String?
 
         public init(runId: String? = nil, signalName: String, input: String? = nil, workflowId: String, control: String? = nil) {
@@ -2300,14 +2310,14 @@ extension Swf {
     }
 
     public struct ActivityTaskCompletedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "scheduledEventId", required: true, type: .long), 
             AWSShapeMember(label: "result", required: false, type: .string), 
             AWSShapeMember(label: "startedEventId", required: true, type: .long)
         ]
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
-        /// The results of the activity task (if any).
+        /// The results of the activity task.
         public let result: String?
         /// The ID of the ActivityTaskStarted event recorded when this activity task was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let startedEventId: Int64
@@ -2326,7 +2336,7 @@ extension Swf {
     }
 
     public struct RequestCancelActivityTaskFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "activityId", required: true, type: .string), 
             AWSShapeMember(label: "cause", required: true, type: .enum)
@@ -2335,7 +2345,7 @@ extension Swf {
         public let decisionTaskCompletedEventId: Int64
         /// The activityId provided in the RequestCancelActivityTask decision that failed.
         public let activityId: String
-        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
+        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes.  If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide. 
         public let cause: RequestCancelActivityTaskFailedCause
 
         public init(decisionTaskCompletedEventId: Int64, activityId: String, cause: RequestCancelActivityTaskFailedCause) {
@@ -2352,7 +2362,7 @@ extension Swf {
     }
 
     public struct HistoryEvent: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "scheduleActivityTaskFailedEventAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "activityTaskCompletedEventAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "workflowExecutionFailedEventAttributes", required: false, type: .structure), 
@@ -2411,110 +2421,117 @@ extension Swf {
             AWSShapeMember(label: "scheduleLambdaFunctionFailedEventAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "eventTimestamp", required: true, type: .timestamp)
         ]
-        /// If the event is of type ScheduleActivityTaskFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ScheduleActivityTaskFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let scheduleActivityTaskFailedEventAttributes: ScheduleActivityTaskFailedEventAttributes?
-        /// If the event is of type ActivityTaskCompleted then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ActivityTaskCompleted then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let activityTaskCompletedEventAttributes: ActivityTaskCompletedEventAttributes?
-        /// If the event is of type WorkflowExecutionFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type WorkflowExecutionFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let workflowExecutionFailedEventAttributes: WorkflowExecutionFailedEventAttributes?
-        /// If the event is of type ActivityTaskTimedOut then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ActivityTaskTimedOut then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let activityTaskTimedOutEventAttributes: ActivityTaskTimedOutEventAttributes?
-        /// If the event is of type WorkflowExecutionTerminated then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type WorkflowExecutionTerminated then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let workflowExecutionTerminatedEventAttributes: WorkflowExecutionTerminatedEventAttributes?
-        /// If the event is of type DecisionTaskStarted then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type DecisionTaskStarted then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let decisionTaskStartedEventAttributes: DecisionTaskStartedEventAttributes?
         /// The system generated ID of the event. This ID uniquely identifies the event with in the workflow execution history.
         public let eventId: Int64
-        /// If the event is of type TimerFired then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type TimerFired then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let timerFiredEventAttributes: TimerFiredEventAttributes?
-        /// If the event is of type StartChildWorkflowExecutionFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type StartChildWorkflowExecutionFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let startChildWorkflowExecutionFailedEventAttributes: StartChildWorkflowExecutionFailedEventAttributes?
-        /// If the event is of type ExternalWorkflowExecutionSignaled then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ExternalWorkflowExecutionSignaled then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let externalWorkflowExecutionSignaledEventAttributes: ExternalWorkflowExecutionSignaledEventAttributes?
-        /// If the event is of type ActivityTaskcancelRequested then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ActivityTaskcancelRequested then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let activityTaskCancelRequestedEventAttributes: ActivityTaskCancelRequestedEventAttributes?
-        /// If the event is of type RequestCancelExternalWorkflowExecutionInitiated then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type RequestCancelExternalWorkflowExecutionInitiated then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let requestCancelExternalWorkflowExecutionInitiatedEventAttributes: RequestCancelExternalWorkflowExecutionInitiatedEventAttributes?
-        /// If the event is of type WorkflowExecutionCancelRequested then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type WorkflowExecutionCancelRequested then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let workflowExecutionCancelRequestedEventAttributes: WorkflowExecutionCancelRequestedEventAttributes?
+        /// Provides the details of the LambdaFunctionScheduled event. It isn't set for other event types.
         public let lambdaFunctionScheduledEventAttributes: LambdaFunctionScheduledEventAttributes?
-        /// If the event is of type WorkflowExecutionTimedOut then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type WorkflowExecutionTimedOut then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let workflowExecutionTimedOutEventAttributes: WorkflowExecutionTimedOutEventAttributes?
-        /// If the event is of type WorkflowExecutionCanceled then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type WorkflowExecutionCanceled then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let workflowExecutionCanceledEventAttributes: WorkflowExecutionCanceledEventAttributes?
-        /// If the event is of type SignalExternalWorkflowExecutionInitiated then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type SignalExternalWorkflowExecutionInitiated then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let signalExternalWorkflowExecutionInitiatedEventAttributes: SignalExternalWorkflowExecutionInitiatedEventAttributes?
+        /// Provides the details of the LambdaFunctionFailed event. It isn't set for other event types.
         public let lambdaFunctionFailedEventAttributes: LambdaFunctionFailedEventAttributes?
-        /// If the event is of type ChildWorkflowExecutionCompleted then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ChildWorkflowExecutionCompleted then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let childWorkflowExecutionCompletedEventAttributes: ChildWorkflowExecutionCompletedEventAttributes?
-        /// If the event is of type WorkflowExecutionContinuedAsNew then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type WorkflowExecutionContinuedAsNew then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let workflowExecutionContinuedAsNewEventAttributes: WorkflowExecutionContinuedAsNewEventAttributes?
-        /// If the event is of type FailWorkflowExecutionFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type FailWorkflowExecutionFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let failWorkflowExecutionFailedEventAttributes: FailWorkflowExecutionFailedEventAttributes?
-        /// If the event is of type MarkerRecorded then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type MarkerRecorded then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let markerRecordedEventAttributes: MarkerRecordedEventAttributes?
-        /// If the event is of type ChildWorkflowExecutionTimedOut then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ChildWorkflowExecutionTimedOut then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let childWorkflowExecutionTimedOutEventAttributes: ChildWorkflowExecutionTimedOutEventAttributes?
-        /// If the event is of type TimerCanceled then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type TimerCanceled then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let timerCanceledEventAttributes: TimerCanceledEventAttributes?
-        /// If the event is of type DecisionTaskFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type DecisionTaskFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let recordMarkerFailedEventAttributes: RecordMarkerFailedEventAttributes?
-        /// If the event is of type CompleteWorkflowExecutionFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type CompleteWorkflowExecutionFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let completeWorkflowExecutionFailedEventAttributes: CompleteWorkflowExecutionFailedEventAttributes?
-        /// If the event is of type CancelWorkflowExecutionFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type CancelWorkflowExecutionFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let cancelWorkflowExecutionFailedEventAttributes: CancelWorkflowExecutionFailedEventAttributes?
-        /// If the event is of type SignalExternalWorkflowExecutionFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type SignalExternalWorkflowExecutionFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let signalExternalWorkflowExecutionFailedEventAttributes: SignalExternalWorkflowExecutionFailedEventAttributes?
+        /// Provides the details of the StartLambdaFunctionFailed event. It isn't set for other event types.
         public let startLambdaFunctionFailedEventAttributes: StartLambdaFunctionFailedEventAttributes?
-        /// If the event is of type ActivityTaskCanceled then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ActivityTaskCanceled then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let activityTaskCanceledEventAttributes: ActivityTaskCanceledEventAttributes?
+        /// Provides the details of the LambdaFunctionStarted event. It isn't set for other event types.
         public let lambdaFunctionStartedEventAttributes: LambdaFunctionStartedEventAttributes?
-        /// If the event is of type WorkflowExecutionCompleted then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type WorkflowExecutionCompleted then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let workflowExecutionCompletedEventAttributes: WorkflowExecutionCompletedEventAttributes?
-        /// If the event is of type ChildWorkflowExecutionFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ChildWorkflowExecutionFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let childWorkflowExecutionFailedEventAttributes: ChildWorkflowExecutionFailedEventAttributes?
-        /// If the event is of type ContinueAsNewWorkflowExecutionFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ContinueAsNewWorkflowExecutionFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let continueAsNewWorkflowExecutionFailedEventAttributes: ContinueAsNewWorkflowExecutionFailedEventAttributes?
         /// The type of the history event.
         public let eventType: EventType
+        /// Provides the details of the LambdaFunctionTimedOut event. It isn't set for other event types.
         public let lambdaFunctionTimedOutEventAttributes: LambdaFunctionTimedOutEventAttributes?
-        /// If the event is of type StartChildWorkflowExecutionInitiated then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type StartChildWorkflowExecutionInitiated then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let startChildWorkflowExecutionInitiatedEventAttributes: StartChildWorkflowExecutionInitiatedEventAttributes?
-        /// If the event is of type DecisionTaskTimedOut then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type DecisionTaskTimedOut then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let decisionTaskTimedOutEventAttributes: DecisionTaskTimedOutEventAttributes?
+        /// Provides the details of the LambdaFunctionCompleted event. It isn't set for other event types.
         public let lambdaFunctionCompletedEventAttributes: LambdaFunctionCompletedEventAttributes?
-        /// If the event is of type WorkflowExecutionSignaled then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type WorkflowExecutionSignaled then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let workflowExecutionSignaledEventAttributes: WorkflowExecutionSignaledEventAttributes?
-        /// If the event is of type ChildWorkflowExecutionTerminated then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ChildWorkflowExecutionTerminated then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let childWorkflowExecutionTerminatedEventAttributes: ChildWorkflowExecutionTerminatedEventAttributes?
-        /// If the event is of type ChildWorkflowExecutionCanceled then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ChildWorkflowExecutionCanceled then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let childWorkflowExecutionCanceledEventAttributes: ChildWorkflowExecutionCanceledEventAttributes?
-        /// If the event is of type WorkflowExecutionStarted then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type WorkflowExecutionStarted then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let workflowExecutionStartedEventAttributes: WorkflowExecutionStartedEventAttributes?
-        /// If the event is of type ChildWorkflowExecutionStarted then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ChildWorkflowExecutionStarted then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let childWorkflowExecutionStartedEventAttributes: ChildWorkflowExecutionStartedEventAttributes?
-        /// If the event is of type ActivityTaskScheduled then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ActivityTaskScheduled then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let activityTaskScheduledEventAttributes: ActivityTaskScheduledEventAttributes?
-        /// If the event is of type RequestCancelActivityTaskFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type RequestCancelActivityTaskFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let requestCancelActivityTaskFailedEventAttributes: RequestCancelActivityTaskFailedEventAttributes?
-        /// If the event is of type ExternalWorkflowExecutionCancelRequested then this member is set and provides detailed information about the event. It is not set for other event types. 
+        /// If the event is of type ExternalWorkflowExecutionCancelRequested then this member is set and provides detailed information about the event. It isn't set for other event types. 
         public let externalWorkflowExecutionCancelRequestedEventAttributes: ExternalWorkflowExecutionCancelRequestedEventAttributes?
-        /// If the event is of type DecisionTaskScheduled then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type DecisionTaskScheduled then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let decisionTaskScheduledEventAttributes: DecisionTaskScheduledEventAttributes?
-        /// If the event is of type TimerStarted then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type TimerStarted then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let timerStartedEventAttributes: TimerStartedEventAttributes?
-        /// If the event is of type ActivityTaskFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ActivityTaskFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let activityTaskFailedEventAttributes: ActivityTaskFailedEventAttributes?
-        /// If the event is of type StartTimerFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type StartTimerFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let startTimerFailedEventAttributes: StartTimerFailedEventAttributes?
-        /// If the event is of type ActivityTaskStarted then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type ActivityTaskStarted then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let activityTaskStartedEventAttributes: ActivityTaskStartedEventAttributes?
-        /// If the event is of type CancelTimerFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type CancelTimerFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let cancelTimerFailedEventAttributes: CancelTimerFailedEventAttributes?
-        /// If the event is of type DecisionTaskCompleted then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type DecisionTaskCompleted then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let decisionTaskCompletedEventAttributes: DecisionTaskCompletedEventAttributes?
-        /// If the event is of type RequestCancelExternalWorkflowExecutionFailed then this member is set and provides detailed information about the event. It is not set for other event types.
+        /// If the event is of type RequestCancelExternalWorkflowExecutionFailed then this member is set and provides detailed information about the event. It isn't set for other event types.
         public let requestCancelExternalWorkflowExecutionFailedEventAttributes: RequestCancelExternalWorkflowExecutionFailedEventAttributes?
+        /// Provides the details of the ScheduleLambdaFunctionFailed event. It isn't set for other event types.
         public let scheduleLambdaFunctionFailedEventAttributes: ScheduleLambdaFunctionFailedEventAttributes?
         /// The date and time when the event occurred.
         public let eventTimestamp: TimeStamp
@@ -2641,7 +2658,7 @@ extension Swf {
     }
 
     public struct WorkflowExecution: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "runId", required: true, type: .string), 
             AWSShapeMember(label: "workflowId", required: true, type: .string)
         ]
@@ -2662,7 +2679,7 @@ extension Swf {
     }
 
     public struct Run: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "runId", required: false, type: .string)
         ]
         /// The runId of a workflow execution. This ID is generated by the service and can be used to uniquely identify the workflow execution within a domain.
@@ -2678,16 +2695,16 @@ extension Swf {
     }
 
     public struct LambdaFunctionCompletedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "scheduledEventId", required: true, type: .long), 
             AWSShapeMember(label: "startedEventId", required: true, type: .long), 
             AWSShapeMember(label: "result", required: false, type: .string)
         ]
-        /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// The ID of the LambdaFunctionScheduled event that was recorded when this Lambda task was scheduled. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public let scheduledEventId: Int64
-        /// The ID of the LambdaFunctionStarted event recorded in the history.
+        /// The ID of the LambdaFunctionStarted event recorded when this activity task started. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public let startedEventId: Int64
-        /// The result of the function execution (if any).
+        /// The results of the Lambda task.
         public let result: String?
 
         public init(scheduledEventId: Int64, startedEventId: Int64, result: String? = nil) {
@@ -2704,7 +2721,7 @@ extension Swf {
     }
 
     public struct CountPendingActivityTasksInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "domain", required: true, type: .string), 
             AWSShapeMember(label: "taskList", required: true, type: .structure)
         ]
@@ -2725,16 +2742,16 @@ extension Swf {
     }
 
     public struct WorkflowExecutionFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "reason", required: false, type: .string)
         ]
-        /// The details of the failure (if any).
+        /// The details of the failure.
         public let details: String?
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the FailWorkflowExecution decision to fail this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        /// The descriptive reason provided for the failure (if any).
+        /// The descriptive reason provided for the failure.
         public let reason: String?
 
         public init(details: String? = nil, decisionTaskCompletedEventId: Int64, reason: String? = nil) {
@@ -2761,16 +2778,16 @@ extension Swf {
     }
 
     public struct RegisterDomainInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "workflowExecutionRetentionPeriodInDays", required: true, type: .string)
         ]
         /// A text description of the domain.
         public let description: String?
-        /// Name of the domain to register. The name must be unique in the region that the domain is registered in. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        /// Name of the domain to register. The name must be unique in the region that the domain is registered in. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let name: String
-        /// The duration (in days) that records and histories of workflow executions on the domain should be kept by the service. After the retention period, the workflow execution is not available in the results of visibility calls. If you pass the value NONE or 0 (zero), then the workflow execution history will not be retained. As soon as the workflow execution completes, the execution record and its history are deleted. The maximum workflow execution retention period is 90 days. For more information about Amazon SWF service limits, see: Amazon SWF Service Limits in the Amazon SWF Developer Guide.
+        /// The duration (in days) that records and histories of workflow executions on the domain should be kept by the service. After the retention period, the workflow execution isn't available in the results of visibility calls. If you pass the value NONE or 0 (zero), then the workflow execution history isn't retained. As soon as the workflow execution completes, the execution record and its history are deleted. The maximum workflow execution retention period is 90 days. For more information about Amazon SWF service limits, see: Amazon SWF Service Limits in the Amazon SWF Developer Guide.
         public let workflowExecutionRetentionPeriodInDays: String
 
         public init(description: String? = nil, name: String, workflowExecutionRetentionPeriodInDays: String) {
@@ -2787,7 +2804,7 @@ extension Swf {
     }
 
     public struct WorkflowExecutionCompletedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "result", required: false, type: .string)
         ]
@@ -2808,7 +2825,7 @@ extension Swf {
     }
 
     public struct RecordMarkerFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "markerName", required: true, type: .string), 
             AWSShapeMember(label: "cause", required: true, type: .enum)
@@ -2817,7 +2834,7 @@ extension Swf {
         public let decisionTaskCompletedEventId: Int64
         /// The marker's name.
         public let markerName: String
-        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
+        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes.  If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide. 
         public let cause: RecordMarkerFailedCause
 
         public init(decisionTaskCompletedEventId: Int64, markerName: String, cause: RecordMarkerFailedCause) {
@@ -2834,7 +2851,7 @@ extension Swf {
     }
 
     public struct DecisionTaskStartedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "scheduledEventId", required: true, type: .long), 
             AWSShapeMember(label: "identity", required: false, type: .string)
         ]
@@ -2855,7 +2872,7 @@ extension Swf {
     }
 
     public struct DeprecateDomainInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// The name of the domain to deprecate.
@@ -2871,7 +2888,7 @@ extension Swf {
     }
 
     public struct StartChildWorkflowExecutionInitiatedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lambdaRole", required: false, type: .string), 
             AWSShapeMember(label: "taskList", required: true, type: .structure), 
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
@@ -2885,29 +2902,29 @@ extension Swf {
             AWSShapeMember(label: "taskStartToCloseTimeout", required: false, type: .string), 
             AWSShapeMember(label: "executionStartToCloseTimeout", required: false, type: .string)
         ]
-        /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
+        /// The IAM role to attach to the child workflow execution.
         public let lambdaRole: String?
         /// The name of the task list used for the decision tasks of the child workflow execution.
         public let taskList: TaskList
-        /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the StartChildWorkflowExecution decision to request this child workflow execution. This information can be useful for diagnosing problems by tracing back the cause of events.
+        /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the StartChildWorkflowExecution Decision to request this child workflow execution. This information can be useful for diagnosing problems by tracing back the cause of events.
         public let decisionTaskCompletedEventId: Int64
         /// The workflowId of the child workflow execution.
         public let workflowId: String
-        /// Optional. The priority assigned for the decision tasks for this workflow execution. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
+        ///  The priority assigned for the decision tasks for this workflow execution. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let taskPriority: String?
-        /// Optional. Data attached to the event that can be used by the decider in subsequent decision tasks. This data is not sent to the activity.
+        /// Data attached to the event that can be used by the decider in subsequent decision tasks. This data isn't sent to the activity.
         public let control: String?
         /// The list of tags to associated with the child workflow execution.
         public let tagList: [String]?
-        /// The inputs provided to the child workflow execution (if any).
+        /// The inputs provided to the child workflow execution.
         public let input: String?
         /// The type of the child workflow execution.
         public let workflowType: WorkflowType
-        /// The policy to use for the child workflow executions if this execution gets terminated by explicitly calling the TerminateWorkflowExecution action or due to an expired timeout. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run. 
+        /// The policy to use for the child workflow executions if this execution gets terminated by explicitly calling the TerminateWorkflowExecution action or due to an expired timeout. The supported child policies are:    TERMINATE – The child executions are terminated.    REQUEST_CANCEL – A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.    ABANDON – No action is taken. The child executions continue to run.  
         public let childPolicy: ChildPolicy
-        /// The maximum duration allowed for the decision tasks for this workflow execution. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// The maximum duration allowed for the decision tasks for this workflow execution. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let taskStartToCloseTimeout: String?
-        /// The maximum duration for the child workflow execution. If the workflow execution is not closed within this duration, it will be timed out and force terminated. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// The maximum duration for the child workflow execution. If the workflow execution isn't closed within this duration, it is timed out and force-terminated. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let executionStartToCloseTimeout: String?
 
         public init(lambdaRole: String? = nil, taskList: TaskList, decisionTaskCompletedEventId: Int64, workflowId: String, taskPriority: String? = nil, control: String? = nil, tagList: [String]? = nil, input: String? = nil, workflowType: WorkflowType, childPolicy: ChildPolicy, taskStartToCloseTimeout: String? = nil, executionStartToCloseTimeout: String? = nil) {
@@ -2942,7 +2959,7 @@ extension Swf {
     }
 
     public struct RequestCancelExternalWorkflowExecutionInitiatedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "runId", required: false, type: .string), 
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "workflowId", required: true, type: .string), 
@@ -2954,7 +2971,7 @@ extension Swf {
         public let decisionTaskCompletedEventId: Int64
         /// The workflowId of the external workflow execution to be canceled.
         public let workflowId: String
-        /// Optional. Data attached to the event that can be used by the decider in subsequent workflow tasks.
+        /// Data attached to the event that can be used by the decider in subsequent workflow tasks.
         public let control: String?
 
         public init(runId: String? = nil, decisionTaskCompletedEventId: Int64, workflowId: String, control: String? = nil) {
@@ -2973,13 +2990,13 @@ extension Swf {
     }
 
     public struct ListDomainsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maximumPageSize", required: false, type: .integer), 
             AWSShapeMember(label: "reverseOrder", required: false, type: .boolean), 
             AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "registrationStatus", required: true, type: .enum)
         ]
-        /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
         /// When set to true, returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the domains.
         public let reverseOrder: Bool?
@@ -3004,7 +3021,7 @@ extension Swf {
     }
 
     public struct WorkflowTypeConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "defaultExecutionStartToCloseTimeout", required: false, type: .string), 
             AWSShapeMember(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
             AWSShapeMember(label: "defaultTaskPriority", required: false, type: .string), 
@@ -3012,17 +3029,17 @@ extension Swf {
             AWSShapeMember(label: "defaultLambdaRole", required: false, type: .string), 
             AWSShapeMember(label: "defaultChildPolicy", required: false, type: .enum)
         ]
-        /// Optional. The default maximum duration, specified when registering the workflow type, for executions of this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        ///  The default maximum duration, specified when registering the workflow type, for executions of this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution Decision. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let defaultExecutionStartToCloseTimeout: String?
-        /// Optional. The default maximum duration, specified when registering the workflow type, that a decision task for executions of this workflow type might take before returning completion or failure. If the task does not close in the specified time then the task is automatically timed out and rescheduled. If the decider eventually reports a completion or failure, it is ignored. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        ///  The default maximum duration, specified when registering the workflow type, that a decision task for executions of this workflow type might take before returning completion or failure. If the task doesn'tdo close in the specified time then the task is automatically timed out and rescheduled. If the decider eventually reports a completion or failure, it is ignored. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution Decision. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let defaultTaskStartToCloseTimeout: String?
-        /// Optional. The default task priority, specified when registering the workflow type, for all decision tasks of this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
+        ///  The default task priority, specified when registering the workflow type, for all decision tasks of this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let defaultTaskPriority: String?
-        /// Optional. The default task list, specified when registering the workflow type, for decisions tasks scheduled for workflow executions of this type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision.
+        ///  The default task list, specified when registering the workflow type, for decisions tasks scheduled for workflow executions of this type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution Decision.
         public let defaultTaskList: TaskList?
-        /// The default IAM role to use when a workflow execution invokes a AWS Lambda function.
+        /// The default IAM role attached to this workflow type.  Executions of this workflow type need IAM roles to invoke Lambda functions. If you don't specify an IAM role when starting this workflow type, the default Lambda role is attached to the execution. For more information, see http://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html in the Amazon SWF Developer Guide. 
         public let defaultLambdaRole: String?
-        /// Optional. The default policy to use for the child workflow executions when a workflow execution of this type is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run. 
+        ///  The default policy to use for the child workflow executions when a workflow execution of this type is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution Decision. The supported child policies are:    TERMINATE – The child executions are terminated.    REQUEST_CANCEL – A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.    ABANDON – No action is taken. The child executions continue to run.  
         public let defaultChildPolicy: ChildPolicy?
 
         public init(defaultExecutionStartToCloseTimeout: String? = nil, defaultTaskStartToCloseTimeout: String? = nil, defaultTaskPriority: String? = nil, defaultTaskList: TaskList? = nil, defaultLambdaRole: String? = nil, defaultChildPolicy: ChildPolicy? = nil) {
@@ -3045,13 +3062,13 @@ extension Swf {
     }
 
     public struct FailWorkflowExecutionFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "cause", required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the FailWorkflowExecution decision to fail this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
+        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes.  If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide. 
         public let cause: FailWorkflowExecutionFailedCause
 
         public init(decisionTaskCompletedEventId: Int64, cause: FailWorkflowExecutionFailedCause) {
@@ -3078,13 +3095,13 @@ extension Swf {
     }
 
     public struct RespondActivityTaskCanceledInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "taskToken", required: true, type: .string)
         ]
-        /// Optional. Information about the cancellation.
+        ///  Information about the cancellation.
         public let details: String?
-        /// The taskToken of the ActivityTask. taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
+        /// The taskToken of the ActivityTask.   taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results. 
         public let taskToken: String
 
         public init(details: String? = nil, taskToken: String) {
@@ -3099,7 +3116,7 @@ extension Swf {
     }
 
     public struct RegisterActivityTypeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
             AWSShapeMember(label: "defaultTaskScheduleToStartTimeout", required: false, type: .string), 
@@ -3111,25 +3128,25 @@ extension Swf {
             AWSShapeMember(label: "domain", required: true, type: .string), 
             AWSShapeMember(label: "defaultTaskScheduleToCloseTimeout", required: false, type: .string)
         ]
-        /// The name of the activity type within the domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        /// The name of the activity type within the domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let name: String
-        /// If set, specifies the default maximum duration that a worker can take to process tasks of this activity type. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// If set, specifies the default maximum duration that a worker can take to process tasks of this activity type. This default can be overridden when scheduling an activity task using the ScheduleActivityTask Decision. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let defaultTaskStartToCloseTimeout: String?
-        /// If set, specifies the default maximum duration that a task of this activity type can wait before being assigned to a worker. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// If set, specifies the default maximum duration that a task of this activity type can wait before being assigned to a worker. This default can be overridden when scheduling an activity task using the ScheduleActivityTask Decision. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let defaultTaskScheduleToStartTimeout: String?
         /// A textual description of the activity type.
         public let description: String?
-        /// The version of the activity type. The activity type consists of the name and version, the combination of which must be unique within the domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        /// The version of the activity type.  The activity type consists of the name and version, the combination of which must be unique within the domain.  The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not contain the literal string arn.
         public let version: String
-        /// If set, specifies the default maximum time before which a worker processing a task of this type must report progress by calling RecordActivityTaskHeartbeat. If the timeout is exceeded, the activity task is automatically timed out. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision. If the activity worker subsequently attempts to record a heartbeat or returns a result, the activity worker receives an UnknownResource fault. In this case, Amazon SWF no longer considers the activity task to be valid; the activity worker should clean up the activity task. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// If set, specifies the default maximum time before which a worker processing a task of this type must report progress by calling RecordActivityTaskHeartbeat. If the timeout is exceeded, the activity task is automatically timed out. This default can be overridden when scheduling an activity task using the ScheduleActivityTask Decision. If the activity worker subsequently attempts to record a heartbeat or returns a result, the activity worker receives an UnknownResource fault. In this case, Amazon SWF no longer considers the activity task to be valid; the activity worker should clean up the activity task. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let defaultTaskHeartbeatTimeout: String?
-        /// The default task priority to assign to the activity type. If not assigned, then "0" will be used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
+        /// The default task priority to assign to the activity type. If not assigned, then 0 is used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the in the Amazon SWF Developer Guide..
         public let defaultTaskPriority: String?
-        /// If set, specifies the default task list to use for scheduling tasks of this activity type. This default task list is used if a task list is not provided when a task is scheduled through the ScheduleActivityTask decision.
+        /// If set, specifies the default task list to use for scheduling tasks of this activity type. This default task list is used if a task list isn't provided when a task is scheduled through the ScheduleActivityTask Decision.
         public let defaultTaskList: TaskList?
         /// The name of the domain in which this activity is to be registered.
         public let domain: String
-        /// If set, specifies the default maximum duration for a task of this activity type. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// If set, specifies the default maximum duration for a task of this activity type. This default can be overridden when scheduling an activity task using the ScheduleActivityTask Decision. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let defaultTaskScheduleToCloseTimeout: String?
 
         public init(name: String, defaultTaskStartToCloseTimeout: String? = nil, defaultTaskScheduleToStartTimeout: String? = nil, description: String? = nil, version: String, defaultTaskHeartbeatTimeout: String? = nil, defaultTaskPriority: String? = nil, defaultTaskList: TaskList? = nil, domain: String, defaultTaskScheduleToCloseTimeout: String? = nil) {
@@ -3167,7 +3184,7 @@ extension Swf {
     }
 
     public struct ActivityTaskTimedOutEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "timeoutType", required: true, type: .enum), 
             AWSShapeMember(label: "startedEventId", required: true, type: .long), 
@@ -3198,7 +3215,7 @@ extension Swf {
     }
 
     public struct ActivityTaskStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cancelRequested", required: true, type: .boolean)
         ]
         /// Set to true if cancellation of the task is requested.
@@ -3220,7 +3237,7 @@ extension Swf {
     }
 
     public struct ActivityTaskScheduledEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskList", required: true, type: .structure), 
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "activityId", required: true, type: .string), 
@@ -3243,15 +3260,15 @@ extension Swf {
         public let scheduleToCloseTimeout: String?
         /// The maximum amount of time the activity task can wait to be assigned to a worker.
         public let scheduleToStartTimeout: String?
-        /// Optional. The priority to assign to the scheduled activity task. If set, this will override any default priority value that was assigned when the activity type was registered. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
+        ///  The priority to assign to the scheduled activity task. If set, this overrides any default priority value that was assigned when the activity type was registered. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let taskPriority: String?
         /// The maximum amount of time a worker may take to process the activity task.
         public let startToCloseTimeout: String?
         /// The input provided to the activity task.
         public let input: String?
-        /// Optional. Data attached to the event that can be used by the decider in subsequent workflow tasks. This data is not sent to the activity.
+        /// Data attached to the event that can be used by the decider in subsequent workflow tasks. This data isn't sent to the activity.
         public let control: String?
-        /// The maximum time before which the worker processing this task must report progress by calling RecordActivityTaskHeartbeat. If the timeout is exceeded, the activity task is automatically timed out. If the worker subsequently attempts to record a heartbeat or return a result, it will be ignored.
+        /// The maximum time before which the worker processing this task must report progress by calling RecordActivityTaskHeartbeat. If the timeout is exceeded, the activity task is automatically timed out. If the worker subsequently attempts to record a heartbeat or return a result, it is ignored.
         public let heartbeatTimeout: String?
         /// The type of the activity task.
         public let activityType: ActivityType
@@ -3286,7 +3303,7 @@ extension Swf {
     }
 
     public struct TerminateWorkflowExecutionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "runId", required: false, type: .string), 
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "reason", required: false, type: .string), 
@@ -3296,15 +3313,15 @@ extension Swf {
         ]
         /// The runId of the workflow execution to terminate.
         public let runId: String?
-        /// Optional. Details for terminating the workflow execution.
+        ///  Details for terminating the workflow execution.
         public let details: String?
-        /// Optional. A descriptive reason for terminating the workflow execution.
+        ///  A descriptive reason for terminating the workflow execution.
         public let reason: String?
         /// The workflowId of the workflow execution to terminate.
         public let workflowId: String
         /// The domain of the workflow execution to terminate.
         public let domain: String
-        /// If set, specifies the policy to use for the child workflow executions of the workflow execution being terminated. This policy overrides the child policy specified for the workflow execution at registration time or when starting the execution. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run.  A child policy for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default child policy was specified at registration time then a fault will be returned.
+        /// If set, specifies the policy to use for the child workflow executions of the workflow execution being terminated. This policy overrides the child policy specified for the workflow execution at registration time or when starting the execution. The supported child policies are:    TERMINATE – The child executions are terminated.    REQUEST_CANCEL – A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.    ABANDON – No action is taken. The child executions continue to run.    A child policy for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default child policy was specified at registration time then a fault is returned. 
         public let childPolicy: ChildPolicy?
 
         public init(runId: String? = nil, details: String? = nil, reason: String? = nil, workflowId: String, domain: String, childPolicy: ChildPolicy? = nil) {
@@ -3327,7 +3344,7 @@ extension Swf {
     }
 
     public struct ChildWorkflowExecutionFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeMember(label: "reason", required: false, type: .string), 
@@ -3337,7 +3354,7 @@ extension Swf {
         ]
         /// The details of the failure (if provided).
         public let details: String?
-        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution Decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
         /// The reason for the failure (if provided).
         public let reason: String?
@@ -3368,20 +3385,20 @@ extension Swf {
     }
 
     public struct ChildWorkflowExecutionCompletedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeMember(label: "workflowType", required: true, type: .structure), 
             AWSShapeMember(label: "startedEventId", required: true, type: .long), 
             AWSShapeMember(label: "result", required: false, type: .string), 
             AWSShapeMember(label: "workflowExecution", required: true, type: .structure)
         ]
-        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution Decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
         /// The type of the child workflow execution.
         public let workflowType: WorkflowType
         /// The ID of the ChildWorkflowExecutionStarted event recorded when this child workflow execution was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let startedEventId: Int64
-        /// The result of the child workflow execution (if any).
+        /// The result of the child workflow execution.
         public let result: String?
         /// The child workflow execution that was completed.
         public let workflowExecution: WorkflowExecution
@@ -3425,7 +3442,7 @@ extension Swf {
     }
 
     public struct RequestCancelActivityTaskDecisionAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "activityId", required: true, type: .string)
         ]
         /// The activityId of the activity task to be canceled.
@@ -3441,7 +3458,7 @@ extension Swf {
     }
 
     public struct ContinueAsNewWorkflowExecutionDecisionAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lambdaRole", required: false, type: .string), 
             AWSShapeMember(label: "workflowTypeVersion", required: false, type: .string), 
             AWSShapeMember(label: "taskList", required: false, type: .structure), 
@@ -3452,21 +3469,23 @@ extension Swf {
             AWSShapeMember(label: "taskStartToCloseTimeout", required: false, type: .string), 
             AWSShapeMember(label: "executionStartToCloseTimeout", required: false, type: .string)
         ]
-        /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
+        /// The IAM role to attach to the new (continued) execution.
         public let lambdaRole: String?
+        /// The version of the workflow to start.
         public let workflowTypeVersion: String?
+        /// The task list to use for the decisions of the new (continued) workflow execution.
         public let taskList: TaskList?
-        /// Optional. The task priority that, if set, specifies the priority for the decision tasks for this workflow execution. This overrides the defaultTaskPriority specified when registering the workflow type. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
+        ///  The task priority that, if set, specifies the priority for the decision tasks for this workflow execution. This overrides the defaultTaskPriority specified when registering the workflow type. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let taskPriority: String?
         /// The list of tags to associate with the new workflow execution. A maximum of 5 tags can be specified. You can list workflow executions with a specific tag by calling ListOpenWorkflowExecutions or ListClosedWorkflowExecutions and specifying a TagFilter.
         public let tagList: [String]?
         /// The input provided to the new workflow execution.
         public let input: String?
-        /// If set, specifies the policy to use for the child workflow executions of the new execution if it is terminated by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This policy overrides the default child policy specified when registering the workflow type using RegisterWorkflowType. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run.  A child policy for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default child policy was specified at registration time then a fault will be returned.
+        /// If set, specifies the policy to use for the child workflow executions of the new execution if it is terminated by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This policy overrides the default child policy specified when registering the workflow type using RegisterWorkflowType. The supported child policies are:    TERMINATE – The child executions are terminated.    REQUEST_CANCEL – A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.    ABANDON – No action is taken. The child executions continue to run.    A child policy for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default child policy was specified at registration time then a fault is returned. 
         public let childPolicy: ChildPolicy?
-        /// Specifies the maximum duration of decision tasks for the new workflow execution. This parameter overrides the defaultTaskStartToCloseTimout specified when registering the workflow type using RegisterWorkflowType. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration. A task start-to-close timeout for the new workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task start-to-close timeout was specified at registration time then a fault will be returned.
+        /// Specifies the maximum duration of decision tasks for the new workflow execution. This parameter overrides the defaultTaskStartToCloseTimout specified when registering the workflow type using RegisterWorkflowType. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.  A task start-to-close timeout for the new workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task start-to-close timeout was specified at registration time then a fault is returned. 
         public let taskStartToCloseTimeout: String?
-        /// If set, specifies the total duration for this workflow execution. This overrides the defaultExecutionStartToCloseTimeout specified when registering the workflow type. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration. An execution start-to-close timeout for this workflow execution must be specified either as a default for the workflow type or through this field. If neither this field is set nor a default execution start-to-close timeout was specified at registration time then a fault will be returned.
+        /// If set, specifies the total duration for this workflow execution. This overrides the defaultExecutionStartToCloseTimeout specified when registering the workflow type. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.  An execution start-to-close timeout for this workflow execution must be specified either as a default for the workflow type or through this field. If neither this field is set nor a default execution start-to-close timeout was specified at registration time then a fault is returned. 
         public let executionStartToCloseTimeout: String?
 
         public init(lambdaRole: String? = nil, workflowTypeVersion: String? = nil, taskList: TaskList? = nil, taskPriority: String? = nil, tagList: [String]? = nil, input: String? = nil, childPolicy: ChildPolicy? = nil, taskStartToCloseTimeout: String? = nil, executionStartToCloseTimeout: String? = nil) {
@@ -3500,16 +3519,16 @@ extension Swf {
     }
 
     public struct StartLambdaFunctionFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "scheduledEventId", required: false, type: .long), 
             AWSShapeMember(label: "cause", required: false, type: .enum), 
             AWSShapeMember(label: "message", required: false, type: .string)
         ]
-        /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
+        /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. To help diagnose issues, use this information to trace back the chain of events leading up to this event.
         public let scheduledEventId: Int64?
-        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
+        /// The cause of the failure. To help diagnose issues, use this information to trace back the chain of events leading up to this event.  If cause is set to OPERATION_NOT_PERMITTED, the decision failed because the IAM role attached to the execution lacked sufficient permissions. For details and example IAM policies, see Lambda Tasks in the Amazon SWF Developer Guide. 
         public let cause: StartLambdaFunctionFailedCause?
-        /// The error message (if any).
+        /// A description that can help diagnose the cause of the fault.
         public let message: String?
 
         public init(scheduledEventId: Int64? = nil, cause: StartLambdaFunctionFailedCause? = nil, message: String? = nil) {
@@ -3526,7 +3545,7 @@ extension Swf {
     }
 
     public struct SignalExternalWorkflowExecutionInitiatedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "runId", required: false, type: .string), 
             AWSShapeMember(label: "signalName", required: true, type: .string), 
             AWSShapeMember(label: "input", required: false, type: .string), 
@@ -3538,13 +3557,13 @@ extension Swf {
         public let runId: String?
         /// The name of the signal.
         public let signalName: String
-        /// Input provided to the signal (if any).
+        /// The input provided to the signal.
         public let input: String?
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the SignalExternalWorkflowExecution decision for this signal. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
         /// The workflowId of the external workflow execution.
         public let workflowId: String
-        /// Optional. data attached to the event that can be used by the decider in subsequent decision tasks.
+        /// Data attached to the event that can be used by the decider in subsequent decision tasks.
         public let control: String?
 
         public init(runId: String? = nil, signalName: String, input: String? = nil, decisionTaskCompletedEventId: Int64, workflowId: String, control: String? = nil) {
@@ -3567,11 +3586,11 @@ extension Swf {
     }
 
     public struct WorkflowTypeFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
-        /// Required. Name of the workflow type.
+        ///  Name of the workflow type.
         public let name: String
         /// Version of the workflow type.
         public let version: String?
@@ -3587,15 +3606,20 @@ extension Swf {
         }
     }
 
+    public enum DecisionTaskTimeoutType: String, CustomStringConvertible, Codable {
+        case startToClose = "START_TO_CLOSE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetWorkflowExecutionHistoryInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maximumPageSize", required: false, type: .integer), 
             AWSShapeMember(label: "execution", required: true, type: .structure), 
             AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "reverseOrder", required: false, type: .boolean), 
             AWSShapeMember(label: "domain", required: true, type: .string)
         ]
-        /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
         /// Specifies the workflow execution for which to return the history.
         public let execution: WorkflowExecution
@@ -3623,13 +3647,8 @@ extension Swf {
         }
     }
 
-    public enum DecisionTaskTimeoutType: String, CustomStringConvertible, Codable {
-        case startToClose = "START_TO_CLOSE"
-        public var description: String { return self.rawValue }
-    }
-
     public struct ActivityTypeConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "defaultTaskScheduleToStartTimeout", required: false, type: .string), 
             AWSShapeMember(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
             AWSShapeMember(label: "defaultTaskPriority", required: false, type: .string), 
@@ -3637,17 +3656,17 @@ extension Swf {
             AWSShapeMember(label: "defaultTaskScheduleToCloseTimeout", required: false, type: .string), 
             AWSShapeMember(label: "defaultTaskHeartbeatTimeout", required: false, type: .string)
         ]
-        /// Optional. The default maximum duration, specified when registering the activity type, that a task of an activity type can wait before being assigned to a worker. You can override this default when scheduling a task through the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        ///  The default maximum duration, specified when registering the activity type, that a task of an activity type can wait before being assigned to a worker. You can override this default when scheduling a task through the ScheduleActivityTask Decision. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let defaultTaskScheduleToStartTimeout: String?
-        /// Optional. The default maximum duration for tasks of an activity type specified when registering the activity type. You can override this default when scheduling a task through the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        ///  The default maximum duration for tasks of an activity type specified when registering the activity type. You can override this default when scheduling a task through the ScheduleActivityTask Decision. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let defaultTaskStartToCloseTimeout: String?
-        /// Optional. The default task priority for tasks of this activity type, specified at registration. If not set, then "0" will be used as the default priority. This default can be overridden when scheduling an activity task. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
+        ///  The default task priority for tasks of this activity type, specified at registration. If not set, then 0 is used as the default priority. This default can be overridden when scheduling an activity task. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let defaultTaskPriority: String?
-        /// Optional. The default task list specified for this activity type at registration. This default is used if a task list is not provided when a task is scheduled through the ScheduleActivityTask decision. You can override the default registered task list when scheduling a task through the ScheduleActivityTask decision.
+        ///  The default task list specified for this activity type at registration. This default is used if a task list isn't provided when a task is scheduled through the ScheduleActivityTask Decision. You can override the default registered task list when scheduling a task through the ScheduleActivityTask Decision.
         public let defaultTaskList: TaskList?
-        /// Optional. The default maximum duration, specified when registering the activity type, for tasks of this activity type. You can override this default when scheduling a task through the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        ///  The default maximum duration, specified when registering the activity type, for tasks of this activity type. You can override this default when scheduling a task through the ScheduleActivityTask Decision. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let defaultTaskScheduleToCloseTimeout: String?
-        /// Optional. The default maximum time, in seconds, before which a worker processing a task must report progress by calling RecordActivityTaskHeartbeat. You can specify this value only when registering an activity type. The registered default value can be overridden when you schedule a task through the ScheduleActivityTask decision. If the activity worker subsequently attempts to record a heartbeat or returns a result, the activity worker receives an UnknownResource fault. In this case, Amazon SWF no longer considers the activity task to be valid; the activity worker should clean up the activity task. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        ///  The default maximum time, in seconds, before which a worker processing a task must report progress by calling RecordActivityTaskHeartbeat. You can specify this value only when registering an activity type. The registered default value can be overridden when you schedule a task through the ScheduleActivityTask Decision. If the activity worker subsequently attempts to record a heartbeat or returns a result, the activity worker receives an UnknownResource fault. In this case, Amazon SWF no longer considers the activity task to be valid; the activity worker should clean up the activity task. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let defaultTaskHeartbeatTimeout: String?
 
         public init(defaultTaskScheduleToStartTimeout: String? = nil, defaultTaskStartToCloseTimeout: String? = nil, defaultTaskPriority: String? = nil, defaultTaskList: TaskList? = nil, defaultTaskScheduleToCloseTimeout: String? = nil, defaultTaskHeartbeatTimeout: String? = nil) {
@@ -3670,7 +3689,7 @@ extension Swf {
     }
 
     public struct TimerCanceledEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "startedEventId", required: true, type: .long), 
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "timerId", required: true, type: .string)
@@ -3679,7 +3698,7 @@ extension Swf {
         public let startedEventId: Int64
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelTimer decision to cancel this timer. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        ///  The unique ID of the timer that was canceled. 
+        /// The unique ID of the timer that was canceled.
         public let timerId: String
 
         public init(startedEventId: Int64, decisionTaskCompletedEventId: Int64, timerId: String) {
@@ -3696,7 +3715,7 @@ extension Swf {
     }
 
     public struct ListActivityTypesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maximumPageSize", required: false, type: .integer), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
@@ -3704,7 +3723,7 @@ extension Swf {
             AWSShapeMember(label: "domain", required: true, type: .string), 
             AWSShapeMember(label: "registrationStatus", required: true, type: .enum)
         ]
-        /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
+        /// The maximum number of results that are returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
         /// If specified, only lists the activity types that have this name.
         public let name: String?
@@ -3737,11 +3756,11 @@ extension Swf {
     }
 
     public struct FailWorkflowExecutionDecisionAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "reason", required: false, type: .string)
         ]
-        /// Optional. Details of the failure.
+        ///  Details of the failure.
         public let details: String?
         /// A descriptive reason for the failure that may help in diagnostics.
         public let reason: String?
@@ -3758,7 +3777,7 @@ extension Swf {
     }
 
     public struct PendingTaskCount: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "truncated", required: false, type: .boolean), 
             AWSShapeMember(label: "count", required: true, type: .integer)
         ]
@@ -3779,7 +3798,7 @@ extension Swf {
     }
 
     public struct WorkflowExecutionContinuedAsNewEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lambdaRole", required: false, type: .string), 
             AWSShapeMember(label: "taskList", required: true, type: .structure), 
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
@@ -3792,24 +3811,27 @@ extension Swf {
             AWSShapeMember(label: "taskStartToCloseTimeout", required: false, type: .string), 
             AWSShapeMember(label: "executionStartToCloseTimeout", required: false, type: .string)
         ]
-        /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
+        /// The IAM role to attach to the new (continued) workflow execution.
         public let lambdaRole: String?
+        /// The task list to use for the decisions of the new (continued) workflow execution.
         public let taskList: TaskList
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the ContinueAsNewWorkflowExecution decision that started this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
         /// The runId of the new workflow execution.
         public let newExecutionRunId: String
+        /// The priority of the task to use for the decisions of the new (continued) workflow execution.
         public let taskPriority: String?
         /// The list of tags associated with the new workflow execution.
         public let tagList: [String]?
         /// The input provided to the new workflow execution.
         public let input: String?
+        /// The workflow type of this execution.
         public let workflowType: WorkflowType
-        /// The policy to use for the child workflow executions of the new execution if it is terminated by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run. 
+        /// The policy to use for the child workflow executions of the new execution if it is terminated by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. The supported child policies are:    TERMINATE – The child executions are terminated.    REQUEST_CANCEL – A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.    ABANDON – No action is taken. The child executions continue to run.  
         public let childPolicy: ChildPolicy
-        /// The maximum duration of decision tasks for the new workflow execution. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// The maximum duration of decision tasks for the new workflow execution. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let taskStartToCloseTimeout: String?
-        /// The total duration allowed for the new workflow execution. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// The total duration allowed for the new workflow execution. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let executionStartToCloseTimeout: String?
 
         public init(lambdaRole: String? = nil, taskList: TaskList, decisionTaskCompletedEventId: Int64, newExecutionRunId: String, taskPriority: String? = nil, tagList: [String]? = nil, input: String? = nil, workflowType: WorkflowType, childPolicy: ChildPolicy, taskStartToCloseTimeout: String? = nil, executionStartToCloseTimeout: String? = nil) {
@@ -3850,7 +3872,7 @@ extension Swf {
     }
 
     public struct Decision: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "scheduleActivityTaskDecisionAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "requestCancelExternalWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "cancelTimerDecisionAttributes", required: false, type: .structure), 
@@ -3866,32 +3888,33 @@ extension Swf {
             AWSShapeMember(label: "completeWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
             AWSShapeMember(label: "scheduleLambdaFunctionDecisionAttributes", required: false, type: .structure)
         ]
-        /// Provides details of the ScheduleActivityTask decision. It is not set for other decision types.
+        /// Provides the details of the ScheduleActivityTask decision. It isn't set for other decision types.
         public let scheduleActivityTaskDecisionAttributes: ScheduleActivityTaskDecisionAttributes?
-        /// Provides details of the RequestCancelExternalWorkflowExecution decision. It is not set for other decision types.
+        /// Provides the details of the RequestCancelExternalWorkflowExecution decision. It isn't set for other decision types.
         public let requestCancelExternalWorkflowExecutionDecisionAttributes: RequestCancelExternalWorkflowExecutionDecisionAttributes?
-        /// Provides details of the CancelTimer decision. It is not set for other decision types.
+        /// Provides the details of the CancelTimer decision. It isn't set for other decision types.
         public let cancelTimerDecisionAttributes: CancelTimerDecisionAttributes?
-        /// Provides details of the SignalExternalWorkflowExecution decision. It is not set for other decision types.
+        /// Provides the details of the SignalExternalWorkflowExecution decision. It isn't set for other decision types.
         public let signalExternalWorkflowExecutionDecisionAttributes: SignalExternalWorkflowExecutionDecisionAttributes?
-        /// Provides details of the RequestCancelActivityTask decision. It is not set for other decision types.
+        /// Provides the details of the RequestCancelActivityTask decision. It isn't set for other decision types.
         public let requestCancelActivityTaskDecisionAttributes: RequestCancelActivityTaskDecisionAttributes?
-        /// Provides details of the RecordMarker decision. It is not set for other decision types.
+        /// Provides the details of the RecordMarker decision. It isn't set for other decision types.
         public let recordMarkerDecisionAttributes: RecordMarkerDecisionAttributes?
-        /// Provides details of the FailWorkflowExecution decision. It is not set for other decision types.
+        /// Provides the details of the FailWorkflowExecution decision. It isn't set for other decision types.
         public let failWorkflowExecutionDecisionAttributes: FailWorkflowExecutionDecisionAttributes?
-        /// Provides details of the CancelWorkflowExecution decision. It is not set for other decision types.
+        /// Provides the details of the CancelWorkflowExecution decision. It isn't set for other decision types.
         public let cancelWorkflowExecutionDecisionAttributes: CancelWorkflowExecutionDecisionAttributes?
         /// Specifies the type of the decision.
         public let decisionType: DecisionType
-        /// Provides details of the ContinueAsNewWorkflowExecution decision. It is not set for other decision types.
+        /// Provides the details of the ContinueAsNewWorkflowExecution decision. It isn't set for other decision types.
         public let continueAsNewWorkflowExecutionDecisionAttributes: ContinueAsNewWorkflowExecutionDecisionAttributes?
-        /// Provides details of the StartTimer decision. It is not set for other decision types.
+        /// Provides the details of the StartTimer decision. It isn't set for other decision types.
         public let startTimerDecisionAttributes: StartTimerDecisionAttributes?
-        /// Provides details of the StartChildWorkflowExecution decision. It is not set for other decision types.
+        /// Provides the details of the StartChildWorkflowExecution decision. It isn't set for other decision types.
         public let startChildWorkflowExecutionDecisionAttributes: StartChildWorkflowExecutionDecisionAttributes?
-        /// Provides details of the CompleteWorkflowExecution decision. It is not set for other decision types.
+        /// Provides the details of the CompleteWorkflowExecution decision. It isn't set for other decision types.
         public let completeWorkflowExecutionDecisionAttributes: CompleteWorkflowExecutionDecisionAttributes?
+        /// Provides the details of the ScheduleLambdaFunction decision. It isn't set for other decision types.
         public let scheduleLambdaFunctionDecisionAttributes: ScheduleLambdaFunctionDecisionAttributes?
 
         public init(scheduleActivityTaskDecisionAttributes: ScheduleActivityTaskDecisionAttributes? = nil, requestCancelExternalWorkflowExecutionDecisionAttributes: RequestCancelExternalWorkflowExecutionDecisionAttributes? = nil, cancelTimerDecisionAttributes: CancelTimerDecisionAttributes? = nil, signalExternalWorkflowExecutionDecisionAttributes: SignalExternalWorkflowExecutionDecisionAttributes? = nil, requestCancelActivityTaskDecisionAttributes: RequestCancelActivityTaskDecisionAttributes? = nil, recordMarkerDecisionAttributes: RecordMarkerDecisionAttributes? = nil, failWorkflowExecutionDecisionAttributes: FailWorkflowExecutionDecisionAttributes? = nil, cancelWorkflowExecutionDecisionAttributes: CancelWorkflowExecutionDecisionAttributes? = nil, decisionType: DecisionType, continueAsNewWorkflowExecutionDecisionAttributes: ContinueAsNewWorkflowExecutionDecisionAttributes? = nil, startTimerDecisionAttributes: StartTimerDecisionAttributes? = nil, startChildWorkflowExecutionDecisionAttributes: StartChildWorkflowExecutionDecisionAttributes? = nil, completeWorkflowExecutionDecisionAttributes: CompleteWorkflowExecutionDecisionAttributes? = nil, scheduleLambdaFunctionDecisionAttributes: ScheduleLambdaFunctionDecisionAttributes? = nil) {
@@ -3930,7 +3953,7 @@ extension Swf {
     }
 
     public struct WorkflowTypeInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "status", required: true, type: .enum), 
             AWSShapeMember(label: "deprecationDate", required: false, type: .timestamp), 
@@ -3966,7 +3989,7 @@ extension Swf {
     }
 
     public struct WorkflowExecutionSignaledEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "signalName", required: true, type: .string), 
             AWSShapeMember(label: "input", required: false, type: .string), 
             AWSShapeMember(label: "externalWorkflowExecution", required: false, type: .structure), 
@@ -3974,7 +3997,7 @@ extension Swf {
         ]
         /// The name of the signal received. The decider can use the signal name and inputs to determine how to the process the signal.
         public let signalName: String
-        /// Inputs provided with the signal (if any). The decider can use the signal name and inputs to determine how to process the signal.
+        /// The inputs provided with the signal. The decider can use the signal name and inputs to determine how to process the signal.
         public let input: String?
         /// The workflow execution that sent the signal. This is set only of the signal was sent by another workflow execution.
         public let externalWorkflowExecution: WorkflowExecution?
@@ -3997,7 +4020,7 @@ extension Swf {
     }
 
     public struct ActivityTypeInfos: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "typeInfos", required: true, type: .list)
         ]
@@ -4018,16 +4041,16 @@ extension Swf {
     }
 
     public struct RespondDecisionTaskCompletedInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskToken", required: true, type: .string), 
             AWSShapeMember(label: "executionContext", required: false, type: .string), 
             AWSShapeMember(label: "decisions", required: false, type: .list)
         ]
-        /// The taskToken from the DecisionTask. taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
+        /// The taskToken from the DecisionTask.   taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results. 
         public let taskToken: String
         /// User defined context to add to workflow execution.
         public let executionContext: String?
-        /// The list of decisions (possibly empty) made by the decider while processing this decision task. See the docs for the decision structure for details.
+        /// The list of decisions (possibly empty) made by the decider while processing this decision task. See the docs for the Decision structure for details.
         public let decisions: [Decision]?
 
         public init(taskToken: String, executionContext: String? = nil, decisions: [Decision]? = nil) {
@@ -4044,12 +4067,12 @@ extension Swf {
     }
 
     public struct MarkerRecordedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "markerName", required: true, type: .string)
         ]
-        /// Details of the marker (if any).
+        /// The details of the marker.
         public let details: String?
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RecordMarker decision that requested this marker. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -4070,11 +4093,11 @@ extension Swf {
     }
 
     public struct WorkflowExecutionTimedOutEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "childPolicy", required: true, type: .enum), 
             AWSShapeMember(label: "timeoutType", required: true, type: .enum)
         ]
-        /// The policy used for the child workflow executions of this workflow execution. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run. 
+        /// The policy used for the child workflow executions of this workflow execution. The supported child policies are:    TERMINATE – The child executions are terminated.    REQUEST_CANCEL – A request to cancel is attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.    ABANDON – No action is taken. The child executions continue to run.  
         public let childPolicy: ChildPolicy
         /// The type of timeout that caused this event.
         public let timeoutType: WorkflowExecutionTimeoutType
@@ -4091,26 +4114,30 @@ extension Swf {
     }
 
     public struct ScheduleLambdaFunctionDecisionAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "input", required: false, type: .string), 
             AWSShapeMember(label: "startToCloseTimeout", required: false, type: .string), 
-            AWSShapeMember(label: "id", required: true, type: .string)
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "control", required: false, type: .string)
         ]
-        /// Required. The name of the AWS Lambda function to invoke.
+        /// The name, or ARN, of the Lambda function to schedule.
         public let name: String
-        /// The input provided to the AWS Lambda function.
+        /// The optional input data to be supplied to the Lambda function.
         public let input: String?
-        /// If set, specifies the maximum duration the function may take to execute.
+        /// The timeout value, in seconds, after which the Lambda function is considered to be failed once it has started. This can be any integer from 1-300 (1s-5m). If no value is supplied, than a default value of 300s is assumed.
         public let startToCloseTimeout: String?
-        /// Required. The SWF id of the AWS Lambda task. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
+        /// A string that identifies the Lambda function execution in the event history.
         public let id: String
+        /// The data attached to the event that the decider can use in subsequent workflow tasks. This data isn't sent to the Lambda task.
+        public let control: String?
 
-        public init(name: String, input: String? = nil, startToCloseTimeout: String? = nil, id: String) {
+        public init(name: String, input: String? = nil, startToCloseTimeout: String? = nil, id: String, control: String? = nil) {
             self.name = name
             self.input = input
             self.startToCloseTimeout = startToCloseTimeout
             self.id = id
+            self.control = control
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4118,6 +4145,7 @@ extension Swf {
             case input = "input"
             case startToCloseTimeout = "startToCloseTimeout"
             case id = "id"
+            case control = "control"
         }
     }
 
@@ -4144,7 +4172,7 @@ extension Swf {
     }
 
     public struct DescribeWorkflowExecutionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "execution", required: true, type: .structure), 
             AWSShapeMember(label: "domain", required: true, type: .string)
         ]
@@ -4165,13 +4193,13 @@ extension Swf {
     }
 
     public struct ContinueAsNewWorkflowExecutionFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "cause", required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the ContinueAsNewWorkflowExecution decision that started this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
+        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes.  If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide. 
         public let cause: ContinueAsNewWorkflowExecutionFailedCause
 
         public init(decisionTaskCompletedEventId: Int64, cause: ContinueAsNewWorkflowExecutionFailedCause) {
@@ -4186,7 +4214,7 @@ extension Swf {
     }
 
     public struct WorkflowExecutionDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "openCounts", required: true, type: .structure), 
             AWSShapeMember(label: "executionInfo", required: true, type: .structure), 
             AWSShapeMember(label: "latestActivityTaskTimestamp", required: false, type: .timestamp), 
@@ -4222,7 +4250,7 @@ extension Swf {
     }
 
     public struct ExternalWorkflowExecutionCancelRequestedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeMember(label: "workflowExecution", required: true, type: .structure)
         ]
@@ -4250,7 +4278,7 @@ extension Swf {
     }
 
     public struct WorkflowTypeInfos: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "typeInfos", required: true, type: .list)
         ]
@@ -4271,13 +4299,13 @@ extension Swf {
     }
 
     public struct CancelWorkflowExecutionFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "cause", required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelWorkflowExecution decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
+        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes.  If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide. 
         public let cause: CancelWorkflowExecutionFailedCause
 
         public init(decisionTaskCompletedEventId: Int64, cause: CancelWorkflowExecutionFailedCause) {
@@ -4292,13 +4320,13 @@ extension Swf {
     }
 
     public struct ActivityTaskCanceledEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "latestCancelRequestedEventId", required: false, type: .long), 
             AWSShapeMember(label: "startedEventId", required: true, type: .long), 
             AWSShapeMember(label: "scheduledEventId", required: true, type: .long)
         ]
-        /// Details of the cancellation (if any).
+        /// Details of the cancellation.
         public let details: String?
         /// If set, contains the ID of the last ActivityTaskCancelRequested event recorded for this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let latestCancelRequestedEventId: Int64?
@@ -4323,7 +4351,7 @@ extension Swf {
     }
 
     public struct WorkflowExecutionCount: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "truncated", required: false, type: .boolean), 
             AWSShapeMember(label: "count", required: true, type: .integer)
         ]
@@ -4344,7 +4372,7 @@ extension Swf {
     }
 
     public struct CountPendingDecisionTasksInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "domain", required: true, type: .string), 
             AWSShapeMember(label: "taskList", required: true, type: .structure)
         ]
@@ -4365,7 +4393,7 @@ extension Swf {
     }
 
     public struct DomainInfos: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "domainInfos", required: true, type: .list)
         ]
@@ -4386,7 +4414,7 @@ extension Swf {
     }
 
     public struct SignalWorkflowExecutionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "runId", required: false, type: .string), 
             AWSShapeMember(label: "signalName", required: true, type: .string), 
             AWSShapeMember(label: "input", required: false, type: .string), 
@@ -4422,7 +4450,7 @@ extension Swf {
     }
 
     public struct SignalExternalWorkflowExecutionFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "runId", required: false, type: .string), 
             AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
@@ -4438,8 +4466,9 @@ extension Swf {
         public let decisionTaskCompletedEventId: Int64
         /// The workflowId of the external workflow execution that the signal was being delivered to.
         public let workflowId: String
-        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
+        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes.  If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide. 
         public let cause: SignalExternalWorkflowExecutionFailedCause
+        /// The data attached to the event that the decider can use in subsequent workflow tasks. This data isn't sent to the workflow execution.
         public let control: String?
 
         public init(runId: String? = nil, initiatedEventId: Int64, decisionTaskCompletedEventId: Int64, workflowId: String, cause: SignalExternalWorkflowExecutionFailedCause, control: String? = nil) {
@@ -4462,15 +4491,15 @@ extension Swf {
     }
 
     public struct ActivityTaskFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .string), 
             AWSShapeMember(label: "reason", required: false, type: .string), 
             AWSShapeMember(label: "startedEventId", required: true, type: .long), 
             AWSShapeMember(label: "scheduledEventId", required: true, type: .long)
         ]
-        /// The details of the failure (if any).
+        /// The details of the failure.
         public let details: String?
-        /// The reason provided for the failure (if any).
+        /// The reason provided for the failure.
         public let reason: String?
         /// The ID of the ActivityTaskStarted event recorded when this activity task was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let startedEventId: Int64
@@ -4499,14 +4528,14 @@ extension Swf {
     }
 
     public struct StartTimerFailedEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
             AWSShapeMember(label: "cause", required: true, type: .enum), 
             AWSShapeMember(label: "timerId", required: true, type: .string)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the StartTimer decision for this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
-        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
+        /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes.  If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide. 
         public let cause: StartTimerFailedCause
         /// The timerId provided in the StartTimer decision that failed.
         public let timerId: String
@@ -4525,14 +4554,14 @@ extension Swf {
     }
 
     public struct DecisionTaskScheduledEventAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "startToCloseTimeout", required: false, type: .string), 
             AWSShapeMember(label: "taskPriority", required: false, type: .string), 
             AWSShapeMember(label: "taskList", required: true, type: .structure)
         ]
-        /// The maximum duration for this decision task. The task is considered timed out if it does not completed within this duration. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
+        /// The maximum duration for this decision task. The task is considered timed out if it doesn't completed within this duration. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public let startToCloseTimeout: String?
-        /// Optional. A task priority that, if set, specifies the priority for this decision task. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
+        ///  A task priority that, if set, specifies the priority for this decision task. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon SWF Developer Guide.
         public let taskPriority: String?
         /// The name of the task list in which the decision task was scheduled.
         public let taskList: TaskList
@@ -4551,7 +4580,7 @@ extension Swf {
     }
 
     public struct DeprecateActivityTypeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "activityType", required: true, type: .structure), 
             AWSShapeMember(label: "domain", required: true, type: .string)
         ]

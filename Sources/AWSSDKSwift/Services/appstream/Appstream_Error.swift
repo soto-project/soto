@@ -12,8 +12,8 @@ public enum AppstreamError: AWSErrorType {
     case invalidParameterCombinationException(message: String?)
     case concurrentModificationException(message: String?)
     case incompatibleImageException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
     case operationNotPermittedException(message: String?)
+    case resourceAlreadyExistsException(message: String?)
 }
 
 extension AppstreamError {
@@ -39,10 +39,10 @@ extension AppstreamError {
             self = .concurrentModificationException(message: message)
         case "IncompatibleImageException":
             self = .incompatibleImageException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
         case "OperationNotPermittedException":
             self = .operationNotPermittedException(message: message)
+        case "ResourceAlreadyExistsException":
+            self = .resourceAlreadyExistsException(message: message)
         default:
             return nil
         }

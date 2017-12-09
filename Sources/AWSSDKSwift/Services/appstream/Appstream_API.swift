@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Amazon AppStream 2.0 API documentation for Amazon AppStream 2.0.
+Amazon AppStream 2.0 You can use Amazon AppStream 2.0 to stream desktop applications to any device running a web browser, without rewriting them.
 */
 public struct Appstream {
 
@@ -25,94 +25,142 @@ public struct Appstream {
         )
     }
 
-    ///  Updates an existing fleet. All the attributes except the fleet name can be updated in the STOPPED state. When a fleet is in the RUNNING state, only DisplayName and ComputeCapacity can be updated. A fleet cannot be updated in a status of STARTING or STOPPING.
+    ///  Updates the specified fleet. If the fleet is in the STOPPED state, you can update any attribute except the fleet name. If the fleet is in the RUNNING state, you can update the DisplayName and ComputeCapacity attributes. If the fleet is in the STARTING or STOPPING state, you can't update it.
     public func updateFleet(_ input: UpdateFleetRequest) throws -> UpdateFleetResult {
         return try client.send(operation: "UpdateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Create a new stack.
-    public func createStack(_ input: CreateStackRequest) throws -> CreateStackResult {
-        return try client.send(operation: "CreateStack", path: "/", httpMethod: "POST", input: input)
+    public func describeImageBuilders(_ input: DescribeImageBuildersRequest) throws -> DescribeImageBuildersResult {
+        return try client.send(operation: "DescribeImageBuilders", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists all fleets associated with the stack.
+    ///  Lists the fleets associated with the specified stack.
     public func listAssociatedFleets(_ input: ListAssociatedFleetsRequest) throws -> ListAssociatedFleetsResult {
         return try client.send(operation: "ListAssociatedFleets", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Stops a fleet.
+    ///  Updates the specified directory configuration.
+    public func updateDirectoryConfig(_ input: UpdateDirectoryConfigRequest) throws -> UpdateDirectoryConfigResult {
+        return try client.send(operation: "UpdateDirectoryConfig", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops the specified fleet.
     public func stopFleet(_ input: StopFleetRequest) throws -> StopFleetResult {
         return try client.send(operation: "StopFleet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts a fleet.
-    public func startFleet(_ input: StartFleetRequest) throws -> StartFleetResult {
-        return try client.send(operation: "StartFleet", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Associate a fleet to a stack.
+    ///  Associates the specified fleet with the specified stack.
     public func associateFleet(_ input: AssociateFleetRequest) throws -> AssociateFleetResult {
         return try client.send(operation: "AssociateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Disassociates a fleet from a stack.
-    public func disassociateFleet(_ input: DisassociateFleetRequest) throws -> DisassociateFleetResult {
-        return try client.send(operation: "DisassociateFleet", path: "/", httpMethod: "POST", input: input)
+    public func stopImageBuilder(_ input: StopImageBuilderRequest) throws -> StopImageBuilderResult {
+        return try client.send(operation: "StopImageBuilder", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a fleet.
+    public func startImageBuilder(_ input: StartImageBuilderRequest) throws -> StartImageBuilderResult {
+        return try client.send(operation: "StartImageBuilder", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified fleet.
     public func deleteFleet(_ input: DeleteFleetRequest) throws -> DeleteFleetResult {
         return try client.send(operation: "DeleteFleet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  This operation immediately stops a streaming session.
-    public func expireSession(_ input: ExpireSessionRequest) throws -> ExpireSessionResult {
-        return try client.send(operation: "ExpireSession", path: "/", httpMethod: "POST", input: input)
+    ///  Disassociates the specified fleet from the specified stack.
+    public func disassociateFleet(_ input: DisassociateFleetRequest) throws -> DisassociateFleetResult {
+        return try client.send(operation: "DisassociateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists all stacks to which the specified fleet is associated.
-    public func listAssociatedStacks(_ input: ListAssociatedStacksRequest) throws -> ListAssociatedStacksResult {
-        return try client.send(operation: "ListAssociatedStacks", path: "/", httpMethod: "POST", input: input)
+    public func createImageBuilderStreamingURL(_ input: CreateImageBuilderStreamingURLRequest) throws -> CreateImageBuilderStreamingURLResult {
+        return try client.send(operation: "CreateImageBuilderStreamingURL", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new fleet.
-    public func createFleet(_ input: CreateFleetRequest) throws -> CreateFleetResult {
-        return try client.send(operation: "CreateFleet", path: "/", httpMethod: "POST", input: input)
+    ///  Creates a directory configuration.
+    public func createDirectoryConfig(_ input: CreateDirectoryConfigRequest) throws -> CreateDirectoryConfigResult {
+        return try client.send(operation: "CreateDirectoryConfig", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the streaming sessions for a stack and a fleet. If a user ID is provided, this operation returns streaming sessions for only that user. Pass this value for the nextToken parameter in a subsequent call to this operation to retrieve the next set of items. If an authentication type is not provided, the operation defaults to users authenticated using a streaming URL.
+    ///  Describes the streaming sessions for the specified stack and fleet. If a user ID is provided, only the streaming sessions for only that user are returned. If an authentication type is not provided, the default is to authenticate users using a streaming URL.
     public func describeSessions(_ input: DescribeSessionsRequest) throws -> DescribeSessionsResult {
         return try client.send(operation: "DescribeSessions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  If stack names are not provided, this operation describes the specified stacks; otherwise, all stacks in the account are described. Pass the nextToken value in a subsequent call to this operation to retrieve the next set of items.
-    public func describeStacks(_ input: DescribeStacksRequest) throws -> DescribeStacksResult {
-        return try client.send(operation: "DescribeStacks", path: "/", httpMethod: "POST", input: input)
+    ///  Creates a fleet.
+    public func createFleet(_ input: CreateFleetRequest) throws -> CreateFleetResult {
+        return try client.send(operation: "CreateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  If fleet names are provided, this operation describes the specified fleets; otherwise, all the fleets in the account are described.
+    ///  Lists the stacks associated with the specified fleet.
+    public func listAssociatedStacks(_ input: ListAssociatedStacksRequest) throws -> ListAssociatedStacksResult {
+        return try client.send(operation: "ListAssociatedStacks", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the specified fleets or all fleets in the account.
     public func describeFleets(_ input: DescribeFleetsRequest) throws -> DescribeFleetsResult {
         return try client.send(operation: "DescribeFleets", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the images. If a list of names is not provided, all images in your account are returned. This operation does not return a paginated result.
+    ///  Deletes the specified stack. After this operation completes, the environment can no longer be activated and any reservations made for the stack are released.
+    public func deleteStack(_ input: DeleteStackRequest) throws -> DeleteStackResult {
+        return try client.send(operation: "DeleteStack", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the specified images or all images in the account.
     public func describeImages(_ input: DescribeImagesRequest) throws -> DescribeImagesResult {
         return try client.send(operation: "DescribeImages", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified fields in the stack with the specified name.
-    public func updateStack(_ input: UpdateStackRequest) throws -> UpdateStackResult {
-        return try client.send(operation: "UpdateStack", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a URL to start an AppStream 2.0 streaming session for a user. By default, the URL is valid only for 1 minute from the time that it is generated.
+    ///  Creates a URL to start a streaming session for the specified user. By default, the URL is valid only for one minute from the time that it is generated.
     public func createStreamingURL(_ input: CreateStreamingURLRequest) throws -> CreateStreamingURLResult {
         return try client.send(operation: "CreateStreamingURL", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the stack. After this operation completes, the environment can no longer be activated, and any reservations made for the stack are released.
-    public func deleteStack(_ input: DeleteStackRequest) throws -> DeleteStackResult {
-        return try client.send(operation: "DeleteStack", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes the specified directory configuration.
+    public func deleteDirectoryConfig(_ input: DeleteDirectoryConfigRequest) throws -> DeleteDirectoryConfigResult {
+        return try client.send(operation: "DeleteDirectoryConfig", path: "/", httpMethod: "POST", input: input)
+    }
+
+    public func createImageBuilder(_ input: CreateImageBuilderRequest) throws -> CreateImageBuilderResult {
+        return try client.send(operation: "CreateImageBuilder", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a stack.
+    public func createStack(_ input: CreateStackRequest) throws -> CreateStackResult {
+        return try client.send(operation: "CreateStack", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts the specified fleet.
+    public func startFleet(_ input: StartFleetRequest) throws -> StartFleetResult {
+        return try client.send(operation: "StartFleet", path: "/", httpMethod: "POST", input: input)
+    }
+
+    public func deleteImage(_ input: DeleteImageRequest) throws -> DeleteImageResult {
+        return try client.send(operation: "DeleteImage", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops the specified streaming session.
+    public func expireSession(_ input: ExpireSessionRequest) throws -> ExpireSessionResult {
+        return try client.send(operation: "ExpireSession", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the specified stacks or all stacks in the account.
+    public func describeStacks(_ input: DescribeStacksRequest) throws -> DescribeStacksResult {
+        return try client.send(operation: "DescribeStacks", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the specified directory configurations.
+    public func describeDirectoryConfigs(_ input: DescribeDirectoryConfigsRequest) throws -> DescribeDirectoryConfigsResult {
+        return try client.send(operation: "DescribeDirectoryConfigs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    public func deleteImageBuilder(_ input: DeleteImageBuilderRequest) throws -> DeleteImageBuilderResult {
+        return try client.send(operation: "DeleteImageBuilder", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the specified stack.
+    public func updateStack(_ input: UpdateStackRequest) throws -> UpdateStackResult {
+        return try client.send(operation: "UpdateStack", path: "/", httpMethod: "POST", input: input)
     }
 
 

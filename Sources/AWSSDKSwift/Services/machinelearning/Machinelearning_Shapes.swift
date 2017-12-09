@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Machinelearning {
 
     public struct CreateBatchPredictionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchPredictionName", required: false, type: .string), 
             AWSShapeMember(label: "BatchPredictionId", required: true, type: .string), 
             AWSShapeMember(label: "OutputUri", required: true, type: .string), 
@@ -42,7 +42,7 @@ extension Machinelearning {
     }
 
     public struct CreateDataSourceFromRedshiftInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
             AWSShapeMember(label: "DataSourceName", required: false, type: .string), 
             AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean), 
@@ -78,7 +78,7 @@ extension Machinelearning {
     }
 
     public struct CreateDataSourceFromS3Output: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request. 
@@ -94,7 +94,7 @@ extension Machinelearning {
     }
 
     public struct S3DataSpec: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataLocationS3", required: true, type: .string), 
             AWSShapeMember(label: "DataSchema", required: false, type: .string), 
             AWSShapeMember(label: "DataSchemaLocationS3", required: false, type: .string), 
@@ -125,7 +125,7 @@ extension Machinelearning {
     }
 
     public struct DescribeDataSourcesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Results", required: false, type: .list)
         ]
@@ -146,7 +146,7 @@ extension Machinelearning {
     }
 
     public struct DeleteBatchPredictionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value should be identical to the value of the BatchPredictionID in the request.
@@ -162,7 +162,7 @@ extension Machinelearning {
     }
 
     public struct GetMLModelInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: true, type: .string), 
             AWSShapeMember(label: "Verbose", required: false, type: .boolean)
         ]
@@ -183,7 +183,7 @@ extension Machinelearning {
     }
 
     public struct RedshiftMetadata: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SelectSqlQuery", required: false, type: .string), 
             AWSShapeMember(label: "DatabaseUserName", required: false, type: .string), 
             AWSShapeMember(label: "RedshiftDatabase", required: false, type: .structure)
@@ -207,7 +207,7 @@ extension Machinelearning {
     }
 
     public struct RDSDatabase: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "DatabaseName", required: true, type: .string)
         ]
@@ -241,7 +241,7 @@ extension Machinelearning {
     }
 
     public struct DeleteBatchPredictionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchPredictionId", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the BatchPrediction.
@@ -266,7 +266,7 @@ extension Machinelearning {
     }
 
     public struct UpdateMLModelInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: true, type: .string), 
             AWSShapeMember(label: "ScoreThreshold", required: false, type: .float), 
             AWSShapeMember(label: "MLModelName", required: false, type: .string)
@@ -304,7 +304,7 @@ extension Machinelearning {
     }
 
     public struct DescribeMLModelsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Results", required: false, type: .list)
         ]
@@ -325,7 +325,7 @@ extension Machinelearning {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
@@ -352,7 +352,7 @@ extension Machinelearning {
     }
 
     public struct CreateEvaluationInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationName", required: false, type: .string), 
             AWSShapeMember(label: "EvaluationId", required: true, type: .string), 
             AWSShapeMember(label: "MLModelId", required: true, type: .string), 
@@ -383,7 +383,7 @@ extension Machinelearning {
     }
 
     public struct RealtimeEndpointInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PeakRequestsPerSecond", required: false, type: .integer), 
             AWSShapeMember(label: "EndpointUrl", required: false, type: .string), 
             AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
@@ -414,7 +414,7 @@ extension Machinelearning {
     }
 
     public struct DescribeBatchPredictionsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Results", required: false, type: .list)
         ]
@@ -441,7 +441,7 @@ extension Machinelearning {
     }
 
     public struct GetDataSourceOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSizeInBytes", required: false, type: .long), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfFiles", required: false, type: .long), 
@@ -549,7 +549,7 @@ extension Machinelearning {
     }
 
     public struct PredictInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: true, type: .string), 
             AWSShapeMember(label: "PredictEndpoint", required: true, type: .string), 
             AWSShapeMember(label: "Record", required: true, type: .map)
@@ -573,7 +573,7 @@ extension Machinelearning {
     }
 
     public struct DeleteRealtimeEndpointOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: false, type: .string), 
             AWSShapeMember(label: "RealtimeEndpointInfo", required: false, type: .structure)
         ]
@@ -594,7 +594,7 @@ extension Machinelearning {
     }
 
     public struct DescribeEvaluationsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Results", required: false, type: .list)
         ]
@@ -615,7 +615,7 @@ extension Machinelearning {
     }
 
     public struct RDSDataSpec: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSchemaUri", required: false, type: .string), 
             AWSShapeMember(label: "DatabaseCredentials", required: true, type: .structure), 
             AWSShapeMember(label: "S3StagingLocation", required: true, type: .string), 
@@ -681,7 +681,7 @@ extension Machinelearning {
     }
 
     public struct Prediction: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "details", required: false, type: .map), 
             AWSShapeMember(label: "predictedScores", required: false, type: .map), 
             AWSShapeMember(label: "predictedLabel", required: false, type: .string), 
@@ -710,7 +710,7 @@ extension Machinelearning {
     }
 
     public struct DeleteMLModelInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the MLModel.
@@ -731,7 +731,7 @@ extension Machinelearning {
     }
 
     public struct GetBatchPredictionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchPredictionId", required: true, type: .string)
         ]
         /// An ID assigned to the BatchPrediction at creation.
@@ -747,7 +747,7 @@ extension Machinelearning {
     }
 
     public struct CreateDataSourceFromRDSInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
             AWSShapeMember(label: "RDSData", required: true, type: .structure), 
             AWSShapeMember(label: "DataSourceName", required: false, type: .string), 
@@ -783,7 +783,7 @@ extension Machinelearning {
     }
 
     public struct RedshiftDataSpec: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSchemaUri", required: false, type: .string), 
             AWSShapeMember(label: "DatabaseCredentials", required: true, type: .structure), 
             AWSShapeMember(label: "S3StagingLocation", required: true, type: .string), 
@@ -829,7 +829,7 @@ extension Machinelearning {
     }
 
     public struct Evaluation: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PerformanceMetrics", required: false, type: .structure), 
             AWSShapeMember(label: "EvaluationId", required: false, type: .string), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
@@ -907,7 +907,7 @@ extension Machinelearning {
     }
 
     public struct CreateDataSourceFromRedshiftOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
@@ -923,7 +923,7 @@ extension Machinelearning {
     }
 
     public struct RDSMetadata: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DatabaseUserName", required: false, type: .string), 
             AWSShapeMember(label: "DataPipelineId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceRole", required: false, type: .string), 
@@ -963,7 +963,7 @@ extension Machinelearning {
     }
 
     public struct DescribeTagsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "ResourceType", required: false, type: .enum)
@@ -989,7 +989,7 @@ extension Machinelearning {
     }
 
     public struct CreateEvaluationOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationId", required: false, type: .string)
         ]
         /// The user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
@@ -1005,7 +1005,7 @@ extension Machinelearning {
     }
 
     public struct AddTagsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
@@ -1026,7 +1026,7 @@ extension Machinelearning {
     }
 
     public struct DeleteDataSourceInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the DataSource.
@@ -1042,7 +1042,7 @@ extension Machinelearning {
     }
 
     public struct UpdateDataSourceInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
             AWSShapeMember(label: "DataSourceName", required: true, type: .string)
         ]
@@ -1063,7 +1063,7 @@ extension Machinelearning {
     }
 
     public struct GetBatchPredictionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "MLModelId", required: false, type: .string), 
             AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
@@ -1159,7 +1159,7 @@ extension Machinelearning {
     }
 
     public struct UpdateBatchPredictionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchPredictionName", required: true, type: .string), 
             AWSShapeMember(label: "BatchPredictionId", required: true, type: .string)
         ]
@@ -1180,7 +1180,7 @@ extension Machinelearning {
     }
 
     public struct RedshiftDatabaseCredentials: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Password", required: true, type: .string), 
             AWSShapeMember(label: "Username", required: true, type: .string)
         ]
@@ -1211,7 +1211,7 @@ extension Machinelearning {
     }
 
     public struct UpdateEvaluationOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationId", required: false, type: .string)
         ]
         /// The ID assigned to the Evaluation during creation. This value should be identical to the value of the Evaluation in the request.
@@ -1227,7 +1227,7 @@ extension Machinelearning {
     }
 
     public struct UpdateEvaluationInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationName", required: true, type: .string), 
             AWSShapeMember(label: "EvaluationId", required: true, type: .string)
         ]
@@ -1248,7 +1248,7 @@ extension Machinelearning {
     }
 
     public struct CreateBatchPredictionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value is identical to the value of the BatchPredictionId in the request.
@@ -1264,7 +1264,7 @@ extension Machinelearning {
     }
 
     public struct DescribeEvaluationsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NE", required: false, type: .string), 
             AWSShapeMember(label: "EQ", required: false, type: .string), 
             AWSShapeMember(label: "GT", required: false, type: .string), 
@@ -1330,7 +1330,7 @@ extension Machinelearning {
     }
 
     public struct CreateMLModelOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request. 
@@ -1346,7 +1346,7 @@ extension Machinelearning {
     }
 
     public struct RedshiftDatabase: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "DatabaseName", required: true, type: .string)
         ]
@@ -1365,7 +1365,7 @@ extension Machinelearning {
     }
 
     public struct UpdateMLModelOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: false, type: .string)
         ]
         /// The ID assigned to the MLModel during creation. This value should be identical to the value of the MLModelID in the request.
@@ -1381,7 +1381,7 @@ extension Machinelearning {
     }
 
     public struct BatchPrediction: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "MLModelId", required: false, type: .string), 
             AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
@@ -1467,7 +1467,7 @@ extension Machinelearning {
     }
 
     public struct CreateDataSourceFromS3Input: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
             AWSShapeMember(label: "DataSourceName", required: false, type: .string), 
             AWSShapeMember(label: "DataSpec", required: true, type: .structure), 
@@ -1498,7 +1498,7 @@ extension Machinelearning {
     }
 
     public struct GetEvaluationInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationId", required: true, type: .string)
         ]
         /// The ID of the Evaluation to retrieve. The evaluation of each MLModel is recorded and cataloged. The ID provides the means to access the information. 
@@ -1514,7 +1514,7 @@ extension Machinelearning {
     }
 
     public struct RDSDatabaseCredentials: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Password", required: true, type: .string), 
             AWSShapeMember(label: "Username", required: true, type: .string)
         ]
@@ -1533,7 +1533,7 @@ extension Machinelearning {
     }
 
     public struct DeleteRealtimeEndpointInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: true, type: .string)
         ]
         /// The ID assigned to the MLModel during creation.
@@ -1549,7 +1549,7 @@ extension Machinelearning {
     }
 
     public struct CreateRealtimeEndpointInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: true, type: .string)
         ]
         /// The ID assigned to the MLModel during creation.
@@ -1565,7 +1565,7 @@ extension Machinelearning {
     }
 
     public struct DeleteDataSourceOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request.
@@ -1581,7 +1581,7 @@ extension Machinelearning {
     }
 
     public struct GetMLModelOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ScoreThresholdLastUpdatedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "TrainingDataSourceId", required: false, type: .string), 
@@ -1696,7 +1696,7 @@ extension Machinelearning {
     }
 
     public struct UpdateDataSourceOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
         /// The ID assigned to the DataSource during creation. This value should be identical to the value of the DataSourceID in the request.
@@ -1712,7 +1712,7 @@ extension Machinelearning {
     }
 
     public struct DescribeTagsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "ResourceType", required: true, type: .enum)
         ]
@@ -1733,7 +1733,7 @@ extension Machinelearning {
     }
 
     public struct DeleteEvaluationInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationId", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the Evaluation to delete.
@@ -1749,7 +1749,7 @@ extension Machinelearning {
     }
 
     public struct MLModel: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Algorithm", required: false, type: .enum), 
             AWSShapeMember(label: "ScoreThresholdLastUpdatedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
@@ -1858,7 +1858,7 @@ extension Machinelearning {
     }
 
     public struct DataSource: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSizeInBytes", required: false, type: .long), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfFiles", required: false, type: .long), 
@@ -1953,7 +1953,7 @@ extension Machinelearning {
     }
 
     public struct PredictOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Prediction", required: false, type: .structure)
         ]
         public let prediction: Prediction?
@@ -1968,7 +1968,7 @@ extension Machinelearning {
     }
 
     public struct PerformanceMetrics: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Properties", required: false, type: .map)
         ]
         public let properties: [String: String]?
@@ -1983,7 +1983,7 @@ extension Machinelearning {
     }
 
     public struct DescribeMLModelsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NE", required: false, type: .string), 
             AWSShapeMember(label: "EQ", required: false, type: .string), 
             AWSShapeMember(label: "GT", required: false, type: .string), 
@@ -2049,7 +2049,7 @@ extension Machinelearning {
     }
 
     public struct DeleteTagsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
@@ -2082,7 +2082,7 @@ extension Machinelearning {
     }
 
     public struct GetEvaluationOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PerformanceMetrics", required: false, type: .structure), 
             AWSShapeMember(label: "EvaluationId", required: false, type: .string), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
@@ -2168,7 +2168,7 @@ extension Machinelearning {
     }
 
     public struct AddTagsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list), 
             AWSShapeMember(label: "ResourceType", required: true, type: .enum)
@@ -2194,7 +2194,7 @@ extension Machinelearning {
     }
 
     public struct DeleteMLModelOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelID in the request.
@@ -2210,7 +2210,7 @@ extension Machinelearning {
     }
 
     public struct CreateDataSourceFromRDSOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
@@ -2226,7 +2226,7 @@ extension Machinelearning {
     }
 
     public struct UpdateBatchPredictionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
         ]
         /// The ID assigned to the BatchPrediction during creation. This value should be identical to the value of the BatchPredictionId in the request.
@@ -2242,7 +2242,7 @@ extension Machinelearning {
     }
 
     public struct CreateRealtimeEndpointOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MLModelId", required: false, type: .string), 
             AWSShapeMember(label: "RealtimeEndpointInfo", required: false, type: .structure)
         ]
@@ -2263,7 +2263,7 @@ extension Machinelearning {
     }
 
     public struct CreateMLModelInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RecipeUri", required: false, type: .string), 
             AWSShapeMember(label: "TrainingDataSourceId", required: true, type: .string), 
             AWSShapeMember(label: "MLModelId", required: true, type: .string), 
@@ -2309,7 +2309,7 @@ extension Machinelearning {
     }
 
     public struct DescribeBatchPredictionsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NE", required: false, type: .string), 
             AWSShapeMember(label: "EQ", required: false, type: .string), 
             AWSShapeMember(label: "GT", required: false, type: .string), 
@@ -2375,7 +2375,7 @@ extension Machinelearning {
     }
 
     public struct DescribeDataSourcesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NE", required: false, type: .string), 
             AWSShapeMember(label: "EQ", required: false, type: .string), 
             AWSShapeMember(label: "GT", required: false, type: .string), 
@@ -2441,7 +2441,7 @@ extension Machinelearning {
     }
 
     public struct DeleteTagsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
@@ -2462,7 +2462,7 @@ extension Machinelearning {
     }
 
     public struct GetDataSourceInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
             AWSShapeMember(label: "Verbose", required: false, type: .boolean)
         ]
@@ -2501,7 +2501,7 @@ extension Machinelearning {
     }
 
     public struct DeleteEvaluationOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.

@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Config {
 
     public struct ConfigStreamDeliveryInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lastErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "lastErrorCode", required: false, type: .string), 
             AWSShapeMember(label: "lastStatus", required: false, type: .enum), 
@@ -37,7 +37,7 @@ extension Config {
     }
 
     public struct GetComplianceDetailsByConfigRuleResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationResults", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -58,7 +58,7 @@ extension Config {
     }
 
     public struct GetComplianceDetailsByResourceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationResults", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -79,7 +79,7 @@ extension Config {
     }
 
     public struct Source: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Owner", required: true, type: .enum), 
             AWSShapeMember(label: "SourceDetails", required: false, type: .list), 
             AWSShapeMember(label: "SourceIdentifier", required: true, type: .string)
@@ -88,7 +88,7 @@ extension Config {
         public let owner: Owner
         /// Provides the source and type of the event that causes AWS Config to evaluate your AWS resources.
         public let sourceDetails: [SourceDetail]?
-        /// For AWS Config managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see Using AWS Managed Config Rules. For custom rules, the identifier is the Amazon Resource Name (ARN) of the rule's AWS Lambda function, such as arn:aws:lambda:us-east-1:123456789012:function:custom_rule_name.
+        /// For AWS Config managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see Using AWS Managed Config Rules. For custom rules, the identifier is the Amazon Resource Name (ARN) of the rule's AWS Lambda function, such as arn:aws:lambda:us-east-2:123456789012:function:custom_rule_name.
         public let sourceIdentifier: String
 
         public init(owner: Owner, sourceDetails: [SourceDetail]? = nil, sourceIdentifier: String) {
@@ -105,7 +105,7 @@ extension Config {
     }
 
     public struct DeleteConfigRuleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigRuleName", required: true, type: .string)
         ]
         /// The name of the AWS Config rule that you want to delete.
@@ -121,7 +121,7 @@ extension Config {
     }
 
     public struct ConfigExportDeliveryInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lastErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "lastAttemptTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "lastSuccessfulTime", required: false, type: .timestamp), 
@@ -162,7 +162,7 @@ extension Config {
     }
 
     public struct SourceDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MessageType", required: false, type: .enum), 
             AWSShapeMember(label: "EventSource", required: false, type: .enum), 
             AWSShapeMember(label: "MaximumExecutionFrequency", required: false, type: .enum)
@@ -196,7 +196,7 @@ extension Config {
     }
 
     public struct DescribeConfigurationRecordersResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationRecorders", required: false, type: .list)
         ]
         /// A list that contains the descriptions of the specified configuration recorders.
@@ -212,7 +212,7 @@ extension Config {
     }
 
     public struct DescribeConfigurationRecordersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationRecorderNames", required: false, type: .list)
         ]
         /// A list of configuration recorder names.
@@ -228,7 +228,7 @@ extension Config {
     }
 
     public struct ResourceIdentifier: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceType", required: false, type: .enum), 
             AWSShapeMember(label: "resourceId", required: false, type: .string), 
             AWSShapeMember(label: "resourceName", required: false, type: .string), 
@@ -259,7 +259,7 @@ extension Config {
     }
 
     public struct DeliveryChannel: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "s3KeyPrefix", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "configSnapshotDeliveryProperties", required: false, type: .structure), 
@@ -295,7 +295,7 @@ extension Config {
     }
 
     public struct PutConfigRuleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigRule", required: true, type: .structure)
         ]
         /// The rule that you want to add to your account.
@@ -311,7 +311,7 @@ extension Config {
     }
 
     public struct DescribeDeliveryChannelsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryChannels", required: false, type: .list)
         ]
         /// A list that contains the descriptions of the specified delivery channel.
@@ -327,7 +327,7 @@ extension Config {
     }
 
     public struct DescribeConfigRuleEvaluationStatusResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ConfigRulesEvaluationStatus", required: false, type: .list)
         ]
@@ -353,7 +353,7 @@ extension Config {
     }
 
     public struct DescribeComplianceByResourceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ComplianceByResources", required: false, type: .list)
         ]
@@ -374,7 +374,7 @@ extension Config {
     }
 
     public struct DescribeConfigRulesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -395,7 +395,7 @@ extension Config {
     }
 
     public struct DeliverConfigSnapshotResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "configSnapshotId", required: false, type: .string)
         ]
         /// The ID of the snapshot that is being created.
@@ -411,7 +411,7 @@ extension Config {
     }
 
     public struct ListDiscoveredResourcesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "includeDeletedResources", required: false, type: .boolean), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "resourceType", required: true, type: .enum), 
@@ -452,7 +452,7 @@ extension Config {
     }
 
     public struct DeliverConfigSnapshotRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deliveryChannelName", required: true, type: .string)
         ]
         /// The name of the delivery channel through which the snapshot is delivered.
@@ -468,7 +468,7 @@ extension Config {
     }
 
     public struct DescribeDeliveryChannelsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryChannelNames", required: false, type: .list)
         ]
         /// A list of delivery channel names.
@@ -527,6 +527,13 @@ extension Config {
         case awsRedshiftClustersubnetgroup = "AWS::Redshift::ClusterSubnetGroup"
         case awsRedshiftEventsubscription = "AWS::Redshift::EventSubscription"
         case awsCloudwatchAlarm = "AWS::CloudWatch::Alarm"
+        case awsCloudformationStack = "AWS::CloudFormation::Stack"
+        case awsDynamodbTable = "AWS::DynamoDB::Table"
+        case awsAutoscalingAutoscalinggroup = "AWS::AutoScaling::AutoScalingGroup"
+        case awsAutoscalingLaunchconfiguration = "AWS::AutoScaling::LaunchConfiguration"
+        case awsAutoscalingScalingpolicy = "AWS::AutoScaling::ScalingPolicy"
+        case awsAutoscalingScheduledaction = "AWS::AutoScaling::ScheduledAction"
+        case awsCodebuildProject = "AWS::CodeBuild::Project"
         public var description: String { return self.rawValue }
     }
 
@@ -537,7 +544,7 @@ extension Config {
     }
 
     public struct GetComplianceSummaryByResourceTypeResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComplianceSummariesByResourceType", required: false, type: .list)
         ]
         /// The number of resources that are compliant and the number that are noncompliant. If one or more resource types were provided with the request, the numbers are returned for each resource type. The maximum number returned is 100.
@@ -553,7 +560,7 @@ extension Config {
     }
 
     public struct DeleteEvaluationResultsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigRuleName", required: true, type: .string)
         ]
         /// The name of the Config rule for which you want to delete the evaluation results.
@@ -569,7 +576,7 @@ extension Config {
     }
 
     public struct ConfigurationItem: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "configurationStateId", required: false, type: .string), 
             AWSShapeMember(label: "resourceType", required: false, type: .enum), 
             AWSShapeMember(label: "resourceName", required: false, type: .string), 
@@ -670,7 +677,7 @@ extension Config {
     }
 
     public struct PutConfigurationRecorderRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationRecorder", required: true, type: .structure)
         ]
         /// The configuration recorder object that records each configuration change made to the resources.
@@ -686,7 +693,7 @@ extension Config {
     }
 
     public struct EvaluationResultIdentifier: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrderingTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "EvaluationResultQualifier", required: false, type: .structure)
         ]
@@ -707,7 +714,7 @@ extension Config {
     }
 
     public struct RecordingGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "allSupported", required: false, type: .boolean), 
             AWSShapeMember(label: "includeGlobalResourceTypes", required: false, type: .boolean), 
             AWSShapeMember(label: "resourceTypes", required: false, type: .list)
@@ -733,7 +740,7 @@ extension Config {
     }
 
     public struct GetComplianceDetailsByConfigRuleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -764,7 +771,7 @@ extension Config {
     }
 
     public struct ComplianceSummaryByResourceType: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComplianceSummary", required: false, type: .structure), 
             AWSShapeMember(label: "ResourceType", required: false, type: .string)
         ]
@@ -785,7 +792,7 @@ extension Config {
     }
 
     public struct PutDeliveryChannelRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryChannel", required: true, type: .structure)
         ]
         /// The configuration delivery channel object that delivers the configuration information to an Amazon S3 bucket, and to an Amazon SNS topic.
@@ -801,7 +808,7 @@ extension Config {
     }
 
     public struct Evaluation: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComplianceType", required: true, type: .enum), 
             AWSShapeMember(label: "ComplianceResourceType", required: true, type: .string), 
             AWSShapeMember(label: "ComplianceResourceId", required: true, type: .string), 
@@ -837,7 +844,7 @@ extension Config {
     }
 
     public struct StopConfigurationRecorderRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationRecorderName", required: true, type: .string)
         ]
         /// The name of the recorder object that records each configuration change made to the resources.
@@ -853,7 +860,7 @@ extension Config {
     }
 
     public struct ConfigRule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigRuleState", required: false, type: .enum), 
             AWSShapeMember(label: "ConfigRuleName", required: false, type: .string), 
             AWSShapeMember(label: "InputParameters", required: false, type: .string), 
@@ -909,7 +916,7 @@ extension Config {
     }
 
     public struct EvaluationResultQualifier: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceType", required: false, type: .string), 
             AWSShapeMember(label: "ConfigRuleName", required: false, type: .string)
@@ -934,8 +941,34 @@ extension Config {
         }
     }
 
+    public struct GetDiscoveredResourceCountsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "limit", required: false, type: .integer)
+        ]
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// The comma-separated list that specifies the resource types that you want the AWS Config to return. For example, ("AWS::EC2::Instance", "AWS::IAM::User"). If a value for resourceTypes is not specified, AWS Config returns all resource types that AWS Config is recording in the region for your account.  If the configuration recorder is turned off, AWS Config returns an empty list of ResourceCount objects. If the configuration recorder is not recording a specific resource type (for example, S3 buckets), that resource type is not returned in the list of ResourceCount objects. 
+        public let resourceTypes: [String]?
+        /// The maximum number of ResourceCount objects returned on each page. The default is 100. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
+        public let limit: Int32?
+
+        public init(nextToken: String? = nil, resourceTypes: [String]? = nil, limit: Int32? = nil) {
+            self.nextToken = nextToken
+            self.resourceTypes = resourceTypes
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resourceTypes = "resourceTypes"
+            case limit = "limit"
+        }
+    }
+
     public struct DescribeConfigurationRecorderStatusResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationRecordersStatus", required: false, type: .list)
         ]
         /// A list that contains status of the specified recorders.
@@ -951,7 +984,7 @@ extension Config {
     }
 
     public struct ComplianceSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComplianceSummaryTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "NonCompliantResourceCount", required: false, type: .structure), 
             AWSShapeMember(label: "CompliantResourceCount", required: false, type: .structure)
@@ -984,7 +1017,7 @@ extension Config {
     }
 
     public struct Scope: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComplianceResourceTypes", required: false, type: .list), 
             AWSShapeMember(label: "ComplianceResourceId", required: false, type: .string), 
             AWSShapeMember(label: "TagValue", required: false, type: .string), 
@@ -996,7 +1029,7 @@ extension Config {
         public let complianceResourceId: String?
         /// The tag value applied to only those AWS resources that you want to trigger an evaluation for the rule. If you specify a value for TagValue, you must also specify a value for TagKey.
         public let tagValue: String?
-        /// The tag key that is applied to only those AWS resources that you want you want to trigger an evaluation for the rule.
+        /// The tag key that is applied to only those AWS resources that you want to trigger an evaluation for the rule.
         public let tagKey: String?
 
         public init(complianceResourceTypes: [String]? = nil, complianceResourceId: String? = nil, tagValue: String? = nil, tagKey: String? = nil) {
@@ -1015,7 +1048,7 @@ extension Config {
     }
 
     public struct ConfigRuleEvaluationStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastFailedEvaluationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "FirstEvaluationStarted", required: false, type: .boolean), 
             AWSShapeMember(label: "LastSuccessfulEvaluationTime", required: false, type: .timestamp), 
@@ -1081,7 +1114,7 @@ extension Config {
     }
 
     public struct GetComplianceSummaryByConfigRuleResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComplianceSummary", required: false, type: .structure)
         ]
         /// The number of AWS Config rules that are compliant and the number that are noncompliant, up to a maximum of 25 for each.
@@ -1097,7 +1130,7 @@ extension Config {
     }
 
     public struct GetComplianceSummaryByResourceTypeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceTypes", required: false, type: .list)
         ]
         /// Specify one or more resource types to get the number of resources that are compliant and the number that are noncompliant for each resource type. For this request, you can specify an AWS resource type such as AWS::EC2::Instance, and you can specify that the resource type is an AWS account by specifying AWS::::Account.
@@ -1113,7 +1146,7 @@ extension Config {
     }
 
     public struct DescribeComplianceByConfigRuleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ComplianceTypes", required: false, type: .list)
@@ -1139,7 +1172,7 @@ extension Config {
     }
 
     public struct GetComplianceDetailsByResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceType", required: true, type: .string), 
@@ -1170,7 +1203,7 @@ extension Config {
     }
 
     public struct ComplianceByResource: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Compliance", required: false, type: .structure), 
             AWSShapeMember(label: "ResourceId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceType", required: false, type: .string)
@@ -1196,7 +1229,7 @@ extension Config {
     }
 
     public struct DescribeComplianceByConfigRuleResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComplianceByConfigRules", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -1217,7 +1250,7 @@ extension Config {
     }
 
     public struct DescribeConfigRuleEvaluationStatusRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
@@ -1243,7 +1276,7 @@ extension Config {
     }
 
     public struct DeliveryChannelStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "configStreamDeliveryInfo", required: false, type: .structure), 
             AWSShapeMember(label: "configHistoryDeliveryInfo", required: false, type: .structure), 
@@ -1278,7 +1311,7 @@ extension Config {
     }
 
     public struct ComplianceByConfigRule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Compliance", required: false, type: .structure), 
             AWSShapeMember(label: "ConfigRuleName", required: false, type: .string)
         ]
@@ -1299,7 +1332,7 @@ extension Config {
     }
 
     public struct GetResourceConfigHistoryResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "configurationItems", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -1320,7 +1353,7 @@ extension Config {
     }
 
     public struct ComplianceContributorCount: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CappedCount", required: false, type: .integer), 
             AWSShapeMember(label: "CapExceeded", required: false, type: .boolean)
         ]
@@ -1341,7 +1374,7 @@ extension Config {
     }
 
     public struct DeleteConfigurationRecorderRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationRecorderName", required: true, type: .string)
         ]
         /// The name of the configuration recorder to be deleted. You can retrieve the name of your configuration recorder by using the DescribeConfigurationRecorders action.
@@ -1357,7 +1390,7 @@ extension Config {
     }
 
     public struct GetResourceConfigHistoryRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "laterTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "limit", required: false, type: .integer), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -1403,7 +1436,7 @@ extension Config {
     }
 
     public struct Relationship: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceType", required: false, type: .enum), 
             AWSShapeMember(label: "resourceId", required: false, type: .string), 
             AWSShapeMember(label: "resourceName", required: false, type: .string), 
@@ -1433,8 +1466,29 @@ extension Config {
         }
     }
 
+    public struct ResourceCount: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "count", required: false, type: .long), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum)
+        ]
+        /// The number of resources.
+        public let count: Int64?
+        /// The resource type, for example "AWS::EC2::Instance".
+        public let resourceType: ResourceType?
+
+        public init(count: Int64? = nil, resourceType: ResourceType? = nil) {
+            self.count = count
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct Compliance: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComplianceContributorCount", required: false, type: .structure), 
             AWSShapeMember(label: "ComplianceType", required: false, type: .enum)
         ]
@@ -1455,7 +1509,7 @@ extension Config {
     }
 
     public struct DescribeConfigurationRecorderStatusRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationRecorderNames", required: false, type: .list)
         ]
         /// The name(s) of the configuration recorder. If the name is not specified, the action returns the current status of all the configuration recorders associated with the account.
@@ -1471,7 +1525,7 @@ extension Config {
     }
 
     public struct ConfigSnapshotDeliveryProperties: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "deliveryFrequency", required: false, type: .enum)
         ]
         /// The frequency with which AWS Config delivers configuration snapshots.
@@ -1494,7 +1548,7 @@ extension Config {
     }
 
     public struct ListDiscoveredResourcesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceIdentifiers", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -1522,12 +1576,38 @@ extension Config {
         public var description: String { return self.rawValue }
     }
 
+    public struct GetDiscoveredResourceCountsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceCounts", required: false, type: .list), 
+            AWSShapeMember(label: "totalDiscoveredResources", required: false, type: .long), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// The list of ResourceCount objects. Each object is listed in descending order by the number of resources.
+        public let resourceCounts: [ResourceCount]?
+        /// The total number of resources that AWS Config is recording in the region for your account. If you specify resource types in the request, AWS Config returns only the total number of resources for those resource types.  Example    AWS Config is recording three resource types in the US East (Ohio) Region for your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets, for a total of 60 resources.   You make a call to the GetDiscoveredResourceCounts action and specify the resource type, "AWS::EC2::Instances" in the request.   AWS Config returns 25 for totalDiscoveredResources.  
+        public let totalDiscoveredResources: Int64?
+        /// The string that you use in a subsequent request to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(resourceCounts: [ResourceCount]? = nil, totalDiscoveredResources: Int64? = nil, nextToken: String? = nil) {
+            self.resourceCounts = resourceCounts
+            self.totalDiscoveredResources = totalDiscoveredResources
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceCounts = "resourceCounts"
+            case totalDiscoveredResources = "totalDiscoveredResources"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DeleteEvaluationResultsResponse: AWSShape {
 
     }
 
     public struct DescribeConfigRulesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigRules", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -1557,7 +1637,7 @@ extension Config {
     }
 
     public struct EvaluationResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EvaluationResultIdentifier", required: false, type: .structure), 
             AWSShapeMember(label: "ConfigRuleInvokedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "ResultRecordedTime", required: false, type: .timestamp), 
@@ -1606,7 +1686,7 @@ extension Config {
     }
 
     public struct DescribeComplianceByResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "ResourceId", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -1642,7 +1722,7 @@ extension Config {
     }
 
     public struct DescribeDeliveryChannelStatusResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryChannelsStatus", required: false, type: .list)
         ]
         /// A list that contains the status of a specified delivery channel.
@@ -1658,7 +1738,7 @@ extension Config {
     }
 
     public struct PutEvaluationsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedEvaluations", required: false, type: .list)
         ]
         /// Requests that failed because of a client or server error.
@@ -1680,7 +1760,7 @@ extension Config {
     }
 
     public struct StartConfigRulesEvaluationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list)
         ]
         /// The list of names of Config rules that you want to run evaluations for.
@@ -1696,7 +1776,7 @@ extension Config {
     }
 
     public struct StartConfigurationRecorderRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigurationRecorderName", required: true, type: .string)
         ]
         /// The name of the recorder object that records each configuration change made to the resources.
@@ -1712,7 +1792,7 @@ extension Config {
     }
 
     public struct DeleteDeliveryChannelRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryChannelName", required: true, type: .string)
         ]
         /// The name of the delivery channel to delete.
@@ -1728,7 +1808,7 @@ extension Config {
     }
 
     public struct DescribeDeliveryChannelStatusRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryChannelNames", required: false, type: .list)
         ]
         /// A list of delivery channel names.
@@ -1744,7 +1824,7 @@ extension Config {
     }
 
     public struct ConfigurationRecorderStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "lastStatusChangeTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "lastStopTime", required: false, type: .timestamp), 
@@ -1795,7 +1875,7 @@ extension Config {
     }
 
     public struct ConfigurationRecorder: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "recordingGroup", required: false, type: .structure), 
             AWSShapeMember(label: "roleARN", required: false, type: .string)
@@ -1821,7 +1901,7 @@ extension Config {
     }
 
     public struct PutEvaluationsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Evaluations", required: false, type: .list), 
             AWSShapeMember(label: "ResultToken", required: true, type: .string), 
             AWSShapeMember(label: "TestMode", required: false, type: .boolean)

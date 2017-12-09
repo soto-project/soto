@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Budgets {
 
     public struct DeleteBudgetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "BudgetName", required: true, type: .string)
         ]
@@ -25,7 +25,7 @@ extension Budgets {
     }
 
     public struct DescribeBudgetsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Budgets", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -44,7 +44,7 @@ extension Budgets {
     }
 
     public struct DescribeBudgetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "BudgetName", required: true, type: .string)
         ]
@@ -63,7 +63,7 @@ extension Budgets {
     }
 
     public struct DescribeBudgetResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Budget", required: false, type: .structure)
         ]
         public let budget: Budget?
@@ -78,7 +78,7 @@ extension Budgets {
     }
 
     public struct DeleteNotificationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "Notification", required: true, type: .structure), 
             AWSShapeMember(label: "BudgetName", required: true, type: .string)
@@ -101,7 +101,7 @@ extension Budgets {
     }
 
     public struct NotificationWithSubscribers: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subscribers", required: true, type: .list), 
             AWSShapeMember(label: "Notification", required: true, type: .structure)
         ]
@@ -120,7 +120,7 @@ extension Budgets {
     }
 
     public struct UpdateSubscriberRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "Notification", required: true, type: .structure), 
             AWSShapeMember(label: "OldSubscriber", required: true, type: .structure), 
@@ -161,7 +161,7 @@ extension Budgets {
     }
 
     public struct CreateNotificationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "Notification", required: true, type: .structure), 
             AWSShapeMember(label: "Subscribers", required: true, type: .list), 
@@ -192,7 +192,7 @@ extension Budgets {
     }
 
     public struct DescribeNotificationsForBudgetResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Notifications", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -211,7 +211,7 @@ extension Budgets {
     }
 
     public struct DeleteSubscriberRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "Subscriber", required: true, type: .structure), 
             AWSShapeMember(label: "Notification", required: true, type: .structure), 
@@ -242,7 +242,7 @@ extension Budgets {
     }
 
     public struct CostTypes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IncludeSubscription", required: true, type: .boolean), 
             AWSShapeMember(label: "UseBlended", required: true, type: .boolean), 
             AWSShapeMember(label: "IncludeTax", required: true, type: .boolean)
@@ -269,7 +269,7 @@ extension Budgets {
     }
 
     public struct DescribeBudgetsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
@@ -296,7 +296,7 @@ extension Budgets {
     }
 
     public struct CreateBudgetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "Budget", required: true, type: .structure), 
             AWSShapeMember(label: "NotificationsWithSubscribers", required: false, type: .list)
@@ -323,7 +323,7 @@ extension Budgets {
     }
 
     public struct UpdateNotificationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "OldNotification", required: true, type: .structure), 
             AWSShapeMember(label: "NewNotification", required: true, type: .structure), 
@@ -357,14 +357,21 @@ extension Budgets {
 
     }
 
+    public enum ThresholdType: String, CustomStringConvertible, Codable {
+        case percentage = "PERCENTAGE"
+        case absoluteValue = "ABSOLUTE_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BudgetType: String, CustomStringConvertible, Codable {
         case usage = "USAGE"
         case cost = "COST"
+        case riUtilization = "RI_UTILIZATION"
         public var description: String { return self.rawValue }
     }
 
     public struct DescribeSubscribersForNotificationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "Notification", required: true, type: .structure), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -395,7 +402,7 @@ extension Budgets {
     }
 
     public struct CreateSubscriberRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "Subscriber", required: true, type: .structure), 
             AWSShapeMember(label: "Notification", required: true, type: .structure), 
@@ -426,30 +433,34 @@ extension Budgets {
     }
 
     public struct Notification: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Threshold", required: true, type: .double), 
-            AWSShapeMember(label: "NotificationType", required: true, type: .enum)
+            AWSShapeMember(label: "NotificationType", required: true, type: .enum), 
+            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeMember(label: "ThresholdType", required: false, type: .enum)
         ]
-        public let comparisonOperator: ComparisonOperator
         public let threshold: Double
         public let notificationType: NotificationType
+        public let comparisonOperator: ComparisonOperator
+        public let thresholdType: ThresholdType?
 
-        public init(comparisonOperator: ComparisonOperator, threshold: Double, notificationType: NotificationType) {
-            self.comparisonOperator = comparisonOperator
+        public init(threshold: Double, notificationType: NotificationType, comparisonOperator: ComparisonOperator, thresholdType: ThresholdType? = nil) {
             self.threshold = threshold
             self.notificationType = notificationType
+            self.comparisonOperator = comparisonOperator
+            self.thresholdType = thresholdType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparisonOperator = "ComparisonOperator"
             case threshold = "Threshold"
             case notificationType = "NotificationType"
+            case comparisonOperator = "ComparisonOperator"
+            case thresholdType = "ThresholdType"
         }
     }
 
     public struct Subscriber: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Address", required: true, type: .string), 
             AWSShapeMember(label: "SubscriptionType", required: true, type: .enum)
         ]
@@ -468,7 +479,7 @@ extension Budgets {
     }
 
     public struct DescribeNotificationsForBudgetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "BudgetName", required: true, type: .string), 
@@ -495,7 +506,7 @@ extension Budgets {
     }
 
     public struct UpdateBudgetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "NewBudget", required: true, type: .structure)
         ]
@@ -514,6 +525,7 @@ extension Budgets {
     }
 
     public enum TimeUnit: String, CustomStringConvertible, Codable {
+        case daily = "DAILY"
         case monthly = "MONTHLY"
         case quarterly = "QUARTERLY"
         case annually = "ANNUALLY"
@@ -521,7 +533,7 @@ extension Budgets {
     }
 
     public struct Budget: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimeUnit", required: true, type: .enum), 
             AWSShapeMember(label: "BudgetLimit", required: true, type: .structure), 
             AWSShapeMember(label: "BudgetName", required: true, type: .string), 
@@ -564,7 +576,7 @@ extension Budgets {
     }
 
     public struct TimePeriod: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Start", required: true, type: .timestamp), 
             AWSShapeMember(label: "End", required: true, type: .timestamp)
         ]
@@ -583,7 +595,7 @@ extension Budgets {
     }
 
     public struct CalculatedSpend: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ForecastedSpend", required: false, type: .structure), 
             AWSShapeMember(label: "ActualSpend", required: true, type: .structure)
         ]
@@ -602,7 +614,7 @@ extension Budgets {
     }
 
     public struct Spend: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Unit", required: true, type: .string), 
             AWSShapeMember(label: "Amount", required: true, type: .string)
         ]
@@ -621,7 +633,7 @@ extension Budgets {
     }
 
     public struct DescribeSubscribersForNotificationResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subscribers", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]

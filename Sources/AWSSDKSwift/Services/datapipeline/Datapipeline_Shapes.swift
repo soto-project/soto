@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Datapipeline {
 
     public struct PipelineObject: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "id", required: true, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "fields", required: true, type: .list)
@@ -32,7 +32,7 @@ extension Datapipeline {
     }
 
     public struct DescribePipelinesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pipelineIds", required: true, type: .list)
         ]
         /// The IDs of the pipelines to describe. You can pass as many as 25 identifiers in a single call. To obtain pipeline IDs, call ListPipelines.
@@ -48,7 +48,7 @@ extension Datapipeline {
     }
 
     public struct RemoveTagsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "tagKeys", required: true, type: .list)
         ]
@@ -69,7 +69,7 @@ extension Datapipeline {
     }
 
     public struct PutPipelineDefinitionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "errored", required: true, type: .boolean), 
             AWSShapeMember(label: "validationErrors", required: false, type: .list), 
             AWSShapeMember(label: "validationWarnings", required: false, type: .list)
@@ -95,7 +95,7 @@ extension Datapipeline {
     }
 
     public struct ParameterValue: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "id", required: true, type: .string), 
             AWSShapeMember(label: "stringValue", required: true, type: .string)
         ]
@@ -116,7 +116,7 @@ extension Datapipeline {
     }
 
     public struct TaskObject: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pipelineId", required: false, type: .string), 
             AWSShapeMember(label: "objects", required: false, type: .map), 
             AWSShapeMember(label: "taskId", required: false, type: .string), 
@@ -147,7 +147,7 @@ extension Datapipeline {
     }
 
     public struct DescribeObjectsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "marker", required: false, type: .string), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "evaluateExpressions", required: false, type: .boolean), 
@@ -178,7 +178,7 @@ extension Datapipeline {
     }
 
     public struct EvaluateExpressionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "evaluatedExpression", required: true, type: .string)
         ]
         /// The evaluated expression.
@@ -194,7 +194,7 @@ extension Datapipeline {
     }
 
     public struct PollForTaskOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "taskObject", required: false, type: .structure)
         ]
         /// The information needed to complete the task that is being assigned to the task runner. One of the fields returned in this object is taskId, which contains an identifier for the task being assigned. The calling task runner uses taskId in subsequent calls to ReportTaskProgress and SetTaskStatus.
@@ -210,7 +210,7 @@ extension Datapipeline {
     }
 
     public struct PipelineDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "fields", required: true, type: .list), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
@@ -246,7 +246,7 @@ extension Datapipeline {
     }
 
     public struct ValidatePipelineDefinitionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "parameterValues", required: false, type: .list), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "pipelineObjects", required: true, type: .list), 
@@ -277,7 +277,7 @@ extension Datapipeline {
     }
 
     public struct ValidatePipelineDefinitionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "errored", required: true, type: .boolean), 
             AWSShapeMember(label: "validationErrors", required: false, type: .list), 
             AWSShapeMember(label: "validationWarnings", required: false, type: .list)
@@ -303,7 +303,7 @@ extension Datapipeline {
     }
 
     public struct ActivatePipelineInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "parameterValues", required: false, type: .list), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "startTimestamp", required: false, type: .timestamp)
@@ -329,7 +329,7 @@ extension Datapipeline {
     }
 
     public struct ParameterAttribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "key", required: true, type: .string), 
             AWSShapeMember(label: "stringValue", required: true, type: .string)
         ]
@@ -350,7 +350,7 @@ extension Datapipeline {
     }
 
     public struct ReportTaskProgressOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "canceled", required: true, type: .boolean)
         ]
         /// If true, the calling task runner should cancel processing of the task. The task runner does not need to call SetTaskStatus for canceled tasks.
@@ -366,7 +366,7 @@ extension Datapipeline {
     }
 
     public struct Operator: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "values", required: false, type: .list)
         ]
@@ -387,7 +387,7 @@ extension Datapipeline {
     }
 
     public struct PollForTaskInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "hostname", required: false, type: .string), 
             AWSShapeMember(label: "workerGroup", required: true, type: .string), 
             AWSShapeMember(label: "instanceIdentity", required: false, type: .structure)
@@ -426,7 +426,7 @@ extension Datapipeline {
     }
 
     public struct CreatePipelineOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pipelineId", required: true, type: .string)
         ]
         /// The ID that AWS Data Pipeline assigns the newly created pipeline. For example, df-06372391ZG65EXAMPLE.
@@ -442,7 +442,7 @@ extension Datapipeline {
     }
 
     public struct QueryObjectsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "sphere", required: true, type: .string), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "limit", required: false, type: .integer), 
@@ -478,7 +478,7 @@ extension Datapipeline {
     }
 
     public struct ValidationWarning: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "warnings", required: false, type: .list)
         ]
@@ -499,7 +499,7 @@ extension Datapipeline {
     }
 
     public struct GetPipelineDefinitionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "version", required: false, type: .string), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string)
         ]
@@ -520,7 +520,7 @@ extension Datapipeline {
     }
 
     public struct DescribeObjectsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "marker", required: false, type: .string), 
             AWSShapeMember(label: "hasMoreResults", required: false, type: .boolean), 
             AWSShapeMember(label: "pipelineObjects", required: true, type: .list)
@@ -550,7 +550,7 @@ extension Datapipeline {
     }
 
     public struct GetPipelineDefinitionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "parameterValues", required: false, type: .list), 
             AWSShapeMember(label: "parameterObjects", required: false, type: .list), 
             AWSShapeMember(label: "pipelineObjects", required: false, type: .list)
@@ -576,7 +576,7 @@ extension Datapipeline {
     }
 
     public struct ParameterObject: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "id", required: true, type: .string), 
             AWSShapeMember(label: "attributes", required: true, type: .list)
         ]
@@ -597,7 +597,7 @@ extension Datapipeline {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "key", required: true, type: .string), 
             AWSShapeMember(label: "value", required: true, type: .string)
         ]
@@ -618,7 +618,7 @@ extension Datapipeline {
     }
 
     public struct Selector: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "operator", required: false, type: .structure), 
             AWSShapeMember(label: "fieldName", required: false, type: .string)
         ]
@@ -638,7 +638,7 @@ extension Datapipeline {
     }
 
     public struct PipelineIdName: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
@@ -659,7 +659,7 @@ extension Datapipeline {
     }
 
     public struct DeletePipelineInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pipelineId", required: true, type: .string)
         ]
         /// The ID of the pipeline.
@@ -675,7 +675,7 @@ extension Datapipeline {
     }
 
     public struct EvaluateExpressionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "objectId", required: true, type: .string), 
             AWSShapeMember(label: "expression", required: true, type: .string), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string)
@@ -701,7 +701,7 @@ extension Datapipeline {
     }
 
     public struct DescribePipelinesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pipelineDescriptionList", required: true, type: .list)
         ]
         /// An array of descriptions for the specified pipelines.
@@ -724,7 +724,7 @@ extension Datapipeline {
     }
 
     public struct DeactivatePipelineInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "cancelActive", required: false, type: .boolean)
         ]
@@ -749,7 +749,7 @@ extension Datapipeline {
     }
 
     public struct ReportTaskProgressInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "fields", required: false, type: .list), 
             AWSShapeMember(label: "taskId", required: true, type: .string)
         ]
@@ -770,7 +770,7 @@ extension Datapipeline {
     }
 
     public struct CreatePipelineInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list), 
@@ -801,7 +801,7 @@ extension Datapipeline {
     }
 
     public struct Query: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "selectors", required: false, type: .list)
         ]
         /// List of selectors that define the query. An object must satisfy all of the selectors to match the query.
@@ -817,7 +817,7 @@ extension Datapipeline {
     }
 
     public struct ListPipelinesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "marker", required: false, type: .string)
         ]
         /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call ListPipelines with the marker value from the previous call to retrieve the next set of results.
@@ -833,7 +833,7 @@ extension Datapipeline {
     }
 
     public struct SetStatusInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "objectIds", required: true, type: .list), 
             AWSShapeMember(label: "status", required: true, type: .string), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string)
@@ -859,7 +859,7 @@ extension Datapipeline {
     }
 
     public struct ReportTaskRunnerHeartbeatInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "hostname", required: false, type: .string), 
             AWSShapeMember(label: "workerGroup", required: false, type: .string), 
             AWSShapeMember(label: "taskrunnerId", required: true, type: .string)
@@ -885,7 +885,7 @@ extension Datapipeline {
     }
 
     public struct ReportTaskRunnerHeartbeatOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "terminate", required: true, type: .boolean)
         ]
         /// Indicates whether the calling task runner should terminate.
@@ -901,7 +901,7 @@ extension Datapipeline {
     }
 
     public struct AddTagsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tags", required: true, type: .list), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string)
         ]
@@ -922,7 +922,7 @@ extension Datapipeline {
     }
 
     public struct InstanceIdentity: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "document", required: false, type: .string), 
             AWSShapeMember(label: "signature", required: false, type: .string)
         ]
@@ -943,7 +943,7 @@ extension Datapipeline {
     }
 
     public struct SetTaskStatusInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "errorMessage", required: false, type: .string), 
             AWSShapeMember(label: "taskId", required: true, type: .string), 
             AWSShapeMember(label: "errorStackTrace", required: false, type: .string), 
@@ -979,7 +979,7 @@ extension Datapipeline {
     }
 
     public struct ValidationError: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "errors", required: false, type: .list)
         ]
@@ -1008,7 +1008,7 @@ extension Datapipeline {
     }
 
     public struct PutPipelineDefinitionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "parameterValues", required: false, type: .list), 
             AWSShapeMember(label: "pipelineId", required: true, type: .string), 
             AWSShapeMember(label: "pipelineObjects", required: true, type: .list), 
@@ -1039,7 +1039,7 @@ extension Datapipeline {
     }
 
     public struct QueryObjectsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "marker", required: false, type: .string), 
             AWSShapeMember(label: "hasMoreResults", required: false, type: .boolean), 
             AWSShapeMember(label: "ids", required: false, type: .list)
@@ -1065,7 +1065,7 @@ extension Datapipeline {
     }
 
     public struct ListPipelinesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "marker", required: false, type: .string), 
             AWSShapeMember(label: "hasMoreResults", required: false, type: .boolean), 
             AWSShapeMember(label: "pipelineIdList", required: true, type: .list)
@@ -1091,7 +1091,7 @@ extension Datapipeline {
     }
 
     public struct Field: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "key", required: true, type: .string), 
             AWSShapeMember(label: "refValue", required: false, type: .string), 
             AWSShapeMember(label: "stringValue", required: false, type: .string)

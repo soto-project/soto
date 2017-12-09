@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension S3 {
 
     public struct DeleteBucketWebsiteRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -20,8 +20,24 @@ extension S3 {
         }
     }
 
+    public struct GetBucketEncryptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        /// The name of the bucket from which the server-side encryption configuration is retrieved.
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
     public struct MetricsAndOperator: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure), 
             AWSShapeMember(label: "Prefix", required: false, type: .string)
         ]
@@ -42,7 +58,7 @@ extension S3 {
     }
 
     public struct LifecycleExpiration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExpiredObjectDeleteMarker", required: false, type: .boolean), 
             AWSShapeMember(label: "Date", required: false, type: .timestamp), 
             AWSShapeMember(label: "Days", required: false, type: .integer)
@@ -70,7 +86,7 @@ extension S3 {
     public struct PutBucketCorsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CORSConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "CORSConfiguration", location: .body(locationName: "CORSConfiguration"), required: true, type: .structure), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string)
@@ -93,7 +109,7 @@ extension S3 {
     }
 
     public struct TagSet: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
@@ -108,7 +124,7 @@ extension S3 {
     }
 
     public struct DeleteBucketCorsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -123,7 +139,7 @@ extension S3 {
     }
 
     public struct Rule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ID", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .enum), 
             AWSShapeMember(label: "AbortIncompleteMultipartUpload", required: false, type: .structure), 
@@ -169,7 +185,7 @@ extension S3 {
     }
 
     public struct GetBucketReplicationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -184,7 +200,7 @@ extension S3 {
     }
 
     public struct GetBucketLifecycleConfigurationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -199,7 +215,7 @@ extension S3 {
     }
 
     public struct LifecycleRuleAndOperator: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure), 
             AWSShapeMember(label: "Prefix", required: false, type: .string)
         ]
@@ -218,8 +234,39 @@ extension S3 {
         }
     }
 
+    public struct SelectParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputSerialization", required: true, type: .structure), 
+            AWSShapeMember(label: "ExpressionType", required: true, type: .enum), 
+            AWSShapeMember(label: "Expression", required: true, type: .string), 
+            AWSShapeMember(label: "InputSerialization", required: true, type: .structure)
+        ]
+        /// Describes how the results of the Select job are serialized.
+        public let outputSerialization: OutputSerialization
+        /// The type of the provided expression (e.g., SQL).
+        public let expressionType: ExpressionType
+        /// The expression that is used to query the object.
+        public let expression: String
+        /// Describes the serialization format of the object.
+        public let inputSerialization: InputSerialization
+
+        public init(outputSerialization: OutputSerialization, expressionType: ExpressionType, expression: String, inputSerialization: InputSerialization) {
+            self.outputSerialization = outputSerialization
+            self.expressionType = expressionType
+            self.expression = expression
+            self.inputSerialization = inputSerialization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputSerialization = "OutputSerialization"
+            case expressionType = "ExpressionType"
+            case expression = "Expression"
+            case inputSerialization = "InputSerialization"
+        }
+    }
+
     public struct GetBucketPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -234,7 +281,7 @@ extension S3 {
     }
 
     public struct CopyObjectResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", required: false, type: .string), 
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp)
         ]
@@ -255,7 +302,7 @@ extension S3 {
     public struct PutBucketAccelerateConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "AccelerateConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "AccelerateConfiguration", location: .body(locationName: "AccelerateConfiguration"), required: true, type: .structure)
         ]
@@ -276,7 +323,7 @@ extension S3 {
     }
 
     public struct GetBucketLocationOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LocationConstraint", required: false, type: .enum)
         ]
         public let locationConstraint: BucketLocationConstraint?
@@ -291,7 +338,7 @@ extension S3 {
     }
 
     public struct RedirectAllRequestsTo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HostName", required: true, type: .string), 
             AWSShapeMember(label: "Protocol", required: false, type: .enum)
         ]
@@ -320,7 +367,7 @@ extension S3 {
     public struct UploadPartCopyOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CopyPartResult"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CopyPartResult", required: false, type: .structure), 
             AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "CopySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id"), required: false, type: .string), 
@@ -364,7 +411,7 @@ extension S3 {
     }
 
     public struct Tagging: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagSet", required: true, type: .structure)
         ]
         public let tagSet: TagSet
@@ -381,7 +428,7 @@ extension S3 {
     public struct GetBucketAnalyticsConfigurationOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "AnalyticsConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnalyticsConfiguration", required: false, type: .structure)
         ]
         /// The configuration and any analyses for the analytics filter.
@@ -397,7 +444,7 @@ extension S3 {
     }
 
     public struct Owner: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ID", required: false, type: .string), 
             AWSShapeMember(label: "DisplayName", required: false, type: .string)
         ]
@@ -416,7 +463,7 @@ extension S3 {
     }
 
     public struct CreateMultipartUploadOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .body(locationName: "Bucket"), required: false, type: .string), 
             AWSShapeMember(label: "AbortDate", location: .header(locationName: "x-amz-abort-date"), required: false, type: .timestamp), 
             AWSShapeMember(label: "AbortRuleId", location: .header(locationName: "x-amz-abort-rule-id"), required: false, type: .string), 
@@ -476,7 +523,7 @@ extension S3 {
     }
 
     public struct Object: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
             AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -511,8 +558,24 @@ extension S3 {
         }
     }
 
+    public struct OutputLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3", required: false, type: .structure)
+        ]
+        /// Describes an S3 location that will receive the results of the restore request.
+        public let s3: S3Location?
+
+        public init(s3: S3Location? = nil) {
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "S3"
+        }
+    }
+
     public struct CopyObjectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
             AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
@@ -691,7 +754,7 @@ extension S3 {
     }
 
     public struct GetBucketLocationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -705,8 +768,34 @@ extension S3 {
         }
     }
 
+    public struct InventoryEncryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SSEKMS", location: .body(locationName: "SSE-KMS"), required: false, type: .structure), 
+            AWSShapeMember(label: "SSES3", location: .body(locationName: "SSE-S3"), required: false, type: .structure)
+        ]
+        /// Specifies the use of SSE-KMS to encrypt delievered Inventory reports.
+        public let ssekms: SSEKMS?
+        /// Specifies the use of SSE-S3 to encrypt delievered Inventory reports.
+        public let sses3: SSES3?
+
+        public init(ssekms: SSEKMS? = nil, sses3: SSES3? = nil) {
+            self.ssekms = ssekms
+            self.sses3 = sses3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ssekms = "SSE-KMS"
+            case sses3 = "SSE-S3"
+        }
+    }
+
+    public enum OwnerOverride: String, CustomStringConvertible, Codable {
+        case destination = "Destination"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Grant: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Permission", required: false, type: .enum), 
             AWSShapeMember(label: "Grantee", required: false, type: .structure)
         ]
@@ -725,8 +814,49 @@ extension S3 {
         }
     }
 
+    public struct CSVInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "FileHeaderInfo", required: false, type: .enum), 
+            AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string), 
+            AWSShapeMember(label: "Comments", required: false, type: .string), 
+            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string)
+        ]
+        /// Value used to separate individual fields in a record.
+        public let fieldDelimiter: String?
+        /// Describes the first line of input. Valid values: None, Ignore, Use.
+        public let fileHeaderInfo: FileHeaderInfo?
+        /// Single character used for escaping the quote character inside an already escaped value.
+        public let quoteEscapeCharacter: String?
+        /// Single character used to indicate a row should be ignored when present at the start of a row.
+        public let comments: String?
+        /// Value used to separate individual records.
+        public let recordDelimiter: String?
+        /// Value used for escaping where the field delimiter is part of the value.
+        public let quoteCharacter: String?
+
+        public init(fieldDelimiter: String? = nil, fileHeaderInfo: FileHeaderInfo? = nil, quoteEscapeCharacter: String? = nil, comments: String? = nil, recordDelimiter: String? = nil, quoteCharacter: String? = nil) {
+            self.fieldDelimiter = fieldDelimiter
+            self.fileHeaderInfo = fileHeaderInfo
+            self.quoteEscapeCharacter = quoteEscapeCharacter
+            self.comments = comments
+            self.recordDelimiter = recordDelimiter
+            self.quoteCharacter = quoteCharacter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldDelimiter = "FieldDelimiter"
+            case fileHeaderInfo = "FileHeaderInfo"
+            case quoteEscapeCharacter = "QuoteEscapeCharacter"
+            case comments = "Comments"
+            case recordDelimiter = "RecordDelimiter"
+            case quoteCharacter = "QuoteCharacter"
+        }
+    }
+
     public struct InventoryDestination: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3BucketDestination", required: true, type: .structure)
         ]
         /// Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where inventory results are published.
@@ -750,7 +880,7 @@ extension S3 {
     }
 
     public struct ListObjectsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer), 
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
@@ -796,7 +926,7 @@ extension S3 {
     public struct PutBucketAnalyticsConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "AnalyticsConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "AnalyticsConfiguration", location: .body(locationName: "AnalyticsConfiguration"), required: true, type: .structure), 
             AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
@@ -822,7 +952,7 @@ extension S3 {
     }
 
     public struct CloudFunctionConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudFunction", required: false, type: .string), 
             AWSShapeMember(label: "InvocationRole", required: false, type: .string), 
             AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list), 
@@ -855,7 +985,7 @@ extension S3 {
     }
 
     public struct HeadObjectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
             AWSShapeMember(label: "IfUnmodifiedSince", location: .header(locationName: "If-Unmodified-Since"), required: false, type: .timestamp), 
@@ -928,7 +1058,7 @@ extension S3 {
     }
 
     public struct GetBucketRequestPaymentOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Payer", required: false, type: .enum)
         ]
         /// Specifies who pays for the download and request fees.
@@ -944,7 +1074,7 @@ extension S3 {
     }
 
     public struct AbortMultipartUploadOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
         public let requestCharged: RequestCharged?
@@ -961,7 +1091,7 @@ extension S3 {
     public struct PutObjectTaggingRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Tagging"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "Tagging", location: .body(locationName: "Tagging"), required: true, type: .structure), 
@@ -992,7 +1122,7 @@ extension S3 {
     }
 
     public struct CompletedMultipartUpload: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Parts", location: .body(locationName: "Part"), required: false, type: .list)
         ]
         public let parts: [CompletedPart]?
@@ -1026,7 +1156,7 @@ extension S3 {
     public struct GetObjectOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Body"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PartsCount", location: .header(locationName: "x-amz-mp-parts-count"), required: false, type: .integer), 
             AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
@@ -1186,7 +1316,7 @@ extension S3 {
     }
 
     public struct NotificationConfigurationDeprecated: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueueConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "TopicConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "CloudFunctionConfiguration", required: false, type: .structure)
@@ -1209,7 +1339,7 @@ extension S3 {
     }
 
     public struct Transition: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
             AWSShapeMember(label: "Date", required: false, type: .timestamp), 
             AWSShapeMember(label: "Days", required: false, type: .integer)
@@ -1235,7 +1365,7 @@ extension S3 {
     }
 
     public struct MetricsConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "Filter", required: false, type: .structure)
         ]
@@ -1256,7 +1386,7 @@ extension S3 {
     }
 
     public struct Condition: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HttpErrorCodeReturnedEquals", required: false, type: .string), 
             AWSShapeMember(label: "KeyPrefixEquals", required: false, type: .string)
         ]
@@ -1277,7 +1407,7 @@ extension S3 {
     }
 
     public struct VersioningConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MFADelete", location: .body(locationName: "MfaDelete"), required: false, type: .enum), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
@@ -1298,7 +1428,7 @@ extension S3 {
     }
 
     public struct AccelerateConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
         /// The accelerate configuration of the bucket.
@@ -1313,10 +1443,15 @@ extension S3 {
         }
     }
 
+    public enum RestoreRequestType: String, CustomStringConvertible, Codable {
+        case select = "SELECT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct PutBucketLoggingRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "BucketLoggingStatus"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "BucketLoggingStatus", location: .body(locationName: "BucketLoggingStatus"), required: true, type: .structure)
@@ -1341,7 +1476,7 @@ extension S3 {
     public struct GetBucketPolicyOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Policy"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Policy", required: false, type: .string)
         ]
         /// The bucket policy as a JSON document.
@@ -1357,7 +1492,7 @@ extension S3 {
     }
 
     public struct ReplicationConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Role", required: true, type: .string), 
             AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
         ]
@@ -1386,7 +1521,7 @@ extension S3 {
     }
 
     public struct ObjectVersion: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
             AWSShapeMember(label: "Size", required: false, type: .integer), 
             AWSShapeMember(label: "VersionId", required: false, type: .string), 
@@ -1437,7 +1572,7 @@ extension S3 {
     public struct GetBucketReplicationOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "ReplicationConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationConfiguration", required: false, type: .structure)
         ]
         public let replicationConfiguration: ReplicationConfiguration?
@@ -1454,7 +1589,7 @@ extension S3 {
     public struct PutBucketInventoryConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "InventoryConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "InventoryConfiguration", location: .body(locationName: "InventoryConfiguration"), required: true, type: .structure), 
             AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
@@ -1486,7 +1621,7 @@ extension S3 {
     }
 
     public struct ListObjectsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxKeys", required: false, type: .integer), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -1540,7 +1675,7 @@ extension S3 {
     }
 
     public struct CompleteMultipartUploadOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: false, type: .string), 
             AWSShapeMember(label: "Location", required: false, type: .string), 
             AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
@@ -1592,7 +1727,7 @@ extension S3 {
     }
 
     public struct NotificationConfigurationFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", location: .body(locationName: "S3Key"), required: false, type: .structure)
         ]
         public let key: S3KeyFilter?
@@ -1609,7 +1744,7 @@ extension S3 {
     public struct PutObjectAclRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "AccessControlPolicy"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "AccessControlPolicy", location: .body(locationName: "AccessControlPolicy"), required: false, type: .structure), 
@@ -1680,7 +1815,7 @@ extension S3 {
     }
 
     public struct TopicConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TopicArn", location: .body(locationName: "Topic"), required: true, type: .string), 
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
             AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
@@ -1708,7 +1843,7 @@ extension S3 {
     }
 
     public struct RoutingRule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Redirect", required: true, type: .structure), 
             AWSShapeMember(label: "Condition", required: false, type: .structure)
         ]
@@ -1734,7 +1869,7 @@ extension S3 {
     }
 
     public struct LifecycleRuleFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tag", required: false, type: .structure), 
             AWSShapeMember(label: "And", required: false, type: .structure), 
             AWSShapeMember(label: "Prefix", required: false, type: .string)
@@ -1759,7 +1894,7 @@ extension S3 {
     }
 
     public struct IndexDocument: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Suffix", required: true, type: .string)
         ]
         /// A suffix that is appended to a request that is for a directory on the website endpoint (e.g. if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character.
@@ -1775,7 +1910,7 @@ extension S3 {
     }
 
     public struct HeadObjectOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PartsCount", location: .header(locationName: "x-amz-mp-parts-count"), required: false, type: .integer), 
             AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
@@ -1906,8 +2041,50 @@ extension S3 {
         }
     }
 
+    public struct EncryptionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicaKmsKeyID", required: false, type: .string)
+        ]
+        /// The id of the KMS key used to encrypt the replica object.
+        public let replicaKmsKeyID: String?
+
+        public init(replicaKmsKeyID: String? = nil) {
+            self.replicaKmsKeyID = replicaKmsKeyID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicaKmsKeyID = "ReplicaKmsKeyID"
+        }
+    }
+
+    public struct Encryption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KMSKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "KMSContext", required: false, type: .string), 
+            AWSShapeMember(label: "EncryptionType", required: true, type: .enum)
+        ]
+        /// If the encryption type is aws:kms, this optional value specifies the AWS KMS key ID to use for encryption of job results.
+        public let kMSKeyId: String?
+        /// If the encryption type is aws:kms, this optional value can be used to specify the encryption context for the restore results.
+        public let kMSContext: String?
+        /// The server-side encryption algorithm used when storing job results in Amazon S3 (e.g., AES256, aws:kms).
+        public let encryptionType: ServerSideEncryption
+
+        public init(kMSKeyId: String? = nil, kMSContext: String? = nil, encryptionType: ServerSideEncryption) {
+            self.kMSKeyId = kMSKeyId
+            self.kMSContext = kMSContext
+            self.encryptionType = encryptionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kMSKeyId = "KMSKeyId"
+            case kMSContext = "KMSContext"
+            case encryptionType = "EncryptionType"
+        }
+    }
+
     public struct CompletedPart: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", required: false, type: .string), 
             AWSShapeMember(label: "PartNumber", required: false, type: .integer)
         ]
@@ -1928,7 +2105,7 @@ extension S3 {
     }
 
     public struct GetBucketTaggingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -1943,7 +2120,7 @@ extension S3 {
     }
 
     public struct ListObjectsV2Output: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxKeys", required: false, type: .integer), 
             AWSShapeMember(label: "StartAfter", required: false, type: .string), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
@@ -2014,7 +2191,7 @@ extension S3 {
     }
 
     public struct TargetGrant: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Permission", required: false, type: .enum), 
             AWSShapeMember(label: "Grantee", required: false, type: .structure)
         ]
@@ -2034,7 +2211,7 @@ extension S3 {
     }
 
     public struct BucketLoggingStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoggingEnabled", required: false, type: .structure)
         ]
         public let loggingEnabled: LoggingEnabled?
@@ -2049,7 +2226,7 @@ extension S3 {
     }
 
     public struct AnalyticsS3BucketDestination: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: true, type: .string), 
             AWSShapeMember(label: "Format", required: true, type: .enum), 
             AWSShapeMember(label: "BucketAccountId", required: false, type: .string), 
@@ -2088,7 +2265,7 @@ extension S3 {
     public struct PutBucketLifecycleRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "LifecycleConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "LifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"), required: false, type: .structure)
@@ -2111,7 +2288,7 @@ extension S3 {
     }
 
     public struct WebsiteConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoutingRules", required: false, type: .structure), 
             AWSShapeMember(label: "IndexDocument", required: false, type: .structure), 
             AWSShapeMember(label: "ErrorDocument", required: false, type: .structure), 
@@ -2138,7 +2315,7 @@ extension S3 {
     }
 
     public struct NotificationConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TopicConfigurations", location: .body(locationName: "TopicConfiguration"), required: false, type: .list), 
             AWSShapeMember(label: "QueueConfigurations", location: .body(locationName: "QueueConfiguration"), required: false, type: .list), 
             AWSShapeMember(label: "LambdaFunctionConfigurations", location: .body(locationName: "CloudFunctionConfiguration"), required: false, type: .list)
@@ -2161,7 +2338,7 @@ extension S3 {
     }
 
     public struct AnalyticsFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tag", required: false, type: .structure), 
             AWSShapeMember(label: "And", required: false, type: .structure), 
             AWSShapeMember(label: "Prefix", required: false, type: .string)
@@ -2187,7 +2364,7 @@ extension S3 {
     }
 
     public struct GetBucketAclRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -2202,7 +2379,7 @@ extension S3 {
     }
 
     public struct GetObjectTaggingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string)
@@ -2227,7 +2404,7 @@ extension S3 {
     public struct PutBucketLifecycleConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "LifecycleConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "LifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"), required: false, type: .structure)
         ]
@@ -2246,7 +2423,7 @@ extension S3 {
     }
 
     public struct ListObjectVersionsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxKeys", required: false, type: .integer), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "VersionIdMarker", required: false, type: .string), 
@@ -2314,7 +2491,7 @@ extension S3 {
     }
 
     public struct AnalyticsConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "StorageClassAnalysis", required: true, type: .structure), 
             AWSShapeMember(label: "Filter", required: false, type: .structure)
@@ -2340,7 +2517,7 @@ extension S3 {
     }
 
     public struct GetBucketVersioningOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MFADelete", location: .body(locationName: "MfaDelete"), required: false, type: .enum), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
@@ -2360,8 +2537,24 @@ extension S3 {
         }
     }
 
+    public struct InputSerialization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CSV", required: false, type: .structure)
+        ]
+        /// Describes the serialization of a CSV-encoded object.
+        public let csv: CSVInput?
+
+        public init(csv: CSVInput? = nil) {
+            self.csv = csv
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csv = "CSV"
+        }
+    }
+
     public struct InventoryFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Prefix", required: true, type: .string)
         ]
         /// The prefix that an object must have to be included in the inventory results.
@@ -2376,40 +2569,10 @@ extension S3 {
         }
     }
 
-    public struct DeleteObjectsRequest: AWSShape {
-        /// The key for the payload
-        public static let payloadPath: String? = "Delete"
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
-            AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string), 
-            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
-            AWSShapeMember(label: "Delete", location: .body(locationName: "Delete"), required: true, type: .structure)
-        ]
-        public let bucket: String
-        /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
-        public let mfa: String?
-        public let requestPayer: RequestPayer?
-        public let delete: Delete
-
-        public init(bucket: String, mfa: String? = nil, requestPayer: RequestPayer? = nil, delete: Delete) {
-            self.bucket = bucket
-            self.mfa = mfa
-            self.requestPayer = requestPayer
-            self.delete = delete
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bucket = "Bucket"
-            case mfa = "x-amz-mfa"
-            case requestPayer = "x-amz-request-payer"
-            case delete = "Delete"
-        }
-    }
-
     public struct PutBucketVersioningRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "VersioningConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string), 
@@ -2436,8 +2599,38 @@ extension S3 {
         }
     }
 
+    public struct DeleteObjectsRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "Delete"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "MFA", location: .header(locationName: "x-amz-mfa"), required: false, type: .string), 
+            AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
+            AWSShapeMember(label: "Delete", location: .body(locationName: "Delete"), required: true, type: .structure)
+        ]
+        public let bucket: String
+        /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
+        public let mfa: String?
+        public let requestPayer: RequestPayer?
+        public let delete: Delete
+
+        public init(bucket: String, mfa: String? = nil, requestPayer: RequestPayer? = nil, delete: Delete) {
+            self.bucket = bucket
+            self.mfa = mfa
+            self.requestPayer = requestPayer
+            self.delete = delete
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case mfa = "x-amz-mfa"
+            case requestPayer = "x-amz-request-payer"
+            case delete = "Delete"
+        }
+    }
+
     public struct GetObjectAclOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Owner", required: false, type: .structure), 
             AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure), 
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
@@ -2461,7 +2654,7 @@ extension S3 {
     }
 
     public struct Delete: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Objects", location: .body(locationName: "Object"), required: true, type: .list), 
             AWSShapeMember(label: "Quiet", required: false, type: .boolean)
         ]
@@ -2488,7 +2681,7 @@ extension S3 {
     }
 
     public struct ListMultipartUploadsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "UploadIdMarker", location: .querystring(locationName: "upload-id-marker"), required: false, type: .string), 
             AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string), 
@@ -2532,7 +2725,7 @@ extension S3 {
     }
 
     public struct DeleteObjectsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
             AWSShapeMember(label: "Errors", location: .body(locationName: "Error"), required: false, type: .list), 
             AWSShapeMember(label: "Deleted", required: false, type: .list)
@@ -2555,7 +2748,7 @@ extension S3 {
     }
 
     public struct DeleteBucketAnalyticsConfigurationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
         ]
@@ -2576,7 +2769,7 @@ extension S3 {
     }
 
     public struct DeleteBucketReplicationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -2598,7 +2791,7 @@ extension S3 {
     }
 
     public struct ListBucketAnalyticsConfigurationsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "NextContinuationToken", required: false, type: .string), 
@@ -2629,7 +2822,7 @@ extension S3 {
     }
 
     public struct InventorySchedule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Frequency", required: true, type: .enum)
         ]
         /// Specifies how frequently inventory results are produced.
@@ -2645,7 +2838,7 @@ extension S3 {
     }
 
     public struct ListMultipartUploadsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: false, type: .string), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "KeyMarker", required: false, type: .string), 
@@ -2715,7 +2908,7 @@ extension S3 {
     public struct GetBucketMetricsConfigurationOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "MetricsConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MetricsConfiguration", required: false, type: .structure)
         ]
         /// Specifies the metrics configuration.
@@ -2731,7 +2924,7 @@ extension S3 {
     }
 
     public struct ListBucketMetricsConfigurationsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "MetricsConfigurationList", location: .body(locationName: "MetricsConfiguration"), required: false, type: .list), 
@@ -2762,7 +2955,7 @@ extension S3 {
     }
 
     public struct GetBucketAclOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Owner", required: false, type: .structure), 
             AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure)
         ]
@@ -2782,7 +2975,7 @@ extension S3 {
     }
 
     public struct ListObjectsV2Request: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer), 
             AWSShapeMember(label: "StartAfter", location: .querystring(locationName: "start-after"), required: false, type: .string), 
@@ -2838,7 +3031,7 @@ extension S3 {
     }
 
     public struct HeadBucketRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -2855,7 +3048,7 @@ extension S3 {
     public struct CreateBucketRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CreateBucketConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "CreateBucketConfiguration", location: .body(locationName: "CreateBucketConfiguration"), required: false, type: .structure), 
             AWSShapeMember(label: "GrantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"), required: false, type: .string), 
@@ -2903,23 +3096,24 @@ extension S3 {
         }
     }
 
-    public enum BucketLocationConstraint: String, CustomStringConvertible, Codable {
-        case eu = "EU"
-        case euWest1 = "eu-west-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        case apSouth1 = "ap-south-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apNortheast1 = "ap-northeast-1"
-        case saEast1 = "sa-east-1"
-        case cnNorth1 = "cn-north-1"
-        case euCentral1 = "eu-central-1"
-        public var description: String { return self.rawValue }
+    public struct ServerSideEncryptionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
+        ]
+        /// Container for information about a particular server-side encryption configuration rule.
+        public let rules: [ServerSideEncryptionRule]
+
+        public init(rules: [ServerSideEncryptionRule]) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rule"
+        }
     }
 
     public struct Initiator: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ID", required: false, type: .string), 
             AWSShapeMember(label: "DisplayName", required: false, type: .string)
         ]
@@ -2940,7 +3134,7 @@ extension S3 {
     }
 
     public struct DeleteObjectTaggingOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
         ]
         /// The versionId of the object the tag-set was removed from.
@@ -2955,10 +3149,41 @@ extension S3 {
         }
     }
 
+    public enum BucketLocationConstraint: String, CustomStringConvertible, Codable {
+        case eu = "EU"
+        case euWest1 = "eu-west-1"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
+        case apSouth1 = "ap-south-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case apNortheast1 = "ap-northeast-1"
+        case saEast1 = "sa-east-1"
+        case cnNorth1 = "cn-north-1"
+        case euCentral1 = "eu-central-1"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ServerSideEncryptionRule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplyServerSideEncryptionByDefault", required: false, type: .structure)
+        ]
+        /// Describes the default server-side encryption to apply to new objects in the bucket. If Put Object request does not specify any server-side encryption, this default encryption will be applied.
+        public let applyServerSideEncryptionByDefault: ServerSideEncryptionByDefault?
+
+        public init(applyServerSideEncryptionByDefault: ServerSideEncryptionByDefault? = nil) {
+            self.applyServerSideEncryptionByDefault = applyServerSideEncryptionByDefault
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applyServerSideEncryptionByDefault = "ApplyServerSideEncryptionByDefault"
+        }
+    }
+
     public struct PutBucketReplicationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "ReplicationConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ReplicationConfiguration", location: .body(locationName: "ReplicationConfiguration"), required: true, type: .structure)
@@ -2987,11 +3212,28 @@ extension S3 {
         case etag = "ETag"
         case ismultipartuploaded = "IsMultipartUploaded"
         case replicationstatus = "ReplicationStatus"
+        case encryptionstatus = "EncryptionStatus"
         public var description: String { return self.rawValue }
     }
 
+    public struct SourceSelectionCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SseKmsEncryptedObjects", required: false, type: .structure)
+        ]
+        /// Container for filter information of selection of KMS Encrypted S3 objects.
+        public let sseKmsEncryptedObjects: SseKmsEncryptedObjects?
+
+        public init(sseKmsEncryptedObjects: SseKmsEncryptedObjects? = nil) {
+            self.sseKmsEncryptedObjects = sseKmsEncryptedObjects
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sseKmsEncryptedObjects = "SseKmsEncryptedObjects"
+        }
+    }
+
     public struct CORSRule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExposeHeaders", location: .body(locationName: "ExposeHeader"), required: false, type: .list), 
             AWSShapeMember(label: "AllowedMethods", location: .body(locationName: "AllowedMethod"), required: true, type: .list), 
             AWSShapeMember(label: "MaxAgeSeconds", required: false, type: .integer), 
@@ -3027,7 +3269,7 @@ extension S3 {
     }
 
     public struct CreateMultipartUploadRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
             AWSShapeMember(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
             AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
@@ -3150,7 +3392,7 @@ extension S3 {
     }
 
     public struct Grants: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Grant", required: false, type: .list)
         ]
         public let grant: [Grant]?
@@ -3165,7 +3407,7 @@ extension S3 {
     }
 
     public struct DeleteObjectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
@@ -3197,8 +3439,25 @@ extension S3 {
         }
     }
 
+    public struct GetBucketEncryptionOutput: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ServerSideEncryptionConfiguration"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerSideEncryptionConfiguration", required: false, type: .structure)
+        ]
+        public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
+
+        public init(serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil) {
+            self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
+        }
+    }
+
     public struct PutObjectAclOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
         public let requestCharged: RequestCharged?
@@ -3213,7 +3472,7 @@ extension S3 {
     }
 
     public struct ListPartsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PartNumberMarker", required: false, type: .integer), 
             AWSShapeMember(label: "Bucket", required: false, type: .string), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
@@ -3291,7 +3550,7 @@ extension S3 {
     }
 
     public struct ListBucketInventoryConfigurationsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContinuationToken", required: false, type: .string), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
             AWSShapeMember(label: "NextContinuationToken", required: false, type: .string), 
@@ -3322,7 +3581,7 @@ extension S3 {
     }
 
     public struct ListBucketMetricsConfigurationsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string)
         ]
@@ -3343,7 +3602,7 @@ extension S3 {
     }
 
     public struct TopicConfigurationDeprecated: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Topic", required: false, type: .string), 
             AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list), 
             AWSShapeMember(label: "Event", required: false, type: .enum), 
@@ -3379,7 +3638,7 @@ extension S3 {
     }
 
     public struct DeleteBucketRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -3405,7 +3664,7 @@ extension S3 {
     }
 
     public struct StorageClassAnalysis: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataExport", required: false, type: .structure)
         ]
         /// A container used to describe how data related to the storage class analysis should be exported.
@@ -3421,7 +3680,7 @@ extension S3 {
     }
 
     public struct GetBucketNotificationConfigurationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         /// Name of the bucket to get the notification configuration for.
@@ -3437,7 +3696,7 @@ extension S3 {
     }
 
     public struct CommonPrefix: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Prefix", required: false, type: .string)
         ]
         public let prefix: String?
@@ -3451,6 +3710,12 @@ extension S3 {
         }
     }
 
+    public enum SseKmsEncryptedObjectsStatus: String, CustomStringConvertible, Codable {
+        case enabled = "Enabled"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExpirationStatus: String, CustomStringConvertible, Codable {
         case enabled = "Enabled"
         case disabled = "Disabled"
@@ -3458,7 +3723,7 @@ extension S3 {
     }
 
     public struct GetObjectTorrentRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
             AWSShapeMember(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum)
@@ -3481,10 +3746,11 @@ extension S3 {
     }
 
     public struct InventoryS3BucketDestination: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: true, type: .string), 
             AWSShapeMember(label: "Format", required: true, type: .enum), 
             AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
             AWSShapeMember(label: "Prefix", required: false, type: .string)
         ]
         /// The Amazon resource name (ARN) of the bucket where inventory results will be published.
@@ -3493,13 +3759,16 @@ extension S3 {
         public let format: InventoryFormat
         /// The ID of the account that owns the destination bucket.
         public let accountId: String?
+        /// Contains the type of server-side encryption used to encrypt the inventory results.
+        public let encryption: InventoryEncryption?
         /// The prefix that is prepended to all inventory results.
         public let prefix: String?
 
-        public init(bucket: String, format: InventoryFormat, accountId: String? = nil, prefix: String? = nil) {
+        public init(bucket: String, format: InventoryFormat, accountId: String? = nil, encryption: InventoryEncryption? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.format = format
             self.accountId = accountId
+            self.encryption = encryption
             self.prefix = prefix
         }
 
@@ -3507,12 +3776,29 @@ extension S3 {
             case bucket = "Bucket"
             case format = "Format"
             case accountId = "AccountId"
+            case encryption = "Encryption"
             case prefix = "Prefix"
         }
     }
 
+    public struct DeleteBucketEncryptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
+        ]
+        /// The name of the bucket containing the server-side encryption configuration to delete.
+        public let bucket: String
+
+        public init(bucket: String) {
+            self.bucket = bucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+        }
+    }
+
     public struct GetObjectAclRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
@@ -3540,7 +3826,7 @@ extension S3 {
     }
 
     public struct AccessControlPolicy: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Owner", required: false, type: .structure), 
             AWSShapeMember(label: "Grants", location: .body(locationName: "AccessControlList"), required: false, type: .structure)
         ]
@@ -3559,8 +3845,45 @@ extension S3 {
         }
     }
 
+    public struct AccessControlTranslation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Owner", required: true, type: .enum)
+        ]
+        /// The override value for the owner of the replica object.
+        public let owner: OwnerOverride
+
+        public init(owner: OwnerOverride) {
+            self.owner = owner
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case owner = "Owner"
+        }
+    }
+
+    public struct ServerSideEncryptionByDefault: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KMSMasterKeyID", required: false, type: .string), 
+            AWSShapeMember(label: "SSEAlgorithm", required: true, type: .enum)
+        ]
+        /// KMS master key ID to use for the default encryption. This parameter is allowed if SSEAlgorithm is aws:kms.
+        public let kMSMasterKeyID: String?
+        /// Server-side encryption algorithm to use for the default encryption.
+        public let sSEAlgorithm: ServerSideEncryption
+
+        public init(kMSMasterKeyID: String? = nil, sSEAlgorithm: ServerSideEncryption) {
+            self.kMSMasterKeyID = kMSMasterKeyID
+            self.sSEAlgorithm = sSEAlgorithm
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kMSMasterKeyID = "KMSMasterKeyID"
+            case sSEAlgorithm = "SSEAlgorithm"
+        }
+    }
+
     public struct DeleteBucketLifecycleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -3575,7 +3898,7 @@ extension S3 {
     }
 
     public struct CreateBucketOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
         ]
         public let location: String?
@@ -3589,6 +3912,11 @@ extension S3 {
         }
     }
 
+    public enum ExpressionType: String, CustomStringConvertible, Codable {
+        case sql = "SQL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Payer: String, CustomStringConvertible, Codable {
         case requester = "Requester"
         case bucketowner = "BucketOwner"
@@ -3596,7 +3924,7 @@ extension S3 {
     }
 
     public struct DeleteBucketInventoryConfigurationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
         ]
@@ -3617,7 +3945,7 @@ extension S3 {
     }
 
     public struct GetBucketWebsiteOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoutingRules", required: false, type: .structure), 
             AWSShapeMember(label: "IndexDocument", required: false, type: .structure), 
             AWSShapeMember(label: "ErrorDocument", required: false, type: .structure), 
@@ -3644,7 +3972,7 @@ extension S3 {
     }
 
     public struct LoggingEnabled: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetGrants", required: false, type: .structure), 
             AWSShapeMember(label: "TargetPrefix", required: false, type: .string), 
             AWSShapeMember(label: "TargetBucket", required: false, type: .string)
@@ -3669,7 +3997,7 @@ extension S3 {
     }
 
     public struct CORSConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CORSRules", location: .body(locationName: "CORSRule"), required: true, type: .list)
         ]
         public let cORSRules: [CORSRule]
@@ -3684,7 +4012,7 @@ extension S3 {
     }
 
     public struct ObjectIdentifier: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VersionId", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -3705,7 +4033,7 @@ extension S3 {
     }
 
     public struct StorageClassAnalysisDataExport: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Destination", required: true, type: .structure), 
             AWSShapeMember(label: "OutputSchemaVersion", required: true, type: .enum)
         ]
@@ -3726,7 +4054,7 @@ extension S3 {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -3747,7 +4075,7 @@ extension S3 {
     }
 
     public struct TargetGrants: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Grant", required: false, type: .list)
         ]
         public let grant: [TargetGrant]?
@@ -3762,17 +4090,22 @@ extension S3 {
     }
 
     public struct RestoreObjectOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
+            AWSShapeMember(label: "RestoreOutputPath", location: .header(locationName: "x-amz-restore-output-path"), required: false, type: .string)
         ]
         public let requestCharged: RequestCharged?
+        /// Indicates the path in the provided S3 output location where Select results will be restored to.
+        public let restoreOutputPath: String?
 
-        public init(requestCharged: RequestCharged? = nil) {
+        public init(requestCharged: RequestCharged? = nil, restoreOutputPath: String? = nil) {
             self.requestCharged = requestCharged
+            self.restoreOutputPath = restoreOutputPath
         }
 
         private enum CodingKeys: String, CodingKey {
             case requestCharged = "x-amz-request-charged"
+            case restoreOutputPath = "x-amz-restore-output-path"
         }
     }
 
@@ -3783,7 +4116,7 @@ extension S3 {
     }
 
     public struct BucketLifecycleConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
         ]
         public let rules: [LifecycleRule]
@@ -3798,7 +4131,7 @@ extension S3 {
     }
 
     public struct GetBucketMetricsConfigurationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
         ]
@@ -3819,7 +4152,7 @@ extension S3 {
     }
 
     public struct LifecycleRule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ID", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .enum), 
             AWSShapeMember(label: "NoncurrentVersionExpiration", required: false, type: .structure), 
@@ -3869,7 +4202,7 @@ extension S3 {
     }
 
     public struct InventoryOptionalFields: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Field", required: false, type: .list)
         ]
         public let field: [InventoryOptionalField]?
@@ -3884,7 +4217,7 @@ extension S3 {
     }
 
     public struct GetBucketCorsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -3899,7 +4232,7 @@ extension S3 {
     }
 
     public struct Bucket: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp)
         ]
@@ -3920,28 +4253,43 @@ extension S3 {
     }
 
     public struct Destination: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: true, type: .string), 
-            AWSShapeMember(label: "StorageClass", required: false, type: .enum)
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
+            AWSShapeMember(label: "Account", required: false, type: .string), 
+            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "AccessControlTranslation", required: false, type: .structure)
         ]
         /// Amazon resource name (ARN) of the bucket where you want Amazon S3 to store replicas of the object identified by the rule.
         public let bucket: String
         /// The class of storage used to store the object.
         public let storageClass: StorageClass?
+        /// Account ID of the destination bucket. Currently this is only being verified if Access Control Translation is enabled
+        public let account: String?
+        /// Container for information regarding encryption based configuration for replicas.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// Container for information regarding the access control for replicas.
+        public let accessControlTranslation: AccessControlTranslation?
 
-        public init(bucket: String, storageClass: StorageClass? = nil) {
+        public init(bucket: String, storageClass: StorageClass? = nil, account: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, accessControlTranslation: AccessControlTranslation? = nil) {
             self.bucket = bucket
             self.storageClass = storageClass
+            self.account = account
+            self.encryptionConfiguration = encryptionConfiguration
+            self.accessControlTranslation = accessControlTranslation
         }
 
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case storageClass = "StorageClass"
+            case account = "Account"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case accessControlTranslation = "AccessControlTranslation"
         }
     }
 
     public struct GlacierJobParameters: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tier", required: true, type: .enum)
         ]
         /// Glacier retrieval tier at which the restore will be processed.
@@ -3959,7 +4307,7 @@ extension S3 {
     public struct PutBucketNotificationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "NotificationConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "NotificationConfiguration", location: .body(locationName: "NotificationConfiguration"), required: true, type: .structure)
@@ -3984,7 +4332,7 @@ extension S3 {
     public struct CompleteMultipartUploadRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "MultipartUpload"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "MultipartUpload", location: .body(locationName: "CompleteMultipartUpload"), required: false, type: .structure), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
@@ -4017,7 +4365,7 @@ extension S3 {
     public struct PutBucketMetricsConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "MetricsConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "MetricsConfiguration", location: .body(locationName: "MetricsConfiguration"), required: true, type: .structure), 
             AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
@@ -4042,8 +4390,24 @@ extension S3 {
         }
     }
 
+    public struct SSEKMS: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
+        ]
+        /// Specifies the ID of the AWS Key Management Service (KMS) master encryption key to use for encrypting Inventory reports.
+        public let keyId: String
+
+        public init(keyId: String) {
+            self.keyId = keyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+        }
+    }
+
     public struct Part: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
             AWSShapeMember(label: "PartNumber", required: false, type: .integer), 
             AWSShapeMember(label: "ETag", required: false, type: .string), 
@@ -4074,7 +4438,7 @@ extension S3 {
     }
 
     public struct ListBucketsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Buckets", required: false, type: .structure), 
             AWSShapeMember(label: "Owner", required: false, type: .structure)
         ]
@@ -4093,7 +4457,7 @@ extension S3 {
     }
 
     public struct GetBucketAccelerateConfigurationOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
         /// The accelerate configuration of the bucket.
@@ -4109,7 +4473,7 @@ extension S3 {
     }
 
     public struct CopyPartResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ETag", required: false, type: .string), 
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp)
         ]
@@ -4130,7 +4494,7 @@ extension S3 {
     }
 
     public struct NoncurrentVersionExpiration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NoncurrentDays", required: false, type: .integer)
         ]
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
@@ -4146,7 +4510,7 @@ extension S3 {
     }
 
     public struct AnalyticsExportDestination: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3BucketDestination", required: true, type: .structure)
         ]
         /// A destination signifying output to an S3 bucket.
@@ -4163,11 +4527,12 @@ extension S3 {
 
     public enum InventoryFormat: String, CustomStringConvertible, Codable {
         case csv = "CSV"
+        case orc = "ORC"
         public var description: String { return self.rawValue }
     }
 
     public struct FilterRule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .enum)
         ]
@@ -4194,7 +4559,7 @@ extension S3 {
     }
 
     public struct ListBucketInventoryConfigurationsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string)
         ]
@@ -4217,31 +4582,36 @@ extension S3 {
     public struct PutBucketPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Policy"
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ConfirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access"), required: false, type: .boolean), 
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "Policy", required: true, type: .string)
         ]
-        public let contentMD5: String?
         public let bucket: String
+        /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.
+        public let confirmRemoveSelfBucketAccess: Bool?
+        public let contentMD5: String?
         /// The bucket policy as a JSON document.
         public let policy: String
 
-        public init(contentMD5: String? = nil, bucket: String, policy: String) {
-            self.contentMD5 = contentMD5
+        public init(bucket: String, confirmRemoveSelfBucketAccess: Bool? = nil, contentMD5: String? = nil, policy: String) {
             self.bucket = bucket
+            self.confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess
+            self.contentMD5 = contentMD5
             self.policy = policy
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentMD5 = "Content-MD5"
             case bucket = "Bucket"
+            case confirmRemoveSelfBucketAccess = "x-amz-confirm-remove-self-bucket-access"
+            case contentMD5 = "Content-MD5"
             case policy = "Policy"
         }
     }
 
     public struct GetObjectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
             AWSShapeMember(label: "IfUnmodifiedSince", location: .header(locationName: "If-Unmodified-Since"), required: false, type: .timestamp), 
@@ -4344,7 +4714,7 @@ extension S3 {
     }
 
     public struct AbortMultipartUploadRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
             AWSShapeMember(label: "UploadId", location: .querystring(locationName: "uploadId"), required: true, type: .string), 
@@ -4373,7 +4743,7 @@ extension S3 {
     public struct GetObjectTorrentOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Body"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Body", required: false, type: .blob), 
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum)
         ]
@@ -4397,8 +4767,35 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
+    public struct PutBucketEncryptionRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ServerSideEncryptionConfiguration"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
+            AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
+            AWSShapeMember(label: "ServerSideEncryptionConfiguration", location: .body(locationName: "ServerSideEncryptionConfiguration"), required: true, type: .structure)
+        ]
+        /// The base64-encoded 128-bit MD5 digest of the server-side encryption configuration.
+        public let contentMD5: String?
+        /// The name of the bucket for which the server-side encryption configuration is set.
+        public let bucket: String
+        public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration
+
+        public init(contentMD5: String? = nil, bucket: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration) {
+            self.contentMD5 = contentMD5
+            self.bucket = bucket
+            self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentMD5 = "Content-MD5"
+            case bucket = "Bucket"
+            case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
+        }
+    }
+
     public struct NoncurrentVersionTransition: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NoncurrentDays", required: false, type: .integer), 
             AWSShapeMember(label: "StorageClass", required: false, type: .enum)
         ]
@@ -4419,7 +4816,7 @@ extension S3 {
     }
 
     public struct UploadPartCopyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
             AWSShapeMember(label: "PartNumber", location: .querystring(locationName: "partNumber"), required: true, type: .integer), 
@@ -4514,7 +4911,7 @@ extension S3 {
     public struct PutBucketAclRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "AccessControlPolicy"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "AccessControlPolicy", location: .body(locationName: "AccessControlPolicy"), required: false, type: .structure), 
@@ -4567,7 +4964,7 @@ extension S3 {
     }
 
     public struct Redirect: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplaceKeyPrefixWith", required: false, type: .string), 
             AWSShapeMember(label: "HttpRedirectCode", required: false, type: .string), 
             AWSShapeMember(label: "HostName", required: false, type: .string), 
@@ -4609,7 +5006,7 @@ extension S3 {
     }
 
     public struct MultipartUpload: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "UploadId", required: false, type: .string), 
@@ -4649,7 +5046,7 @@ extension S3 {
     }
 
     public struct ListBucketAnalyticsConfigurationsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "ContinuationToken", location: .querystring(locationName: "continuation-token"), required: false, type: .string)
         ]
@@ -4677,7 +5074,7 @@ extension S3 {
     }
 
     public struct GetBucketLifecycleConfigurationOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: false, type: .list)
         ]
         public let rules: [LifecycleRule]?
@@ -4692,7 +5089,7 @@ extension S3 {
     }
 
     public struct GetBucketLifecycleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -4707,7 +5104,7 @@ extension S3 {
     }
 
     public struct RequestPaymentConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Payer", required: true, type: .enum)
         ]
         /// Specifies who pays for the download and request fees.
@@ -4723,7 +5120,7 @@ extension S3 {
     }
 
     public struct DeleteObjectOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
             AWSShapeMember(label: "RequestCharged", location: .header(locationName: "x-amz-request-charged"), required: false, type: .enum), 
             AWSShapeMember(label: "DeleteMarker", location: .header(locationName: "x-amz-delete-marker"), required: false, type: .boolean)
@@ -4753,7 +5150,7 @@ extension S3 {
     }
 
     public struct RoutingRules: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RoutingRule", required: false, type: .list)
         ]
         public let routingRule: [RoutingRule]?
@@ -4767,8 +5164,23 @@ extension S3 {
         }
     }
 
+    public struct UserMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetadataEntry", required: false, type: .list)
+        ]
+        public let metadataEntry: [MetadataEntry]?
+
+        public init(metadataEntry: [MetadataEntry]? = nil) {
+            self.metadataEntry = metadataEntry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataEntry = "MetadataEntry"
+        }
+    }
+
     public struct QueueConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
             AWSShapeMember(label: "QueueArn", location: .body(locationName: "Queue"), required: true, type: .string), 
             AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
@@ -4796,7 +5208,7 @@ extension S3 {
     }
 
     public struct GetBucketTaggingOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagSet", required: true, type: .structure)
         ]
         public let tagSet: TagSet
@@ -4811,7 +5223,7 @@ extension S3 {
     }
 
     public struct ErrorDocument: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// The object key name to use when a 4XX class error occurs.
@@ -4827,7 +5239,7 @@ extension S3 {
     }
 
     public struct InventoryConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OptionalFields", required: false, type: .structure), 
             AWSShapeMember(label: "Destination", required: true, type: .structure), 
             AWSShapeMember(label: "IsEnabled", required: true, type: .boolean), 
@@ -4873,7 +5285,7 @@ extension S3 {
     }
 
     public struct MetricsFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tag", required: false, type: .structure), 
             AWSShapeMember(label: "And", required: false, type: .structure), 
             AWSShapeMember(label: "Prefix", required: false, type: .string)
@@ -4901,7 +5313,7 @@ extension S3 {
     public struct PutBucketTaggingRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Tagging"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Tagging", location: .body(locationName: "Tagging"), required: true, type: .structure)
@@ -4924,7 +5336,7 @@ extension S3 {
     }
 
     public struct AnalyticsAndOperator: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure), 
             AWSShapeMember(label: "Prefix", required: false, type: .string)
         ]
@@ -4945,7 +5357,7 @@ extension S3 {
     }
 
     public struct ListObjectVersionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "MaxKeys", location: .querystring(locationName: "max-keys"), required: false, type: .integer), 
             AWSShapeMember(label: "Prefix", location: .querystring(locationName: "prefix"), required: false, type: .string), 
@@ -4988,8 +5400,27 @@ extension S3 {
         }
     }
 
+    public struct MetadataEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+        public let value: String?
+        public let name: String?
+
+        public init(value: String? = nil, name: String? = nil) {
+            self.value = value
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
+        }
+    }
+
     public struct GetBucketLifecycleOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: false, type: .list)
         ]
         public let rules: [Rule]?
@@ -5016,7 +5447,7 @@ extension S3 {
     }
 
     public struct DeleteMarkerEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsLatest", required: false, type: .boolean), 
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -5050,6 +5481,42 @@ extension S3 {
         }
     }
 
+    public struct CSVOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "QuoteFields", required: false, type: .enum), 
+            AWSShapeMember(label: "RecordDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "QuoteCharacter", required: false, type: .string), 
+            AWSShapeMember(label: "QuoteEscapeCharacter", required: false, type: .string)
+        ]
+        /// Value used to separate individual fields in a record.
+        public let fieldDelimiter: String?
+        /// Indicates whether or not all output fields should be quoted.
+        public let quoteFields: QuoteFields?
+        /// Value used to separate individual records.
+        public let recordDelimiter: String?
+        /// Value used for escaping where the field delimiter is part of the value.
+        public let quoteCharacter: String?
+        /// Single character used for escaping the quote character inside an already escaped value.
+        public let quoteEscapeCharacter: String?
+
+        public init(fieldDelimiter: String? = nil, quoteFields: QuoteFields? = nil, recordDelimiter: String? = nil, quoteCharacter: String? = nil, quoteEscapeCharacter: String? = nil) {
+            self.fieldDelimiter = fieldDelimiter
+            self.quoteFields = quoteFields
+            self.recordDelimiter = recordDelimiter
+            self.quoteCharacter = quoteCharacter
+            self.quoteEscapeCharacter = quoteEscapeCharacter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldDelimiter = "FieldDelimiter"
+            case quoteFields = "QuoteFields"
+            case recordDelimiter = "RecordDelimiter"
+            case quoteCharacter = "QuoteCharacter"
+            case quoteEscapeCharacter = "QuoteEscapeCharacter"
+        }
+    }
+
     public enum InventoryIncludedObjectVersions: String, CustomStringConvertible, Codable {
         case all = "All"
         case current = "Current"
@@ -5057,7 +5524,7 @@ extension S3 {
     }
 
     public struct DeleteBucketTaggingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -5072,9 +5539,10 @@ extension S3 {
     }
 
     public struct ReplicationRule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ID", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "SourceSelectionCriteria", required: false, type: .structure), 
             AWSShapeMember(label: "Destination", required: true, type: .structure), 
             AWSShapeMember(label: "Prefix", required: true, type: .string)
         ]
@@ -5082,13 +5550,17 @@ extension S3 {
         public let id: String?
         /// The rule is ignored if status is not Enabled.
         public let status: ReplicationRuleStatus
+        /// Container for filters that define which source objects should be replicated.
+        public let sourceSelectionCriteria: SourceSelectionCriteria?
+        /// Container for replication destination information.
         public let destination: Destination
         /// Object keyname prefix identifying one or more objects to which the rule applies. Maximum prefix length can be up to 1,024 characters. Overlapping prefixes are not supported.
         public let prefix: String
 
-        public init(id: String? = nil, status: ReplicationRuleStatus, destination: Destination, prefix: String) {
+        public init(id: String? = nil, status: ReplicationRuleStatus, sourceSelectionCriteria: SourceSelectionCriteria? = nil, destination: Destination, prefix: String) {
             self.id = id
             self.status = status
+            self.sourceSelectionCriteria = sourceSelectionCriteria
             self.destination = destination
             self.prefix = prefix
         }
@@ -5096,13 +5568,14 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case id = "ID"
             case status = "Status"
+            case sourceSelectionCriteria = "SourceSelectionCriteria"
             case destination = "Destination"
             case prefix = "Prefix"
         }
     }
 
     public struct DeleteObjectTaggingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "VersionId", location: .querystring(locationName: "versionId"), required: false, type: .string), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string)
@@ -5126,7 +5599,7 @@ extension S3 {
     }
 
     public struct LambdaFunctionConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LambdaFunctionArn", location: .body(locationName: "CloudFunction"), required: true, type: .string), 
             AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: true, type: .list), 
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
@@ -5154,7 +5627,7 @@ extension S3 {
     }
 
     public struct GetBucketLoggingOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoggingEnabled", required: false, type: .structure)
         ]
         public let loggingEnabled: LoggingEnabled?
@@ -5169,7 +5642,7 @@ extension S3 {
     }
 
     public struct UploadPartOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "SSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"), required: false, type: .string), 
             AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
@@ -5208,8 +5681,24 @@ extension S3 {
         }
     }
 
+    public struct OutputSerialization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CSV", required: false, type: .structure)
+        ]
+        /// Describes the serialization of CSV-encoded Select results.
+        public let csv: CSVOutput?
+
+        public init(csv: CSVOutput? = nil) {
+            self.csv = csv
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csv = "CSV"
+        }
+    }
+
     public struct GetObjectTaggingOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
             AWSShapeMember(label: "TagSet", required: true, type: .structure)
         ]
@@ -5228,7 +5717,7 @@ extension S3 {
     }
 
     public struct GetBucketCorsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CORSRules", location: .body(locationName: "CORSRule"), required: false, type: .list)
         ]
         public let cORSRules: [CORSRule]?
@@ -5243,7 +5732,7 @@ extension S3 {
     }
 
     public struct Error: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VersionId", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Code", required: false, type: .string), 
@@ -5272,7 +5761,7 @@ extension S3 {
     public struct PutObjectRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Body"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
             AWSShapeMember(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
@@ -5412,7 +5901,7 @@ extension S3 {
     }
 
     public struct CreateBucketConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LocationConstraint", required: false, type: .enum)
         ]
         /// Specifies the region where the bucket will be created. If you don't specify a region, the bucket will be created in US Standard.
@@ -5428,7 +5917,7 @@ extension S3 {
     }
 
     public struct GetBucketWebsiteRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -5442,10 +5931,60 @@ extension S3 {
         }
     }
 
+    public struct S3Location: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tagging", required: false, type: .structure), 
+            AWSShapeMember(label: "Encryption", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: true, type: .string), 
+            AWSShapeMember(label: "AccessControlList", required: false, type: .structure), 
+            AWSShapeMember(label: "StorageClass", required: false, type: .enum), 
+            AWSShapeMember(label: "BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "CannedACL", required: false, type: .enum), 
+            AWSShapeMember(label: "UserMetadata", required: false, type: .structure)
+        ]
+        /// The tag-set that is applied to the restore results.
+        public let tagging: Tagging?
+        public let encryption: Encryption?
+        /// The prefix that is prepended to the restore results for this request.
+        public let prefix: String
+        /// A list of grants that control access to the staged results.
+        public let accessControlList: Grants?
+        /// The class of storage used to store the restore results.
+        public let storageClass: StorageClass?
+        /// The name of the bucket where the restore results will be placed.
+        public let bucketName: String
+        /// The canned ACL to apply to the restore results.
+        public let cannedACL: ObjectCannedACL?
+        /// A list of metadata to store with the restore results in S3.
+        public let userMetadata: UserMetadata?
+
+        public init(tagging: Tagging? = nil, encryption: Encryption? = nil, prefix: String, accessControlList: Grants? = nil, storageClass: StorageClass? = nil, bucketName: String, cannedACL: ObjectCannedACL? = nil, userMetadata: UserMetadata? = nil) {
+            self.tagging = tagging
+            self.encryption = encryption
+            self.prefix = prefix
+            self.accessControlList = accessControlList
+            self.storageClass = storageClass
+            self.bucketName = bucketName
+            self.cannedACL = cannedACL
+            self.userMetadata = userMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagging = "Tagging"
+            case encryption = "Encryption"
+            case prefix = "Prefix"
+            case accessControlList = "AccessControlList"
+            case storageClass = "StorageClass"
+            case bucketName = "BucketName"
+            case cannedACL = "CannedACL"
+            case userMetadata = "UserMetadata"
+        }
+    }
+
     public struct UploadPartRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "Body"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
@@ -5510,7 +6049,7 @@ extension S3 {
     }
 
     public struct DeletedObject: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeleteMarkerVersionId", required: false, type: .string), 
             AWSShapeMember(label: "VersionId", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -5537,7 +6076,7 @@ extension S3 {
     }
 
     public struct PutObjectTaggingOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string)
         ]
         public let versionId: String?
@@ -5551,8 +6090,12 @@ extension S3 {
         }
     }
 
+    public struct SSES3: AWSShape {
+
+    }
+
     public struct GetBucketRequestPaymentRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -5567,7 +6110,7 @@ extension S3 {
     }
 
     public struct DeleteBucketPolicyRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -5582,7 +6125,7 @@ extension S3 {
     }
 
     public struct S3KeyFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FilterRules", location: .body(locationName: "FilterRule"), required: false, type: .list)
         ]
         public let filterRules: [FilterRule]?
@@ -5605,7 +6148,7 @@ extension S3 {
     public struct PutBucketWebsiteRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "WebsiteConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "WebsiteConfiguration", location: .body(locationName: "WebsiteConfiguration"), required: true, type: .structure)
@@ -5630,7 +6173,7 @@ extension S3 {
     public struct PutBucketNotificationConfigurationRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "NotificationConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "NotificationConfiguration", location: .body(locationName: "NotificationConfiguration"), required: true, type: .structure)
         ]
@@ -5649,7 +6192,7 @@ extension S3 {
     }
 
     public struct DeleteBucketMetricsConfigurationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
         ]
@@ -5670,7 +6213,7 @@ extension S3 {
     }
 
     public struct AbortIncompleteMultipartUpload: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DaysAfterInitiation", required: false, type: .integer)
         ]
         /// Indicates the number of days that must pass since initiation for Lifecycle to abort an Incomplete Multipart Upload.
@@ -5686,28 +6229,69 @@ extension S3 {
     }
 
     public struct RestoreRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GlacierJobParameters", required: false, type: .structure), 
-            AWSShapeMember(label: "Days", required: true, type: .integer)
+            AWSShapeMember(label: "SelectParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Days", required: false, type: .integer), 
+            AWSShapeMember(label: "OutputLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Tier", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// Glacier related prameters pertaining to this job.
+        /// Glacier related parameters pertaining to this job. Do not use with restores that specify OutputLocation.
         public let glacierJobParameters: GlacierJobParameters?
-        /// Lifetime of the active copy in days
-        public let days: Int32
+        /// Describes the parameters for Select job types.
+        public let selectParameters: SelectParameters?
+        /// Lifetime of the active copy in days. Do not use with restores that specify OutputLocation.
+        public let days: Int32?
+        /// Describes the location where the restore job's output is stored.
+        public let outputLocation: OutputLocation?
+        /// Type of restore request.
+        public let `type`: RestoreRequestType?
+        /// Glacier retrieval tier at which the restore will be processed.
+        public let tier: Tier?
+        /// The optional description for the job.
+        public let description: String?
 
-        public init(glacierJobParameters: GlacierJobParameters? = nil, days: Int32) {
+        public init(glacierJobParameters: GlacierJobParameters? = nil, selectParameters: SelectParameters? = nil, days: Int32? = nil, outputLocation: OutputLocation? = nil, type: RestoreRequestType? = nil, tier: Tier? = nil, description: String? = nil) {
             self.glacierJobParameters = glacierJobParameters
+            self.selectParameters = selectParameters
             self.days = days
+            self.outputLocation = outputLocation
+            self.`type` = `type`
+            self.tier = tier
+            self.description = description
         }
 
         private enum CodingKeys: String, CodingKey {
             case glacierJobParameters = "GlacierJobParameters"
+            case selectParameters = "SelectParameters"
             case days = "Days"
+            case outputLocation = "OutputLocation"
+            case `type` = "Type"
+            case tier = "Tier"
+            case description = "Description"
+        }
+    }
+
+    public struct SseKmsEncryptedObjects: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: true, type: .enum)
+        ]
+        /// The replication for KMS encrypted S3 objects is disabled if status is not Enabled.
+        public let status: SseKmsEncryptedObjectsStatus
+
+        public init(status: SseKmsEncryptedObjectsStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 
     public struct GetBucketInventoryConfigurationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
         ]
@@ -5728,7 +6312,7 @@ extension S3 {
     }
 
     public struct LifecycleConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rules", location: .body(locationName: "Rule"), required: true, type: .list)
         ]
         public let rules: [Rule]
@@ -5743,7 +6327,7 @@ extension S3 {
     }
 
     public struct GetBucketAnalyticsConfigurationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "Id", location: .querystring(locationName: "id"), required: true, type: .string)
         ]
@@ -5763,8 +6347,15 @@ extension S3 {
         }
     }
 
+    public enum FileHeaderInfo: String, CustomStringConvertible, Codable {
+        case use = "USE"
+        case ignore = "IGNORE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Buckets: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: false, type: .list)
         ]
         public let bucket: [Bucket]?
@@ -5779,7 +6370,7 @@ extension S3 {
     }
 
     public struct GetBucketAccelerateConfigurationRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         /// Name of the bucket for which the accelerate configuration is retrieved.
@@ -5797,7 +6388,7 @@ extension S3 {
     public struct GetBucketInventoryConfigurationOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "InventoryConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InventoryConfiguration", required: false, type: .structure)
         ]
         /// Specifies the inventory configuration.
@@ -5813,7 +6404,7 @@ extension S3 {
     }
 
     public struct ListPartsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "PartNumberMarker", location: .querystring(locationName: "part-number-marker"), required: false, type: .integer), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
@@ -5859,7 +6450,7 @@ extension S3 {
     public struct RestoreObjectRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "RestoreRequest"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "RestoreRequest", location: .body(locationName: "RestoreRequest"), required: false, type: .structure), 
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
@@ -5890,7 +6481,7 @@ extension S3 {
     }
 
     public struct Grantee: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ID", required: false, type: .string), 
             AWSShapeMember(label: "EmailAddress", required: false, type: .string), 
             AWSShapeMember(label: "Type", location: .body(locationName: "xsi:type"), required: true, type: .enum), 
@@ -5902,13 +6493,13 @@ extension S3 {
         /// Email address of the grantee.
         public let emailAddress: String?
         /// Type of grantee
-        public let `type`: Type
+        public let `type`: `Type`
         /// Screen name of the grantee.
         public let displayName: String?
         /// URI of the grantee group.
         public let uri: String?
 
-        public init(id: String? = nil, emailAddress: String? = nil, type: Type, displayName: String? = nil, uri: String? = nil) {
+        public init(id: String? = nil, emailAddress: String? = nil, type: `Type`, displayName: String? = nil, uri: String? = nil) {
             self.id = id
             self.emailAddress = emailAddress
             self.`type` = `type`
@@ -5926,7 +6517,7 @@ extension S3 {
     }
 
     public struct QueueConfigurationDeprecated: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Queue", required: false, type: .string), 
             AWSShapeMember(label: "Events", location: .body(locationName: "Event"), required: false, type: .list), 
             AWSShapeMember(label: "Event", required: false, type: .enum), 
@@ -5955,7 +6546,7 @@ extension S3 {
     }
 
     public struct GetBucketVersioningRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -5970,7 +6561,7 @@ extension S3 {
     }
 
     public struct GetBucketLoggingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string)
         ]
         public let bucket: String
@@ -6002,7 +6593,7 @@ extension S3 {
     public struct PutBucketRequestPaymentRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "RequestPaymentConfiguration"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContentMD5", location: .header(locationName: "Content-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeMember(label: "RequestPaymentConfiguration", location: .body(locationName: "RequestPaymentConfiguration"), required: true, type: .structure)
@@ -6024,8 +6615,14 @@ extension S3 {
         }
     }
 
+    public enum QuoteFields: String, CustomStringConvertible, Codable {
+        case always = "ALWAYS"
+        case asneeded = "ASNEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct PutObjectOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Expiration", location: .header(locationName: "x-amz-expiration"), required: false, type: .string), 
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 
             AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
@@ -6077,7 +6674,7 @@ extension S3 {
     public struct CopyObjectOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "CopyObjectResult"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CopyObjectResult", required: false, type: .structure), 
             AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string), 
             AWSShapeMember(label: "VersionId", location: .header(locationName: "x-amz-version-id"), required: false, type: .string), 

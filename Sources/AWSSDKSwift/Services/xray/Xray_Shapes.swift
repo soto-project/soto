@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Xray {
 
     public struct BatchGetTracesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Traces", required: false, type: .list), 
             AWSShapeMember(label: "UnprocessedTraceIds", required: false, type: .list)
@@ -32,7 +32,7 @@ extension Xray {
     }
 
     public struct EdgeStatistics: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TotalResponseTime", required: false, type: .double), 
             AWSShapeMember(label: "FaultStatistics", required: false, type: .structure), 
             AWSShapeMember(label: "OkCount", required: false, type: .long), 
@@ -68,7 +68,7 @@ extension Xray {
     }
 
     public struct Segment: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Document", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
@@ -89,7 +89,7 @@ extension Xray {
     }
 
     public struct Alias: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Names", required: false, type: .list)
@@ -115,7 +115,7 @@ extension Xray {
     }
 
     public struct ValueWithServiceIds: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceIds", required: false, type: .list), 
             AWSShapeMember(label: "AnnotationValue", required: false, type: .structure)
         ]
@@ -136,7 +136,7 @@ extension Xray {
     }
 
     public struct HistogramEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .double), 
             AWSShapeMember(label: "Count", required: false, type: .integer)
         ]
@@ -157,7 +157,7 @@ extension Xray {
     }
 
     public struct UnprocessedTraceSegment: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
             AWSShapeMember(label: "Message", required: false, type: .string)
@@ -183,7 +183,7 @@ extension Xray {
     }
 
     public struct GetTraceSummariesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TracesProcessedCount", required: false, type: .long), 
             AWSShapeMember(label: "TraceSummaries", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -214,7 +214,7 @@ extension Xray {
     }
 
     public struct Edge: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "SummaryStatistics", required: false, type: .structure), 
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
@@ -254,34 +254,8 @@ extension Xray {
         }
     }
 
-    public struct ErrorStatistics: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TotalCount", required: false, type: .long), 
-            AWSShapeMember(label: "OtherCount", required: false, type: .long), 
-            AWSShapeMember(label: "ThrottleCount", required: false, type: .long)
-        ]
-        /// The total number of requests that failed with a 4xx Client Error status code.
-        public let totalCount: Int64?
-        /// The number of requests that failed with untracked 4xx Client Error status codes.
-        public let otherCount: Int64?
-        /// The number of requests that failed with a 419 throttling status code.
-        public let throttleCount: Int64?
-
-        public init(totalCount: Int64? = nil, otherCount: Int64? = nil, throttleCount: Int64? = nil) {
-            self.totalCount = totalCount
-            self.otherCount = otherCount
-            self.throttleCount = throttleCount
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case totalCount = "TotalCount"
-            case otherCount = "OtherCount"
-            case throttleCount = "ThrottleCount"
-        }
-    }
-
     public struct GetServiceGraphRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
@@ -306,8 +280,34 @@ extension Xray {
         }
     }
 
+    public struct ErrorStatistics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TotalCount", required: false, type: .long), 
+            AWSShapeMember(label: "OtherCount", required: false, type: .long), 
+            AWSShapeMember(label: "ThrottleCount", required: false, type: .long)
+        ]
+        /// The total number of requests that failed with a 4xx Client Error status code.
+        public let totalCount: Int64?
+        /// The number of requests that failed with untracked 4xx Client Error status codes.
+        public let otherCount: Int64?
+        /// The number of requests that failed with a 419 throttling status code.
+        public let throttleCount: Int64?
+
+        public init(totalCount: Int64? = nil, otherCount: Int64? = nil, throttleCount: Int64? = nil) {
+            self.totalCount = totalCount
+            self.otherCount = otherCount
+            self.throttleCount = throttleCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case totalCount = "TotalCount"
+            case otherCount = "OtherCount"
+            case throttleCount = "ThrottleCount"
+        }
+    }
+
     public struct PutTraceSegmentsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedTraceSegments", required: false, type: .list)
         ]
         /// Segments that failed processing.
@@ -323,7 +323,7 @@ extension Xray {
     }
 
     public struct AnnotationValue: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BooleanValue", required: false, type: .boolean), 
             AWSShapeMember(label: "StringValue", required: false, type: .string), 
             AWSShapeMember(label: "NumberValue", required: false, type: .double)
@@ -349,7 +349,7 @@ extension Xray {
     }
 
     public struct GetServiceGraphResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Services", required: false, type: .list), 
@@ -380,7 +380,7 @@ extension Xray {
     }
 
     public struct TraceUser: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceIds", required: false, type: .list), 
             AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
@@ -401,7 +401,7 @@ extension Xray {
     }
 
     public struct FaultStatistics: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TotalCount", required: false, type: .long), 
             AWSShapeMember(label: "OtherCount", required: false, type: .long)
         ]
@@ -422,7 +422,7 @@ extension Xray {
     }
 
     public struct Http: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientIp", required: false, type: .string), 
             AWSShapeMember(label: "HttpURL", required: false, type: .string), 
             AWSShapeMember(label: "HttpMethod", required: false, type: .string), 
@@ -458,7 +458,7 @@ extension Xray {
     }
 
     public struct ServiceStatistics: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TotalResponseTime", required: false, type: .double), 
             AWSShapeMember(label: "FaultStatistics", required: false, type: .structure), 
             AWSShapeMember(label: "OkCount", required: false, type: .long), 
@@ -494,7 +494,7 @@ extension Xray {
     }
 
     public struct GetTraceGraphRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TraceIds", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -515,7 +515,7 @@ extension Xray {
     }
 
     public struct GetTraceGraphResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Services", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -536,7 +536,7 @@ extension Xray {
     }
 
     public struct Trace: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Segments", required: false, type: .list), 
             AWSShapeMember(label: "Duration", required: false, type: .double), 
             AWSShapeMember(label: "Id", required: false, type: .string)
@@ -562,7 +562,7 @@ extension Xray {
     }
 
     public struct PutTraceSegmentsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TraceSegmentDocuments", required: true, type: .list)
         ]
         /// A string containing a JSON document defining one or more segments or subsegments.
@@ -578,7 +578,7 @@ extension Xray {
     }
 
     public struct GetTraceSummariesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
@@ -618,7 +618,7 @@ extension Xray {
     }
 
     public struct PutTelemetryRecordsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EC2InstanceId", required: false, type: .string), 
             AWSShapeMember(label: "Hostname", required: false, type: .string), 
             AWSShapeMember(label: "TelemetryRecords", required: true, type: .list), 
@@ -645,7 +645,7 @@ extension Xray {
     }
 
     public struct Service: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: false, type: .string), 
             AWSShapeMember(label: "SummaryStatistics", required: false, type: .structure), 
             AWSShapeMember(label: "DurationHistogram", required: false, type: .list), 
@@ -721,7 +721,7 @@ extension Xray {
     }
 
     public struct ServiceId: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: false, type: .string), 
             AWSShapeMember(label: "Names", required: false, type: .list), 
             AWSShapeMember(label: "Type", required: false, type: .string), 
@@ -748,7 +748,7 @@ extension Xray {
     }
 
     public struct BackendConnectionErrors: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConnectionRefusedCount", required: false, type: .integer), 
             AWSShapeMember(label: "TimeoutCount", required: false, type: .integer), 
             AWSShapeMember(label: "UnknownHostCount", required: false, type: .integer), 
@@ -783,22 +783,22 @@ extension Xray {
     }
 
     public struct TelemetryRecord: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SegmentsRejectedCount", required: false, type: .integer), 
-            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
             AWSShapeMember(label: "SegmentsReceivedCount", required: false, type: .integer), 
             AWSShapeMember(label: "SegmentsSentCount", required: false, type: .integer), 
             AWSShapeMember(label: "SegmentsSpilloverCount", required: false, type: .integer), 
             AWSShapeMember(label: "BackendConnectionErrors", required: false, type: .structure)
         ]
         public let segmentsRejectedCount: Int32?
-        public let timestamp: TimeStamp?
+        public let timestamp: TimeStamp
         public let segmentsReceivedCount: Int32?
         public let segmentsSentCount: Int32?
         public let segmentsSpilloverCount: Int32?
         public let backendConnectionErrors: BackendConnectionErrors?
 
-        public init(segmentsRejectedCount: Int32? = nil, timestamp: TimeStamp? = nil, segmentsReceivedCount: Int32? = nil, segmentsSentCount: Int32? = nil, segmentsSpilloverCount: Int32? = nil, backendConnectionErrors: BackendConnectionErrors? = nil) {
+        public init(segmentsRejectedCount: Int32? = nil, timestamp: TimeStamp, segmentsReceivedCount: Int32? = nil, segmentsSentCount: Int32? = nil, segmentsSpilloverCount: Int32? = nil, backendConnectionErrors: BackendConnectionErrors? = nil) {
             self.segmentsRejectedCount = segmentsRejectedCount
             self.timestamp = timestamp
             self.segmentsReceivedCount = segmentsReceivedCount
@@ -818,7 +818,7 @@ extension Xray {
     }
 
     public struct BatchGetTracesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TraceIds", required: true, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -839,7 +839,7 @@ extension Xray {
     }
 
     public struct TraceSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsPartial", required: false, type: .boolean), 
             AWSShapeMember(label: "ServiceIds", required: false, type: .list), 
             AWSShapeMember(label: "Http", required: false, type: .structure), 

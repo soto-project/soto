@@ -14,7 +14,7 @@ extension Streamsdynamodb {
     }
 
     public struct DescribeStreamInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamArn", required: true, type: .string), 
             AWSShapeMember(label: "ExclusiveStartShardId", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
@@ -40,7 +40,7 @@ extension Streamsdynamodb {
     }
 
     public struct KeySchemaElement: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeName", required: true, type: .string), 
             AWSShapeMember(label: "KeyType", required: true, type: .enum)
         ]
@@ -61,7 +61,7 @@ extension Streamsdynamodb {
     }
 
     public struct Shard: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShardId", required: false, type: .string), 
             AWSShapeMember(label: "SequenceNumberRange", required: false, type: .structure), 
             AWSShapeMember(label: "ParentShardId", required: false, type: .string)
@@ -87,7 +87,7 @@ extension Streamsdynamodb {
     }
 
     public struct DescribeStreamOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamDescription", required: false, type: .structure)
         ]
         /// A complete description of the stream, including its creation date and time, the DynamoDB table associated with the stream, the shard IDs within the stream, and the beginning and ending sequence numbers of stream records within the shards.
@@ -109,7 +109,7 @@ extension Streamsdynamodb {
     }
 
     public struct Record: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventName", required: false, type: .enum), 
             AWSShapeMember(label: "eventSource", required: false, type: .string), 
             AWSShapeMember(label: "userIdentity", required: false, type: .structure), 
@@ -155,7 +155,7 @@ extension Streamsdynamodb {
     }
 
     public struct GetShardIteratorInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShardIteratorType", required: true, type: .enum), 
             AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
             AWSShapeMember(label: "StreamArn", required: true, type: .string), 
@@ -194,7 +194,7 @@ extension Streamsdynamodb {
     }
 
     public struct SequenceNumberRange: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndingSequenceNumber", required: false, type: .string), 
             AWSShapeMember(label: "StartingSequenceNumber", required: false, type: .string)
         ]
@@ -222,7 +222,7 @@ extension Streamsdynamodb {
     }
 
     public struct Stream: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StreamArn", required: false, type: .string), 
             AWSShapeMember(label: "StreamLabel", required: false, type: .string), 
             AWSShapeMember(label: "TableName", required: false, type: .string)
@@ -248,7 +248,7 @@ extension Streamsdynamodb {
     }
 
     public struct GetRecordsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "ShardIterator", required: true, type: .string)
         ]
@@ -269,7 +269,7 @@ extension Streamsdynamodb {
     }
 
     public struct GetShardIteratorOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShardIterator", required: false, type: .string)
         ]
         /// The position in the shard from which to start reading stream records sequentially. A shard iterator specifies this position using the sequence number of a stream record in a shard.
@@ -285,7 +285,7 @@ extension Streamsdynamodb {
     }
 
     public struct Identity: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: false, type: .string), 
             AWSShapeMember(label: "PrincipalId", required: false, type: .string)
         ]
@@ -305,8 +305,8 @@ extension Streamsdynamodb {
         }
     }
 
-    public struct AttributeValue: AWSShape {
-        public static var members: [AWSShapeMember] = [
+    public class AttributeValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NS", required: false, type: .list), 
             AWSShapeMember(label: "N", required: false, type: .string), 
             AWSShapeMember(label: "BOOL", required: false, type: .boolean), 
@@ -367,7 +367,7 @@ extension Streamsdynamodb {
     }
 
     public struct ListStreamsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Streams", required: false, type: .list), 
             AWSShapeMember(label: "LastEvaluatedStreamArn", required: false, type: .string)
         ]
@@ -388,7 +388,7 @@ extension Streamsdynamodb {
     }
 
     public struct ListStreamsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExclusiveStartStreamArn", required: false, type: .string), 
             AWSShapeMember(label: "TableName", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
@@ -414,7 +414,7 @@ extension Streamsdynamodb {
     }
 
     public struct GetRecordsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextShardIterator", required: false, type: .string), 
             AWSShapeMember(label: "Records", required: false, type: .list)
         ]
@@ -435,7 +435,7 @@ extension Streamsdynamodb {
     }
 
     public struct StreamRecord: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
             AWSShapeMember(label: "Keys", required: false, type: .map), 
             AWSShapeMember(label: "NewImage", required: false, type: .map), 
@@ -481,7 +481,7 @@ extension Streamsdynamodb {
     }
 
     public struct StreamDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeySchema", required: false, type: .list), 
             AWSShapeMember(label: "StreamArn", required: false, type: .string), 
             AWSShapeMember(label: "CreationRequestDateTime", required: false, type: .timestamp), 

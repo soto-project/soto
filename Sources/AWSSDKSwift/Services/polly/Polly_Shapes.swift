@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Polly {
 
     public struct Lexicon: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Content", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
@@ -27,7 +27,7 @@ extension Polly {
     }
 
     public struct DescribeVoicesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LanguageCode", location: .querystring(locationName: "LanguageCode"), required: false, type: .enum), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
@@ -66,6 +66,7 @@ extension Polly {
         case justin = "Justin"
         case kendra = "Kendra"
         case kimberly = "Kimberly"
+        case matthew = "Matthew"
         case salli = "Salli"
         case conchita = "Conchita"
         case enrique = "Enrique"
@@ -96,6 +97,9 @@ extension Polly {
         case astrid = "Astrid"
         case filiz = "Filiz"
         case vicki = "Vicki"
+        case takumi = "Takumi"
+        case seoyeon = "Seoyeon"
+        case aditi = "Aditi"
         public var description: String { return self.rawValue }
     }
 
@@ -114,6 +118,7 @@ extension Polly {
         case frFr = "fr-FR"
         case isIs = "is-IS"
         case itIt = "it-IT"
+        case koKr = "ko-KR"
         case jaJp = "ja-JP"
         case nbNo = "nb-NO"
         case nlNl = "nl-NL"
@@ -136,7 +141,7 @@ extension Polly {
     public struct SynthesizeSpeechOutput: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "AudioStream"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
             AWSShapeMember(label: "AudioStream", required: false, type: .blob), 
             AWSShapeMember(label: "RequestCharacters", location: .header(locationName: "x-amzn-RequestCharacters"), required: false, type: .integer)
@@ -162,7 +167,7 @@ extension Polly {
     }
 
     public struct PutLexiconInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Content", required: true, type: .string), 
             AWSShapeMember(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
         ]
@@ -183,7 +188,7 @@ extension Polly {
     }
 
     public struct GetLexiconOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Lexicon", required: false, type: .structure), 
             AWSShapeMember(label: "LexiconAttributes", required: false, type: .structure)
         ]
@@ -212,7 +217,7 @@ extension Polly {
     }
 
     public struct ListLexiconsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Lexicons", required: false, type: .list)
         ]
@@ -233,7 +238,7 @@ extension Polly {
     }
 
     public struct GetLexiconInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
         ]
         /// Name of the lexicon.
@@ -261,7 +266,7 @@ extension Polly {
     }
 
     public struct SynthesizeSpeechInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VoiceId", required: true, type: .enum), 
             AWSShapeMember(label: "Text", required: true, type: .string), 
             AWSShapeMember(label: "SampleRate", required: false, type: .string), 
@@ -307,7 +312,7 @@ extension Polly {
     }
 
     public struct DescribeVoicesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Voices", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -328,7 +333,7 @@ extension Polly {
     }
 
     public struct ListLexiconsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
         /// An opaque pagination token returned from previous ListLexicons operation. If present, indicates where to continue the list of lexicons.
@@ -344,7 +349,7 @@ extension Polly {
     }
 
     public struct LexiconAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LexiconArn", required: false, type: .string), 
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
             AWSShapeMember(label: "LexemesCount", required: false, type: .integer), 
@@ -385,7 +390,7 @@ extension Polly {
     }
 
     public struct LexiconDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Attributes", required: false, type: .structure)
         ]
@@ -416,7 +421,7 @@ extension Polly {
     }
 
     public struct DeleteLexiconInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
         ]
         /// The name of the lexicon to delete. Must be an existing lexicon in the region.
@@ -432,7 +437,7 @@ extension Polly {
     }
 
     public struct Voice: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LanguageName", required: false, type: .string), 
             AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string), 

@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-The WorkDocs API is designed for the following use cases:   File Migration: File migration applications are supported for users who want to migrate their files from an on-premise or off-premise file system or service. Users can insert files into a user directory structure, as well as allow for basic metadata changes, such as modifications to the permissions of files.   Security: Support security applications are supported for users who have additional security needs, such as anti-virus or data loss prevention. The APIs, in conjunction with Amazon CloudTrail, allow these applications to detect when changes occur in Amazon WorkDocs, so the application can take the necessary actions and replace the target file. The application can also choose to email the user if the target file violates the policy.   eDiscovery/Analytics: General administrative applications are supported, such as eDiscovery and analytics. These applications can choose to mimic and/or record the actions in an Amazon WorkDocs site, in conjunction with Amazon CloudTrails, to replicate data for eDiscovery, backup, or analytical applications.   All Amazon WorkDocs APIs are Amazon authenticated, certificate-signed APIs. They not only require the use of the AWS SDK, but also allow for the exclusive use of IAM users and roles to help facilitate access, trust, and permission policies. By creating a role and allowing an IAM user to access the Amazon WorkDocs site, the IAM user gains full administrative visibility into the entire Amazon WorkDocs site (or as set in the IAM policy). This includes, but is not limited to, the ability to modify file permissions and upload any file to any user. This allows developers to perform the three use cases above, as well as give users the ability to grant access on a selective basis using the IAM model.
+The WorkDocs API is designed for the following use cases:   File Migration: File migration applications are supported for users who want to migrate their files from an on-premises or off-premises file system or service. Users can insert files into a user directory structure, as well as allow for basic metadata changes, such as modifications to the permissions of files.   Security: Support security applications are supported for users who have additional security needs, such as antivirus or data loss prevention. The API actions, along with AWS CloudTrail, allow these applications to detect when changes occur in Amazon WorkDocs. Then, the application can take the necessary actions and replace the target file. If the target file violates the policy, the application can also choose to email the user.   eDiscovery/Analytics: General administrative applications are supported, such as eDiscovery and analytics. These applications can choose to mimic or record the actions in an Amazon WorkDocs site, along with AWS CloudTrail, to replicate data for eDiscovery, backup, or analytical applications.   All Amazon WorkDocs API actions are Amazon authenticated and certificate-signed. They not only require the use of the AWS SDK, but also allow for the exclusive use of IAM users and roles to help facilitate access, trust, and permission policies. By creating a role and allowing an IAM user to access the Amazon WorkDocs site, the IAM user gains full administrative visibility into the entire Amazon WorkDocs site (or as set in the IAM policy). This includes, but is not limited to, the ability to modify file permissions and upload any file to any user. This allows developers to perform the three use cases above, as well as give users the ability to grant access on a selective basis using the IAM model.
 */
 public struct Workdocs {
 
@@ -179,6 +179,11 @@ public struct Workdocs {
         return try client.send(operation: "InitiateDocumentVersionUpload", path: "/api/v1/documents", httpMethod: "POST", input: input)
     }
 
+    ///  Describes the groups specified by query.
+    public func describeGroups(_ input: DescribeGroupsRequest) throws -> DescribeGroupsResponse {
+        return try client.send(operation: "DescribeGroups", path: "/api/v1/groups", httpMethod: "GET", input: input)
+    }
+
     ///  Deletes the contents of the specified folder.
     public func deleteFolderContents(_ input: DeleteFolderContentsRequest) throws {
         _ = try client.send(operation: "DeleteFolderContents", path: "/api/v1/folders/{FolderId}/contents", httpMethod: "DELETE", input: input)
@@ -194,7 +199,7 @@ public struct Workdocs {
         return try client.send(operation: "AddResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the current user's special folders; the RootFolder and the RecyleBin. RootFolder is the root of user's files and folders and RecyleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients.
+    ///  Describes the current user's special folders; the RootFolder and the RecycleBin. RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients.
     public func describeRootFolders(_ input: DescribeRootFoldersRequest) throws -> DescribeRootFoldersResponse {
         return try client.send(operation: "DescribeRootFolders", path: "/api/v1/me/root", httpMethod: "GET", input: input)
     }

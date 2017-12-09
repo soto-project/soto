@@ -10,7 +10,7 @@ extension Sms {
     }
 
     public struct Connector: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "capabilityList", required: false, type: .structure), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "ipAddress", required: false, type: .string), 
@@ -61,7 +61,7 @@ extension Sms {
     }
 
     public struct GetReplicationRunsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "replicationJobId", required: true, type: .string)
@@ -89,7 +89,7 @@ extension Sms {
     }
 
     public struct GetConnectorsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
@@ -117,7 +117,7 @@ extension Sms {
     }
 
     public struct GetServersResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "serverList", required: false, type: .structure), 
             AWSShapeMember(label: "serverCatalogStatus", required: false, type: .enum), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -144,7 +144,7 @@ extension Sms {
     }
 
     public struct GetReplicationJobsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "replicationJobId", required: false, type: .string)
@@ -180,7 +180,7 @@ extension Sms {
     }
 
     public struct StartOnDemandReplicationRunResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "replicationRunId", required: false, type: .string)
         ]
         public let replicationRunId: String?
@@ -195,7 +195,7 @@ extension Sms {
     }
 
     public struct UpdateReplicationJobRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "roleName", required: false, type: .string), 
             AWSShapeMember(label: "nextReplicationRunStartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "description", required: false, type: .string), 
@@ -230,7 +230,7 @@ extension Sms {
     }
 
     public struct ConnectorCapabilityList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [ConnectorCapability]?
@@ -245,7 +245,7 @@ extension Sms {
     }
 
     public struct ReplicationRun: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "state", required: false, type: .enum), 
             AWSShapeMember(label: "replicationRunId", required: false, type: .string), 
             AWSShapeMember(label: "completedTime", required: false, type: .timestamp), 
@@ -292,7 +292,7 @@ extension Sms {
     }
 
     public struct ReplicationJob: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "state", required: false, type: .enum), 
             AWSShapeMember(label: "replicationRunList", required: false, type: .structure), 
             AWSShapeMember(label: "nextReplicationRunStartTime", required: false, type: .timestamp), 
@@ -374,7 +374,7 @@ extension Sms {
     }
 
     public struct ServerList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [Server]?
@@ -393,7 +393,7 @@ extension Sms {
     }
 
     public struct ReplicationJobList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [ReplicationJob]?
@@ -414,7 +414,7 @@ extension Sms {
     }
 
     public struct GetConnectorsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "connectorList", required: false, type: .structure)
         ]
@@ -433,7 +433,7 @@ extension Sms {
     }
 
     public struct CreateReplicationJobRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "seedReplicationTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "roleName", required: false, type: .string), 
             AWSShapeMember(label: "serverId", required: true, type: .string), 
@@ -474,7 +474,7 @@ extension Sms {
     }
 
     public struct VmServerAddress: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "vmId", required: false, type: .string), 
             AWSShapeMember(label: "vmManagerId", required: false, type: .string)
         ]
@@ -493,7 +493,7 @@ extension Sms {
     }
 
     public struct GetServersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
@@ -517,7 +517,7 @@ extension Sms {
     }
 
     public struct ConnectorList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [Connector]?
@@ -532,7 +532,7 @@ extension Sms {
     }
 
     public struct VmServer: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "vmManagerName", required: false, type: .string), 
             AWSShapeMember(label: "vmManagerType", required: false, type: .enum), 
             AWSShapeMember(label: "vmName", required: false, type: .string), 
@@ -563,7 +563,7 @@ extension Sms {
     }
 
     public struct Server: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "serverId", required: false, type: .string), 
             AWSShapeMember(label: "replicationJobTerminated", required: false, type: .boolean), 
             AWSShapeMember(label: "serverType", required: false, type: .enum), 
@@ -598,7 +598,7 @@ extension Sms {
     }
 
     public struct CreateReplicationJobResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "replicationJobId", required: false, type: .string)
         ]
         public let replicationJobId: String?
@@ -613,7 +613,7 @@ extension Sms {
     }
 
     public struct ReplicationRunList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [ReplicationRun]?
@@ -628,7 +628,7 @@ extension Sms {
     }
 
     public struct StartOnDemandReplicationRunRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "replicationJobId", required: true, type: .string)
         ]
@@ -656,7 +656,7 @@ extension Sms {
     }
 
     public struct GetReplicationJobsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "replicationJobList", required: false, type: .structure)
         ]
@@ -675,7 +675,7 @@ extension Sms {
     }
 
     public struct DisassociateConnectorRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "connectorId", required: true, type: .string)
         ]
         public let connectorId: String
@@ -690,7 +690,7 @@ extension Sms {
     }
 
     public struct GetReplicationRunsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "replicationJob", required: false, type: .structure), 
             AWSShapeMember(label: "replicationRunList", required: false, type: .structure), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
@@ -719,7 +719,7 @@ extension Sms {
     }
 
     public struct DeleteReplicationJobRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "replicationJobId", required: true, type: .string)
         ]
         public let replicationJobId: String

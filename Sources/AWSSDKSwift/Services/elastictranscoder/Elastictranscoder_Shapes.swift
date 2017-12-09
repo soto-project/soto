@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Elastictranscoder {
 
     public struct ListJobsByPipelineRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Ascending", location: .querystring(locationName: "Ascending"), required: false, type: .string), 
             AWSShapeMember(label: "PipelineId", location: .uri(locationName: "PipelineId"), required: true, type: .string), 
             AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string)
@@ -32,7 +32,7 @@ extension Elastictranscoder {
     }
 
     public struct DeletePipelineRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identifier of the pipeline that you want to delete.
@@ -48,7 +48,7 @@ extension Elastictranscoder {
     }
 
     public struct CaptionSource: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Label", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "TimeOffset", required: false, type: .string), 
@@ -84,7 +84,7 @@ extension Elastictranscoder {
     }
 
     public struct ReadPresetResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Preset", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the preset.
@@ -100,7 +100,7 @@ extension Elastictranscoder {
     }
 
     public struct JobAlbumArt: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MergePolicy", required: false, type: .string), 
             AWSShapeMember(label: "Artwork", required: false, type: .list)
         ]
@@ -121,7 +121,7 @@ extension Elastictranscoder {
     }
 
     public struct Preset: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Thumbnails", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -177,7 +177,7 @@ extension Elastictranscoder {
     }
 
     public struct JobInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimeSpan", required: false, type: .structure), 
             AWSShapeMember(label: "Interlaced", required: false, type: .string), 
             AWSShapeMember(label: "DetectedProperties", required: false, type: .structure), 
@@ -238,7 +238,7 @@ extension Elastictranscoder {
     }
 
     public struct ListPipelinesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Ascending", location: .querystring(locationName: "Ascending"), required: false, type: .string), 
             AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string)
         ]
@@ -259,7 +259,7 @@ extension Elastictranscoder {
     }
 
     public struct VideoParameters: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DisplayAspectRatio", required: false, type: .string), 
             AWSShapeMember(label: "PaddingPolicy", required: false, type: .string), 
             AWSShapeMember(label: "FixedGOP", required: false, type: .string), 
@@ -349,7 +349,7 @@ extension Elastictranscoder {
     }
 
     public struct CreatePresetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Audio", required: false, type: .structure), 
             AWSShapeMember(label: "Container", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -390,7 +390,7 @@ extension Elastictranscoder {
     }
 
     public struct ListJobsByStatusResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Jobs", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
@@ -415,7 +415,7 @@ extension Elastictranscoder {
     }
 
     public struct ListPresetsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Presets", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
@@ -436,7 +436,7 @@ extension Elastictranscoder {
     }
 
     public struct Playlist: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "HlsContentProtection", required: false, type: .structure), 
             AWSShapeMember(label: "OutputKeys", required: false, type: .list), 
@@ -482,7 +482,7 @@ extension Elastictranscoder {
     }
 
     public struct TimeSpan: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Duration", required: false, type: .string), 
             AWSShapeMember(label: "StartTime", required: false, type: .string)
         ]
@@ -507,7 +507,7 @@ extension Elastictranscoder {
     }
 
     public struct CreatePipelineRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputBucket", required: true, type: .string), 
             AWSShapeMember(label: "AwsKmsKeyArn", required: false, type: .string), 
             AWSShapeMember(label: "ThumbnailConfig", required: false, type: .structure), 
@@ -558,7 +558,7 @@ extension Elastictranscoder {
     }
 
     public struct UpdatePipelineStatusRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: true, type: .string), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
@@ -579,7 +579,7 @@ extension Elastictranscoder {
     }
 
     public struct Thumbnails: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PaddingPolicy", required: false, type: .string), 
             AWSShapeMember(label: "Interval", required: false, type: .string), 
             AWSShapeMember(label: "AspectRatio", required: false, type: .string), 
@@ -630,7 +630,7 @@ extension Elastictranscoder {
     }
 
     public struct Pipeline: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "InputBucket", required: false, type: .string), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -696,7 +696,7 @@ extension Elastictranscoder {
     }
 
     public struct TestRoleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Role", required: true, type: .string), 
             AWSShapeMember(label: "InputBucket", required: true, type: .string), 
             AWSShapeMember(label: "Topics", required: true, type: .list), 
@@ -727,7 +727,7 @@ extension Elastictranscoder {
     }
 
     public struct ListJobsByPipelineResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Jobs", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
@@ -748,7 +748,7 @@ extension Elastictranscoder {
     }
 
     public struct UpdatePipelineNotificationsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Notifications", required: true, type: .structure), 
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
@@ -769,7 +769,7 @@ extension Elastictranscoder {
     }
 
     public struct PlayReadyDrm: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Format", required: false, type: .string), 
             AWSShapeMember(label: "InitializationVector", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -810,7 +810,7 @@ extension Elastictranscoder {
     }
 
     public struct Captions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MergePolicy", required: false, type: .string), 
             AWSShapeMember(label: "CaptionSources", required: false, type: .list), 
             AWSShapeMember(label: "CaptionFormats", required: false, type: .list)
@@ -836,7 +836,7 @@ extension Elastictranscoder {
     }
 
     public struct CreateJobRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OutputKeyPrefix", required: false, type: .string), 
             AWSShapeMember(label: "Input", required: false, type: .structure), 
             AWSShapeMember(label: "Playlists", required: false, type: .list), 
@@ -887,7 +887,7 @@ extension Elastictranscoder {
     }
 
     public struct Artwork: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PaddingPolicy", required: false, type: .string), 
             AWSShapeMember(label: "InputKey", required: false, type: .string), 
             AWSShapeMember(label: "Encryption", required: false, type: .structure), 
@@ -933,7 +933,7 @@ extension Elastictranscoder {
     }
 
     public struct CreateJobResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Job", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the job that is created.
@@ -949,7 +949,7 @@ extension Elastictranscoder {
     }
 
     public struct CreatePipelineResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pipeline", required: false, type: .structure), 
             AWSShapeMember(label: "Warnings", required: false, type: .list)
         ]
@@ -970,7 +970,7 @@ extension Elastictranscoder {
     }
 
     public struct DeletePresetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identifier of the preset for which you want to get detailed information.
@@ -986,7 +986,7 @@ extension Elastictranscoder {
     }
 
     public struct ListPipelinesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pipelines", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
@@ -1007,7 +1007,7 @@ extension Elastictranscoder {
     }
 
     public struct ListPresetsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Ascending", location: .querystring(locationName: "Ascending"), required: false, type: .string), 
             AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string)
         ]
@@ -1028,7 +1028,7 @@ extension Elastictranscoder {
     }
 
     public struct ReadJobResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Job", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the job.
@@ -1044,7 +1044,7 @@ extension Elastictranscoder {
     }
 
     public struct ListJobsByStatusRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", location: .uri(locationName: "Status"), required: true, type: .string), 
             AWSShapeMember(label: "Ascending", location: .querystring(locationName: "Ascending"), required: false, type: .string), 
             AWSShapeMember(label: "PageToken", location: .querystring(locationName: "PageToken"), required: false, type: .string)
@@ -1070,7 +1070,7 @@ extension Elastictranscoder {
     }
 
     public struct UpdatePipelineRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputBucket", required: false, type: .string), 
             AWSShapeMember(label: "AwsKmsKeyArn", required: false, type: .string), 
             AWSShapeMember(label: "ThumbnailConfig", required: false, type: .structure), 
@@ -1121,7 +1121,7 @@ extension Elastictranscoder {
     }
 
     public struct HlsContentProtection: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InitializationVector", required: false, type: .string), 
             AWSShapeMember(label: "KeyMd5", required: false, type: .string), 
             AWSShapeMember(label: "KeyStoragePolicy", required: false, type: .string), 
@@ -1162,7 +1162,7 @@ extension Elastictranscoder {
     }
 
     public struct JobOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PresetId", required: false, type: .string), 
             AWSShapeMember(label: "Height", required: false, type: .integer), 
             AWSShapeMember(label: "DurationMillis", required: false, type: .long), 
@@ -1278,7 +1278,7 @@ extension Elastictranscoder {
     }
 
     public struct InputCaptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MergePolicy", required: false, type: .string), 
             AWSShapeMember(label: "CaptionSources", required: false, type: .list)
         ]
@@ -1299,7 +1299,7 @@ extension Elastictranscoder {
     }
 
     public struct PipelineOutputConfig: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Permissions", required: false, type: .list), 
             AWSShapeMember(label: "Bucket", required: false, type: .string), 
             AWSShapeMember(label: "StorageClass", required: false, type: .string)
@@ -1325,7 +1325,7 @@ extension Elastictranscoder {
     }
 
     public struct UpdatePipelineResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pipeline", required: false, type: .structure), 
             AWSShapeMember(label: "Warnings", required: false, type: .list)
         ]
@@ -1346,7 +1346,7 @@ extension Elastictranscoder {
     }
 
     public struct CaptionFormat: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pattern", required: false, type: .string), 
             AWSShapeMember(label: "Encryption", required: false, type: .structure), 
             AWSShapeMember(label: "Format", required: false, type: .string)
@@ -1372,7 +1372,7 @@ extension Elastictranscoder {
     }
 
     public struct ReadPresetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identifier of the preset for which you want to get detailed information.
@@ -1388,7 +1388,7 @@ extension Elastictranscoder {
     }
 
     public struct ReadJobRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identifier of the job for which you want to get detailed information.
@@ -1404,7 +1404,7 @@ extension Elastictranscoder {
     }
 
     public struct PresetWatermark: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VerticalOffset", required: false, type: .string), 
             AWSShapeMember(label: "Target", required: false, type: .string), 
             AWSShapeMember(label: "HorizontalOffset", required: false, type: .string), 
@@ -1465,7 +1465,7 @@ extension Elastictranscoder {
     }
 
     public struct JobWatermark: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PresetWatermarkId", required: false, type: .string), 
             AWSShapeMember(label: "Encryption", required: false, type: .structure), 
             AWSShapeMember(label: "InputKey", required: false, type: .string)
@@ -1491,7 +1491,7 @@ extension Elastictranscoder {
     }
 
     public struct CreatePresetResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Warning", required: false, type: .string), 
             AWSShapeMember(label: "Preset", required: false, type: .structure)
         ]
@@ -1512,7 +1512,7 @@ extension Elastictranscoder {
     }
 
     public struct TestRoleResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Success", required: false, type: .string), 
             AWSShapeMember(label: "Messages", required: false, type: .list)
         ]
@@ -1533,7 +1533,7 @@ extension Elastictranscoder {
     }
 
     public struct CreateJobPlaylist: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Format", required: false, type: .string), 
             AWSShapeMember(label: "HlsContentProtection", required: false, type: .structure), 
             AWSShapeMember(label: "PlayReadyDrm", required: false, type: .structure), 
@@ -1569,7 +1569,7 @@ extension Elastictranscoder {
     }
 
     public struct CreateJobOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Captions", required: false, type: .structure), 
             AWSShapeMember(label: "ThumbnailPattern", required: false, type: .string), 
             AWSShapeMember(label: "PresetId", required: false, type: .string), 
@@ -1635,7 +1635,7 @@ extension Elastictranscoder {
     }
 
     public struct DetectedProperties: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Height", required: false, type: .integer), 
             AWSShapeMember(label: "DurationMillis", required: false, type: .long), 
             AWSShapeMember(label: "FileSize", required: false, type: .long), 
@@ -1671,7 +1671,7 @@ extension Elastictranscoder {
     }
 
     public struct ReadPipelineResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pipeline", required: false, type: .structure), 
             AWSShapeMember(label: "Warnings", required: false, type: .list)
         ]
@@ -1692,7 +1692,7 @@ extension Elastictranscoder {
     }
 
     public struct Warning: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .string), 
             AWSShapeMember(label: "Message", required: false, type: .string)
         ]
@@ -1713,7 +1713,7 @@ extension Elastictranscoder {
     }
 
     public struct UpdatePipelineNotificationsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pipeline", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the pipeline associated with this notification.
@@ -1729,7 +1729,7 @@ extension Elastictranscoder {
     }
 
     public struct AudioParameters: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CodecOptions", required: false, type: .structure), 
             AWSShapeMember(label: "BitRate", required: false, type: .string), 
             AWSShapeMember(label: "Codec", required: false, type: .string), 
@@ -1770,7 +1770,7 @@ extension Elastictranscoder {
     }
 
     public struct Notifications: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Completed", required: false, type: .string), 
             AWSShapeMember(label: "Error", required: false, type: .string), 
             AWSShapeMember(label: "Warning", required: false, type: .string), 
@@ -1801,7 +1801,7 @@ extension Elastictranscoder {
     }
 
     public struct AudioCodecOptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Signed", required: false, type: .string), 
             AWSShapeMember(label: "Profile", required: false, type: .string), 
             AWSShapeMember(label: "BitDepth", required: false, type: .string), 
@@ -1832,7 +1832,7 @@ extension Elastictranscoder {
     }
 
     public struct UpdatePipelineStatusResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Pipeline", required: false, type: .structure)
         ]
         /// A section of the response body that provides information about the pipeline.
@@ -1848,7 +1848,7 @@ extension Elastictranscoder {
     }
 
     public struct CancelJobRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identifier of the job that you want to cancel. To get a list of the jobs (including their jobId) that have a status of Submitted, use the ListJobsByStatus API action.
@@ -1864,7 +1864,7 @@ extension Elastictranscoder {
     }
 
     public struct Job: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Timing", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -1935,7 +1935,7 @@ extension Elastictranscoder {
     }
 
     public struct Permission: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GranteeType", required: false, type: .string), 
             AWSShapeMember(label: "Access", required: false, type: .list), 
             AWSShapeMember(label: "Grantee", required: false, type: .string)
@@ -1961,7 +1961,7 @@ extension Elastictranscoder {
     }
 
     public struct Encryption: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Mode", required: false, type: .string), 
             AWSShapeMember(label: "InitializationVector", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -1992,7 +1992,7 @@ extension Elastictranscoder {
     }
 
     public struct ReadPipelineRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identifier of the pipeline to read.
@@ -2008,7 +2008,7 @@ extension Elastictranscoder {
     }
 
     public struct Clip: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimeSpan", required: false, type: .structure)
         ]
         /// Settings that determine when a clip begins and how long it lasts.
@@ -2024,7 +2024,7 @@ extension Elastictranscoder {
     }
 
     public struct Timing: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartTimeMillis", required: false, type: .long), 
             AWSShapeMember(label: "SubmitTimeMillis", required: false, type: .long), 
             AWSShapeMember(label: "FinishTimeMillis", required: false, type: .long)

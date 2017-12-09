@@ -25,14 +25,14 @@ public struct Servicecatalog {
         )
     }
 
-    ///  Updates an existing TagOption.
-    public func updateTagOption(_ input: UpdateTagOptionInput) throws -> UpdateTagOptionOutput {
-        return try client.send(operation: "UpdateTagOption", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Creates a new portfolio share.
     public func createPortfolioShare(_ input: CreatePortfolioShareInput) throws -> CreatePortfolioShareOutput {
         return try client.send(operation: "CreatePortfolioShare", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates an existing TagOption.
+    public func updateTagOption(_ input: UpdateTagOptionInput) throws -> UpdateTagOptionOutput {
+        return try client.send(operation: "UpdateTagOption", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified constraint.
@@ -70,14 +70,14 @@ public struct Servicecatalog {
         return try client.send(operation: "UpdateConstraint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new product.
-    public func createProduct(_ input: CreateProductInput) throws -> CreateProductOutput {
-        return try client.send(operation: "CreateProduct", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Lists resources associated with a TagOption.
     public func listResourcesForTagOption(_ input: ListResourcesForTagOptionInput) throws -> ListResourcesForTagOptionOutput {
         return try client.send(operation: "ListResourcesForTagOption", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new product.
+    public func createProduct(_ input: CreateProductInput) throws -> CreateProductOutput {
+        return try client.send(operation: "CreateProduct", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates the specified product from the specified portfolio. 
@@ -135,7 +135,7 @@ public struct Servicecatalog {
         return try client.send(operation: "ListPortfoliosForProduct", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Create a new provisioning artifact for the specified product. This operation does not work with a product that has been shared with you. See the bottom of this topic for an example JSON request.
+    ///  Create a new provisioning artifact for the specified product. This operation does not work with a product that has been shared with you.
     public func createProvisioningArtifact(_ input: CreateProvisioningArtifactInput) throws -> CreateProvisioningArtifactOutput {
         return try client.send(operation: "CreateProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
     }
@@ -160,9 +160,9 @@ public struct Servicecatalog {
         return try client.send(operation: "UpdatePortfolio", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Associate a TagOption identifier with a resource identifier.
-    public func associateTagOptionWithResource(_ input: AssociateTagOptionWithResourceInput) throws -> AssociateTagOptionWithResourceOutput {
-        return try client.send(operation: "AssociateTagOptionWithResource", path: "/", httpMethod: "POST", input: input)
+    ///  Retrieves a paginated list of the full details of a specific request. Use this operation after calling a request operation (ProvisionProduct, TerminateProvisionedProduct, or UpdateProvisionedProduct). 
+    public func describeRecord(_ input: DescribeRecordInput) throws -> DescribeRecordOutput {
+        return try client.send(operation: "DescribeRecord", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Accepts an offer to share a portfolio.
@@ -180,14 +180,14 @@ public struct Servicecatalog {
         return try client.send(operation: "ListLaunchPaths", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Associate a TagOption identifier with a resource identifier.
+    public func associateTagOptionWithResource(_ input: AssociateTagOptionWithResourceInput) throws -> AssociateTagOptionWithResourceOutput {
+        return try client.send(operation: "AssociateTagOptionWithResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves summary and status information about all products created within the caller's account. If a portfolio ID is provided, this operation retrieves information for only those products that are associated with the specified portfolio.
     public func searchProductsAsAdmin(_ input: SearchProductsAsAdminInput) throws -> SearchProductsAsAdminOutput {
         return try client.send(operation: "SearchProductsAsAdmin", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves a paginated list of the full details of a specific request. Use this operation after calling a request operation (ProvisionProduct, TerminateProvisionedProduct, or UpdateProvisionedProduct). 
-    public func describeRecord(_ input: DescribeRecordInput) throws -> DescribeRecordOutput {
-        return try client.send(operation: "DescribeRecord", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists details of all portfolios for which sharing was accepted by this account.
@@ -228,6 +228,11 @@ public struct Servicecatalog {
     ///  Retrieves information about a specified product. This operation is functionally identical to DescribeProduct except that it takes as input ProductViewId instead of ProductId.
     public func describeProductView(_ input: DescribeProductViewInput) throws -> DescribeProductViewOutput {
         return try client.send(operation: "DescribeProductView", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Copies the specified source product to the specified target product or a new product. You can copy the product to the same account or another account. You can copy the product to the same region or another region. This operation is performed asynchronously. To track the progress of the operation, use DescribeCopyProductStatus.
+    public func copyProduct(_ input: CopyProductInput) throws -> CopyProductOutput {
+        return try client.send(operation: "CopyProduct", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists detailed TagOptions information.
@@ -278,6 +283,11 @@ public struct Servicecatalog {
     ///  Requests a provision of a specified product. A provisioned product is a resourced instance for a product. For example, provisioning a CloudFormation-template-backed product results in launching a CloudFormation stack and all the underlying resources that come with it.  You can check the status of this request using the DescribeRecord operation. The error "Parameter validation failed: Missing required parameter in Tags[N]:Value" indicates that your request contains a tag which has a tag key but no corresponding tag value (value is empty or null). Your call may have included values returned from a DescribeProvisioningParameters call that resulted in a TagOption key with an empty list. This happens when TagOption keys are in conflict. For more information, see DescribeProvisioningParameters.
     public func provisionProduct(_ input: ProvisionProductInput) throws -> ProvisionProductOutput {
         return try client.send(operation: "ProvisionProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the status of the specified copy product operation.
+    public func describeCopyProductStatus(_ input: DescribeCopyProductStatusInput) throws -> DescribeCopyProductStatusOutput {
+        return try client.send(operation: "DescribeCopyProductStatus", path: "/", httpMethod: "POST", input: input)
     }
 
 

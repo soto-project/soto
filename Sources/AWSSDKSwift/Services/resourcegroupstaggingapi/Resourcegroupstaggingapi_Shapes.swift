@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Resourcegroupstaggingapi {
 
     public struct UntagResourcesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagKeys", required: true, type: .list), 
             AWSShapeMember(label: "ResourceARNList", required: true, type: .list)
         ]
@@ -27,7 +27,7 @@ extension Resourcegroupstaggingapi {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -48,7 +48,7 @@ extension Resourcegroupstaggingapi {
     }
 
     public struct TagFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
@@ -69,7 +69,7 @@ extension Resourcegroupstaggingapi {
     }
 
     public struct FailureInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
             AWSShapeMember(label: "StatusCode", required: false, type: .integer)
@@ -101,7 +101,7 @@ extension Resourcegroupstaggingapi {
     }
 
     public struct ResourceTagMapping: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
@@ -122,7 +122,7 @@ extension Resourcegroupstaggingapi {
     }
 
     public struct UntagResourcesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedResourcesMap", required: false, type: .map)
         ]
         /// Details of resources that could not be untagged. An error code, status code, and error message are returned for each failed item.
@@ -138,7 +138,7 @@ extension Resourcegroupstaggingapi {
     }
 
     public struct GetTagValuesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -159,7 +159,7 @@ extension Resourcegroupstaggingapi {
     }
 
     public struct TagResourcesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: true, type: .map), 
             AWSShapeMember(label: "ResourceARNList", required: true, type: .list)
         ]
@@ -180,7 +180,7 @@ extension Resourcegroupstaggingapi {
     }
 
     public struct GetTagValuesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
             AWSShapeMember(label: "TagValues", required: false, type: .list)
         ]
@@ -201,7 +201,7 @@ extension Resourcegroupstaggingapi {
     }
 
     public struct GetResourcesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceTagMappingList", required: false, type: .list)
         ]
@@ -222,7 +222,7 @@ extension Resourcegroupstaggingapi {
     }
 
     public struct GetTagKeysInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PaginationToken", required: false, type: .string)
         ]
         /// A string that indicates that additional data is available. Leave this value empty for your initial request. If the response includes a PaginationToken, use that string for this value to request an additional page of data.
@@ -238,7 +238,7 @@ extension Resourcegroupstaggingapi {
     }
 
     public struct GetResourcesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
             AWSShapeMember(label: "TagFilters", required: false, type: .list), 
             AWSShapeMember(label: "TagsPerPage", required: false, type: .integer), 
@@ -274,7 +274,7 @@ extension Resourcegroupstaggingapi {
     }
 
     public struct GetTagKeysOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
             AWSShapeMember(label: "TagKeys", required: false, type: .list)
         ]
@@ -295,7 +295,7 @@ extension Resourcegroupstaggingapi {
     }
 
     public struct TagResourcesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedResourcesMap", required: false, type: .map)
         ]
         /// Details of resources that could not be tagged. An error code, status code, and error message are returned for each failed item.
