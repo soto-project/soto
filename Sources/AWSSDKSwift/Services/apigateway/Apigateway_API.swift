@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Amazon API Gateway Amazon API Gateway helps developers deliver robust, secure, and scalable mobile and web application back ends. Amazon API Gateway allows developers to securely connect mobile and web applications to APIs that run on AWS Lambda, Amazon EC2, or other publicly addressable web services that are hosted outside of AWS.
+Amazon API Gateway Amazon API Gateway helps developers deliver robust, secure, and scalable mobile and web application back ends. API Gateway allows developers to securely connect mobile and web applications to APIs that run on AWS Lambda, Amazon EC2, or other publicly addressable web services that are hosted outside of AWS.
 */
 public struct Apigateway {
 
@@ -24,7 +24,7 @@ public struct Apigateway {
         )
     }
 
-    ///  Represents a put integration.
+    ///  Sets up a method's integration.
     public func putIntegration(_ input: PutIntegrationRequest) throws -> Integration {
         return try client.send(operation: "PutIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "PUT", input: input)
     }
@@ -56,6 +56,11 @@ public struct Apigateway {
 
     public func getDocumentationVersion(_ input: GetDocumentationVersionRequest) throws -> DocumentationVersion {
         return try client.send(operation: "GetDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "GET", input: input)
+    }
+
+    ///  Deletes an existing VpcLink of a specified identifier.
+    public func deleteVpcLink(_ input: DeleteVpcLinkRequest) throws {
+        _ = try client.send(operation: "DeleteVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Changes information about a Resource resource.
@@ -188,6 +193,11 @@ public struct Apigateway {
         return try client.send(operation: "UpdateDomainName", path: "/domainnames/{domain_name}", httpMethod: "PATCH", input: input)
     }
 
+    ///  Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
+    public func putGatewayResponse(_ input: PutGatewayResponseRequest) throws -> GatewayResponse {
+        return try client.send(operation: "PutGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "PUT", input: input)
+    }
+
     ///  Lists the RestApi resource in the collection.
     public func getRestApi(_ input: GetRestApiRequest) throws -> RestApi {
         return try client.send(operation: "GetRestApi", path: "/restapis/{restapi_id}", httpMethod: "GET", input: input)
@@ -205,6 +215,11 @@ public struct Apigateway {
     ///  Gets all the usage plans of the caller's account.
     public func getUsagePlans(_ input: GetUsagePlansRequest) throws -> UsagePlans {
         return try client.send(operation: "GetUsagePlans", path: "/usageplans", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets the VpcLinks collection under the caller's account in a selected region.
+    public func getVpcLinks(_ input: GetVpcLinksRequest) throws -> VpcLinks {
+        return try client.send(operation: "GetVpcLinks", path: "/vpclinks", httpMethod: "GET", input: input)
     }
 
     ///  Gets all the usage plan keys representing the API keys added to a specified usage plan.
@@ -240,9 +255,19 @@ public struct Apigateway {
         return try client.send(operation: "CreateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings", httpMethod: "POST", input: input)
     }
 
+    ///  Gets a specified VPC link under the caller's account in a region.
+    public func getVpcLink(_ input: GetVpcLinkRequest) throws -> VpcLink {
+        return try client.send(operation: "GetVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "GET", input: input)
+    }
+
     ///  Represents a delete integration response.
     public func deleteIntegrationResponse(_ input: DeleteIntegrationResponseRequest) throws {
         _ = try client.send(operation: "DeleteIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Gets a GatewayResponse of a specified response type on the given RestApi.
+    public func getGatewayResponse(_ input: GetGatewayResponseRequest) throws -> GatewayResponse {
+        return try client.send(operation: "GetGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "GET", input: input)
     }
 
     ///  Generates a client SDK for a RestApi and Stage.
@@ -260,7 +285,7 @@ public struct Apigateway {
         _ = try client.send(operation: "DeleteDomainName", path: "/domainnames/{domain_name}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Grants a temporary extension to the reamining quota of a usage plan associated with a specified API key.
+    ///  Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
     public func updateUsage(_ input: UpdateUsageRequest) throws -> Usage {
         return try client.send(operation: "UpdateUsage", path: "/usageplans/{usageplanId}/keys/{keyId}/usage", httpMethod: "PATCH", input: input)
     }
@@ -363,7 +388,12 @@ public struct Apigateway {
         _ = try client.send(operation: "FlushStageCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/data", httpMethod: "DELETE", input: input)
     }
 
-    ///  Represents a get integration.
+    ///  Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
+    public func createVpcLink(_ input: CreateVpcLinkRequest) throws -> VpcLink {
+        return try client.send(operation: "CreateVpcLink", path: "/vpclinks", httpMethod: "POST", input: input)
+    }
+
+    ///  Get the integration settings.
     public func getIntegration(_ input: GetIntegrationRequest) throws -> Integration {
         return try client.send(operation: "GetIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "GET", input: input)
     }
@@ -383,7 +413,7 @@ public struct Apigateway {
         return try client.send(operation: "UpdateIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "PATCH", input: input)
     }
 
-    ///  A feature of the Amazon API Gateway control service for creating a new API from an external API definition file.
+    ///  A feature of the API Gateway control service for creating a new API from an external API definition file.
     public func importRestApi(_ input: ImportRestApiRequest) throws -> RestApi {
         return try client.send(operation: "ImportRestApi", path: "/restapis?mode=import", httpMethod: "POST", input: input)
     }
@@ -428,9 +458,19 @@ public struct Apigateway {
         return try client.send(operation: "UpdateIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: "PATCH", input: input)
     }
 
+    ///  Updates an existing VpcLink of a specified identifier.
+    public func updateVpcLink(_ input: UpdateVpcLinkRequest) throws -> VpcLink {
+        return try client.send(operation: "UpdateVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: "PATCH", input: input)
+    }
+
     ///  Changes information about the specified API.
     public func updateRestApi(_ input: UpdateRestApiRequest) throws -> RestApi {
         return try client.send(operation: "UpdateRestApi", path: "/restapis/{restapi_id}", httpMethod: "PATCH", input: input)
+    }
+
+    ///  Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
+    public func getGatewayResponses(_ input: GetGatewayResponsesRequest) throws -> GatewayResponses {
+        return try client.send(operation: "GetGatewayResponses", path: "/restapis/{restapi_id}/gatewayresponses", httpMethod: "GET", input: input)
     }
 
     ///  Represents a collection of BasePathMapping resources.
@@ -448,7 +488,7 @@ public struct Apigateway {
         return try client.send(operation: "GetExport", path: "/restapis/{restapi_id}/stages/{stage_name}/exports/{export_type}", httpMethod: "GET", input: input)
     }
 
-    ///  A feature of the Amazon API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
+    ///  A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
     public func putRestApi(_ input: PutRestApiRequest) throws -> RestApi {
         return try client.send(operation: "PutRestApi", path: "/restapis/{restapi_id}", httpMethod: "PUT", input: input)
     }
@@ -481,6 +521,11 @@ public struct Apigateway {
     ///  Gets information about a Deployments collection.
     public func getDeployments(_ input: GetDeploymentsRequest) throws -> Deployments {
         return try client.send(operation: "GetDeployments", path: "/restapis/{restapi_id}/deployments", httpMethod: "GET", input: input)
+    }
+
+    ///  Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
+    public func deleteGatewayResponse(_ input: DeleteGatewayResponseRequest) throws {
+        _ = try client.send(operation: "DeleteGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "DELETE", input: input)
     }
 
     ///  Changes information about the current Account resource.
@@ -525,6 +570,11 @@ public struct Apigateway {
     ///  Gets information about the current ClientCertificate resource.
     public func getClientCertificate(_ input: GetClientCertificateRequest) throws -> ClientCertificate {
         return try client.send(operation: "GetClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "GET", input: input)
+    }
+
+    ///  Updates a GatewayResponse of a specified response type on the given RestApi.
+    public func updateGatewayResponse(_ input: UpdateGatewayResponseRequest) throws -> GatewayResponse {
+        return try client.send(operation: "UpdateGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: "PATCH", input: input)
     }
 
     ///  Lists information about a collection of Resource resources.

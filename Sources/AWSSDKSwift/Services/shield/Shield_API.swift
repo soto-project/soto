@@ -40,14 +40,19 @@ public struct Shield {
         return try client.send(operation: "DescribeAttack", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Enables AWS Shield Advanced for a specific AWS resource. The resource can be an Amazon CloudFront distribution, Elastic Load Balancing load balancer, or an Amazon Route 53 hosted zone.
-    public func createProtection(_ input: CreateProtectionRequest) throws -> CreateProtectionResponse {
-        return try client.send(operation: "CreateProtection", path: "/", httpMethod: "POST", input: input)
+    ///  Returns the SubscriptionState, either Active or Inactive.
+    public func getSubscriptionState(_ input: GetSubscriptionStateRequest) throws -> GetSubscriptionStateResponse {
+        return try client.send(operation: "GetSubscriptionState", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the details of a Protection object.
     public func describeProtection(_ input: DescribeProtectionRequest) throws -> DescribeProtectionResponse {
         return try client.send(operation: "DescribeProtection", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Enables AWS Shield Advanced for a specific AWS resource. The resource can be an Amazon CloudFront distribution, Elastic Load Balancing load balancer, Elastic IP Address, or an Amazon Route 53 hosted zone.
+    public func createProtection(_ input: CreateProtectionRequest) throws -> CreateProtectionResponse {
+        return try client.send(operation: "CreateProtection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an AWS Shield Advanced Protection.
@@ -60,7 +65,7 @@ public struct Shield {
         return try client.send(operation: "DescribeSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes AWS Shield Advanced from an account.
+    ///  Removes AWS Shield Advanced from an account. AWS Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment. 
     public func deleteSubscription(_ input: DeleteSubscriptionRequest) throws -> DeleteSubscriptionResponse {
         return try client.send(operation: "DeleteSubscription", path: "/", httpMethod: "POST", input: input)
     }

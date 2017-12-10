@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Events {
 
     public struct PutPermissionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Principal", required: true, type: .string), 
             AWSShapeMember(label: "Action", required: true, type: .string), 
             AWSShapeMember(label: "StatementId", required: true, type: .string)
@@ -32,7 +32,7 @@ extension Events {
     }
 
     public struct InputTransformer: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputTemplate", required: true, type: .string), 
             AWSShapeMember(label: "InputPathsMap", required: false, type: .map)
         ]
@@ -53,7 +53,7 @@ extension Events {
     }
 
     public struct PutTargetsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer), 
             AWSShapeMember(label: "FailedEntries", required: false, type: .list)
         ]
@@ -74,7 +74,7 @@ extension Events {
     }
 
     public struct DescribeEventBusResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Policy", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Arn", required: false, type: .string)
@@ -100,7 +100,7 @@ extension Events {
     }
 
     public struct Rule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -146,7 +146,7 @@ extension Events {
     }
 
     public struct Target: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RunCommandParameters", required: false, type: .structure), 
             AWSShapeMember(label: "InputTransformer", required: false, type: .structure), 
             AWSShapeMember(label: "Arn", required: true, type: .string), 
@@ -202,7 +202,7 @@ extension Events {
     }
 
     public struct DisableRuleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the rule.
@@ -218,7 +218,7 @@ extension Events {
     }
 
     public struct TestEventPatternRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Event", required: true, type: .string), 
             AWSShapeMember(label: "EventPattern", required: true, type: .string)
         ]
@@ -239,7 +239,7 @@ extension Events {
     }
 
     public struct RunCommandTarget: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: true, type: .string), 
             AWSShapeMember(label: "Values", required: true, type: .list)
         ]
@@ -260,7 +260,7 @@ extension Events {
     }
 
     public struct ListRuleNamesByTargetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TargetArn", required: true, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
@@ -286,7 +286,7 @@ extension Events {
     }
 
     public struct PutRuleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
@@ -327,7 +327,7 @@ extension Events {
     }
 
     public struct RunCommandParameters: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RunCommandTargets", required: true, type: .list)
         ]
         /// Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
@@ -343,7 +343,7 @@ extension Events {
     }
 
     public struct ListTargetsByRuleResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Targets", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -364,7 +364,7 @@ extension Events {
     }
 
     public struct DeleteRuleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the rule.
@@ -380,7 +380,7 @@ extension Events {
     }
 
     public struct DescribeRuleResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -430,7 +430,7 @@ extension Events {
     }
 
     public struct PutEventsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Entries", required: true, type: .list)
         ]
         /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
@@ -446,7 +446,7 @@ extension Events {
     }
 
     public struct RemoveTargetsResultEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
             AWSShapeMember(label: "TargetId", required: false, type: .string)
@@ -472,7 +472,7 @@ extension Events {
     }
 
     public struct PutEventsRequestEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Detail", required: false, type: .string), 
             AWSShapeMember(label: "DetailType", required: false, type: .string), 
             AWSShapeMember(label: "Source", required: false, type: .string), 
@@ -508,7 +508,7 @@ extension Events {
     }
 
     public struct RemovePermissionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StatementId", required: true, type: .string)
         ]
         /// The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
@@ -524,7 +524,7 @@ extension Events {
     }
 
     public struct TestEventPatternResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Result", required: false, type: .boolean)
         ]
         /// Indicates whether the event matches the event pattern.
@@ -540,7 +540,7 @@ extension Events {
     }
 
     public struct PutTargetsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Targets", required: true, type: .list), 
             AWSShapeMember(label: "Rule", required: true, type: .string)
         ]
@@ -567,7 +567,7 @@ extension Events {
     }
 
     public struct EnableRuleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the rule.
@@ -583,7 +583,7 @@ extension Events {
     }
 
     public struct PutTargetsResultEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
             AWSShapeMember(label: "TargetId", required: false, type: .string)
@@ -609,7 +609,7 @@ extension Events {
     }
 
     public struct ListRulesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Rules", required: false, type: .list)
         ]
@@ -630,7 +630,7 @@ extension Events {
     }
 
     public struct RemoveTargetsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer), 
             AWSShapeMember(label: "FailedEntries", required: false, type: .list)
         ]
@@ -651,7 +651,7 @@ extension Events {
     }
 
     public struct EcsParameters: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TaskCount", required: false, type: .integer), 
             AWSShapeMember(label: "TaskDefinitionArn", required: true, type: .string)
         ]
@@ -672,7 +672,7 @@ extension Events {
     }
 
     public struct DescribeRuleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the rule.
@@ -688,7 +688,7 @@ extension Events {
     }
 
     public struct RemoveTargetsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Ids", required: true, type: .list), 
             AWSShapeMember(label: "Rule", required: true, type: .string)
         ]
@@ -709,7 +709,7 @@ extension Events {
     }
 
     public struct PutRuleResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RuleArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the rule.
@@ -725,7 +725,7 @@ extension Events {
     }
 
     public struct ListRulesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NamePrefix", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
@@ -751,7 +751,7 @@ extension Events {
     }
 
     public struct ListRuleNamesByTargetResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "RuleNames", required: false, type: .list)
         ]
@@ -772,7 +772,7 @@ extension Events {
     }
 
     public struct ListTargetsByRuleRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rule", required: true, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
@@ -798,7 +798,7 @@ extension Events {
     }
 
     public struct PutEventsResultEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "EventId", required: false, type: .string), 
             AWSShapeMember(label: "ErrorCode", required: false, type: .string)
@@ -824,7 +824,7 @@ extension Events {
     }
 
     public struct PutEventsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer), 
             AWSShapeMember(label: "Entries", required: false, type: .list)
         ]
@@ -845,7 +845,7 @@ extension Events {
     }
 
     public struct KinesisParameters: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PartitionKeyPath", required: true, type: .string)
         ]
         /// The JSON path to be extracted from the event and used as the partition key. For more information, see Amazon Kinesis Streams Key Concepts in the Amazon Kinesis Streams Developer Guide.

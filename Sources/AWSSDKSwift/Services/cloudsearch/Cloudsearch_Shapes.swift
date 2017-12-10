@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Cloudsearch {
 
     public struct DescribeScalingParametersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         public let domainName: String
@@ -21,7 +21,7 @@ extension Cloudsearch {
     }
 
     public struct IntOptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SourceField", required: false, type: .string), 
@@ -62,7 +62,7 @@ extension Cloudsearch {
     }
 
     public struct ExpressionStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Options", required: true, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
@@ -82,7 +82,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeScalingParametersResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ScalingParameters", required: true, type: .structure)
         ]
         public let scalingParameters: ScalingParametersStatus
@@ -97,7 +97,7 @@ extension Cloudsearch {
     }
 
     public struct AnalysisScheme: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnalysisSchemeLanguage", required: true, type: .enum), 
             AWSShapeMember(label: "AnalysisSchemeName", required: true, type: .string), 
             AWSShapeMember(label: "AnalysisOptions", required: false, type: .structure)
@@ -120,7 +120,7 @@ extension Cloudsearch {
     }
 
     public struct DeleteIndexFieldRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IndexFieldName", required: true, type: .string), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -140,7 +140,7 @@ extension Cloudsearch {
     }
 
     public struct DeleteExpressionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Expression", required: true, type: .structure)
         ]
         /// The status of the expression being deleted.
@@ -156,7 +156,7 @@ extension Cloudsearch {
     }
 
     public struct LiteralOptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SourceField", required: false, type: .string), 
@@ -196,7 +196,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeAnalysisSchemesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnalysisSchemeNames", required: false, type: .list), 
             AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
@@ -222,7 +222,7 @@ extension Cloudsearch {
     }
 
     public struct OptionStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UpdateVersion", required: false, type: .integer), 
             AWSShapeMember(label: "PendingDeletion", required: false, type: .boolean), 
             AWSShapeMember(label: "CreationDate", required: true, type: .timestamp), 
@@ -258,7 +258,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeDomainsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainNames", required: false, type: .list)
         ]
         /// The names of the domains you want to include in the response.
@@ -274,7 +274,7 @@ extension Cloudsearch {
     }
 
     public struct UpdateServiceAccessPoliciesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessPolicies", required: true, type: .structure)
         ]
         /// The access rules configured for the domain.
@@ -290,7 +290,7 @@ extension Cloudsearch {
     }
 
     public struct DoubleArrayOptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SourceFields", required: false, type: .string), 
             AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
@@ -326,7 +326,7 @@ extension Cloudsearch {
     }
 
     public struct DomainStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Limits", required: false, type: .structure), 
             AWSShapeMember(label: "Processing", required: false, type: .boolean), 
             AWSShapeMember(label: "Created", required: false, type: .boolean), 
@@ -406,7 +406,7 @@ extension Cloudsearch {
     }
 
     public struct UpdateScalingParametersResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ScalingParameters", required: true, type: .structure)
         ]
         public let scalingParameters: ScalingParametersStatus
@@ -421,7 +421,7 @@ extension Cloudsearch {
     }
 
     public struct ListDomainNamesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainNames", required: false, type: .map)
         ]
         /// The names of the search domains owned by an account.
@@ -437,7 +437,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeAvailabilityOptionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -458,7 +458,7 @@ extension Cloudsearch {
     }
 
     public struct DeleteIndexFieldResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IndexField", required: true, type: .structure)
         ]
         /// The status of the index field being deleted.
@@ -474,7 +474,7 @@ extension Cloudsearch {
     }
 
     public struct DefineSuggesterRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Suggester", required: true, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -493,7 +493,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeIndexFieldsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
             AWSShapeMember(label: "FieldNames", required: false, type: .list), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
@@ -531,7 +531,7 @@ extension Cloudsearch {
     }
 
     public struct DeleteDomainResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
         ]
         public let domainStatus: DomainStatus?
@@ -553,7 +553,7 @@ extension Cloudsearch {
     }
 
     public struct Suggester: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SuggesterName", required: true, type: .string), 
             AWSShapeMember(label: "DocumentSuggesterOptions", required: true, type: .structure)
         ]
@@ -572,7 +572,7 @@ extension Cloudsearch {
     }
 
     public struct ScalingParameters: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DesiredReplicationCount", required: false, type: .integer), 
             AWSShapeMember(label: "DesiredInstanceType", required: false, type: .enum), 
             AWSShapeMember(label: "DesiredPartitionCount", required: false, type: .integer)
@@ -598,7 +598,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeServiceAccessPoliciesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -619,7 +619,7 @@ extension Cloudsearch {
     }
 
     public struct CreateDomainResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainStatus", required: false, type: .structure)
         ]
         public let domainStatus: DomainStatus?
@@ -634,7 +634,7 @@ extension Cloudsearch {
     }
 
     public struct DocumentSuggesterOptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SortExpression", required: false, type: .string), 
             AWSShapeMember(label: "FuzzyMatching", required: false, type: .enum), 
             AWSShapeMember(label: "SourceField", required: true, type: .string)
@@ -660,7 +660,7 @@ extension Cloudsearch {
     }
 
     public struct DefineExpressionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "Expression", required: true, type: .structure)
         ]
@@ -679,7 +679,7 @@ extension Cloudsearch {
     }
 
     public struct TextArrayOptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnalysisScheme", required: false, type: .string), 
             AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SourceFields", required: false, type: .string), 
@@ -715,7 +715,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeDomainsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainStatusList", required: true, type: .list)
         ]
         public let domainStatusList: [DomainStatus]
@@ -730,7 +730,7 @@ extension Cloudsearch {
     }
 
     public struct DeleteSuggesterResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Suggester", required: true, type: .structure)
         ]
         /// The status of the suggester being deleted.
@@ -746,7 +746,7 @@ extension Cloudsearch {
     }
 
     public struct DefineIndexFieldRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IndexField", required: true, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -781,7 +781,7 @@ extension Cloudsearch {
     }
 
     public struct DefineAnalysisSchemeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnalysisScheme", required: true, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -800,7 +800,7 @@ extension Cloudsearch {
     }
 
     public struct DeleteDomainRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain you want to permanently delete.
@@ -816,7 +816,7 @@ extension Cloudsearch {
     }
 
     public struct IndexDocumentsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         public let domainName: String
@@ -831,7 +831,7 @@ extension Cloudsearch {
     }
 
     public struct DeleteExpressionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExpressionName", required: true, type: .string), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -851,7 +851,7 @@ extension Cloudsearch {
     }
 
     public struct IndexFieldStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Options", required: true, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
@@ -870,7 +870,7 @@ extension Cloudsearch {
     }
 
     public struct DeleteAnalysisSchemeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnalysisSchemeName", required: true, type: .string), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -890,7 +890,7 @@ extension Cloudsearch {
     }
 
     public struct ScalingParametersStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Options", required: true, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
@@ -909,7 +909,7 @@ extension Cloudsearch {
     }
 
     public struct AnalysisOptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StemmingDictionary", required: false, type: .string), 
             AWSShapeMember(label: "JapaneseTokenizationDictionary", required: false, type: .string), 
             AWSShapeMember(label: "Stopwords", required: false, type: .string), 
@@ -945,7 +945,7 @@ extension Cloudsearch {
     }
 
     public struct UpdateServiceAccessPoliciesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessPolicies", required: true, type: .string), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -965,7 +965,7 @@ extension Cloudsearch {
     }
 
     public struct DateArrayOptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SourceFields", required: false, type: .string), 
             AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
@@ -1001,7 +1001,7 @@ extension Cloudsearch {
     }
 
     public struct DeleteAnalysisSchemeResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnalysisScheme", required: true, type: .structure)
         ]
         /// The status of the analysis scheme being deleted.
@@ -1017,7 +1017,7 @@ extension Cloudsearch {
     }
 
     public struct BuildSuggestersResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FieldNames", required: false, type: .list)
         ]
         public let fieldNames: [String]?
@@ -1032,7 +1032,7 @@ extension Cloudsearch {
     }
 
     public struct AnalysisSchemeStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Options", required: true, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
@@ -1051,7 +1051,7 @@ extension Cloudsearch {
     }
 
     public struct AccessPoliciesStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Options", required: true, type: .string), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
@@ -1070,7 +1070,7 @@ extension Cloudsearch {
     }
 
     public struct TextOptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnalysisScheme", required: false, type: .string), 
             AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SourceField", required: false, type: .string), 
@@ -1110,7 +1110,7 @@ extension Cloudsearch {
     }
 
     public struct IndexDocumentsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FieldNames", required: false, type: .list)
         ]
         /// The names of the fields that are currently being indexed.
@@ -1126,7 +1126,7 @@ extension Cloudsearch {
     }
 
     public struct DefineExpressionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Expression", required: true, type: .structure)
         ]
         public let expression: ExpressionStatus
@@ -1141,7 +1141,7 @@ extension Cloudsearch {
     }
 
     public struct UpdateAvailabilityOptionsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityOptions", required: false, type: .structure)
         ]
         /// The newly-configured availability options. Indicates whether Multi-AZ is enabled for the domain. 
@@ -1157,7 +1157,7 @@ extension Cloudsearch {
     }
 
     public struct LiteralArrayOptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SourceFields", required: false, type: .string), 
             AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
@@ -1193,7 +1193,7 @@ extension Cloudsearch {
     }
 
     public struct IntArrayOptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SourceFields", required: false, type: .string), 
             AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
@@ -1229,7 +1229,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeAnalysisSchemesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnalysisSchemes", required: true, type: .list)
         ]
         /// The analysis scheme descriptions.
@@ -1245,7 +1245,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeExpressionsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Expressions", required: true, type: .list)
         ]
         /// The expressions configured for the domain.
@@ -1261,7 +1261,7 @@ extension Cloudsearch {
     }
 
     public struct Expression: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExpressionValue", required: true, type: .string), 
             AWSShapeMember(label: "ExpressionName", required: true, type: .string)
         ]
@@ -1280,7 +1280,7 @@ extension Cloudsearch {
     }
 
     public struct SuggesterStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Options", required: true, type: .structure), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
@@ -1299,7 +1299,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeSuggestersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
             AWSShapeMember(label: "SuggesterNames", required: false, type: .list), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
@@ -1325,7 +1325,7 @@ extension Cloudsearch {
     }
 
     public struct IndexField: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IntOptions", required: false, type: .structure), 
             AWSShapeMember(label: "DateOptions", required: false, type: .structure), 
             AWSShapeMember(label: "TextArrayOptions", required: false, type: .structure), 
@@ -1389,7 +1389,7 @@ extension Cloudsearch {
     }
 
     public struct LatLonOptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SourceField", required: false, type: .string), 
@@ -1468,7 +1468,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeExpressionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
             AWSShapeMember(label: "ExpressionNames", required: false, type: .list), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
@@ -1494,7 +1494,7 @@ extension Cloudsearch {
     }
 
     public struct DoubleOptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SourceField", required: false, type: .string), 
@@ -1535,7 +1535,7 @@ extension Cloudsearch {
     }
 
     public struct DateOptions: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReturnEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "FacetEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SourceField", required: false, type: .string), 
@@ -1575,7 +1575,7 @@ extension Cloudsearch {
     }
 
     public struct UpdateAvailabilityOptionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MultiAZ", required: true, type: .boolean), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -1595,7 +1595,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeServiceAccessPoliciesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccessPolicies", required: true, type: .structure)
         ]
         /// The access rules configured for the domain specified in the request.
@@ -1611,7 +1611,7 @@ extension Cloudsearch {
     }
 
     public struct BuildSuggestersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         public let domainName: String
@@ -1626,7 +1626,7 @@ extension Cloudsearch {
     }
 
     public struct AvailabilityOptionsStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Options", required: true, type: .boolean), 
             AWSShapeMember(label: "Status", required: true, type: .structure)
         ]
@@ -1646,7 +1646,7 @@ extension Cloudsearch {
     }
 
     public struct ServiceEndpoint: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Endpoint", required: false, type: .string)
         ]
         public let endpoint: String?
@@ -1661,7 +1661,7 @@ extension Cloudsearch {
     }
 
     public struct DeleteSuggesterRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SuggesterName", required: true, type: .string), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -1681,7 +1681,7 @@ extension Cloudsearch {
     }
 
     public struct Limits: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaximumReplicationCount", required: true, type: .integer), 
             AWSShapeMember(label: "MaximumPartitionCount", required: true, type: .integer)
         ]
@@ -1700,7 +1700,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeIndexFieldsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IndexFields", required: true, type: .list)
         ]
         /// The index fields configured for the domain.
@@ -1716,7 +1716,7 @@ extension Cloudsearch {
     }
 
     public struct UpdateScalingParametersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ScalingParameters", required: true, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -1735,7 +1735,7 @@ extension Cloudsearch {
     }
 
     public struct DefineAnalysisSchemeResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnalysisScheme", required: true, type: .structure)
         ]
         public let analysisScheme: AnalysisSchemeStatus
@@ -1750,7 +1750,7 @@ extension Cloudsearch {
     }
 
     public struct DefineSuggesterResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Suggester", required: true, type: .structure)
         ]
         public let suggester: SuggesterStatus
@@ -1765,7 +1765,7 @@ extension Cloudsearch {
     }
 
     public struct DefineIndexFieldResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IndexField", required: true, type: .structure)
         ]
         public let indexField: IndexFieldStatus
@@ -1780,7 +1780,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeSuggestersResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Suggesters", required: true, type: .list)
         ]
         /// The suggesters configured for the domain specified in the request.
@@ -1804,7 +1804,7 @@ extension Cloudsearch {
     }
 
     public struct DescribeAvailabilityOptionsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityOptions", required: false, type: .structure)
         ]
         /// The availability options configured for the domain. Indicates whether Multi-AZ is enabled for the domain. 
@@ -1820,7 +1820,7 @@ extension Cloudsearch {
     }
 
     public struct CreateDomainRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// A name for the domain you are creating. Allowed characters are a-z (lower-case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and be at least 3 and no more than 28 characters long.

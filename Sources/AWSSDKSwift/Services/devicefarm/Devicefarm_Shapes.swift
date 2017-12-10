@@ -10,7 +10,7 @@ extension Devicefarm {
     }
 
     public struct ListDevicesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: false, type: .string)
         ]
@@ -31,7 +31,7 @@ extension Devicefarm {
     }
 
     public struct NetworkProfile: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "uplinkJitterMs", required: false, type: .long), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "downlinkJitterMs", required: false, type: .long), 
@@ -102,7 +102,7 @@ extension Devicefarm {
     }
 
     public struct GetTestResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "test", required: false, type: .structure)
         ]
         /// A test condition that is evaluated.
@@ -118,7 +118,7 @@ extension Devicefarm {
     }
 
     public struct Rule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "attribute", required: false, type: .enum), 
             AWSShapeMember(label: "operator", required: false, type: .enum), 
             AWSShapeMember(label: "value", required: false, type: .string)
@@ -144,7 +144,7 @@ extension Devicefarm {
     }
 
     public struct ListTestsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
@@ -165,7 +165,7 @@ extension Devicefarm {
     }
 
     public struct GetUploadResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "upload", required: false, type: .structure)
         ]
         /// An app or a set of one or more tests to upload or that have been uploaded.
@@ -181,7 +181,7 @@ extension Devicefarm {
     }
 
     public struct CreateRemoteAccessSessionConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "billingMethod", required: false, type: .enum)
         ]
         /// Returns the billing method for purposes of configuring a remote access session.
@@ -197,7 +197,7 @@ extension Devicefarm {
     }
 
     public struct ListSuitesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "suites", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -218,7 +218,7 @@ extension Devicefarm {
     }
 
     public struct ListRemoteAccessSessionsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "remoteAccessSessions", required: false, type: .list)
         ]
@@ -239,7 +239,7 @@ extension Devicefarm {
     }
 
     public struct UpdateNetworkProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "uplinkJitterMs", required: false, type: .long), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "downlinkJitterMs", required: false, type: .long), 
@@ -310,7 +310,7 @@ extension Devicefarm {
     }
 
     public struct GetDevicePoolResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "devicePool", required: false, type: .structure)
         ]
         /// An object containing information about the requested device pool.
@@ -334,7 +334,7 @@ extension Devicefarm {
     }
 
     public struct DevicePool: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum), 
@@ -370,7 +370,7 @@ extension Devicefarm {
     }
 
     public struct CreateProjectResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "project", required: false, type: .structure)
         ]
         /// The newly created project.
@@ -386,7 +386,7 @@ extension Devicefarm {
     }
 
     public struct PurchaseOfferingResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "offeringTransaction", required: false, type: .structure)
         ]
         /// Represents the offering transaction for the purchase result.
@@ -402,7 +402,7 @@ extension Devicefarm {
     }
 
     public struct ExecutionConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "accountsCleanup", required: false, type: .boolean), 
             AWSShapeMember(label: "jobTimeoutMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "appPackagesCleanup", required: false, type: .boolean)
@@ -428,7 +428,7 @@ extension Devicefarm {
     }
 
     public struct MonetaryAmount: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "currencyCode", required: false, type: .enum), 
             AWSShapeMember(label: "amount", required: false, type: .double)
         ]
@@ -449,7 +449,7 @@ extension Devicefarm {
     }
 
     public struct CreateNetworkProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "uplinkJitterMs", required: false, type: .long), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "downlinkJitterMs", required: false, type: .long), 
@@ -520,7 +520,7 @@ extension Devicefarm {
     }
 
     public struct GetDevicePoolRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The device pool's ARN.
@@ -536,78 +536,98 @@ extension Devicefarm {
     }
 
     public struct RemoteAccessSession: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "billingMethod", required: false, type: .enum), 
-            AWSShapeMember(label: "status", required: false, type: .enum), 
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "remoteDebugEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "clientId", required: false, type: .string), 
+            AWSShapeMember(label: "device", required: false, type: .structure), 
+            AWSShapeMember(label: "result", required: false, type: .enum), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "created", required: false, type: .timestamp), 
             AWSShapeMember(label: "started", required: false, type: .timestamp), 
+            AWSShapeMember(label: "hostAddress", required: false, type: .string), 
             AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
             AWSShapeMember(label: "deviceMinutes", required: false, type: .structure), 
             AWSShapeMember(label: "message", required: false, type: .string), 
-            AWSShapeMember(label: "device", required: false, type: .structure), 
-            AWSShapeMember(label: "result", required: false, type: .enum), 
-            AWSShapeMember(label: "arn", required: false, type: .string)
+            AWSShapeMember(label: "deviceUdid", required: false, type: .string), 
+            AWSShapeMember(label: "billingMethod", required: false, type: .enum)
         ]
-        /// The billing method of the remote access session. Possible values include METERED or UNMETERED. For more information about metered devices, see AWS Device Farm terminology."
-        public let billingMethod: BillingMethod?
-        /// The status of the remote access session. Can be any of the following:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
-        public let status: ExecutionStatus?
+        /// This flag is set to true if remote debugging is enabled for the remote access session.
+        public let remoteDebugEnabled: Bool?
         /// The name of the remote access session.
         public let name: String?
         /// The endpoint for the remote access sesssion.
         public let endpoint: String?
-        /// The date and time the remote access session was created.
-        public let created: TimeStamp?
-        /// The date and time the remote access session was started.
-        public let started: TimeStamp?
-        /// The date and time the remote access session was stopped.
-        public let stopped: TimeStamp?
-        /// The number of minutes a device is used in a remote access sesssion (including setup and teardown minutes).
-        public let deviceMinutes: DeviceMinutes?
-        /// A message about the remote access session.
-        public let message: String?
+        /// Unique identifier of your client for the remote access session. Only returned if remote debugging is enabled for the remote access session.
+        public let clientId: String?
         /// The device (phone or tablet) used in the remote access session.
         public let device: Device?
         /// The result of the remote access session. Can be any of the following:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
         public let result: ExecutionResult?
         /// The Amazon Resource Name (ARN) of the remote access session.
         public let arn: String?
+        /// The status of the remote access session. Can be any of the following:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
+        public let status: ExecutionStatus?
+        /// The date and time the remote access session was created.
+        public let created: TimeStamp?
+        /// The date and time the remote access session was started.
+        public let started: TimeStamp?
+        /// IP address of the EC2 host where you need to connect to remotely debug devices. Only returned if remote debugging is enabled for the remote access session.
+        public let hostAddress: String?
+        /// The date and time the remote access session was stopped.
+        public let stopped: TimeStamp?
+        /// The number of minutes a device is used in a remote access sesssion (including setup and teardown minutes).
+        public let deviceMinutes: DeviceMinutes?
+        /// A message about the remote access session.
+        public let message: String?
+        /// Unique device identifier for the remote device. Only returned if remote debugging is enabled for the remote access session.
+        public let deviceUdid: String?
+        /// The billing method of the remote access session. Possible values include METERED or UNMETERED. For more information about metered devices, see AWS Device Farm terminology."
+        public let billingMethod: BillingMethod?
 
-        public init(billingMethod: BillingMethod? = nil, status: ExecutionStatus? = nil, name: String? = nil, endpoint: String? = nil, created: TimeStamp? = nil, started: TimeStamp? = nil, stopped: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, device: Device? = nil, result: ExecutionResult? = nil, arn: String? = nil) {
-            self.billingMethod = billingMethod
-            self.status = status
+        public init(remoteDebugEnabled: Bool? = nil, name: String? = nil, endpoint: String? = nil, clientId: String? = nil, device: Device? = nil, result: ExecutionResult? = nil, arn: String? = nil, status: ExecutionStatus? = nil, created: TimeStamp? = nil, started: TimeStamp? = nil, hostAddress: String? = nil, stopped: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, deviceUdid: String? = nil, billingMethod: BillingMethod? = nil) {
+            self.remoteDebugEnabled = remoteDebugEnabled
             self.name = name
             self.endpoint = endpoint
-            self.created = created
-            self.started = started
-            self.stopped = stopped
-            self.deviceMinutes = deviceMinutes
-            self.message = message
+            self.clientId = clientId
             self.device = device
             self.result = result
             self.arn = arn
+            self.status = status
+            self.created = created
+            self.started = started
+            self.hostAddress = hostAddress
+            self.stopped = stopped
+            self.deviceMinutes = deviceMinutes
+            self.message = message
+            self.deviceUdid = deviceUdid
+            self.billingMethod = billingMethod
         }
 
         private enum CodingKeys: String, CodingKey {
-            case billingMethod = "billingMethod"
-            case status = "status"
+            case remoteDebugEnabled = "remoteDebugEnabled"
             case name = "name"
             case endpoint = "endpoint"
-            case created = "created"
-            case started = "started"
-            case stopped = "stopped"
-            case deviceMinutes = "deviceMinutes"
-            case message = "message"
+            case clientId = "clientId"
             case device = "device"
             case result = "result"
             case arn = "arn"
+            case status = "status"
+            case created = "created"
+            case started = "started"
+            case hostAddress = "hostAddress"
+            case stopped = "stopped"
+            case deviceMinutes = "deviceMinutes"
+            case message = "message"
+            case deviceUdid = "deviceUdid"
+            case billingMethod = "billingMethod"
         }
     }
 
     public struct RecurringCharge: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "frequency", required: false, type: .enum), 
             AWSShapeMember(label: "cost", required: false, type: .structure)
         ]
@@ -628,7 +648,7 @@ extension Devicefarm {
     }
 
     public struct Suite: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "created", required: false, type: .timestamp), 
@@ -694,7 +714,7 @@ extension Devicefarm {
     }
 
     public struct DeleteUploadRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// Represents the Amazon Resource Name (ARN) of the Device Farm upload you wish to delete.
@@ -710,7 +730,7 @@ extension Devicefarm {
     }
 
     public struct ListUniqueProblemsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
@@ -740,7 +760,7 @@ extension Devicefarm {
     }
 
     public struct ProblemDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: false, type: .string)
         ]
@@ -761,19 +781,22 @@ extension Devicefarm {
     }
 
     public struct ScheduleRunConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "extraDataPackageArn", required: false, type: .string), 
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customerArtifactPaths", required: false, type: .structure), 
             AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "extraDataPackageArn", required: false, type: .string), 
             AWSShapeMember(label: "networkProfileArn", required: false, type: .string), 
             AWSShapeMember(label: "auxiliaryApps", required: false, type: .list), 
             AWSShapeMember(label: "radios", required: false, type: .structure), 
             AWSShapeMember(label: "locale", required: false, type: .string), 
             AWSShapeMember(label: "billingMethod", required: false, type: .enum)
         ]
-        /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm will extract to external data for Android or the app's sandbox for iOS.
-        public let extraDataPackageArn: String?
+        /// Input CustomerArtifactPaths object for the scheduled run configuration.
+        public let customerArtifactPaths: CustomerArtifactPaths?
         /// Information about the location that is used for the run.
         public let location: Location?
+        /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm will extract to external data for Android or the app's sandbox for iOS.
+        public let extraDataPackageArn: String?
         /// Reserved for internal use.
         public let networkProfileArn: String?
         /// A list of auxiliary apps for the run.
@@ -785,9 +808,10 @@ extension Devicefarm {
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.
         public let billingMethod: BillingMethod?
 
-        public init(extraDataPackageArn: String? = nil, location: Location? = nil, networkProfileArn: String? = nil, auxiliaryApps: [String]? = nil, radios: Radios? = nil, locale: String? = nil, billingMethod: BillingMethod? = nil) {
-            self.extraDataPackageArn = extraDataPackageArn
+        public init(customerArtifactPaths: CustomerArtifactPaths? = nil, location: Location? = nil, extraDataPackageArn: String? = nil, networkProfileArn: String? = nil, auxiliaryApps: [String]? = nil, radios: Radios? = nil, locale: String? = nil, billingMethod: BillingMethod? = nil) {
+            self.customerArtifactPaths = customerArtifactPaths
             self.location = location
+            self.extraDataPackageArn = extraDataPackageArn
             self.networkProfileArn = networkProfileArn
             self.auxiliaryApps = auxiliaryApps
             self.radios = radios
@@ -796,8 +820,9 @@ extension Devicefarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case extraDataPackageArn = "extraDataPackageArn"
+            case customerArtifactPaths = "customerArtifactPaths"
             case location = "location"
+            case extraDataPackageArn = "extraDataPackageArn"
             case networkProfileArn = "networkProfileArn"
             case auxiliaryApps = "auxiliaryApps"
             case radios = "radios"
@@ -807,7 +832,7 @@ extension Devicefarm {
     }
 
     public struct GetJobResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "job", required: false, type: .structure)
         ]
         /// An object containing information about the requested job.
@@ -833,7 +858,7 @@ extension Devicefarm {
     }
 
     public struct ListOfferingsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "offerings", required: false, type: .list)
         ]
@@ -854,7 +879,7 @@ extension Devicefarm {
     }
 
     public struct StopRunResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "run", required: false, type: .structure)
         ]
         /// The run that was stopped.
@@ -870,7 +895,7 @@ extension Devicefarm {
     }
 
     public struct ScheduleRunRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "projectArn", required: true, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "executionConfiguration", required: false, type: .structure), 
@@ -941,12 +966,13 @@ extension Devicefarm {
         case formFactor = "FORM_FACTOR"
         case manufacturer = "MANUFACTURER"
         case remoteAccessEnabled = "REMOTE_ACCESS_ENABLED"
+        case remoteDebugEnabled = "REMOTE_DEBUG_ENABLED"
         case appiumVersion = "APPIUM_VERSION"
         public var description: String { return self.rawValue }
     }
 
     public struct Artifact: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "extension", required: false, type: .string), 
@@ -982,7 +1008,7 @@ extension Devicefarm {
     }
 
     public struct CreateNetworkProfileResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "networkProfile", required: false, type: .structure)
         ]
         /// The network profile that is returned by the create network profile request.
@@ -998,7 +1024,7 @@ extension Devicefarm {
     }
 
     public struct DeleteNetworkProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the network profile you want to delete.
@@ -1014,7 +1040,7 @@ extension Devicefarm {
     }
 
     public struct Project: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "created", required: false, type: .timestamp), 
             AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
@@ -1045,7 +1071,7 @@ extension Devicefarm {
     }
 
     public struct ScheduleRunResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "run", required: false, type: .structure)
         ]
         /// Information about the scheduled run.
@@ -1061,7 +1087,7 @@ extension Devicefarm {
     }
 
     public struct GetRunRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The run's ARN.
@@ -1077,7 +1103,7 @@ extension Devicefarm {
     }
 
     public struct ListNetworkProfilesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "networkProfiles", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -1098,7 +1124,7 @@ extension Devicefarm {
     }
 
     public struct ListSamplesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
@@ -1119,7 +1145,7 @@ extension Devicefarm {
     }
 
     public struct CreateProjectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer)
         ]
@@ -1140,7 +1166,7 @@ extension Devicefarm {
     }
 
     public struct GetRemoteAccessSessionResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "remoteAccessSession", required: false, type: .structure)
         ]
         /// A container that lists detailed information about the remote access session.
@@ -1156,7 +1182,7 @@ extension Devicefarm {
     }
 
     public struct UpdateDevicePoolResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "devicePool", required: false, type: .structure)
         ]
         /// The device pool you just updated.
@@ -1172,7 +1198,7 @@ extension Devicefarm {
     }
 
     public struct PurchaseOfferingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "offeringPromotionId", required: false, type: .string), 
             AWSShapeMember(label: "quantity", required: false, type: .integer), 
             AWSShapeMember(label: "offeringId", required: false, type: .string)
@@ -1230,11 +1256,13 @@ extension Devicefarm {
         case applicationCrashReport = "APPLICATION_CRASH_REPORT"
         case xctestLog = "XCTEST_LOG"
         case video = "VIDEO"
+        case customerArtifact = "CUSTOMER_ARTIFACT"
+        case customerArtifactLog = "CUSTOMER_ARTIFACT_LOG"
         public var description: String { return self.rawValue }
     }
 
     public struct StopRemoteAccessSessionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the remote access session you wish to stop.
@@ -1257,7 +1285,7 @@ extension Devicefarm {
     }
 
     public struct CreateUploadResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "upload", required: false, type: .structure)
         ]
         /// The newly created upload.
@@ -1273,7 +1301,7 @@ extension Devicefarm {
     }
 
     public struct UniqueProblem: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "problems", required: false, type: .list), 
             AWSShapeMember(label: "message", required: false, type: .string)
         ]
@@ -1294,7 +1322,7 @@ extension Devicefarm {
     }
 
     public struct UpdateNetworkProfileResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "networkProfile", required: false, type: .structure)
         ]
         /// A list of the available network profiles.
@@ -1310,7 +1338,7 @@ extension Devicefarm {
     }
 
     public struct ListNetworkProfilesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: true, type: .string)
@@ -1336,7 +1364,7 @@ extension Devicefarm {
     }
 
     public struct GetJobRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The job's ARN.
@@ -1352,7 +1380,7 @@ extension Devicefarm {
     }
 
     public struct ListRunsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "runs", required: false, type: .list)
         ]
@@ -1373,7 +1401,7 @@ extension Devicefarm {
     }
 
     public struct ListTestsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tests", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -1398,7 +1426,7 @@ extension Devicefarm {
     }
 
     public struct ListOfferingPromotionsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "offeringPromotions", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -1419,7 +1447,7 @@ extension Devicefarm {
     }
 
     public struct OfferingTransaction: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "transactionId", required: false, type: .string), 
             AWSShapeMember(label: "cost", required: false, type: .structure), 
             AWSShapeMember(label: "createdOn", required: false, type: .timestamp), 
@@ -1460,7 +1488,7 @@ extension Devicefarm {
     }
 
     public struct ListOfferingPromotionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -1476,7 +1504,7 @@ extension Devicefarm {
     }
 
     public struct ListDevicesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "devices", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -1497,7 +1525,7 @@ extension Devicefarm {
     }
 
     public struct ListUploadsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "uploads", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -1518,7 +1546,7 @@ extension Devicefarm {
     }
 
     public struct Offering: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "recurringCharges", required: false, type: .list), 
             AWSShapeMember(label: "id", required: false, type: .string), 
@@ -1554,7 +1582,7 @@ extension Devicefarm {
     }
 
     public struct GetSuiteResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "suite", required: false, type: .structure)
         ]
         /// A collection of one or more tests.
@@ -1570,7 +1598,7 @@ extension Devicefarm {
     }
 
     public struct GetSuiteRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The suite's ARN.
@@ -1586,7 +1614,7 @@ extension Devicefarm {
     }
 
     public struct GetUploadRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The upload's ARN.
@@ -1601,8 +1629,34 @@ extension Devicefarm {
         }
     }
 
+    public struct CustomerArtifactPaths: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deviceHostPaths", required: false, type: .list), 
+            AWSShapeMember(label: "iosPaths", required: false, type: .list), 
+            AWSShapeMember(label: "androidPaths", required: false, type: .list)
+        ]
+        /// Comma-separated list of paths in the test execution environment where the artifacts generated by the customer's tests will be pulled from.
+        public let deviceHostPaths: [String]?
+        /// Comma-separated list of paths on the iOS device where the artifacts generated by the customer's tests will be pulled from.
+        public let iosPaths: [String]?
+        /// Comma-separated list of paths on the Android device where the artifacts generated by the customer's tests will be pulled from.
+        public let androidPaths: [String]?
+
+        public init(deviceHostPaths: [String]? = nil, iosPaths: [String]? = nil, androidPaths: [String]? = nil) {
+            self.deviceHostPaths = deviceHostPaths
+            self.iosPaths = iosPaths
+            self.androidPaths = androidPaths
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceHostPaths = "deviceHostPaths"
+            case iosPaths = "iosPaths"
+            case androidPaths = "androidPaths"
+        }
+    }
+
     public struct Test: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "created", required: false, type: .timestamp), 
@@ -1667,24 +1721,8 @@ extension Devicefarm {
         }
     }
 
-    public struct DeleteRemoteAccessSessionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "arn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the sesssion for which you want to delete remote access.
-        public let arn: String
-
-        public init(arn: String) {
-            self.arn = arn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-        }
-    }
-
     public struct GetOfferingStatusResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextPeriod", required: false, type: .map), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "current", required: false, type: .map)
@@ -1709,6 +1747,38 @@ extension Devicefarm {
         }
     }
 
+    public struct DeleteRemoteAccessSessionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the sesssion for which you want to delete remote access.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct GetOfferingStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+        }
+    }
+
     public enum TestType: String, CustomStringConvertible, Codable {
         case builtinFuzz = "BUILTIN_FUZZ"
         case builtinExplorer = "BUILTIN_EXPLORER"
@@ -1727,24 +1797,8 @@ extension Devicefarm {
         public var description: String { return self.rawValue }
     }
 
-    public struct GetOfferingStatusRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "nextToken", required: false, type: .string)
-        ]
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public let nextToken: String?
-
-        public init(nextToken: String? = nil) {
-            self.nextToken = nextToken
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-        }
-    }
-
     public struct IncompatibilityMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "message", required: false, type: .string)
         ]
@@ -1765,7 +1819,7 @@ extension Devicefarm {
     }
 
     public struct CreateUploadRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "contentType", required: false, type: .string), 
             AWSShapeMember(label: "type", required: true, type: .enum), 
@@ -1796,7 +1850,7 @@ extension Devicefarm {
     }
 
     public struct UpdateProjectResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "project", required: false, type: .structure)
         ]
         /// The project you wish to update.
@@ -1812,7 +1866,7 @@ extension Devicefarm {
     }
 
     public struct ScheduleRunTest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "filter", required: false, type: .string), 
             AWSShapeMember(label: "type", required: true, type: .enum), 
             AWSShapeMember(label: "testPackageArn", required: false, type: .string), 
@@ -1847,7 +1901,7 @@ extension Devicefarm {
     }
 
     public struct ListUploadsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
@@ -1868,7 +1922,7 @@ extension Devicefarm {
     }
 
     public struct CreateRemoteAccessSessionResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "remoteAccessSession", required: false, type: .structure)
         ]
         /// A container that describes the remote access session when the request to create a remote access session is sent.
@@ -1884,7 +1938,7 @@ extension Devicefarm {
     }
 
     public struct GetDeviceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The device type's ARN.
@@ -1900,7 +1954,7 @@ extension Devicefarm {
     }
 
     public struct Radios: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "wifi", required: false, type: .boolean), 
             AWSShapeMember(label: "bluetooth", required: false, type: .boolean), 
             AWSShapeMember(label: "nfc", required: false, type: .boolean), 
@@ -1937,7 +1991,7 @@ extension Devicefarm {
     }
 
     public struct GetRunResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "run", required: false, type: .structure)
         ]
         /// The run you wish to get results from.
@@ -1953,7 +2007,7 @@ extension Devicefarm {
     }
 
     public struct RenewOfferingResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "offeringTransaction", required: false, type: .structure)
         ]
         /// Represents the status of the offering transaction for the renewal.
@@ -1975,7 +2029,7 @@ extension Devicefarm {
     }
 
     public struct DeleteDevicePoolRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// Represents the Amazon Resource Name (ARN) of the Device Farm device pool you wish to delete.
@@ -1991,38 +2045,53 @@ extension Devicefarm {
     }
 
     public struct CreateRemoteAccessSessionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "name", required: false, type: .string), 
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "remoteDebugEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "deviceArn", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "clientId", required: false, type: .string), 
             AWSShapeMember(label: "projectArn", required: true, type: .string), 
             AWSShapeMember(label: "configuration", required: false, type: .structure)
         ]
-        /// The name of the remote access session that you wish to create.
-        public let name: String?
+        /// The public key of the ssh key pair you want to use for connecting to remote devices in your remote debugging session. This is only required if remoteDebugEnabled is set to true.
+        public let sshPublicKey: String?
+        /// Set to true if you want to access devices remotely for debugging in your remote access session.
+        public let remoteDebugEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the device for which you want to create a remote access session.
         public let deviceArn: String
+        /// The name of the remote access session that you wish to create.
+        public let name: String?
+        /// Unique identifier for the client. If you want access to multiple devices on the same client, you should pass the same clientId value in each call to CreateRemoteAccessSession. This is required only if remoteDebugEnabled is set to true true.
+        public let clientId: String?
         /// The Amazon Resource Name (ARN) of the project for which you want to create a remote access session.
         public let projectArn: String
         /// The configuration information for the remote access session request.
         public let configuration: CreateRemoteAccessSessionConfiguration?
 
-        public init(name: String? = nil, deviceArn: String, projectArn: String, configuration: CreateRemoteAccessSessionConfiguration? = nil) {
-            self.name = name
+        public init(sshPublicKey: String? = nil, remoteDebugEnabled: Bool? = nil, deviceArn: String, name: String? = nil, clientId: String? = nil, projectArn: String, configuration: CreateRemoteAccessSessionConfiguration? = nil) {
+            self.sshPublicKey = sshPublicKey
+            self.remoteDebugEnabled = remoteDebugEnabled
             self.deviceArn = deviceArn
+            self.name = name
+            self.clientId = clientId
             self.projectArn = projectArn
             self.configuration = configuration
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
+            case sshPublicKey = "sshPublicKey"
+            case remoteDebugEnabled = "remoteDebugEnabled"
             case deviceArn = "deviceArn"
+            case name = "name"
+            case clientId = "clientId"
             case projectArn = "projectArn"
             case configuration = "configuration"
         }
     }
 
     public struct ListJobsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "jobs", required: false, type: .list)
         ]
@@ -2043,7 +2112,7 @@ extension Devicefarm {
     }
 
     public struct ListSamplesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "samples", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -2064,7 +2133,7 @@ extension Devicefarm {
     }
 
     public struct CreateDevicePoolRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "rules", required: true, type: .list), 
@@ -2095,7 +2164,7 @@ extension Devicefarm {
     }
 
     public struct ListProjectsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "projects", required: false, type: .list)
         ]
@@ -2116,7 +2185,7 @@ extension Devicefarm {
     }
 
     public struct OfferingStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "quantity", required: false, type: .integer), 
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "effectiveOn", required: false, type: .timestamp), 
@@ -2147,7 +2216,7 @@ extension Devicefarm {
     }
 
     public struct ListDevicePoolsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: true, type: .string)
@@ -2173,7 +2242,7 @@ extension Devicefarm {
     }
 
     public struct ListJobsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
@@ -2194,12 +2263,15 @@ extension Devicefarm {
     }
 
     public struct Run: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customerArtifactPaths", required: false, type: .structure), 
+            AWSShapeMember(label: "resultCode", required: false, type: .enum), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "platform", required: false, type: .enum), 
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "result", required: false, type: .enum), 
             AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "parsingResultUrl", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "completedJobs", required: false, type: .integer), 
             AWSShapeMember(label: "created", required: false, type: .timestamp), 
@@ -2212,6 +2284,10 @@ extension Devicefarm {
             AWSShapeMember(label: "counters", required: false, type: .structure), 
             AWSShapeMember(label: "billingMethod", required: false, type: .enum)
         ]
+        /// Output CustomerArtifactPaths object for the test run.
+        public let customerArtifactPaths: CustomerArtifactPaths?
+        /// Supporting field for the result field. Set only if result is SKIPPED. PARSING_FAILED if the result is skipped because of test package parsing failure.
+        public let resultCode: ExecutionResultCode?
         /// The run's name.
         public let name: String?
         /// The run's platform. Allowed values include:   ANDROID: The Android platform.   IOS: The iOS platform.  
@@ -2222,6 +2298,8 @@ extension Devicefarm {
         public let result: ExecutionResult?
         /// The run's ARN.
         public let arn: String?
+        /// Read-only URL for an object in S3 bucket where you can get the parsing results of the test package. If the test package doesn't parse, the reason why it doesn't parse appears in the file that this URL points to.
+        public let parsingResultUrl: String?
         /// The run's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
         public let status: ExecutionStatus?
         /// The total number of completed jobs.
@@ -2245,12 +2323,15 @@ extension Devicefarm {
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.
         public let billingMethod: BillingMethod?
 
-        public init(name: String? = nil, platform: DevicePlatform? = nil, type: TestType? = nil, result: ExecutionResult? = nil, arn: String? = nil, status: ExecutionStatus? = nil, completedJobs: Int32? = nil, created: TimeStamp? = nil, started: TimeStamp? = nil, totalJobs: Int32? = nil, stopped: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, networkProfile: NetworkProfile? = nil, counters: Counters? = nil, billingMethod: BillingMethod? = nil) {
+        public init(customerArtifactPaths: CustomerArtifactPaths? = nil, resultCode: ExecutionResultCode? = nil, name: String? = nil, platform: DevicePlatform? = nil, type: TestType? = nil, result: ExecutionResult? = nil, arn: String? = nil, parsingResultUrl: String? = nil, status: ExecutionStatus? = nil, completedJobs: Int32? = nil, created: TimeStamp? = nil, started: TimeStamp? = nil, totalJobs: Int32? = nil, stopped: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, networkProfile: NetworkProfile? = nil, counters: Counters? = nil, billingMethod: BillingMethod? = nil) {
+            self.customerArtifactPaths = customerArtifactPaths
+            self.resultCode = resultCode
             self.name = name
             self.platform = platform
             self.`type` = `type`
             self.result = result
             self.arn = arn
+            self.parsingResultUrl = parsingResultUrl
             self.status = status
             self.completedJobs = completedJobs
             self.created = created
@@ -2265,11 +2346,14 @@ extension Devicefarm {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customerArtifactPaths = "customerArtifactPaths"
+            case resultCode = "resultCode"
             case name = "name"
             case platform = "platform"
             case `type` = "type"
             case result = "result"
             case arn = "arn"
+            case parsingResultUrl = "parsingResultUrl"
             case status = "status"
             case completedJobs = "completedJobs"
             case created = "created"
@@ -2285,7 +2369,7 @@ extension Devicefarm {
     }
 
     public struct TrialMinutes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "total", required: false, type: .double), 
             AWSShapeMember(label: "remaining", required: false, type: .double)
         ]
@@ -2306,7 +2390,7 @@ extension Devicefarm {
     }
 
     public struct DevicePoolCompatibilityResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "device", required: false, type: .structure), 
             AWSShapeMember(label: "compatible", required: false, type: .boolean), 
             AWSShapeMember(label: "incompatibilityMessages", required: false, type: .list)
@@ -2332,7 +2416,7 @@ extension Devicefarm {
     }
 
     public struct Upload: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "metadata", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "contentType", required: false, type: .string), 
@@ -2388,7 +2472,7 @@ extension Devicefarm {
     }
 
     public struct ListOfferingsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2412,7 +2496,7 @@ extension Devicefarm {
     }
 
     public struct ListDevicePoolsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "devicePools", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -2433,7 +2517,7 @@ extension Devicefarm {
     }
 
     public struct ListOfferingTransactionsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "offeringTransactions", required: false, type: .list)
         ]
@@ -2460,7 +2544,7 @@ extension Devicefarm {
     }
 
     public struct ListSuitesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
@@ -2481,7 +2565,7 @@ extension Devicefarm {
     }
 
     public struct CPU: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "frequency", required: false, type: .string), 
             AWSShapeMember(label: "architecture", required: false, type: .string), 
             AWSShapeMember(label: "clock", required: false, type: .double)
@@ -2507,7 +2591,7 @@ extension Devicefarm {
     }
 
     public struct InstallToRemoteAccessSessionResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appUpload", required: false, type: .structure)
         ]
         /// An app to upload or that has been uploaded.
@@ -2523,7 +2607,7 @@ extension Devicefarm {
     }
 
     public struct GetNetworkProfileRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the network profile you want to return information about.
@@ -2539,7 +2623,7 @@ extension Devicefarm {
     }
 
     public struct Counters: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "warned", required: false, type: .integer), 
             AWSShapeMember(label: "errored", required: false, type: .integer), 
             AWSShapeMember(label: "failed", required: false, type: .integer), 
@@ -2589,7 +2673,7 @@ extension Devicefarm {
     }
 
     public struct DeviceMinutes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "total", required: false, type: .double), 
             AWSShapeMember(label: "metered", required: false, type: .double), 
             AWSShapeMember(label: "unmetered", required: false, type: .double)
@@ -2615,7 +2699,7 @@ extension Devicefarm {
     }
 
     public struct ListRemoteAccessSessionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
@@ -2636,7 +2720,7 @@ extension Devicefarm {
     }
 
     public struct ListArtifactsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "type", required: true, type: .enum), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: true, type: .string)
@@ -2662,7 +2746,7 @@ extension Devicefarm {
     }
 
     public struct GetTestRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The test's ARN.
@@ -2678,7 +2762,7 @@ extension Devicefarm {
     }
 
     public struct GetDeviceResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "device", required: false, type: .structure)
         ]
         /// An object containing information about the requested device.
@@ -2694,7 +2778,7 @@ extension Devicefarm {
     }
 
     public struct DeleteProjectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// Represents the Amazon Resource Name (ARN) of the Device Farm project you wish to delete.
@@ -2723,7 +2807,7 @@ extension Devicefarm {
     }
 
     public struct StopRunRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// Represents the Amazon Resource Name (ARN) of the Device Farm run you wish to stop.
@@ -2744,7 +2828,7 @@ extension Devicefarm {
     }
 
     public struct OfferingPromotion: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "description", required: false, type: .string)
         ]
@@ -2765,7 +2849,7 @@ extension Devicefarm {
     }
 
     public struct ListUniqueProblemsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "uniqueProblems", required: false, type: .map), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -2792,7 +2876,7 @@ extension Devicefarm {
     }
 
     public struct Problem: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "test", required: false, type: .structure), 
             AWSShapeMember(label: "suite", required: false, type: .structure), 
             AWSShapeMember(label: "job", required: false, type: .structure), 
@@ -2838,7 +2922,7 @@ extension Devicefarm {
     }
 
     public struct Sample: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "type", required: false, type: .enum), 
             AWSShapeMember(label: "url", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: false, type: .string)
@@ -2864,7 +2948,7 @@ extension Devicefarm {
     }
 
     public struct DeleteRunRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) for the run you wish to delete.
@@ -2880,7 +2964,7 @@ extension Devicefarm {
     }
 
     public struct CreateDevicePoolResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "devicePool", required: false, type: .structure)
         ]
         /// The newly created device pool.
@@ -2896,7 +2980,7 @@ extension Devicefarm {
     }
 
     public struct UpdateDevicePoolRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "rules", required: false, type: .list), 
@@ -2948,7 +3032,7 @@ extension Devicefarm {
     }
 
     public struct ListOfferingTransactionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2964,7 +3048,7 @@ extension Devicefarm {
     }
 
     public struct AccountSettings: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "trialMinutes", required: false, type: .structure), 
             AWSShapeMember(label: "unmeteredDevices", required: false, type: .map), 
             AWSShapeMember(label: "maxJobTimeoutMinutes", required: false, type: .integer), 
@@ -3010,7 +3094,7 @@ extension Devicefarm {
     }
 
     public struct StopRemoteAccessSessionResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "remoteAccessSession", required: false, type: .structure)
         ]
         /// A container representing the metadata from the service about the remote access session you are stopping.
@@ -3026,7 +3110,7 @@ extension Devicefarm {
     }
 
     public struct ListArtifactsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "artifacts", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -3047,7 +3131,7 @@ extension Devicefarm {
     }
 
     public struct GetNetworkProfileResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "networkProfile", required: false, type: .structure)
         ]
         /// The network profile.
@@ -3063,7 +3147,7 @@ extension Devicefarm {
     }
 
     public struct Location: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "longitude", required: true, type: .double), 
             AWSShapeMember(label: "latitude", required: true, type: .double)
         ]
@@ -3084,7 +3168,7 @@ extension Devicefarm {
     }
 
     public struct GetAccountSettingsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "accountSettings", required: false, type: .structure)
         ]
         /// The account settings.
@@ -3099,8 +3183,50 @@ extension Devicefarm {
         }
     }
 
+    public struct Resolution: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "height", required: false, type: .integer), 
+            AWSShapeMember(label: "width", required: false, type: .integer)
+        ]
+        /// The screen resolution's height, expressed in pixels.
+        public let height: Int32?
+        /// The screen resolution's width, expressed in pixels.
+        public let width: Int32?
+
+        public init(height: Int32? = nil, width: Int32? = nil) {
+            self.height = height
+            self.width = width
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height = "height"
+            case width = "width"
+        }
+    }
+
+    public struct RenewOfferingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "offeringId", required: false, type: .string), 
+            AWSShapeMember(label: "quantity", required: false, type: .integer)
+        ]
+        /// The ID of a request to renew an offering.
+        public let offeringId: String?
+        /// The quantity requested in an offering renewal.
+        public let quantity: Int32?
+
+        public init(offeringId: String? = nil, quantity: Int32? = nil) {
+            self.offeringId = offeringId
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offeringId = "offeringId"
+            case quantity = "quantity"
+        }
+    }
+
     public struct GetDevicePoolCompatibilityRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "testType", required: false, type: .enum), 
             AWSShapeMember(label: "test", required: false, type: .structure), 
             AWSShapeMember(label: "appArn", required: false, type: .string), 
@@ -3130,50 +3256,9 @@ extension Devicefarm {
         }
     }
 
-    public struct Resolution: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "height", required: false, type: .integer), 
-            AWSShapeMember(label: "width", required: false, type: .integer)
-        ]
-        /// The screen resolution's height, expressed in pixels.
-        public let height: Int32?
-        /// The screen resolution's width, expressed in pixels.
-        public let width: Int32?
-
-        public init(height: Int32? = nil, width: Int32? = nil) {
-            self.height = height
-            self.width = width
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case height = "height"
-            case width = "width"
-        }
-    }
-
-    public struct RenewOfferingRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "offeringId", required: false, type: .string), 
-            AWSShapeMember(label: "quantity", required: false, type: .integer)
-        ]
-        /// The ID of a request to renew an offering.
-        public let offeringId: String?
-        /// The quantity requested in an offering renewal.
-        public let quantity: Int32?
-
-        public init(offeringId: String? = nil, quantity: Int32? = nil) {
-            self.offeringId = offeringId
-            self.quantity = quantity
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case offeringId = "offeringId"
-            case quantity = "quantity"
-        }
-    }
-
     public struct Device: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "remoteDebugEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "cpu", required: false, type: .structure), 
             AWSShapeMember(label: "platform", required: false, type: .enum), 
@@ -3192,6 +3277,8 @@ extension Devicefarm {
             AWSShapeMember(label: "manufacturer", required: false, type: .string), 
             AWSShapeMember(label: "carrier", required: false, type: .string)
         ]
+        /// This flag is set to true if remote debugging is enabled for the device.
+        public let remoteDebugEnabled: Bool?
         /// The device's display name.
         public let name: String?
         /// Information about the device's CPU.
@@ -3227,7 +3314,8 @@ extension Devicefarm {
         /// The device's carrier.
         public let carrier: String?
 
-        public init(name: String? = nil, cpu: CPU? = nil, platform: DevicePlatform? = nil, heapSize: Int64? = nil, model: String? = nil, radio: String? = nil, arn: String? = nil, memory: Int64? = nil, resolution: Resolution? = nil, os: String? = nil, image: String? = nil, remoteAccessEnabled: Bool? = nil, formFactor: DeviceFormFactor? = nil, fleetType: String? = nil, fleetName: String? = nil, manufacturer: String? = nil, carrier: String? = nil) {
+        public init(remoteDebugEnabled: Bool? = nil, name: String? = nil, cpu: CPU? = nil, platform: DevicePlatform? = nil, heapSize: Int64? = nil, model: String? = nil, radio: String? = nil, arn: String? = nil, memory: Int64? = nil, resolution: Resolution? = nil, os: String? = nil, image: String? = nil, remoteAccessEnabled: Bool? = nil, formFactor: DeviceFormFactor? = nil, fleetType: String? = nil, fleetName: String? = nil, manufacturer: String? = nil, carrier: String? = nil) {
+            self.remoteDebugEnabled = remoteDebugEnabled
             self.name = name
             self.cpu = cpu
             self.platform = platform
@@ -3248,6 +3336,7 @@ extension Devicefarm {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case remoteDebugEnabled = "remoteDebugEnabled"
             case name = "name"
             case cpu = "cpu"
             case platform = "platform"
@@ -3269,7 +3358,7 @@ extension Devicefarm {
     }
 
     public struct ListRunsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
@@ -3290,7 +3379,7 @@ extension Devicefarm {
     }
 
     public struct Job: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "device", required: false, type: .structure), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "name", required: false, type: .string), 
@@ -3361,7 +3450,7 @@ extension Devicefarm {
     }
 
     public struct GetProjectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The project's ARN.
@@ -3377,7 +3466,7 @@ extension Devicefarm {
     }
 
     public struct ListProjectsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "arn", required: false, type: .string)
         ]
@@ -3398,7 +3487,7 @@ extension Devicefarm {
     }
 
     public struct UpdateProjectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
             AWSShapeMember(label: "arn", required: true, type: .string)
@@ -3440,8 +3529,13 @@ extension Devicefarm {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExecutionResultCode: String, CustomStringConvertible, Codable {
+        case parsingFailed = "PARSING_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct InstallToRemoteAccessSessionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appArn", required: true, type: .string), 
             AWSShapeMember(label: "remoteAccessSessionArn", required: true, type: .string)
         ]
@@ -3462,7 +3556,7 @@ extension Devicefarm {
     }
 
     public struct GetDevicePoolCompatibilityResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "incompatibleDevices", required: false, type: .list), 
             AWSShapeMember(label: "compatibleDevices", required: false, type: .list)
         ]
@@ -3483,7 +3577,7 @@ extension Devicefarm {
     }
 
     public struct GetRemoteAccessSessionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the remote access session about which you want to get session information.
@@ -3499,7 +3593,7 @@ extension Devicefarm {
     }
 
     public struct GetProjectResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "project", required: false, type: .structure)
         ]
         /// The project you wish to get information about.

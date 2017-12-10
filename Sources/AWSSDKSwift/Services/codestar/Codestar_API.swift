@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-AWS CodeStar This is the API reference for AWS CodeStar. This reference provides descriptions of the operations and data types for the AWS CodeStar API along with usage examples. You can use the AWS CodeStar API to work with: Projects and their resources, by calling the following:    DeleteProject, which deletes a project in AWS CodeStar.    DescribeProject, which lists the attributes of a project.    ListProjects, which lists all AWS CodeStar projects associated with your AWS account.    ListResources, which lists the resources associated with an AWS CodeStar project.    UpdateProject, which updates the attributes of an AWS CodeStar project.   Teams and team members, by calling the following:    AssociateTeamMember, which adds an IAM user to the team for an AWS CodeStar project.    DisassociateTeamMember, which removes an IAM user from the team for an AWS CodeStar project.    ListTeamMembers, which lists all the IAM users in the team for an AWS CodeStar project, including their roles and attributes.   Users, by calling the following:    CreateUserProfile, which creates a user profile that contains data associated with the user across all AWS CodeStar projects.    DeleteUserProfile, which deletes all user profile information across all AWS CodeStar projects.    DescribeUserProfile, which describes the profile of a user.    ListUserProfiles, which lists all AWS CodeStar user profiles.    UpdateUserProfile, which updates the profile for an AWS CodeStar user.   
+AWS CodeStar This is the API reference for AWS CodeStar. This reference provides descriptions of the operations and data types for the AWS CodeStar API along with usage examples. You can use the AWS CodeStar API to work with: Projects and their resources, by calling the following:    DeleteProject, which deletes a project.    DescribeProject, which lists the attributes of a project.    ListProjects, which lists all projects associated with your AWS account.    ListResources, which lists the resources associated with a project.    ListTagsForProject, which lists the tags associated with a project.    TagProject, which adds tags to a project.    UntagProject, which removes tags from a project.    UpdateProject, which updates the attributes of a project.   Teams and team members, by calling the following:    AssociateTeamMember, which adds an IAM user to the team for a project.    DisassociateTeamMember, which removes an IAM user from the team for a project.    ListTeamMembers, which lists all the IAM users in the team for a project, including their roles and attributes.    UpdateTeamMember, which updates a team member's attributes in a project.   Users, by calling the following:    CreateUserProfile, which creates a user profile that contains data associated with the user across all projects.    DeleteUserProfile, which deletes all user profile information across all projects.    DescribeUserProfile, which describes the profile of a user.    ListUserProfiles, which lists all user profiles.    UpdateUserProfile, which updates the profile for a user.  
 */
 public struct Codestar {
 
@@ -60,9 +60,19 @@ public struct Codestar {
         return try client.send(operation: "DeleteProject", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Adds tags to a project.
+    public func tagProject(_ input: TagProjectRequest) throws -> TagProjectResult {
+        return try client.send(operation: "TagProject", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Lists resources associated with a project in AWS CodeStar.
     public func listResources(_ input: ListResourcesRequest) throws -> ListResourcesResult {
         return try client.send(operation: "ListResources", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes tags from a project.
+    public func untagProject(_ input: UntagProjectRequest) throws -> UntagProjectResult {
+        return try client.send(operation: "UntagProject", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all team members associated with a project.
@@ -93,6 +103,11 @@ public struct Codestar {
     ///  Updates a team member's attributes in an AWS CodeStar project. For example, you can change a team member's role in the project, or change whether they have remote access to project resources.
     public func updateTeamMember(_ input: UpdateTeamMemberRequest) throws -> UpdateTeamMemberResult {
         return try client.send(operation: "UpdateTeamMember", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets the tags for a project.
+    public func listTagsForProject(_ input: ListTagsForProjectRequest) throws -> ListTagsForProjectResult {
+        return try client.send(operation: "ListTagsForProject", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes a project and its resources.

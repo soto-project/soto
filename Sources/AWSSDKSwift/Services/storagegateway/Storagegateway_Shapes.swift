@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Storagegateway {
 
     public struct DeleteSnapshotScheduleOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
         public let volumeARN: String?
@@ -21,7 +21,7 @@ extension Storagegateway {
     }
 
     public struct DeleteTapeArchiveOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape that was deleted from the virtual tape shelf (VTS).
@@ -37,7 +37,7 @@ extension Storagegateway {
     }
 
     public struct ResetCacheInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
@@ -52,7 +52,7 @@ extension Storagegateway {
     }
 
     public struct DescribeGatewayInformationInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
@@ -67,7 +67,7 @@ extension Storagegateway {
     }
 
     public struct SetLocalConsolePasswordInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LocalConsolePassword", required: true, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
@@ -87,7 +87,7 @@ extension Storagegateway {
     }
 
     public struct DescribeTapesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Tapes", required: false, type: .list)
         ]
@@ -108,7 +108,7 @@ extension Storagegateway {
     }
 
     public struct AddUploadBufferOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
@@ -123,7 +123,7 @@ extension Storagegateway {
     }
 
     public struct RetrieveTapeArchiveInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: true, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
@@ -144,7 +144,7 @@ extension Storagegateway {
     }
 
     public struct RefreshCacheOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARN", required: false, type: .string)
         ]
         public let fileShareARN: String?
@@ -159,7 +159,7 @@ extension Storagegateway {
     }
 
     public struct CreateTapeWithBarcodeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "TapeSizeInBytes", required: true, type: .long), 
             AWSShapeMember(label: "TapeBarcode", required: true, type: .string)
@@ -168,7 +168,7 @@ extension Storagegateway {
         public let gatewayARN: String
         /// The size, in bytes, of the virtual tape that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 byte). 
         public let tapeSizeInBytes: Int64
-        /// The barcode that you want to assign to the tape.
+        /// The barcode that you want to assign to the tape.  Barcodes cannot be reused. This includes barcodes used for tapes that have been deleted. 
         public let tapeBarcode: String
 
         public init(gatewayARN: String, tapeSizeInBytes: Int64, tapeBarcode: String) {
@@ -185,7 +185,7 @@ extension Storagegateway {
     }
 
     public struct CancelArchivalInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: true, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
@@ -205,7 +205,7 @@ extension Storagegateway {
     }
 
     public struct DeleteGatewayOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
@@ -220,7 +220,7 @@ extension Storagegateway {
     }
 
     public struct DescribeCacheOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CacheAllocatedInBytes", required: false, type: .long), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "CacheUsedPercentage", required: false, type: .double), 
@@ -259,7 +259,7 @@ extension Storagegateway {
     }
 
     public struct DescribeNFSFileSharesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NFSFileShareInfoList", required: false, type: .list)
         ]
         /// An array containing a description for each requested file share. 
@@ -275,7 +275,7 @@ extension Storagegateway {
     }
 
     public struct NFSFileShareDefaults: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OwnerId", required: false, type: .long), 
             AWSShapeMember(label: "FileMode", required: false, type: .string), 
             AWSShapeMember(label: "GroupId", required: false, type: .long), 
@@ -306,7 +306,7 @@ extension Storagegateway {
     }
 
     public struct DescribeTapesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "TapeARNs", required: false, type: .list), 
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
@@ -336,7 +336,7 @@ extension Storagegateway {
     }
 
     public struct DescribeTapeRecoveryPointsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
@@ -361,7 +361,7 @@ extension Storagegateway {
     }
 
     public struct CreateSnapshotFromVolumeRecoveryPointInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotDescription", required: true, type: .string), 
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
@@ -380,7 +380,7 @@ extension Storagegateway {
     }
 
     public struct AddUploadBufferInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "DiskIds", required: true, type: .list)
         ]
@@ -399,7 +399,7 @@ extension Storagegateway {
     }
 
     public struct ListVolumeRecoveryPointsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
@@ -414,7 +414,7 @@ extension Storagegateway {
     }
 
     public struct ListTagsForResourceInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
@@ -440,7 +440,7 @@ extension Storagegateway {
     }
 
     public struct UpdateVTLDeviceTypeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeviceType", required: true, type: .string), 
             AWSShapeMember(label: "VTLDeviceARN", required: true, type: .string)
         ]
@@ -461,7 +461,7 @@ extension Storagegateway {
     }
 
     public struct TapeRecoveryPointInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string), 
             AWSShapeMember(label: "TapeRecoveryPointTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "TapeStatus", required: false, type: .string), 
@@ -491,7 +491,7 @@ extension Storagegateway {
     }
 
     public struct RetrieveTapeArchiveOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the retrieved virtual tape.
@@ -507,7 +507,7 @@ extension Storagegateway {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -526,7 +526,7 @@ extension Storagegateway {
     }
 
     public struct AddCacheOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
@@ -541,7 +541,7 @@ extension Storagegateway {
     }
 
     public struct StartGatewayInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
@@ -556,7 +556,7 @@ extension Storagegateway {
     }
 
     public struct ListTapesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "TapeInfos", required: false, type: .list)
         ]
@@ -576,7 +576,7 @@ extension Storagegateway {
     }
 
     public struct TapeInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "TapeStatus", required: false, type: .string), 
@@ -612,7 +612,7 @@ extension Storagegateway {
     }
 
     public struct UpdateGatewayInformationInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayTimezone", required: false, type: .string), 
             AWSShapeMember(label: "GatewayName", required: false, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
@@ -635,7 +635,7 @@ extension Storagegateway {
     }
 
     public struct UpdateMaintenanceStartTimeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "HourOfDay", required: true, type: .integer), 
             AWSShapeMember(label: "MinuteOfHour", required: true, type: .integer), 
@@ -665,7 +665,7 @@ extension Storagegateway {
     }
 
     public struct DeleteVolumeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
@@ -681,7 +681,7 @@ extension Storagegateway {
     }
 
     public struct DescribeSnapshotScheduleInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
@@ -697,7 +697,7 @@ extension Storagegateway {
     }
 
     public struct RemoveTagsFromResourceInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
@@ -718,7 +718,7 @@ extension Storagegateway {
     }
 
     public struct DescribeWorkingStorageInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
@@ -733,7 +733,7 @@ extension Storagegateway {
     }
 
     public struct DescribeWorkingStorageOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DiskIds", required: false, type: .list), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "WorkingStorageUsedInBytes", required: false, type: .long), 
@@ -763,7 +763,7 @@ extension Storagegateway {
     }
 
     public struct DeleteTapeArchiveInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS).
@@ -779,7 +779,7 @@ extension Storagegateway {
     }
 
     public struct Disk: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DiskStatus", required: false, type: .string), 
             AWSShapeMember(label: "DiskSizeInBytes", required: false, type: .long), 
             AWSShapeMember(label: "DiskId", required: false, type: .string), 
@@ -818,7 +818,7 @@ extension Storagegateway {
     }
 
     public struct UpdateVTLDeviceTypeOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VTLDeviceARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the medium changer you have selected.
@@ -834,7 +834,7 @@ extension Storagegateway {
     }
 
     public struct UpdateChapCredentialsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetARN", required: false, type: .string), 
             AWSShapeMember(label: "InitiatorName", required: false, type: .string)
         ]
@@ -855,7 +855,7 @@ extension Storagegateway {
     }
 
     public struct ActivateGatewayInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActivationKey", required: true, type: .string), 
             AWSShapeMember(label: "GatewayType", required: false, type: .string), 
             AWSShapeMember(label: "MediumChangerType", required: false, type: .string), 
@@ -901,7 +901,8 @@ extension Storagegateway {
     }
 
     public struct NFSFileShareInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "Path", required: false, type: .string), 
             AWSShapeMember(label: "FileShareId", required: false, type: .string), 
             AWSShapeMember(label: "NFSFileShareDefaults", required: false, type: .structure), 
@@ -917,6 +918,8 @@ extension Storagegateway {
             AWSShapeMember(label: "Squash", required: false, type: .string), 
             AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean)
         ]
+        /// Enables guessing of the MIME type for uploaded objects based on file extensions: "true" to enable MIME type guessing, and otherwise "false".
+        public let guessMIMETypeEnabled: Bool?
         public let path: String?
         public let fileShareId: String?
         public let nFSFileShareDefaults: NFSFileShareDefaults?
@@ -934,7 +937,8 @@ extension Storagegateway {
         /// True to use Amazon S3 server side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. 
         public let kMSEncrypted: Bool?
 
-        public init(path: String? = nil, fileShareId: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, fileShareARN: String? = nil, locationARN: String? = nil, defaultStorageClass: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, kMSKey: String? = nil, role: String? = nil, readOnly: Bool? = nil, clientList: [String]? = nil, squash: String? = nil, kMSEncrypted: Bool? = nil) {
+        public init(guessMIMETypeEnabled: Bool? = nil, path: String? = nil, fileShareId: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, fileShareARN: String? = nil, locationARN: String? = nil, defaultStorageClass: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, kMSKey: String? = nil, role: String? = nil, readOnly: Bool? = nil, clientList: [String]? = nil, squash: String? = nil, kMSEncrypted: Bool? = nil) {
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
             self.path = path
             self.fileShareId = fileShareId
             self.nFSFileShareDefaults = nFSFileShareDefaults
@@ -952,6 +956,7 @@ extension Storagegateway {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
             case path = "Path"
             case fileShareId = "FileShareId"
             case nFSFileShareDefaults = "NFSFileShareDefaults"
@@ -970,7 +975,7 @@ extension Storagegateway {
     }
 
     public struct AddTagsToResourceInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
@@ -991,7 +996,7 @@ extension Storagegateway {
     }
 
     public struct UpdateMaintenanceStartTimeOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
@@ -1006,7 +1011,7 @@ extension Storagegateway {
     }
 
     public struct UpdateGatewaySoftwareNowOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
@@ -1021,7 +1026,7 @@ extension Storagegateway {
     }
 
     public struct CancelArchivalOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape for which archiving was canceled.
@@ -1037,7 +1042,7 @@ extension Storagegateway {
     }
 
     public struct NetworkInterface: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Ipv6Address", required: false, type: .string), 
             AWSShapeMember(label: "MacAddress", required: false, type: .string), 
             AWSShapeMember(label: "Ipv4Address", required: false, type: .string)
@@ -1063,7 +1068,7 @@ extension Storagegateway {
     }
 
     public struct DeviceiSCSIAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetARN", required: false, type: .string), 
             AWSShapeMember(label: "ChapEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
@@ -1094,7 +1099,7 @@ extension Storagegateway {
     }
 
     public struct CancelRetrievalInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: true, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
@@ -1114,7 +1119,7 @@ extension Storagegateway {
     }
 
     public struct ResetCacheOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
@@ -1129,7 +1134,7 @@ extension Storagegateway {
     }
 
     public struct DescribeCachediSCSIVolumesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARNs", required: true, type: .list)
         ]
         public let volumeARNs: [String]
@@ -1144,7 +1149,7 @@ extension Storagegateway {
     }
 
     public struct TapeArchive: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string), 
             AWSShapeMember(label: "CompletionTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "TapeCreatedDate", required: false, type: .timestamp), 
@@ -1161,7 +1166,7 @@ extension Storagegateway {
         public let tapeCreatedDate: TimeStamp?
         /// The barcode that identifies the archived virtual tape.
         public let tapeBarcode: String?
-        /// The size, in bytes, of data written to the virtual tape.  This value is not available for tapes created prior to May,13 2015. 
+        /// The size, in bytes, of data stored on the virtual tape.  This value is not available for tapes created prior to May 13, 2015. 
         public let tapeUsedInBytes: Int64?
         /// The Amazon Resource Name (ARN) of the tape gateway that the virtual tape is being retrieved to. The virtual tape is retrieved from the virtual tape shelf (VTS).
         public let retrievedTo: String?
@@ -1194,7 +1199,7 @@ extension Storagegateway {
     }
 
     public struct ListTapesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "TapeARNs", required: false, type: .list), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
@@ -1219,7 +1224,7 @@ extension Storagegateway {
     }
 
     public struct ListVolumeInitiatorsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes for the gateway.
@@ -1235,7 +1240,7 @@ extension Storagegateway {
     }
 
     public struct CreateSnapshotOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
@@ -1256,9 +1261,10 @@ extension Storagegateway {
     }
 
     public struct CreateNFSFileShareInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "ClientToken", required: true, type: .string), 
+            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "KMSKey", required: false, type: .string), 
             AWSShapeMember(label: "Role", required: true, type: .string), 
             AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
@@ -1273,6 +1279,8 @@ extension Storagegateway {
         public let gatewayARN: String
         /// A unique string value that you supply that is used by file gateway to ensure idempotent file share creation.
         public let clientToken: String
+        /// Enables guessing of the MIME type for uploaded objects based on file extensions: "true" to enable MIME type guessing, and otherwise "false".
+        public let guessMIMETypeEnabled: Bool?
         /// The KMS key used for Amazon S3 server side encryption. This value can only be set when KmsEncrypted is true. Optional.
         public let kMSKey: String?
         /// The ARN of the AWS Identity and Access Management (IAM) role that a file gateway assumes when it accesses the underlying storage. 
@@ -1292,9 +1300,10 @@ extension Storagegateway {
         /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
         public let kMSEncrypted: Bool?
 
-        public init(gatewayARN: String, clientToken: String, kMSKey: String? = nil, role: String, readOnly: Bool? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, clientList: [String]? = nil, squash: String? = nil, locationARN: String, defaultStorageClass: String? = nil, kMSEncrypted: Bool? = nil) {
+        public init(gatewayARN: String, clientToken: String, guessMIMETypeEnabled: Bool? = nil, kMSKey: String? = nil, role: String, readOnly: Bool? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, clientList: [String]? = nil, squash: String? = nil, locationARN: String, defaultStorageClass: String? = nil, kMSEncrypted: Bool? = nil) {
             self.gatewayARN = gatewayARN
             self.clientToken = clientToken
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
             self.kMSKey = kMSKey
             self.role = role
             self.readOnly = readOnly
@@ -1309,6 +1318,7 @@ extension Storagegateway {
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
             case clientToken = "ClientToken"
+            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
             case kMSKey = "KMSKey"
             case role = "Role"
             case readOnly = "ReadOnly"
@@ -1322,7 +1332,7 @@ extension Storagegateway {
     }
 
     public struct ListTagsForResourceOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
@@ -1348,7 +1358,7 @@ extension Storagegateway {
     }
 
     public struct CreateCachediSCSIVolumeOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetARN", required: false, type: .string), 
             AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
@@ -1367,7 +1377,7 @@ extension Storagegateway {
     }
 
     public struct ListVolumesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
@@ -1392,7 +1402,7 @@ extension Storagegateway {
     }
 
     public struct RemoveTagsFromResourceOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the resource that the tags were removed from.
@@ -1408,7 +1418,7 @@ extension Storagegateway {
     }
 
     public struct UpdateChapCredentialsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetARN", required: true, type: .string), 
             AWSShapeMember(label: "SecretToAuthenticateTarget", required: false, type: .string), 
             AWSShapeMember(label: "SecretToAuthenticateInitiator", required: true, type: .string), 
@@ -1439,7 +1449,7 @@ extension Storagegateway {
     }
 
     public struct CreateNFSFileShareOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the newly created file share. 
@@ -1455,7 +1465,7 @@ extension Storagegateway {
     }
 
     public struct DeleteVolumeOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the storage volume that was deleted. It is the same ARN you provided in the request.
@@ -1471,7 +1481,7 @@ extension Storagegateway {
     }
 
     public struct RetrieveTapeRecoveryPointInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: true, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
@@ -1491,7 +1501,7 @@ extension Storagegateway {
     }
 
     public struct DescribeBandwidthRateLimitOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AverageDownloadRateLimitInBitsPerSec", required: false, type: .long), 
             AWSShapeMember(label: "AverageUploadRateLimitInBitsPerSec", required: false, type: .long), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
@@ -1516,7 +1526,7 @@ extension Storagegateway {
     }
 
     public struct SetLocalConsolePasswordOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
@@ -1531,7 +1541,7 @@ extension Storagegateway {
     }
 
     public struct UpdateSnapshotScheduleOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
         public let volumeARN: String?
@@ -1546,7 +1556,7 @@ extension Storagegateway {
     }
 
     public struct DescribeChapCredentialsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChapCredentials", required: false, type: .list)
         ]
         /// An array of ChapInfo objects that represent CHAP credentials. Each object in the array contains CHAP credential information for one target-initiator pair. If no CHAP credentials are set, an empty array is returned. CHAP credential information is provided in a JSON object with the following fields:    InitiatorName: The iSCSI initiator that connects to the target.    SecretToAuthenticateInitiator: The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.    SecretToAuthenticateTarget: The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client).    TargetARN: The Amazon Resource Name (ARN) of the storage volume.  
@@ -1562,7 +1572,8 @@ extension Storagegateway {
     }
 
     public struct UpdateNFSFileShareInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GuessMIMETypeEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "KMSKey", required: false, type: .string), 
             AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
             AWSShapeMember(label: "NFSFileShareDefaults", required: false, type: .structure), 
@@ -1572,9 +1583,11 @@ extension Storagegateway {
             AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
             AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean)
         ]
+        /// Enables guessing of the MIME type for uploaded objects based on file extensions: "true" to enable MIME type guessing, and otherwise "false".
+        public let guessMIMETypeEnabled: Bool?
         /// The KMS key used for Amazon S3 server side encryption. This value can only be set when KmsEncrypted is true. Optional. 
         public let kMSKey: String?
-        /// Sets the write status of a file share: "true" if the write status is read-only, and otherwise "false".
+        /// Sets the write status of a file share: "true" if the write status is read-only, otherwise "false".
         public let readOnly: Bool?
         /// The default values for the file share. Optional.
         public let nFSFileShareDefaults: NFSFileShareDefaults?
@@ -1589,7 +1602,8 @@ extension Storagegateway {
         /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. 
         public let kMSEncrypted: Bool?
 
-        public init(kMSKey: String? = nil, readOnly: Bool? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, clientList: [String]? = nil, squash: String? = nil, fileShareARN: String, defaultStorageClass: String? = nil, kMSEncrypted: Bool? = nil) {
+        public init(guessMIMETypeEnabled: Bool? = nil, kMSKey: String? = nil, readOnly: Bool? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, clientList: [String]? = nil, squash: String? = nil, fileShareARN: String, defaultStorageClass: String? = nil, kMSEncrypted: Bool? = nil) {
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
             self.kMSKey = kMSKey
             self.readOnly = readOnly
             self.nFSFileShareDefaults = nFSFileShareDefaults
@@ -1601,6 +1615,7 @@ extension Storagegateway {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
             case kMSKey = "KMSKey"
             case readOnly = "ReadOnly"
             case nFSFileShareDefaults = "NFSFileShareDefaults"
@@ -1613,7 +1628,7 @@ extension Storagegateway {
     }
 
     public struct ListLocalDisksOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Disks", required: false, type: .list), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
@@ -1632,7 +1647,7 @@ extension Storagegateway {
     }
 
     public struct DeleteBandwidthRateLimitOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
@@ -1647,7 +1662,7 @@ extension Storagegateway {
     }
 
     public struct DeleteBandwidthRateLimitInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BandwidthType", required: true, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
@@ -1667,7 +1682,7 @@ extension Storagegateway {
     }
 
     public struct DeleteTapeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: true, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
@@ -1688,7 +1703,7 @@ extension Storagegateway {
     }
 
     public struct UpdateBandwidthRateLimitOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
@@ -1702,8 +1717,27 @@ extension Storagegateway {
         }
     }
 
+    public struct NotifyWhenUploadedOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationId", required: false, type: .string)
+        ]
+        public let fileShareARN: String?
+        public let notificationId: String?
+
+        public init(fileShareARN: String? = nil, notificationId: String? = nil) {
+            self.fileShareARN = fileShareARN
+            self.notificationId = notificationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
+            case notificationId = "NotificationId"
+        }
+    }
+
     public struct VTLDevice: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VTLDeviceVendor", required: false, type: .string), 
             AWSShapeMember(label: "VTLDeviceType", required: false, type: .string), 
             AWSShapeMember(label: "VTLDeviceARN", required: false, type: .string), 
@@ -1735,8 +1769,29 @@ extension Storagegateway {
         }
     }
 
+    public struct CreateSnapshotInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotDescription", required: true, type: .string), 
+            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
+        ]
+        /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field
+        public let snapshotDescription: String
+        /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
+        public let volumeARN: String
+
+        public init(snapshotDescription: String, volumeARN: String) {
+            self.snapshotDescription = snapshotDescription
+            self.volumeARN = volumeARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotDescription = "SnapshotDescription"
+            case volumeARN = "VolumeARN"
+        }
+    }
+
     public struct GatewayInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "GatewayType", required: false, type: .string), 
             AWSShapeMember(label: "GatewayOperationalState", required: false, type: .string), 
@@ -1771,29 +1826,8 @@ extension Storagegateway {
         }
     }
 
-    public struct CreateSnapshotInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SnapshotDescription", required: true, type: .string), 
-            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
-        ]
-        /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field
-        public let snapshotDescription: String
-        /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
-        public let volumeARN: String
-
-        public init(snapshotDescription: String, volumeARN: String) {
-            self.snapshotDescription = snapshotDescription
-            self.volumeARN = volumeARN
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case snapshotDescription = "SnapshotDescription"
-            case volumeARN = "VolumeARN"
-        }
-    }
-
     public struct UpdateBandwidthRateLimitInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AverageDownloadRateLimitInBitsPerSec", required: false, type: .long), 
             AWSShapeMember(label: "AverageUploadRateLimitInBitsPerSec", required: false, type: .long), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
@@ -1818,7 +1852,7 @@ extension Storagegateway {
     }
 
     public struct DescribeMaintenanceStartTimeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
@@ -1833,7 +1867,7 @@ extension Storagegateway {
     }
 
     public struct StartGatewayOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
@@ -1848,7 +1882,7 @@ extension Storagegateway {
     }
 
     public struct ListFileSharesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
@@ -1874,7 +1908,7 @@ extension Storagegateway {
     }
 
     public struct ActivateGatewayOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
@@ -1889,7 +1923,7 @@ extension Storagegateway {
     }
 
     public struct VolumeRecoveryPointInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeRecoveryPointTime", required: false, type: .string), 
             AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
             AWSShapeMember(label: "VolumeUsageInBytes", required: false, type: .long), 
@@ -1916,7 +1950,7 @@ extension Storagegateway {
     }
 
     public struct DescribeTapeArchivesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeArchives", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
@@ -1937,23 +1971,24 @@ extension Storagegateway {
     }
 
     public struct StorediSCSIVolume: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeDiskId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeiSCSIAttributes", required: false, type: .structure), 
-            AWSShapeMember(label: "SourceSnapshotId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeType", required: false, type: .string), 
             AWSShapeMember(label: "VolumeStatus", required: false, type: .string), 
             AWSShapeMember(label: "VolumeId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "VolumeUsedInBytes", required: false, type: .long), 
             AWSShapeMember(label: "PreservedExistingData", required: false, type: .boolean), 
-            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "VolumeProgress", required: false, type: .double), 
-            AWSShapeMember(label: "VolumeDiskId", required: false, type: .string)
+            AWSShapeMember(label: "SourceSnapshotId", required: false, type: .string)
         ]
+        /// The ID of the local disk that was specified in the CreateStorediSCSIVolume operation.
+        public let volumeDiskId: String?
         /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
         public let volumeiSCSIAttributes: VolumeiSCSIAttributes?
-        /// If the stored volume was created from a snapshot, this field contains the snapshot ID used, e.g. snap-78e22663. Otherwise, this field is not included.
-        public let sourceSnapshotId: String?
         /// One of the VolumeType enumeration values describing the type of the volume.
         public let volumeType: String?
         /// One of the VolumeStatus values that indicates the state of the storage volume.
@@ -1962,48 +1997,52 @@ extension Storagegateway {
         public let volumeId: String?
         /// The size of the volume in bytes.
         public let volumeSizeInBytes: Int64?
+        /// The size of the data stored on the volume in bytes.   This value is not available for volumes created prior to May 13, 2015, until you store data on the volume. 
+        public let volumeUsedInBytes: Int64?
         /// Indicates if when the stored volume was created, existing data on the underlying local disk was preserved.  Valid Values: true, false
         public let preservedExistingData: Bool?
-        /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
-        public let createdDate: TimeStamp?
         /// The Amazon Resource Name (ARN) of the storage volume.
         public let volumeARN: String?
+        /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
+        public let createdDate: TimeStamp?
         /// Represents the percentage complete if the volume is restoring or bootstrapping that represents the percent of data transferred. This field does not appear in the response if the stored volume is not restoring or bootstrapping.
         public let volumeProgress: Double?
-        /// The ID of the local disk that was specified in the CreateStorediSCSIVolume operation.
-        public let volumeDiskId: String?
+        /// If the stored volume was created from a snapshot, this field contains the snapshot ID used, e.g. snap-78e22663. Otherwise, this field is not included.
+        public let sourceSnapshotId: String?
 
-        public init(volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, preservedExistingData: Bool? = nil, createdDate: TimeStamp? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeDiskId: String? = nil) {
+        public init(volumeDiskId: String? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, volumeUsedInBytes: Int64? = nil, preservedExistingData: Bool? = nil, volumeARN: String? = nil, createdDate: TimeStamp? = nil, volumeProgress: Double? = nil, sourceSnapshotId: String? = nil) {
+            self.volumeDiskId = volumeDiskId
             self.volumeiSCSIAttributes = volumeiSCSIAttributes
-            self.sourceSnapshotId = sourceSnapshotId
             self.volumeType = volumeType
             self.volumeStatus = volumeStatus
             self.volumeId = volumeId
             self.volumeSizeInBytes = volumeSizeInBytes
+            self.volumeUsedInBytes = volumeUsedInBytes
             self.preservedExistingData = preservedExistingData
-            self.createdDate = createdDate
             self.volumeARN = volumeARN
+            self.createdDate = createdDate
             self.volumeProgress = volumeProgress
-            self.volumeDiskId = volumeDiskId
+            self.sourceSnapshotId = sourceSnapshotId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case volumeDiskId = "VolumeDiskId"
             case volumeiSCSIAttributes = "VolumeiSCSIAttributes"
-            case sourceSnapshotId = "SourceSnapshotId"
             case volumeType = "VolumeType"
             case volumeStatus = "VolumeStatus"
             case volumeId = "VolumeId"
             case volumeSizeInBytes = "VolumeSizeInBytes"
+            case volumeUsedInBytes = "VolumeUsedInBytes"
             case preservedExistingData = "PreservedExistingData"
-            case createdDate = "CreatedDate"
             case volumeARN = "VolumeARN"
+            case createdDate = "CreatedDate"
             case volumeProgress = "VolumeProgress"
-            case volumeDiskId = "VolumeDiskId"
+            case sourceSnapshotId = "SourceSnapshotId"
         }
     }
 
     public struct CreateTapesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NumTapesToCreate", required: true, type: .integer), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "ClientToken", required: true, type: .string), 
@@ -2039,12 +2078,13 @@ extension Storagegateway {
     }
 
     public struct CachediSCSIVolume: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourceSnapshotId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeType", required: false, type: .string), 
             AWSShapeMember(label: "VolumeStatus", required: false, type: .string), 
             AWSShapeMember(label: "VolumeId", required: false, type: .string), 
             AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "VolumeUsedInBytes", required: false, type: .long), 
             AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
             AWSShapeMember(label: "VolumeProgress", required: false, type: .double), 
             AWSShapeMember(label: "VolumeiSCSIAttributes", required: false, type: .structure), 
@@ -2058,8 +2098,10 @@ extension Storagegateway {
         public let volumeStatus: String?
         /// The unique identifier of the volume, e.g. vol-AE4B946D.
         public let volumeId: String?
-        /// The size of the volume in bytes.
+        /// The size, in bytes, of the volume capacity.
         public let volumeSizeInBytes: Int64?
+        /// The size of the data stored on the volume in bytes.  This value is not available for volumes created prior to May 13, 2015, until you store data on the volume. 
+        public let volumeUsedInBytes: Int64?
         /// The Amazon Resource Name (ARN) of the storage volume.
         public let volumeARN: String?
         /// Represents the percentage complete if the volume is restoring or bootstrapping that represents the percent of data transferred. This field does not appear in the response if the cached volume is not restoring or bootstrapping.
@@ -2069,12 +2111,13 @@ extension Storagegateway {
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
         public let createdDate: TimeStamp?
 
-        public init(sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, createdDate: TimeStamp? = nil) {
+        public init(sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, volumeUsedInBytes: Int64? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, createdDate: TimeStamp? = nil) {
             self.sourceSnapshotId = sourceSnapshotId
             self.volumeType = volumeType
             self.volumeStatus = volumeStatus
             self.volumeId = volumeId
             self.volumeSizeInBytes = volumeSizeInBytes
+            self.volumeUsedInBytes = volumeUsedInBytes
             self.volumeARN = volumeARN
             self.volumeProgress = volumeProgress
             self.volumeiSCSIAttributes = volumeiSCSIAttributes
@@ -2087,6 +2130,7 @@ extension Storagegateway {
             case volumeStatus = "VolumeStatus"
             case volumeId = "VolumeId"
             case volumeSizeInBytes = "VolumeSizeInBytes"
+            case volumeUsedInBytes = "VolumeUsedInBytes"
             case volumeARN = "VolumeARN"
             case volumeProgress = "VolumeProgress"
             case volumeiSCSIAttributes = "VolumeiSCSIAttributes"
@@ -2095,7 +2139,7 @@ extension Storagegateway {
     }
 
     public struct AddTagsToResourceOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
@@ -2111,7 +2155,7 @@ extension Storagegateway {
     }
 
     public struct DescribeChapCredentialsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
@@ -2127,7 +2171,7 @@ extension Storagegateway {
     }
 
     public struct DeleteGatewayInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
@@ -2142,7 +2186,7 @@ extension Storagegateway {
     }
 
     public struct DeleteFileShareOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the deleted file share. 
@@ -2158,7 +2202,7 @@ extension Storagegateway {
     }
 
     public struct Tape: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string), 
             AWSShapeMember(label: "VTLDevice", required: false, type: .string), 
             AWSShapeMember(label: "Progress", required: false, type: .double), 
@@ -2178,7 +2222,7 @@ extension Storagegateway {
         public let tapeCreatedDate: TimeStamp?
         /// The barcode that identifies a specific virtual tape.
         public let tapeBarcode: String?
-        /// The size, in bytes, of data written to the virtual tape.  This value is not available for tapes created prior to May,13 2015. 
+        /// The size, in bytes, of data stored on the virtual tape.  This value is not available for tapes created prior to May 13, 2015. 
         public let tapeUsedInBytes: Int64?
         /// The current state of the virtual tape.
         public let tapeStatus: String?
@@ -2209,7 +2253,7 @@ extension Storagegateway {
     }
 
     public struct DeleteTapeOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the deleted virtual tape.
@@ -2225,7 +2269,7 @@ extension Storagegateway {
     }
 
     public struct DescribeStorediSCSIVolumesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARNs", required: true, type: .list)
         ]
         /// An array of strings where each string represents the Amazon Resource Name (ARN) of a stored volume. All of the specified stored volumes must from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
@@ -2241,7 +2285,7 @@ extension Storagegateway {
     }
 
     public struct DescribeTapeArchivesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "TapeARNs", required: false, type: .list), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
@@ -2267,7 +2311,7 @@ extension Storagegateway {
     }
 
     public struct UpdateGatewaySoftwareNowInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
@@ -2282,7 +2326,7 @@ extension Storagegateway {
     }
 
     public struct CreateTapeWithBarcodeOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
         /// A unique Amazon Resource Name (ARN) that represents the virtual tape that was created.
@@ -2298,7 +2342,7 @@ extension Storagegateway {
     }
 
     public struct AddWorkingStorageInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "DiskIds", required: true, type: .list)
         ]
@@ -2317,8 +2361,23 @@ extension Storagegateway {
         }
     }
 
+    public struct NotifyWhenUploadedInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: true, type: .string)
+        ]
+        public let fileShareARN: String
+
+        public init(fileShareARN: String) {
+            self.fileShareARN = fileShareARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
+        }
+    }
+
     public struct DeleteChapCredentialsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetARN", required: true, type: .string), 
             AWSShapeMember(label: "InitiatorName", required: true, type: .string)
         ]
@@ -2404,7 +2463,7 @@ extension Storagegateway {
     }
 
     public struct DescribeNFSFileSharesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARNList", required: true, type: .list)
         ]
         /// An array containing the Amazon Resource Name (ARN) of each file share to be described. 
@@ -2420,7 +2479,7 @@ extension Storagegateway {
     }
 
     public struct DescribeStorediSCSIVolumesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StorediSCSIVolumes", required: false, type: .list)
         ]
         public let storediSCSIVolumes: [StorediSCSIVolume]?
@@ -2435,7 +2494,7 @@ extension Storagegateway {
     }
 
     public struct DescribeUploadBufferOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "UploadBufferUsedInBytes", required: false, type: .long), 
             AWSShapeMember(label: "UploadBufferAllocatedInBytes", required: false, type: .long), 
@@ -2462,7 +2521,7 @@ extension Storagegateway {
     }
 
     public struct UpdateNFSFileShareOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the updated file share. 
@@ -2478,7 +2537,7 @@ extension Storagegateway {
     }
 
     public struct ListVolumesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "VolumeInfos", required: false, type: .list)
@@ -2501,7 +2560,7 @@ extension Storagegateway {
     }
 
     public struct DescribeCachediSCSIVolumesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CachediSCSIVolumes", required: false, type: .list)
         ]
         /// An array of objects where each object contains metadata about one cached volume.
@@ -2517,7 +2576,7 @@ extension Storagegateway {
     }
 
     public struct DeleteSnapshotScheduleInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
         public let volumeARN: String
@@ -2532,7 +2591,7 @@ extension Storagegateway {
     }
 
     public struct CreateTapesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARNs", required: false, type: .list)
         ]
         /// A list of unique Amazon Resource Names (ARNs) that represents the virtual tapes that were created.
@@ -2548,7 +2607,7 @@ extension Storagegateway {
     }
 
     public struct CreateStorediSCSIVolumeOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetARN", required: false, type: .string), 
             AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
             AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long)
@@ -2574,7 +2633,7 @@ extension Storagegateway {
     }
 
     public struct ListLocalDisksInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
@@ -2589,7 +2648,7 @@ extension Storagegateway {
     }
 
     public struct CreateSnapshotFromVolumeRecoveryPointOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
             AWSShapeMember(label: "VolumeRecoveryPointTime", required: false, type: .string), 
             AWSShapeMember(label: "SnapshotId", required: false, type: .string)
@@ -2612,7 +2671,7 @@ extension Storagegateway {
     }
 
     public struct DescribeGatewayInformationOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayState", required: false, type: .string), 
             AWSShapeMember(label: "GatewayType", required: false, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
@@ -2667,7 +2726,7 @@ extension Storagegateway {
     }
 
     public struct FileShareInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareId", required: false, type: .string), 
             AWSShapeMember(label: "FileShareStatus", required: false, type: .string), 
             AWSShapeMember(label: "FileShareARN", required: false, type: .string), 
@@ -2694,7 +2753,7 @@ extension Storagegateway {
     }
 
     public struct UpdateSnapshotScheduleInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RecurrenceInHours", required: true, type: .integer), 
             AWSShapeMember(label: "StartAt", required: true, type: .integer), 
             AWSShapeMember(label: "VolumeARN", required: true, type: .string), 
@@ -2725,7 +2784,7 @@ extension Storagegateway {
     }
 
     public struct DescribeVTLDevicesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "VTLDevices", required: false, type: .list), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
@@ -2750,7 +2809,7 @@ extension Storagegateway {
     }
 
     public struct DeleteChapCredentialsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetARN", required: false, type: .string), 
             AWSShapeMember(label: "InitiatorName", required: false, type: .string)
         ]
@@ -2771,7 +2830,7 @@ extension Storagegateway {
     }
 
     public struct UpdateGatewayInformationOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "GatewayName", required: false, type: .string)
         ]
@@ -2790,7 +2849,7 @@ extension Storagegateway {
     }
 
     public struct DescribeMaintenanceStartTimeOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "HourOfDay", required: false, type: .integer), 
             AWSShapeMember(label: "MinuteOfHour", required: false, type: .integer), 
@@ -2824,7 +2883,7 @@ extension Storagegateway {
     }
 
     public struct DescribeSnapshotScheduleOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartAt", required: false, type: .integer), 
             AWSShapeMember(label: "RecurrenceInHours", required: false, type: .integer), 
             AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
@@ -2855,23 +2914,28 @@ extension Storagegateway {
     }
 
     public struct DeleteFileShareInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FileShareARN", required: true, type: .string)
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: true, type: .string), 
+            AWSShapeMember(label: "ForceDelete", required: false, type: .boolean)
         ]
         /// The Amazon Resource Name (ARN) of the file share to be deleted. 
         public let fileShareARN: String
+        /// If this value is set to true, the operation deletes a file share immediately and aborts all data uploads to AWS. Otherwise, the file share is not deleted until all data is uploaded to AWS. This process aborts the data upload process, and the file share enters the FORCE_DELETING status.
+        public let forceDelete: Bool?
 
-        public init(fileShareARN: String) {
+        public init(fileShareARN: String, forceDelete: Bool? = nil) {
             self.fileShareARN = fileShareARN
+            self.forceDelete = forceDelete
         }
 
         private enum CodingKeys: String, CodingKey {
             case fileShareARN = "FileShareARN"
+            case forceDelete = "ForceDelete"
         }
     }
 
     public struct DescribeTapeRecoveryPointsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "TapeRecoveryPointInfos", required: false, type: .list)
@@ -2896,7 +2960,7 @@ extension Storagegateway {
     }
 
     public struct DescribeCacheInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
@@ -2911,7 +2975,7 @@ extension Storagegateway {
     }
 
     public struct RefreshCacheInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileShareARN", required: true, type: .string)
         ]
         public let fileShareARN: String
@@ -2926,7 +2990,7 @@ extension Storagegateway {
     }
 
     public struct ShutdownGatewayOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
@@ -2941,7 +3005,7 @@ extension Storagegateway {
     }
 
     public struct ListFileSharesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "FileShareInfoList", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
@@ -2967,7 +3031,7 @@ extension Storagegateway {
     }
 
     public struct DisableGatewayInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
@@ -2982,7 +3046,7 @@ extension Storagegateway {
     }
 
     public struct DescribeVTLDevicesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
@@ -3012,7 +3076,7 @@ extension Storagegateway {
     }
 
     public struct VolumeiSCSIAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetARN", required: false, type: .string), 
             AWSShapeMember(label: "ChapEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
@@ -3048,7 +3112,7 @@ extension Storagegateway {
     }
 
     public struct ListVolumeRecoveryPointsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "VolumeRecoveryPointInfos", required: false, type: .list)
         ]
@@ -3067,7 +3131,7 @@ extension Storagegateway {
     }
 
     public struct ListGatewaysInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
@@ -3088,7 +3152,7 @@ extension Storagegateway {
     }
 
     public struct CreateStorediSCSIVolumeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "PreserveExistingData", required: true, type: .boolean), 
@@ -3105,7 +3169,7 @@ extension Storagegateway {
         public let networkInterfaceId: String
         /// The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gateway.
         public let diskId: String
-        /// The name of the iSCSI target used by initiators to connect to the target and as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-1:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume. The target name must be unique across all volumes of a gateway.
+        /// The name of the iSCSI target used by initiators to connect to the target and as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume. The target name must be unique across all volumes of a gateway.
         public let targetName: String
 
         public init(snapshotId: String? = nil, gatewayARN: String, preserveExistingData: Bool, networkInterfaceId: String, diskId: String, targetName: String) {
@@ -3128,7 +3192,7 @@ extension Storagegateway {
     }
 
     public struct ChapInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetARN", required: false, type: .string), 
             AWSShapeMember(label: "SecretToAuthenticateTarget", required: false, type: .string), 
             AWSShapeMember(label: "SecretToAuthenticateInitiator", required: false, type: .string), 
@@ -3159,7 +3223,7 @@ extension Storagegateway {
     }
 
     public struct StorageGatewayError: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "errorCode", required: false, type: .enum), 
             AWSShapeMember(label: "errorDetails", required: false, type: .map)
         ]
@@ -3180,7 +3244,7 @@ extension Storagegateway {
     }
 
     public struct VolumeInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "VolumeType", required: false, type: .string), 
@@ -3192,7 +3256,7 @@ extension Storagegateway {
         public let volumeSizeInBytes: Int64?
         public let gatewayARN: String?
         public let volumeType: String?
-        /// The Amazon Resource Name (ARN) for the storage volume. For example, the following is a valid ARN:  arn:aws:storagegateway:us-east-1:111122223333:gateway/sgw-12A3456B/volume/vol-1122AABB   Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
+        /// The Amazon Resource Name (ARN) for the storage volume. For example, the following is a valid ARN:  arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/volume/vol-1122AABB   Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
         public let volumeARN: String?
         /// The unique identifier assigned to the volume. This ID becomes part of the volume Amazon Resource Name (ARN), which you use as input for other operations.  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
         public let volumeId: String?
@@ -3219,7 +3283,7 @@ extension Storagegateway {
     }
 
     public struct AddWorkingStorageOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
@@ -3234,7 +3298,7 @@ extension Storagegateway {
     }
 
     public struct CancelRetrievalOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape for which retrieval was canceled.
@@ -3250,7 +3314,7 @@ extension Storagegateway {
     }
 
     public struct ListVolumeInitiatorsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Initiators", required: false, type: .list)
         ]
         /// The host names and port numbers of all iSCSI initiators that are connected to the gateway.
@@ -3266,7 +3330,7 @@ extension Storagegateway {
     }
 
     public struct DescribeBandwidthRateLimitInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
@@ -3281,7 +3345,7 @@ extension Storagegateway {
     }
 
     public struct DescribeUploadBufferInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
@@ -3296,7 +3360,7 @@ extension Storagegateway {
     }
 
     public struct CreateCachediSCSIVolumeInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "NetworkInterfaceId", required: true, type: .string), 
             AWSShapeMember(label: "ClientToken", required: true, type: .string), 
@@ -3336,7 +3400,7 @@ extension Storagegateway {
     }
 
     public struct ListGatewaysOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Gateways", required: false, type: .list)
         ]
@@ -3355,7 +3419,7 @@ extension Storagegateway {
     }
 
     public struct ShutdownGatewayInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
@@ -3370,7 +3434,7 @@ extension Storagegateway {
     }
 
     public struct RetrieveTapeRecoveryPointOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape for which the recovery point was retrieved.
@@ -3386,7 +3450,7 @@ extension Storagegateway {
     }
 
     public struct DisableGatewayOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         /// The unique Amazon Resource Name of the disabled gateway.
@@ -3402,7 +3466,7 @@ extension Storagegateway {
     }
 
     public struct AddCacheInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "DiskIds", required: true, type: .list)
         ]

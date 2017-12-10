@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Elasticfilesystem {
 
     public struct DescribeFileSystemsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystems", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
@@ -32,7 +32,7 @@ extension Elasticfilesystem {
     }
 
     public struct DescribeTagsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
@@ -58,7 +58,7 @@ extension Elasticfilesystem {
     }
 
     public struct CreateTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
@@ -79,7 +79,7 @@ extension Elasticfilesystem {
     }
 
     public struct DescribeMountTargetsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
             AWSShapeMember(label: "FileSystemId", location: .querystring(locationName: "FileSystemId"), required: false, type: .string), 
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
@@ -110,7 +110,7 @@ extension Elasticfilesystem {
     }
 
     public struct DescribeFileSystemsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
             AWSShapeMember(label: "FileSystemId", location: .querystring(locationName: "FileSystemId"), required: false, type: .string), 
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
@@ -141,7 +141,7 @@ extension Elasticfilesystem {
     }
 
     public struct DescribeMountTargetSecurityGroupsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroups", required: true, type: .list)
         ]
         /// Array of security groups.
@@ -165,7 +165,7 @@ extension Elasticfilesystem {
     }
 
     public struct DeleteTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
@@ -186,7 +186,7 @@ extension Elasticfilesystem {
     }
 
     public struct DescribeTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
             AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string), 
             AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer)
@@ -212,7 +212,7 @@ extension Elasticfilesystem {
     }
 
     public struct ModifyMountTargetSecurityGroupsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string), 
             AWSShapeMember(label: "SecurityGroups", required: false, type: .list)
         ]
@@ -233,7 +233,7 @@ extension Elasticfilesystem {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -254,7 +254,7 @@ extension Elasticfilesystem {
     }
 
     public struct DescribeMountTargetsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MountTargets", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
@@ -280,7 +280,7 @@ extension Elasticfilesystem {
     }
 
     public struct DeleteMountTargetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string)
         ]
         /// ID of the mount target to delete (String).
@@ -296,7 +296,7 @@ extension Elasticfilesystem {
     }
 
     public struct DeleteFileSystemRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystemId", location: .uri(locationName: "FileSystemId"), required: true, type: .string)
         ]
         /// ID of the file system you want to delete.
@@ -312,28 +312,38 @@ extension Elasticfilesystem {
     }
 
     public struct CreateFileSystemRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "PerformanceMode", required: false, type: .enum), 
+            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
             AWSShapeMember(label: "CreationToken", required: true, type: .string)
         ]
+        /// The id of the AWS KMS CMK that will be used to protect the encrypted file system. This parameter is only required if you want to use a non-default CMK. If this parameter is not specified, the default CMK for Amazon EFS is used. This id can be in one of the following formats:   Key ID - A unique identifier of the key. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name for the key. For example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key. For example, alias/projectKey1.   Key alias ARN - An Amazon Resource Name for a key alias. For example, arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   Note that if the KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.
+        public let kmsKeyId: String?
         /// The PerformanceMode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. This can't be changed after the file system has been created.
         public let performanceMode: PerformanceMode?
+        /// A boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying a CreateFileSystemRequest$KmsKeyId for an existing AWS Key Management Service (AWS KMS) customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system. 
+        public let encrypted: Bool?
         /// String of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
         public let creationToken: String
 
-        public init(performanceMode: PerformanceMode? = nil, creationToken: String) {
+        public init(kmsKeyId: String? = nil, performanceMode: PerformanceMode? = nil, encrypted: Bool? = nil, creationToken: String) {
+            self.kmsKeyId = kmsKeyId
             self.performanceMode = performanceMode
+            self.encrypted = encrypted
             self.creationToken = creationToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
             case performanceMode = "PerformanceMode"
+            case encrypted = "Encrypted"
             case creationToken = "CreationToken"
         }
     }
 
     public struct FileSystemSize: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .long), 
             AWSShapeMember(label: "Timestamp", required: false, type: .timestamp)
         ]
@@ -354,7 +364,7 @@ extension Elasticfilesystem {
     }
 
     public struct DescribeMountTargetSecurityGroupsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MountTargetId", location: .uri(locationName: "MountTargetId"), required: true, type: .string)
         ]
         /// ID of the mount target whose security groups you want to retrieve.
@@ -375,8 +385,74 @@ extension Elasticfilesystem {
         public var description: String { return self.rawValue }
     }
 
+    public struct FileSystemDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "CreationToken", required: true, type: .string), 
+            AWSShapeMember(label: "SizeInBytes", required: true, type: .structure), 
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "LifeCycleState", required: true, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "PerformanceMode", required: true, type: .enum), 
+            AWSShapeMember(label: "NumberOfMountTargets", required: true, type: .integer), 
+            AWSShapeMember(label: "OwnerId", required: true, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
+        ]
+        /// You can add tags to a file system, including a Name tag. For more information, see CreateTags. If the file system has a Name tag, Amazon EFS returns the value in this field. 
+        public let name: String?
+        /// A boolean value that, if true, indicates that the file system is encrypted.
+        public let encrypted: Bool?
+        /// Opaque string specified in the request.
+        public let creationToken: String
+        /// Latest known metered size (in bytes) of data stored in the file system, in bytes, in its Value field, and the time at which that size was determined in its Timestamp field. The Timestamp value is the integer number of seconds since 1970-01-01T00:00:00Z. Note that the value does not represent the size of a consistent snapshot of the file system, but it is eventually consistent when there are no writes to the file system. That is, the value will represent actual size only if the file system is not modified for a period longer than a couple of hours. Otherwise, the value is not the exact size the file system was at any instant in time. 
+        public let sizeInBytes: FileSystemSize
+        /// ID of the file system, assigned by Amazon EFS.
+        public let fileSystemId: String
+        /// Lifecycle phase of the file system.
+        public let lifeCycleState: LifeCycleState
+        /// Time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
+        public let creationTime: TimeStamp
+        /// The PerformanceMode of the file system.
+        public let performanceMode: PerformanceMode
+        /// Current number of mount targets that the file system has. For more information, see CreateMountTarget.
+        public let numberOfMountTargets: Int32
+        /// AWS account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
+        public let ownerId: String
+        /// The id of an AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the encrypted file system.
+        public let kmsKeyId: String?
+
+        public init(name: String? = nil, encrypted: Bool? = nil, creationToken: String, sizeInBytes: FileSystemSize, fileSystemId: String, lifeCycleState: LifeCycleState, creationTime: TimeStamp, performanceMode: PerformanceMode, numberOfMountTargets: Int32, ownerId: String, kmsKeyId: String? = nil) {
+            self.name = name
+            self.encrypted = encrypted
+            self.creationToken = creationToken
+            self.sizeInBytes = sizeInBytes
+            self.fileSystemId = fileSystemId
+            self.lifeCycleState = lifeCycleState
+            self.creationTime = creationTime
+            self.performanceMode = performanceMode
+            self.numberOfMountTargets = numberOfMountTargets
+            self.ownerId = ownerId
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case encrypted = "Encrypted"
+            case creationToken = "CreationToken"
+            case sizeInBytes = "SizeInBytes"
+            case fileSystemId = "FileSystemId"
+            case lifeCycleState = "LifeCycleState"
+            case creationTime = "CreationTime"
+            case performanceMode = "PerformanceMode"
+            case numberOfMountTargets = "NumberOfMountTargets"
+            case ownerId = "OwnerId"
+            case kmsKeyId = "KmsKeyId"
+        }
+    }
+
     public struct CreateMountTargetRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
             AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
             AWSShapeMember(label: "SubnetId", required: true, type: .string), 
@@ -406,64 +482,8 @@ extension Elasticfilesystem {
         }
     }
 
-    public struct FileSystemDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "CreationToken", required: true, type: .string), 
-            AWSShapeMember(label: "SizeInBytes", required: true, type: .structure), 
-            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
-            AWSShapeMember(label: "LifeCycleState", required: true, type: .enum), 
-            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeMember(label: "PerformanceMode", required: true, type: .enum), 
-            AWSShapeMember(label: "NumberOfMountTargets", required: true, type: .integer), 
-            AWSShapeMember(label: "OwnerId", required: true, type: .string)
-        ]
-        /// You can add tags to a file system, including a Name tag. For more information, see CreateTags. If the file system has a Name tag, Amazon EFS returns the value in this field. 
-        public let name: String?
-        /// Opaque string specified in the request.
-        public let creationToken: String
-        /// Latest known metered size (in bytes) of data stored in the file system, in bytes, in its Value field, and the time at which that size was determined in its Timestamp field. The Timestamp value is the integer number of seconds since 1970-01-01T00:00:00Z. Note that the value does not represent the size of a consistent snapshot of the file system, but it is eventually consistent when there are no writes to the file system. That is, the value will represent actual size only if the file system is not modified for a period longer than a couple of hours. Otherwise, the value is not the exact size the file system was at any instant in time. 
-        public let sizeInBytes: FileSystemSize
-        /// ID of the file system, assigned by Amazon EFS.
-        public let fileSystemId: String
-        /// Lifecycle phase of the file system.
-        public let lifeCycleState: LifeCycleState
-        /// Time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
-        public let creationTime: TimeStamp
-        /// The PerformanceMode of the file system.
-        public let performanceMode: PerformanceMode
-        /// Current number of mount targets that the file system has. For more information, see CreateMountTarget.
-        public let numberOfMountTargets: Int32
-        /// AWS account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
-        public let ownerId: String
-
-        public init(name: String? = nil, creationToken: String, sizeInBytes: FileSystemSize, fileSystemId: String, lifeCycleState: LifeCycleState, creationTime: TimeStamp, performanceMode: PerformanceMode, numberOfMountTargets: Int32, ownerId: String) {
-            self.name = name
-            self.creationToken = creationToken
-            self.sizeInBytes = sizeInBytes
-            self.fileSystemId = fileSystemId
-            self.lifeCycleState = lifeCycleState
-            self.creationTime = creationTime
-            self.performanceMode = performanceMode
-            self.numberOfMountTargets = numberOfMountTargets
-            self.ownerId = ownerId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name = "Name"
-            case creationToken = "CreationToken"
-            case sizeInBytes = "SizeInBytes"
-            case fileSystemId = "FileSystemId"
-            case lifeCycleState = "LifeCycleState"
-            case creationTime = "CreationTime"
-            case performanceMode = "PerformanceMode"
-            case numberOfMountTargets = "NumberOfMountTargets"
-            case ownerId = "OwnerId"
-        }
-    }
-
     public struct MountTargetDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetId", required: true, type: .string), 
             AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
             AWSShapeMember(label: "MountTargetId", required: true, type: .string), 

@@ -49,10 +49,11 @@ public enum CloudfrontError: AWSErrorType {
     case invalidOriginReadTimeout(message: String?)
     case invalidOriginKeepaliveTimeout(message: String?)
     case noSuchDistribution(message: String?)
+    case resourceInUse(message: String?)
+    case noSuchResource(message: String?)
     case cloudFrontOriginAccessIdentityAlreadyExists(message: String?)
     case tooManyCloudFrontOriginAccessIdentities(message: String?)
     case invalidTagging(message: String?)
-    case noSuchResource(message: String?)
     case batchTooLarge(message: String?)
     case tooManyInvalidationsInProgress(message: String?)
     case noSuchInvalidation(message: String?)
@@ -162,14 +163,16 @@ extension CloudfrontError {
             self = .invalidOriginKeepaliveTimeout(message: message)
         case "NoSuchDistribution":
             self = .noSuchDistribution(message: message)
+        case "ResourceInUse":
+            self = .resourceInUse(message: message)
+        case "NoSuchResource":
+            self = .noSuchResource(message: message)
         case "CloudFrontOriginAccessIdentityAlreadyExists":
             self = .cloudFrontOriginAccessIdentityAlreadyExists(message: message)
         case "TooManyCloudFrontOriginAccessIdentities":
             self = .tooManyCloudFrontOriginAccessIdentities(message: message)
         case "InvalidTagging":
             self = .invalidTagging(message: message)
-        case "NoSuchResource":
-            self = .noSuchResource(message: message)
         case "BatchTooLarge":
             self = .batchTooLarge(message: message)
         case "TooManyInvalidationsInProgress":

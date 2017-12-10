@@ -19,7 +19,7 @@ public struct Sts {
             serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2011-06-15",
             endpoint: endpoint,
-            serviceEndpoints: ["ap-northeast-2": "sts.ap-northeast-2.amazonaws.com"],
+            serviceEndpoints: ["us-west-2-fips": "sts-fips.us-west-2.amazonaws.com", "us-east-1-fips": "sts-fips.us-east-1.amazonaws.com", "us-west-1-fips": "sts-fips.us-west-1.amazonaws.com", "us-east-2-fips": "sts-fips.us-east-2.amazonaws.com", "ap-northeast-2": "sts.ap-northeast-2.amazonaws.com"],
             partitionEndpoint: "aws-global",
             middlewares: [],
             possibleErrorTypes: [StsError.self]

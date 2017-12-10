@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Amazon CloudFront This is the Amazon CloudFront API Reference. This guide is for developers who need detailed information about the CloudFront API actions, data types, and errors. For detailed information about CloudFront features and their associated API calls, see the Amazon CloudFront Developer Guide.
+Amazon CloudFront This is the Amazon CloudFront API Reference. This guide is for developers who need detailed information about CloudFront API actions, data types, and errors. For detailed information about CloudFront features, see the Amazon CloudFront Developer Guide.
 */
 public struct Cloudfront {
 
@@ -38,8 +38,8 @@ public struct Cloudfront {
         return try client.send(operation: "UpdateDistribution2017_03_25", path: "/2017-03-25/distribution/{Id}/config", httpMethod: "PUT", input: input)
     }
 
-    public func listDistributionsByWebACLId20170325(_ input: ListDistributionsByWebACLIdRequest) throws -> ListDistributionsByWebACLIdResult {
-        return try client.send(operation: "ListDistributionsByWebACLId2017_03_25", path: "/2017-03-25/distributionsByWebACLId/{WebACLId}", httpMethod: "GET", input: input)
+    public func deleteServiceLinkedRole20170325(_ input: DeleteServiceLinkedRoleRequest) throws {
+        _ = try client.send(operation: "DeleteServiceLinkedRole2017_03_25", path: "/2017-03-25/service-linked-role/{RoleName}", httpMethod: "DELETE", input: input)
     }
 
     public func getCloudFrontOriginAccessIdentity20170325(_ input: GetCloudFrontOriginAccessIdentityRequest) throws -> GetCloudFrontOriginAccessIdentityResult {
@@ -48,6 +48,10 @@ public struct Cloudfront {
 
     public func createCloudFrontOriginAccessIdentity20170325(_ input: CreateCloudFrontOriginAccessIdentityRequest) throws -> CreateCloudFrontOriginAccessIdentityResult {
         return try client.send(operation: "CreateCloudFrontOriginAccessIdentity2017_03_25", path: "/2017-03-25/origin-access-identity/cloudfront", httpMethod: "POST", input: input)
+    }
+
+    public func listDistributionsByWebACLId20170325(_ input: ListDistributionsByWebACLIdRequest) throws -> ListDistributionsByWebACLIdResult {
+        return try client.send(operation: "ListDistributionsByWebACLId2017_03_25", path: "/2017-03-25/distributionsByWebACLId/{WebACLId}", httpMethod: "GET", input: input)
     }
 
     public func listDistributions20170325(_ input: ListDistributionsRequest) throws -> ListDistributionsResult {

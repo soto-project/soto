@@ -17,7 +17,7 @@ extension Cur {
     }
 
     public struct DescribeReportDefinitionsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ReportDefinitions", required: false, type: .list)
         ]
@@ -42,7 +42,7 @@ extension Cur {
     }
 
     public struct DeleteReportDefinitionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResponseMessage", required: false, type: .string)
         ]
         public let responseMessage: String?
@@ -61,7 +61,7 @@ extension Cur {
     }
 
     public struct ReportDefinition: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimeUnit", required: true, type: .enum), 
             AWSShapeMember(label: "Format", required: true, type: .enum), 
             AWSShapeMember(label: "Compression", required: true, type: .enum), 
@@ -120,7 +120,7 @@ extension Cur {
     }
 
     public struct PutReportDefinitionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReportDefinition", required: true, type: .structure)
         ]
         public let reportDefinition: ReportDefinition
@@ -146,7 +146,7 @@ extension Cur {
     }
 
     public struct DescribeReportDefinitionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
@@ -165,7 +165,7 @@ extension Cur {
     }
 
     public struct DeleteReportDefinitionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReportName", required: false, type: .string)
         ]
         public let reportName: String?

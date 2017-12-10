@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Cloudsearchdomain {
 
     public struct Bucket: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "value", required: false, type: .string), 
             AWSShapeMember(label: "count", required: false, type: .long)
         ]
@@ -27,7 +27,7 @@ extension Cloudsearchdomain {
     }
 
     public struct SuggestResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "status", required: false, type: .structure), 
             AWSShapeMember(label: "suggest", required: false, type: .structure)
         ]
@@ -56,7 +56,7 @@ extension Cloudsearchdomain {
     }
 
     public struct FieldStats: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "stddev", required: false, type: .double), 
             AWSShapeMember(label: "max", required: false, type: .string), 
             AWSShapeMember(label: "count", required: false, type: .long), 
@@ -107,7 +107,7 @@ extension Cloudsearchdomain {
     }
 
     public struct SearchStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "rid", required: false, type: .string), 
             AWSShapeMember(label: "timems", required: false, type: .long)
         ]
@@ -128,7 +128,7 @@ extension Cloudsearchdomain {
     }
 
     public struct SearchResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "hits", required: false, type: .structure), 
             AWSShapeMember(label: "status", required: false, type: .structure), 
             AWSShapeMember(label: "stats", required: false, type: .map), 
@@ -159,7 +159,7 @@ extension Cloudsearchdomain {
     }
 
     public struct SuggestRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "suggester", location: .querystring(locationName: "suggester"), required: true, type: .string), 
             AWSShapeMember(label: "size", location: .querystring(locationName: "size"), required: false, type: .long), 
             AWSShapeMember(label: "query", location: .querystring(locationName: "q"), required: true, type: .string)
@@ -185,7 +185,7 @@ extension Cloudsearchdomain {
     }
 
     public struct SuggestModel: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "suggestions", required: false, type: .list), 
             AWSShapeMember(label: "found", required: false, type: .long), 
             AWSShapeMember(label: "query", required: false, type: .string)
@@ -217,7 +217,7 @@ extension Cloudsearchdomain {
     }
 
     public struct DocumentServiceWarning: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "message", required: false, type: .string)
         ]
         /// The description for a warning returned by the document service.
@@ -233,7 +233,7 @@ extension Cloudsearchdomain {
     }
 
     public struct Hits: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "hit", required: false, type: .list), 
             AWSShapeMember(label: "cursor", required: false, type: .string), 
             AWSShapeMember(label: "start", required: false, type: .long), 
@@ -264,7 +264,7 @@ extension Cloudsearchdomain {
     }
 
     public struct SuggestionMatch: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "score", required: false, type: .long), 
             AWSShapeMember(label: "suggestion", required: false, type: .string)
@@ -292,7 +292,7 @@ extension Cloudsearchdomain {
     public struct UploadDocumentsRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "documents"
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "documents", required: true, type: .blob), 
             AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: true, type: .enum)
         ]
@@ -313,7 +313,7 @@ extension Cloudsearchdomain {
     }
 
     public struct BucketInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "buckets", required: false, type: .list)
         ]
         /// A list of the calculated facet values and counts.
@@ -329,7 +329,7 @@ extension Cloudsearchdomain {
     }
 
     public struct SuggestStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "rid", required: false, type: .string), 
             AWSShapeMember(label: "timems", required: false, type: .long)
         ]
@@ -350,7 +350,7 @@ extension Cloudsearchdomain {
     }
 
     public struct Hit: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "fields", required: false, type: .map), 
             AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "exprs", required: false, type: .map), 
@@ -381,7 +381,7 @@ extension Cloudsearchdomain {
     }
 
     public struct SearchRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "sort", location: .querystring(locationName: "sort"), required: false, type: .string), 
             AWSShapeMember(label: "expr", location: .querystring(locationName: "expr"), required: false, type: .string), 
             AWSShapeMember(label: "size", location: .querystring(locationName: "size"), required: false, type: .long), 
@@ -462,7 +462,7 @@ extension Cloudsearchdomain {
     }
 
     public struct UploadDocumentsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "status", required: false, type: .string), 
             AWSShapeMember(label: "deletes", required: false, type: .long), 
             AWSShapeMember(label: "adds", required: false, type: .long), 

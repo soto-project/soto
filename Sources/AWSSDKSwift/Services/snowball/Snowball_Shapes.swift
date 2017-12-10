@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Snowball {
 
     public struct S3Resource: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KeyRange", required: false, type: .structure), 
             AWSShapeMember(label: "BucketArn", required: false, type: .string)
         ]
@@ -27,7 +27,7 @@ extension Snowball {
     }
 
     public struct UpdateJobRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShippingOption", required: false, type: .enum), 
             AWSShapeMember(label: "SnowballCapacityPreference", required: false, type: .enum), 
             AWSShapeMember(label: "AddressId", required: false, type: .string), 
@@ -91,7 +91,7 @@ extension Snowball {
     }
 
     public struct JobResource: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3Resources", required: false, type: .list), 
             AWSShapeMember(label: "LambdaResources", required: false, type: .list)
         ]
@@ -112,7 +112,7 @@ extension Snowball {
     }
 
     public struct CancelClusterRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]
         /// The 39-character ID for the cluster that you want to cancel, for example CID123e4567-e89b-12d3-a456-426655440000.
@@ -128,7 +128,7 @@ extension Snowball {
     }
 
     public struct ShippingDetails: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShippingOption", required: false, type: .enum), 
             AWSShapeMember(label: "InboundShipment", required: false, type: .structure), 
             AWSShapeMember(label: "OutboundShipment", required: false, type: .structure)
@@ -154,7 +154,7 @@ extension Snowball {
     }
 
     public struct ListClusterJobsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ClusterId", required: true, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
@@ -184,7 +184,7 @@ extension Snowball {
     }
 
     public struct EventTriggerDefinition: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventResourceARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an AWS Lambda function's event trigger associated with this job.
@@ -200,7 +200,7 @@ extension Snowball {
     }
 
     public struct GetJobUnlockCodeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: true, type: .string)
         ]
         /// The ID for the job that you want to get the UnlockCode value for, for example JID123e4567-e89b-12d3-a456-426655440000.
@@ -216,7 +216,7 @@ extension Snowball {
     }
 
     public struct KeyRange: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BeginMarker", required: false, type: .string), 
             AWSShapeMember(label: "EndMarker", required: false, type: .string)
         ]
@@ -243,7 +243,7 @@ extension Snowball {
     }
 
     public struct DescribeClusterResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterMetadata", required: false, type: .structure)
         ]
         /// Information about a specific cluster, including shipping information, cluster status, and other important metadata.
@@ -259,7 +259,7 @@ extension Snowball {
     }
 
     public struct Address: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Landmark", required: false, type: .string), 
             AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
             AWSShapeMember(label: "Country", required: false, type: .string), 
@@ -349,7 +349,7 @@ extension Snowball {
     }
 
     public struct ListClustersResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterListEntries", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -394,7 +394,7 @@ extension Snowball {
     }
 
     public struct CreateClusterResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterId", required: false, type: .string)
         ]
         /// The automatically generated ID for a cluster.
@@ -410,7 +410,7 @@ extension Snowball {
     }
 
     public struct CreateClusterRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShippingOption", required: true, type: .enum), 
             AWSShapeMember(label: "AddressId", required: true, type: .string), 
             AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
@@ -471,7 +471,7 @@ extension Snowball {
     }
 
     public struct DescribeClusterRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]
         /// The automatically generated ID for a cluster.
@@ -487,7 +487,7 @@ extension Snowball {
     }
 
     public struct ListClustersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
@@ -508,7 +508,7 @@ extension Snowball {
     }
 
     public struct CreateAddressRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Address", required: true, type: .structure)
         ]
         /// The address that you want the Snowball shipped to.
@@ -524,7 +524,7 @@ extension Snowball {
     }
 
     public struct DescribeAddressesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Addresses", required: false, type: .list)
         ]
@@ -549,7 +549,7 @@ extension Snowball {
     }
 
     public struct GetJobUnlockCodeResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnlockCode", required: false, type: .string)
         ]
         /// The UnlockCode value for the specified job. The UnlockCode value can be accessed for up to 90 days after the job has been created.
@@ -565,7 +565,7 @@ extension Snowball {
     }
 
     public struct DataTransfer: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObjectsTransferred", required: false, type: .long), 
             AWSShapeMember(label: "BytesTransferred", required: false, type: .long), 
             AWSShapeMember(label: "TotalBytes", required: false, type: .long), 
@@ -604,7 +604,7 @@ extension Snowball {
     }
 
     public struct GetJobManifestRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: true, type: .string)
         ]
         /// The ID for a job that you want to get the manifest file for, for example JID123e4567-e89b-12d3-a456-426655440000.
@@ -620,7 +620,7 @@ extension Snowball {
     }
 
     public struct DescribeAddressRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AddressId", required: true, type: .string)
         ]
         /// The automatically generated ID for a specific address.
@@ -636,7 +636,7 @@ extension Snowball {
     }
 
     public struct DescribeJobRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: true, type: .string)
         ]
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
@@ -652,7 +652,7 @@ extension Snowball {
     }
 
     public struct ListJobsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "JobListEntries", required: false, type: .list)
         ]
@@ -673,7 +673,7 @@ extension Snowball {
     }
 
     public struct CreateJobResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
@@ -689,7 +689,7 @@ extension Snowball {
     }
 
     public struct DescribeAddressResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Address", required: false, type: .structure)
         ]
         /// The address that you want the Snowball or Snowballs associated with a specific job to be shipped to.
@@ -709,7 +709,7 @@ extension Snowball {
     }
 
     public struct LambdaResource: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LambdaArn", required: false, type: .string), 
             AWSShapeMember(label: "EventTriggers", required: false, type: .list)
         ]
@@ -730,7 +730,7 @@ extension Snowball {
     }
 
     public struct ClusterMetadata: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterState", required: false, type: .enum), 
             AWSShapeMember(label: "ShippingOption", required: false, type: .enum), 
             AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
@@ -806,7 +806,7 @@ extension Snowball {
     }
 
     public struct Notification: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotifyAll", required: false, type: .boolean), 
             AWSShapeMember(label: "JobStatesToNotify", required: false, type: .list), 
             AWSShapeMember(label: "SnsTopicARN", required: false, type: .string)
@@ -839,7 +839,7 @@ extension Snowball {
     }
 
     public struct ListJobsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
@@ -860,7 +860,7 @@ extension Snowball {
     }
 
     public struct Shipment: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "TrackingNumber", required: false, type: .string)
         ]
@@ -881,7 +881,7 @@ extension Snowball {
     }
 
     public struct DescribeAddressesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
@@ -902,7 +902,7 @@ extension Snowball {
     }
 
     public struct UpdateClusterRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShippingOption", required: false, type: .enum), 
             AWSShapeMember(label: "AddressId", required: false, type: .string), 
             AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
@@ -953,7 +953,7 @@ extension Snowball {
     }
 
     public struct DescribeJobResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobMetadata", required: false, type: .structure), 
             AWSShapeMember(label: "SubJobMetadata", required: false, type: .list)
         ]
@@ -974,7 +974,7 @@ extension Snowball {
     }
 
     public struct JobListEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsMaster", required: false, type: .boolean), 
             AWSShapeMember(label: "JobType", required: false, type: .enum), 
             AWSShapeMember(label: "JobState", required: false, type: .enum), 
@@ -1020,7 +1020,7 @@ extension Snowball {
     }
 
     public struct ListClusterJobsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "JobListEntries", required: false, type: .list)
         ]
@@ -1041,7 +1041,7 @@ extension Snowball {
     }
 
     public struct CreateAddressResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AddressId", required: false, type: .string)
         ]
         /// The automatically generated ID for a specific address. You'll use this ID when you create a job to specify which address you want the Snowball for that job shipped to.
@@ -1057,7 +1057,7 @@ extension Snowball {
     }
 
     public struct CancelJobRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: true, type: .string)
         ]
         /// The 39-character job ID for the job that you want to cancel, for example JID123e4567-e89b-12d3-a456-426655440000.
@@ -1073,7 +1073,7 @@ extension Snowball {
     }
 
     public struct ClusterListEntry: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterState", required: false, type: .enum), 
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "ClusterId", required: false, type: .string), 
@@ -1104,7 +1104,7 @@ extension Snowball {
     }
 
     public struct JobMetadata: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataTransferProgress", required: false, type: .structure), 
             AWSShapeMember(label: "SnowballCapacityPreference", required: false, type: .enum), 
             AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
@@ -1200,7 +1200,7 @@ extension Snowball {
     }
 
     public struct JobLogs: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobFailureLogURI", required: false, type: .string), 
             AWSShapeMember(label: "JobSuccessLogURI", required: false, type: .string), 
             AWSShapeMember(label: "JobCompletionReportURI", required: false, type: .string)
@@ -1226,7 +1226,7 @@ extension Snowball {
     }
 
     public struct GetSnowballUsageResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnowballLimit", required: false, type: .integer), 
             AWSShapeMember(label: "SnowballsInUse", required: false, type: .integer)
         ]
@@ -1247,7 +1247,7 @@ extension Snowball {
     }
 
     public struct CreateJobRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ShippingOption", required: false, type: .enum), 
             AWSShapeMember(label: "SnowballCapacityPreference", required: false, type: .enum), 
             AWSShapeMember(label: "ForwardingAddressId", required: false, type: .string), 
@@ -1318,7 +1318,7 @@ extension Snowball {
     }
 
     public struct GetJobManifestResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ManifestURI", required: false, type: .string)
         ]
         /// The Amazon S3 presigned URL for the manifest file associated with the specified JobId value.

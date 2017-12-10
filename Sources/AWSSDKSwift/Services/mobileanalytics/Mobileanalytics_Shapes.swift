@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Mobileanalytics {
 
     public struct Event: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "metrics", required: false, type: .map), 
             AWSShapeMember(label: "session", required: false, type: .structure), 
             AWSShapeMember(label: "attributes", required: false, type: .map), 
@@ -47,7 +47,7 @@ extension Mobileanalytics {
     }
 
     public struct Session: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "startTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "id", required: false, type: .string), 
             AWSShapeMember(label: "stopTimestamp", required: false, type: .string), 
@@ -78,7 +78,7 @@ extension Mobileanalytics {
     }
 
     public struct PutEventsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientContext", location: .header(locationName: "x-amz-Client-Context"), required: true, type: .string), 
             AWSShapeMember(label: "clientContextEncoding", location: .header(locationName: "x-amz-Client-Context-Encoding"), required: false, type: .string), 
             AWSShapeMember(label: "events", required: true, type: .list)

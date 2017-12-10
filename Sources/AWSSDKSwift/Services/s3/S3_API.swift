@@ -19,7 +19,7 @@ public struct S3 {
             serviceProtocol: ServiceProtocol(type: .restxml),
             apiVersion: "2006-03-01",
             endpoint: endpoint,
-            serviceEndpoints: ["s3-external-1": "s3-external-1.amazonaws.com", "ap-southeast-1": "s3-ap-southeast-1.amazonaws.com", "us-west-1": "s3-us-west-1.amazonaws.com", "sa-east-1": "s3-sa-east-1.amazonaws.com", "ap-northeast-1": "s3-ap-northeast-1.amazonaws.com", "eu-west-1": "s3-eu-west-1.amazonaws.com", "us-west-2": "s3-us-west-2.amazonaws.com", "ap-southeast-2": "s3-ap-southeast-2.amazonaws.com", "us-east-1": "s3.amazonaws.com"],
+            serviceEndpoints: ["s3-external-1": "s3-external-1.amazonaws.com", "ap-southeast-1": "s3.ap-southeast-1.amazonaws.com", "us-west-1": "s3.us-west-1.amazonaws.com", "sa-east-1": "s3.sa-east-1.amazonaws.com", "ap-northeast-1": "s3.ap-northeast-1.amazonaws.com", "eu-west-1": "s3.eu-west-1.amazonaws.com", "us-west-2": "s3.us-west-2.amazonaws.com", "ap-southeast-2": "s3.ap-southeast-2.amazonaws.com", "us-east-1": "s3.amazonaws.com"],
             partitionEndpoint: "us-east-1",
             middlewares: [S3RequestMiddleware()],
             possibleErrorTypes: [S3Error.self]
@@ -34,11 +34,6 @@ public struct S3 {
     ///  Return torrent files from a bucket.
     public func getObjectTorrent(_ input: GetObjectTorrentRequest) throws -> GetObjectTorrentOutput {
         return try client.send(operation: "GetObjectTorrent", path: "/{Bucket}/{Key+}?torrent", httpMethod: "GET", input: input)
-    }
-
-    ///  Returns the cors configuration for the bucket.
-    public func getBucketCors(_ input: GetBucketCorsRequest) throws -> GetBucketCorsOutput {
-        return try client.send(operation: "GetBucketCors", path: "/{Bucket}?cors", httpMethod: "GET", input: input)
     }
 
     ///  Deprecated, see the PutBucketNotificationConfiguraiton operation.
@@ -56,9 +51,19 @@ public struct S3 {
         return try client.send(operation: "AbortMultipartUpload", path: "/{Bucket}/{Key+}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Creates a new server-side encryption configuration (or replaces an existing one, if present).
+    public func putBucketEncryption(_ input: PutBucketEncryptionRequest) throws {
+        _ = try client.send(operation: "PutBucketEncryption", path: "/{Bucket}?encryption", httpMethod: "PUT", input: input)
+    }
+
     ///  Deletes the bucket. All objects (including all object versions and Delete Markers) in the bucket must be deleted before the bucket itself can be deleted.
     public func deleteBucket(_ input: DeleteBucketRequest) throws {
         _ = try client.send(operation: "DeleteBucket", path: "/{Bucket}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Returns the cors configuration for the bucket.
+    public func getBucketCors(_ input: GetBucketCorsRequest) throws -> GetBucketCorsOutput {
+        return try client.send(operation: "GetBucketCors", path: "/{Bucket}?cors", httpMethod: "GET", input: input)
     }
 
     ///  Uploads a part by copying data from an existing object as data source.
@@ -296,6 +301,11 @@ public struct S3 {
         _ = try client.send(operation: "PutBucketNotificationConfiguration", path: "/{Bucket}?notification", httpMethod: "PUT", input: input)
     }
 
+    ///  Returns the server-side encryption configuration of a bucket.
+    public func getBucketEncryption(_ input: GetBucketEncryptionRequest) throws -> GetBucketEncryptionOutput {
+        return try client.send(operation: "GetBucketEncryption", path: "/{Bucket}?encryption", httpMethod: "GET", input: input)
+    }
+
     ///  Sets the permissions on a bucket using access control lists (ACL).
     public func putBucketAcl(_ input: PutBucketAclRequest) throws {
         _ = try client.send(operation: "PutBucketAcl", path: "/{Bucket}?acl", httpMethod: "PUT", input: input)
@@ -311,9 +321,9 @@ public struct S3 {
         _ = try client.send(operation: "PutBucketCors", path: "/{Bucket}?cors", httpMethod: "PUT", input: input)
     }
 
-    ///  Sets the supplied tag-set to an object that already exists in a bucket
-    public func putObjectTagging(_ input: PutObjectTaggingRequest) throws -> PutObjectTaggingOutput {
-        return try client.send(operation: "PutObjectTagging", path: "/{Bucket}/{Key+}?tagging", httpMethod: "PUT", input: input)
+    ///  Deletes the server-side encryption configuration from the bucket.
+    public func deleteBucketEncryption(_ input: DeleteBucketEncryptionRequest) throws {
+        _ = try client.send(operation: "DeleteBucketEncryption", path: "/{Bucket}?encryption", httpMethod: "DELETE", input: input)
     }
 
     ///  Lists the analytics configurations for the bucket.
@@ -321,9 +331,9 @@ public struct S3 {
         return try client.send(operation: "ListBucketAnalyticsConfigurations", path: "/{Bucket}?analytics", httpMethod: "GET", input: input)
     }
 
-    ///  Sets a metrics configuration (specified by the metrics configuration ID) for the bucket.
-    public func putBucketMetricsConfiguration(_ input: PutBucketMetricsConfigurationRequest) throws {
-        _ = try client.send(operation: "PutBucketMetricsConfiguration", path: "/{Bucket}?metrics", httpMethod: "PUT", input: input)
+    ///  Sets the supplied tag-set to an object that already exists in a bucket
+    public func putObjectTagging(_ input: PutObjectTaggingRequest) throws -> PutObjectTaggingOutput {
+        return try client.send(operation: "PutObjectTagging", path: "/{Bucket}/{Key+}?tagging", httpMethod: "PUT", input: input)
     }
 
     ///  Retrieves objects from Amazon S3.
@@ -334,6 +344,11 @@ public struct S3 {
     ///  Lists the parts that have been uploaded for a specific multipart upload.
     public func listParts(_ input: ListPartsRequest) throws -> ListPartsOutput {
         return try client.send(operation: "ListParts", path: "/{Bucket}/{Key+}", httpMethod: "GET", input: input)
+    }
+
+    ///  Sets a metrics configuration (specified by the metrics configuration ID) for the bucket.
+    public func putBucketMetricsConfiguration(_ input: PutBucketMetricsConfigurationRequest) throws {
+        _ = try client.send(operation: "PutBucketMetricsConfiguration", path: "/{Bucket}?metrics", httpMethod: "PUT", input: input)
     }
 
     ///  Returns the access control list (ACL) of an object.

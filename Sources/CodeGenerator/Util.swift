@@ -29,7 +29,7 @@ func rootPath() -> String {
 }
 
 func loadEndpointJSON() throws -> JSON {
-    let data = try Data(contentsOf: URL(string: "file://\(rootPath())/models/endpoints/endpoint.json")!)
+    let data = try Data(contentsOf: URL(string: "file://\(rootPath())/models/endpoints/endpoints.json")!)
     return JSON(data: data)
 }
 

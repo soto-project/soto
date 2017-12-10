@@ -120,7 +120,7 @@ public struct Dms {
         return try client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted.
+    ///  Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted. Note that the "last updated" column the DMS console only indicates the time that AWS DMS last updated the table statistics record for a table. It does not indicate the time of the last update to the table.
     public func describeTableStatistics(_ input: DescribeTableStatisticsMessage) throws -> DescribeTableStatisticsResponse {
         return try client.send(operation: "DescribeTableStatistics", path: "/", httpMethod: "POST", input: input)
     }
@@ -158,6 +158,11 @@ public struct Dms {
     ///  Creates a replication task using the specified parameters.
     public func createReplicationTask(_ input: CreateReplicationTaskMessage) throws -> CreateReplicationTaskResponse {
         return try client.send(operation: "CreateReplicationTask", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the task assessment results from Amazon S3. This action always returns the latest results.
+    public func describeReplicationTaskAssessmentResults(_ input: DescribeReplicationTaskAssessmentResultsMessage) throws -> DescribeReplicationTaskAssessmentResultsResponse {
+        return try client.send(operation: "DescribeReplicationTaskAssessmentResults", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes metadata tags from a DMS resource.
@@ -205,14 +210,14 @@ public struct Dms {
         return try client.send(operation: "DescribeEndpointTypes", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///   Starts the replication task assessment for unsupported data types in the source database. 
+    public func startReplicationTaskAssessment(_ input: StartReplicationTaskAssessmentMessage) throws -> StartReplicationTaskAssessmentResponse {
+        return try client.send(operation: "StartReplicationTaskAssessment", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Provides a description of the certificate.
     public func describeCertificates(_ input: DescribeCertificatesMessage) throws -> DescribeCertificatesResponse {
         return try client.send(operation: "DescribeCertificates", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates an endpoint using the provided settings.
-    public func createEndpoint(_ input: CreateEndpointMessage) throws -> CreateEndpointResponse {
-        return try client.send(operation: "CreateEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds metadata tags to a DMS resource, including replication instance, endpoint, security group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS.
@@ -223,6 +228,11 @@ public struct Dms {
     ///  Modifies the specified replication task. You can't modify the task endpoints. The task must be stopped before you can modify it.  For more information about AWS DMS tasks, see the AWS DMS user guide at  Working with Migration Tasks  
     public func modifyReplicationTask(_ input: ModifyReplicationTaskMessage) throws -> ModifyReplicationTaskResponse {
         return try client.send(operation: "ModifyReplicationTask", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an endpoint using the provided settings.
+    public func createEndpoint(_ input: CreateEndpointMessage) throws -> CreateEndpointResponse {
+        return try client.send(operation: "CreateEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
 

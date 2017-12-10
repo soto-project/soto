@@ -29,12 +29,12 @@ public struct Elasticache {
         return try client.send(operation: "DescribeReservedCacheNodes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a cache security group.  You cannot delete a cache security group if it is associated with any cache clusters. 
+    ///  Deletes a cache security group.  You cannot delete a cache security group if it is associated with any clusters. 
     public func deleteCacheSecurityGroup(_ input: DeleteCacheSecurityGroupMessage) throws {
         _ = try client.send(operation: "DeleteCacheSecurityGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cache cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the default parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of specific parameters. For more information, see:    ModifyCacheParameterGroup in the ElastiCache API Reference.    Parameters and Parameter Groups in the ElastiCache User Guide.  
+    ///  Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the default parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of specific parameters. For more information, see:    ModifyCacheParameterGroup in the ElastiCache API Reference.    Parameters and Parameter Groups in the ElastiCache User Guide.  
     public func createCacheParameterGroup(_ input: CreateCacheParameterGroupMessage) throws -> CreateCacheParameterGroupResult {
         return try client.send(operation: "CreateCacheParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -49,7 +49,7 @@ public struct Elasticache {
         _ = try client.send(operation: "DeleteCacheParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a cache subnet group.  You cannot delete a cache subnet group if it is associated with any cache clusters. 
+    ///  Deletes a cache subnet group.  You cannot delete a cache subnet group if it is associated with any clusters. 
     public func deleteCacheSubnetGroup(_ input: DeleteCacheSubnetGroupMessage) throws {
         _ = try client.send(operation: "DeleteCacheSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -59,7 +59,7 @@ public struct Elasticache {
         return try client.send(operation: "DescribeCacheEngineVersions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about all provisioned cache clusters if no cache cluster identifier is specified, or about a specific cache cluster if a cache cluster identifier is supplied. By default, abbreviated information about the cache clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the cache clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-level information is displayed until all of the nodes are successfully provisioned. If the cluster is in the deleting state, only cluster-level information is displayed. If cache nodes are currently being added to the cache cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cache cluster state is available, the cluster is ready for use. If cache nodes are currently being removed from the cache cluster, no endpoint information for the removed nodes is displayed.
+    ///  Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cache cluster if a cluster identifier is supplied. By default, abbreviated information about the clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-level information is displayed until all of the nodes are successfully provisioned. If the cluster is in the deleting state, only cluster-level information is displayed. If cache nodes are currently being added to the cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cluster state is available, the cluster is ready for use. If cache nodes are currently being removed from the cluster, no endpoint information for the removed nodes is displayed.
     public func describeCacheClusters(_ input: DescribeCacheClustersMessage) throws -> CacheClusterMessage {
         return try client.send(operation: "DescribeCacheClusters", path: "/", httpMethod: "POST", input: input)
     }
@@ -69,7 +69,7 @@ public struct Elasticache {
         return try client.send(operation: "ResetCacheParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a previously provisioned cache cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cache cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cache cluster; you cannot cancel or revert this operation. This operation cannot be used to delete a cache cluster that is the last read replica of a replication group or node group (shard) that has Multi-AZ mode enabled or a cache cluster from a Redis (cluster mode enabled) replication group.  Due to current limitations on Redis (cluster mode disabled), this operation or parameter is not supported on Redis (cluster mode enabled) replication groups. 
+    ///  Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation. This operation cannot be used to delete a cluster that is the last read replica of a replication group or node group (shard) that has Multi-AZ mode enabled or a cluster from a Redis (cluster mode enabled) replication group.  Due to current limitations on Redis (cluster mode disabled), this operation or parameter is not supported on Redis (cluster mode enabled) replication groups. 
     public func deleteCacheCluster(_ input: DeleteCacheClusterMessage) throws -> DeleteCacheClusterResult {
         return try client.send(operation: "DeleteCacheCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -84,7 +84,7 @@ public struct Elasticache {
         return try client.send(operation: "DescribeCacheSubnetGroups", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a copy of an entire cache cluster or replication group at a specific moment in time.  This operation is valid for Redis only. 
+    ///  Creates a copy of an entire cluster or replication group at a specific moment in time.  This operation is valid for Redis only. 
     public func createSnapshot(_ input: CreateSnapshotMessage) throws -> CreateSnapshotResult {
         return try client.send(operation: "CreateSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -99,7 +99,7 @@ public struct Elasticache {
         return try client.send(operation: "AuthorizeCacheSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Reboots some, or all, of the cache nodes within a provisioned cache cluster. This operation applies any modified cache parameter groups to the cache cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cache cluster. During the reboot, the cache cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cache cluster event is created.
+    ///  Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supported on Memcached and Redis (cluster mode disabled) clusters. Rebooting is not supported on Redis (cluster mode enabled) clusters. If you make changes to parameters that require a Redis (cluster mode enabled) cluster reboot for the changes to be applied, see Rebooting a Cluster for an alternate process.
     public func rebootCacheCluster(_ input: RebootCacheClusterMessage) throws -> RebootCacheClusterResult {
         return try client.send(operation: "RebootCacheCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -114,12 +114,12 @@ public struct Elasticache {
         return try client.send(operation: "CreateCacheSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns events related to cache clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cache cluster, cache security group, or cache parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
+    ///  Returns events related to clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cluster, cache security group, or cache parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
     public func describeEvents(_ input: DescribeEventsMessage) throws -> EventsMessage {
         return try client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a cache cluster. All nodes in the cache cluster run the same protocol-compliant cache engine software, either Memcached or Redis.  Due to current limitations on Redis (cluster mode disabled), this operation or parameter is not supported on Redis (cluster mode enabled) replication groups. 
+    ///  Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached or Redis.  Due to current limitations on Redis (cluster mode disabled), this operation or parameter is not supported on Redis (cluster mode enabled) replication groups. 
     public func createCacheCluster(_ input: CreateCacheClusterMessage) throws -> CreateCacheClusterResult {
         return try client.send(operation: "CreateCacheCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -129,12 +129,12 @@ public struct Elasticache {
         return try client.send(operation: "ModifyReplicationGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the settings for a cache cluster. You can use this operation to change one or more cluster configuration parameters by specifying the parameters and the new values.
+    ///  Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration parameters by specifying the parameters and the new values.
     public func modifyCacheCluster(_ input: ModifyCacheClusterMessage) throws -> ModifyCacheClusterResult {
         return try client.send(operation: "ModifyCacheCluster", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new cache security group. Use a cache security group to control access to one or more cache clusters. Cache security groups are only used when you are creating a cache cluster outside of an Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cache cluster inside of a VPC, use a cache subnet group instead. For more information, see CreateCacheSubnetGroup.
+    ///  Creates a new cache security group. Use a cache security group to control access to one or more clusters. Cache security groups are only used when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cluster inside of a VPC, use a cache subnet group instead. For more information, see CreateCacheSubnetGroup.
     public func createCacheSecurityGroup(_ input: CreateCacheSecurityGroupMessage) throws -> CreateCacheSecurityGroupResult {
         return try client.send(operation: "CreateCacheSecurityGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -174,9 +174,14 @@ public struct Elasticache {
         return try client.send(operation: "DescribeReservedCacheNodesOfferings", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group. A Redis (cluster mode disabled) replication group is a collection of cache clusters, where one of the cache clusters is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Redis (cluster mode enabled) replication group is a collection of 1 to 15 node groups (shards). Each node group (shard) has one read/write primary node and up to 5 read-only replica nodes. Writes to the primary are asynchronously propagated to the replicas. Redis (cluster mode enabled) replication groups partition the data across node groups (shards). When a Redis (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. You cannot alter a Redis (cluster mode enabled) replication group after it has been created. However, if you need to increase or decrease the number of node groups (console: shards), you can avail yourself of ElastiCache for Redis' enhanced backup and restore. For more information, see Restoring From a Backup with Cluster Resizing in the ElastiCache User Guide.  This operation is valid for Redis only. 
+    ///  Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group. A Redis (cluster mode disabled) replication group is a collection of clusters, where one of the clusters is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Redis (cluster mode enabled) replication group is a collection of 1 to 15 node groups (shards). Each node group (shard) has one read/write primary node and up to 5 read-only replica nodes. Writes to the primary are asynchronously propagated to the replicas. Redis (cluster mode enabled) replication groups partition the data across node groups (shards). When a Redis (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. You cannot alter a Redis (cluster mode enabled) replication group after it has been created. However, if you need to increase or decrease the number of node groups (console: shards), you can avail yourself of ElastiCache for Redis' enhanced backup and restore. For more information, see Restoring From a Backup with Cluster Resizing in the ElastiCache User Guide.  This operation is valid for Redis only. 
     public func createReplicationGroup(_ input: CreateReplicationGroupMessage) throws -> CreateReplicationGroupResult {
         return try client.send(operation: "CreateReplicationGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Performs horizontal scaling on a Redis (cluster mode enabled) cluster with no downtime. Requires Redis engine version 3.2.10 or newer. For information on upgrading your engine to a newer version, see Upgrading Engine Versions in the Amazon ElastiCache User Guide. For more information on ElastiCache for Redis online horizontal scaling, see ElastiCache for Redis Horizontal Scaling 
+    public func modifyReplicationGroupShardConfiguration(_ input: ModifyReplicationGroupShardConfigurationMessage) throws -> ModifyReplicationGroupShardConfigurationResult {
+        return try client.send(operation: "ModifyReplicationGroupShardConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an existing replication group. By default, this operation deletes the entire replication group, including the primary/primaries and all of the read replicas. If the replication group has only one primary, you can optionally delete only the read replicas, while retaining the primary by setting RetainPrimaryCluster=true. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation.  This operation is valid for Redis only. 
@@ -184,7 +189,7 @@ public struct Elasticache {
         return try client.send(operation: "DeleteReplicationGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about cache cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Redis only. 
+    ///  Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Redis only. 
     public func describeSnapshots(_ input: DescribeSnapshotsMessage) throws -> DescribeSnapshotsListMessage {
         return try client.send(operation: "DescribeSnapshots", path: "/", httpMethod: "POST", input: input)
     }

@@ -50,6 +50,9 @@ public enum CodedeployError: AWSErrorType {
     case invalidLoadBalancerInfoException(message: String?)
     case invalidDeploymentStyleException(message: String?)
     case invalidBlueGreenDeploymentConfigurationException(message: String?)
+    case invalidEC2TagCombinationException(message: String?)
+    case invalidOnPremisesTagCombinationException(message: String?)
+    case tagSetListLimitExceededException(message: String?)
     case revisionDoesNotExistException(message: String?)
     case revisionRequiredException(message: String?)
     case invalidRevisionException(message: String?)
@@ -183,6 +186,12 @@ extension CodedeployError {
             self = .invalidDeploymentStyleException(message: message)
         case "InvalidBlueGreenDeploymentConfigurationException":
             self = .invalidBlueGreenDeploymentConfigurationException(message: message)
+        case "InvalidEC2TagCombinationException":
+            self = .invalidEC2TagCombinationException(message: message)
+        case "InvalidOnPremisesTagCombinationException":
+            self = .invalidOnPremisesTagCombinationException(message: message)
+        case "TagSetListLimitExceededException":
+            self = .tagSetListLimitExceededException(message: message)
         case "RevisionDoesNotExistException":
             self = .revisionDoesNotExistException(message: message)
         case "RevisionRequiredException":

@@ -4,13 +4,23 @@ import AWSSDKSwiftCore
 
 /// Error enum for Dynamodb
 public enum DynamodbError: AWSErrorType {
+    case limitExceededException(message: String?)
+    case internalServerError(message: String?)
+    case globalTableAlreadyExistsException(message: String?)
+    case tableNotFoundException(message: String?)
     case conditionalCheckFailedException(message: String?)
     case provisionedThroughputExceededException(message: String?)
     case resourceNotFoundException(message: String?)
     case itemCollectionSizeLimitExceededException(message: String?)
-    case internalServerError(message: String?)
+    case tableInUseException(message: String?)
+    case continuousBackupsUnavailableException(message: String?)
+    case backupInUseException(message: String?)
+    case globalTableNotFoundException(message: String?)
     case resourceInUseException(message: String?)
-    case limitExceededException(message: String?)
+    case tableAlreadyExistsException(message: String?)
+    case backupNotFoundException(message: String?)
+    case replicaAlreadyExistsException(message: String?)
+    case replicaNotFoundException(message: String?)
 }
 
 extension DynamodbError {
@@ -20,6 +30,14 @@ extension DynamodbError {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
+        case "InternalServerError":
+            self = .internalServerError(message: message)
+        case "GlobalTableAlreadyExistsException":
+            self = .globalTableAlreadyExistsException(message: message)
+        case "TableNotFoundException":
+            self = .tableNotFoundException(message: message)
         case "ConditionalCheckFailedException":
             self = .conditionalCheckFailedException(message: message)
         case "ProvisionedThroughputExceededException":
@@ -28,12 +46,24 @@ extension DynamodbError {
             self = .resourceNotFoundException(message: message)
         case "ItemCollectionSizeLimitExceededException":
             self = .itemCollectionSizeLimitExceededException(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
+        case "TableInUseException":
+            self = .tableInUseException(message: message)
+        case "ContinuousBackupsUnavailableException":
+            self = .continuousBackupsUnavailableException(message: message)
+        case "BackupInUseException":
+            self = .backupInUseException(message: message)
+        case "GlobalTableNotFoundException":
+            self = .globalTableNotFoundException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
+        case "TableAlreadyExistsException":
+            self = .tableAlreadyExistsException(message: message)
+        case "BackupNotFoundException":
+            self = .backupNotFoundException(message: message)
+        case "ReplicaAlreadyExistsException":
+            self = .replicaAlreadyExistsException(message: message)
+        case "ReplicaNotFoundException":
+            self = .replicaNotFoundException(message: message)
         default:
             return nil
         }

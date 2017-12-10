@@ -15,6 +15,9 @@ public enum ElasticbeanstalkError: AWSErrorType {
     case codeBuildNotInServiceRegionException(message: String?)
     case invalidRequestException(message: String?)
     case operationInProgressException(message: String?)
+    case resourceNotFoundException(message: String?)
+    case resourceTypeNotSupportedException(message: String?)
+    case tooManyTagsException(message: String?)
     case managedActionInvalidStateException(message: String?)
     case tooManyConfigurationTemplatesException(message: String?)
     case tooManyPlatformsException(message: String?)
@@ -51,6 +54,12 @@ extension ElasticbeanstalkError {
             self = .invalidRequestException(message: message)
         case "OperationInProgressException":
             self = .operationInProgressException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
+        case "ResourceTypeNotSupportedException":
+            self = .resourceTypeNotSupportedException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         case "ManagedActionInvalidStateException":
             self = .managedActionInvalidStateException(message: message)
         case "TooManyConfigurationTemplatesException":

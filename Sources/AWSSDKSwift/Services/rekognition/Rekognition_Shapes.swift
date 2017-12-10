@@ -5,8 +5,49 @@ import AWSSDKSwiftCore
 
 extension Rekognition {
 
+    public struct CelebrityDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BoundingBox", required: false, type: .structure), 
+            AWSShapeMember(label: "Face", required: false, type: .structure), 
+            AWSShapeMember(label: "Urls", required: false, type: .list), 
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
+        ]
+        /// Bounding box around the body of a celebrity.
+        public let boundingBox: BoundingBox?
+        /// Face details for the recognized celebrity.
+        public let face: FaceDetail?
+        /// An array of URLs pointing to additional celebrity information. 
+        public let urls: [String]?
+        /// The confidence, in percentage, that Amazon Rekognition has that the recognized face is the celebrity. 
+        public let confidence: Float?
+        /// The name of the celebrity.
+        public let name: String?
+        /// The unique identifier for the celebrity. 
+        public let id: String?
+
+        public init(boundingBox: BoundingBox? = nil, face: FaceDetail? = nil, urls: [String]? = nil, confidence: Float? = nil, name: String? = nil, id: String? = nil) {
+            self.boundingBox = boundingBox
+            self.face = face
+            self.urls = urls
+            self.confidence = confidence
+            self.name = name
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case boundingBox = "BoundingBox"
+            case face = "Face"
+            case urls = "Urls"
+            case confidence = "Confidence"
+            case name = "Name"
+            case id = "Id"
+        }
+    }
+
     public struct DeleteCollectionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StatusCode", required: false, type: .integer)
         ]
         /// HTTP status code that indicates the result of the operation.
@@ -21,41 +62,24 @@ extension Rekognition {
         }
     }
 
-    public struct ListCollectionsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CollectionIds", required: false, type: .list), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+    public struct DetectTextResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TextDetections", required: false, type: .list)
         ]
-        /// An array of collection IDs.
-        public let collectionIds: [String]?
-        /// If the result is truncated, the response provides a NextToken that you can use in the subsequent request to fetch the next set of collection IDs.
-        public let nextToken: String?
+        /// An array of text that was detected in the input image.
+        public let textDetections: [TextDetection]?
 
-        public init(collectionIds: [String]? = nil, nextToken: String? = nil) {
-            self.collectionIds = collectionIds
-            self.nextToken = nextToken
+        public init(textDetections: [TextDetection]? = nil) {
+            self.textDetections = textDetections
         }
 
         private enum CodingKeys: String, CodingKey {
-            case collectionIds = "CollectionIds"
-            case nextToken = "NextToken"
+            case textDetections = "TextDetections"
         }
     }
 
-    public enum EmotionName: String, CustomStringConvertible, Codable {
-        case happy = "HAPPY"
-        case sad = "SAD"
-        case angry = "ANGRY"
-        case confused = "CONFUSED"
-        case disgusted = "DISGUSTED"
-        case surprised = "SURPRISED"
-        case calm = "CALM"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
-    }
-
     public struct BoundingBox: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Height", required: false, type: .float), 
             AWSShapeMember(label: "Top", required: false, type: .float), 
             AWSShapeMember(label: "Left", required: false, type: .float), 
@@ -86,7 +110,7 @@ extension Rekognition {
     }
 
     public struct Pose: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Yaw", required: false, type: .float), 
             AWSShapeMember(label: "Roll", required: false, type: .float), 
             AWSShapeMember(label: "Pitch", required: false, type: .float)
@@ -111,24 +135,65 @@ extension Rekognition {
         }
     }
 
-    public struct DetectModerationLabelsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ModerationLabels", required: false, type: .list)
+    public struct StartFaceSearchRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobTag", required: false, type: .string), 
+            AWSShapeMember(label: "FaceMatchThreshold", required: false, type: .float), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "CollectionId", required: true, type: .string), 
+            AWSShapeMember(label: "NotificationChannel", required: false, type: .structure), 
+            AWSShapeMember(label: "Video", required: true, type: .structure)
         ]
-        /// An array of labels for explicit or suggestive adult content found in the image. The list includes the top-level label and each child label detected in the image. This is useful for filtering specific categories of content. 
-        public let moderationLabels: [ModerationLabel]?
+        /// Unique identifier you specify to identify the job in the completion status published to the Amazon Simple Notification Service topic. 
+        public let jobTag: String?
+        /// The minimum confidence in the person match to return. For example, don't return any matches where confidence in matches is less than 70%. 
+        public let faceMatchThreshold: Float?
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartFaceSearch requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
+        public let clientRequestToken: String?
+        /// ID of the collection that contains the faces you want to search for.
+        public let collectionId: String
+        /// The ARN of the Amazon SNS topic to which you want Rekognition Video to publish the completion status of the search. 
+        public let notificationChannel: NotificationChannel?
+        /// The video you want to search. The video must be stored in an Amazon S3 bucket. 
+        public let video: Video
 
-        public init(moderationLabels: [ModerationLabel]? = nil) {
-            self.moderationLabels = moderationLabels
+        public init(jobTag: String? = nil, faceMatchThreshold: Float? = nil, clientRequestToken: String? = nil, collectionId: String, notificationChannel: NotificationChannel? = nil, video: Video) {
+            self.jobTag = jobTag
+            self.faceMatchThreshold = faceMatchThreshold
+            self.clientRequestToken = clientRequestToken
+            self.collectionId = collectionId
+            self.notificationChannel = notificationChannel
+            self.video = video
         }
 
         private enum CodingKeys: String, CodingKey {
-            case moderationLabels = "ModerationLabels"
+            case jobTag = "JobTag"
+            case faceMatchThreshold = "FaceMatchThreshold"
+            case clientRequestToken = "ClientRequestToken"
+            case collectionId = "CollectionId"
+            case notificationChannel = "NotificationChannel"
+            case video = "Video"
+        }
+    }
+
+    public struct StreamProcessorInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KinesisVideoStream", required: false, type: .structure)
+        ]
+        /// The Kinesis video stream input stream for the source streaming video.
+        public let kinesisVideoStream: KinesisVideoStream?
+
+        public init(kinesisVideoStream: KinesisVideoStream? = nil) {
+            self.kinesisVideoStream = kinesisVideoStream
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kinesisVideoStream = "KinesisVideoStream"
         }
     }
 
     public struct Gender: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Value", required: false, type: .enum)
         ]
@@ -149,7 +214,7 @@ extension Rekognition {
     }
 
     public struct Smile: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
@@ -169,8 +234,24 @@ extension Rekognition {
         }
     }
 
+    public struct KinesisVideoStream: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string)
+        ]
+        /// ARN of the Kinesis video stream stream that streams the source video.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
     public struct S3Object: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
@@ -196,7 +277,7 @@ extension Rekognition {
     }
 
     public struct DetectFacesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrientationCorrection", required: false, type: .enum), 
             AWSShapeMember(label: "FaceDetails", required: false, type: .list)
         ]
@@ -217,28 +298,33 @@ extension Rekognition {
     }
 
     public struct IndexFacesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrientationCorrection", required: false, type: .enum), 
+            AWSShapeMember(label: "FaceModelVersion", required: false, type: .string), 
             AWSShapeMember(label: "FaceRecords", required: false, type: .list)
         ]
         /// The orientation of the input image (counterclockwise direction). If your application displays the image, you can use this value to correct image orientation. The bounding box coordinates returned in FaceRecords represent face locations before the image orientation is corrected.   If the input image is in jpeg format, it might contain exchangeable image (Exif) metadata. If so, and the Exif metadata populates the orientation field, the value of OrientationCorrection is null and the bounding box coordinates in FaceRecords represent face locations after Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. 
         public let orientationCorrection: OrientationCorrection?
-        /// An array of faces detected and added to the collection. For more information, see howitworks-index-faces. 
+        /// Version number of the face detection model associated with the input collection (CollectionId).
+        public let faceModelVersion: String?
+        /// An array of faces detected and added to the collection. For more information, see collections-index-faces. 
         public let faceRecords: [FaceRecord]?
 
-        public init(orientationCorrection: OrientationCorrection? = nil, faceRecords: [FaceRecord]? = nil) {
+        public init(orientationCorrection: OrientationCorrection? = nil, faceModelVersion: String? = nil, faceRecords: [FaceRecord]? = nil) {
             self.orientationCorrection = orientationCorrection
+            self.faceModelVersion = faceModelVersion
             self.faceRecords = faceRecords
         }
 
         private enum CodingKeys: String, CodingKey {
             case orientationCorrection = "OrientationCorrection"
+            case faceModelVersion = "FaceModelVersion"
             case faceRecords = "FaceRecords"
         }
     }
 
     public struct FaceDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Sunglasses", required: false, type: .structure), 
             AWSShapeMember(label: "Gender", required: false, type: .structure), 
             AWSShapeMember(label: "EyesOpen", required: false, type: .structure), 
@@ -324,7 +410,7 @@ extension Rekognition {
     }
 
     public struct CompareFacesMatch: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Face", required: false, type: .structure), 
             AWSShapeMember(label: "Similarity", required: false, type: .float)
         ]
@@ -344,65 +430,34 @@ extension Rekognition {
         }
     }
 
-    public struct Celebrity: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Face", required: false, type: .structure), 
-            AWSShapeMember(label: "Urls", required: false, type: .list), 
-            AWSShapeMember(label: "MatchConfidence", required: false, type: .float), 
-            AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: false, type: .string)
-        ]
-        /// Provides information about the celebrity's face, such as its location on the image.
-        public let face: ComparedFace?
-        /// An array of URLs pointing to additional information about the celebrity. If there is no additional information about the celebrity, this list is empty.
-        public let urls: [String]?
-        /// The confidence, in percentage, that Rekognition has that the recognized face is the celebrity.
-        public let matchConfidence: Float?
-        /// The name of the celebrity.
-        public let name: String?
-        /// A unique identifier for the celebrity. 
-        public let id: String?
-
-        public init(face: ComparedFace? = nil, urls: [String]? = nil, matchConfidence: Float? = nil, name: String? = nil, id: String? = nil) {
-            self.face = face
-            self.urls = urls
-            self.matchConfidence = matchConfidence
-            self.name = name
-            self.id = id
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case face = "Face"
-            case urls = "Urls"
-            case matchConfidence = "MatchConfidence"
-            case name = "Name"
-            case id = "Id"
-        }
-    }
-
     public struct SearchFacesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FaceModelVersion", required: false, type: .string), 
             AWSShapeMember(label: "FaceMatches", required: false, type: .list), 
             AWSShapeMember(label: "SearchedFaceId", required: false, type: .string)
         ]
+        /// Version number of the face detection model associated with the input collection (CollectionId).
+        public let faceModelVersion: String?
         /// An array of faces that matched the input face, along with the confidence in the match.
         public let faceMatches: [FaceMatch]?
         /// ID of the face that was searched for matches in a collection.
         public let searchedFaceId: String?
 
-        public init(faceMatches: [FaceMatch]? = nil, searchedFaceId: String? = nil) {
+        public init(faceModelVersion: String? = nil, faceMatches: [FaceMatch]? = nil, searchedFaceId: String? = nil) {
+            self.faceModelVersion = faceModelVersion
             self.faceMatches = faceMatches
             self.searchedFaceId = searchedFaceId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case faceModelVersion = "FaceModelVersion"
             case faceMatches = "FaceMatches"
             case searchedFaceId = "SearchedFaceId"
         }
     }
 
     public struct SearchFacesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FaceMatchThreshold", required: false, type: .float), 
             AWSShapeMember(label: "MaxFaces", required: false, type: .integer), 
             AWSShapeMember(label: "CollectionId", required: true, type: .string), 
@@ -433,7 +488,7 @@ extension Rekognition {
     }
 
     public struct Mustache: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
@@ -454,7 +509,7 @@ extension Rekognition {
     }
 
     public struct ModerationLabel: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ParentName", required: false, type: .string)
@@ -479,27 +534,6 @@ extension Rekognition {
         }
     }
 
-    public struct EyeOpen: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Confidence", required: false, type: .float), 
-            AWSShapeMember(label: "Value", required: false, type: .boolean)
-        ]
-        /// Level of confidence in the determination.
-        public let confidence: Float?
-        /// Boolean value that indicates whether the eyes on the face are open.
-        public let value: Bool?
-
-        public init(confidence: Float? = nil, value: Bool? = nil) {
-            self.confidence = confidence
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case confidence = "Confidence"
-            case value = "Value"
-        }
-    }
-
     public enum Attribute: String, CustomStringConvertible, Codable {
         case `default` = "DEFAULT"
         case all = "ALL"
@@ -507,11 +541,11 @@ extension Rekognition {
     }
 
     public struct DetectFacesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Image", required: true, type: .structure), 
             AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
-        /// The image in which you want to detect faces. You can specify a blob or an S3 object. 
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
         public let image: Image
         /// An array of facial attributes you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ["DEFAULT"], the API returns the following subset of facial attributes: BoundingBox, Confidence, Pose, Quality and Landmarks. If you provide ["ALL"], all facial attributes are returned but the operation will take longer to complete. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes). 
         public let attributes: [Attribute]?
@@ -528,7 +562,7 @@ extension Rekognition {
     }
 
     public struct Beard: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Value", required: false, type: .boolean)
         ]
@@ -548,108 +582,44 @@ extension Rekognition {
         }
     }
 
-    public struct Sunglasses: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Confidence", required: false, type: .float), 
-            AWSShapeMember(label: "Value", required: false, type: .boolean)
+    public struct StartContentModerationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobTag", required: false, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "MinConfidence", required: false, type: .float), 
+            AWSShapeMember(label: "NotificationChannel", required: false, type: .structure), 
+            AWSShapeMember(label: "Video", required: true, type: .structure)
         ]
-        /// Level of confidence in the determination.
-        public let confidence: Float?
-        /// Boolean value that indicates whether the face is wearing sunglasses or not.
-        public let value: Bool?
+        /// Unique identifier you specify to identify the job in the completion status published to the Amazon Simple Notification Service topic. 
+        public let jobTag: String?
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartContentModeration requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
+        public let clientRequestToken: String?
+        /// Specifies the minimum confidence that Amazon Rekognition must have in order to return a moderated content label. Confidence represents how certain Amazon Rekognition is that the moderated content is correctly identified. 0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition doesn't return any moderated content labels with a confidence level lower than this specified value.
+        public let minConfidence: Float?
+        /// The Amazon SNS topic ARN that you want Rekognition Video to publish the completion status of the content moderation analysis to.
+        public let notificationChannel: NotificationChannel?
+        /// The video in which you want to moderate content. The video must be stored in an Amazon S3 bucket.
+        public let video: Video
 
-        public init(confidence: Float? = nil, value: Bool? = nil) {
-            self.confidence = confidence
-            self.value = value
+        public init(jobTag: String? = nil, clientRequestToken: String? = nil, minConfidence: Float? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
+            self.jobTag = jobTag
+            self.clientRequestToken = clientRequestToken
+            self.minConfidence = minConfidence
+            self.notificationChannel = notificationChannel
+            self.video = video
         }
 
         private enum CodingKeys: String, CodingKey {
-            case confidence = "Confidence"
-            case value = "Value"
-        }
-    }
-
-    public struct Image: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Bytes", required: false, type: .blob), 
-            AWSShapeMember(label: "S3Object", required: false, type: .structure)
-        ]
-        /// Blob of image bytes up to 5 MBs.
-        public let bytes: Data?
-        /// Identifies an S3 object as the image source.
-        public let s3Object: S3Object?
-
-        public init(bytes: Data? = nil, s3Object: S3Object? = nil) {
-            self.bytes = bytes
-            self.s3Object = s3Object
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bytes = "Bytes"
-            case s3Object = "S3Object"
-        }
-    }
-
-    public struct AgeRange: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "High", required: false, type: .integer), 
-            AWSShapeMember(label: "Low", required: false, type: .integer)
-        ]
-        /// The highest estimated age.
-        public let high: Int32?
-        /// The lowest estimated age.
-        public let low: Int32?
-
-        public init(high: Int32? = nil, low: Int32? = nil) {
-            self.high = high
-            self.low = low
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case high = "High"
-            case low = "Low"
-        }
-    }
-
-    public struct Eyeglasses: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Confidence", required: false, type: .float), 
-            AWSShapeMember(label: "Value", required: false, type: .boolean)
-        ]
-        /// Level of confidence in the determination.
-        public let confidence: Float?
-        /// Boolean value that indicates whether the face is wearing eye glasses or not.
-        public let value: Bool?
-
-        public init(confidence: Float? = nil, value: Bool? = nil) {
-            self.confidence = confidence
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case confidence = "Confidence"
-            case value = "Value"
-        }
-    }
-
-    public struct DeleteCollectionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CollectionId", required: true, type: .string)
-        ]
-        /// ID of the collection to delete.
-        public let collectionId: String
-
-        public init(collectionId: String) {
-            self.collectionId = collectionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case collectionId = "CollectionId"
+            case jobTag = "JobTag"
+            case clientRequestToken = "ClientRequestToken"
+            case minConfidence = "MinConfidence"
+            case notificationChannel = "NotificationChannel"
+            case video = "Video"
         }
     }
 
     public struct CreateCollectionRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CollectionId", required: true, type: .string)
         ]
         /// ID for the collection that you are creating.
@@ -665,7 +635,7 @@ extension Rekognition {
     }
 
     public struct DetectLabelsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrientationCorrection", required: false, type: .enum), 
             AWSShapeMember(label: "Labels", required: false, type: .list)
         ]
@@ -685,85 +655,64 @@ extension Rekognition {
         }
     }
 
-    public struct ListFacesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+    public struct ListStreamProcessorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "CollectionId", required: true, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
-        /// If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
+        /// If the previous response was incomplete (because there are more stream processors to retrieve), Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of stream processors. 
         public let nextToken: String?
-        /// ID of the collection from which to list the faces.
-        public let collectionId: String
-        /// Maximum number of faces to return.
+        /// Maximum number of stream processors you want Rekognition Video to return in the response. The default is 1000. 
         public let maxResults: Int32?
 
-        public init(nextToken: String? = nil, collectionId: String, maxResults: Int32? = nil) {
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
-            self.collectionId = collectionId
             self.maxResults = maxResults
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
-            case collectionId = "CollectionId"
             case maxResults = "MaxResults"
         }
     }
 
-    public struct ComparedSourceImageFace: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Confidence", required: false, type: .float), 
-            AWSShapeMember(label: "BoundingBox", required: false, type: .structure)
-        ]
-        /// Confidence level that the selected bounding box contains a face.
-        public let confidence: Float?
-        /// Bounding box of the face.
-        public let boundingBox: BoundingBox?
-
-        public init(confidence: Float? = nil, boundingBox: BoundingBox? = nil) {
-            self.confidence = confidence
-            self.boundingBox = boundingBox
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case confidence = "Confidence"
-            case boundingBox = "BoundingBox"
-        }
-    }
-
     public struct ListFacesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FaceModelVersion", required: false, type: .string), 
             AWSShapeMember(label: "Faces", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
+        /// Version number of the face detection model associated with the input collection (CollectionId).
+        public let faceModelVersion: String?
         /// An array of Face objects. 
         public let faces: [Face]?
         /// If the response is truncated, Amazon Rekognition returns this token that you can use in the subsequent request to retrieve the next set of faces.
         public let nextToken: String?
 
-        public init(faces: [Face]? = nil, nextToken: String? = nil) {
+        public init(faceModelVersion: String? = nil, faces: [Face]? = nil, nextToken: String? = nil) {
+            self.faceModelVersion = faceModelVersion
             self.faces = faces
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case faceModelVersion = "FaceModelVersion"
             case faces = "Faces"
             case nextToken = "NextToken"
         }
     }
 
     public struct Landmark: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "X", required: false, type: .float), 
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Y", required: false, type: .float)
         ]
-        /// x-coordinate from the top left of the landmark expressed as the ration of the width of the image. For example, if the images is 700x200 and the x-coordinate of the landmark is at 350 pixels, this value is 0.5. 
+        /// x-coordinate from the top left of the landmark expressed as the ratio of the width of the image. For example, if the images is 700x200 and the x-coordinate of the landmark is at 350 pixels, this value is 0.5. 
         public let x: Float?
         /// Type of the landmark.
         public let `type`: LandmarkType?
-        /// y-coordinate from the top left of the landmark expressed as the ration of the height of the image. For example, if the images is 700x200 and the y-coordinate of the landmark is at 100 pixels, this value is 0.5.
+        /// y-coordinate from the top left of the landmark expressed as the ratio of the height of the image. For example, if the images is 700x200 and the y-coordinate of the landmark is at 100 pixels, this value is 0.5.
         public let y: Float?
 
         public init(x: Float? = nil, type: LandmarkType? = nil, y: Float? = nil) {
@@ -780,29 +729,41 @@ extension Rekognition {
     }
 
     public struct SearchFacesByImageResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SearchedFaceConfidence", required: false, type: .float), 
+            AWSShapeMember(label: "FaceModelVersion", required: false, type: .string), 
             AWSShapeMember(label: "FaceMatches", required: false, type: .list), 
             AWSShapeMember(label: "SearchedFaceBoundingBox", required: false, type: .structure)
         ]
         /// The level of confidence that the searchedFaceBoundingBox, contains a face.
         public let searchedFaceConfidence: Float?
+        /// Version number of the face detection model associated with the input collection (CollectionId).
+        public let faceModelVersion: String?
         /// An array of faces that match the input face, along with the confidence in the match.
         public let faceMatches: [FaceMatch]?
         /// The bounding box around the face in the input image that Amazon Rekognition used for the search.
         public let searchedFaceBoundingBox: BoundingBox?
 
-        public init(searchedFaceConfidence: Float? = nil, faceMatches: [FaceMatch]? = nil, searchedFaceBoundingBox: BoundingBox? = nil) {
+        public init(searchedFaceConfidence: Float? = nil, faceModelVersion: String? = nil, faceMatches: [FaceMatch]? = nil, searchedFaceBoundingBox: BoundingBox? = nil) {
             self.searchedFaceConfidence = searchedFaceConfidence
+            self.faceModelVersion = faceModelVersion
             self.faceMatches = faceMatches
             self.searchedFaceBoundingBox = searchedFaceBoundingBox
         }
 
         private enum CodingKeys: String, CodingKey {
             case searchedFaceConfidence = "SearchedFaceConfidence"
+            case faceModelVersion = "FaceModelVersion"
             case faceMatches = "FaceMatches"
             case searchedFaceBoundingBox = "SearchedFaceBoundingBox"
         }
+    }
+
+    public enum VideoJobStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public enum OrientationCorrection: String, CustomStringConvertible, Codable {
@@ -814,7 +775,7 @@ extension Rekognition {
     }
 
     public struct Emotion: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
@@ -834,45 +795,8 @@ extension Rekognition {
         }
     }
 
-    public struct DeleteFacesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "FaceIds", required: true, type: .list), 
-            AWSShapeMember(label: "CollectionId", required: true, type: .string)
-        ]
-        /// An array of face IDs to delete.
-        public let faceIds: [String]
-        /// Collection from which to remove the specific faces.
-        public let collectionId: String
-
-        public init(faceIds: [String], collectionId: String) {
-            self.faceIds = faceIds
-            self.collectionId = collectionId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case faceIds = "FaceIds"
-            case collectionId = "CollectionId"
-        }
-    }
-
-    public struct DeleteFacesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "DeletedFaces", required: false, type: .list)
-        ]
-        /// An array of strings (face IDs) of the faces that were deleted.
-        public let deletedFaces: [String]?
-
-        public init(deletedFaces: [String]? = nil) {
-            self.deletedFaces = deletedFaces
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case deletedFaces = "DeletedFaces"
-        }
-    }
-
     public struct GetCelebrityInfoRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The ID for the celebrity. You get the celebrity ID from a call to the operation, which recognizes celebrities in an image. 
@@ -888,7 +812,7 @@ extension Rekognition {
     }
 
     public struct GetCelebrityInfoResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Urls", required: false, type: .list)
         ]
@@ -908,8 +832,29 @@ extension Rekognition {
         }
     }
 
+    public struct ContentModerationDetection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timestamp", required: false, type: .long), 
+            AWSShapeMember(label: "ModerationLabel", required: false, type: .structure)
+        ]
+        /// Time, in milliseconds from the beginning of the video, that the moderation label was detected.
+        public let timestamp: Int64?
+        /// The moderation label detected by in the stored video.
+        public let moderationLabel: ModerationLabel?
+
+        public init(timestamp: Int64? = nil, moderationLabel: ModerationLabel? = nil) {
+            self.timestamp = timestamp
+            self.moderationLabel = moderationLabel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+            case moderationLabel = "ModerationLabel"
+        }
+    }
+
     public struct ComparedFace: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BoundingBox", required: false, type: .structure), 
             AWSShapeMember(label: "Landmarks", required: false, type: .list), 
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
@@ -944,14 +889,1594 @@ extension Rekognition {
         }
     }
 
+    public struct CreateStreamProcessorResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamProcessorArn", required: false, type: .string)
+        ]
+        /// ARN for the newly create stream processor.
+        public let streamProcessorArn: String?
+
+        public init(streamProcessorArn: String? = nil) {
+            self.streamProcessorArn = streamProcessorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamProcessorArn = "StreamProcessorArn"
+        }
+    }
+
+    public struct FaceMatch: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Face", required: false, type: .structure), 
+            AWSShapeMember(label: "Similarity", required: false, type: .float)
+        ]
+        /// Describes the face properties such as the bounding box, face ID, image ID of the source image, and external image ID that you assigned.
+        public let face: Face?
+        /// Confidence in the match of this face with the input face.
+        public let similarity: Float?
+
+        public init(face: Face? = nil, similarity: Float? = nil) {
+            self.face = face
+            self.similarity = similarity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case face = "Face"
+            case similarity = "Similarity"
+        }
+    }
+
+    public enum StreamProcessorStatus: String, CustomStringConvertible, Codable {
+        case stopped = "STOPPED"
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case failed = "FAILED"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct FaceSearchSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FaceMatchThreshold", required: false, type: .float), 
+            AWSShapeMember(label: "CollectionId", required: false, type: .string)
+        ]
+        /// Minimum face match confidence score that must be met to return a result for a recognized face. Default is 70. 0 is the lowest confidence. 100 is the highest confidence.
+        public let faceMatchThreshold: Float?
+        /// The ID of a collection that contains faces that you want to search for.
+        public let collectionId: String?
+
+        public init(faceMatchThreshold: Float? = nil, collectionId: String? = nil) {
+            self.faceMatchThreshold = faceMatchThreshold
+            self.collectionId = collectionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faceMatchThreshold = "FaceMatchThreshold"
+            case collectionId = "CollectionId"
+        }
+    }
+
+    public struct NotificationChannel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "SNSTopicArn", required: true, type: .string)
+        ]
+        /// The ARN of an IAM role that gives Amazon Rekognition publishing permissions to the Amazon SNS topic. 
+        public let roleArn: String
+        /// The Amazon SNS topic to which Amazon Rekognition to posts the completion status.
+        public let sNSTopicArn: String
+
+        public init(roleArn: String, sNSTopicArn: String) {
+            self.roleArn = roleArn
+            self.sNSTopicArn = sNSTopicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
+            case sNSTopicArn = "SNSTopicArn"
+        }
+    }
+
+    public struct DescribeStreamProcessorResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Input", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdateTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Output", required: false, type: .structure), 
+            AWSShapeMember(label: "Settings", required: false, type: .structure), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "StreamProcessorArn", required: false, type: .string)
+        ]
+        /// Current status of the stream processor.
+        public let status: StreamProcessorStatus?
+        /// Date and time the stream processor was created
+        public let creationTimestamp: TimeStamp?
+        /// Kinesis video stream that provides the source streaming video.
+        public let input: StreamProcessorInput?
+        /// Name of the stream processor. 
+        public let name: String?
+        /// The time, in Unix format, the stream processor was last updated. For example, when the stream processor moves from a running state to a failed state, or when the user starts or stops the stream processor.
+        public let lastUpdateTimestamp: TimeStamp?
+        /// Kinesis data stream to which Rekognition Video puts the analysis results.
+        public let output: StreamProcessorOutput?
+        /// Face recognition input parameters that are being used by the stream processor. Includes the collection to use for face recognition and the face attributes to detect.
+        public let settings: StreamProcessorSettings?
+        /// ARN of the IAM role that allows access to the stream processor.
+        public let roleArn: String?
+        /// Detailed status message about the stream processor.
+        public let statusMessage: String?
+        /// ARN of the stream processor.
+        public let streamProcessorArn: String?
+
+        public init(status: StreamProcessorStatus? = nil, creationTimestamp: TimeStamp? = nil, input: StreamProcessorInput? = nil, name: String? = nil, lastUpdateTimestamp: TimeStamp? = nil, output: StreamProcessorOutput? = nil, settings: StreamProcessorSettings? = nil, roleArn: String? = nil, statusMessage: String? = nil, streamProcessorArn: String? = nil) {
+            self.status = status
+            self.creationTimestamp = creationTimestamp
+            self.input = input
+            self.name = name
+            self.lastUpdateTimestamp = lastUpdateTimestamp
+            self.output = output
+            self.settings = settings
+            self.roleArn = roleArn
+            self.statusMessage = statusMessage
+            self.streamProcessorArn = streamProcessorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case creationTimestamp = "CreationTimestamp"
+            case input = "Input"
+            case name = "Name"
+            case lastUpdateTimestamp = "LastUpdateTimestamp"
+            case output = "Output"
+            case settings = "Settings"
+            case roleArn = "RoleArn"
+            case statusMessage = "StatusMessage"
+            case streamProcessorArn = "StreamProcessorArn"
+        }
+    }
+
+    public struct GetLabelDetectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Labels", required: false, type: .list), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "VideoMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
+        ]
+        /// An array of labels detected in the video. Each element contains the detected label and the time, in milliseconds from the start of the video, that the label was detected. 
+        public let labels: [LabelDetection]?
+        /// The current status of the label detection job.
+        public let jobStatus: VideoJobStatus?
+        /// Information about a video that Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition video operation.
+        public let videoMetadata: VideoMetadata?
+        /// If the response is truncated, Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of labels.
+        public let nextToken: String?
+        /// If the job fails, StatusMessage provides a descriptive error message.
+        public let statusMessage: String?
+
+        public init(labels: [LabelDetection]? = nil, jobStatus: VideoJobStatus? = nil, videoMetadata: VideoMetadata? = nil, nextToken: String? = nil, statusMessage: String? = nil) {
+            self.labels = labels
+            self.jobStatus = jobStatus
+            self.videoMetadata = videoMetadata
+            self.nextToken = nextToken
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labels = "Labels"
+            case jobStatus = "JobStatus"
+            case videoMetadata = "VideoMetadata"
+            case nextToken = "NextToken"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct DescribeStreamProcessorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// Name of the stream processor for which you want information.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public enum CelebrityRecognitionSortBy: String, CustomStringConvertible, Codable {
+        case id = "ID"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PersonTrackingSortBy: String, CustomStringConvertible, Codable {
+        case index = "INDEX"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetFaceSearchResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Persons", required: false, type: .list), 
+            AWSShapeMember(label: "VideoMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
+        ]
+        /// The current status of the face search job.
+        public let jobStatus: VideoJobStatus?
+        /// An array of persons, , in the video whose face(s) match the face(s) in an Amazon Rekognition collection. It also includes time information for when persons are matched in the video. You specify the input collection in an initial call to StartFaceSearch. Each Persons element includes a time the person was matched, face match details (FaceMatches) for matching faces in the collection, and person information (Person) for the matched person. 
+        public let persons: [PersonMatch]?
+        /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from a Rekognition Video operation. 
+        public let videoMetadata: VideoMetadata?
+        /// If the response is truncated, Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of search results. 
+        public let nextToken: String?
+        /// If the job fails, StatusMessage provides a descriptive error message.
+        public let statusMessage: String?
+
+        public init(jobStatus: VideoJobStatus? = nil, persons: [PersonMatch]? = nil, videoMetadata: VideoMetadata? = nil, nextToken: String? = nil, statusMessage: String? = nil) {
+            self.jobStatus = jobStatus
+            self.persons = persons
+            self.videoMetadata = videoMetadata
+            self.nextToken = nextToken
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobStatus = "JobStatus"
+            case persons = "Persons"
+            case videoMetadata = "VideoMetadata"
+            case nextToken = "NextToken"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct ListCollectionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Pagination token from the previous response.
+        public let nextToken: String?
+        /// Maximum number of collection IDs to return. 
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct StartLabelDetectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobTag", required: false, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "MinConfidence", required: false, type: .float), 
+            AWSShapeMember(label: "NotificationChannel", required: false, type: .structure), 
+            AWSShapeMember(label: "Video", required: true, type: .structure)
+        ]
+        /// Unique identifier you specify to identify the job in the completion status published to the Amazon Simple Notification Service topic. 
+        public let jobTag: String?
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartLabelDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
+        public let clientRequestToken: String?
+        /// Specifies the minimum confidence that Rekognition Video must have in order to return a detected label. Confidence represents how certain Amazon Rekognition is that a label is correctly identified.0 is the lowest confidence. 100 is the highest confidence. Rekognition Video doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
+        public let minConfidence: Float?
+        /// The Amazon SNS topic ARN you want Rekognition Video to publish the completion status of the label detection operation to. 
+        public let notificationChannel: NotificationChannel?
+        /// The video in which you want to detect labels. The video must be stored in an Amazon S3 bucket.
+        public let video: Video
+
+        public init(jobTag: String? = nil, clientRequestToken: String? = nil, minConfidence: Float? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
+            self.jobTag = jobTag
+            self.clientRequestToken = clientRequestToken
+            self.minConfidence = minConfidence
+            self.notificationChannel = notificationChannel
+            self.video = video
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobTag = "JobTag"
+            case clientRequestToken = "ClientRequestToken"
+            case minConfidence = "MinConfidence"
+            case notificationChannel = "NotificationChannel"
+            case video = "Video"
+        }
+    }
+
+    public struct GetFaceSearchRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Sort to use for grouping faces in the response. Use TIMESTAMP to group faces by the time that they are recognized. Use INDEX to sort by recognized faces. 
+        public let sortBy: FaceSearchSortBy?
+        /// If the previous response was incomplete (because there is more search results to retrieve), Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of search results. 
+        public let nextToken: String?
+        /// The job identifer for the search request. You get the job identifier from an initial call to StartFaceSearch.
+        public let jobId: String
+        /// Maximum number of search results you want Rekognition Video to return in the response. The default is 1000.
+        public let maxResults: Int32?
+
+        public init(sortBy: FaceSearchSortBy? = nil, nextToken: String? = nil, jobId: String, maxResults: Int32? = nil) {
+            self.sortBy = sortBy
+            self.nextToken = nextToken
+            self.jobId = jobId
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case nextToken = "NextToken"
+            case jobId = "JobId"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct PersonDetection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timestamp", required: false, type: .long), 
+            AWSShapeMember(label: "Person", required: false, type: .structure)
+        ]
+        /// The time, in milliseconds from the start of the video, that the person was tracked.
+        public let timestamp: Int64?
+        /// Details about a person tracked in a video.
+        public let person: PersonDetail?
+
+        public init(timestamp: Int64? = nil, person: PersonDetail? = nil) {
+            self.timestamp = timestamp
+            self.person = person
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+            case person = "Person"
+        }
+    }
+
+    public struct GetCelebrityRecognitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Sort to use for celebrities returned in Celebrities field. Specify ID to sort by the celebrity identifier, specify TIMESTAMP to sort by the time the celebrity was recognized.
+        public let sortBy: CelebrityRecognitionSortBy?
+        /// If the previous response was incomplete (because there is more recognized celebrities to retrieve), Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of celebrities. 
+        public let nextToken: String?
+        /// Job identifier for the required celebrity recognition analysis. You can get the job identifer from a call to StartCelebrityRecognition.
+        public let jobId: String
+        /// Maximum number of celebrities you want Rekognition Video to return in the response. The default is 1000.
+        public let maxResults: Int32?
+
+        public init(sortBy: CelebrityRecognitionSortBy? = nil, nextToken: String? = nil, jobId: String, maxResults: Int32? = nil) {
+            self.sortBy = sortBy
+            self.nextToken = nextToken
+            self.jobId = jobId
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case nextToken = "NextToken"
+            case jobId = "JobId"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct FaceRecord: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Face", required: false, type: .structure), 
+            AWSShapeMember(label: "FaceDetail", required: false, type: .structure)
+        ]
+        /// Describes the face properties such as the bounding box, face ID, image ID of the input image, and external image ID that you assigned. 
+        public let face: Face?
+        /// Structure containing attributes of the face that the algorithm detected.
+        public let faceDetail: FaceDetail?
+
+        public init(face: Face? = nil, faceDetail: FaceDetail? = nil) {
+            self.face = face
+            self.faceDetail = faceDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case face = "Face"
+            case faceDetail = "FaceDetail"
+        }
+    }
+
+    public struct CompareFacesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceImage", required: true, type: .structure), 
+            AWSShapeMember(label: "TargetImage", required: true, type: .structure), 
+            AWSShapeMember(label: "SimilarityThreshold", required: false, type: .float)
+        ]
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
+        public let sourceImage: Image
+        /// The target image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
+        public let targetImage: Image
+        /// The minimum level of confidence in the face matches that a match must meet to be included in the FaceMatches array.
+        public let similarityThreshold: Float?
+
+        public init(sourceImage: Image, targetImage: Image, similarityThreshold: Float? = nil) {
+            self.sourceImage = sourceImage
+            self.targetImage = targetImage
+            self.similarityThreshold = similarityThreshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceImage = "SourceImage"
+            case targetImage = "TargetImage"
+            case similarityThreshold = "SimilarityThreshold"
+        }
+    }
+
+    public struct RecognizeCelebritiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrientationCorrection", required: false, type: .enum), 
+            AWSShapeMember(label: "CelebrityFaces", required: false, type: .list), 
+            AWSShapeMember(label: "UnrecognizedFaces", required: false, type: .list)
+        ]
+        /// The orientation of the input image (counterclockwise direction). If your application displays the image, you can use this value to correct the orientation. The bounding box coordinates returned in CelebrityFaces and UnrecognizedFaces represent face locations before the image orientation is corrected.   If the input image is in .jpeg format, it might contain exchangeable image (Exif) metadata that includes the image's orientation. If so, and the Exif metadata for the input image populates the orientation field, the value of OrientationCorrection is null and the CelebrityFaces and UnrecognizedFaces bounding box coordinates represent face locations after Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata.  
+        public let orientationCorrection: OrientationCorrection?
+        /// Details about each celebrity found in the image. Amazon Rekognition can detect a maximum of 15 celebrities in an image.
+        public let celebrityFaces: [Celebrity]?
+        /// Details about each unrecognized face in the image.
+        public let unrecognizedFaces: [ComparedFace]?
+
+        public init(orientationCorrection: OrientationCorrection? = nil, celebrityFaces: [Celebrity]? = nil, unrecognizedFaces: [ComparedFace]? = nil) {
+            self.orientationCorrection = orientationCorrection
+            self.celebrityFaces = celebrityFaces
+            self.unrecognizedFaces = unrecognizedFaces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case orientationCorrection = "OrientationCorrection"
+            case celebrityFaces = "CelebrityFaces"
+            case unrecognizedFaces = "UnrecognizedFaces"
+        }
+    }
+
+    public struct TextDetection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Geometry", required: false, type: .structure), 
+            AWSShapeMember(label: "ParentId", required: false, type: .integer), 
+            AWSShapeMember(label: "DetectedText", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Id", required: false, type: .integer)
+        ]
+        /// The location of the detected text on the image. Includes an axis aligned coarse bounding box surrounding the text and a finer grain polygon for more accurate spatial information.
+        public let geometry: Geometry?
+        /// The Parent identifier for the detected text identified by the value of ID. If the type of detected text is LINE, the value of ParentId is Null. 
+        public let parentId: Int32?
+        /// The word or line of text recognized by Amazon Rekognition. 
+        public let detectedText: String?
+        /// The type of text that was detected.
+        public let `type`: TextTypes?
+        /// The confidence that Amazon Rekognition has in the accuracy of the detected text and the accuracy of the geometry points around the detected text.
+        public let confidence: Float?
+        /// The identifier for the detected text. The identifier is only unique for a single call to DetectText. 
+        public let id: Int32?
+
+        public init(geometry: Geometry? = nil, parentId: Int32? = nil, detectedText: String? = nil, type: TextTypes? = nil, confidence: Float? = nil, id: Int32? = nil) {
+            self.geometry = geometry
+            self.parentId = parentId
+            self.detectedText = detectedText
+            self.`type` = `type`
+            self.confidence = confidence
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case geometry = "Geometry"
+            case parentId = "ParentId"
+            case detectedText = "DetectedText"
+            case `type` = "Type"
+            case confidence = "Confidence"
+            case id = "Id"
+        }
+    }
+
+    public struct MouthOpen: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Value", required: false, type: .boolean)
+        ]
+        /// Level of confidence in the determination.
+        public let confidence: Float?
+        /// Boolean value that indicates whether the mouth on the face is open or not.
+        public let value: Bool?
+
+        public init(confidence: Float? = nil, value: Bool? = nil) {
+            self.confidence = confidence
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case value = "Value"
+        }
+    }
+
+    public struct CreateStreamProcessorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Settings", required: true, type: .structure), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Input", required: true, type: .structure), 
+            AWSShapeMember(label: "Output", required: true, type: .structure)
+        ]
+        /// Face recognition input parameters to be used by the stream processor. Includes the collection to use for face recognition and the face attributes to detect.
+        public let settings: StreamProcessorSettings
+        /// ARN of the IAM role that allows access to the stream processor.
+        public let roleArn: String
+        /// An identifier you assign to the stream processor. You can use Name to manage the stream processor. For example, you can get the current status of the stream processor by calling . Name is idempotent. 
+        public let name: String
+        /// Kinesis video stream stream that provides the source streaming video. If you are using the AWS CLI, the parameter name is StreamProcessorInput.
+        public let input: StreamProcessorInput
+        /// Kinesis data stream stream to which Rekognition Video puts the analysis results. If you are using the AWS CLI, the parameter name is StreamProcessorOutput.
+        public let output: StreamProcessorOutput
+
+        public init(settings: StreamProcessorSettings, roleArn: String, name: String, input: StreamProcessorInput, output: StreamProcessorOutput) {
+            self.settings = settings
+            self.roleArn = roleArn
+            self.name = name
+            self.input = input
+            self.output = output
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case settings = "Settings"
+            case roleArn = "RoleArn"
+            case name = "Name"
+            case input = "Input"
+            case output = "Output"
+        }
+    }
+
+    public struct FaceDetection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timestamp", required: false, type: .long), 
+            AWSShapeMember(label: "Face", required: false, type: .structure)
+        ]
+        /// Time, in milliseconds from the start of the video, that the face was detected.
+        public let timestamp: Int64?
+        /// The face properties for the detected face.
+        public let face: FaceDetail?
+
+        public init(timestamp: Int64? = nil, face: FaceDetail? = nil) {
+            self.timestamp = timestamp
+            self.face = face
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+            case face = "Face"
+        }
+    }
+
+    public struct StartCelebrityRecognitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+        /// The identifier for the celebrity recognition analysis job. Use JobId to identify the job in a subsequent call to GetCelebrityRecognition.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StreamProcessorSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FaceSearch", required: false, type: .structure)
+        ]
+        /// Face search settings to use on a streaming video. 
+        public let faceSearch: FaceSearchSettings?
+
+        public init(faceSearch: FaceSearchSettings? = nil) {
+            self.faceSearch = faceSearch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faceSearch = "FaceSearch"
+        }
+    }
+
+    public struct ImageQuality: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Sharpness", required: false, type: .float), 
+            AWSShapeMember(label: "Brightness", required: false, type: .float)
+        ]
+        /// Value representing sharpness of the face. The service returns a value between 0 and 100 (inclusive). A higher value indicates a sharper face image.
+        public let sharpness: Float?
+        /// Value representing brightness of the face. The service returns a value between 0 and 100 (inclusive). A higher value indicates a brighter face image.
+        public let brightness: Float?
+
+        public init(sharpness: Float? = nil, brightness: Float? = nil) {
+            self.sharpness = sharpness
+            self.brightness = brightness
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sharpness = "Sharpness"
+            case brightness = "Brightness"
+        }
+    }
+
+    public struct DeleteStreamProcessorResponse: AWSShape {
+
+    }
+
+    public struct StartContentModerationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+        /// The identifier for the content moderation analysis job. Use JobId to identify the job in a subsequent call to GetContentModeration.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct IndexFacesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Image", required: true, type: .structure), 
+            AWSShapeMember(label: "ExternalImageId", required: false, type: .string), 
+            AWSShapeMember(label: "CollectionId", required: true, type: .string), 
+            AWSShapeMember(label: "DetectionAttributes", required: false, type: .list)
+        ]
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
+        public let image: Image
+        /// ID you want to assign to all the faces detected in the image.
+        public let externalImageId: String?
+        /// The ID of an existing collection to which you want to add the faces that are detected in the input images.
+        public let collectionId: String
+        /// An array of facial attributes that you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ["DEFAULT"], the API returns the following subset of facial attributes: BoundingBox, Confidence, Pose, Quality and Landmarks. If you provide ["ALL"], all facial attributes are returned but the operation will take longer to complete. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes). 
+        public let detectionAttributes: [Attribute]?
+
+        public init(image: Image, externalImageId: String? = nil, collectionId: String, detectionAttributes: [Attribute]? = nil) {
+            self.image = image
+            self.externalImageId = externalImageId
+            self.collectionId = collectionId
+            self.detectionAttributes = detectionAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+            case externalImageId = "ExternalImageId"
+            case collectionId = "CollectionId"
+            case detectionAttributes = "DetectionAttributes"
+        }
+    }
+
+    public enum EmotionName: String, CustomStringConvertible, Codable {
+        case happy = "HAPPY"
+        case sad = "SAD"
+        case angry = "ANGRY"
+        case confused = "CONFUSED"
+        case disgusted = "DISGUSTED"
+        case surprised = "SURPRISED"
+        case calm = "CALM"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DetectTextRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Image", required: true, type: .structure)
+        ]
+        /// The input image as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Rekognition operations, you can't pass image bytes. 
+        public let image: Image
+
+        public init(image: Image) {
+            self.image = image
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+        }
+    }
+
+    public struct KinesisDataStream: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string)
+        ]
+        /// ARN of the output Amazon Kinesis Data Streams stream.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct ListCollectionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FaceModelVersions", required: false, type: .list), 
+            AWSShapeMember(label: "CollectionIds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// Version numbers of the face detection models associated with the collections in the array CollectionIds. For example, the value of FaceModelVersions[2] is the version number for the face detection model used by the collection in CollectionId[2].
+        public let faceModelVersions: [String]?
+        /// An array of collection IDs.
+        public let collectionIds: [String]?
+        /// If the result is truncated, the response provides a NextToken that you can use in the subsequent request to fetch the next set of collection IDs.
+        public let nextToken: String?
+
+        public init(faceModelVersions: [String]? = nil, collectionIds: [String]? = nil, nextToken: String? = nil) {
+            self.faceModelVersions = faceModelVersions
+            self.collectionIds = collectionIds
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faceModelVersions = "FaceModelVersions"
+            case collectionIds = "CollectionIds"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct StartFaceDetectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobTag", required: false, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "FaceAttributes", required: false, type: .enum), 
+            AWSShapeMember(label: "NotificationChannel", required: false, type: .structure), 
+            AWSShapeMember(label: "Video", required: true, type: .structure)
+        ]
+        /// Unique identifier you specify to identify the job in the completion status published to the Amazon Simple Notification Service topic. 
+        public let jobTag: String?
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartFaceDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
+        public let clientRequestToken: String?
+        /// The face attributes you want returned.  DEFAULT - The following subset of facial attributes are returned: BoundingBox, Confidence, Pose, Quality and Landmarks.   ALL - All facial attributes are returned.
+        public let faceAttributes: FaceAttributes?
+        /// The ARN of the Amazon SNS topic to which you want Rekognition Video to publish the completion status of the face detection operation.
+        public let notificationChannel: NotificationChannel?
+        /// The video in which you want to detect faces. The video must be stored in an Amazon S3 bucket.
+        public let video: Video
+
+        public init(jobTag: String? = nil, clientRequestToken: String? = nil, faceAttributes: FaceAttributes? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
+            self.jobTag = jobTag
+            self.clientRequestToken = clientRequestToken
+            self.faceAttributes = faceAttributes
+            self.notificationChannel = notificationChannel
+            self.video = video
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobTag = "JobTag"
+            case clientRequestToken = "ClientRequestToken"
+            case faceAttributes = "FaceAttributes"
+            case notificationChannel = "NotificationChannel"
+            case video = "Video"
+        }
+    }
+
+    public struct StopStreamProcessorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of a stream processor created by .
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct GetCelebrityRecognitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "VideoMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Celebrities", required: false, type: .list)
+        ]
+        /// If the job fails, StatusMessage provides a descriptive error message.
+        public let statusMessage: String?
+        /// The current status of the celebrity recognition job.
+        public let jobStatus: VideoJobStatus?
+        /// Information about a video that Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Rekognition Video operation.
+        public let videoMetadata: VideoMetadata?
+        /// If the response is truncated, Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of celebrities.
+        public let nextToken: String?
+        /// Array of celebrities recognized in the video.
+        public let celebrities: [CelebrityRecognition]?
+
+        public init(statusMessage: String? = nil, jobStatus: VideoJobStatus? = nil, videoMetadata: VideoMetadata? = nil, nextToken: String? = nil, celebrities: [CelebrityRecognition]? = nil) {
+            self.statusMessage = statusMessage
+            self.jobStatus = jobStatus
+            self.videoMetadata = videoMetadata
+            self.nextToken = nextToken
+            self.celebrities = celebrities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusMessage = "StatusMessage"
+            case jobStatus = "JobStatus"
+            case videoMetadata = "VideoMetadata"
+            case nextToken = "NextToken"
+            case celebrities = "Celebrities"
+        }
+    }
+
+    public struct PersonMatch: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timestamp", required: false, type: .long), 
+            AWSShapeMember(label: "Person", required: false, type: .structure), 
+            AWSShapeMember(label: "FaceMatches", required: false, type: .list)
+        ]
+        /// The time, in milliseconds from the beginning of the video, that the person was matched in the video.
+        public let timestamp: Int64?
+        /// Information about the matched person.
+        public let person: PersonDetail?
+        /// Information about the faces in the input collection that match the face of a person in the video.
+        public let faceMatches: [FaceMatch]?
+
+        public init(timestamp: Int64? = nil, person: PersonDetail? = nil, faceMatches: [FaceMatch]? = nil) {
+            self.timestamp = timestamp
+            self.person = person
+            self.faceMatches = faceMatches
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+            case person = "Person"
+            case faceMatches = "FaceMatches"
+        }
+    }
+
+    public enum FaceAttributes: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DetectModerationLabelsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ModerationLabels", required: false, type: .list)
+        ]
+        /// Array of detected Moderation labels and the time, in millseconds from the start of the video, they were detected.
+        public let moderationLabels: [ModerationLabel]?
+
+        public init(moderationLabels: [ModerationLabel]? = nil) {
+            self.moderationLabels = moderationLabels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case moderationLabels = "ModerationLabels"
+        }
+    }
+
+    public struct DeleteStreamProcessorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the stream processor you want to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct StartCelebrityRecognitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobTag", required: false, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationChannel", required: false, type: .structure), 
+            AWSShapeMember(label: "Video", required: true, type: .structure)
+        ]
+        /// Unique identifier you specify to identify the job in the completion status published to the Amazon Simple Notification Service topic. 
+        public let jobTag: String?
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartCelebrityRecognition requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
+        public let clientRequestToken: String?
+        /// The Amazon SNS topic ARN that you want Rekognition Video to publish the completion status of the celebrity recognition analysis to.
+        public let notificationChannel: NotificationChannel?
+        /// The video in which you want to recognize celebrities. The video must be stored in an Amazon S3 bucket.
+        public let video: Video
+
+        public init(jobTag: String? = nil, clientRequestToken: String? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
+            self.jobTag = jobTag
+            self.clientRequestToken = clientRequestToken
+            self.notificationChannel = notificationChannel
+            self.video = video
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobTag = "JobTag"
+            case clientRequestToken = "ClientRequestToken"
+            case notificationChannel = "NotificationChannel"
+            case video = "Video"
+        }
+    }
+
+    public struct StreamProcessorOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KinesisDataStream", required: false, type: .structure)
+        ]
+        /// The Amazon Kinesis Data Streams stream to which the Amazon Rekognition stream processor streams the analysis results.
+        public let kinesisDataStream: KinesisDataStream?
+
+        public init(kinesisDataStream: KinesisDataStream? = nil) {
+            self.kinesisDataStream = kinesisDataStream
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kinesisDataStream = "KinesisDataStream"
+        }
+    }
+
+    public struct Geometry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BoundingBox", required: false, type: .structure), 
+            AWSShapeMember(label: "Polygon", required: false, type: .list)
+        ]
+        /// An axis-aligned coarse representation of the detected text's location on the image.
+        public let boundingBox: BoundingBox?
+        /// Within the bounding box, a fine-grained polygon around the detected text.
+        public let polygon: [Point]?
+
+        public init(boundingBox: BoundingBox? = nil, polygon: [Point]? = nil) {
+            self.boundingBox = boundingBox
+            self.polygon = polygon
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case boundingBox = "BoundingBox"
+            case polygon = "Polygon"
+        }
+    }
+
+    public struct Celebrity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Face", required: false, type: .structure), 
+            AWSShapeMember(label: "Urls", required: false, type: .list), 
+            AWSShapeMember(label: "MatchConfidence", required: false, type: .float), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
+        ]
+        /// Provides information about the celebrity's face, such as its location on the image.
+        public let face: ComparedFace?
+        /// An array of URLs pointing to additional information about the celebrity. If there is no additional information about the celebrity, this list is empty.
+        public let urls: [String]?
+        /// The confidence, in percentage, that Rekognition has that the recognized face is the celebrity.
+        public let matchConfidence: Float?
+        /// The name of the celebrity.
+        public let name: String?
+        /// A unique identifier for the celebrity. 
+        public let id: String?
+
+        public init(face: ComparedFace? = nil, urls: [String]? = nil, matchConfidence: Float? = nil, name: String? = nil, id: String? = nil) {
+            self.face = face
+            self.urls = urls
+            self.matchConfidence = matchConfidence
+            self.name = name
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case face = "Face"
+            case urls = "Urls"
+            case matchConfidence = "MatchConfidence"
+            case name = "Name"
+            case id = "Id"
+        }
+    }
+
+    public struct GetPersonTrackingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Persons", required: false, type: .list), 
+            AWSShapeMember(label: "VideoMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
+        ]
+        /// The current status of the person tracking job.
+        public let jobStatus: VideoJobStatus?
+        /// An array of the persons detected in the video and the times they are tracked throughout the video. An array element will exist for each time the person is tracked. 
+        public let persons: [PersonDetection]?
+        /// Information about a video that Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Rekognition Video operation.
+        public let videoMetadata: VideoMetadata?
+        /// If the response is truncated, Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of persons. 
+        public let nextToken: String?
+        /// If the job fails, StatusMessage provides a descriptive error message.
+        public let statusMessage: String?
+
+        public init(jobStatus: VideoJobStatus? = nil, persons: [PersonDetection]? = nil, videoMetadata: VideoMetadata? = nil, nextToken: String? = nil, statusMessage: String? = nil) {
+            self.jobStatus = jobStatus
+            self.persons = persons
+            self.videoMetadata = videoMetadata
+            self.nextToken = nextToken
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobStatus = "JobStatus"
+            case persons = "Persons"
+            case videoMetadata = "VideoMetadata"
+            case nextToken = "NextToken"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct GetFaceDetectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Faces", required: false, type: .list), 
+            AWSShapeMember(label: "VideoMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+        /// If the job fails, StatusMessage provides a descriptive error message.
+        public let statusMessage: String?
+        /// The current status of the face detection job.
+        public let jobStatus: VideoJobStatus?
+        /// An array of faces detected in the video. Each element contains a detected face's details and the time, in milliseconds from the start of the video, the face was detected. 
+        public let faces: [FaceDetection]?
+        /// Information about a video that Rekognition Video analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition video operation.
+        public let videoMetadata: VideoMetadata?
+        /// If the response is truncated, Amazon Rekognition returns this token that you can use in the subsequent request to retrieve the next set of faces. 
+        public let nextToken: String?
+
+        public init(statusMessage: String? = nil, jobStatus: VideoJobStatus? = nil, faces: [FaceDetection]? = nil, videoMetadata: VideoMetadata? = nil, nextToken: String? = nil) {
+            self.statusMessage = statusMessage
+            self.jobStatus = jobStatus
+            self.faces = faces
+            self.videoMetadata = videoMetadata
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusMessage = "StatusMessage"
+            case jobStatus = "JobStatus"
+            case faces = "Faces"
+            case videoMetadata = "VideoMetadata"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct Point: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "X", required: false, type: .float), 
+            AWSShapeMember(label: "Y", required: false, type: .float)
+        ]
+        /// The value of the X coordinate for a point on a Polygon.
+        public let x: Float?
+        /// The value of the Y coordinate for a point on a Polygon.
+        public let y: Float?
+
+        public init(x: Float? = nil, y: Float? = nil) {
+            self.x = x
+            self.y = y
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case x = "X"
+            case y = "Y"
+        }
+    }
+
+    public struct ListStreamProcessorsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StreamProcessors", required: false, type: .list)
+        ]
+        /// If the response is truncated, Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of stream processors. 
+        public let nextToken: String?
+        /// List of stream processors that you have created.
+        public let streamProcessors: [StreamProcessor]?
+
+        public init(nextToken: String? = nil, streamProcessors: [StreamProcessor]? = nil) {
+            self.nextToken = nextToken
+            self.streamProcessors = streamProcessors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case streamProcessors = "StreamProcessors"
+        }
+    }
+
+    public struct EyeOpen: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Value", required: false, type: .boolean)
+        ]
+        /// Level of confidence in the determination.
+        public let confidence: Float?
+        /// Boolean value that indicates whether the eyes on the face are open.
+        public let value: Bool?
+
+        public init(confidence: Float? = nil, value: Bool? = nil) {
+            self.confidence = confidence
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case value = "Value"
+        }
+    }
+
+    public struct StartStreamProcessorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+        /// The name of the stream processor to start processing.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct GetLabelDetectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Sort to use for elements in the Labels array. Use TIMESTAMP to sort array elements by the time labels are detected. Use NAME to alphabetically group elements for a label together. Within each label group, the array element are sorted by detection confidence. The default sort is by TIMESTAMP.
+        public let sortBy: LabelDetectionSortBy?
+        /// If the previous response was incomplete (because there are more labels to retrieve), Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of labels. 
+        public let nextToken: String?
+        /// Job identifier for the label detection operation for which you want results returned. You get the job identifer from an initial call to StartlabelDetection.
+        public let jobId: String
+        /// Maximum number of labels you want Amazon Rekognition to return in the response. The default is 1000.
+        public let maxResults: Int32?
+
+        public init(sortBy: LabelDetectionSortBy? = nil, nextToken: String? = nil, jobId: String, maxResults: Int32? = nil) {
+            self.sortBy = sortBy
+            self.nextToken = nextToken
+            self.jobId = jobId
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case nextToken = "NextToken"
+            case jobId = "JobId"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct StartPersonTrackingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobTag", required: false, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationChannel", required: false, type: .structure), 
+            AWSShapeMember(label: "Video", required: true, type: .structure)
+        ]
+        /// Unique identifier you specify to identify the job in the completion status published to the Amazon Simple Notification Service topic. 
+        public let jobTag: String?
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartPersonTracking requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
+        public let clientRequestToken: String?
+        /// The Amazon SNS topic ARN you want Rekognition Video to publish the completion status of the people detection operation to.
+        public let notificationChannel: NotificationChannel?
+        /// The video in which you want to detect people. The video must be stored in an Amazon S3 bucket.
+        public let video: Video
+
+        public init(jobTag: String? = nil, clientRequestToken: String? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
+            self.jobTag = jobTag
+            self.clientRequestToken = clientRequestToken
+            self.notificationChannel = notificationChannel
+            self.video = video
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobTag = "JobTag"
+            case clientRequestToken = "ClientRequestToken"
+            case notificationChannel = "NotificationChannel"
+            case video = "Video"
+        }
+    }
+
+    public struct GetFaceDetectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// If the previous response was incomplete (because there are more faces to retrieve), Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
+        public let nextToken: String?
+        /// Unique identifier for the face detection job. The JobId is returned from StartFaceDetection.
+        public let jobId: String
+        /// Maximum number of detected faces to return. The default is 1000.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, jobId: String, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.jobId = jobId
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case jobId = "JobId"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public enum ContentModerationSortBy: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct StartStreamProcessorResponse: AWSShape {
+
+    }
+
+    public struct StartLabelDetectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+        /// The identifier for the label detection job. Use JobId to identify the job in a subsequent call to GetLabelDetection. 
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct CelebrityRecognition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timestamp", required: false, type: .long), 
+            AWSShapeMember(label: "Celebrity", required: false, type: .structure)
+        ]
+        /// The time, in milliseconds from the start of the video, that the celebrity was recognized.
+        public let timestamp: Int64?
+        /// Information about a recognized celebrity.
+        public let celebrity: CelebrityDetail?
+
+        public init(timestamp: Int64? = nil, celebrity: CelebrityDetail? = nil) {
+            self.timestamp = timestamp
+            self.celebrity = celebrity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+            case celebrity = "Celebrity"
+        }
+    }
+
+    public struct Sunglasses: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Value", required: false, type: .boolean)
+        ]
+        /// Level of confidence in the determination.
+        public let confidence: Float?
+        /// Boolean value that indicates whether the face is wearing sunglasses or not.
+        public let value: Bool?
+
+        public init(confidence: Float? = nil, value: Bool? = nil) {
+            self.confidence = confidence
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case value = "Value"
+        }
+    }
+
+    public struct Image: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bytes", required: false, type: .blob), 
+            AWSShapeMember(label: "S3Object", required: false, type: .structure)
+        ]
+        /// Blob of image bytes up to 5 MBs.
+        public let bytes: Data?
+        /// Identifies an S3 object as the image source.
+        public let s3Object: S3Object?
+
+        public init(bytes: Data? = nil, s3Object: S3Object? = nil) {
+            self.bytes = bytes
+            self.s3Object = s3Object
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytes = "Bytes"
+            case s3Object = "S3Object"
+        }
+    }
+
+    public struct LabelDetection: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timestamp", required: false, type: .long), 
+            AWSShapeMember(label: "Label", required: false, type: .structure)
+        ]
+        /// Time, in milliseconds from the start of the video, that the label was detected.
+        public let timestamp: Int64?
+        /// Details about the detected label.
+        public let label: Label?
+
+        public init(timestamp: Int64? = nil, label: Label? = nil) {
+            self.timestamp = timestamp
+            self.label = label
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+            case label = "Label"
+        }
+    }
+
+    public struct AgeRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "High", required: false, type: .integer), 
+            AWSShapeMember(label: "Low", required: false, type: .integer)
+        ]
+        /// The highest estimated age.
+        public let high: Int32?
+        /// The lowest estimated age.
+        public let low: Int32?
+
+        public init(high: Int32? = nil, low: Int32? = nil) {
+            self.high = high
+            self.low = low
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case high = "High"
+            case low = "Low"
+        }
+    }
+
+    public struct Eyeglasses: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Value", required: false, type: .boolean)
+        ]
+        /// Level of confidence in the determination.
+        public let confidence: Float?
+        /// Boolean value that indicates whether the face is wearing eye glasses or not.
+        public let value: Bool?
+
+        public init(confidence: Float? = nil, value: Bool? = nil) {
+            self.confidence = confidence
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case value = "Value"
+        }
+    }
+
+    public struct DeleteCollectionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CollectionId", required: true, type: .string)
+        ]
+        /// ID of the collection to delete.
+        public let collectionId: String
+
+        public init(collectionId: String) {
+            self.collectionId = collectionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionId = "CollectionId"
+        }
+    }
+
+    public struct ListFacesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "CollectionId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
+        public let nextToken: String?
+        /// ID of the collection from which to list the faces.
+        public let collectionId: String
+        /// Maximum number of faces to return.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, collectionId: String, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.collectionId = collectionId
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case collectionId = "CollectionId"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public struct ComparedSourceImageFace: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "BoundingBox", required: false, type: .structure)
+        ]
+        /// Confidence level that the selected bounding box contains a face.
+        public let confidence: Float?
+        /// Bounding box of the face.
+        public let boundingBox: BoundingBox?
+
+        public init(confidence: Float? = nil, boundingBox: BoundingBox? = nil) {
+            self.confidence = confidence
+            self.boundingBox = boundingBox
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case boundingBox = "BoundingBox"
+        }
+    }
+
+    public struct VideoMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Format", required: false, type: .string), 
+            AWSShapeMember(label: "Codec", required: false, type: .string), 
+            AWSShapeMember(label: "DurationMillis", required: false, type: .long), 
+            AWSShapeMember(label: "FrameHeight", required: false, type: .long), 
+            AWSShapeMember(label: "FrameWidth", required: false, type: .long), 
+            AWSShapeMember(label: "FrameRate", required: false, type: .float)
+        ]
+        /// Format of the analyzed video. Possible values are MP4, MOV and AVI. 
+        public let format: String?
+        /// Type of compression used in the analyzed video. 
+        public let codec: String?
+        /// Length of the video in milliseconds.
+        public let durationMillis: Int64?
+        /// Vertical pixel dimension of the video.
+        public let frameHeight: Int64?
+        /// Horizontal pixel dimension of the video.
+        public let frameWidth: Int64?
+        /// Number of frames per second in the video.
+        public let frameRate: Float?
+
+        public init(format: String? = nil, codec: String? = nil, durationMillis: Int64? = nil, frameHeight: Int64? = nil, frameWidth: Int64? = nil, frameRate: Float? = nil) {
+            self.format = format
+            self.codec = codec
+            self.durationMillis = durationMillis
+            self.frameHeight = frameHeight
+            self.frameWidth = frameWidth
+            self.frameRate = frameRate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "Format"
+            case codec = "Codec"
+            case durationMillis = "DurationMillis"
+            case frameHeight = "FrameHeight"
+            case frameWidth = "FrameWidth"
+            case frameRate = "FrameRate"
+        }
+    }
+
+    public struct DeleteFacesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FaceIds", required: true, type: .list), 
+            AWSShapeMember(label: "CollectionId", required: true, type: .string)
+        ]
+        /// An array of face IDs to delete.
+        public let faceIds: [String]
+        /// Collection from which to remove the specific faces.
+        public let collectionId: String
+
+        public init(faceIds: [String], collectionId: String) {
+            self.faceIds = faceIds
+            self.collectionId = collectionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faceIds = "FaceIds"
+            case collectionId = "CollectionId"
+        }
+    }
+
+    public struct DeleteFacesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeletedFaces", required: false, type: .list)
+        ]
+        /// An array of strings (face IDs) of the faces that were deleted.
+        public let deletedFaces: [String]?
+
+        public init(deletedFaces: [String]? = nil) {
+            self.deletedFaces = deletedFaces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletedFaces = "DeletedFaces"
+        }
+    }
+
+    public struct GetContentModerationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Sort to use for elements in the ModerationLabelDetections array. Use TIMESTAMP to sort array elements by the time labels are detected. Use NAME to alphabetically group elements for a label together. Within each label group, the array element are sorted by detection confidence. The default sort is by TIMESTAMP.
+        public let sortBy: ContentModerationSortBy?
+        /// If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of content moderation labels.
+        public let nextToken: String?
+        /// The identifier for the content moderation job. Use JobId to identify the job in a subsequent call to GetContentModeration.
+        public let jobId: String
+        /// Maximum number of content moderation labels to return. The default is 1000.
+        public let maxResults: Int32?
+
+        public init(sortBy: ContentModerationSortBy? = nil, nextToken: String? = nil, jobId: String, maxResults: Int32? = nil) {
+            self.sortBy = sortBy
+            self.nextToken = nextToken
+            self.jobId = jobId
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case nextToken = "NextToken"
+            case jobId = "JobId"
+            case maxResults = "MaxResults"
+        }
+    }
+
+    public enum TextTypes: String, CustomStringConvertible, Codable {
+        case line = "LINE"
+        case word = "WORD"
+        public var description: String { return self.rawValue }
+    }
+
     public struct SearchFacesByImageRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Image", required: true, type: .structure), 
             AWSShapeMember(label: "FaceMatchThreshold", required: false, type: .float), 
             AWSShapeMember(label: "MaxFaces", required: false, type: .integer), 
             AWSShapeMember(label: "CollectionId", required: true, type: .string)
         ]
-        /// The input image as bytes or an S3 object.
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
         public let image: Image
         /// (Optional) Specifies the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%.
         public let faceMatchThreshold: Float?
@@ -975,50 +2500,60 @@ extension Rekognition {
         }
     }
 
-    public struct FaceMatch: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Face", required: false, type: .structure), 
-            AWSShapeMember(label: "Similarity", required: false, type: .float)
+    public struct StartPersonTrackingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
-        /// Describes the face properties such as the bounding box, face ID, image ID of the source image, and external image ID that you assigned.
-        public let face: Face?
-        /// Confidence in the match of this face with the input face.
-        public let similarity: Float?
+        /// The identifier for the person detection job. Use JobId to identify the job in a subsequent call to GetPersonTracking.
+        public let jobId: String?
 
-        public init(face: Face? = nil, similarity: Float? = nil) {
-            self.face = face
-            self.similarity = similarity
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case face = "Face"
-            case similarity = "Similarity"
+            case jobId = "JobId"
         }
     }
 
-    public struct DetectModerationLabelsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Image", required: true, type: .structure), 
-            AWSShapeMember(label: "MinConfidence", required: false, type: .float)
+    public struct GetContentModerationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ModerationLabels", required: false, type: .list), 
+            AWSShapeMember(label: "VideoMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
         ]
-        /// The input image as bytes or an S3 object.
-        public let image: Image
-        /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
-        public let minConfidence: Float?
+        /// The current status of the content moderation job.
+        public let jobStatus: VideoJobStatus?
+        /// The detected moderation labels and the time(s) they were detected.
+        public let moderationLabels: [ContentModerationDetection]?
+        /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from GetContentModeration. 
+        public let videoMetadata: VideoMetadata?
+        /// If the response is truncated, Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of moderation labels. 
+        public let nextToken: String?
+        /// If the job fails, StatusMessage provides a descriptive error message.
+        public let statusMessage: String?
 
-        public init(image: Image, minConfidence: Float? = nil) {
-            self.image = image
-            self.minConfidence = minConfidence
+        public init(jobStatus: VideoJobStatus? = nil, moderationLabels: [ContentModerationDetection]? = nil, videoMetadata: VideoMetadata? = nil, nextToken: String? = nil, statusMessage: String? = nil) {
+            self.jobStatus = jobStatus
+            self.moderationLabels = moderationLabels
+            self.videoMetadata = videoMetadata
+            self.nextToken = nextToken
+            self.statusMessage = statusMessage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case image = "Image"
-            case minConfidence = "MinConfidence"
+            case jobStatus = "JobStatus"
+            case moderationLabels = "ModerationLabels"
+            case videoMetadata = "VideoMetadata"
+            case nextToken = "NextToken"
+            case statusMessage = "StatusMessage"
         }
     }
 
     public struct Label: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
@@ -1038,34 +2573,34 @@ extension Rekognition {
         }
     }
 
-    public struct ListCollectionsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+    public struct DetectModerationLabelsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Image", required: true, type: .structure), 
+            AWSShapeMember(label: "MinConfidence", required: false, type: .float)
         ]
-        /// Pagination token from the previous response.
-        public let nextToken: String?
-        /// Maximum number of collection IDs to return.
-        public let maxResults: Int32?
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
+        public let image: Image
+        /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
+        public let minConfidence: Float?
 
-        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
-            self.maxResults = maxResults
+        public init(image: Image, minConfidence: Float? = nil) {
+            self.image = image
+            self.minConfidence = minConfidence
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "NextToken"
-            case maxResults = "MaxResults"
+            case image = "Image"
+            case minConfidence = "MinConfidence"
         }
     }
 
     public struct DetectLabelsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Image", required: true, type: .structure), 
             AWSShapeMember(label: "MaxLabels", required: false, type: .integer), 
             AWSShapeMember(label: "MinConfidence", required: false, type: .float)
         ]
-        /// The input image. You can provide a blob of image bytes or an S3 object.
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
         public let image: Image
         /// Maximum number of labels you want the service to return in the response. The service returns the specified number of highest confidence labels. 
         public let maxLabels: Int32?
@@ -1085,56 +2620,119 @@ extension Rekognition {
         }
     }
 
+    public struct Video: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Object", required: false, type: .structure)
+        ]
+        /// The Amazon S3 bucket name and file name for the video.
+        public let s3Object: S3Object?
+
+        public init(s3Object: S3Object? = nil) {
+            self.s3Object = s3Object
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Object = "S3Object"
+        }
+    }
+
     public struct CreateCollectionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FaceModelVersion", required: false, type: .string), 
             AWSShapeMember(label: "CollectionArn", required: false, type: .string), 
             AWSShapeMember(label: "StatusCode", required: false, type: .integer)
         ]
+        /// Version number of the face detection model associated with the collection you are creating.
+        public let faceModelVersion: String?
         /// Amazon Resource Name (ARN) of the collection. You can use this to manage permissions on your resources. 
         public let collectionArn: String?
         /// HTTP status code indicating the result of the operation.
         public let statusCode: Int32?
 
-        public init(collectionArn: String? = nil, statusCode: Int32? = nil) {
+        public init(faceModelVersion: String? = nil, collectionArn: String? = nil, statusCode: Int32? = nil) {
+            self.faceModelVersion = faceModelVersion
             self.collectionArn = collectionArn
             self.statusCode = statusCode
         }
 
         private enum CodingKeys: String, CodingKey {
+            case faceModelVersion = "FaceModelVersion"
             case collectionArn = "CollectionArn"
             case statusCode = "StatusCode"
         }
     }
 
-    public struct FaceRecord: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Face", required: false, type: .structure), 
-            AWSShapeMember(label: "FaceDetail", required: false, type: .structure)
+    public struct PersonDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BoundingBox", required: false, type: .structure), 
+            AWSShapeMember(label: "Index", required: false, type: .long), 
+            AWSShapeMember(label: "Face", required: false, type: .structure)
         ]
-        /// Describes the face properties such as the bounding box, face ID, image ID of the input image, and external image ID that you assigned. 
-        public let face: Face?
-        /// Structure containing attributes of the face that the algorithm detected.
-        public let faceDetail: FaceDetail?
+        /// Bounding box around the detected person.
+        public let boundingBox: BoundingBox?
+        /// Identifier for the person detected person within a video. Use to keep track of the person throughout the video. The identifier is not stored by Amazon Rekognition.
+        public let index: Int64?
+        /// Face details for the detected person.
+        public let face: FaceDetail?
 
-        public init(face: Face? = nil, faceDetail: FaceDetail? = nil) {
+        public init(boundingBox: BoundingBox? = nil, index: Int64? = nil, face: FaceDetail? = nil) {
+            self.boundingBox = boundingBox
+            self.index = index
             self.face = face
-            self.faceDetail = faceDetail
         }
 
         private enum CodingKeys: String, CodingKey {
+            case boundingBox = "BoundingBox"
+            case index = "Index"
             case face = "Face"
-            case faceDetail = "FaceDetail"
         }
     }
 
-    public enum GenderType: String, CustomStringConvertible, Codable {
-        case male = "MALE"
-        case female = "FEMALE"
+    public enum LabelDetectionSortBy: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case timestamp = "TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
+    public enum GenderType: String, CustomStringConvertible, Codable {
+        case male = "Male"
+        case female = "Female"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetPersonTrackingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Sort to use for elements in the Persons array. Use TIMESTAMP to sort array elements by the time persons are detected. Use INDEX to sort by the tracked persons. If you sort by INDEX, the array elements for each person are sorted by detection confidence. The default sort is by TIMESTAMP.
+        public let sortBy: PersonTrackingSortBy?
+        /// If the previous response was incomplete (because there are more persons to retrieve), Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of persons. 
+        public let nextToken: String?
+        /// The identifier for a job that tracks persons in a video. You get the JobId from a call to StartPersonTracking. 
+        public let jobId: String
+        /// Maximum number of tracked persons to return. The default is 1000. 
+        public let maxResults: Int32?
+
+        public init(sortBy: PersonTrackingSortBy? = nil, nextToken: String? = nil, jobId: String, maxResults: Int32? = nil) {
+            self.sortBy = sortBy
+            self.nextToken = nextToken
+            self.jobId = jobId
+            self.maxResults = maxResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case nextToken = "NextToken"
+            case jobId = "JobId"
+            case maxResults = "MaxResults"
+        }
+    }
+
     public struct Face: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BoundingBox", required: false, type: .structure), 
             AWSShapeMember(label: "ExternalImageId", required: false, type: .string), 
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
@@ -1169,37 +2767,15 @@ extension Rekognition {
         }
     }
 
-    public struct CompareFacesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceImage", required: true, type: .structure), 
-            AWSShapeMember(label: "TargetImage", required: true, type: .structure), 
-            AWSShapeMember(label: "SimilarityThreshold", required: false, type: .float)
-        ]
-        /// The source image, either as bytes or as an S3 object.
-        public let sourceImage: Image
-        /// The target image, either as bytes or as an S3 object.
-        public let targetImage: Image
-        /// The minimum level of confidence in the face matches that a match must meet to be included in the FaceMatches array.
-        public let similarityThreshold: Float?
+    public struct StopStreamProcessorResponse: AWSShape {
 
-        public init(sourceImage: Image, targetImage: Image, similarityThreshold: Float? = nil) {
-            self.sourceImage = sourceImage
-            self.targetImage = targetImage
-            self.similarityThreshold = similarityThreshold
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceImage = "SourceImage"
-            case targetImage = "TargetImage"
-            case similarityThreshold = "SimilarityThreshold"
-        }
     }
 
     public struct RecognizeCelebritiesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Image", required: true, type: .structure)
         ]
-        /// The input image to use for celebrity recognition.
+        /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. 
         public let image: Image
 
         public init(image: Image) {
@@ -1211,55 +2787,51 @@ extension Rekognition {
         }
     }
 
-    public struct RecognizeCelebritiesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrientationCorrection", required: false, type: .enum), 
-            AWSShapeMember(label: "CelebrityFaces", required: false, type: .list), 
-            AWSShapeMember(label: "UnrecognizedFaces", required: false, type: .list)
-        ]
-        /// The orientation of the input image (counterclockwise direction). If your application displays the image, you can use this value to correct the orientation. The bounding box coordinates returned in CelebrityFaces and UnrecognizedFaces represent face locations before the image orientation is corrected.   If the input image is in .jpeg format, it might contain exchangeable image (Exif) metadata that includes the image's orientation. If so, and the Exif metadata for the input image populates the orientation field, the value of OrientationCorrection is null and the CelebrityFaces and UnrecognizedFaces bounding box coordinates represent face locations after Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata.  
-        public let orientationCorrection: OrientationCorrection?
-        /// Details about each celebrity found in the image. Amazon Rekognition can detect a maximum of 15 celebrities in an image.
-        public let celebrityFaces: [Celebrity]?
-        /// Details about each unrecognized face in the image.
-        public let unrecognizedFaces: [ComparedFace]?
+    public enum FaceSearchSortBy: String, CustomStringConvertible, Codable {
+        case index = "INDEX"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
 
-        public init(orientationCorrection: OrientationCorrection? = nil, celebrityFaces: [Celebrity]? = nil, unrecognizedFaces: [ComparedFace]? = nil) {
-            self.orientationCorrection = orientationCorrection
-            self.celebrityFaces = celebrityFaces
-            self.unrecognizedFaces = unrecognizedFaces
+    public struct StreamProcessor: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+        /// Name of the Amazon Rekognition stream processor. 
+        public let name: String?
+        /// Current status of the Amazon Rekognition stream processor.
+        public let status: StreamProcessorStatus?
+
+        public init(name: String? = nil, status: StreamProcessorStatus? = nil) {
+            self.name = name
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case orientationCorrection = "OrientationCorrection"
-            case celebrityFaces = "CelebrityFaces"
-            case unrecognizedFaces = "UnrecognizedFaces"
+            case name = "Name"
+            case status = "Status"
         }
     }
 
-    public struct MouthOpen: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Confidence", required: false, type: .float), 
-            AWSShapeMember(label: "Value", required: false, type: .boolean)
+    public struct StartFaceSearchResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
-        /// Level of confidence in the determination.
-        public let confidence: Float?
-        /// Boolean value that indicates whether the mouth on the face is open or not.
-        public let value: Bool?
+        /// The identifier for the search job. Use JobId to identify the job in a subsequent call to GetFaceSearch. 
+        public let jobId: String?
 
-        public init(confidence: Float? = nil, value: Bool? = nil) {
-            self.confidence = confidence
-            self.value = value
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case confidence = "Confidence"
-            case value = "Value"
+            case jobId = "JobId"
         }
     }
 
     public struct CompareFacesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TargetImageOrientationCorrection", required: false, type: .enum), 
             AWSShapeMember(label: "UnmatchedFaces", required: false, type: .list), 
             AWSShapeMember(label: "SourceImageFace", required: false, type: .structure), 
@@ -1295,83 +2867,47 @@ extension Rekognition {
     }
 
     public enum LandmarkType: String, CustomStringConvertible, Codable {
-        case eyeLeft = "EYE_LEFT"
-        case eyeRight = "EYE_RIGHT"
-        case nose = "NOSE"
-        case mouthLeft = "MOUTH_LEFT"
-        case mouthRight = "MOUTH_RIGHT"
-        case leftEyebrowLeft = "LEFT_EYEBROW_LEFT"
-        case leftEyebrowRight = "LEFT_EYEBROW_RIGHT"
-        case leftEyebrowUp = "LEFT_EYEBROW_UP"
-        case rightEyebrowLeft = "RIGHT_EYEBROW_LEFT"
-        case rightEyebrowRight = "RIGHT_EYEBROW_RIGHT"
-        case rightEyebrowUp = "RIGHT_EYEBROW_UP"
-        case leftEyeLeft = "LEFT_EYE_LEFT"
-        case leftEyeRight = "LEFT_EYE_RIGHT"
-        case leftEyeUp = "LEFT_EYE_UP"
-        case leftEyeDown = "LEFT_EYE_DOWN"
-        case rightEyeLeft = "RIGHT_EYE_LEFT"
-        case rightEyeRight = "RIGHT_EYE_RIGHT"
-        case rightEyeUp = "RIGHT_EYE_UP"
-        case rightEyeDown = "RIGHT_EYE_DOWN"
-        case noseLeft = "NOSE_LEFT"
-        case noseRight = "NOSE_RIGHT"
-        case mouthUp = "MOUTH_UP"
-        case mouthDown = "MOUTH_DOWN"
-        case leftPupil = "LEFT_PUPIL"
-        case rightPupil = "RIGHT_PUPIL"
+        case eyeleft = "eyeLeft"
+        case eyeright = "eyeRight"
+        case nose = "nose"
+        case mouthleft = "mouthLeft"
+        case mouthright = "mouthRight"
+        case lefteyebrowleft = "leftEyeBrowLeft"
+        case lefteyebrowright = "leftEyeBrowRight"
+        case lefteyebrowup = "leftEyeBrowUp"
+        case righteyebrowleft = "rightEyeBrowLeft"
+        case righteyebrowright = "rightEyeBrowRight"
+        case righteyebrowup = "rightEyeBrowUp"
+        case lefteyeleft = "leftEyeLeft"
+        case lefteyeright = "leftEyeRight"
+        case lefteyeup = "leftEyeUp"
+        case lefteyedown = "leftEyeDown"
+        case righteyeleft = "rightEyeLeft"
+        case righteyeright = "rightEyeRight"
+        case righteyeup = "rightEyeUp"
+        case righteyedown = "rightEyeDown"
+        case noseleft = "noseLeft"
+        case noseright = "noseRight"
+        case mouthup = "mouthUp"
+        case mouthdown = "mouthDown"
+        case leftpupil = "leftPupil"
+        case rightpupil = "rightPupil"
         public var description: String { return self.rawValue }
     }
 
-    public struct ImageQuality: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Sharpness", required: false, type: .float), 
-            AWSShapeMember(label: "Brightness", required: false, type: .float)
+    public struct StartFaceDetectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
         ]
-        /// Value representing sharpness of the face. The service returns a value between 0 and 100 (inclusive). A higher value indicates a sharper face image.
-        public let sharpness: Float?
-        /// Value representing brightness of the face. The service returns a value between 0 and 100 (inclusive). A higher value indicates a brighter face image.
-        public let brightness: Float?
+        /// The identifier for the face detection job. Use JobId to identify the job in a subsequent call to GetFaceDetection.
+        public let jobId: String?
 
-        public init(sharpness: Float? = nil, brightness: Float? = nil) {
-            self.sharpness = sharpness
-            self.brightness = brightness
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sharpness = "Sharpness"
-            case brightness = "Brightness"
-        }
-    }
-
-    public struct IndexFacesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Image", required: true, type: .structure), 
-            AWSShapeMember(label: "ExternalImageId", required: false, type: .string), 
-            AWSShapeMember(label: "CollectionId", required: true, type: .string), 
-            AWSShapeMember(label: "DetectionAttributes", required: false, type: .list)
-        ]
-        /// The input image as bytes or an S3 object.
-        public let image: Image
-        /// ID you want to assign to all the faces detected in the image.
-        public let externalImageId: String?
-        /// The ID of an existing collection to which you want to add the faces that are detected in the input images.
-        public let collectionId: String
-        /// An array of facial attributes that you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ["DEFAULT"], the API returns the following subset of facial attributes: BoundingBox, Confidence, Pose, Quality and Landmarks. If you provide ["ALL"], all facial attributes are returned but the operation will take longer to complete. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes). 
-        public let detectionAttributes: [Attribute]?
-
-        public init(image: Image, externalImageId: String? = nil, collectionId: String, detectionAttributes: [Attribute]? = nil) {
-            self.image = image
-            self.externalImageId = externalImageId
-            self.collectionId = collectionId
-            self.detectionAttributes = detectionAttributes
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case image = "Image"
-            case externalImageId = "ExternalImageId"
-            case collectionId = "CollectionId"
-            case detectionAttributes = "DetectionAttributes"
+            case jobId = "JobId"
         }
     }
 

@@ -22,6 +22,7 @@ public enum StatesError: AWSErrorType {
     case invalidDefinition(message: String?)
     case stateMachineAlreadyExists(message: String?)
     case stateMachineLimitExceeded(message: String?)
+    case missingRequiredParameter(message: String?)
 }
 
 extension StatesError {
@@ -67,6 +68,8 @@ extension StatesError {
             self = .stateMachineAlreadyExists(message: message)
         case "StateMachineLimitExceeded":
             self = .stateMachineLimitExceeded(message: message)
+        case "MissingRequiredParameter":
+            self = .missingRequiredParameter(message: message)
         default:
             return nil
         }

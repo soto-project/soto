@@ -6,8 +6,9 @@ import AWSSDKSwiftCore
 public enum CodebuildError: AWSErrorType {
     case invalidInputException(message: String?)
     case resourceNotFoundException(message: String?)
-    case accountLimitExceededException(message: String?)
     case resourceAlreadyExistsException(message: String?)
+    case accountLimitExceededException(message: String?)
+    case oAuthProviderException(message: String?)
 }
 
 extension CodebuildError {
@@ -21,10 +22,12 @@ extension CodebuildError {
             self = .invalidInputException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
-        case "AccountLimitExceededException":
-            self = .accountLimitExceededException(message: message)
         case "ResourceAlreadyExistsException":
             self = .resourceAlreadyExistsException(message: message)
+        case "AccountLimitExceededException":
+            self = .accountLimitExceededException(message: message)
+        case "OAuthProviderException":
+            self = .oAuthProviderException(message: message)
         default:
             return nil
         }

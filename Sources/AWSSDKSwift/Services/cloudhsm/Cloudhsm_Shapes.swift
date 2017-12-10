@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Cloudhsm {
 
     public struct ModifyHapgResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HapgArn", required: false, type: .string)
         ]
         /// The ARN of the high-availability partition group.
@@ -22,7 +22,7 @@ extension Cloudhsm {
     }
 
     public struct DeleteHsmResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: true, type: .string)
         ]
         /// The status of the operation.
@@ -38,7 +38,7 @@ extension Cloudhsm {
     }
 
     public struct DescribeHsmRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HsmSerialNumber", required: false, type: .string), 
             AWSShapeMember(label: "HsmArn", required: false, type: .string)
         ]
@@ -59,7 +59,7 @@ extension Cloudhsm {
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
@@ -75,7 +75,7 @@ extension Cloudhsm {
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagList", required: true, type: .list)
         ]
         /// One or more tags.
@@ -91,7 +91,7 @@ extension Cloudhsm {
     }
 
     public struct CreateHapgRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Label", required: true, type: .string)
         ]
         /// The label of the new high-availability partition group.
@@ -107,7 +107,7 @@ extension Cloudhsm {
     }
 
     public struct GetConfigRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientArn", required: true, type: .string), 
             AWSShapeMember(label: "HapgList", required: true, type: .list), 
             AWSShapeMember(label: "ClientVersion", required: true, type: .enum)
@@ -133,7 +133,7 @@ extension Cloudhsm {
     }
 
     public struct ModifyHapgRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Label", required: false, type: .string), 
             AWSShapeMember(label: "HapgArn", required: true, type: .string), 
             AWSShapeMember(label: "PartitionSerialList", required: false, type: .list)
@@ -159,7 +159,7 @@ extension Cloudhsm {
     }
 
     public struct ListLunaClientsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The NextToken value from a previous call to ListLunaClients. Pass null if this is the first call.
@@ -175,7 +175,7 @@ extension Cloudhsm {
     }
 
     public struct CreateLunaClientRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Certificate", required: true, type: .string), 
             AWSShapeMember(label: "Label", required: false, type: .string)
         ]
@@ -208,7 +208,7 @@ extension Cloudhsm {
     }
 
     public struct ModifyLunaClientRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Certificate", required: true, type: .string), 
             AWSShapeMember(label: "ClientArn", required: true, type: .string)
         ]
@@ -229,7 +229,7 @@ extension Cloudhsm {
     }
 
     public struct DescribeLunaClientRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientArn", required: false, type: .string), 
             AWSShapeMember(label: "CertificateFingerprint", required: false, type: .string)
         ]
@@ -250,7 +250,7 @@ extension Cloudhsm {
     }
 
     public struct GetConfigResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigType", required: false, type: .string), 
             AWSShapeMember(label: "ConfigFile", required: false, type: .string), 
             AWSShapeMember(label: "ConfigCred", required: false, type: .string)
@@ -287,7 +287,7 @@ extension Cloudhsm {
     }
 
     public struct DeleteHsmRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HsmArn", location: .body(locationName: "HsmArn"), required: true, type: .string)
         ]
         /// The ARN of the HSM to delete.
@@ -303,7 +303,7 @@ extension Cloudhsm {
     }
 
     public struct ListHsmsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The NextToken value from a previous call to ListHsms. Pass null if this is the first call.
@@ -319,7 +319,7 @@ extension Cloudhsm {
     }
 
     public struct ModifyHsmRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExternalId", location: .body(locationName: "ExternalId"), required: false, type: .string), 
             AWSShapeMember(label: "SubnetId", location: .body(locationName: "SubnetId"), required: false, type: .string), 
             AWSShapeMember(label: "EniIp", location: .body(locationName: "EniIp"), required: false, type: .string), 
@@ -360,7 +360,7 @@ extension Cloudhsm {
     }
 
     public struct DescribeHapgResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HsmsPendingDeletion", required: false, type: .list), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
             AWSShapeMember(label: "HapgArn", required: false, type: .string), 
@@ -413,7 +413,7 @@ extension Cloudhsm {
     }
 
     public struct DescribeLunaClientResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Certificate", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .string), 
             AWSShapeMember(label: "ClientArn", required: false, type: .string), 
@@ -449,7 +449,7 @@ extension Cloudhsm {
     }
 
     public struct RemoveTagsFromResourceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: true, type: .string)
         ]
         /// The status of the operation.
@@ -465,7 +465,7 @@ extension Cloudhsm {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -486,7 +486,7 @@ extension Cloudhsm {
     }
 
     public struct AddTagsToResourceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: true, type: .string)
         ]
         /// The status of the operation.
@@ -502,7 +502,7 @@ extension Cloudhsm {
     }
 
     public struct DeleteHapgRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HapgArn", required: true, type: .string)
         ]
         /// The ARN of the high-availability partition group to delete.
@@ -518,7 +518,7 @@ extension Cloudhsm {
     }
 
     public struct DescribeHsmResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StatusDetails", required: false, type: .string), 
             AWSShapeMember(label: "SubnetId", required: false, type: .string), 
             AWSShapeMember(label: "EniIp", required: false, type: .string), 
@@ -633,7 +633,7 @@ extension Cloudhsm {
     }
 
     public struct ListLunaClientsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ClientList", required: true, type: .list)
         ]
@@ -654,7 +654,7 @@ extension Cloudhsm {
     }
 
     public struct DeleteLunaClientResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: true, type: .string)
         ]
         /// The status of the action.
@@ -670,7 +670,7 @@ extension Cloudhsm {
     }
 
     public struct ListAvailableZonesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AZList", required: false, type: .list)
         ]
         /// The list of Availability Zones that have available AWS CloudHSM capacity.
@@ -686,7 +686,7 @@ extension Cloudhsm {
     }
 
     public struct AddTagsToResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "TagList", required: true, type: .list)
         ]
@@ -707,7 +707,7 @@ extension Cloudhsm {
     }
 
     public struct CreateLunaClientResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientArn", required: false, type: .string)
         ]
         /// The ARN of the client.
@@ -723,7 +723,7 @@ extension Cloudhsm {
     }
 
     public struct CreateHapgResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HapgArn", required: false, type: .string)
         ]
         /// The ARN of the high-availability partition group.
@@ -739,7 +739,7 @@ extension Cloudhsm {
     }
 
     public struct CreateHsmResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HsmArn", required: false, type: .string)
         ]
         /// The ARN of the HSM.
@@ -755,7 +755,7 @@ extension Cloudhsm {
     }
 
     public struct ListHapgsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "HapgList", required: true, type: .list)
         ]
@@ -776,7 +776,7 @@ extension Cloudhsm {
     }
 
     public struct CreateHsmRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetId", location: .body(locationName: "SubnetId"), required: true, type: .string), 
             AWSShapeMember(label: "ClientToken", location: .body(locationName: "ClientToken"), required: false, type: .string), 
             AWSShapeMember(label: "EniIp", location: .body(locationName: "EniIp"), required: false, type: .string), 
@@ -826,7 +826,7 @@ extension Cloudhsm {
     }
 
     public struct RemoveTagsFromResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagKeyList", required: true, type: .list), 
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
@@ -851,7 +851,7 @@ extension Cloudhsm {
     }
 
     public struct DeleteHapgResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: true, type: .string)
         ]
         /// The status of the action.
@@ -867,7 +867,7 @@ extension Cloudhsm {
     }
 
     public struct DeleteLunaClientRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientArn", required: true, type: .string)
         ]
         /// The ARN of the client to delete.
@@ -883,7 +883,7 @@ extension Cloudhsm {
     }
 
     public struct ListHsmsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HsmList", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -904,7 +904,7 @@ extension Cloudhsm {
     }
 
     public struct DescribeHapgRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HapgArn", required: true, type: .string)
         ]
         /// The ARN of the high-availability partition group to describe.
@@ -920,7 +920,7 @@ extension Cloudhsm {
     }
 
     public struct ModifyLunaClientResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientArn", required: false, type: .string)
         ]
         /// The ARN of the client.
@@ -936,7 +936,7 @@ extension Cloudhsm {
     }
 
     public struct ModifyHsmResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HsmArn", required: false, type: .string)
         ]
         /// The ARN of the HSM.
@@ -952,7 +952,7 @@ extension Cloudhsm {
     }
 
     public struct ListHapgsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The NextToken value from a previous call to ListHapgs. Pass null if this is the first call.

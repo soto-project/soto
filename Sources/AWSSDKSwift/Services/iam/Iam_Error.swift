@@ -20,6 +20,7 @@ public enum IamError: AWSErrorType {
     case invalidPublicKeyException(message: String?)
     case duplicateSSHPublicKeyException(message: String?)
     case unrecognizedPublicKeyEncodingException(message: String?)
+    case policyNotAttachableException(message: String?)
     case policyEvaluationException(message: String?)
     case invalidCertificateException(message: String?)
     case duplicateCertificateException(message: String?)
@@ -69,6 +70,8 @@ extension IamError {
             self = .duplicateSSHPublicKeyException(message: message)
         case "UnrecognizedPublicKeyEncodingException":
             self = .unrecognizedPublicKeyEncodingException(message: message)
+        case "PolicyNotAttachableException":
+            self = .policyNotAttachableException(message: message)
         case "PolicyEvaluationException":
             self = .policyEvaluationException(message: message)
         case "InvalidCertificateException":

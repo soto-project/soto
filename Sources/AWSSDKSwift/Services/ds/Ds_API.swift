@@ -25,9 +25,9 @@ public struct Ds {
         )
     }
 
-    ///  Obtains information about the conditional forwarders for this account. If no input parameters are provided for RemoteDomainNames, this request describes all conditional forwarders for the specified directory ID.
-    public func describeConditionalForwarders(_ input: DescribeConditionalForwardersRequest) throws -> DescribeConditionalForwardersResult {
-        return try client.send(operation: "DescribeConditionalForwarders", path: "/", httpMethod: "POST", input: input)
+    ///  Updates a conditional forwarder that has been set up for your AWS directory.
+    public func updateConditionalForwarder(_ input: UpdateConditionalForwarderRequest) throws -> UpdateConditionalForwarderResult {
+        return try client.send(operation: "UpdateConditionalForwarder", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a Simple AD directory. Before you call CreateDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory operation, see AWS Directory Service API Permissions: Actions, Resources, and Conditions Reference.
@@ -35,9 +35,9 @@ public struct Ds {
         return try client.send(operation: "CreateDirectory", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  AWS Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Microsoft AD in the AWS cloud, and your existing on-premises Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials. This action initiates the creation of the AWS side of a trust relationship between a Microsoft AD in the AWS cloud and an external domain.
-    public func createTrust(_ input: CreateTrustRequest) throws -> CreateTrustResult {
-        return try client.send(operation: "CreateTrust", path: "/", httpMethod: "POST", input: input)
+    ///  Obtains information about the conditional forwarders for this account. If no input parameters are provided for RemoteDomainNames, this request describes all conditional forwarders for the specified directory ID.
+    public func describeConditionalForwarders(_ input: DescribeConditionalForwardersRequest) throws -> DescribeConditionalForwardersResult {
+        return try client.send(operation: "DescribeConditionalForwarders", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Applies a schema extension to a Microsoft AD directory.
@@ -48,6 +48,16 @@ public struct Ds {
     ///  Enables single sign-on for a directory.
     public func enableSso(_ input: EnableSsoRequest) throws -> EnableSsoResult {
         return try client.send(operation: "EnableSso", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  AWS Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Microsoft AD in the AWS cloud, and your existing on-premises Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials. This action initiates the creation of the AWS side of a trust relationship between a Microsoft AD in the AWS cloud and an external domain.
+    public func createTrust(_ input: CreateTrustRequest) throws -> CreateTrustResult {
+        return try client.send(operation: "CreateTrust", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Provides information about any domain controllers in your directory.
+    public func describeDomainControllers(_ input: DescribeDomainControllersRequest) throws -> DescribeDomainControllersResult {
+        return try client.send(operation: "DescribeDomainControllers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all tags on a directory.
@@ -180,14 +190,19 @@ public struct Ds {
         return try client.send(operation: "DeleteConditionalForwarder", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector directory.
+    public func enableRadius(_ input: EnableRadiusRequest) throws -> EnableRadiusResult {
+        return try client.send(operation: "EnableRadius", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  If the DNS server for your on-premises domain uses a publicly addressable IP address, you must add a CIDR address block to correctly route traffic to and from your Microsoft AD on Amazon Web Services. AddIpRoutes adds this address block. You can also use AddIpRoutes to facilitate routing traffic that uses public IP ranges from your Microsoft AD on AWS to a peer VPC.  Before you call AddIpRoutes, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the AddIpRoutes operation, see AWS Directory Service API Permissions: Actions, Resources, and Conditions Reference.
     public func addIpRoutes(_ input: AddIpRoutesRequest) throws -> AddIpRoutesResult {
         return try client.send(operation: "AddIpRoutes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector directory.
-    public func enableRadius(_ input: EnableRadiusRequest) throws -> EnableRadiusResult {
-        return try client.send(operation: "EnableRadius", path: "/", httpMethod: "POST", input: input)
+    ///  Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. During this time, you cannot make another update request.
+    public func updateNumberOfDomainControllers(_ input: UpdateNumberOfDomainControllersRequest) throws -> UpdateNumberOfDomainControllersResult {
+        return try client.send(operation: "UpdateNumberOfDomainControllers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Obtains information about which SNS topics receive status messages from the specified directory. If no input parameters are provided, such as DirectoryId or TopicName, this request describes all of the associations in the account.
@@ -195,24 +210,19 @@ public struct Ds {
         return try client.send(operation: "DescribeEventTopics", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Associates a directory with an SNS topic. This establishes the directory as a publisher to the specified SNS topic. You can then receive email or text (SMS) messages when the status of your directory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notification when the directory returns to an Active status.
-    public func registerEventTopic(_ input: RegisterEventTopicRequest) throws -> RegisterEventTopicResult {
-        return try client.send(operation: "RegisterEventTopic", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Removes IP address blocks from a directory.
     public func removeIpRoutes(_ input: RemoveIpRoutesRequest) throws -> RemoveIpRoutesResult {
         return try client.send(operation: "RemoveIpRoutes", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Associates a directory with an SNS topic. This establishes the directory as a publisher to the specified SNS topic. You can then receive email or text (SMS) messages when the status of your directory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notification when the directory returns to an Active status.
+    public func registerEventTopic(_ input: RegisterEventTopicRequest) throws -> RegisterEventTopicResult {
+        return try client.send(operation: "RegisterEventTopic", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Adds or overwrites one or more tags for the specified directory. Each directory can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique to each resource.
     public func addTagsToResource(_ input: AddTagsToResourceRequest) throws -> AddTagsToResourceResult {
         return try client.send(operation: "AddTagsToResource", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates a conditional forwarder that has been set up for your AWS directory.
-    public func updateConditionalForwarder(_ input: UpdateConditionalForwarderRequest) throws -> UpdateConditionalForwarderResult {
-        return try client.send(operation: "UpdateConditionalForwarder", path: "/", httpMethod: "POST", input: input)
     }
 
 

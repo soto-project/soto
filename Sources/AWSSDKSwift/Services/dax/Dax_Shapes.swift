@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Dax {
 
     public struct NodeTypeSpecificValue: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "NodeType", required: false, type: .string)
         ]
@@ -27,7 +27,7 @@ extension Dax {
     }
 
     public struct UpdateSubnetGroupResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetGroup", required: false, type: .structure)
         ]
         /// The subnet group that has been modified.
@@ -43,7 +43,7 @@ extension Dax {
     }
 
     public struct TagResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: true, type: .list), 
             AWSShapeMember(label: "ResourceName", required: true, type: .string)
         ]
@@ -64,7 +64,7 @@ extension Dax {
     }
 
     public struct UpdateSubnetGroupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
             AWSShapeMember(label: "SubnetGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
@@ -90,7 +90,7 @@ extension Dax {
     }
 
     public struct CreateSubnetGroupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
             AWSShapeMember(label: "SubnetGroupName", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
@@ -116,7 +116,7 @@ extension Dax {
     }
 
     public struct DescribeParametersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Source", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -147,7 +147,7 @@ extension Dax {
     }
 
     public struct NotificationConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TopicStatus", required: false, type: .string), 
             AWSShapeMember(label: "TopicArn", required: false, type: .string)
         ]
@@ -168,7 +168,7 @@ extension Dax {
     }
 
     public struct ListTagsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
@@ -189,7 +189,7 @@ extension Dax {
     }
 
     public struct RebootNodeResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         /// A description of the DAX cluster after a node has been rebooted.
@@ -211,7 +211,7 @@ extension Dax {
     }
 
     public struct Endpoint: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Address", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
@@ -232,7 +232,7 @@ extension Dax {
     }
 
     public struct ParameterNameValue: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterName", required: false, type: .string), 
             AWSShapeMember(label: "ParameterValue", required: false, type: .string)
         ]
@@ -253,7 +253,7 @@ extension Dax {
     }
 
     public struct CreateClusterResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         /// A description of the DAX cluster that you have created.
@@ -269,7 +269,7 @@ extension Dax {
     }
 
     public struct DeleteSubnetGroupResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeletionMessage", required: false, type: .string)
         ]
         /// A user-specified message for this action (i.e., a reason for deleting the subnet group).
@@ -285,7 +285,7 @@ extension Dax {
     }
 
     public struct IncreaseReplicationFactorResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         /// A description of the DAX cluster. with its new replication factor.
@@ -301,7 +301,7 @@ extension Dax {
     }
 
     public struct UpdateParameterGroupResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterGroup", required: false, type: .structure)
         ]
         /// The parameter group that has been modified.
@@ -317,7 +317,7 @@ extension Dax {
     }
 
     public struct CreateParameterGroupResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterGroup", required: false, type: .structure)
         ]
         /// Represents the output of a CreateParameterGroup action.
@@ -333,7 +333,7 @@ extension Dax {
     }
 
     public struct UpdateParameterGroupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterNameValues", required: true, type: .list), 
             AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
         ]
@@ -354,7 +354,7 @@ extension Dax {
     }
 
     public struct DescribeParameterGroupsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterGroupNames", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
@@ -380,7 +380,7 @@ extension Dax {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
@@ -401,7 +401,7 @@ extension Dax {
     }
 
     public struct DeleteClusterRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterName", required: true, type: .string)
         ]
         /// The name of the cluster to be deleted.
@@ -417,7 +417,7 @@ extension Dax {
     }
 
     public struct DecreaseReplicationFactorRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
             AWSShapeMember(label: "NodeIdsToRemove", required: false, type: .list), 
             AWSShapeMember(label: "ClusterName", required: true, type: .string), 
@@ -448,7 +448,7 @@ extension Dax {
     }
 
     public struct DescribeSubnetGroupsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SubnetGroupNames", required: false, type: .list), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
@@ -474,7 +474,7 @@ extension Dax {
     }
 
     public struct DescribeParametersResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Parameters", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -495,7 +495,7 @@ extension Dax {
     }
 
     public struct ParameterGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroupName", required: false, type: .string)
         ]
@@ -516,7 +516,7 @@ extension Dax {
     }
 
     public struct DescribeClustersResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Clusters", required: false, type: .list)
         ]
@@ -544,7 +544,7 @@ extension Dax {
     }
 
     public struct DescribeEventsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "SourceName", required: false, type: .string), 
             AWSShapeMember(label: "SourceType", required: false, type: .enum), 
@@ -590,7 +590,7 @@ extension Dax {
     }
 
     public struct UpdateClusterRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
             AWSShapeMember(label: "NotificationTopicStatus", required: false, type: .string), 
             AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
@@ -636,7 +636,7 @@ extension Dax {
     }
 
     public struct DeleteSubnetGroupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetGroupName", required: true, type: .string)
         ]
         /// The name of the subnet group to delete.
@@ -652,7 +652,7 @@ extension Dax {
     }
 
     public struct DeleteParameterGroupResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeletionMessage", required: false, type: .string)
         ]
         /// A user-specified message for this action (i.e., a reason for deleting the parameter group).
@@ -668,7 +668,7 @@ extension Dax {
     }
 
     public struct SubnetGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Subnets", required: false, type: .list), 
             AWSShapeMember(label: "VpcId", required: false, type: .string), 
@@ -699,7 +699,7 @@ extension Dax {
     }
 
     public struct CreateParameterGroupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
         ]
@@ -720,7 +720,7 @@ extension Dax {
     }
 
     public struct DescribeDefaultParametersResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Parameters", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -741,7 +741,7 @@ extension Dax {
     }
 
     public struct SecurityGroupMembership: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "SecurityGroupIdentifier", required: false, type: .string)
         ]
@@ -762,7 +762,7 @@ extension Dax {
     }
 
     public struct IncreaseReplicationFactorRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
             AWSShapeMember(label: "ClusterName", required: true, type: .string), 
             AWSShapeMember(label: "NewReplicationFactor", required: true, type: .integer)
@@ -788,7 +788,7 @@ extension Dax {
     }
 
     public struct DescribeEventsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Events", required: false, type: .list)
         ]
@@ -809,7 +809,7 @@ extension Dax {
     }
 
     public struct Cluster: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterDiscoveryEndpoint", required: false, type: .structure), 
             AWSShapeMember(label: "ClusterName", required: false, type: .string), 
             AWSShapeMember(label: "NodeType", required: false, type: .string), 
@@ -900,7 +900,7 @@ extension Dax {
     }
 
     public struct DescribeParameterGroupsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ParameterGroups", required: false, type: .list)
         ]
@@ -921,7 +921,7 @@ extension Dax {
     }
 
     public struct Subnet: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .string)
         ]
@@ -949,7 +949,7 @@ extension Dax {
     }
 
     public struct Parameter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterType", required: false, type: .enum), 
             AWSShapeMember(label: "NodeTypeSpecificValues", required: false, type: .list), 
             AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
@@ -1010,7 +1010,7 @@ extension Dax {
     }
 
     public struct DescribeSubnetGroupsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetGroups", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -1031,7 +1031,7 @@ extension Dax {
     }
 
     public struct DescribeDefaultParametersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
@@ -1052,7 +1052,7 @@ extension Dax {
     }
 
     public struct TagResourceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The list of tags that are associated with the DAX resource.
@@ -1068,7 +1068,7 @@ extension Dax {
     }
 
     public struct Event: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourceName", required: false, type: .string), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "SourceType", required: false, type: .enum), 
@@ -1099,7 +1099,7 @@ extension Dax {
     }
 
     public struct CreateClusterRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
             AWSShapeMember(label: "ReplicationFactor", required: true, type: .integer), 
             AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
@@ -1170,7 +1170,7 @@ extension Dax {
     }
 
     public struct CreateSubnetGroupResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetGroup", required: false, type: .structure)
         ]
         /// Represents the output of a CreateSubnetGroup operation.
@@ -1186,7 +1186,7 @@ extension Dax {
     }
 
     public struct DeleteClusterResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         /// A description of the DAX cluster that is being deleted.
@@ -1202,7 +1202,7 @@ extension Dax {
     }
 
     public struct RebootNodeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NodeId", required: true, type: .string), 
             AWSShapeMember(label: "ClusterName", required: true, type: .string)
         ]
@@ -1223,7 +1223,7 @@ extension Dax {
     }
 
     public struct ParameterGroupStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string), 
             AWSShapeMember(label: "NodeIdsToReboot", required: false, type: .list), 
             AWSShapeMember(label: "ParameterGroupName", required: false, type: .string)
@@ -1255,7 +1255,7 @@ extension Dax {
     }
 
     public struct DecreaseReplicationFactorResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         /// A description of the DAX cluster, after you have decreased its replication factor.
@@ -1271,7 +1271,7 @@ extension Dax {
     }
 
     public struct UpdateClusterResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         /// A description of the DAX cluster, after it has been modified.
@@ -1287,7 +1287,7 @@ extension Dax {
     }
 
     public struct UntagResourceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The tag keys that have been removed from the cluster.
@@ -1303,7 +1303,7 @@ extension Dax {
     }
 
     public struct DeleteParameterGroupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
         ]
         /// The name of the parameter group to delete.
@@ -1319,7 +1319,7 @@ extension Dax {
     }
 
     public struct DescribeClustersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterNames", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
@@ -1345,7 +1345,7 @@ extension Dax {
     }
 
     public struct Node: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterGroupStatus", required: false, type: .string), 
             AWSShapeMember(label: "Endpoint", required: false, type: .structure), 
             AWSShapeMember(label: "NodeCreateTime", required: false, type: .timestamp), 
@@ -1386,7 +1386,7 @@ extension Dax {
     }
 
     public struct ListTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResourceName", required: true, type: .string)
         ]
@@ -1407,7 +1407,7 @@ extension Dax {
     }
 
     public struct UntagResourceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceName", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]

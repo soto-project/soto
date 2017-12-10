@@ -6,10 +6,11 @@ import AWSSDKSwiftCore
 public enum EcrError: AWSErrorType {
     case serverException(message: String?)
     case invalidParameterException(message: String?)
-    case layersNotFoundException(message: String?)
-    case layerInaccessibleException(message: String?)
     case repositoryNotFoundException(message: String?)
     case repositoryPolicyNotFoundException(message: String?)
+    case lifecyclePolicyPreviewNotFoundException(message: String?)
+    case layersNotFoundException(message: String?)
+    case layerInaccessibleException(message: String?)
     case uploadNotFoundException(message: String?)
     case invalidLayerException(message: String?)
     case layerPartTooSmallException(message: String?)
@@ -17,10 +18,12 @@ public enum EcrError: AWSErrorType {
     case emptyUploadException(message: String?)
     case repositoryAlreadyExistsException(message: String?)
     case limitExceededException(message: String?)
+    case invalidLayerPartException(message: String?)
     case repositoryNotEmptyException(message: String?)
     case imageAlreadyExistsException(message: String?)
     case imageNotFoundException(message: String?)
-    case invalidLayerPartException(message: String?)
+    case lifecyclePolicyNotFoundException(message: String?)
+    case lifecyclePolicyPreviewInProgressException(message: String?)
 }
 
 extension EcrError {
@@ -34,14 +37,16 @@ extension EcrError {
             self = .serverException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
-        case "LayersNotFoundException":
-            self = .layersNotFoundException(message: message)
-        case "LayerInaccessibleException":
-            self = .layerInaccessibleException(message: message)
         case "RepositoryNotFoundException":
             self = .repositoryNotFoundException(message: message)
         case "RepositoryPolicyNotFoundException":
             self = .repositoryPolicyNotFoundException(message: message)
+        case "LifecyclePolicyPreviewNotFoundException":
+            self = .lifecyclePolicyPreviewNotFoundException(message: message)
+        case "LayersNotFoundException":
+            self = .layersNotFoundException(message: message)
+        case "LayerInaccessibleException":
+            self = .layerInaccessibleException(message: message)
         case "UploadNotFoundException":
             self = .uploadNotFoundException(message: message)
         case "InvalidLayerException":
@@ -56,14 +61,18 @@ extension EcrError {
             self = .repositoryAlreadyExistsException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "InvalidLayerPartException":
+            self = .invalidLayerPartException(message: message)
         case "RepositoryNotEmptyException":
             self = .repositoryNotEmptyException(message: message)
         case "ImageAlreadyExistsException":
             self = .imageAlreadyExistsException(message: message)
         case "ImageNotFoundException":
             self = .imageNotFoundException(message: message)
-        case "InvalidLayerPartException":
-            self = .invalidLayerPartException(message: message)
+        case "LifecyclePolicyNotFoundException":
+            self = .lifecyclePolicyNotFoundException(message: message)
+        case "LifecyclePolicyPreviewInProgressException":
+            self = .lifecyclePolicyPreviewInProgressException(message: message)
         default:
             return nil
         }

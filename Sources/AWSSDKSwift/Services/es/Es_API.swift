@@ -69,6 +69,11 @@ public struct Es {
         return try client.send(operation: "ListElasticsearchVersions", path: "/2015-01-01/es/versions", httpMethod: "GET", input: input)
     }
 
+    ///  Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See Deleting Elasticsearch Service Role in VPC Endpoints for Amazon Elasticsearch Service Domains.
+    public func deleteElasticsearchServiceRole() throws {
+        _ = try client.send(operation: "DeleteElasticsearchServiceRole", path: "/2015-01-01/es/role", httpMethod: "DELETE")
+    }
+
     ///  Removes the specified set of tags from the specified Elasticsearch domain.
     public func removeTags(_ input: RemoveTagsRequest) throws {
         _ = try client.send(operation: "RemoveTags", path: "/2015-01-01/tags-removal", httpMethod: "POST", input: input)

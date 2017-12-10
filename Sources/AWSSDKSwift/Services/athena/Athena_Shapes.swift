@@ -13,7 +13,7 @@ extension Athena {
     }
 
     public struct ListNamedQueriesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
@@ -34,7 +34,7 @@ extension Athena {
     }
 
     public struct StopQueryExecutionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueryExecutionId", required: true, type: .string)
         ]
         /// The unique ID of the query execution to stop.
@@ -50,7 +50,7 @@ extension Athena {
     }
 
     public struct BatchGetNamedQueryOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NamedQueries", required: false, type: .list), 
             AWSShapeMember(label: "UnprocessedNamedQueryIds", required: false, type: .list)
         ]
@@ -71,7 +71,7 @@ extension Athena {
     }
 
     public struct ResultConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OutputLocation", required: true, type: .string), 
             AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure)
         ]
@@ -92,7 +92,7 @@ extension Athena {
     }
 
     public struct ListQueryExecutionsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueryExecutionIds", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -113,7 +113,7 @@ extension Athena {
     }
 
     public struct GetNamedQueryOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NamedQuery", required: false, type: .structure)
         ]
         /// Information about the query.
@@ -129,7 +129,7 @@ extension Athena {
     }
 
     public struct StartQueryExecutionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResultConfiguration", required: true, type: .structure), 
             AWSShapeMember(label: "QueryString", required: true, type: .string), 
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
@@ -160,7 +160,7 @@ extension Athena {
     }
 
     public struct CreateNamedQueryOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NamedQueryId", required: false, type: .string)
         ]
         /// The unique ID of the query.
@@ -176,7 +176,7 @@ extension Athena {
     }
 
     public struct UnprocessedQueryExecutionId: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
             AWSShapeMember(label: "QueryExecutionId", required: false, type: .string)
@@ -202,7 +202,7 @@ extension Athena {
     }
 
     public struct ResultSetMetadata: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ColumnInfo", required: false, type: .list)
         ]
         /// Information about the columns in a query execution result.
@@ -218,7 +218,7 @@ extension Athena {
     }
 
     public struct GetQueryExecutionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueryExecution", required: false, type: .structure)
         ]
         /// Information about the query execution.
@@ -234,7 +234,7 @@ extension Athena {
     }
 
     public struct BatchGetQueryExecutionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueryExecutions", required: false, type: .list), 
             AWSShapeMember(label: "UnprocessedQueryExecutionIds", required: false, type: .list)
         ]
@@ -264,7 +264,7 @@ extension Athena {
     }
 
     public struct StartQueryExecutionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueryExecutionId", required: false, type: .string)
         ]
         /// The unique ID of the query that ran as a result of this request.
@@ -280,7 +280,7 @@ extension Athena {
     }
 
     public struct ResultSet: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rows", required: false, type: .list), 
             AWSShapeMember(label: "ResultSetMetadata", required: false, type: .structure)
         ]
@@ -301,7 +301,7 @@ extension Athena {
     }
 
     public struct GetQueryResultsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ResultSet", required: false, type: .structure)
         ]
@@ -322,7 +322,7 @@ extension Athena {
     }
 
     public struct ColumnInfo: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Nullable", required: false, type: .enum), 
             AWSShapeMember(label: "CatalogName", required: false, type: .string), 
             AWSShapeMember(label: "SchemaName", required: false, type: .string), 
@@ -387,7 +387,7 @@ extension Athena {
     }
 
     public struct Row: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Data", required: false, type: .list)
         ]
         /// The data that populates a row in a query result table.
@@ -408,7 +408,7 @@ extension Athena {
     }
 
     public struct GetNamedQueryInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NamedQueryId", required: true, type: .string)
         ]
         /// The unique ID of the query. Use ListNamedQueries to get query IDs.
@@ -431,7 +431,7 @@ extension Athena {
     }
 
     public struct Datum: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VarCharValue", required: false, type: .string)
         ]
         /// The value of the datum.
@@ -447,7 +447,7 @@ extension Athena {
     }
 
     public struct UnprocessedNamedQueryId: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
             AWSShapeMember(label: "NamedQueryId", required: false, type: .string)
@@ -473,7 +473,7 @@ extension Athena {
     }
 
     public struct NamedQuery: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "QueryString", required: true, type: .string), 
             AWSShapeMember(label: "NamedQueryId", required: false, type: .string), 
@@ -509,7 +509,7 @@ extension Athena {
     }
 
     public struct GetQueryExecutionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueryExecutionId", required: true, type: .string)
         ]
         /// The unique ID of the query execution.
@@ -525,7 +525,7 @@ extension Athena {
     }
 
     public struct ListQueryExecutionsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
@@ -546,7 +546,7 @@ extension Athena {
     }
 
     public struct BatchGetQueryExecutionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueryExecutionIds", required: true, type: .list)
         ]
         /// An array of query execution IDs.
@@ -566,7 +566,7 @@ extension Athena {
     }
 
     public struct CreateNamedQueryInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueryString", required: true, type: .string), 
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -602,7 +602,7 @@ extension Athena {
     }
 
     public struct GetQueryResultsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "QueryExecutionId", required: true, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
@@ -628,7 +628,7 @@ extension Athena {
     }
 
     public struct QueryExecutionStatistics: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EngineExecutionTimeInMillis", required: false, type: .long), 
             AWSShapeMember(label: "DataScannedInBytes", required: false, type: .long)
         ]
@@ -649,7 +649,7 @@ extension Athena {
     }
 
     public struct ListNamedQueriesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "NamedQueryIds", required: false, type: .list)
         ]
@@ -670,7 +670,7 @@ extension Athena {
     }
 
     public struct QueryExecutionStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StateChangeReason", required: false, type: .string), 
             AWSShapeMember(label: "CompletionDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
@@ -701,7 +701,7 @@ extension Athena {
     }
 
     public struct BatchGetNamedQueryInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NamedQueryIds", required: true, type: .list)
         ]
         /// An array of query IDs.
@@ -717,7 +717,7 @@ extension Athena {
     }
 
     public struct DeleteNamedQueryInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NamedQueryId", required: true, type: .string)
         ]
         /// The unique ID of the query to delete.
@@ -733,7 +733,7 @@ extension Athena {
     }
 
     public struct EncryptionConfiguration: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EncryptionOption", required: true, type: .enum), 
             AWSShapeMember(label: "KmsKey", required: false, type: .string)
         ]
@@ -754,7 +754,7 @@ extension Athena {
     }
 
     public struct QueryExecution: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResultConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: false, type: .structure), 
             AWSShapeMember(label: "Query", required: false, type: .string), 
@@ -795,7 +795,7 @@ extension Athena {
     }
 
     public struct QueryExecutionContext: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Database", required: false, type: .string)
         ]
         /// The name of the database.

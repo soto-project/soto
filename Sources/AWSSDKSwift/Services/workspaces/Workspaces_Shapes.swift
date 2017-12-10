@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Workspaces {
 
     public struct CreateTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
@@ -27,7 +27,7 @@ extension Workspaces {
     }
 
     public struct TerminateWorkspacesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TerminateWorkspaceRequests", required: true, type: .list)
         ]
         /// An array of structures that specify the WorkSpaces to terminate.
@@ -50,7 +50,7 @@ extension Workspaces {
     }
 
     public struct FailedCreateWorkspaceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "WorkspaceRequest", required: false, type: .structure), 
             AWSShapeMember(label: "ErrorCode", required: false, type: .string)
@@ -76,7 +76,7 @@ extension Workspaces {
     }
 
     public struct DescribeWorkspaceBundlesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Owner", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "BundleIds", required: false, type: .list)
@@ -102,7 +102,7 @@ extension Workspaces {
     }
 
     public struct UserStorage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Capacity", required: false, type: .string)
         ]
         /// The amount of user storage for the bundle.
@@ -118,7 +118,7 @@ extension Workspaces {
     }
 
     public struct WorkspaceBundle: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ComputeType", required: false, type: .structure), 
             AWSShapeMember(label: "UserStorage", required: false, type: .structure), 
@@ -159,7 +159,7 @@ extension Workspaces {
     }
 
     public struct RebootWorkspacesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedRequests", required: false, type: .list)
         ]
         /// An array of structures representing any WorkSpaces that could not be rebooted.
@@ -175,7 +175,7 @@ extension Workspaces {
     }
 
     public struct DescribeTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
         /// The resource ID of the request.
@@ -191,7 +191,7 @@ extension Workspaces {
     }
 
     public struct CreateWorkspacesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedRequests", required: false, type: .list), 
             AWSShapeMember(label: "PendingRequests", required: false, type: .list)
         ]
@@ -216,7 +216,7 @@ extension Workspaces {
     }
 
     public struct RebootWorkspacesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RebootWorkspaceRequests", required: true, type: .list)
         ]
         /// An array of structures that specify the WorkSpaces to reboot.
@@ -232,7 +232,7 @@ extension Workspaces {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -257,7 +257,7 @@ extension Workspaces {
     }
 
     public struct DescribeWorkspacesConnectionStatusResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkspacesConnectionStatus", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -293,7 +293,7 @@ extension Workspaces {
     }
 
     public struct StartWorkspacesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartWorkspaceRequests", required: true, type: .list)
         ]
         /// The requests.
@@ -327,7 +327,7 @@ extension Workspaces {
     }
 
     public struct ComputeType: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .enum)
         ]
         /// The name of the compute type for the bundle.
@@ -343,7 +343,7 @@ extension Workspaces {
     }
 
     public struct FailedWorkspaceChangeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
             AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
@@ -369,7 +369,7 @@ extension Workspaces {
     }
 
     public struct StopRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
         ]
         /// The ID of the WorkSpace.
@@ -385,7 +385,7 @@ extension Workspaces {
     }
 
     public struct StartRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
         ]
         /// The ID of the WorkSpace.
@@ -401,7 +401,7 @@ extension Workspaces {
     }
 
     public struct DefaultWorkspaceCreationProperties: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DefaultOu", required: false, type: .string), 
             AWSShapeMember(label: "CustomSecurityGroupId", required: false, type: .string), 
             AWSShapeMember(label: "EnableInternetAccess", required: false, type: .boolean), 
@@ -437,7 +437,7 @@ extension Workspaces {
     }
 
     public struct StopWorkspacesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StopWorkspaceRequests", required: true, type: .list)
         ]
         /// The requests.
@@ -453,7 +453,7 @@ extension Workspaces {
     }
 
     public struct DescribeWorkspacesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
             AWSShapeMember(label: "UserName", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
@@ -494,7 +494,7 @@ extension Workspaces {
     }
 
     public struct RebuildWorkspacesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedRequests", required: false, type: .list)
         ]
         /// An array of structures representing any WorkSpaces that could not be rebuilt.
@@ -510,7 +510,7 @@ extension Workspaces {
     }
 
     public struct RebootRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
         ]
         /// The identifier of the WorkSpace to reboot.
@@ -526,7 +526,7 @@ extension Workspaces {
     }
 
     public struct DescribeWorkspacesConnectionStatusRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkspaceIds", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -547,7 +547,7 @@ extension Workspaces {
     }
 
     public struct WorkspaceConnectionStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkspaceId", required: false, type: .string), 
             AWSShapeMember(label: "ConnectionState", required: false, type: .enum), 
             AWSShapeMember(label: "LastKnownUserConnectionTimestamp", required: false, type: .timestamp), 
@@ -578,7 +578,7 @@ extension Workspaces {
     }
 
     public struct DescribeTagsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagList", required: false, type: .list)
         ]
         /// The list of tags.
@@ -601,7 +601,7 @@ extension Workspaces {
     }
 
     public struct DescribeWorkspacesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Workspaces", required: false, type: .list)
         ]
@@ -622,7 +622,7 @@ extension Workspaces {
     }
 
     public struct WorkspaceProperties: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RunningMode", required: false, type: .enum), 
             AWSShapeMember(label: "RunningModeAutoStopTimeoutInMinutes", required: false, type: .integer)
         ]
@@ -643,7 +643,7 @@ extension Workspaces {
     }
 
     public struct ModifyWorkspacePropertiesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkspaceId", required: true, type: .string), 
             AWSShapeMember(label: "WorkspaceProperties", required: true, type: .structure)
         ]
@@ -664,7 +664,7 @@ extension Workspaces {
     }
 
     public struct DescribeWorkspaceBundlesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Bundles", required: false, type: .list)
         ]
@@ -685,7 +685,7 @@ extension Workspaces {
     }
 
     public struct DeleteTagsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
@@ -706,7 +706,7 @@ extension Workspaces {
     }
 
     public struct Workspace: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetId", required: false, type: .string), 
             AWSShapeMember(label: "UserName", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .enum), 
@@ -786,7 +786,7 @@ extension Workspaces {
     }
 
     public struct RebuildWorkspacesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RebuildWorkspaceRequests", required: true, type: .list)
         ]
         /// An array of structures that specify the WorkSpaces to rebuild.
@@ -802,7 +802,7 @@ extension Workspaces {
     }
 
     public struct DescribeWorkspaceDirectoriesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Directories", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -823,7 +823,7 @@ extension Workspaces {
     }
 
     public struct TerminateWorkspacesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedRequests", required: false, type: .list)
         ]
         /// An array of structures representing any WorkSpaces that could not be terminated.
@@ -839,7 +839,7 @@ extension Workspaces {
     }
 
     public struct StopWorkspacesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedRequests", required: false, type: .list)
         ]
         /// The failed requests.
@@ -861,7 +861,7 @@ extension Workspaces {
     }
 
     public struct RebuildRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
         ]
         /// The identifier of the WorkSpace to rebuild.
@@ -877,7 +877,7 @@ extension Workspaces {
     }
 
     public struct CreateWorkspacesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Workspaces", required: true, type: .list)
         ]
         /// An array of structures that specify the WorkSpaces to create.
@@ -893,7 +893,7 @@ extension Workspaces {
     }
 
     public struct WorkspaceDirectory: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
             AWSShapeMember(label: "WorkspaceCreationProperties", required: false, type: .structure), 
             AWSShapeMember(label: "DnsIpAddresses", required: false, type: .list), 
@@ -964,7 +964,7 @@ extension Workspaces {
     }
 
     public struct WorkspaceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UserName", required: true, type: .string), 
             AWSShapeMember(label: "VolumeEncryptionKey", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
@@ -1014,7 +1014,7 @@ extension Workspaces {
     }
 
     public struct StartWorkspacesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedRequests", required: false, type: .list)
         ]
         /// The failed requests.
@@ -1034,7 +1034,7 @@ extension Workspaces {
     }
 
     public struct DescribeWorkspaceDirectoriesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "DirectoryIds", required: false, type: .list)
         ]
@@ -1055,7 +1055,7 @@ extension Workspaces {
     }
 
     public struct TerminateRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
         ]
         /// The identifier of the WorkSpace to terminate.

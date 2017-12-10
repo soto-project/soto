@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Elastic Load Balancing A load balancer distributes incoming traffic across targets, such as your EC2 instances. This enables you to increase the availability of your application. The load balancer also monitors the health of its registered targets and ensures that it routes traffic only to healthy targets. You configure your load balancer to accept incoming traffic by specifying one or more listeners, which are configured with a protocol and port number for connections from clients to the load balancer. You configure a target group with a protocol and port number for connections from the load balancer to the targets, and with health check settings to be used when checking the health status of the targets. Elastic Load Balancing supports two types of load balancers: Classic Load Balancers and Application Load Balancers. A Classic Load Balancer makes routing and load balancing decisions either at the transport layer (TCP/SSL) or the application layer (HTTP/HTTPS), and supports either EC2-Classic or a VPC. An Application Load Balancer makes routing and load balancing decisions at the application layer (HTTP/HTTPS), supports path-based routing, and can route requests to one or more ports on each EC2 instance or container instance in your virtual private cloud (VPC). For more information, see the Elastic Load Balancing User Guide. This reference covers the 2015-12-01 API, which supports Application Load Balancers. The 2012-06-01 API supports Classic Load Balancers. To get started, complete the following tasks:   Create an Application Load Balancer using CreateLoadBalancer.   Create a target group using CreateTargetGroup.   Register targets for the target group using RegisterTargets.   Create one or more listeners for your load balancer using CreateListener.   (Optional) Create one or more rules for content routing based on URL using CreateRule.   To delete an Application Load Balancer and its related resources, complete the following tasks:   Delete the load balancer using DeleteLoadBalancer.   Delete the target group using DeleteTargetGroup.   All Elastic Load Balancing operations are idempotent, which means that they complete at most one time. If you repeat an operation, it succeeds.
+Elastic Load Balancing A load balancer distributes incoming traffic across targets, such as your EC2 instances. This enables you to increase the availability of your application. The load balancer also monitors the health of its registered targets and ensures that it routes traffic only to healthy targets. You configure your load balancer to accept incoming traffic by specifying one or more listeners, which are configured with a protocol and port number for connections from clients to the load balancer. You configure a target group with a protocol and port number for connections from the load balancer to the targets, and with health check settings to be used when checking the health status of the targets. Elastic Load Balancing supports the following types of load balancers: Application Load Balancers, Network Load Balancers, and Classic Load Balancers. An Application Load Balancer makes routing and load balancing decisions at the application layer (HTTP/HTTPS). A Network Load Balancer makes routing and load balancing decisions at the transport layer (TCP). Both Application Load Balancers and Network Load Balancers can route requests to one or more ports on each EC2 instance or container instance in your virtual private cloud (VPC). A Classic Load Balancer makes routing and load balancing decisions either at the transport layer (TCP/SSL) or the application layer (HTTP/HTTPS), and supports either EC2-Classic or a VPC. For more information, see the Elastic Load Balancing User Guide. This reference covers the 2015-12-01 API, which supports Application Load Balancers and Network Load Balancers. The 2012-06-01 API supports Classic Load Balancers. To get started, complete the following tasks:   Create a load balancer using CreateLoadBalancer.   Create a target group using CreateTargetGroup.   Register targets for the target group using RegisterTargets.   Create one or more listeners for your load balancer using CreateListener.   To delete a load balancer and its related resources, complete the following tasks:   Delete the load balancer using DeleteLoadBalancer.   Delete the target group using DeleteTargetGroup.   All Elastic Load Balancing operations are idempotent, which means that they complete at most one time. If you repeat an operation, it succeeds.
 */
 public struct Elasticloadbalancingv2 {
 
@@ -24,7 +24,7 @@ public struct Elasticloadbalancingv2 {
         )
     }
 
-    ///  Enables the Availability Zone for the specified subnets for the specified load balancer. The specified subnets replace the previously enabled subnets.
+    ///  Enables the Availability Zone for the specified subnets for the specified Application Load Balancer. The specified subnets replace the previously enabled subnets. Note that you can't change the subnets for a Network Load Balancer.
     public func setSubnets(_ input: SetSubnetsInput) throws -> SetSubnetsOutput {
         return try client.send(operation: "SetSubnets", path: "/", httpMethod: "POST", input: input)
     }
@@ -34,19 +34,34 @@ public struct Elasticloadbalancingv2 {
         return try client.send(operation: "DescribeTargetHealth", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deregisters the specified targets from the specified target group. After the targets are deregistered, they no longer receive traffic from the load balancer.
-    public func deregisterTargets(_ input: DeregisterTargetsInput) throws -> DeregisterTargetsOutput {
-        return try client.send(operation: "DeregisterTargets", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Describes the specified policies or all policies used for SSL negotiation. For more information, see Security Policies in the Application Load Balancers Guide.
     public func describeSSLPolicies(_ input: DescribeSSLPoliciesInput) throws -> DescribeSSLPoliciesOutput {
         return try client.send(operation: "DescribeSSLPolicies", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the specified Application Load Balancers or all of your Application Load Balancers. To describe the listeners for a load balancer, use DescribeListeners. To describe the attributes for a load balancer, use DescribeLoadBalancerAttributes.
+    ///  Deregisters the specified targets from the specified target group. After the targets are deregistered, they no longer receive traffic from the load balancer.
+    public func deregisterTargets(_ input: DeregisterTargetsInput) throws -> DeregisterTargetsOutput {
+        return try client.send(operation: "DeregisterTargets", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds the specified certificate to the specified secure listener. If the certificate was already added, the call is successful but the certificate is not added again. To list the certificates for your listener, use DescribeListenerCertificates. To remove certificates from your listener, use RemoveListenerCertificates.
+    public func addListenerCertificates(_ input: AddListenerCertificatesInput) throws -> AddListenerCertificatesOutput {
+        return try client.send(operation: "AddListenerCertificates", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes the specified certificate from the specified secure listener. You can't remove the default certificate for a listener. To replace the default certificate, call ModifyListener. To list the certificates for your listener, use DescribeListenerCertificates.
+    public func removeListenerCertificates(_ input: RemoveListenerCertificatesInput) throws -> RemoveListenerCertificatesOutput {
+        return try client.send(operation: "RemoveListenerCertificates", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the specified load balancers or all of your load balancers. To describe the listeners for a load balancer, use DescribeListeners. To describe the attributes for a load balancer, use DescribeLoadBalancerAttributes.
     public func describeLoadBalancers(_ input: DescribeLoadBalancersInput) throws -> DescribeLoadBalancersOutput {
         return try client.send(operation: "DescribeLoadBalancers", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies the specified attributes of the specified Application Load Balancer or Network Load Balancer. If any of the specified attributes can't be modified as requested, the call fails. Any existing attributes that you do not modify retain their current values.
+    public func modifyLoadBalancerAttributes(_ input: ModifyLoadBalancerAttributesInput) throws -> ModifyLoadBalancerAttributesOutput {
+        return try client.send(operation: "ModifyLoadBalancerAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified target group. You can delete a target group if it is not referenced by any actions. Deleting a target group also deletes any associated health checks.
@@ -54,49 +69,19 @@ public struct Elasticloadbalancingv2 {
         return try client.send(operation: "DeleteTargetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the specified attributes of the specified Application Load Balancer. If any of the specified attributes can't be modified as requested, the call fails. Any existing attributes that you do not modify retain their current values.
-    public func modifyLoadBalancerAttributes(_ input: ModifyLoadBalancerAttributesInput) throws -> ModifyLoadBalancerAttributesOutput {
-        return try client.send(operation: "ModifyLoadBalancerAttributes", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Deletes the specified listener. Alternatively, your listener is deleted when you delete the load balancer it is attached to using DeleteLoadBalancer.
     public func deleteListener(_ input: DeleteListenerInput) throws -> DeleteListenerOutput {
         return try client.send(operation: "DeleteListener", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the tags for the specified resources. You can describe the tags for one or more Application Load Balancers and target groups.
+    ///  Describes the certificates for the specified secure listener.
+    public func describeListenerCertificates(_ input: DescribeListenerCertificatesInput) throws -> DescribeListenerCertificatesOutput {
+        return try client.send(operation: "DescribeListenerCertificates", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the tags for the specified resources. You can describe the tags for one or more Application Load Balancers, Network Load Balancers, and target groups.
     public func describeTags(_ input: DescribeTagsInput) throws -> DescribeTagsOutput {
         return try client.send(operation: "DescribeTags", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Describes the specified listeners or the listeners for the specified Application Load Balancer. You must specify either a load balancer or one or more listeners.
-    public func describeListeners(_ input: DescribeListenersInput) throws -> DescribeListenersOutput {
-        return try client.send(operation: "DescribeListeners", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates an Application Load Balancer. When you create a load balancer, you can specify security groups, subnets, IP address type, and tags. Otherwise, you could do so later using SetSecurityGroups, SetSubnets, SetIpAddressType, and AddTags. To create listeners for your load balancer, use CreateListener. To describe your current load balancers, see DescribeLoadBalancers. When you are finished with a load balancer, you can delete it using DeleteLoadBalancer. You can create up to 20 load balancers per region per account. You can request an increase for the number of load balancers for your account. For more information, see Limits for Your Application Load Balancer in the Application Load Balancers Guide. For more information, see Application Load Balancers in the Application Load Balancers Guide.
-    public func createLoadBalancer(_ input: CreateLoadBalancerInput) throws -> CreateLoadBalancerOutput {
-        return try client.send(operation: "CreateLoadBalancer", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a rule for the specified listener. Each rule can have one action and one condition. Rules are evaluated in priority order, from the lowest value to the highest value. When the condition for a rule is met, the specified action is taken. If no conditions are met, the default action for the default rule is taken. For more information, see Listener Rules in the Application Load Balancers Guide. To view your current rules, use DescribeRules. To update a rule, use ModifyRule. To set the priorities of your rules, use SetRulePriorities. To delete a rule, use DeleteRule.
-    public func createRule(_ input: CreateRuleInput) throws -> CreateRuleOutput {
-        return try client.send(operation: "CreateRule", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Describes the attributes for the specified target group.
-    public func describeTargetGroupAttributes(_ input: DescribeTargetGroupAttributesInput) throws -> DescribeTargetGroupAttributesOutput {
-        return try client.send(operation: "DescribeTargetGroupAttributes", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Removes the specified tags from the specified resource. To list the current tags for your resources, use DescribeTags.
-    public func removeTags(_ input: RemoveTagsInput) throws -> RemoveTagsOutput {
-        return try client.send(operation: "RemoveTags", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Sets the type of IP addresses used by the subnets of the specified Application Load Balancer.
-    public func setIpAddressType(_ input: SetIpAddressTypeInput) throws -> SetIpAddressTypeOutput {
-        return try client.send(operation: "SetIpAddressType", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the specified rule. Any existing properties that you do not modify retain their current values. To modify the default action, use ModifyListener.
@@ -104,24 +89,49 @@ public struct Elasticloadbalancingv2 {
         return try client.send(operation: "ModifyRule", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the current Elastic Load Balancing resource limits for your AWS account. For more information, see Limits for Your Application Load Balancer in the Application Load Balancer Guide.
+    ///  Describes the attributes for the specified target group.
+    public func describeTargetGroupAttributes(_ input: DescribeTargetGroupAttributesInput) throws -> DescribeTargetGroupAttributesOutput {
+        return try client.send(operation: "DescribeTargetGroupAttributes", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer. Rules are evaluated in priority order, from the lowest value to the highest value. When the condition for a rule is met, the specified action is taken. If no conditions are met, the action for the default rule is taken. For more information, see Listener Rules in the Application Load Balancers Guide. To view your current rules, use DescribeRules. To update a rule, use ModifyRule. To set the priorities of your rules, use SetRulePriorities. To delete a rule, use DeleteRule.
+    public func createRule(_ input: CreateRuleInput) throws -> CreateRuleOutput {
+        return try client.send(operation: "CreateRule", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes the specified tags from the specified Elastic Load Balancing resource. To list the current tags for your resources, use DescribeTags.
+    public func removeTags(_ input: RemoveTagsInput) throws -> RemoveTagsOutput {
+        return try client.send(operation: "RemoveTags", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Sets the type of IP addresses used by the subnets of the specified Application Load Balancer or Network Load Balancer. Note that Network Load Balancers must use ipv4.
+    public func setIpAddressType(_ input: SetIpAddressTypeInput) throws -> SetIpAddressTypeOutput {
+        return try client.send(operation: "SetIpAddressType", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an Application Load Balancer or a Network Load Balancer. When you create a load balancer, you can specify security groups, subnets, IP address type, and tags. Otherwise, you could do so later using SetSecurityGroups, SetSubnets, SetIpAddressType, and AddTags. To create listeners for your load balancer, use CreateListener. To describe your current load balancers, see DescribeLoadBalancers. When you are finished with a load balancer, you can delete it using DeleteLoadBalancer. For limit information, see Limits for Your Application Load Balancer in the Application Load Balancers Guide and Limits for Your Network Load Balancer in the Network Load Balancers Guide. This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple load balancers with the same settings, each call succeeds. For more information, see Application Load Balancers in the Application Load Balancers Guide and Network Load Balancers in the Network Load Balancers Guide.
+    public func createLoadBalancer(_ input: CreateLoadBalancerInput) throws -> CreateLoadBalancerOutput {
+        return try client.send(operation: "CreateLoadBalancer", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the specified listeners or the listeners for the specified Application Load Balancer or Network Load Balancer. You must specify either a load balancer or one or more listeners.
+    public func describeListeners(_ input: DescribeListenersInput) throws -> DescribeListenersOutput {
+        return try client.send(operation: "DescribeListeners", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the current Elastic Load Balancing resource limits for your AWS account. For more information, see Limits for Your Application Load Balancers in the Application Load Balancer Guide or Limits for Your Network Load Balancers in the Network Load Balancers Guide.
     public func describeAccountLimits(_ input: DescribeAccountLimitsInput) throws -> DescribeAccountLimitsOutput {
         return try client.send(operation: "DescribeAccountLimits", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified Application Load Balancer and its attached listeners. You can't delete a load balancer if deletion protection is enabled. If the load balancer does not exist or has already been deleted, the call succeeds. Deleting a load balancer does not affect its registered targets. For example, your EC2 instances continue to run and are still registered to their target groups. If you no longer need these EC2 instances, you can stop or terminate them.
-    public func deleteLoadBalancer(_ input: DeleteLoadBalancerInput) throws -> DeleteLoadBalancerOutput {
-        return try client.send(operation: "DeleteLoadBalancer", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Describes the attributes for the specified Application Load Balancer.
+    ///  Describes the attributes for the specified Application Load Balancer or Network Load Balancer.
     public func describeLoadBalancerAttributes(_ input: DescribeLoadBalancerAttributesInput) throws -> DescribeLoadBalancerAttributesOutput {
         return try client.send(operation: "DescribeLoadBalancerAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the specified rules or the rules for the specified listener. You must specify either a listener or one or more rules.
-    public func describeRules(_ input: DescribeRulesInput) throws -> DescribeRulesOutput {
-        return try client.send(operation: "DescribeRules", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes the specified Application Load Balancer or Network Load Balancer and its attached listeners. You can't delete a load balancer if deletion protection is enabled. If the load balancer does not exist or has already been deleted, the call succeeds. Deleting a load balancer does not affect its registered targets. For example, your EC2 instances continue to run and are still registered to their target groups. If you no longer need these EC2 instances, you can stop or terminate them.
+    public func deleteLoadBalancer(_ input: DeleteLoadBalancerInput) throws -> DeleteLoadBalancerOutput {
+        return try client.send(operation: "DeleteLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the health checks used when evaluating the health state of the targets in the specified target group. To monitor the health of the targets, use DescribeTargetHealth.
@@ -129,14 +139,9 @@ public struct Elasticloadbalancingv2 {
         return try client.send(operation: "ModifyTargetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the specified attributes of the specified target group.
-    public func modifyTargetGroupAttributes(_ input: ModifyTargetGroupAttributesInput) throws -> ModifyTargetGroupAttributesOutput {
-        return try client.send(operation: "ModifyTargetGroupAttributes", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Associates the specified security groups with the specified load balancer. The specified security groups override the previously associated security groups.
-    public func setSecurityGroups(_ input: SetSecurityGroupsInput) throws -> SetSecurityGroupsOutput {
-        return try client.send(operation: "SetSecurityGroups", path: "/", httpMethod: "POST", input: input)
+    ///  Describes the specified rules or the rules for the specified listener. You must specify either a listener or one or more rules.
+    public func describeRules(_ input: DescribeRulesInput) throws -> DescribeRulesOutput {
+        return try client.send(operation: "DescribeRules", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the priorities of the specified rules. You can reorder the rules as long as there are no priority conflicts in the new order. Any existing rules that you do not specify retain their current priority.
@@ -144,22 +149,32 @@ public struct Elasticloadbalancingv2 {
         return try client.send(operation: "SetRulePriorities", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Modifies the specified attributes of the specified target group.
+    public func modifyTargetGroupAttributes(_ input: ModifyTargetGroupAttributesInput) throws -> ModifyTargetGroupAttributesOutput {
+        return try client.send(operation: "ModifyTargetGroupAttributes", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates the specified security groups with the specified Application Load Balancer. The specified security groups override the previously associated security groups. Note that you can't specify a security group for a Network Load Balancer.
+    public func setSecurityGroups(_ input: SetSecurityGroupsInput) throws -> SetSecurityGroupsOutput {
+        return try client.send(operation: "SetSecurityGroups", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Describes the specified target groups or all of your target groups. By default, all target groups are described. Alternatively, you can specify one of the following to filter the results: the ARN of the load balancer, the names of one or more target groups, or the ARNs of one or more target groups. To describe the targets for a target group, use DescribeTargetHealth. To describe the attributes of a target group, use DescribeTargetGroupAttributes.
     public func describeTargetGroups(_ input: DescribeTargetGroupsInput) throws -> DescribeTargetGroupsOutput {
         return try client.send(operation: "DescribeTargetGroups", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds the specified tags to the specified resource. You can tag your Application Load Balancers and your target groups. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, AddTags updates its value. To list the current tags for your resources, use DescribeTags. To remove tags from your resources, use RemoveTags.
+    ///  Adds the specified tags to the specified Elastic Load Balancing resource. You can tag your Application Load Balancers, Network Load Balancers, and your target groups. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, AddTags updates its value. To list the current tags for your resources, use DescribeTags. To remove tags from your resources, use RemoveTags.
     public func addTags(_ input: AddTagsInput) throws -> AddTagsOutput {
         return try client.send(operation: "AddTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a listener for the specified Application Load Balancer. You can create up to 10 listeners per load balancer. To update a listener, use ModifyListener. When you are finished with a listener, you can delete it using DeleteListener. If you are finished with both the listener and the load balancer, you can delete them both using DeleteLoadBalancer. For more information, see Listeners for Your Application Load Balancers in the Application Load Balancers Guide.
+    ///  Creates a listener for the specified Application Load Balancer or Network Load Balancer. To update a listener, use ModifyListener. When you are finished with a listener, you can delete it using DeleteListener. If you are finished with both the listener and the load balancer, you can delete them both using DeleteLoadBalancer. This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple listeners with the same settings, each call succeeds. For more information, see Listeners for Your Application Load Balancers in the Application Load Balancers Guide and Listeners for Your Network Load Balancers in the Network Load Balancers Guide.
     public func createListener(_ input: CreateListenerInput) throws -> CreateListenerOutput {
         return try client.send(operation: "CreateListener", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Registers the specified targets with the specified target group. By default, the load balancer routes requests to registered targets using the protocol and port number for the target group. Alternatively, you can override the port for a target when you register it. The target must be in the virtual private cloud (VPC) that you specified for the target group. If the target is an EC2 instance, it must be in the running state when you register it. To remove a target from a target group, use DeregisterTargets.
+    ///  Registers the specified targets with the specified target group. You can register targets by instance ID or by IP address. If the target is an EC2 instance, it must be in the running state when you register it. By default, the load balancer routes requests to registered targets using the protocol and port for the target group. Alternatively, you can override the port for a target when you register it. You can register each EC2 instance or IP address with the same target group multiple times using different ports. With a Network Load Balancer, you cannot register instances by instance ID if they have the following instance types: C1, CC1, CC2, CG1, CG2, CR1, CS1, G1, G2, HI1, HS1, M1, M2, M3, and T1. You can register instances of these types by IP address. To remove a target from a target group, use DeregisterTargets.
     public func registerTargets(_ input: RegisterTargetsInput) throws -> RegisterTargetsOutput {
         return try client.send(operation: "RegisterTargets", path: "/", httpMethod: "POST", input: input)
     }
@@ -174,7 +189,7 @@ public struct Elasticloadbalancingv2 {
         return try client.send(operation: "DeleteRule", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a target group. To register targets with the target group, use RegisterTargets. To update the health check settings for the target group, use ModifyTargetGroup. To monitor the health of targets in the target group, use DescribeTargetHealth. To route traffic to the targets in a target group, specify the target group in an action using CreateListener or CreateRule. To delete a target group, use DeleteTargetGroup. For more information, see Target Groups for Your Application Load Balancers in the Application Load Balancers Guide.
+    ///  Creates a target group. To register targets with the target group, use RegisterTargets. To update the health check settings for the target group, use ModifyTargetGroup. To monitor the health of targets in the target group, use DescribeTargetHealth. To route traffic to the targets in a target group, specify the target group in an action using CreateListener or CreateRule. To delete a target group, use DeleteTargetGroup. This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple target groups with the same settings, each call succeeds. For more information, see Target Groups for Your Application Load Balancers in the Application Load Balancers Guide or Target Groups for Your Network Load Balancers in the Network Load Balancers Guide.
     public func createTargetGroup(_ input: CreateTargetGroupInput) throws -> CreateTargetGroupOutput {
         return try client.send(operation: "CreateTargetGroup", path: "/", httpMethod: "POST", input: input)
     }

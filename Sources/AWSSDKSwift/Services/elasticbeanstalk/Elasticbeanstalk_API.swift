@@ -74,6 +74,16 @@ public struct Elasticbeanstalk {
         _ = try client.send(operation: "DeleteApplication", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns the tags applied to an AWS Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Currently, Elastic Beanstalk only supports tagging Elastic Beanstalk environments.
+    public func listTagsForResource(_ input: ListTagsForResourceMessage) throws -> ResourceTagsDescriptionMessage {
+        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove. Currently, Elastic Beanstalk only supports tagging of Elastic Beanstalk environments.
+    public func updateTagsForResource(_ input: UpdateTagsForResourceMessage) throws {
+        _ = try client.send(operation: "UpdateTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns a list of the available solution stack names, with the public version first and then in reverse chronological order.
     public func listAvailableSolutionStacks() throws -> ListAvailableSolutionStacksResultMessage {
         return try client.send(operation: "ListAvailableSolutionStacks", path: "/", httpMethod: "POST")

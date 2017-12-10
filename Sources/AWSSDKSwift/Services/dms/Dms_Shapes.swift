@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Dms {
 
     public struct ModifyReplicationSubnetGroupResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure)
         ]
         /// The modified replication subnet group.
@@ -22,7 +22,7 @@ extension Dms {
     }
 
     public struct CreateReplicationTaskResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The replication task that was created.
@@ -38,22 +38,22 @@ extension Dms {
     }
 
     public struct CreateReplicationSubnetGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIds", required: true, type: .structure), 
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
             AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure)
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The EC2 subnet IDs for the subnet group.
-        public let subnetIds: SubnetIdentifierList
+        public let subnetIds: [String]
         /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be "default". Example: mySubnetgroup 
         public let replicationSubnetGroupIdentifier: String
         /// The description for the subnet group.
         public let replicationSubnetGroupDescription: String
         /// The tag to be assigned to the subnet group.
-        public let tags: TagList?
+        public let tags: [Tag]?
 
-        public init(subnetIds: SubnetIdentifierList, replicationSubnetGroupIdentifier: String, replicationSubnetGroupDescription: String, tags: TagList? = nil) {
+        public init(subnetIds: [String], replicationSubnetGroupIdentifier: String, replicationSubnetGroupDescription: String, tags: [Tag]? = nil) {
             self.subnetIds = subnetIds
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
             self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
@@ -69,7 +69,7 @@ extension Dms {
     }
 
     public struct ModifyEndpointResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Endpoint", required: false, type: .structure)
         ]
         /// The modified endpoint.
@@ -84,35 +84,20 @@ extension Dms {
         }
     }
 
-    public struct ReplicationTaskList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationTask", required: false, type: .list)
-        ]
-        public let replicationTask: [ReplicationTask]?
-
-        public init(replicationTask: [ReplicationTask]? = nil) {
-            self.replicationTask = replicationTask
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationTask = "ReplicationTask"
-        }
-    }
-
     public struct DescribeReplicationSubnetGroupsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure)
+            AWSShapeMember(label: "Filters", required: false, type: .list)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// Filters applied to the describe action.
-        public let filters: FilterList?
+        public let filters: [Filter]?
 
-        public init(maxRecords: Int32? = nil, marker: String? = nil, filters: FilterList? = nil) {
+        public init(maxRecords: Int32? = nil, marker: String? = nil, filters: [Filter]? = nil) {
             self.maxRecords = maxRecords
             self.marker = marker
             self.filters = filters
@@ -125,35 +110,20 @@ extension Dms {
         }
     }
 
-    public struct FilterList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .list)
-        ]
-        public let filter: [Filter]?
-
-        public init(filter: [Filter]? = nil) {
-            self.filter = filter
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case filter = "Filter"
-        }
-    }
-
     public struct DescribeEndpointsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure)
+            AWSShapeMember(label: "Filters", required: false, type: .list)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// Filters applied to the describe action. Valid filter names: endpoint-arn | endpoint-type | endpoint-id | engine-name
-        public let filters: FilterList?
+        public let filters: [Filter]?
 
-        public init(maxRecords: Int32? = nil, marker: String? = nil, filters: FilterList? = nil) {
+        public init(maxRecords: Int32? = nil, marker: String? = nil, filters: [Filter]? = nil) {
             self.maxRecords = maxRecords
             self.marker = marker
             self.filters = filters
@@ -166,8 +136,34 @@ extension Dms {
         }
     }
 
+    public struct DescribeReplicationTaskAssessmentResultsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string)
+        ]
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int32?
+        /// - The Amazon Resource Name (ARN) string that uniquely identifies the task. When this input parameter is specified the API will return only one result and ignore the values of the max-records and marker parameters. 
+        public let replicationTaskArn: String?
+
+        public init(marker: String? = nil, maxRecords: Int32? = nil, replicationTaskArn: String? = nil) {
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.replicationTaskArn = replicationTaskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case replicationTaskArn = "ReplicationTaskArn"
+        }
+    }
+
     public struct DeleteEndpointMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
@@ -182,23 +178,8 @@ extension Dms {
         }
     }
 
-    public struct EventCategoriesList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventCategory", required: false, type: .list)
-        ]
-        public let eventCategory: [String]?
-
-        public init(eventCategory: [String]? = nil) {
-            self.eventCategory = eventCategory
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventCategory = "EventCategory"
-        }
-    }
-
     public struct S3Settings: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CsvRowDelimiter", required: false, type: .string), 
             AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
             AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
@@ -243,38 +224,8 @@ extension Dms {
         }
     }
 
-    public struct ReplicationSubnetGroups: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .list)
-        ]
-        public let replicationSubnetGroup: [ReplicationSubnetGroup]?
-
-        public init(replicationSubnetGroup: [ReplicationSubnetGroup]? = nil) {
-            self.replicationSubnetGroup = replicationSubnetGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationSubnetGroup = "ReplicationSubnetGroup"
-        }
-    }
-
-    public struct FilterValueList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .list)
-        ]
-        public let value: [String]?
-
-        public init(value: [String]? = nil) {
-            self.value = value
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-        }
-    }
-
     public struct Endpoint: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string), 
             AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Username", required: false, type: .string), 
@@ -370,16 +321,16 @@ extension Dms {
     }
 
     public struct DescribeOrderableReplicationInstancesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrderableReplicationInstances", required: false, type: .structure), 
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrderableReplicationInstances", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// The order-able replication instances available.
-        public let orderableReplicationInstances: OrderableReplicationInstanceList?
+        public let orderableReplicationInstances: [OrderableReplicationInstance]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
 
-        public init(orderableReplicationInstances: OrderableReplicationInstanceList? = nil, marker: String? = nil) {
+        public init(orderableReplicationInstances: [OrderableReplicationInstance]? = nil, marker: String? = nil) {
             self.orderableReplicationInstances = orderableReplicationInstances
             self.marker = marker
         }
@@ -390,8 +341,34 @@ extension Dms {
         }
     }
 
+    public struct DescribeReplicationTaskAssessmentResultsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskAssessmentResults", required: false, type: .list), 
+            AWSShapeMember(label: "BucketName", required: false, type: .string)
+        ]
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        ///  The task assessment report. 
+        public let replicationTaskAssessmentResults: [ReplicationTaskAssessmentResult]?
+        /// - The Amazon S3 bucket where the task assessment report is located. 
+        public let bucketName: String?
+
+        public init(marker: String? = nil, replicationTaskAssessmentResults: [ReplicationTaskAssessmentResult]? = nil, bucketName: String? = nil) {
+            self.marker = marker
+            self.replicationTaskAssessmentResults = replicationTaskAssessmentResults
+            self.bucketName = bucketName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case replicationTaskAssessmentResults = "ReplicationTaskAssessmentResults"
+            case bucketName = "BucketName"
+        }
+    }
+
     public struct DescribeTableStatisticsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "TableStatistics", required: false, type: .list), 
             AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string)
@@ -417,15 +394,15 @@ extension Dms {
     }
 
     public struct EventSubscription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "SourceIdsList", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceIdsList", required: false, type: .list), 
             AWSShapeMember(label: "SourceType", required: false, type: .string), 
             AWSShapeMember(label: "CustSubscriptionId", required: false, type: .string), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "CustomerAwsId", required: false, type: .string), 
-            AWSShapeMember(label: "EventCategoriesList", required: false, type: .structure), 
+            AWSShapeMember(label: "EventCategoriesList", required: false, type: .list), 
             AWSShapeMember(label: "SubscriptionCreationTime", required: false, type: .string)
         ]
         /// The status of the AWS DMS event notification subscription. Constraints: Can be one of the following: creating | modifying | deleting | active | no-permission | topic-not-exist The status "no-permission" indicates that AWS DMS no longer has permission to post to the SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.
@@ -433,7 +410,7 @@ extension Dms {
         /// The topic ARN of the AWS DMS event notification subscription.
         public let snsTopicArn: String?
         /// A list of source Ids for the event subscription.
-        public let sourceIdsList: SourceIdsList?
+        public let sourceIdsList: [String]?
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-server | security-group | migration-task
         public let sourceType: String?
         /// The AWS DMS event notification subscription Id.
@@ -443,11 +420,11 @@ extension Dms {
         /// The AWS customer account associated with the AWS DMS event notification subscription.
         public let customerAwsId: String?
         /// A lists of event categories.
-        public let eventCategoriesList: EventCategoriesList?
+        public let eventCategoriesList: [String]?
         /// The time the RDS event notification subscription was created.
         public let subscriptionCreationTime: String?
 
-        public init(status: String? = nil, snsTopicArn: String? = nil, sourceIdsList: SourceIdsList? = nil, sourceType: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, customerAwsId: String? = nil, eventCategoriesList: EventCategoriesList? = nil, subscriptionCreationTime: String? = nil) {
+        public init(status: String? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, customerAwsId: String? = nil, eventCategoriesList: [String]? = nil, subscriptionCreationTime: String? = nil) {
             self.status = status
             self.snsTopicArn = snsTopicArn
             self.sourceIdsList = sourceIdsList
@@ -473,19 +450,19 @@ extension Dms {
     }
 
     public struct DescribeEndpointTypesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure)
+            AWSShapeMember(label: "Filters", required: false, type: .list)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// Filters applied to the describe action. Valid filter names: engine-name | endpoint-type
-        public let filters: FilterList?
+        public let filters: [Filter]?
 
-        public init(maxRecords: Int32? = nil, marker: String? = nil, filters: FilterList? = nil) {
+        public init(maxRecords: Int32? = nil, marker: String? = nil, filters: [Filter]? = nil) {
             self.maxRecords = maxRecords
             self.marker = marker
             self.filters = filters
@@ -498,36 +475,6 @@ extension Dms {
         }
     }
 
-    public struct VpcSecurityGroupMembershipList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpcSecurityGroupMembership", required: false, type: .list)
-        ]
-        public let vpcSecurityGroupMembership: [VpcSecurityGroupMembership]?
-
-        public init(vpcSecurityGroupMembership: [VpcSecurityGroupMembership]? = nil) {
-            self.vpcSecurityGroupMembership = vpcSecurityGroupMembership
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case vpcSecurityGroupMembership = "VpcSecurityGroupMembership"
-        }
-    }
-
-    public struct TagList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Tag", required: false, type: .list)
-        ]
-        public let tag: [Tag]?
-
-        public init(tag: [Tag]? = nil) {
-            self.tag = tag
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case tag = "Tag"
-        }
-    }
-
     public enum DmsSslModeValue: String, CustomStringConvertible, Codable {
         case none = "none"
         case require = "require"
@@ -537,7 +484,7 @@ extension Dms {
     }
 
     public struct DeleteReplicationInstanceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
@@ -553,7 +500,7 @@ extension Dms {
     }
 
     public struct SupportedEndpointType: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EngineName", required: false, type: .string), 
             AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
             AWSShapeMember(label: "SupportsCDC", required: false, type: .boolean)
@@ -579,7 +526,7 @@ extension Dms {
     }
 
     public struct DeleteEventSubscriptionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
         /// The event subscription that was deleted.
@@ -602,16 +549,16 @@ extension Dms {
     }
 
     public struct DescribeEventCategoriesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure)
+            AWSShapeMember(label: "Filters", required: false, type: .list)
         ]
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | migration-task
         public let sourceType: String?
         /// Filters applied to the action.
-        public let filters: FilterList?
+        public let filters: [Filter]?
 
-        public init(sourceType: String? = nil, filters: FilterList? = nil) {
+        public init(sourceType: String? = nil, filters: [Filter]? = nil) {
             self.sourceType = sourceType
             self.filters = filters
         }
@@ -623,16 +570,16 @@ extension Dms {
     }
 
     public struct DescribeCertificatesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Certificates", required: false, type: .structure)
+            AWSShapeMember(label: "Certificates", required: false, type: .list)
         ]
         /// The pagination token.
         public let marker: String?
         /// The Secure Sockets Layer (SSL) certificates associated with the replication instance.
-        public let certificates: CertificateList?
+        public let certificates: [Certificate]?
 
-        public init(marker: String? = nil, certificates: CertificateList? = nil) {
+        public init(marker: String? = nil, certificates: [Certificate]? = nil) {
             self.marker = marker
             self.certificates = certificates
         }
@@ -648,19 +595,19 @@ extension Dms {
     }
 
     public struct DescribeReplicationTasksMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure)
+            AWSShapeMember(label: "Filters", required: false, type: .list)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// Filters applied to the describe action. Valid filter names: replication-task-arn | replication-task-id | migration-type | endpoint-arn | replication-instance-arn
-        public let filters: FilterList?
+        public let filters: [Filter]?
 
-        public init(maxRecords: Int32? = nil, marker: String? = nil, filters: FilterList? = nil) {
+        public init(maxRecords: Int32? = nil, marker: String? = nil, filters: [Filter]? = nil) {
             self.maxRecords = maxRecords
             self.marker = marker
             self.filters = filters
@@ -674,7 +621,7 @@ extension Dms {
     }
 
     public struct DeleteReplicationInstanceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
         ]
         /// The replication instance that was deleted.
@@ -690,7 +637,7 @@ extension Dms {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
@@ -715,7 +662,7 @@ extension Dms {
     }
 
     public struct ReloadTablesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the replication task. 
@@ -731,16 +678,16 @@ extension Dms {
     }
 
     public struct DescribeEndpointTypesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "SupportedEndpointTypes", required: false, type: .structure)
+            AWSShapeMember(label: "SupportedEndpointTypes", required: false, type: .list)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The type of endpoints that are supported.
-        public let supportedEndpointTypes: SupportedEndpointTypeList?
+        public let supportedEndpointTypes: [SupportedEndpointType]?
 
-        public init(marker: String? = nil, supportedEndpointTypes: SupportedEndpointTypeList? = nil) {
+        public init(marker: String? = nil, supportedEndpointTypes: [SupportedEndpointType]? = nil) {
             self.marker = marker
             self.supportedEndpointTypes = supportedEndpointTypes
         }
@@ -752,7 +699,7 @@ extension Dms {
     }
 
     public struct ListTagsForResourceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
@@ -768,14 +715,14 @@ extension Dms {
     }
 
     public struct CreateEventSubscriptionMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnsTopicArn", required: true, type: .string), 
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
             AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeMember(label: "SourceIds", required: false, type: .structure)
+            AWSShapeMember(label: "SourceIds", required: false, type: .list)
         ]
         ///  The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it. 
         public let snsTopicArn: String
@@ -784,15 +731,15 @@ extension Dms {
         ///  The type of AWS DMS resource that generates the events. For example, if you want to be notified of events generated by a replication instance, you set this parameter to replication-instance. If this value is not specified, all events are returned.  Valid values: replication-instance | migration-task
         public let sourceType: String?
         /// A tag to be attached to the event subscription.
-        public let tags: TagList?
+        public let tags: [Tag]?
         ///  A list of event categories for a source type that you want to subscribe to. You can see a list of the categories for a given source type by calling the DescribeEventCategories action or in the topic  Working with Events and Notifications in the AWS Database Migration Service User Guide. 
-        public let eventCategories: EventCategoriesList?
+        public let eventCategories: [String]?
         ///  A Boolean value; set to true to activate the subscription, or set to false to create the subscription but not activate it. 
         public let enabled: Bool?
         ///  The list of identifiers of the event sources for which events will be returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens. 
-        public let sourceIds: SourceIdsList?
+        public let sourceIds: [String]?
 
-        public init(snsTopicArn: String, subscriptionName: String, sourceType: String? = nil, tags: TagList? = nil, eventCategories: EventCategoriesList? = nil, enabled: Bool? = nil, sourceIds: SourceIdsList? = nil) {
+        public init(snsTopicArn: String, subscriptionName: String, sourceType: String? = nil, tags: [Tag]? = nil, eventCategories: [String]? = nil, enabled: Bool? = nil, sourceIds: [String]? = nil) {
             self.snsTopicArn = snsTopicArn
             self.subscriptionName = subscriptionName
             self.sourceType = sourceType
@@ -814,12 +761,12 @@ extension Dms {
     }
 
     public struct StartReplicationTaskMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
             AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "StartReplicationTaskType", required: true, type: .enum)
         ]
-        /// The Amazon Resource Number (ARN) of the replication task to be started.
+        /// The Amazon Resource Name (ARN) of the replication task to be started.
         public let replicationTaskArn: String
         /// The start time for the Change Data Capture (CDC) operation.
         public let cdcStartTime: TimeStamp?
@@ -840,11 +787,11 @@ extension Dms {
     }
 
     public struct CreateReplicationInstanceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
             AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
@@ -858,11 +805,11 @@ extension Dms {
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
         public let multiAZ: Bool?
         /// Tags to be associated with the replication instance.
-        public let tags: TagList?
+        public let tags: [Tag]?
         /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
         public let allocatedStorage: Int32?
         ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
-        public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
+        public let vpcSecurityGroupIds: [String]?
         /// The EC2 Availability Zone that the replication instance will be created in. Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d 
         public let availabilityZone: String?
         ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
@@ -882,7 +829,7 @@ extension Dms {
         /// The KMS key identifier that will be used to encrypt the content on the replication instance. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
         public let kmsKeyId: String?
 
-        public init(multiAZ: Bool? = nil, tags: TagList? = nil, allocatedStorage: Int32? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, replicationInstanceIdentifier: String, engineVersion: String? = nil, replicationInstanceClass: String, preferredMaintenanceWindow: String? = nil, replicationSubnetGroupIdentifier: String? = nil, kmsKeyId: String? = nil) {
+        public init(multiAZ: Bool? = nil, tags: [Tag]? = nil, allocatedStorage: Int32? = nil, vpcSecurityGroupIds: [String]? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, replicationInstanceIdentifier: String, engineVersion: String? = nil, replicationInstanceClass: String, preferredMaintenanceWindow: String? = nil, replicationSubnetGroupIdentifier: String? = nil, kmsKeyId: String? = nil) {
             self.multiAZ = multiAZ
             self.tags = tags
             self.allocatedStorage = allocatedStorage
@@ -921,7 +868,7 @@ extension Dms {
     }
 
     public struct DeleteCertificateResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Certificate", required: false, type: .structure)
         ]
         /// The Secure Sockets Layer (SSL) certificate.
@@ -937,16 +884,16 @@ extension Dms {
     }
 
     public struct DescribeConnectionsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Connections", required: false, type: .structure)
+            AWSShapeMember(label: "Connections", required: false, type: .list)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// A description of the connections.
-        public let connections: ConnectionList?
+        public let connections: [Connection]?
 
-        public init(marker: String? = nil, connections: ConnectionList? = nil) {
+        public init(marker: String? = nil, connections: [Connection]? = nil) {
             self.marker = marker
             self.connections = connections
         }
@@ -958,14 +905,14 @@ extension Dms {
     }
 
     public struct DescribeEventsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "SourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .structure), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
             AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Duration", required: false, type: .integer)
         ]
@@ -978,17 +925,17 @@ extension Dms {
         /// The type of AWS DMS resource that generates events. Valid values: replication-instance | migration-task
         public let sourceType: SourceType?
         /// A list of event categories for a source type that you want to subscribe to.
-        public let eventCategories: EventCategoriesList?
+        public let eventCategories: [String]?
         /// The end time for the events to be listed.
         public let endTime: TimeStamp?
         /// Filters applied to the action.
-        public let filters: FilterList?
+        public let filters: [Filter]?
         ///  The identifier of the event source. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens. It cannot end with a hyphen or contain two consecutive hyphens. 
         public let sourceIdentifier: String?
         /// The duration of the events to be listed.
         public let duration: Int32?
 
-        public init(startTime: TimeStamp? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, eventCategories: EventCategoriesList? = nil, endTime: TimeStamp? = nil, filters: FilterList? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
+        public init(startTime: TimeStamp? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, eventCategories: [String]? = nil, endTime: TimeStamp? = nil, filters: [Filter]? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.marker = marker
@@ -1013,18 +960,19 @@ extension Dms {
         }
     }
 
-    public struct VpcSecurityGroupIdList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .list)
+    public struct StartReplicationTaskAssessmentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
-        public let vpcSecurityGroupId: [String]?
+        ///  The assessed replication task. 
+        public let replicationTask: ReplicationTask?
 
-        public init(vpcSecurityGroupId: [String]? = nil) {
-            self.vpcSecurityGroupId = vpcSecurityGroupId
+        public init(replicationTask: ReplicationTask? = nil) {
+            self.replicationTask = replicationTask
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpcSecurityGroupId = "VpcSecurityGroupId"
+            case replicationTask = "ReplicationTask"
         }
     }
 
@@ -1035,33 +983,38 @@ extension Dms {
     }
 
     public struct DescribeTableStatisticsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Marker", required: false, type: .string), 
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
+            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public let marker: String?
-        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 500.
         public let maxRecords: Int32?
         /// The Amazon Resource Name (ARN) of the replication task.
         public let replicationTaskArn: String
+        /// Filters applied to the describe table statistics action. Valid filter names: schema-name | table-name | table-state A combination of filters creates an AND condition where each record matches all specified filters.
+        public let filters: [Filter]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, replicationTaskArn: String) {
-            self.marker = marker
+        public init(maxRecords: Int32? = nil, replicationTaskArn: String, filters: [Filter]? = nil, marker: String? = nil) {
             self.maxRecords = maxRecords
             self.replicationTaskArn = replicationTaskArn
+            self.filters = filters
+            self.marker = marker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker = "Marker"
             case maxRecords = "MaxRecords"
             case replicationTaskArn = "ReplicationTaskArn"
+            case filters = "Filters"
+            case marker = "Marker"
         }
     }
 
     public struct DescribeRefreshSchemasStatusMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
@@ -1077,7 +1030,7 @@ extension Dms {
     }
 
     public struct RemoveTagsFromResourceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
@@ -1104,7 +1057,7 @@ extension Dms {
     }
 
     public struct MongoDbSettings: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthType", required: false, type: .enum), 
             AWSShapeMember(label: "AuthSource", required: false, type: .string), 
             AWSShapeMember(label: "ServerName", required: false, type: .string), 
@@ -1170,7 +1123,7 @@ extension Dms {
     }
 
     public struct ModifyReplicationInstanceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
         ]
         /// The modified replication instance.
@@ -1186,13 +1139,13 @@ extension Dms {
     }
 
     public struct DescribeEventCategoriesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventCategoryGroupList", required: false, type: .structure)
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventCategoryGroupList", required: false, type: .list)
         ]
         /// A list of event categories.
-        public let eventCategoryGroupList: EventCategoryGroupList?
+        public let eventCategoryGroupList: [EventCategoryGroup]?
 
-        public init(eventCategoryGroupList: EventCategoryGroupList? = nil) {
+        public init(eventCategoryGroupList: [EventCategoryGroup]? = nil) {
             self.eventCategoryGroupList = eventCategoryGroupList
         }
 
@@ -1201,32 +1154,33 @@ extension Dms {
         }
     }
 
-    public struct EventList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Event", required: false, type: .list)
+    public struct StartReplicationTaskAssessmentMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
         ]
-        public let event: [Event]?
+        ///  The Amazon Resource Name (ARN) of the replication task. 
+        public let replicationTaskArn: String
 
-        public init(event: [Event]? = nil) {
-            self.event = event
+        public init(replicationTaskArn: String) {
+            self.replicationTaskArn = replicationTaskArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case event = "Event"
+            case replicationTaskArn = "ReplicationTaskArn"
         }
     }
 
     public struct DescribeReplicationSubnetGroupsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationSubnetGroups", required: false, type: .structure)
+            AWSShapeMember(label: "ReplicationSubnetGroups", required: false, type: .list)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// A description of the replication subnet groups.
-        public let replicationSubnetGroups: ReplicationSubnetGroups?
+        public let replicationSubnetGroups: [ReplicationSubnetGroup]?
 
-        public init(marker: String? = nil, replicationSubnetGroups: ReplicationSubnetGroups? = nil) {
+        public init(marker: String? = nil, replicationSubnetGroups: [ReplicationSubnetGroup]? = nil) {
             self.marker = marker
             self.replicationSubnetGroups = replicationSubnetGroups
         }
@@ -1238,13 +1192,13 @@ extension Dms {
     }
 
     public struct DescribeAccountAttributesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountQuotas", required: false, type: .structure)
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountQuotas", required: false, type: .list)
         ]
         /// Account quota information.
-        public let accountQuotas: AccountQuotaList?
+        public let accountQuotas: [AccountQuota]?
 
-        public init(accountQuotas: AccountQuotaList? = nil) {
+        public init(accountQuotas: [AccountQuota]? = nil) {
             self.accountQuotas = accountQuotas
         }
 
@@ -1254,16 +1208,16 @@ extension Dms {
     }
 
     public struct DescribeEventsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Events", required: false, type: .structure)
+            AWSShapeMember(label: "Events", required: false, type: .list)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The events described.
-        public let events: EventList?
+        public let events: [Event]?
 
-        public init(marker: String? = nil, events: EventList? = nil) {
+        public init(marker: String? = nil, events: [Event]? = nil) {
             self.marker = marker
             self.events = events
         }
@@ -1275,7 +1229,7 @@ extension Dms {
     }
 
     public struct DeleteEventSubscriptionMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
         ]
         /// The name of the DMS event notification subscription to be deleted.
@@ -1298,7 +1252,7 @@ extension Dms {
     }
 
     public struct DescribeSchemasResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "Schemas", required: false, type: .list)
         ]
@@ -1322,38 +1276,8 @@ extension Dms {
 
     }
 
-    public struct SourceIdsList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceId", required: false, type: .list)
-        ]
-        public let sourceId: [String]?
-
-        public init(sourceId: [String]? = nil) {
-            self.sourceId = sourceId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case sourceId = "SourceId"
-        }
-    }
-
-    public struct SubnetIdentifierList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .list)
-        ]
-        public let subnetIdentifier: [String]?
-
-        public init(subnetIdentifier: [String]? = nil) {
-            self.subnetIdentifier = subnetIdentifier
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnetIdentifier = "SubnetIdentifier"
-        }
-    }
-
     public struct TableToReload: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaName", required: false, type: .string), 
             AWSShapeMember(label: "TableName", required: false, type: .string)
         ]
@@ -1373,23 +1297,8 @@ extension Dms {
         }
     }
 
-    public struct CertificateList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Certificate", required: false, type: .list)
-        ]
-        public let certificate: [Certificate]?
-
-        public init(certificate: [Certificate]? = nil) {
-            self.certificate = certificate
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case certificate = "Certificate"
-        }
-    }
-
     public struct Certificate: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ValidFromDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "KeyLength", required: false, type: .integer), 
             AWSShapeMember(label: "SigningAlgorithm", required: false, type: .string), 
@@ -1449,29 +1358,14 @@ extension Dms {
         }
     }
 
-    public struct ReplicationInstanceList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationInstance", required: false, type: .list)
-        ]
-        public let replicationInstance: [ReplicationInstance]?
-
-        public init(replicationInstance: [ReplicationInstance]? = nil) {
-            self.replicationInstance = replicationInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case replicationInstance = "ReplicationInstance"
-        }
-    }
-
     public struct ListTagsForResourceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TagList", required: false, type: .structure)
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: false, type: .list)
         ]
         /// A list of tags for the resource.
-        public let tagList: TagList?
+        public let tagList: [Tag]?
 
-        public init(tagList: TagList? = nil) {
+        public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
 
@@ -1481,11 +1375,11 @@ extension Dms {
     }
 
     public struct ModifyEventSubscriptionMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
             AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
             AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .structure), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .list), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
         ///  The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
@@ -1495,11 +1389,11 @@ extension Dms {
         ///  The type of AWS DMS resource that generates the events you want to subscribe to.  Valid values: replication-instance | migration-task
         public let sourceType: String?
         ///  A list of event categories for a source type that you want to subscribe to. Use the DescribeEventCategories action to see a list of event categories. 
-        public let eventCategories: EventCategoriesList?
+        public let eventCategories: [String]?
         ///  A Boolean value; set to true to activate the subscription. 
         public let enabled: Bool?
 
-        public init(snsTopicArn: String? = nil, subscriptionName: String, sourceType: String? = nil, eventCategories: EventCategoriesList? = nil, enabled: Bool? = nil) {
+        public init(snsTopicArn: String? = nil, subscriptionName: String, sourceType: String? = nil, eventCategories: [String]? = nil, enabled: Bool? = nil) {
             self.snsTopicArn = snsTopicArn
             self.subscriptionName = subscriptionName
             self.sourceType = sourceType
@@ -1517,7 +1411,7 @@ extension Dms {
     }
 
     public struct AvailabilityZone: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The name of the availability zone.
@@ -1540,7 +1434,7 @@ extension Dms {
     }
 
     public struct ModifyReplicationInstanceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
@@ -1548,7 +1442,7 @@ extension Dms {
             AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
             AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
             AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
             AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
             AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean)
@@ -1568,7 +1462,7 @@ extension Dms {
         /// The amount of storage (in gigabytes) to be allocated for the replication instance.
         public let allocatedStorage: Int32?
         ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
-        public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
+        public let vpcSecurityGroupIds: [String]?
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
         /// Indicates whether the changes should be applied immediately or during the next maintenance window.
@@ -1576,7 +1470,7 @@ extension Dms {
         ///  Indicates that minor version upgrades will be applied automatically to the replication instance during the maintenance window. Changing this parameter does not result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance window, and a newer minor version is available, and AWS DMS has enabled auto patching for that engine version. 
         public let autoMinorVersionUpgrade: Bool?
 
-        public init(allowMajorVersionUpgrade: Bool? = nil, replicationInstanceIdentifier: String? = nil, multiAZ: Bool? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, allocatedStorage: Int32? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, replicationInstanceArn: String, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil) {
+        public init(allowMajorVersionUpgrade: Bool? = nil, replicationInstanceIdentifier: String? = nil, multiAZ: Bool? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, allocatedStorage: Int32? = nil, vpcSecurityGroupIds: [String]? = nil, replicationInstanceArn: String, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil) {
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.replicationInstanceIdentifier = replicationInstanceIdentifier
             self.multiAZ = multiAZ
@@ -1606,7 +1500,7 @@ extension Dms {
     }
 
     public struct Connection: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
@@ -1647,7 +1541,7 @@ extension Dms {
     }
 
     public struct RefreshSchemasStatus: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
@@ -1683,19 +1577,19 @@ extension Dms {
     }
 
     public struct DescribeReplicationInstancesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure)
+            AWSShapeMember(label: "Filters", required: false, type: .list)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// Filters applied to the describe action. Valid filter names: replication-instance-arn | replication-instance-id | replication-instance-class | engine-version
-        public let filters: FilterList?
+        public let filters: [Filter]?
 
-        public init(maxRecords: Int32? = nil, marker: String? = nil, filters: FilterList? = nil) {
+        public init(maxRecords: Int32? = nil, marker: String? = nil, filters: [Filter]? = nil) {
             self.maxRecords = maxRecords
             self.marker = marker
             self.filters = filters
@@ -1709,16 +1603,16 @@ extension Dms {
     }
 
     public struct DescribeEventSubscriptionsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscriptionsList", required: false, type: .structure), 
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscriptionsList", required: false, type: .list), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// A list of event subscriptions.
-        public let eventSubscriptionsList: EventSubscriptionsList?
+        public let eventSubscriptionsList: [EventSubscription]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
 
-        public init(eventSubscriptionsList: EventSubscriptionsList? = nil, marker: String? = nil) {
+        public init(eventSubscriptionsList: [EventSubscription]? = nil, marker: String? = nil) {
             self.eventSubscriptionsList = eventSubscriptionsList
             self.marker = marker
         }
@@ -1729,23 +1623,8 @@ extension Dms {
         }
     }
 
-    public struct ConnectionList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Connection", required: false, type: .list)
-        ]
-        public let connection: [Connection]?
-
-        public init(connection: [Connection]? = nil) {
-            self.connection = connection
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case connection = "Connection"
-        }
-    }
-
     public struct AccountQuota: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Max", required: false, type: .long), 
             AWSShapeMember(label: "Used", required: false, type: .long), 
             AWSShapeMember(label: "AccountQuotaName", required: false, type: .string)
@@ -1771,19 +1650,19 @@ extension Dms {
     }
 
     public struct DescribeCertificatesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure)
+            AWSShapeMember(label: "Filters", required: false, type: .list)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 10
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// Filters applied to the certificate described in the form of key-value pairs.
-        public let filters: FilterList?
+        public let filters: [Filter]?
 
-        public init(maxRecords: Int32? = nil, marker: String? = nil, filters: FilterList? = nil) {
+        public init(maxRecords: Int32? = nil, marker: String? = nil, filters: [Filter]? = nil) {
             self.maxRecords = maxRecords
             self.marker = marker
             self.filters = filters
@@ -1797,7 +1676,7 @@ extension Dms {
     }
 
     public struct ReloadTablesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
             AWSShapeMember(label: "TablesToReload", required: true, type: .list)
         ]
@@ -1818,7 +1697,7 @@ extension Dms {
     }
 
     public struct RefreshSchemasMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
             AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
@@ -1839,7 +1718,7 @@ extension Dms {
     }
 
     public struct ModifyEventSubscriptionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
         /// The modified event subscription.
@@ -1855,7 +1734,7 @@ extension Dms {
     }
 
     public struct StartReplicationTaskResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The replication task started.
@@ -1871,7 +1750,7 @@ extension Dms {
     }
 
     public struct DeleteReplicationTaskMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the replication task to be deleted.
@@ -1887,7 +1766,7 @@ extension Dms {
     }
 
     public struct Subnet: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure), 
             AWSShapeMember(label: "SubnetStatus", required: false, type: .string)
@@ -1913,10 +1792,10 @@ extension Dms {
     }
 
     public struct CreateEndpointMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "EndpointIdentifier", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "Username", required: false, type: .string), 
             AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
             AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
@@ -1936,7 +1815,7 @@ extension Dms {
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
         public let endpointIdentifier: String
         /// Tags to be added to the endpoint.
-        public let tags: TagList?
+        public let tags: [Tag]?
         /// The user name to be used to login to the endpoint database.
         public let username: String?
         /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the Configuration Properties When Using MongoDB as a Source for AWS Database Migration Service section at  Using Amazon S3 as a Target for AWS Database Migration Service. 
@@ -1953,7 +1832,7 @@ extension Dms {
         public let databaseName: String?
         /// The SSL mode to use for the SSL connection. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
         public let sslMode: DmsSslModeValue?
-        /// The Amazon Resource Number (ARN) for the certificate.
+        /// The Amazon Resource Name (ARN) for the certificate.
         public let certificateArn: String?
         /// The type of engine for the endpoint. Valid values, depending on the EndPointType, include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, S3, SYBASE, DYNAMODB, MONGODB, and SQLSERVER.
         public let engineName: String
@@ -1964,7 +1843,7 @@ extension Dms {
         /// Additional attributes associated with the connection.
         public let extraConnectionAttributes: String?
 
-        public init(kmsKeyId: String? = nil, endpointIdentifier: String, tags: TagList? = nil, username: String? = nil, mongoDbSettings: MongoDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, endpointType: ReplicationEndpointTypeValue, serverName: String? = nil, s3Settings: S3Settings? = nil, databaseName: String? = nil, sslMode: DmsSslModeValue? = nil, certificateArn: String? = nil, engineName: String, password: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
+        public init(kmsKeyId: String? = nil, endpointIdentifier: String, tags: [Tag]? = nil, username: String? = nil, mongoDbSettings: MongoDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, endpointType: ReplicationEndpointTypeValue, serverName: String? = nil, s3Settings: S3Settings? = nil, databaseName: String? = nil, sslMode: DmsSslModeValue? = nil, certificateArn: String? = nil, engineName: String, password: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.endpointIdentifier = endpointIdentifier
             self.tags = tags
@@ -2004,16 +1883,16 @@ extension Dms {
     }
 
     public struct EventCategoryGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourceType", required: false, type: .string), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .structure)
+            AWSShapeMember(label: "EventCategories", required: false, type: .list)
         ]
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-server | security-group | migration-task
         public let sourceType: String?
         ///  A list of event categories for a SourceType that you want to subscribe to. 
-        public let eventCategories: EventCategoriesList?
+        public let eventCategories: [String]?
 
-        public init(sourceType: String? = nil, eventCategories: EventCategoriesList? = nil) {
+        public init(sourceType: String? = nil, eventCategories: [String]? = nil) {
             self.sourceType = sourceType
             self.eventCategories = eventCategories
         }
@@ -2025,9 +1904,9 @@ extension Dms {
     }
 
     public struct ReplicationSubnetGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SubnetGroupStatus", required: false, type: .string), 
-            AWSShapeMember(label: "Subnets", required: false, type: .structure), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list), 
             AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: false, type: .string), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
@@ -2035,7 +1914,7 @@ extension Dms {
         /// The status of the subnet group.
         public let subnetGroupStatus: String?
         /// The subnets that are in the subnet group.
-        public let subnets: SubnetList?
+        public let subnets: [Subnet]?
         /// The identifier of the replication instance subnet group.
         public let replicationSubnetGroupIdentifier: String?
         /// The description of the replication subnet group.
@@ -2043,7 +1922,7 @@ extension Dms {
         /// The ID of the VPC.
         public let vpcId: String?
 
-        public init(subnetGroupStatus: String? = nil, subnets: SubnetList? = nil, replicationSubnetGroupIdentifier: String? = nil, replicationSubnetGroupDescription: String? = nil, vpcId: String? = nil) {
+        public init(subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, replicationSubnetGroupIdentifier: String? = nil, replicationSubnetGroupDescription: String? = nil, vpcId: String? = nil) {
             self.subnetGroupStatus = subnetGroupStatus
             self.subnets = subnets
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
@@ -2061,12 +1940,12 @@ extension Dms {
     }
 
     public struct Event: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Message", required: false, type: .string), 
             AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Date", required: false, type: .timestamp), 
             AWSShapeMember(label: "SourceType", required: false, type: .enum), 
-            AWSShapeMember(label: "EventCategories", required: false, type: .structure)
+            AWSShapeMember(label: "EventCategories", required: false, type: .list)
         ]
         /// The event message.
         public let message: String?
@@ -2077,9 +1956,9 @@ extension Dms {
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | endpoint | migration-task
         public let sourceType: SourceType?
         /// The event categories available for the specified source type.
-        public let eventCategories: EventCategoriesList?
+        public let eventCategories: [String]?
 
-        public init(message: String? = nil, sourceIdentifier: String? = nil, date: TimeStamp? = nil, sourceType: SourceType? = nil, eventCategories: EventCategoriesList? = nil) {
+        public init(message: String? = nil, sourceIdentifier: String? = nil, date: TimeStamp? = nil, sourceType: SourceType? = nil, eventCategories: [String]? = nil) {
             self.message = message
             self.sourceIdentifier = sourceIdentifier
             self.date = date
@@ -2097,7 +1976,7 @@ extension Dms {
     }
 
     public struct TestConnectionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Connection", required: false, type: .structure)
         ]
         /// The connection tested.
@@ -2113,22 +1992,22 @@ extension Dms {
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
             AWSShapeMember(label: "SubscriptionName", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         /// Filters applied to the action.
-        public let filters: FilterList?
+        public let filters: [Filter]?
         /// The name of the AWS DMS event subscription to be described.
         public let subscriptionName: String?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
 
-        public init(maxRecords: Int32? = nil, filters: FilterList? = nil, subscriptionName: String? = nil, marker: String? = nil) {
+        public init(maxRecords: Int32? = nil, filters: [Filter]? = nil, subscriptionName: String? = nil, marker: String? = nil) {
             self.maxRecords = maxRecords
             self.filters = filters
             self.subscriptionName = subscriptionName
@@ -2144,73 +2023,93 @@ extension Dms {
     }
 
     public struct TableStatistics: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Deletes", required: false, type: .long), 
-            AWSShapeMember(label: "Updates", required: false, type: .long), 
-            AWSShapeMember(label: "TableState", required: false, type: .string), 
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaName", required: false, type: .string), 
             AWSShapeMember(label: "FullLoadCondtnlChkFailedRows", required: false, type: .long), 
             AWSShapeMember(label: "FullLoadRows", required: false, type: .long), 
-            AWSShapeMember(label: "Inserts", required: false, type: .long), 
-            AWSShapeMember(label: "FullLoadErrorRows", required: false, type: .long), 
-            AWSShapeMember(label: "TableName", required: false, type: .string), 
             AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "Ddls", required: false, type: .long)
+            AWSShapeMember(label: "ValidationSuspendedRecords", required: false, type: .long), 
+            AWSShapeMember(label: "ValidationState", required: false, type: .string), 
+            AWSShapeMember(label: "Ddls", required: false, type: .long), 
+            AWSShapeMember(label: "Updates", required: false, type: .long), 
+            AWSShapeMember(label: "TableState", required: false, type: .string), 
+            AWSShapeMember(label: "ValidationFailedRecords", required: false, type: .long), 
+            AWSShapeMember(label: "ValidationPendingRecords", required: false, type: .long), 
+            AWSShapeMember(label: "Inserts", required: false, type: .long), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "FullLoadErrorRows", required: false, type: .long), 
+            AWSShapeMember(label: "Deletes", required: false, type: .long)
         ]
-        /// The number of delete actions performed on a table.
-        public let deletes: Int64?
-        /// The number of update actions performed on a table.
-        public let updates: Int64?
-        /// The state of the table.
-        public let tableState: String?
         /// The schema name.
         public let schemaName: String?
         /// The number of rows that failed conditional checks during the Full Load operation (valid only for DynamoDB as a target migrations).
         public let fullLoadCondtnlChkFailedRows: Int64?
         /// The number of rows added during the Full Load operation.
         public let fullLoadRows: Int64?
-        /// The number of insert actions performed on a table.
-        public let inserts: Int64?
-        /// The number of rows that failed to load during the Full Load operation (valid only for DynamoDB as a target migrations).
-        public let fullLoadErrorRows: Int64?
-        /// The name of the table.
-        public let tableName: String?
         /// The last time the table was updated.
         public let lastUpdateTime: TimeStamp?
+        /// The number of records that could not be validated.
+        public let validationSuspendedRecords: Int64?
+        /// The validation state of the table. The parameter can have the following values   Not enabled—Validation is not enabled for the table in the migration task.   Pending records—Some records in the table are waiting for validation.   Mismatched records—Some records in the table do not match between the source and target.   Suspended records—Some records in the table could not be validated.   No primary key—The table could not be validated because it had no primary key.   Table error—The table was not validated because it was in an error state and some data was not migrated.   Validated—All rows in the table were validated. If the table is updated, the status can change from Validated.   Error—The table could not be validated because of an unexpected error.  
+        public let validationState: String?
         /// The Data Definition Language (DDL) used to build and modify the structure of your tables.
         public let ddls: Int64?
+        /// The number of update actions performed on a table.
+        public let updates: Int64?
+        /// The state of the tables described. Valid states: Table does not exist | Before load | Full load | Table completed | Table cancelled | Table error | Table all | Table updates | Table is being reloaded
+        public let tableState: String?
+        /// The number of records that failed validation.
+        public let validationFailedRecords: Int64?
+        /// The number of records that have yet to be validated.
+        public let validationPendingRecords: Int64?
+        /// The number of insert actions performed on a table.
+        public let inserts: Int64?
+        /// The name of the table.
+        public let tableName: String?
+        /// The number of rows that failed to load during the Full Load operation (valid only for DynamoDB as a target migrations).
+        public let fullLoadErrorRows: Int64?
+        /// The number of delete actions performed on a table.
+        public let deletes: Int64?
 
-        public init(deletes: Int64? = nil, updates: Int64? = nil, tableState: String? = nil, schemaName: String? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadRows: Int64? = nil, inserts: Int64? = nil, fullLoadErrorRows: Int64? = nil, tableName: String? = nil, lastUpdateTime: TimeStamp? = nil, ddls: Int64? = nil) {
-            self.deletes = deletes
-            self.updates = updates
-            self.tableState = tableState
+        public init(schemaName: String? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadRows: Int64? = nil, lastUpdateTime: TimeStamp? = nil, validationSuspendedRecords: Int64? = nil, validationState: String? = nil, ddls: Int64? = nil, updates: Int64? = nil, tableState: String? = nil, validationFailedRecords: Int64? = nil, validationPendingRecords: Int64? = nil, inserts: Int64? = nil, tableName: String? = nil, fullLoadErrorRows: Int64? = nil, deletes: Int64? = nil) {
             self.schemaName = schemaName
             self.fullLoadCondtnlChkFailedRows = fullLoadCondtnlChkFailedRows
             self.fullLoadRows = fullLoadRows
-            self.inserts = inserts
-            self.fullLoadErrorRows = fullLoadErrorRows
-            self.tableName = tableName
             self.lastUpdateTime = lastUpdateTime
+            self.validationSuspendedRecords = validationSuspendedRecords
+            self.validationState = validationState
             self.ddls = ddls
+            self.updates = updates
+            self.tableState = tableState
+            self.validationFailedRecords = validationFailedRecords
+            self.validationPendingRecords = validationPendingRecords
+            self.inserts = inserts
+            self.tableName = tableName
+            self.fullLoadErrorRows = fullLoadErrorRows
+            self.deletes = deletes
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deletes = "Deletes"
-            case updates = "Updates"
-            case tableState = "TableState"
             case schemaName = "SchemaName"
             case fullLoadCondtnlChkFailedRows = "FullLoadCondtnlChkFailedRows"
             case fullLoadRows = "FullLoadRows"
-            case inserts = "Inserts"
-            case fullLoadErrorRows = "FullLoadErrorRows"
-            case tableName = "TableName"
             case lastUpdateTime = "LastUpdateTime"
+            case validationSuspendedRecords = "ValidationSuspendedRecords"
+            case validationState = "ValidationState"
             case ddls = "Ddls"
+            case updates = "Updates"
+            case tableState = "TableState"
+            case validationFailedRecords = "ValidationFailedRecords"
+            case validationPendingRecords = "ValidationPendingRecords"
+            case inserts = "Inserts"
+            case tableName = "TableName"
+            case fullLoadErrorRows = "FullLoadErrorRows"
+            case deletes = "Deletes"
         }
     }
 
     public struct CreateReplicationSubnetGroupResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure)
         ]
         /// The replication subnet group that was created.
@@ -2226,10 +2125,10 @@ extension Dms {
     }
 
     public struct ImportCertificateMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateWallet", required: false, type: .blob), 
             AWSShapeMember(label: "CertificatePem", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "CertificateIdentifier", required: true, type: .string)
         ]
         /// The location of the imported Oracle Wallet certificate for use with SSL.
@@ -2237,11 +2136,11 @@ extension Dms {
         /// The contents of the .pem X.509 certificate file for the certificate.
         public let certificatePem: String?
         /// The tags associated with the certificate.
-        public let tags: TagList?
+        public let tags: [Tag]?
         /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
         public let certificateIdentifier: String
 
-        public init(certificateWallet: Data? = nil, certificatePem: String? = nil, tags: TagList? = nil, certificateIdentifier: String) {
+        public init(certificateWallet: Data? = nil, certificatePem: String? = nil, tags: [Tag]? = nil, certificateIdentifier: String) {
             self.certificateWallet = certificateWallet
             self.certificatePem = certificatePem
             self.tags = tags
@@ -2257,7 +2156,7 @@ extension Dms {
     }
 
     public struct TestConnectionMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
             AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
@@ -2278,7 +2177,7 @@ extension Dms {
     }
 
     public struct DeleteReplicationTaskResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The deleted replication task.
@@ -2294,7 +2193,7 @@ extension Dms {
     }
 
     public struct CreateEndpointResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Endpoint", required: false, type: .structure)
         ]
         /// The endpoint that was created.
@@ -2309,8 +2208,54 @@ extension Dms {
         }
     }
 
+    public struct ReplicationTaskAssessmentResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3ObjectUrl", required: false, type: .string), 
+            AWSShapeMember(label: "AssessmentResultsFile", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskLastAssessmentDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AssessmentResults", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "AssessmentStatus", required: false, type: .string)
+        ]
+        ///  The URL of the S3 object containing the task assessment results. 
+        public let s3ObjectUrl: String?
+        ///  The file containing the results of the task assessment. 
+        public let assessmentResultsFile: String?
+        /// The Amazon Resource Name (ARN) of the replication task. 
+        public let replicationTaskArn: String?
+        /// The date the task assessment was completed. 
+        public let replicationTaskLastAssessmentDate: TimeStamp?
+        ///  The task assessment results in JSON format. 
+        public let assessmentResults: String?
+        ///  The replication task identifier of the task on which the task assessment was run. 
+        public let replicationTaskIdentifier: String?
+        ///  The status of the task assessment. 
+        public let assessmentStatus: String?
+
+        public init(s3ObjectUrl: String? = nil, assessmentResultsFile: String? = nil, replicationTaskArn: String? = nil, replicationTaskLastAssessmentDate: TimeStamp? = nil, assessmentResults: String? = nil, replicationTaskIdentifier: String? = nil, assessmentStatus: String? = nil) {
+            self.s3ObjectUrl = s3ObjectUrl
+            self.assessmentResultsFile = assessmentResultsFile
+            self.replicationTaskArn = replicationTaskArn
+            self.replicationTaskLastAssessmentDate = replicationTaskLastAssessmentDate
+            self.assessmentResults = assessmentResults
+            self.replicationTaskIdentifier = replicationTaskIdentifier
+            self.assessmentStatus = assessmentStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3ObjectUrl = "S3ObjectUrl"
+            case assessmentResultsFile = "AssessmentResultsFile"
+            case replicationTaskArn = "ReplicationTaskArn"
+            case replicationTaskLastAssessmentDate = "ReplicationTaskLastAssessmentDate"
+            case assessmentResults = "AssessmentResults"
+            case replicationTaskIdentifier = "ReplicationTaskIdentifier"
+            case assessmentStatus = "AssessmentStatus"
+        }
+    }
+
     public struct CreateReplicationInstanceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
         ]
         /// The replication instance that was created.
@@ -2325,38 +2270,8 @@ extension Dms {
         }
     }
 
-    public struct SubnetList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Subnet", required: false, type: .list)
-        ]
-        public let subnet: [Subnet]?
-
-        public init(subnet: [Subnet]? = nil) {
-            self.subnet = subnet
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case subnet = "Subnet"
-        }
-    }
-
-    public struct EndpointList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Endpoint", required: false, type: .list)
-        ]
-        public let endpoint: [Endpoint]?
-
-        public init(endpoint: [Endpoint]? = nil) {
-            self.endpoint = endpoint
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case endpoint = "Endpoint"
-        }
-    }
-
     public struct ModifyReplicationTaskMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TableMappings", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
             AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string), 
@@ -2397,19 +2312,19 @@ extension Dms {
     }
 
     public struct ModifyReplicationSubnetGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SubnetIds", required: true, type: .structure), 
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
             AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: false, type: .string)
         ]
         /// A list of subnet IDs.
-        public let subnetIds: SubnetIdentifierList
+        public let subnetIds: [String]
         /// The name of the replication instance subnet group.
         public let replicationSubnetGroupIdentifier: String
         /// The description of the replication instance subnet group.
         public let replicationSubnetGroupDescription: String?
 
-        public init(subnetIds: SubnetIdentifierList, replicationSubnetGroupIdentifier: String, replicationSubnetGroupDescription: String? = nil) {
+        public init(subnetIds: [String], replicationSubnetGroupIdentifier: String, replicationSubnetGroupDescription: String? = nil) {
             self.subnetIds = subnetIds
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
             self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
@@ -2423,7 +2338,7 @@ extension Dms {
     }
 
     public struct OrderableReplicationInstance: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
             AWSShapeMember(label: "DefaultAllocatedStorage", required: false, type: .integer), 
@@ -2469,7 +2384,7 @@ extension Dms {
     }
 
     public struct ReplicationTaskStats: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TablesLoaded", required: false, type: .integer), 
             AWSShapeMember(label: "ElapsedTimeMillis", required: false, type: .long), 
             AWSShapeMember(label: "FullLoadProgressPercent", required: false, type: .integer), 
@@ -2510,7 +2425,7 @@ extension Dms {
     }
 
     public struct DeleteEndpointResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Endpoint", required: false, type: .structure)
         ]
         /// The endpoint that was deleted.
@@ -2526,7 +2441,7 @@ extension Dms {
     }
 
     public struct ModifyReplicationTaskResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The replication task that was modified.
@@ -2541,23 +2456,8 @@ extension Dms {
         }
     }
 
-    public struct SupportedEndpointTypeList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SupportedEndpointType", required: false, type: .list)
-        ]
-        public let supportedEndpointType: [SupportedEndpointType]?
-
-        public init(supportedEndpointType: [SupportedEndpointType]? = nil) {
-            self.supportedEndpointType = supportedEndpointType
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case supportedEndpointType = "SupportedEndpointType"
-        }
-    }
-
     public struct ReplicationTask: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTaskStats", required: false, type: .structure), 
             AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationTaskStartDate", required: false, type: .timestamp), 
@@ -2638,7 +2538,7 @@ extension Dms {
     }
 
     public struct StopReplicationTaskResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The replication task stopped.
@@ -2654,7 +2554,7 @@ extension Dms {
     }
 
     public struct RefreshSchemasResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RefreshSchemasStatus", required: false, type: .structure)
         ]
         /// The status of the refreshed schema.
@@ -2670,7 +2570,7 @@ extension Dms {
     }
 
     public struct DeleteCertificateMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the deleted certificate.
@@ -2686,7 +2586,7 @@ extension Dms {
     }
 
     public struct DynamoDbSettings: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServiceAccessRoleArn", required: true, type: .string)
         ]
         ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
@@ -2702,7 +2602,7 @@ extension Dms {
     }
 
     public struct DescribeRefreshSchemasStatusResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RefreshSchemasStatus", required: false, type: .structure)
         ]
         /// The status of the schema.
@@ -2718,7 +2618,7 @@ extension Dms {
     }
 
     public struct DescribeSchemasMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
@@ -2744,10 +2644,10 @@ extension Dms {
     }
 
     public struct StopReplicationTaskMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
         ]
-        /// The Amazon Resource Number(ARN) of the replication task to be stopped.
+        /// The Amazon Resource Name(ARN) of the replication task to be stopped.
         public let replicationTaskArn: String
 
         public init(replicationTaskArn: String) {
@@ -2760,7 +2660,7 @@ extension Dms {
     }
 
     public struct CreateEventSubscriptionResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
         /// The event subscription that was created.
@@ -2782,47 +2682,17 @@ extension Dms {
         public var description: String { return self.rawValue }
     }
 
-    public struct OrderableReplicationInstanceList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "OrderableReplicationInstance", required: false, type: .list)
-        ]
-        public let orderableReplicationInstance: [OrderableReplicationInstance]?
-
-        public init(orderableReplicationInstance: [OrderableReplicationInstance]? = nil) {
-            self.orderableReplicationInstance = orderableReplicationInstance
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case orderableReplicationInstance = "OrderableReplicationInstance"
-        }
-    }
-
-    public struct EventCategoryGroupList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventCategoryGroup", required: false, type: .list)
-        ]
-        public let eventCategoryGroup: [EventCategoryGroup]?
-
-        public init(eventCategoryGroup: [EventCategoryGroup]? = nil) {
-            self.eventCategoryGroup = eventCategoryGroup
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventCategoryGroup = "EventCategoryGroup"
-        }
-    }
-
     public struct DescribeReplicationTasksResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationTasks", required: false, type: .structure)
+            AWSShapeMember(label: "ReplicationTasks", required: false, type: .list)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// A description of the replication tasks.
-        public let replicationTasks: ReplicationTaskList?
+        public let replicationTasks: [ReplicationTask]?
 
-        public init(marker: String? = nil, replicationTasks: ReplicationTaskList? = nil) {
+        public init(marker: String? = nil, replicationTasks: [ReplicationTask]? = nil) {
             self.marker = marker
             self.replicationTasks = replicationTasks
         }
@@ -2834,16 +2704,16 @@ extension Dms {
     }
 
     public struct AddTagsToResourceMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: true, type: .structure)
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
         /// The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be added to. AWS DMS resources include a replication instance, endpoint, and a replication task.
         public let resourceArn: String
         /// The tag to be assigned to the DMS resource.
-        public let tags: TagList
+        public let tags: [Tag]
 
-        public init(resourceArn: String, tags: TagList) {
+        public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -2855,19 +2725,19 @@ extension Dms {
     }
 
     public struct DescribeConnectionsMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Filters", required: false, type: .structure)
+            AWSShapeMember(label: "Filters", required: false, type: .list)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The filters applied to the connection. Valid filter names: endpoint-arn | replication-instance-arn
-        public let filters: FilterList?
+        public let filters: [Filter]?
 
-        public init(maxRecords: Int32? = nil, marker: String? = nil, filters: FilterList? = nil) {
+        public init(maxRecords: Int32? = nil, marker: String? = nil, filters: [Filter]? = nil) {
             self.maxRecords = maxRecords
             self.marker = marker
             self.filters = filters
@@ -2880,27 +2750,12 @@ extension Dms {
         }
     }
 
-    public struct AccountQuotaList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountQuota", required: false, type: .list)
-        ]
-        public let accountQuota: [AccountQuota]?
-
-        public init(accountQuota: [AccountQuota]? = nil) {
-            self.accountQuota = accountQuota
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case accountQuota = "AccountQuota"
-        }
-    }
-
     public struct DeleteReplicationSubnetGroupResponse: AWSShape {
 
     }
 
     public struct DeleteReplicationSubnetGroupMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string)
         ]
         /// The subnet group name of the replication instance.
@@ -2922,7 +2777,7 @@ extension Dms {
     }
 
     public struct ReplicationPendingModifiedValues: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
@@ -2952,27 +2807,12 @@ extension Dms {
         }
     }
 
-    public struct EventSubscriptionsList: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EventSubscription", required: false, type: .list)
-        ]
-        public let eventSubscription: [EventSubscription]?
-
-        public init(eventSubscription: [EventSubscription]? = nil) {
-            self.eventSubscription = eventSubscription
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eventSubscription = "EventSubscription"
-        }
-    }
-
     public struct ReplicationInstance: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceCreateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
             AWSShapeMember(label: "ReplicationInstanceStatus", required: false, type: .string), 
-            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list), 
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
             AWSShapeMember(label: "ReplicationInstancePublicIpAddresses", required: false, type: .list), 
             AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
@@ -2998,7 +2838,7 @@ extension Dms {
         /// The status of the replication instance.
         public let replicationInstanceStatus: String?
         /// The VPC security group for the instance.
-        public let vpcSecurityGroups: VpcSecurityGroupMembershipList?
+        public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
         public let multiAZ: Bool?
         /// The public IP address of the replication instance.
@@ -3034,7 +2874,7 @@ extension Dms {
         /// The KMS key identifier that is used to encrypt the content on the replication instance. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
         public let kmsKeyId: String?
 
-        public init(instanceCreateTime: TimeStamp? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, replicationInstanceStatus: String? = nil, vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, multiAZ: Bool? = nil, replicationInstancePublicIpAddresses: [String]? = nil, allocatedStorage: Int32? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, replicationInstancePrivateIpAddress: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String? = nil, replicationInstancePublicIpAddress: String? = nil, secondaryAvailabilityZone: String? = nil, kmsKeyId: String? = nil) {
+        public init(instanceCreateTime: TimeStamp? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, replicationInstanceStatus: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil, multiAZ: Bool? = nil, replicationInstancePublicIpAddresses: [String]? = nil, allocatedStorage: Int32? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, replicationInstancePrivateIpAddress: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String? = nil, replicationInstancePublicIpAddress: String? = nil, secondaryAvailabilityZone: String? = nil, kmsKeyId: String? = nil) {
             self.instanceCreateTime = instanceCreateTime
             self.pendingModifiedValues = pendingModifiedValues
             self.replicationInstanceStatus = replicationInstanceStatus
@@ -3084,7 +2924,7 @@ extension Dms {
     }
 
     public struct ImportCertificateResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Certificate", required: false, type: .structure)
         ]
         /// The certificate to be uploaded.
@@ -3100,16 +2940,16 @@ extension Dms {
     }
 
     public struct DescribeEndpointsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "Endpoints", required: false, type: .structure)
+            AWSShapeMember(label: "Endpoints", required: false, type: .list)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// Endpoint description.
-        public let endpoints: EndpointList?
+        public let endpoints: [Endpoint]?
 
-        public init(marker: String? = nil, endpoints: EndpointList? = nil) {
+        public init(marker: String? = nil, endpoints: [Endpoint]? = nil) {
             self.marker = marker
             self.endpoints = endpoints
         }
@@ -3121,7 +2961,7 @@ extension Dms {
     }
 
     public struct ModifyEndpointMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "Username", required: false, type: .string), 
             AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
@@ -3166,7 +3006,7 @@ extension Dms {
         public let password: String?
         /// The port used by the endpoint database.
         public let port: Int32?
-        /// Additional attributes associated with the connection.
+        /// Additional attributes associated with the connection. To reset this parameter, pass the empty string ("") as an argument.
         public let extraConnectionAttributes: String?
 
         public init(endpointIdentifier: String? = nil, username: String? = nil, endpointArn: String, dynamoDbSettings: DynamoDbSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, endpointType: ReplicationEndpointTypeValue? = nil, serverName: String? = nil, s3Settings: S3Settings? = nil, databaseName: String? = nil, sslMode: DmsSslModeValue? = nil, certificateArn: String? = nil, engineName: String? = nil, password: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
@@ -3207,7 +3047,7 @@ extension Dms {
     }
 
     public struct VpcSecurityGroupMembership: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
         ]
@@ -3228,7 +3068,7 @@ extension Dms {
     }
 
     public struct DescribeOrderableReplicationInstancesMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
@@ -3249,10 +3089,10 @@ extension Dms {
     }
 
     public struct CreateReplicationTaskMessage: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TableMappings", required: true, type: .string), 
             AWSShapeMember(label: "SourceEndpointArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
             AWSShapeMember(label: "ReplicationTaskIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "MigrationType", required: true, type: .enum), 
@@ -3265,7 +3105,7 @@ extension Dms {
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let sourceEndpointArn: String
         /// Tags to be added to the replication instance.
-        public let tags: TagList?
+        public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
         /// The replication task identifier. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
@@ -3279,7 +3119,7 @@ extension Dms {
         /// Settings for the task, such as target metadata settings. For a complete list of task settings, see Task Settings for AWS Database Migration Service Tasks.
         public let replicationTaskSettings: String?
 
-        public init(tableMappings: String, sourceEndpointArn: String, tags: TagList? = nil, replicationInstanceArn: String, replicationTaskIdentifier: String, migrationType: MigrationTypeValue, targetEndpointArn: String, cdcStartTime: TimeStamp? = nil, replicationTaskSettings: String? = nil) {
+        public init(tableMappings: String, sourceEndpointArn: String, tags: [Tag]? = nil, replicationInstanceArn: String, replicationTaskIdentifier: String, migrationType: MigrationTypeValue, targetEndpointArn: String, cdcStartTime: TimeStamp? = nil, replicationTaskSettings: String? = nil) {
             self.tableMappings = tableMappings
             self.sourceEndpointArn = sourceEndpointArn
             self.tags = tags
@@ -3311,16 +3151,16 @@ extension Dms {
     }
 
     public struct Filter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "Values", required: true, type: .structure)
+            AWSShapeMember(label: "Values", required: true, type: .list)
         ]
         /// The name of the filter.
         public let name: String
         /// The filter value.
-        public let values: FilterValueList
+        public let values: [String]
 
-        public init(name: String, values: FilterValueList) {
+        public init(name: String, values: [String]) {
             self.name = name
             self.values = values
         }
@@ -3332,16 +3172,16 @@ extension Dms {
     }
 
     public struct DescribeReplicationInstancesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
-            AWSShapeMember(label: "ReplicationInstances", required: false, type: .structure)
+            AWSShapeMember(label: "ReplicationInstances", required: false, type: .list)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         /// The replication instances described.
-        public let replicationInstances: ReplicationInstanceList?
+        public let replicationInstances: [ReplicationInstance]?
 
-        public init(marker: String? = nil, replicationInstances: ReplicationInstanceList? = nil) {
+        public init(marker: String? = nil, replicationInstances: [ReplicationInstance]? = nil) {
             self.marker = marker
             self.replicationInstances = replicationInstances
         }

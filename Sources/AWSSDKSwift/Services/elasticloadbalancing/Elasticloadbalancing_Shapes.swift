@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Elasticloadbalancing {
 
     public struct PolicyAttributeTypeDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeName", required: false, type: .string), 
             AWSShapeMember(label: "AttributeType", required: false, type: .string), 
             AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
@@ -42,7 +42,7 @@ extension Elasticloadbalancing {
     }
 
     public struct AddAvailabilityZonesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
         ]
         /// The updated list of Availability Zones for the load balancer.
@@ -58,7 +58,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DeleteLoadBalancerPolicyInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
@@ -79,7 +79,7 @@ extension Elasticloadbalancing {
     }
 
     public struct PolicyAttributeDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeName", required: false, type: .string), 
             AWSShapeMember(label: "AttributeValue", required: false, type: .string)
         ]
@@ -100,7 +100,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DetachLoadBalancerFromSubnetsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subnets", required: true, type: .list), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
@@ -121,7 +121,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DescribeAccessPointsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerDescriptions", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -142,7 +142,7 @@ extension Elasticloadbalancing {
     }
 
     public struct CreateLoadBalancerListenerInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "Listeners", required: true, type: .list)
         ]
@@ -163,7 +163,7 @@ extension Elasticloadbalancing {
     }
 
     public struct RemoveAvailabilityZonesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: true, type: .list), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
@@ -184,7 +184,7 @@ extension Elasticloadbalancing {
     }
 
     public struct ModifyLoadBalancerAttributesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "LoadBalancerAttributes", required: true, type: .structure)
         ]
@@ -205,7 +205,7 @@ extension Elasticloadbalancing {
     }
 
     public struct AttachLoadBalancerToSubnetsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subnets", required: true, type: .list), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
@@ -226,7 +226,7 @@ extension Elasticloadbalancing {
     }
 
     public struct CreateAccessPointOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DNSName", required: false, type: .string)
         ]
         /// The DNS name of the load balancer.
@@ -242,7 +242,7 @@ extension Elasticloadbalancing {
     }
 
     public struct ListenerDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
             AWSShapeMember(label: "Listener", required: false, type: .structure)
         ]
@@ -263,7 +263,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DeregisterEndPointsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Instances", required: false, type: .list)
         ]
         /// The remaining instances registered with the load balancer.
@@ -279,7 +279,7 @@ extension Elasticloadbalancing {
     }
 
     public struct TagKeyOnly: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The name of the key.
@@ -295,7 +295,7 @@ extension Elasticloadbalancing {
     }
 
     public struct LoadBalancerAttributes: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConnectionSettings", required: false, type: .structure), 
             AWSShapeMember(label: "AdditionalAttributes", required: false, type: .list), 
             AWSShapeMember(label: "AccessLog", required: false, type: .structure), 
@@ -331,7 +331,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DescribeAccessPointsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "LoadBalancerNames", required: false, type: .list), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer)
@@ -357,7 +357,7 @@ extension Elasticloadbalancing {
     }
 
     public struct AdditionalAttribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
@@ -378,7 +378,7 @@ extension Elasticloadbalancing {
     }
 
     public struct SetLoadBalancerPoliciesOfListenerInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "LoadBalancerPort", required: true, type: .integer), 
             AWSShapeMember(label: "PolicyNames", required: true, type: .list)
@@ -404,7 +404,7 @@ extension Elasticloadbalancing {
     }
 
     public struct AddAvailabilityZonesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: true, type: .list), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
@@ -425,7 +425,7 @@ extension Elasticloadbalancing {
     }
 
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -450,7 +450,7 @@ extension Elasticloadbalancing {
     }
 
     public struct TagDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
@@ -475,7 +475,7 @@ extension Elasticloadbalancing {
     }
 
     public struct ApplySecurityGroupsToLoadBalancerInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "SecurityGroups", required: true, type: .list)
         ]
@@ -496,7 +496,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DescribeAccountLimitsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer)
         ]
@@ -517,7 +517,7 @@ extension Elasticloadbalancing {
     }
 
     public struct ConnectionDraining: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
             AWSShapeMember(label: "Enabled", required: true, type: .boolean)
         ]
@@ -538,7 +538,7 @@ extension Elasticloadbalancing {
     }
 
     public struct AccessLog: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EmitInterval", required: false, type: .integer), 
             AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
             AWSShapeMember(label: "S3BucketPrefix", required: false, type: .string), 
@@ -569,7 +569,7 @@ extension Elasticloadbalancing {
     }
 
     public struct Listener: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceProtocol", required: false, type: .string), 
             AWSShapeMember(label: "InstancePort", required: true, type: .integer), 
             AWSShapeMember(label: "LoadBalancerPort", required: true, type: .integer), 
@@ -605,7 +605,7 @@ extension Elasticloadbalancing {
     }
 
     public struct Instance: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
         /// The instance ID.
@@ -621,7 +621,7 @@ extension Elasticloadbalancing {
     }
 
     public struct CreateLBCookieStickinessPolicyInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "CookieExpirationPeriod", required: false, type: .long), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
@@ -647,7 +647,7 @@ extension Elasticloadbalancing {
     }
 
     public struct RegisterEndPointsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Instances", required: false, type: .list)
         ]
         /// The updated list of instances for the load balancer.
@@ -663,7 +663,7 @@ extension Elasticloadbalancing {
     }
 
     public struct Policies: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AppCookieStickinessPolicies", required: false, type: .list), 
             AWSShapeMember(label: "OtherPolicies", required: false, type: .list), 
             AWSShapeMember(label: "LBCookieStickinessPolicies", required: false, type: .list)
@@ -689,7 +689,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DescribeLoadBalancerAttributesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
         /// The name of the load balancer.
@@ -705,7 +705,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DescribeTagsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagDescriptions", required: false, type: .list)
         ]
         /// Information about the tags.
@@ -721,7 +721,7 @@ extension Elasticloadbalancing {
     }
 
     public struct PolicyAttribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeName", required: false, type: .string), 
             AWSShapeMember(label: "AttributeValue", required: false, type: .string)
         ]
@@ -742,7 +742,7 @@ extension Elasticloadbalancing {
     }
 
     public struct RegisterEndPointsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "Instances", required: true, type: .list)
         ]
@@ -771,7 +771,7 @@ extension Elasticloadbalancing {
     }
 
     public struct HealthCheck: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Target", required: true, type: .string), 
             AWSShapeMember(label: "UnhealthyThreshold", required: true, type: .integer), 
             AWSShapeMember(label: "HealthyThreshold", required: true, type: .integer), 
@@ -807,7 +807,7 @@ extension Elasticloadbalancing {
     }
 
     public struct ModifyLoadBalancerAttributesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
             AWSShapeMember(label: "LoadBalancerAttributes", required: false, type: .structure)
         ]
@@ -828,7 +828,7 @@ extension Elasticloadbalancing {
     }
 
     public struct PolicyDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyTypeName", required: false, type: .string), 
             AWSShapeMember(label: "PolicyAttributeDescriptions", required: false, type: .list), 
             AWSShapeMember(label: "PolicyName", required: false, type: .string)
@@ -854,7 +854,7 @@ extension Elasticloadbalancing {
     }
 
     public struct CreateAppCookieStickinessPolicyInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CookieName", required: true, type: .string), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "PolicyName", required: true, type: .string)
@@ -880,7 +880,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DescribeLoadBalancerPoliciesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyDescriptions", required: false, type: .list)
         ]
         /// Information about the policies.
@@ -896,7 +896,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DeleteAccessPointInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
         /// The name of the load balancer.
@@ -912,7 +912,7 @@ extension Elasticloadbalancing {
     }
 
     public struct PolicyTypeDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyTypeName", required: false, type: .string), 
             AWSShapeMember(label: "PolicyAttributeTypeDescriptions", required: false, type: .list), 
             AWSShapeMember(label: "Description", required: false, type: .string)
@@ -938,7 +938,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DetachLoadBalancerFromSubnetsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subnets", required: false, type: .list)
         ]
         /// The IDs of the remaining subnets for the load balancer.
@@ -954,7 +954,7 @@ extension Elasticloadbalancing {
     }
 
     public struct ConfigureHealthCheckOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthCheck", required: false, type: .structure)
         ]
         /// The updated health check.
@@ -970,7 +970,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DescribeLoadBalancerPolicyTypesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyTypeNames", required: false, type: .list)
         ]
         /// The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing.
@@ -986,7 +986,7 @@ extension Elasticloadbalancing {
     }
 
     public struct CreateAccessPointInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
             AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
             AWSShapeMember(label: "Listeners", required: true, type: .list), 
@@ -1044,7 +1044,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DescribeLoadBalancerPoliciesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
             AWSShapeMember(label: "PolicyNames", required: false, type: .list)
         ]
@@ -1065,7 +1065,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DeleteLoadBalancerListenerInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerPorts", required: true, type: .list), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string)
         ]
@@ -1090,7 +1090,7 @@ extension Elasticloadbalancing {
     }
 
     public struct InstanceState: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ReasonCode", required: false, type: .string), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .string), 
@@ -1121,7 +1121,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DeregisterEndPointsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "Instances", required: true, type: .list)
         ]
@@ -1146,7 +1146,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DescribeTagsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list)
         ]
         /// The names of the load balancers.
@@ -1162,7 +1162,7 @@ extension Elasticloadbalancing {
     }
 
     public struct ApplySecurityGroupsToLoadBalancerOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecurityGroups", required: false, type: .list)
         ]
         /// The IDs of the security groups associated with the load balancer.
@@ -1178,7 +1178,7 @@ extension Elasticloadbalancing {
     }
 
     public struct CrossZoneLoadBalancing: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Enabled", required: true, type: .boolean)
         ]
         /// Specifies whether cross-zone load balancing is enabled for the load balancer.
@@ -1194,7 +1194,7 @@ extension Elasticloadbalancing {
     }
 
     public struct Limit: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Max", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
@@ -1215,7 +1215,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DescribeLoadBalancerAttributesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerAttributes", required: false, type: .structure)
         ]
         /// Information about the load balancer attributes.
@@ -1231,7 +1231,7 @@ extension Elasticloadbalancing {
     }
 
     public struct LBCookieStickinessPolicy: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CookieExpirationPeriod", required: false, type: .long), 
             AWSShapeMember(label: "PolicyName", required: false, type: .string)
         ]
@@ -1252,7 +1252,7 @@ extension Elasticloadbalancing {
     }
 
     public struct ConnectionSettings: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdleTimeout", required: true, type: .integer)
         ]
         /// The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer.
@@ -1268,7 +1268,7 @@ extension Elasticloadbalancing {
     }
 
     public struct SetLoadBalancerPoliciesForBackendServerInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "InstancePort", required: true, type: .integer)
@@ -1294,7 +1294,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DescribeLoadBalancerPolicyTypesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyTypeDescriptions", required: false, type: .list)
         ]
         /// Information about the policy types.
@@ -1310,7 +1310,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DescribeEndPointStateOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceStates", required: false, type: .list)
         ]
         /// Information about the health of the instances.
@@ -1330,7 +1330,7 @@ extension Elasticloadbalancing {
     }
 
     public struct SourceSecurityGroup: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OwnerAlias", required: false, type: .string), 
             AWSShapeMember(label: "GroupName", required: false, type: .string)
         ]
@@ -1355,7 +1355,7 @@ extension Elasticloadbalancing {
     }
 
     public struct RemoveAvailabilityZonesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list)
         ]
         /// The remaining Availability Zones for the load balancer.
@@ -1371,7 +1371,7 @@ extension Elasticloadbalancing {
     }
 
     public struct AppCookieStickinessPolicy: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CookieName", required: false, type: .string), 
             AWSShapeMember(label: "PolicyName", required: false, type: .string)
         ]
@@ -1392,7 +1392,7 @@ extension Elasticloadbalancing {
     }
 
     public struct AddTagsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
@@ -1413,7 +1413,7 @@ extension Elasticloadbalancing {
     }
 
     public struct CreateLoadBalancerPolicyInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyAttributes", required: false, type: .list), 
             AWSShapeMember(label: "PolicyTypeName", required: true, type: .string), 
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
@@ -1448,7 +1448,7 @@ extension Elasticloadbalancing {
     }
 
     public struct AttachLoadBalancerToSubnetsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Subnets", required: false, type: .list)
         ]
         /// The IDs of the subnets attached to the load balancer.
@@ -1464,7 +1464,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DescribeAccountLimitsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Limits", required: false, type: .list), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -1485,7 +1485,7 @@ extension Elasticloadbalancing {
     }
 
     public struct ConfigureHealthCheckInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "HealthCheck", required: true, type: .structure)
         ]
@@ -1506,7 +1506,7 @@ extension Elasticloadbalancing {
     }
 
     public struct LoadBalancerDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
             AWSShapeMember(label: "VPCId", required: false, type: .string), 
             AWSShapeMember(label: "BackendServerDescriptions", required: false, type: .list), 
@@ -1597,7 +1597,7 @@ extension Elasticloadbalancing {
     }
 
     public struct SetLoadBalancerListenerSSLCertificateInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "LoadBalancerPort", required: true, type: .integer), 
             AWSShapeMember(label: "SSLCertificateId", required: true, type: .string)
@@ -1623,7 +1623,7 @@ extension Elasticloadbalancing {
     }
 
     public struct BackendServerDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
             AWSShapeMember(label: "InstancePort", required: false, type: .integer)
         ]
@@ -1644,7 +1644,7 @@ extension Elasticloadbalancing {
     }
 
     public struct DescribeEndPointStateInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerName", required: true, type: .string), 
             AWSShapeMember(label: "Instances", required: false, type: .list)
         ]
@@ -1665,7 +1665,7 @@ extension Elasticloadbalancing {
     }
 
     public struct RemoveTagsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list), 
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]

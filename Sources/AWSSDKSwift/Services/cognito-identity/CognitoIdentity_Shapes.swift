@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension CognitoIdentity {
 
     public struct MappingRule: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Claim", required: true, type: .string), 
             AWSShapeMember(label: "MatchType", required: true, type: .enum), 
             AWSShapeMember(label: "Value", required: true, type: .string), 
@@ -37,7 +37,7 @@ extension CognitoIdentity {
     }
 
     public struct CreateIdentityPoolInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OpenIdConnectProviderARNs", required: false, type: .list), 
             AWSShapeMember(label: "CognitoIdentityProviders", required: false, type: .list), 
             AWSShapeMember(label: "DeveloperProviderName", required: false, type: .string), 
@@ -83,7 +83,7 @@ extension CognitoIdentity {
     }
 
     public struct ListIdentityPoolsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", required: true, type: .integer)
         ]
@@ -104,7 +104,7 @@ extension CognitoIdentity {
     }
 
     public struct Credentials: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SecretKey", required: false, type: .string), 
             AWSShapeMember(label: "AccessKeyId", required: false, type: .string), 
             AWSShapeMember(label: "SessionToken", required: false, type: .string), 
@@ -135,7 +135,7 @@ extension CognitoIdentity {
     }
 
     public struct GetCredentialsForIdentityInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CustomRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "Logins", required: false, type: .map), 
             AWSShapeMember(label: "IdentityId", required: true, type: .string)
@@ -161,7 +161,7 @@ extension CognitoIdentity {
     }
 
     public struct LookupDeveloperIdentityInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeveloperUserIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "IdentityId", required: false, type: .string), 
             AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
@@ -197,7 +197,7 @@ extension CognitoIdentity {
     }
 
     public struct RulesConfigurationType: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Rules", required: true, type: .list)
         ]
         /// An array of rules. You can specify up to 25 rules per identity provider. Rules are evaluated in order. The first one to match specifies the role.
@@ -213,7 +213,7 @@ extension CognitoIdentity {
     }
 
     public struct IdentityPool: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OpenIdConnectProviderARNs", required: false, type: .list), 
             AWSShapeMember(label: "CognitoIdentityProviders", required: false, type: .list), 
             AWSShapeMember(label: "DeveloperProviderName", required: false, type: .string), 
@@ -264,7 +264,7 @@ extension CognitoIdentity {
     }
 
     public struct IdentityPoolShortDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
             AWSShapeMember(label: "IdentityPoolName", required: false, type: .string)
         ]
@@ -285,7 +285,7 @@ extension CognitoIdentity {
     }
 
     public struct ListIdentitiesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HideDisabled", required: false, type: .boolean), 
             AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -316,7 +316,7 @@ extension CognitoIdentity {
     }
 
     public struct DeleteIdentityPoolInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
@@ -332,7 +332,7 @@ extension CognitoIdentity {
     }
 
     public struct GetCredentialsForIdentityResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Credentials", required: false, type: .structure), 
             AWSShapeMember(label: "IdentityId", required: false, type: .string)
         ]
@@ -353,7 +353,7 @@ extension CognitoIdentity {
     }
 
     public struct MergeDeveloperIdentitiesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DestinationUserIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeMember(label: "SourceUserIdentifier", required: true, type: .string), 
@@ -384,7 +384,7 @@ extension CognitoIdentity {
     }
 
     public struct DeleteIdentitiesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "UnprocessedIdentityIds", required: false, type: .list)
         ]
         /// An array of UnprocessedIdentityId objects, each of which contains an ErrorCode and IdentityId.
@@ -400,7 +400,7 @@ extension CognitoIdentity {
     }
 
     public struct GetOpenIdTokenForDeveloperIdentityInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TokenDuration", required: false, type: .long), 
             AWSShapeMember(label: "IdentityId", required: false, type: .string), 
             AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
@@ -431,7 +431,7 @@ extension CognitoIdentity {
     }
 
     public struct GetOpenIdTokenInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Logins", required: false, type: .map), 
             AWSShapeMember(label: "IdentityId", required: true, type: .string)
         ]
@@ -452,7 +452,7 @@ extension CognitoIdentity {
     }
 
     public struct DeleteIdentitiesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityIdsToDelete", required: true, type: .list)
         ]
         /// A list of 1-60 identities that you want to delete.
@@ -468,7 +468,7 @@ extension CognitoIdentity {
     }
 
     public struct GetIdInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: false, type: .string), 
             AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeMember(label: "Logins", required: false, type: .map)
@@ -494,7 +494,7 @@ extension CognitoIdentity {
     }
 
     public struct ListIdentityPoolsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPools", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -515,7 +515,7 @@ extension CognitoIdentity {
     }
 
     public struct GetIdentityPoolRolesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
             AWSShapeMember(label: "RoleMappings", required: false, type: .map), 
             AWSShapeMember(label: "Roles", required: false, type: .map)
@@ -541,7 +541,7 @@ extension CognitoIdentity {
     }
 
     public struct GetOpenIdTokenForDeveloperIdentityResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Token", required: false, type: .string), 
             AWSShapeMember(label: "IdentityId", required: false, type: .string)
         ]
@@ -562,7 +562,7 @@ extension CognitoIdentity {
     }
 
     public struct DescribeIdentityPoolInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
@@ -578,7 +578,7 @@ extension CognitoIdentity {
     }
 
     public struct GetIdentityPoolRolesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
@@ -594,7 +594,7 @@ extension CognitoIdentity {
     }
 
     public struct UnlinkDeveloperIdentityInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeveloperUserIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "IdentityId", required: true, type: .string), 
             AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
@@ -625,7 +625,7 @@ extension CognitoIdentity {
     }
 
     public struct GetIdResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityId", required: false, type: .string)
         ]
         /// A unique identifier in the format REGION:GUID.
@@ -653,7 +653,7 @@ extension CognitoIdentity {
     }
 
     public struct IdentityDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "IdentityId", required: false, type: .string), 
@@ -684,7 +684,7 @@ extension CognitoIdentity {
     }
 
     public struct SetIdentityPoolRolesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
             AWSShapeMember(label: "RoleMappings", required: false, type: .map), 
             AWSShapeMember(label: "Roles", required: true, type: .map)
@@ -710,7 +710,7 @@ extension CognitoIdentity {
     }
 
     public struct UnlinkIdentityInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Logins", required: true, type: .map), 
             AWSShapeMember(label: "LoginsToRemove", required: true, type: .list), 
             AWSShapeMember(label: "IdentityId", required: true, type: .string)
@@ -736,7 +736,7 @@ extension CognitoIdentity {
     }
 
     public struct GetOpenIdTokenResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Token", required: false, type: .string), 
             AWSShapeMember(label: "IdentityId", required: false, type: .string)
         ]
@@ -757,7 +757,7 @@ extension CognitoIdentity {
     }
 
     public struct CognitoIdentityProvider: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServerSideTokenCheck", required: false, type: .boolean), 
             AWSShapeMember(label: "ProviderName", required: false, type: .string), 
             AWSShapeMember(label: "ClientId", required: false, type: .string)
@@ -783,7 +783,7 @@ extension CognitoIdentity {
     }
 
     public struct ListIdentitiesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
             AWSShapeMember(label: "Identities", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
@@ -809,7 +809,7 @@ extension CognitoIdentity {
     }
 
     public struct LookupDeveloperIdentityResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeveloperUserIdentifierList", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "IdentityId", required: false, type: .string)
@@ -835,7 +835,7 @@ extension CognitoIdentity {
     }
 
     public struct UnprocessedIdentityId: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
             AWSShapeMember(label: "IdentityId", required: false, type: .string)
         ]
@@ -856,7 +856,7 @@ extension CognitoIdentity {
     }
 
     public struct MergeDeveloperIdentitiesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityId", required: false, type: .string)
         ]
         /// A unique identifier in the format REGION:GUID.
@@ -880,7 +880,7 @@ extension CognitoIdentity {
     }
 
     public struct RoleMapping: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: true, type: .enum), 
             AWSShapeMember(label: "RulesConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "AmbiguousRoleResolution", required: false, type: .enum)
@@ -912,7 +912,7 @@ extension CognitoIdentity {
     }
 
     public struct DescribeIdentityInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IdentityId", required: true, type: .string)
         ]
         /// A unique identifier in the format REGION:GUID.

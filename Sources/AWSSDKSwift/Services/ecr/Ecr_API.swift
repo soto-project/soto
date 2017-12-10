@@ -4,7 +4,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Amazon EC2 Container Registry (Amazon ECR) is a managed AWS Docker registry service. Customers can use the familiar Docker CLI to push, pull, and manage images. Amazon ECR provides a secure, scalable, and reliable registry. Amazon ECR supports private Docker repositories with resource-based permissions using AWS IAM so that specific users or Amazon EC2 instances can access repositories and images. Developers can use the Docker CLI to author and manage images.
+Amazon EC2 Container Registry (Amazon ECR) is a managed Docker registry service. Customers can use the familiar Docker CLI to push, pull, and manage images. Amazon ECR provides a secure, scalable, and reliable registry. Amazon ECR supports private Docker repositories with resource-based permissions using IAM so that specific users or Amazon EC2 instances can access repositories and images. Developers can use the Docker CLI to author and manage images.
 */
 public struct Ecr {
 
@@ -25,17 +25,27 @@ public struct Ecr {
         )
     }
 
-    ///  Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You can only get URLs for image layers that are referenced in an image.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
-    public func getDownloadUrlForLayer(_ input: GetDownloadUrlForLayerRequest) throws -> GetDownloadUrlForLayerResponse {
-        return try client.send(operation: "GetDownloadUrlForLayer", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Deletes the repository policy from a specified repository.
     public func deleteRepositoryPolicy(_ input: DeleteRepositoryPolicyRequest) throws -> DeleteRepositoryPolicyResponse {
         return try client.send(operation: "DeleteRepositoryPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Inform Amazon ECR that the image layer upload for a specified registry, repository name, and upload ID, has completed. You can optionally provide a sha256 digest of the image layer for data validation purposes.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
+    ///  Notify Amazon ECR that you intend to upload an image layer.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
+    public func initiateLayerUpload(_ input: InitiateLayerUploadRequest) throws -> InitiateLayerUploadResponse {
+        return try client.send(operation: "InitiateLayerUpload", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the results of the specified lifecycle policy preview request.
+    public func getLifecyclePolicyPreview(_ input: GetLifecyclePolicyPreviewRequest) throws -> GetLifecyclePolicyPreviewResponse {
+        return try client.send(operation: "GetLifecyclePolicyPreview", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You can only get URLs for image layers that are referenced in an image.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
+    public func getDownloadUrlForLayer(_ input: GetDownloadUrlForLayerRequest) throws -> GetDownloadUrlForLayerResponse {
+        return try client.send(operation: "GetDownloadUrlForLayer", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Informs Amazon ECR that the image layer upload has completed for a specified registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
     public func completeLayerUpload(_ input: CompleteLayerUploadRequest) throws -> CompleteLayerUploadResponse {
         return try client.send(operation: "CompleteLayerUpload", path: "/", httpMethod: "POST", input: input)
     }
@@ -53,6 +63,11 @@ public struct Ecr {
     ///  Check the availability of multiple image layers in a specified registry and repository.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
     public func batchCheckLayerAvailability(_ input: BatchCheckLayerAvailabilityRequest) throws -> BatchCheckLayerAvailabilityResponse {
         return try client.send(operation: "BatchCheckLayerAvailability", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Uploads an image layer part to Amazon ECR.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
+    public func uploadLayerPart(_ input: UploadLayerPartRequest) throws -> UploadLayerPartResponse {
+        return try client.send(operation: "UploadLayerPart", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an existing image repository. If a repository contains images, you must use the force option to delete it.
@@ -85,6 +100,16 @@ public struct Ecr {
         return try client.send(operation: "DescribeImages", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the specified lifecycle policy.
+    public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest) throws -> DeleteLifecyclePolicyResponse {
+        return try client.send(operation: "DeleteLifecyclePolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts a preview of the specified lifecycle policy. This allows you to see the results before creating the lifecycle policy.
+    public func startLifecyclePolicyPreview(_ input: StartLifecyclePolicyPreviewRequest) throws -> StartLifecyclePolicyPreviewResponse {
+        return try client.send(operation: "StartLifecyclePolicyPreview", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets detailed information for specified images within a specified repository. Images are specified with either imageTag or imageDigest.
     public func batchGetImage(_ input: BatchGetImageRequest) throws -> BatchGetImageResponse {
         return try client.send(operation: "BatchGetImage", path: "/", httpMethod: "POST", input: input)
@@ -100,14 +125,14 @@ public struct Ecr {
         return try client.send(operation: "BatchDeleteImage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Uploads an image layer part to Amazon ECR.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
-    public func uploadLayerPart(_ input: UploadLayerPartRequest) throws -> UploadLayerPartResponse {
-        return try client.send(operation: "UploadLayerPart", path: "/", httpMethod: "POST", input: input)
+    ///  Creates or updates a lifecycle policy.
+    public func putLifecyclePolicy(_ input: PutLifecyclePolicyRequest) throws -> PutLifecyclePolicyResponse {
+        return try client.send(operation: "PutLifecyclePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Notify Amazon ECR that you intend to upload an image layer.  This operation is used by the Amazon ECR proxy, and it is not intended for general use by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. 
-    public func initiateLayerUpload(_ input: InitiateLayerUploadRequest) throws -> InitiateLayerUploadResponse {
-        return try client.send(operation: "InitiateLayerUpload", path: "/", httpMethod: "POST", input: input)
+    ///  Retrieves the specified lifecycle policy.
+    public func getLifecyclePolicy(_ input: GetLifecyclePolicyRequest) throws -> GetLifecyclePolicyResponse {
+        return try client.send(operation: "GetLifecyclePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
 

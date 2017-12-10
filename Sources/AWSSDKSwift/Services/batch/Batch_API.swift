@@ -39,7 +39,7 @@ public struct Batch {
         return try client.send(operation: "DeregisterJobDefinition", path: "/v1/deregisterjobdefinition", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an AWS Batch compute environment. You can create MANAGED or UNMANAGED compute environments. In a managed compute environment, AWS Batch manages the compute resources within the environment, based on the compute resources that you specify. Instances launched into a managed compute environment use the latest Amazon ECS-optimized AMI. You can choose to use Amazon EC2 On-Demand instances in your managed compute environment, or you can use Amazon EC2 Spot instances that only launch when the Spot bid price is below a specified percentage of the On-Demand price. In an unmanaged compute environment, you can manage your own compute resources. This provides more compute resource configuration options, such as using a custom AMI, but you must ensure that your AMI meets the Amazon ECS container instance AMI specification. For more information, see Container Instance AMIs in the Amazon EC2 Container Service Developer Guide. After you have created your unmanaged compute environment, you can use the DescribeComputeEnvironments operation to find the Amazon ECS cluster that is associated with it and then manually launch your container instances into that Amazon ECS cluster. For more information, see Launching an Amazon ECS Container Instance in the Amazon EC2 Container Service Developer Guide.
+    ///  Creates an AWS Batch compute environment. You can create MANAGED or UNMANAGED compute environments. In a managed compute environment, AWS Batch manages the compute resources within the environment, based on the compute resources that you specify. Instances launched into a managed compute environment use a recent, approved version of the Amazon ECS-optimized AMI. You can choose to use Amazon EC2 On-Demand Instances in your managed compute environment, or you can use Amazon EC2 Spot Instances that only launch when the Spot bid price is below a specified percentage of the On-Demand price. In an unmanaged compute environment, you can manage your own compute resources. This provides more compute resource configuration options, such as using a custom AMI, but you must ensure that your AMI meets the Amazon ECS container instance AMI specification. For more information, see Container Instance AMIs in the Amazon Elastic Container Service Developer Guide. After you have created your unmanaged compute environment, you can use the DescribeComputeEnvironments operation to find the Amazon ECS cluster that is associated with it and then manually launch your container instances into that Amazon ECS cluster. For more information, see Launching an Amazon ECS Container Instance in the Amazon Elastic Container Service Developer Guide.
     public func createComputeEnvironment(_ input: CreateComputeEnvironmentRequest) throws -> CreateComputeEnvironmentResponse {
         return try client.send(operation: "CreateComputeEnvironment", path: "/v1/createcomputeenvironment", httpMethod: "POST", input: input)
     }
@@ -64,7 +64,7 @@ public struct Batch {
         return try client.send(operation: "UpdateJobQueue", path: "/v1/updatejobqueue", httpMethod: "POST", input: input)
     }
 
-    ///  Terminates jobs in a job queue. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED. Jobs that have not progressed to the STARTING state are cancelled.
+    ///  Terminates a job in a job queue. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED. Jobs that have not progressed to the STARTING state are cancelled.
     public func terminateJob(_ input: TerminateJobRequest) throws -> TerminateJobResponse {
         return try client.send(operation: "TerminateJob", path: "/v1/terminatejob", httpMethod: "POST", input: input)
     }
@@ -84,12 +84,12 @@ public struct Batch {
         return try client.send(operation: "DeleteComputeEnvironment", path: "/v1/deletecomputeenvironment", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of task jobs for a specified job queue. You can filter the results by job status with the jobStatus parameter.
+    ///  Returns a list of task jobs for a specified job queue. You can filter the results by job status with the jobStatus parameter. If you do not specify a status, only RUNNING jobs are returned.
     public func listJobs(_ input: ListJobsRequest) throws -> ListJobsResponse {
         return try client.send(operation: "ListJobs", path: "/v1/listjobs", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified job queue. You must first disable submissions for a queue with the UpdateJobQueue operation and terminate any jobs that have not completed with the TerminateJob. It is not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request. 
+    ///  Deletes the specified job queue. You must first disable submissions for a queue with the UpdateJobQueue operation. All jobs in the queue are terminated when you delete a job queue. It is not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request. 
     public func deleteJobQueue(_ input: DeleteJobQueueRequest) throws -> DeleteJobQueueResponse {
         return try client.send(operation: "DeleteJobQueue", path: "/v1/deletejobqueue", httpMethod: "POST", input: input)
     }
@@ -99,7 +99,7 @@ public struct Batch {
         return try client.send(operation: "DescribeComputeEnvironments", path: "/v1/describecomputeenvironments", httpMethod: "POST", input: input)
     }
 
-    ///  Cancels jobs in an AWS Batch job queue. Jobs that are in the SUBMITTED, PENDING, or RUNNABLE state are cancelled. Jobs that have progressed to STARTING or RUNNING are not cancelled (but the API operation still succeeds, even if no jobs are cancelled); these jobs must be terminated with the TerminateJob operation.
+    ///  Cancels a job in an AWS Batch job queue. Jobs that are in the SUBMITTED, PENDING, or RUNNABLE state are cancelled. Jobs that have progressed to STARTING or RUNNING are not cancelled (but the API operation still succeeds, even if no job is cancelled); these jobs must be terminated with the TerminateJob operation.
     public func cancelJob(_ input: CancelJobRequest) throws -> CancelJobResponse {
         return try client.send(operation: "CancelJob", path: "/v1/canceljob", httpMethod: "POST", input: input)
     }

@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Opsworkscm {
 
     public struct DescribeAccountAttributesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
         ///  The attributes that are currently set for the account. 
@@ -22,7 +22,7 @@ extension Opsworkscm {
     }
 
     public struct DescribeEventsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServerEvents", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -43,7 +43,7 @@ extension Opsworkscm {
     }
 
     public struct AssociateNodeResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NodeAssociationStatusToken", required: false, type: .string)
         ]
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request. 
@@ -59,7 +59,7 @@ extension Opsworkscm {
     }
 
     public struct CreateServerRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EngineModel", required: false, type: .string), 
             AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
             AWSShapeMember(label: "BackupId", required: false, type: .string), 
@@ -78,33 +78,33 @@ extension Opsworkscm {
             AWSShapeMember(label: "KeyPair", required: false, type: .string), 
             AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean)
         ]
-        ///  The engine model, or option. Valid values include Single. 
+        ///  The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef. 
         public let engineModel: String?
-        /// Optional engine attributes on a specified server.   Attributes accepted in a createServer request:     CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is not stored by AWS OpsWorks for Chef. This private key is required to access the Chef API. When no CHEF_PIVOTAL_KEY is set, one is generated and returned in the response.     CHEF_DELIVERY_ADMIN_PASSWORD: The password for the administrative user in the Chef Automate GUI. The password length is a minimum of eight characters, and a maximum of 32. The password can contain letters, numbers, and special characters (!/@#$%^&amp;+=_). The password must contain at least one lower case letter, one upper case letter, one number, and one special character. When no CHEF_DELIVERY_ADMIN_PASSWORD is set, one is generated and returned in the response.  
+        /// Optional engine attributes on a specified server.   Attributes accepted in a Chef createServer request:     CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is not stored by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API. When no CHEF_PIVOTAL_KEY is set, one is generated and returned in the response.     CHEF_DELIVERY_ADMIN_PASSWORD: The password for the administrative user in the Chef Automate GUI. The password length is a minimum of eight characters, and a maximum of 32. The password can contain letters, numbers, and special characters (!/@#$%^&amp;+=_). The password must contain at least one lower case letter, one upper case letter, one number, and one special character. When no CHEF_DELIVERY_ADMIN_PASSWORD is set, one is generated and returned in the response.    Attributes accepted in a Puppet createServer request:     PUPPET_ADMIN_PASSWORD: To work with the Puppet Enterprise console, a password must use ASCII characters.  
         public let engineAttributes: [EngineAttribute]?
-        ///  If you specify this field, AWS OpsWorks for Chef Automate creates the server by using the backup represented by BackupId. 
+        ///  If you specify this field, AWS OpsWorks CM creates the server by using the backup represented by BackupId. 
         public let backupId: String?
-        ///  The service role that the AWS OpsWorks for Chef Automate service backend uses to work with your account. Although the AWS OpsWorks management console typically creates the service role for you, if you are using the AWS CLI or API commands, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-stuff/latest/service-role-creation.yaml. This template creates a CloudFormation stack that includes the service role that you need. 
+        ///  The service role that the AWS OpsWorks CM service backend uses to work with your account. Although the AWS OpsWorks management console typically creates the service role for you, if you are using the AWS CLI or API commands, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the service role and instance profile that you need. 
         public let serviceRoleArn: String
-        ///  A list of security group IDs to attach to the Amazon EC2 instance. If you add this parameter, the specified security groups must be within the VPC that is specified by SubnetIds.   If you do not specify this parameter, AWS OpsWorks for Chef Automate creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone). 
+        ///  A list of security group IDs to attach to the Amazon EC2 instance. If you add this parameter, the specified security groups must be within the VPC that is specified by SubnetIds.   If you do not specify this parameter, AWS OpsWorks CM creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone). 
         public let securityGroupIds: [String]?
-        ///  The Amazon EC2 instance type to use. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m4.large. Valid values are t2.medium, m4.large, or m4.2xlarge. 
+        ///  The Amazon EC2 instance type to use. For example, m4.large. Recommended instance types include t2.medium and greater, m4.*, or c4.xlarge and greater. 
         public let instanceType: String
-        ///  The number of automated backups that you want to keep. Whenever a new backup is created, AWS OpsWorks for Chef Automate deletes the oldest backups if this number is exceeded. The default value is 1. 
+        ///  The number of automated backups that you want to keep. Whenever a new backup is created, AWS OpsWorks CM deletes the oldest backups if this number is exceeded. The default value is 1. 
         public let backupRetentionCount: Int32?
         ///  The IDs of subnets in which to launch the server EC2 instance.   Amazon EC2-Classic customers: This field is required. All servers must run within a VPC. The VPC must have "Auto Assign Public IP" enabled.   EC2-VPC customers: This field is optional. If you do not specify subnet IDs, your EC2 instances are created in a default subnet that is selected by Amazon EC2. If you specify subnet IDs, the VPC must have "Auto Assign Public IP" enabled.  For more information about supported Amazon EC2 platforms, see Supported Platforms.
         public let subnetIds: [String]?
-        ///  The start time for a one-hour period during which AWS OpsWorks for Chef Automate backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:     HH:MM for daily backups    DDD:HH:MM for weekly backups   The specified time is in coordinated universal time (UTC). The default value is a random, daily start time.  Example: 08:00, which represents a daily start time of 08:00 UTC.  Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
+        ///  The start time for a one-hour period during which AWS OpsWorks CM backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:     HH:MM for daily backups    DDD:HH:MM for weekly backups   The specified time is in coordinated universal time (UTC). The default value is a random, daily start time.  Example: 08:00, which represents a daily start time of 08:00 UTC.  Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
         public let preferredBackupWindow: String?
-        ///  The major release version of the engine that you want to use. Values depend on the engine that you choose. 
+        ///  The major release version of the engine that you want to use. For a Chef server, the valid value for EngineVersion is currently 12. For a Puppet server, the valid value is 2017. 
         public let engineVersion: String?
         ///  The ARN of the instance profile that your Amazon EC2 instances use. Although the AWS OpsWorks console typically creates the instance profile for you, if you are using API commands instead, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the instance profile you need. 
         public let instanceProfileArn: String
-        ///  The start time for a one-hour period each week during which AWS OpsWorks for Chef Automate performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM. The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.   Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.) 
+        ///  The start time for a one-hour period each week during which AWS OpsWorks CM performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM. The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.   Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.) 
         public let preferredMaintenanceWindow: String?
         ///  The name of the server. The server name must be unique within your AWS account, within each region. Server names must start with a letter; then letters, numbers, or hyphens (-) are allowed, up to a maximum of 40 characters. 
         public let serverName: String
-        ///  The configuration management engine to use. Valid values include Chef. 
+        ///  The configuration management engine to use. Valid values include Chef and Puppet. 
         public let engine: String?
         ///  Enable or disable scheduled backups. Valid values are true or false. The default value is true. 
         public let disableAutomatedBackup: Bool?
@@ -155,7 +155,7 @@ extension Opsworkscm {
     }
 
     public struct CreateBackupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServerName", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
@@ -193,7 +193,7 @@ extension Opsworkscm {
     }
 
     public struct UpdateServerEngineAttributesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeName", required: true, type: .string), 
             AWSShapeMember(label: "AttributeValue", required: false, type: .string), 
             AWSShapeMember(label: "ServerName", required: true, type: .string)
@@ -219,14 +219,14 @@ extension Opsworkscm {
     }
 
     public struct AssociateNodeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NodeName", required: true, type: .string), 
             AWSShapeMember(label: "EngineAttributes", required: true, type: .list), 
             AWSShapeMember(label: "ServerName", required: true, type: .string)
         ]
-        /// The name of the Chef client node. 
+        /// The name of the node. 
         public let nodeName: String
-        /// Engine attributes used for associating the node.   Attributes accepted in a AssociateNode request:     CHEF_ORGANIZATION: The Chef organization with which the node is associated. By default only one organization named default can exist.     CHEF_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.   
+        /// Engine attributes used for associating the node.   Attributes accepted in a AssociateNode request for Chef     CHEF_ORGANIZATION: The Chef organization with which the node is associated. By default only one organization named default can exist.     CHEF_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.     Attributes accepted in a AssociateNode request for Puppet     PUPPET_NODE_CSR: A PEM-formatted certificate-signing request (CSR) that is created by the node.   
         public let engineAttributes: [EngineAttribute]
         /// The name of the server with which to associate the node. 
         public let serverName: String
@@ -252,7 +252,7 @@ extension Opsworkscm {
     }
 
     public struct AccountAttribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Maximum", required: false, type: .integer), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Used", required: false, type: .integer)
@@ -278,7 +278,7 @@ extension Opsworkscm {
     }
 
     public struct StartMaintenanceResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Server", required: false, type: .structure)
         ]
         /// Contains the response to a StartMaintenance request. 
@@ -294,7 +294,7 @@ extension Opsworkscm {
     }
 
     public struct CreateBackupResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Backup", required: false, type: .structure)
         ]
         /// Backup created by request.
@@ -318,10 +318,11 @@ extension Opsworkscm {
     }
 
     public struct DescribeNodeAssociationStatusRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NodeAssociationStatusToken", required: true, type: .string), 
             AWSShapeMember(label: "ServerName", required: true, type: .string)
         ]
+        /// The token returned in either the AssociateNodeResponse or the DisassociateNodeResponse. 
         public let nodeAssociationStatusToken: String
         /// The name of the server from which to disassociate the node. 
         public let serverName: String
@@ -338,17 +339,22 @@ extension Opsworkscm {
     }
 
     public struct StartMaintenanceRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
             AWSShapeMember(label: "ServerName", required: true, type: .string)
         ]
+        /// Engine attributes that are specific to the server on which you want to run maintenance. 
+        public let engineAttributes: [EngineAttribute]?
         /// The name of the server on which to run maintenance. 
         public let serverName: String
 
-        public init(serverName: String) {
+        public init(engineAttributes: [EngineAttribute]? = nil, serverName: String) {
+            self.engineAttributes = engineAttributes
             self.serverName = serverName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case engineAttributes = "EngineAttributes"
             case serverName = "ServerName"
         }
     }
@@ -360,7 +366,7 @@ extension Opsworkscm {
     }
 
     public struct UpdateServerResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Server", required: false, type: .structure)
         ]
         /// Contains the response to a UpdateServer request. 
@@ -376,7 +382,7 @@ extension Opsworkscm {
     }
 
     public struct DisassociateNodeResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NodeAssociationStatusToken", required: false, type: .string)
         ]
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request. 
@@ -392,7 +398,7 @@ extension Opsworkscm {
     }
 
     public struct DescribeServersRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ServerName", required: false, type: .string)
@@ -418,7 +424,7 @@ extension Opsworkscm {
     }
 
     public struct ServerEvent: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LogUrl", required: false, type: .string), 
             AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "Message", required: false, type: .string), 
@@ -449,7 +455,7 @@ extension Opsworkscm {
     }
 
     public struct DescribeBackupsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServerName", required: false, type: .string), 
             AWSShapeMember(label: "BackupId", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -490,7 +496,7 @@ extension Opsworkscm {
     }
 
     public struct Backup: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EngineModel", required: false, type: .string), 
             AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "S3DataSize", required: false, type: .integer), 
@@ -526,7 +532,7 @@ extension Opsworkscm {
         public let backupId: String?
         ///  The security group IDs that are obtained from the server when the backup is created. 
         public let securityGroupIds: [String]?
-        ///  The version of AWS OpsWorks for Chef Automate-specific tools that is obtained from the server when the backup is created. 
+        ///  The version of AWS OpsWorks CM-specific tools that is obtained from the server when the backup is created. 
         public let toolsVersion: String?
         ///  The instance type that is obtained from the server when the backup is created. 
         public let instanceType: String?
@@ -621,7 +627,7 @@ extension Opsworkscm {
     }
 
     public struct DeleteServerRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServerName", required: true, type: .string)
         ]
         /// The ID of the server to delete.
@@ -637,14 +643,14 @@ extension Opsworkscm {
     }
 
     public struct DisassociateNodeRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NodeName", required: true, type: .string), 
             AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
             AWSShapeMember(label: "ServerName", required: true, type: .string)
         ]
-        /// The name of the Chef client node. 
+        /// The name of the client node. 
         public let nodeName: String
-        /// Engine attributes used for disassociating the node.   Attributes accepted in a DisassociateNode request:     CHEF_ORGANIZATION: The Chef organization with which the node was associated. By default only one organization named default can exist.   
+        /// Engine attributes that are used for disassociating the node. No attributes are required for Puppet.   Attributes required in a DisassociateNode request for Chef     CHEF_ORGANIZATION: The Chef organization with which the node was associated. By default only one organization named default can exist.   
         public let engineAttributes: [EngineAttribute]?
         /// The name of the server from which to disassociate the node. 
         public let serverName: String
@@ -663,7 +669,7 @@ extension Opsworkscm {
     }
 
     public struct Server: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServerArn", required: false, type: .string), 
             AWSShapeMember(label: "EngineModel", required: false, type: .string), 
             AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
@@ -690,9 +696,9 @@ extension Opsworkscm {
         ]
         /// The ARN of the server. 
         public let serverArn: String?
-        /// The engine model of the server. The valid value in this release is Single. 
+        /// The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef. 
         public let engineModel: String?
-        /// The response of a createServer() request returns the master credential to access the server in EngineAttributes. These credentials are not stored by AWS OpsWorks for Chef Automate; they are returned only as part of the result of createServer().   Attributes returned in a createServer response:     CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is generated by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API.    CHEF_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Chef starter kit, which includes a README, a configuration file, and the required RSA private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents. From this directory, you can run Knife commands.  
+        /// The response of a createServer() request returns the master credential to access the server in EngineAttributes. These credentials are not stored by AWS OpsWorks CM; they are returned only as part of the result of createServer().   Attributes returned in a createServer response for Chef     CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is generated by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API.    CHEF_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Chef starter kit, which includes a README, a configuration file, and the required RSA private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents. From this directory, you can run Knife commands.    Attributes returned in a createServer response for Puppet     PUPPET_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Puppet starter kit, including a README and a required private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents.    PUPPET_ADMIN_PASSWORD: An administrator password that you can use to sign in to the Puppet Enterprise console after the server is online.  
         public let engineAttributes: [EngineAttribute]?
         /// The service role ARN used to create the server. 
         public let serviceRoleArn: String?
@@ -708,7 +714,7 @@ extension Opsworkscm {
         public let preferredBackupWindow: String?
         /// Time stamp of server creation. Example 2016-07-29T13:38:47.520Z 
         public let createdAt: TimeStamp?
-        /// The engine version of the server. Because Chef is the engine available in this release, the valid value for EngineVersion is 12. 
+        /// The engine version of the server. For a Chef server, the valid value for EngineVersion is currently 12. For a Puppet server, the valid value is 2017. 
         public let engineVersion: String?
         /// The instance profile ARN of the server. 
         public let instanceProfileArn: String?
@@ -718,7 +724,7 @@ extension Opsworkscm {
         public let preferredMaintenanceWindow: String?
         /// The name of the server. 
         public let serverName: String?
-        /// The engine type of the server. The valid value in this release is Chef. 
+        /// The engine type of the server. Valid values in this release include Chef and Puppet. 
         public let engine: String?
         /// The status of the most recent server maintenance run. Shows SUCCESS or FAILED. 
         public let maintenanceStatus: MaintenanceStatus?
@@ -789,7 +795,7 @@ extension Opsworkscm {
     }
 
     public struct DescribeEventsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "ServerName", required: true, type: .string)
@@ -815,11 +821,11 @@ extension Opsworkscm {
     }
 
     public struct DescribeServersResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Servers", required: false, type: .list), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
-        /// Contains the response to a DescribeServers request. 
+        /// Contains the response to a DescribeServers request.  For Puppet Server: DescribeServersResponse$Servers$EngineAttributes contains PUPPET_API_CA_CERT. This is the PEM-encoded CA certificate that is used by the Puppet API over TCP port number 8140. The CA certificate is also used to sign node certificates.
         public let servers: [Server]?
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeServers again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
         public let nextToken: String?
@@ -836,7 +842,7 @@ extension Opsworkscm {
     }
 
     public struct RestoreServerRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ServerName", required: true, type: .string), 
             AWSShapeMember(label: "InstanceType", required: false, type: .string), 
             AWSShapeMember(label: "BackupId", required: true, type: .string), 
@@ -867,7 +873,7 @@ extension Opsworkscm {
     }
 
     public struct DescribeBackupsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Backups", required: false, type: .list)
         ]
@@ -892,23 +898,28 @@ extension Opsworkscm {
     }
 
     public struct DescribeNodeAssociationStatusResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NodeAssociationStatus", required: false, type: .enum)
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeAssociationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "EngineAttributes", required: false, type: .list)
         ]
         /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.   
         public let nodeAssociationStatus: NodeAssociationStatus?
+        /// Attributes specific to the node association. In Puppet, the attibute PUPPET_NODE_CERT contains the signed certificate (the result of the CSR). 
+        public let engineAttributes: [EngineAttribute]?
 
-        public init(nodeAssociationStatus: NodeAssociationStatus? = nil) {
+        public init(nodeAssociationStatus: NodeAssociationStatus? = nil, engineAttributes: [EngineAttribute]? = nil) {
             self.nodeAssociationStatus = nodeAssociationStatus
+            self.engineAttributes = engineAttributes
         }
 
         private enum CodingKeys: String, CodingKey {
             case nodeAssociationStatus = "NodeAssociationStatus"
+            case engineAttributes = "EngineAttributes"
         }
     }
 
     public struct DeleteBackupRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupId", required: true, type: .string)
         ]
         /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS. 
@@ -924,7 +935,7 @@ extension Opsworkscm {
     }
 
     public struct EngineAttribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
@@ -945,7 +956,7 @@ extension Opsworkscm {
     }
 
     public struct UpdateServerRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string), 
             AWSShapeMember(label: "ServerName", required: true, type: .string), 
             AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
@@ -987,7 +998,7 @@ extension Opsworkscm {
     }
 
     public struct CreateServerResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Server", required: false, type: .structure)
         ]
         /// The server that is created by the request. 
@@ -1003,7 +1014,7 @@ extension Opsworkscm {
     }
 
     public struct UpdateServerEngineAttributesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Server", required: false, type: .structure)
         ]
         /// Contains the response to an UpdateServerEngineAttributes request. 

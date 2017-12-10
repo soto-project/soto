@@ -13,9 +13,9 @@ public enum ClouddirectoryError: AWSErrorType {
     case resourceNotFoundException(message: String?)
     case schemaAlreadyPublishedException(message: String?)
     case directoryAlreadyExistsException(message: String?)
+    case directoryNotEnabledException(message: String?)
     case invalidAttachmentException(message: String?)
     case facetValidationException(message: String?)
-    case directoryNotEnabledException(message: String?)
     case linkNameAlreadyInUseException(message: String?)
     case directoryDeletedException(message: String?)
     case facetNotFoundException(message: String?)
@@ -65,12 +65,12 @@ extension ClouddirectoryError {
             self = .schemaAlreadyPublishedException(message: message)
         case "DirectoryAlreadyExistsException":
             self = .directoryAlreadyExistsException(message: message)
+        case "DirectoryNotEnabledException":
+            self = .directoryNotEnabledException(message: message)
         case "InvalidAttachmentException":
             self = .invalidAttachmentException(message: message)
         case "FacetValidationException":
             self = .facetValidationException(message: message)
-        case "DirectoryNotEnabledException":
-            self = .directoryNotEnabledException(message: message)
         case "LinkNameAlreadyInUseException":
             self = .linkNameAlreadyInUseException(message: message)
         case "DirectoryDeletedException":

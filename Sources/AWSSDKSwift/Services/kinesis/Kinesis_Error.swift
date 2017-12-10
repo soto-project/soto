@@ -9,6 +9,12 @@ public enum KinesisError: AWSErrorType {
     case provisionedThroughputExceededException(message: String?)
     case limitExceededException(message: String?)
     case resourceInUseException(message: String?)
+    case kMSDisabledException(message: String?)
+    case kMSInvalidStateException(message: String?)
+    case kMSAccessDeniedException(message: String?)
+    case kMSNotFoundException(message: String?)
+    case kMSOptInRequired(message: String?)
+    case kMSThrottlingException(message: String?)
     case expiredIteratorException(message: String?)
 }
 
@@ -29,6 +35,18 @@ extension KinesisError {
             self = .limitExceededException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
+        case "KMSDisabledException":
+            self = .kMSDisabledException(message: message)
+        case "KMSInvalidStateException":
+            self = .kMSInvalidStateException(message: message)
+        case "KMSAccessDeniedException":
+            self = .kMSAccessDeniedException(message: message)
+        case "KMSNotFoundException":
+            self = .kMSNotFoundException(message: message)
+        case "KMSOptInRequired":
+            self = .kMSOptInRequired(message: message)
+        case "KMSThrottlingException":
+            self = .kMSThrottlingException(message: message)
         case "ExpiredIteratorException":
             self = .expiredIteratorException(message: message)
         default:

@@ -34,9 +34,9 @@ public struct Cloudformation {
         return try client.send(operation: "DescribeStackEvents", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the estimated monthly cost of a template. The return value is an AWS Simple Monthly Calculator URL with a query string that describes the resources required to run the template.
-    public func estimateTemplateCost(_ input: EstimateTemplateCostInput) throws -> EstimateTemplateCostOutput {
-        return try client.send(operation: "EstimateTemplateCost", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes a stack set. Before you can delete a stack set, all of its member stack instances must be deleted. For more information about how to do this, see DeleteStackInstances. 
+    public func deleteStackSet(_ input: DeleteStackSetInput) throws -> DeleteStackSetOutput {
+        return try client.send(operation: "DeleteStackSet", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets a stack policy for a specified stack.
@@ -44,9 +44,19 @@ public struct Cloudformation {
         _ = try client.send(operation: "SetStackPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns the estimated monthly cost of a template. The return value is an AWS Simple Monthly Calculator URL with a query string that describes the resources required to run the template.
+    public func estimateTemplateCost(_ input: EstimateTemplateCostInput) throws -> EstimateTemplateCostOutput {
+        return try client.send(operation: "EstimateTemplateCost", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Lists all stacks that are importing an exported output value. To modify or remove an exported output value, first use this action to see which stacks are using it. To see the exported output values in your account, see ListExports.  For more information about importing an exported output value, see the  Fn::ImportValue  function. 
     public func listImports(_ input: ListImportsInput) throws -> ListImportsOutput {
         return try client.send(operation: "ListImports", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates stack instances for the specified accounts, within the specified regions. A stack instance refers to a stack in a specific account and region. Accounts and Regions are required parameters—you must specify at least one account and one region. 
+    public func createStackInstances(_ input: CreateStackInstancesInput) throws -> CreateStackInstancesOutput {
+        return try client.send(operation: "CreateStackInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all exported output values in the account and region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the  Fn::ImportValue  function.  For more information, see  AWS CloudFormation Export Stack Output Values.
@@ -54,14 +64,14 @@ public struct Cloudformation {
         return try client.send(operation: "ListExports", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns the description of the specified stack set operation. 
+    public func describeStackSetOperation(_ input: DescribeStackSetOperationInput) throws -> DescribeStackSetOperationOutput {
+        return try client.send(operation: "DescribeStackSetOperation", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns the ID and status of each active change set for a stack. For example, AWS CloudFormation lists change sets that are in the CREATE_IN_PROGRESS or CREATE_PENDING state.
     public func listChangeSets(_ input: ListChangeSetsInput) throws -> ListChangeSetsOutput {
         return try client.send(operation: "ListChangeSets", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves your account's AWS CloudFormation limits, such as the maximum number of stacks that you can create in your account.
-    public func describeAccountLimits(_ input: DescribeAccountLimitsInput) throws -> DescribeAccountLimitsOutput {
-        return try client.send(operation: "DescribeAccountLimits", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the summary information for stacks whose status matches the specified StackStatusFilter. Summary information for stacks that have been deleted is kept for 90 days after the stack is deleted. If no StackStatusFilter is specified, summary information for all stacks is returned (including existing stacks and stacks that have been deleted).
@@ -69,9 +79,9 @@ public struct Cloudformation {
         return try client.send(operation: "ListStacks", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns descriptions of all resources of the specified stack. For deleted stacks, ListStackResources returns resource information for up to 90 days after the stack has been deleted.
-    public func listStackResources(_ input: ListStackResourcesInput) throws -> ListStackResourcesOutput {
-        return try client.send(operation: "ListStackResources", path: "/", httpMethod: "POST", input: input)
+    ///  Retrieves your account's AWS CloudFormation limits, such as the maximum number of stacks that you can create in your account.
+    public func describeAccountLimits(_ input: DescribeAccountLimitsInput) throws -> DescribeAccountLimitsOutput {
+        return try client.send(operation: "DescribeAccountLimits", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified stack. Once the call completes successfully, stack deletion starts. Deleted stacks do not show up in the DescribeStacks API if the deletion has been completed successfully.
@@ -79,9 +89,29 @@ public struct Cloudformation {
         _ = try client.send(operation: "DeleteStack", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns descriptions of all resources of the specified stack. For deleted stacks, ListStackResources returns resource information for up to 90 days after the stack has been deleted.
+    public func listStackResources(_ input: ListStackResourcesInput) throws -> ListStackResourcesOutput {
+        return try client.send(operation: "ListStackResources", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the stack set and all associated stack instances. Even if the stack set operation created by updating the stack set fails (completely or partially, below or above a specified failure tolerance), the stack set is updated with your changes. Subsequent CreateStackInstances calls on the specified stack set use the updated stack set.
+    public func updateStackSet(_ input: UpdateStackSetInput) throws -> UpdateStackSetOutput {
+        return try client.send(operation: "UpdateStackSet", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns the inputs for the change set and a list of changes that AWS CloudFormation will make if you execute the change set. For more information, see Updating Stacks Using Change Sets in the AWS CloudFormation User Guide.
     public func describeChangeSet(_ input: DescribeChangeSetInput) throws -> DescribeChangeSetOutput {
         return try client.send(operation: "DescribeChangeSet", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns summary information about operations performed on a stack set. 
+    public func listStackSetOperations(_ input: ListStackSetOperationsInput) throws -> ListStackSetOperationsOutput {
+        return try client.send(operation: "ListStackSetOperations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the stack instance that's associated with the specified stack set, AWS account, and region. For a list of stack instances that are associated with a specific stack set, use ListStackInstances.
+    public func describeStackInstance(_ input: DescribeStackInstanceInput) throws -> DescribeStackInstanceOutput {
+        return try client.send(operation: "DescribeStackInstance", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns AWS resource descriptions for running and deleted stacks. If StackName is specified, all the associated resources that are part of the stack are returned. If PhysicalResourceId is specified, the associated resources of the stack that the resource belongs to are returned.  Only the first 100 resources will be returned. If your stack has more resources than this, you should use ListStackResources instead.  For deleted stacks, DescribeStackResources returns resource information for up to 90 days after the stack has been deleted. You must specify either StackName or PhysicalResourceId, but not both. In addition, you can specify LogicalResourceId to filter the returned result. For more information about resources, the LogicalResourceId and PhysicalResourceId, go to the AWS CloudFormation User Guide.  A ValidationError is returned if you specify both StackName and PhysicalResourceId in the same request. 
@@ -89,9 +119,24 @@ public struct Cloudformation {
         return try client.send(operation: "DescribeStackResources", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns the description of the specified stack set. 
+    public func describeStackSet(_ input: DescribeStackSetInput) throws -> DescribeStackSetOutput {
+        return try client.send(operation: "DescribeStackSet", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a stack as specified in the template. After the call completes successfully, the stack creation starts. You can check the status of the stack via the DescribeStacks API.
     public func createStack(_ input: CreateStackInput) throws -> CreateStackOutput {
         return try client.send(operation: "CreateStack", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns summary information about stack sets that are associated with the user.
+    public func listStackSets(_ input: ListStackSetsInput) throws -> ListStackSetsOutput {
+        return try client.send(operation: "ListStackSets", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Cancels an update on the specified stack. If the call completes successfully, the stack rolls back the update and reverts to the previous stack configuration.  You can cancel only stacks that are in the UPDATE_IN_PROGRESS state. 
+    public func cancelUpdateStack(_ input: CancelUpdateStackInput) throws {
+        _ = try client.send(operation: "CancelUpdateStack", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a list of changes that will be applied to a stack so that you can review the changes before executing them. You can create a change set for a stack that doesn't exist or an existing stack. If you create a change set for a stack that doesn't exist, the change set shows all of the resources that AWS CloudFormation will create. If you create a change set for an existing stack, AWS CloudFormation compares the stack's information with the information that you submit in the change set and lists the differences. Use change sets to understand which resources AWS CloudFormation will create or change, and how it will change resources in an existing stack, before you create or update a stack. To create a change set for a stack that doesn't exist, for the ChangeSetType parameter, specify CREATE. To create a change set for an existing stack, specify UPDATE for the ChangeSetType parameter. After the CreateChangeSet call successfully completes, AWS CloudFormation starts creating the change set. To check the status of the change set or to review it, use the DescribeChangeSet action. When you are satisfied with the changes the change set will make, execute the change set by using the ExecuteChangeSet action. AWS CloudFormation doesn't make changes until you execute the change set.
@@ -99,9 +144,14 @@ public struct Cloudformation {
         return try client.send(operation: "CreateChangeSet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Cancels an update on the specified stack. If the call completes successfully, the stack rolls back the update and reverts to the previous stack configuration.  You can cancel only stacks that are in the UPDATE_IN_PROGRESS state. 
-    public func cancelUpdateStack(_ input: CancelUpdateStackInput) throws {
-        _ = try client.send(operation: "CancelUpdateStack", path: "/", httpMethod: "POST", input: input)
+    ///  Creates a stack set.
+    public func createStackSet(_ input: CreateStackSetInput) throws -> CreateStackSetOutput {
+        return try client.send(operation: "CreateStackSet", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops an in-progress operation on a stack set and its associated stack instances. 
+    public func stopStackSetOperation(_ input: StopStackSetOperationInput) throws -> StopStackSetOperationOutput {
+        return try client.send(operation: "StopStackSetOperation", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the template body for a specified stack. You can get the template for running or deleted stacks. For deleted stacks, GetTemplate returns the template for up to 90 days after the stack has been deleted.   If the template does not exist, a ValidationError is returned.  
@@ -114,6 +164,16 @@ public struct Cloudformation {
         return try client.send(operation: "ExecuteChangeSet", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific AWS account name or region.
+    public func listStackInstances(_ input: ListStackInstancesInput) throws -> ListStackInstancesOutput {
+        return try client.send(operation: "ListStackInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the parameter values for stack instances for the specified accounts, within the specified regions. A stack instance refers to a stack in a specific account and region.  You can only update stack instances in regions and accounts where they already exist; to create additional stack instances, use CreateStackInstances.  During stack set updates, any parameters overridden for a stack instance are not updated, but retain their overridden value. You can only update the parameter values that are specified in the stack set; to add or delete a parameter itself, use UpdateStackSet to update the stack set template. If you add a parameter to a template, before you can override the parameter value specified in the stack set you must first use UpdateStackSet to update all stack instances with the updated template and parameter value specified in the stack set. Once a stack instance has been updated with the new parameter, you can then override the parameter value using UpdateStackInstances.
+    public func updateStackInstances(_ input: UpdateStackInstancesInput) throws -> UpdateStackInstancesOutput {
+        return try client.send(operation: "UpdateStackInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Sends a signal to the specified resource with a success or failure status. You can use the SignalResource API in conjunction with a creation policy or update policy. AWS CloudFormation doesn't proceed with a stack creation or update until resources receive the required number of signals or the timeout period is exceeded. The SignalResource API is useful in cases where you want to send signals from anywhere other than an Amazon EC2 instance.
     public func signalResource(_ input: SignalResourceInput) throws {
         _ = try client.send(operation: "SignalResource", path: "/", httpMethod: "POST", input: input)
@@ -124,9 +184,24 @@ public struct Cloudformation {
         return try client.send(operation: "DescribeStackResource", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns summary information about the results of a stack set operation. 
+    public func listStackSetOperationResults(_ input: ListStackSetOperationResultsInput) throws -> ListStackSetOperationResultsOutput {
+        return try client.send(operation: "ListStackSetOperationResults", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates termination protection for the specified stack. If a user attempts to delete a stack with termination protection enabled, the operation fails and the stack remains unchanged. For more information, see Protecting a Stack From Being Deleted in the AWS CloudFormation User Guide.  For nested stacks, termination protection is set on the root stack and cannot be changed directly on the nested stack.
+    public func updateTerminationProtection(_ input: UpdateTerminationProtectionInput) throws -> UpdateTerminationProtectionOutput {
+        return try client.send(operation: "UpdateTerminationProtection", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created.  If the stack does not exist, an AmazonCloudFormationException is returned. 
     public func describeStacks(_ input: DescribeStacksInput) throws -> DescribeStacksOutput {
         return try client.send(operation: "DescribeStacks", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes stack instances for the specified accounts, in the specified regions. 
+    public func deleteStackInstances(_ input: DeleteStackInstancesInput) throws -> DeleteStackInstancesOutput {
+        return try client.send(operation: "DeleteStackInstances", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  For a specified stack that is in the UPDATE_ROLLBACK_FAILED state, continues rolling it back to the UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually  fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state), and then try to update the stack again. A stack goes into the UPDATE_ROLLBACK_FAILED state when AWS CloudFormation cannot roll back all changes after a failed stack update. For example, you might have a stack that is rolling back to an old database instance that was deleted outside of AWS CloudFormation. Because AWS CloudFormation doesn't know the database was deleted, it assumes that the database instance still exists and attempts to roll back to it, causing the update rollback to fail.
@@ -134,17 +209,17 @@ public struct Cloudformation {
         return try client.send(operation: "ContinueUpdateRollback", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified change set. Deleting change sets ensures that no one executes the wrong change set. If the call successfully completes, AWS CloudFormation successfully deleted the change set.
-    public func deleteChangeSet(_ input: DeleteChangeSetInput) throws -> DeleteChangeSetOutput {
-        return try client.send(operation: "DeleteChangeSet", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Updates a stack as specified in the template. After the call completes successfully, the stack update starts. You can check the status of the stack via the DescribeStacks action. To get a copy of the template for an existing stack, you can use the GetTemplate action. For more information about creating an update template, updating a stack, and monitoring the progress of the update, see Updating a Stack.
     public func updateStack(_ input: UpdateStackInput) throws -> UpdateStackOutput {
         return try client.send(operation: "UpdateStack", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about a new or existing template. The GetTemplateSummary action is useful for viewing parameter information, such as default parameter values and parameter types, before you create or update a stack. You can use the GetTemplateSummary action when you submit a template, or you can get template information for a running or deleted stack. For deleted stacks, GetTemplateSummary returns the template information for up to 90 days after the stack has been deleted. If the template does not exist, a ValidationError is returned.
+    ///  Deletes the specified change set. Deleting change sets ensures that no one executes the wrong change set. If the call successfully completes, AWS CloudFormation successfully deleted the change set.
+    public func deleteChangeSet(_ input: DeleteChangeSetInput) throws -> DeleteChangeSetOutput {
+        return try client.send(operation: "DeleteChangeSet", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about a new or existing template. The GetTemplateSummary action is useful for viewing parameter information, such as default parameter values and parameter types, before you create or update a stack or stack set. You can use the GetTemplateSummary action when you submit a template, or you can get template information for a stack set, or a running or deleted stack. For deleted stacks, GetTemplateSummary returns the template information for up to 90 days after the stack has been deleted. If the template does not exist, a ValidationError is returned.
     public func getTemplateSummary(_ input: GetTemplateSummaryInput) throws -> GetTemplateSummaryOutput {
         return try client.send(operation: "GetTemplateSummary", path: "/", httpMethod: "POST", input: input)
     }

@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Health {
 
     public struct DescribeEntityAggregatesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "entityAggregates", required: false, type: .list)
         ]
         /// The number of entities that are affected by each of the specified events.
@@ -22,7 +22,7 @@ extension Health {
     }
 
     public struct AffectedEntity: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "statusCode", required: false, type: .enum), 
             AWSShapeMember(label: "entityArn", required: false, type: .string), 
@@ -68,7 +68,7 @@ extension Health {
     }
 
     public struct EventDetailsErrorItem: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventArn", required: false, type: .string), 
             AWSShapeMember(label: "errorMessage", required: false, type: .string), 
             AWSShapeMember(label: "errorName", required: false, type: .string)
@@ -94,7 +94,7 @@ extension Health {
     }
 
     public struct EventTypeFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventTypeCategories", required: false, type: .list), 
             AWSShapeMember(label: "services", required: false, type: .list), 
             AWSShapeMember(label: "eventTypeCodes", required: false, type: .list)
@@ -120,7 +120,7 @@ extension Health {
     }
 
     public struct DescribeAffectedEntitiesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "entities", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -148,7 +148,7 @@ extension Health {
     }
 
     public struct Event: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "service", required: false, type: .string), 
             AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
@@ -209,7 +209,7 @@ extension Health {
     }
 
     public struct DescribeEventDetailsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "failedSet", required: false, type: .list), 
             AWSShapeMember(label: "successfulSet", required: false, type: .list)
         ]
@@ -230,7 +230,7 @@ extension Health {
     }
 
     public struct DescribeEventDetailsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventArns", required: true, type: .list), 
             AWSShapeMember(label: "locale", required: false, type: .string)
         ]
@@ -258,7 +258,7 @@ extension Health {
     }
 
     public struct EventDescription: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "latestDescription", required: false, type: .string)
         ]
         /// The most recent description of the event.
@@ -274,7 +274,7 @@ extension Health {
     }
 
     public struct DescribeEventAggregatesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventAggregates", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -295,7 +295,7 @@ extension Health {
     }
 
     public struct DescribeEventAggregatesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
             AWSShapeMember(label: "filter", required: false, type: .structure), 
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
@@ -326,7 +326,7 @@ extension Health {
     }
 
     public struct EventFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventTypeCategories", required: false, type: .list), 
             AWSShapeMember(label: "eventArns", required: false, type: .list), 
             AWSShapeMember(label: "eventStatusCodes", required: false, type: .list), 
@@ -402,7 +402,7 @@ extension Health {
     }
 
     public struct EventAggregate: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "count", required: false, type: .integer), 
             AWSShapeMember(label: "aggregateValue", required: false, type: .string)
         ]
@@ -428,7 +428,7 @@ extension Health {
     }
 
     public struct EntityAggregate: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventArn", required: false, type: .string), 
             AWSShapeMember(label: "count", required: false, type: .integer)
         ]
@@ -449,7 +449,7 @@ extension Health {
     }
 
     public struct EventType: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "service", required: false, type: .string), 
             AWSShapeMember(label: "category", required: false, type: .enum), 
             AWSShapeMember(label: "code", required: false, type: .string)
@@ -475,7 +475,7 @@ extension Health {
     }
 
     public struct DescribeEntityAggregatesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventArns", required: false, type: .list)
         ]
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
@@ -491,7 +491,7 @@ extension Health {
     }
 
     public struct DescribeEventTypesResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventTypes", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
@@ -512,7 +512,7 @@ extension Health {
     }
 
     public struct EventDetails: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventMetadata", required: false, type: .map), 
             AWSShapeMember(label: "event", required: false, type: .structure), 
             AWSShapeMember(label: "eventDescription", required: false, type: .structure)
@@ -538,7 +538,7 @@ extension Health {
     }
 
     public struct DescribeAffectedEntitiesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "filter", required: true, type: .structure), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -569,7 +569,7 @@ extension Health {
     }
 
     public struct DescribeEventsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "filter", required: false, type: .structure), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -600,7 +600,7 @@ extension Health {
     }
 
     public struct DateTimeRange: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "to", required: false, type: .timestamp), 
             AWSShapeMember(label: "from", required: false, type: .timestamp)
         ]
@@ -621,7 +621,7 @@ extension Health {
     }
 
     public struct EntityFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "eventArns", required: true, type: .list), 
             AWSShapeMember(label: "lastUpdatedTimes", required: false, type: .list), 
             AWSShapeMember(label: "statusCodes", required: false, type: .list), 
@@ -669,7 +669,7 @@ extension Health {
     }
 
     public struct DescribeEventTypesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
             AWSShapeMember(label: "filter", required: false, type: .structure), 
             AWSShapeMember(label: "nextToken", required: false, type: .string), 
@@ -700,7 +700,7 @@ extension Health {
     }
 
     public struct DescribeEventsResponse: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "events", required: false, type: .list), 
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]

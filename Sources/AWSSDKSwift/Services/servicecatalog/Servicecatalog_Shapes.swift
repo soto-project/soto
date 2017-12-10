@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Servicecatalog {
 
     public struct CreateTagOptionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -27,7 +27,7 @@ extension Servicecatalog {
     }
 
     public struct DeletePortfolioShareInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
@@ -36,7 +36,7 @@ extension Servicecatalog {
         public let accountId: String
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
 
         public init(accountId: String, portfolioId: String, acceptLanguage: String? = nil) {
@@ -53,7 +53,7 @@ extension Servicecatalog {
     }
 
     public struct DisassociatePrincipalFromPortfolioInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PrincipalARN", required: true, type: .string), 
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
@@ -62,7 +62,7 @@ extension Servicecatalog {
         public let principalARN: String
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
 
         public init(principalARN: String, portfolioId: String, acceptLanguage: String? = nil) {
@@ -87,11 +87,11 @@ extension Servicecatalog {
     }
 
     public struct DeletePortfolioInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The identifier of the portfolio for the delete request.
         public let id: String
@@ -108,7 +108,7 @@ extension Servicecatalog {
     }
 
     public struct DescribeProvisioningParametersOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagOptions", required: false, type: .list), 
             AWSShapeMember(label: "ConstraintSummaries", required: false, type: .list), 
             AWSShapeMember(label: "UsageInstructions", required: false, type: .list), 
@@ -139,11 +139,11 @@ extension Servicecatalog {
     }
 
     public struct DescribeProvisionedProductInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The provisioned product identifier.
         public let id: String
@@ -160,7 +160,7 @@ extension Servicecatalog {
     }
 
     public struct ProvisioningArtifactProperties: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -191,7 +191,7 @@ extension Servicecatalog {
     }
 
     public struct DescribeProductAsAdminOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagOptions", required: false, type: .list), 
             AWSShapeMember(label: "ProvisioningArtifactSummaries", required: false, type: .list), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
@@ -222,7 +222,7 @@ extension Servicecatalog {
     }
 
     public struct ListPortfolioAccessOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "AccountIds", required: false, type: .list)
         ]
@@ -243,7 +243,7 @@ extension Servicecatalog {
     }
 
     public struct ListResourcesForTagOptionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagOptionId", required: true, type: .string), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "ResourceType", required: false, type: .string), 
@@ -279,7 +279,7 @@ extension Servicecatalog {
     }
 
     public struct CreateProductOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure), 
             AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure)
@@ -305,7 +305,7 @@ extension Servicecatalog {
     }
 
     public struct UsageInstruction: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
@@ -326,7 +326,7 @@ extension Servicecatalog {
     }
 
     public struct DescribeTagOptionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
         ]
         /// The resulting detailed TagOption information.
@@ -342,7 +342,7 @@ extension Servicecatalog {
     }
 
     public struct CreatePortfolioShareInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
@@ -351,7 +351,7 @@ extension Servicecatalog {
         public let accountId: String
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
 
         public init(accountId: String, portfolioId: String, acceptLanguage: String? = nil) {
@@ -368,11 +368,11 @@ extension Servicecatalog {
     }
 
     public struct DescribeConstraintInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The identifier of the constraint.
         public let id: String
@@ -389,7 +389,7 @@ extension Servicecatalog {
     }
 
     public struct ScanProvisionedProductsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProvisionedProducts", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
@@ -409,29 +409,8 @@ extension Servicecatalog {
         }
     }
 
-    public struct DescribeProductViewOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
-            AWSShapeMember(label: "ProvisioningArtifacts", required: false, type: .list)
-        ]
-        /// The summary metadata about the specified product.
-        public let productViewSummary: ProductViewSummary?
-        /// A list of provisioning artifact objects for the specified product. The ProvisioningArtifacts represent the ways in which the specified product can be provisioned.
-        public let provisioningArtifacts: [ProvisioningArtifact]?
-
-        public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
-            self.productViewSummary = productViewSummary
-            self.provisioningArtifacts = provisioningArtifacts
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case productViewSummary = "ProductViewSummary"
-            case provisioningArtifacts = "ProvisioningArtifacts"
-        }
-    }
-
     public struct ConstraintDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConstraintId", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .string), 
             AWSShapeMember(label: "Owner", required: false, type: .string), 
@@ -461,8 +440,34 @@ extension Servicecatalog {
         }
     }
 
+    public struct DescribeProductViewOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "ProvisioningArtifacts", required: false, type: .list)
+        ]
+        /// The summary metadata about the specified product.
+        public let productViewSummary: ProductViewSummary?
+        /// A list of provisioning artifact objects for the specified product. The ProvisioningArtifacts represent the ways in which the specified product can be provisioned.
+        public let provisioningArtifacts: [ProvisioningArtifact]?
+
+        public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
+            self.productViewSummary = productViewSummary
+            self.provisioningArtifacts = provisioningArtifacts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productViewSummary = "ProductViewSummary"
+            case provisioningArtifacts = "ProvisioningArtifacts"
+        }
+    }
+
+    public enum ProvisioningArtifactPropertyName: String, CustomStringConvertible, Codable {
+        case id = "Id"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Tag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .string), 
             AWSShapeMember(label: "Key", required: true, type: .string)
         ]
@@ -483,7 +488,7 @@ extension Servicecatalog {
     }
 
     public struct UpdatePortfolioOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
@@ -504,11 +509,11 @@ extension Servicecatalog {
     }
 
     public struct DescribeProductInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The ProductId of the product to describe.
         public let id: String
@@ -525,7 +530,7 @@ extension Servicecatalog {
     }
 
     public struct ListRecordHistoryOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RecordDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
@@ -546,7 +551,7 @@ extension Servicecatalog {
     }
 
     public struct ScanProvisionedProductsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "AccessLevelFilter", required: false, type: .structure), 
@@ -554,7 +559,7 @@ extension Servicecatalog {
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The access level for obtaining results. If left unspecified, User level access is used.
         public let accessLevelFilter: AccessLevelFilter?
@@ -577,7 +582,7 @@ extension Servicecatalog {
     }
 
     public struct CreatePortfolioInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ProviderName", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
@@ -589,13 +594,13 @@ extension Servicecatalog {
         public let description: String?
         /// The name of the portfolio provider.
         public let providerName: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// Tags to associate with the new portfolio.
         public let tags: [Tag]?
         /// The name to use for display purposes.
         public let displayName: String
-        /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
+        /// A token to disambiguate duplicate requests. You can use the same input in multiple requests, provided that you also specify a different idempotency token for each request.
         public let idempotencyToken: String
 
         public init(description: String? = nil, providerName: String, acceptLanguage: String? = nil, tags: [Tag]? = nil, displayName: String, idempotencyToken: String) {
@@ -618,7 +623,7 @@ extension Servicecatalog {
     }
 
     public struct TagOptionSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
@@ -639,7 +644,7 @@ extension Servicecatalog {
     }
 
     public struct ListRecordHistorySearchFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
@@ -660,14 +665,14 @@ extension Servicecatalog {
     }
 
     public struct ListPortfoliosInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
         public let pageToken: String?
@@ -685,12 +690,17 @@ extension Servicecatalog {
         }
     }
 
+    public enum CopyOption: String, CustomStringConvertible, Codable {
+        case copytags = "CopyTags"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AcceptPortfolioShareOutput: AWSShape {
 
     }
 
     public struct ListLaunchPathsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LaunchPathSummaries", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
@@ -711,7 +721,7 @@ extension Servicecatalog {
     }
 
     public struct ListConstraintsForPortfolioOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConstraintDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
@@ -732,7 +742,7 @@ extension Servicecatalog {
     }
 
     public struct UpdateProductOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "ProductViewDetail", required: false, type: .structure)
         ]
@@ -753,7 +763,7 @@ extension Servicecatalog {
     }
 
     public struct SearchProductsAsAdminInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SortBy", required: false, type: .enum), 
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
@@ -767,7 +777,7 @@ extension Servicecatalog {
         public let sortBy: ProductViewSortBy?
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// Access level of the source of the product.
         public let productSource: ProductSource?
@@ -804,7 +814,7 @@ extension Servicecatalog {
     }
 
     public struct ProvisionProductInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "NotificationArns", required: false, type: .list), 
@@ -817,7 +827,7 @@ extension Servicecatalog {
         ]
         /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
         public let notificationArns: [String]?
@@ -860,7 +870,7 @@ extension Servicecatalog {
     }
 
     public struct UpdateProvisioningParameter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "UsePreviousValue", required: false, type: .boolean)
@@ -894,7 +904,7 @@ extension Servicecatalog {
     }
 
     public struct CreateConstraintInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
             AWSShapeMember(label: "Parameters", required: true, type: .string), 
@@ -903,13 +913,13 @@ extension Servicecatalog {
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The constraint parameters. Expected values vary depending on which Type is specified. For examples, see the bottom of this topic. For Type LAUNCH, the RoleArn property is required.  For Type NOTIFICATION, the NotificationArns property is required. For Type TEMPLATE, the Rules property is required.
+        /// The constraint parameters. Expected values vary depending on which Type is specified. For more information, see the Examples section. For Type LAUNCH, the RoleArn property is required.  For Type NOTIFICATION, the NotificationArns property is required. For Type TEMPLATE, the Rules property is required.
         public let parameters: String
-        /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
+        /// A token to disambiguate duplicate requests. You can use the same input in multiple requests, provided that you also specify a different idempotency token for each request.
         public let idempotencyToken: String
         /// The type of the constraint. Case-sensitive valid values are: LAUNCH, NOTIFICATION, or TEMPLATE. 
         public let `type`: String
@@ -946,7 +956,7 @@ extension Servicecatalog {
     }
 
     public struct LaunchPathSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConstraintSummaries", required: false, type: .list), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -981,7 +991,7 @@ extension Servicecatalog {
     }
 
     public struct UpdateProvisionedProductInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "UpdateToken", required: true, type: .string), 
@@ -993,7 +1003,7 @@ extension Servicecatalog {
         ]
         /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The idempotency token that uniquely identifies the provisioning update request.
         public let updateToken: String
@@ -1040,7 +1050,7 @@ extension Servicecatalog {
     }
 
     public struct ProvisioningArtifactParameter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ParameterType", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ParameterConstraints", required: false, type: .structure), 
@@ -1081,7 +1091,7 @@ extension Servicecatalog {
     }
 
     public struct ListPrincipalsForPortfolioOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Principals", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
@@ -1102,7 +1112,7 @@ extension Servicecatalog {
     }
 
     public struct DescribeRecordInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "PageToken", required: false, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
@@ -1112,7 +1122,7 @@ extension Servicecatalog {
         public let pageSize: Int32?
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
         public let pageToken: String?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The record identifier of the ProvisionedProduct object for which to retrieve output information. This is the RecordDetail.RecordId obtained from the request operation's response.
         public let id: String
@@ -1133,7 +1143,7 @@ extension Servicecatalog {
     }
 
     public struct ListPortfoliosForProductOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PortfolioDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
@@ -1154,7 +1164,7 @@ extension Servicecatalog {
     }
 
     public struct CreateConstraintOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConstraintDetail", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
@@ -1180,7 +1190,7 @@ extension Servicecatalog {
     }
 
     public struct ProductViewDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "ProductARN", required: false, type: .string), 
             AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
@@ -1211,7 +1221,7 @@ extension Servicecatalog {
     }
 
     public struct DescribeProvisioningArtifactInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Verbose", required: false, type: .boolean), 
@@ -1219,7 +1229,7 @@ extension Servicecatalog {
         ]
         /// The identifier of the provisioning artifact. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// Enable a verbose level of details for the provisioning artifact.
         public let verbose: Bool?
@@ -1242,19 +1252,19 @@ extension Servicecatalog {
     }
 
     public struct CreateProvisioningArtifactInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: true, type: .structure), 
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
             AWSShapeMember(label: "IdempotencyToken", required: true, type: .string)
         ]
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The parameters to use when creating the new provisioning artifact.
         public let parameters: ProvisioningArtifactProperties
         /// The product identifier.
         public let productId: String
-        /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
+        /// A token to disambiguate duplicate requests. You can use the same input in multiple requests, provided that you also specify a different idempotency token for each request.
         public let idempotencyToken: String
 
         public init(acceptLanguage: String? = nil, parameters: ProvisioningArtifactProperties, productId: String, idempotencyToken: String) {
@@ -1273,7 +1283,7 @@ extension Servicecatalog {
     }
 
     public struct UpdateConstraintOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConstraintDetail", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
@@ -1306,7 +1316,7 @@ extension Servicecatalog {
     }
 
     public struct DescribeRecordOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RecordDetail", required: false, type: .structure), 
             AWSShapeMember(label: "RecordOutputs", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
@@ -1332,7 +1342,7 @@ extension Servicecatalog {
     }
 
     public struct UpdateProvisionedProductOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
         ]
         /// The detailed result of the UpdateProvisionedProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object that the request is modifying, and a list of any errors that the request encountered.
@@ -1348,7 +1358,7 @@ extension Servicecatalog {
     }
 
     public struct ListProvisioningArtifactsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProvisioningArtifactDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
@@ -1369,7 +1379,7 @@ extension Servicecatalog {
     }
 
     public struct TerminateProvisionedProductOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
         ]
         /// The detailed result of the TerminateProvisionedProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object that the request is modifying, and a list of any errors that the request encountered.
@@ -1385,7 +1395,7 @@ extension Servicecatalog {
     }
 
     public struct ProvisioningParameter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
@@ -1406,7 +1416,7 @@ extension Servicecatalog {
     }
 
     public struct RecordOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OutputValue", required: false, type: .string), 
             AWSShapeMember(label: "OutputKey", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
@@ -1432,7 +1442,7 @@ extension Servicecatalog {
     }
 
     public struct ProvisioningArtifact: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
@@ -1463,7 +1473,7 @@ extension Servicecatalog {
     }
 
     public struct DescribeProvisionedProductOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProvisionedProductDetail", required: false, type: .structure)
         ]
         /// Detailed provisioned product information.
@@ -1479,7 +1489,7 @@ extension Servicecatalog {
     }
 
     public struct ProvisioningArtifactSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProvisioningArtifactMetadata", required: false, type: .map), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -1519,7 +1529,7 @@ extension Servicecatalog {
     }
 
     public struct ListLaunchPathsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
@@ -1527,7 +1537,7 @@ extension Servicecatalog {
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier. Identifies the product for which to retrieve LaunchPathSummaries information.
         public let productId: String
@@ -1550,7 +1560,7 @@ extension Servicecatalog {
     }
 
     public struct SearchProductsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProductViewAggregations", required: false, type: .map), 
             AWSShapeMember(label: "ProductViewSummaries", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
@@ -1576,7 +1586,7 @@ extension Servicecatalog {
     }
 
     public struct ListTagOptionsFilters: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Active", required: false, type: .boolean)
@@ -1606,7 +1616,7 @@ extension Servicecatalog {
     }
 
     public struct DescribeTagOptionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The identifier of the TagOption.
@@ -1626,11 +1636,11 @@ extension Servicecatalog {
     }
 
     public struct DeleteConstraintInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The identifier of the constraint to delete.
         public let id: String
@@ -1646,12 +1656,28 @@ extension Servicecatalog {
         }
     }
 
+    public struct CopyProductOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CopyProductToken", required: false, type: .string)
+        ]
+        /// A unique token to pass to DescribeCopyProductStatus to track the progress of the operation.
+        public let copyProductToken: String?
+
+        public init(copyProductToken: String? = nil) {
+            self.copyProductToken = copyProductToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyProductToken = "CopyProductToken"
+        }
+    }
+
     public struct DescribeProductViewInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The ProductViewId of the product to describe.
         public let id: String
@@ -1668,7 +1694,7 @@ extension Servicecatalog {
     }
 
     public struct DeleteProvisioningArtifactInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
@@ -1677,7 +1703,7 @@ extension Servicecatalog {
         public let provisioningArtifactId: String
         /// The product identifier.
         public let productId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
 
         public init(provisioningArtifactId: String, productId: String, acceptLanguage: String? = nil) {
@@ -1694,7 +1720,7 @@ extension Servicecatalog {
     }
 
     public struct ParameterConstraints: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AllowedValues", required: false, type: .list)
         ]
         /// The values that the administrator has allowed for the parameter.
@@ -1715,7 +1741,7 @@ extension Servicecatalog {
     }
 
     public struct ListPortfoliosForProductInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
@@ -1723,7 +1749,7 @@ extension Servicecatalog {
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
         public let productId: String
@@ -1746,7 +1772,7 @@ extension Servicecatalog {
     }
 
     public struct PortfolioDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
             AWSShapeMember(label: "ProviderName", required: false, type: .string), 
             AWSShapeMember(label: "ARN", required: false, type: .string), 
@@ -1787,7 +1813,7 @@ extension Servicecatalog {
     }
 
     public struct CreateTagOptionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
         ]
         /// The resulting detailed TagOption information.
@@ -1803,7 +1829,7 @@ extension Servicecatalog {
     }
 
     public struct DescribeProvisioningParametersInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
@@ -1811,7 +1837,7 @@ extension Servicecatalog {
         ]
         /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
         public let productId: String
@@ -1834,7 +1860,7 @@ extension Servicecatalog {
     }
 
     public struct SearchProductsAsAdminOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProductViewDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
@@ -1855,7 +1881,7 @@ extension Servicecatalog {
     }
 
     public struct ProductViewAggregationValue: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "ApproximateCount", required: false, type: .integer)
         ]
@@ -1876,7 +1902,7 @@ extension Servicecatalog {
     }
 
     public struct ResourceDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ARN", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -1912,14 +1938,14 @@ extension Servicecatalog {
     }
 
     public struct ListAcceptedPortfolioSharesInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
         public let pageToken: String?
@@ -1938,7 +1964,7 @@ extension Servicecatalog {
     }
 
     public struct SearchProductsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "SortBy", required: false, type: .enum), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
@@ -1950,7 +1976,7 @@ extension Servicecatalog {
         public let pageSize: Int32?
         /// The sort field specifier. If no value is specified, results are not sorted.
         public let sortBy: ProductViewSortBy?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The list of filters with which to limit search results. If no search filters are specified, the output is all the products to which the calling user has access. 
         public let filters: [ProductViewFilterBy: [String]]?
@@ -1979,7 +2005,7 @@ extension Servicecatalog {
     }
 
     public struct RecordError: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Code", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
@@ -2000,14 +2026,14 @@ extension Servicecatalog {
     }
 
     public struct UpdateConstraintInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The updated text description of the constraint.
         public let description: String?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The identifier of the constraint to update.
         public let id: String
@@ -2026,7 +2052,7 @@ extension Servicecatalog {
     }
 
     public struct ProvisionedProductDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "LastRecordId", required: false, type: .string), 
@@ -2045,7 +2071,7 @@ extension Servicecatalog {
         public let lastRecordId: String?
         /// The user-friendly name of the ProvisionedProduct object.
         public let name: String?
-        /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
+        /// A token to disambiguate duplicate requests. You can use the same input in multiple requests, provided that you also specify a different idempotency token for each request.
         public let idempotencyToken: String?
         /// The type of the ProvisionedProduct object.
         public let `type`: String?
@@ -2082,7 +2108,7 @@ extension Servicecatalog {
     }
 
     public struct ProvisionProductOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RecordDetail", required: false, type: .structure)
         ]
         /// The detailed result of the ProvisionProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object of the request, and a list of any errors that the request encountered. 
@@ -2098,11 +2124,11 @@ extension Servicecatalog {
     }
 
     public struct DeleteProductInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The identifier of the product for the delete request.
         public let id: String
@@ -2119,7 +2145,7 @@ extension Servicecatalog {
     }
 
     public struct ListResourcesForTagOptionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceDetails", required: false, type: .list), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
@@ -2140,13 +2166,13 @@ extension Servicecatalog {
     }
 
     public struct ListProvisioningArtifactsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
         /// The product identifier.
         public let productId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
 
         public init(productId: String, acceptLanguage: String? = nil) {
@@ -2161,7 +2187,7 @@ extension Servicecatalog {
     }
 
     public struct ListRecordHistoryInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "AccessLevelFilter", required: false, type: .structure), 
@@ -2170,7 +2196,7 @@ extension Servicecatalog {
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The access level for obtaining results. If left unspecified, User level access is used.
         public let accessLevelFilter: AccessLevelFilter?
@@ -2197,13 +2223,13 @@ extension Servicecatalog {
     }
 
     public struct AssociateProductWithPortfolioInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "SourcePortfolioId", required: false, type: .string), 
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
             AWSShapeMember(label: "ProductId", required: true, type: .string)
         ]
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The identifier of the source portfolio to use with this association.
         public let sourcePortfolioId: String?
@@ -2228,7 +2254,7 @@ extension Servicecatalog {
     }
 
     public struct UpdateProductInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "RemoveTags", required: false, type: .list), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
@@ -2245,7 +2271,7 @@ extension Servicecatalog {
         public let id: String
         /// Tags to remove from the existing list of tags associated with the product.
         public let removeTags: [String]?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The updated support email for the product.
         public let supportEmail: String?
@@ -2293,6 +2319,13 @@ extension Servicecatalog {
         }
     }
 
+    public enum CopyProductStatus: String, CustomStringConvertible, Codable {
+        case succeeded = "SUCCEEDED"
+        case inProgress = "IN_PROGRESS"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProductViewSortBy: String, CustomStringConvertible, Codable {
         case title = "Title"
         case versioncount = "VersionCount"
@@ -2301,7 +2334,7 @@ extension Servicecatalog {
     }
 
     public struct TerminateProvisionedProductInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IgnoreErrors", required: false, type: .boolean), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "TerminateToken", required: true, type: .string), 
@@ -2310,7 +2343,7 @@ extension Servicecatalog {
         ]
         /// If set to true, AWS Service Catalog stops managing the specified ProvisionedProduct object even if it cannot delete the underlying resources.
         public let ignoreErrors: Bool?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// An idempotency token that uniquely identifies the termination request. This token is only valid during the termination process. After the ProvisionedProduct object is terminated, further requests to terminate the same ProvisionedProduct object always return ResourceNotFound regardless of the value of TerminateToken.
         public let terminateToken: String
@@ -2347,7 +2380,7 @@ extension Servicecatalog {
     }
 
     public struct UpdateProvisioningArtifactInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProvisioningArtifactId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
@@ -2356,7 +2389,7 @@ extension Servicecatalog {
         ]
         /// The identifier of the provisioning artifact for the update request. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
         public let productId: String
@@ -2383,7 +2416,7 @@ extension Servicecatalog {
     }
 
     public struct CreatePortfolioOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
@@ -2404,7 +2437,7 @@ extension Servicecatalog {
     }
 
     public struct DescribePortfolioOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PortfolioDetail", required: false, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TagOptions", required: false, type: .list)
@@ -2437,7 +2470,7 @@ extension Servicecatalog {
     }
 
     public struct AccessLevelFilter: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .enum)
         ]
@@ -2458,7 +2491,7 @@ extension Servicecatalog {
     }
 
     public struct TagOptionDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Active", required: false, type: .boolean), 
@@ -2489,7 +2522,7 @@ extension Servicecatalog {
     }
 
     public struct ConstraintSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Type", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
@@ -2510,7 +2543,7 @@ extension Servicecatalog {
     }
 
     public struct ProductViewSummary: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HasDefaultPath", required: false, type: .boolean), 
             AWSShapeMember(label: "ShortDescription", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
@@ -2585,7 +2618,7 @@ extension Servicecatalog {
     }
 
     public struct UpdateProvisioningArtifactOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
             AWSShapeMember(label: "Info", required: false, type: .map)
@@ -2611,13 +2644,13 @@ extension Servicecatalog {
     }
 
     public struct RejectPortfolioShareInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
 
         public init(portfolioId: String, acceptLanguage: String? = nil) {
@@ -2632,7 +2665,7 @@ extension Servicecatalog {
     }
 
     public struct ListTagOptionsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagOptionDetails", required: false, type: .list), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
         ]
@@ -2652,8 +2685,29 @@ extension Servicecatalog {
         }
     }
 
+    public struct DescribeCopyProductStatusInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CopyProductToken", required: true, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// The token returned from the call to CopyProduct that initiated the operation.
+        public let copyProductToken: String
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+
+        public init(copyProductToken: String, acceptLanguage: String? = nil) {
+            self.copyProductToken = copyProductToken
+            self.acceptLanguage = acceptLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyProductToken = "CopyProductToken"
+            case acceptLanguage = "AcceptLanguage"
+        }
+    }
+
     public struct DescribeConstraintOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConstraintDetail", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "ConstraintParameters", required: false, type: .string)
@@ -2686,7 +2740,7 @@ extension Servicecatalog {
     }
 
     public struct Principal: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PrincipalARN", required: false, type: .string), 
             AWSShapeMember(label: "PrincipalType", required: false, type: .enum)
         ]
@@ -2707,7 +2761,7 @@ extension Servicecatalog {
     }
 
     public struct ListTagOptionsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "Filters", required: false, type: .structure), 
             AWSShapeMember(label: "PageToken", required: false, type: .string)
@@ -2733,7 +2787,7 @@ extension Servicecatalog {
     }
 
     public struct UpdateTagOptionOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TagOptionDetail", required: false, type: .structure)
         ]
         /// The resulting detailed TagOption information.
@@ -2749,7 +2803,7 @@ extension Servicecatalog {
     }
 
     public struct ProvisioningArtifactDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -2789,7 +2843,7 @@ extension Servicecatalog {
     }
 
     public struct ListConstraintsForPortfolioInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
@@ -2798,7 +2852,7 @@ extension Servicecatalog {
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
@@ -2825,7 +2879,7 @@ extension Servicecatalog {
     }
 
     public struct DisassociateProductFromPortfolioInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
             AWSShapeMember(label: "ProductId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
@@ -2834,7 +2888,7 @@ extension Servicecatalog {
         public let portfolioId: String
         /// The product identifier.
         public let productId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
 
         public init(portfolioId: String, productId: String, acceptLanguage: String? = nil) {
@@ -2855,7 +2909,7 @@ extension Servicecatalog {
     }
 
     public struct ListPortfoliosOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PortfolioDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
@@ -2876,7 +2930,7 @@ extension Servicecatalog {
     }
 
     public struct ListPrincipalsForPortfolioInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PageSize", required: false, type: .integer), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
@@ -2884,7 +2938,7 @@ extension Servicecatalog {
         ]
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public let pageSize: Int32?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
@@ -2906,6 +2960,52 @@ extension Servicecatalog {
         }
     }
 
+    public struct CopyProductInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetProductId", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "TargetProductName", required: false, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
+            AWSShapeMember(label: "SourceProvisioningArtifactIdentifiers", required: false, type: .list), 
+            AWSShapeMember(label: "SourceProductArn", required: true, type: .string), 
+            AWSShapeMember(label: "CopyOptions", required: false, type: .list)
+        ]
+        /// The ID of the target product. By default, a new product is created.
+        public let targetProductId: String?
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// A name for the target product. The default is the name of the source product.
+        public let targetProductName: String?
+        ///  A token to disambiguate duplicate requests. You can use the same input in multiple requests, provided that you also specify a different idempotency token for each request. 
+        public let idempotencyToken: String
+        /// The IDs of the product versions to copy. By default, all provisioning artifacts are copied.
+        public let sourceProvisioningArtifactIdentifiers: [[ProvisioningArtifactPropertyName: String]]?
+        /// The Amazon Resource Name (ARN) of the source product.
+        public let sourceProductArn: String
+        /// The copy options. If the value is CopyTags, the tags from the source product are copied to the target product.
+        public let copyOptions: [CopyOption]?
+
+        public init(targetProductId: String? = nil, acceptLanguage: String? = nil, targetProductName: String? = nil, idempotencyToken: String, sourceProvisioningArtifactIdentifiers: [[ProvisioningArtifactPropertyName: String]]? = nil, sourceProductArn: String, copyOptions: [CopyOption]? = nil) {
+            self.targetProductId = targetProductId
+            self.acceptLanguage = acceptLanguage
+            self.targetProductName = targetProductName
+            self.idempotencyToken = idempotencyToken
+            self.sourceProvisioningArtifactIdentifiers = sourceProvisioningArtifactIdentifiers
+            self.sourceProductArn = sourceProductArn
+            self.copyOptions = copyOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetProductId = "TargetProductId"
+            case acceptLanguage = "AcceptLanguage"
+            case targetProductName = "TargetProductName"
+            case idempotencyToken = "IdempotencyToken"
+            case sourceProvisioningArtifactIdentifiers = "SourceProvisioningArtifactIdentifiers"
+            case sourceProductArn = "SourceProductArn"
+            case copyOptions = "CopyOptions"
+        }
+    }
+
     public struct DeleteProvisioningArtifactOutput: AWSShape {
 
     }
@@ -2914,8 +3014,34 @@ extension Servicecatalog {
 
     }
 
+    public struct DescribeCopyProductStatusOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CopyProductStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusDetail", required: false, type: .string), 
+            AWSShapeMember(label: "TargetProductId", required: false, type: .string)
+        ]
+        /// The status of the copy product operation.
+        public let copyProductStatus: CopyProductStatus?
+        /// The status message.
+        public let statusDetail: String?
+        /// The ID of the copied product.
+        public let targetProductId: String?
+
+        public init(copyProductStatus: CopyProductStatus? = nil, statusDetail: String? = nil, targetProductId: String? = nil) {
+            self.copyProductStatus = copyProductStatus
+            self.statusDetail = statusDetail
+            self.targetProductId = targetProductId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyProductStatus = "CopyProductStatus"
+            case statusDetail = "StatusDetail"
+            case targetProductId = "TargetProductId"
+        }
+    }
+
     public struct DescribeProductOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProductViewSummary", required: false, type: .structure), 
             AWSShapeMember(label: "ProvisioningArtifacts", required: false, type: .list)
         ]
@@ -2936,7 +3062,7 @@ extension Servicecatalog {
     }
 
     public struct RecordDetail: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
             AWSShapeMember(label: "UpdatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string), 
@@ -3012,7 +3138,7 @@ extension Servicecatalog {
     }
 
     public struct DescribeProvisioningArtifactOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
             AWSShapeMember(label: "Info", required: false, type: .map)
@@ -3038,7 +3164,7 @@ extension Servicecatalog {
     }
 
     public struct DisassociateTagOptionFromResourceInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "TagOptionId", required: true, type: .string)
         ]
@@ -3059,7 +3185,7 @@ extension Servicecatalog {
     }
 
     public struct AssociateTagOptionWithResourceInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceId", required: true, type: .string), 
             AWSShapeMember(label: "TagOptionId", required: true, type: .string)
         ]
@@ -3084,13 +3210,13 @@ extension Servicecatalog {
     }
 
     public struct AcceptPortfolioShareInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
 
         public init(portfolioId: String, acceptLanguage: String? = nil) {
@@ -3105,7 +3231,7 @@ extension Servicecatalog {
     }
 
     public struct RecordTag: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Key", required: false, type: .string)
         ]
@@ -3126,7 +3252,7 @@ extension Servicecatalog {
     }
 
     public struct ListAcceptedPortfolioSharesOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PortfolioDetails", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string)
         ]
@@ -3147,7 +3273,7 @@ extension Servicecatalog {
     }
 
     public struct UpdatePortfolioInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "RemoveTags", required: false, type: .list), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
@@ -3160,7 +3286,7 @@ extension Servicecatalog {
         public let id: String
         /// Tags to remove from the existing list of tags associated with the portfolio.
         public let removeTags: [String]?
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The name to use for display purposes.
         public let displayName: String?
@@ -3197,7 +3323,7 @@ extension Servicecatalog {
     }
 
     public struct AssociatePrincipalWithPortfolioInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PrincipalARN", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "PrincipalType", required: true, type: .enum), 
@@ -3205,7 +3331,7 @@ extension Servicecatalog {
         ]
         /// The ARN representing the principal (IAM user, role, or group).
         public let principalARN: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The principal type. Must be IAM 
         public let principalType: PrincipalType
@@ -3228,11 +3354,11 @@ extension Servicecatalog {
     }
 
     public struct DescribeProductAsAdminInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The identifier of the product for which to retrieve information.
         public let id: String
@@ -3249,11 +3375,11 @@ extension Servicecatalog {
     }
 
     public struct DescribePortfolioInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The identifier of the portfolio for which to retrieve information.
         public let id: String
@@ -3270,7 +3396,7 @@ extension Servicecatalog {
     }
 
     public struct CreateProductInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "SupportEmail", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -3284,7 +3410,7 @@ extension Servicecatalog {
             AWSShapeMember(label: "SupportDescription", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// Contact email for product support.
         public let supportEmail: String?
@@ -3292,7 +3418,7 @@ extension Servicecatalog {
         public let name: String
         /// The distributor of the product.
         public let distributor: String?
-        /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
+        /// A token to disambiguate duplicate requests. You can use the same input in multiple requests, provided that you also specify a different idempotency token for each request.
         public let idempotencyToken: String
         /// The type of the product to create.
         public let productType: ProductType
@@ -3341,7 +3467,7 @@ extension Servicecatalog {
     }
 
     public struct CreateProvisioningArtifactOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "ProvisioningArtifactDetail", required: false, type: .structure), 
             AWSShapeMember(label: "Info", required: false, type: .map)
@@ -3367,13 +3493,13 @@ extension Servicecatalog {
     }
 
     public struct ListPortfolioAccessInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PortfolioId", required: true, type: .string), 
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string)
         ]
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
 
         public init(portfolioId: String, acceptLanguage: String? = nil) {
@@ -3388,7 +3514,7 @@ extension Servicecatalog {
     }
 
     public struct UpdateTagOptionInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Active", required: false, type: .boolean), 
             AWSShapeMember(label: "Id", required: true, type: .string)

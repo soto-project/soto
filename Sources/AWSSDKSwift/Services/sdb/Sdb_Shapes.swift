@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Sdb {
 
     public struct ReplaceableAttribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Replace", required: false, type: .boolean)
@@ -32,7 +32,7 @@ extension Sdb {
     }
 
     public struct GetAttributesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConsistentRead", required: false, type: .boolean), 
             AWSShapeMember(label: "ItemName", required: true, type: .string), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
@@ -63,7 +63,7 @@ extension Sdb {
     }
 
     public struct ListDomainsRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxNumberOfDomains", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -84,7 +84,7 @@ extension Sdb {
     }
 
     public struct AttributeList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attribute", required: false, type: .list)
         ]
         public let attribute: [Attribute]?
@@ -99,7 +99,7 @@ extension Sdb {
     }
 
     public struct GetAttributesResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", required: false, type: .structure)
         ]
         /// The list of attributes returned by the operation.
@@ -115,7 +115,7 @@ extension Sdb {
     }
 
     public struct SelectRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConsistentRead", required: false, type: .boolean), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "SelectExpression", required: true, type: .string)
@@ -141,7 +141,7 @@ extension Sdb {
     }
 
     public struct BatchDeleteAttributesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: true, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -162,7 +162,7 @@ extension Sdb {
     }
 
     public struct DomainMetadataResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Timestamp", required: false, type: .integer), 
             AWSShapeMember(label: "AttributeNamesSizeBytes", required: false, type: .long), 
             AWSShapeMember(label: "AttributeValuesSizeBytes", required: false, type: .long), 
@@ -208,7 +208,7 @@ extension Sdb {
     }
 
     public struct Item: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlternateNameEncoding", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Attributes", required: true, type: .structure)
@@ -233,7 +233,7 @@ extension Sdb {
     }
 
     public struct Attribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlternateNameEncoding", required: false, type: .string), 
             AWSShapeMember(label: "AlternateValueEncoding", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -262,7 +262,7 @@ extension Sdb {
     }
 
     public struct DomainMetadataRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain for which to display the metadata of.
@@ -278,7 +278,7 @@ extension Sdb {
     }
 
     public struct DeleteDomainRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain to delete.
@@ -294,7 +294,7 @@ extension Sdb {
     }
 
     public struct BatchPutAttributesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: true, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
@@ -315,7 +315,7 @@ extension Sdb {
     }
 
     public struct ReplaceableItem: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", location: .body(locationName: "ItemName"), required: true, type: .string), 
             AWSShapeMember(label: "Attributes", required: true, type: .structure)
         ]
@@ -336,7 +336,7 @@ extension Sdb {
     }
 
     public struct DeletableItemList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Item", required: false, type: .list)
         ]
         public let item: [DeletableItem]?
@@ -351,7 +351,7 @@ extension Sdb {
     }
 
     public struct AttributeNameList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeName", required: false, type: .list)
         ]
         public let attributeName: [String]?
@@ -366,7 +366,7 @@ extension Sdb {
     }
 
     public struct DeletableItem: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", location: .body(locationName: "ItemName"), required: true, type: .string), 
             AWSShapeMember(label: "Attributes", required: false, type: .structure)
         ]
@@ -385,7 +385,7 @@ extension Sdb {
     }
 
     public struct UpdateCondition: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Exists", required: false, type: .boolean)
@@ -411,7 +411,7 @@ extension Sdb {
     }
 
     public struct ItemList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Item", required: false, type: .list)
         ]
         public let item: [Item]?
@@ -426,7 +426,7 @@ extension Sdb {
     }
 
     public struct PutAttributesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ItemName", required: true, type: .string), 
             AWSShapeMember(label: "Attributes", required: true, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
@@ -457,7 +457,7 @@ extension Sdb {
     }
 
     public struct DeletableAttribute: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Value", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
@@ -478,7 +478,7 @@ extension Sdb {
     }
 
     public struct DeleteAttributesRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ItemName", required: true, type: .string), 
             AWSShapeMember(label: "Attributes", required: false, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
@@ -509,7 +509,7 @@ extension Sdb {
     }
 
     public struct ListDomainsResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "DomainNames", required: false, type: .structure)
         ]
@@ -530,7 +530,7 @@ extension Sdb {
     }
 
     public struct ReplaceableAttributeList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attribute", required: false, type: .list)
         ]
         public let attribute: [ReplaceableAttribute]?
@@ -545,7 +545,7 @@ extension Sdb {
     }
 
     public struct DeletableAttributeList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attribute", required: false, type: .list)
         ]
         public let attribute: [DeletableAttribute]?
@@ -560,7 +560,7 @@ extension Sdb {
     }
 
     public struct ReplaceableItemList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Item", required: false, type: .list)
         ]
         public let item: [ReplaceableItem]?
@@ -575,7 +575,7 @@ extension Sdb {
     }
 
     public struct SelectResult: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .structure), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
@@ -596,7 +596,7 @@ extension Sdb {
     }
 
     public struct CreateDomainRequest: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The name of the domain to create. The name can range between 3 and 255 characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
@@ -612,7 +612,7 @@ extension Sdb {
     }
 
     public struct DomainNameList: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: false, type: .list)
         ]
         public let domainName: [String]?

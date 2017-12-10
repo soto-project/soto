@@ -6,7 +6,7 @@ import AWSSDKSwiftCore
 extension Importexport {
 
     public struct ListJobsInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxJobs", required: false, type: .integer), 
             AWSShapeMember(label: "APIVersion", required: false, type: .string)
@@ -29,7 +29,7 @@ extension Importexport {
     }
 
     public struct CreateJobInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobType", required: true, type: .enum), 
             AWSShapeMember(label: "ManifestAddendum", required: false, type: .string), 
             AWSShapeMember(label: "Manifest", required: true, type: .string), 
@@ -60,7 +60,7 @@ extension Importexport {
     }
 
     public struct GetShippingLabelInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "stateOrProvince", required: false, type: .string), 
             AWSShapeMember(label: "city", required: false, type: .string), 
             AWSShapeMember(label: "postalCode", required: false, type: .string), 
@@ -119,7 +119,7 @@ extension Importexport {
     }
 
     public struct GetStatusInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: true, type: .string), 
             AWSShapeMember(label: "APIVersion", required: false, type: .string)
         ]
@@ -138,7 +138,7 @@ extension Importexport {
     }
 
     public struct CreateJobOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobType", required: false, type: .enum), 
             AWSShapeMember(label: "ArtifactList", required: false, type: .list), 
             AWSShapeMember(label: "SignatureFileContents", required: false, type: .string), 
@@ -179,7 +179,7 @@ extension Importexport {
     }
 
     public struct GetShippingLabelOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Warning", required: false, type: .string), 
             AWSShapeMember(label: "ShippingLabelURL", required: false, type: .string)
         ]
@@ -198,7 +198,7 @@ extension Importexport {
     }
 
     public struct UpdateJobOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Success", required: false, type: .boolean), 
             AWSShapeMember(label: "WarningMessage", required: false, type: .string), 
             AWSShapeMember(label: "ArtifactList", required: false, type: .list)
@@ -221,7 +221,7 @@ extension Importexport {
     }
 
     public struct UpdateJobInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobType", required: true, type: .enum), 
             AWSShapeMember(label: "APIVersion", required: false, type: .string), 
             AWSShapeMember(label: "Manifest", required: true, type: .string), 
@@ -252,7 +252,7 @@ extension Importexport {
     }
 
     public struct Job: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobType", required: false, type: .enum), 
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "JobId", required: false, type: .string), 
@@ -279,7 +279,7 @@ extension Importexport {
     }
 
     public struct GetStatusOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Carrier", required: false, type: .string), 
             AWSShapeMember(label: "ArtifactList", required: false, type: .list), 
             AWSShapeMember(label: "Signature", required: false, type: .string), 
@@ -354,7 +354,7 @@ extension Importexport {
     }
 
     public struct ListJobsOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Jobs", required: false, type: .list), 
             AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
         ]
@@ -373,7 +373,7 @@ extension Importexport {
     }
 
     public struct Artifact: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "URL", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
@@ -392,7 +392,7 @@ extension Importexport {
     }
 
     public struct CancelJobInput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: true, type: .string), 
             AWSShapeMember(label: "APIVersion", required: false, type: .string)
         ]
@@ -411,7 +411,7 @@ extension Importexport {
     }
 
     public struct CancelJobOutput: AWSShape {
-        public static var members: [AWSShapeMember] = [
+        public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Success", required: false, type: .boolean)
         ]
         public let success: Bool?
