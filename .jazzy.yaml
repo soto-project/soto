@@ -5,3 +5,647 @@ author_url: https://github.com/noppoMan
 github_url: https://github.com/noppoMan/aws-sdk-swift
 copyright: '© Copyright (c) 2017 Yuki Takei(noppoMan)'
 theme: fullwidth
+
+readme: README.md
+
+custom_categories:
+
+  - name: Acm
+    children:
+      - Acm
+      - AcmError
+
+  - name: Alexaforbusiness
+    children:
+      - Alexaforbusiness
+      - AlexaforbusinessError
+
+  - name: Apigateway
+    children:
+      - Apigateway
+      - ApigatewayError
+
+  - name: ApplicationAutoscaling
+    children:
+      - ApplicationAutoscaling
+      - ApplicationAutoscalingError
+
+  - name: Appstream
+    children:
+      - Appstream
+      - AppstreamError
+
+  - name: Appsync
+    children:
+      - Appsync
+      - AppsyncError
+
+  - name: Athena
+    children:
+      - Athena
+      - AthenaError
+
+  - name: Autoscaling
+    children:
+      - Autoscaling
+      - AutoscalingError
+
+  - name: AWSMigrationHub
+    children:
+      - AWSMigrationHub
+      - AWSMigrationHubError
+
+  - name: Batch
+    children:
+      - Batch
+      - BatchError
+
+  - name: Budgets
+    children:
+      - Budgets
+      - BudgetsError
+
+  - name: Ce
+    children:
+      - Ce
+      - CeError
+
+  - name: Cloud9
+    children:
+      - Cloud9
+      - Cloud9Error
+
+  - name: Clouddirectory
+    children:
+      - Clouddirectory
+      - ClouddirectoryError
+
+  - name: Cloudformation
+    children:
+      - Cloudformation
+      - CloudformationError
+
+  - name: Cloudfront
+    children:
+      - Cloudfront
+      - CloudfrontError
+
+  - name: Cloudhsm
+    children:
+      - Cloudhsm
+      - CloudhsmError
+
+  - name: Cloudhsmv2
+    children:
+      - Cloudhsmv2
+      - Cloudhsmv2Error
+
+  - name: Cloudsearch
+    children:
+      - Cloudsearch
+      - CloudsearchError
+
+  - name: Cloudsearchdomain
+    children:
+      - Cloudsearchdomain
+      - CloudsearchdomainError
+
+  - name: Cloudtrail
+    children:
+      - Cloudtrail
+      - CloudtrailError
+
+  - name: Codebuild
+    children:
+      - Codebuild
+      - CodebuildError
+
+  - name: Codecommit
+    children:
+      - Codecommit
+      - CodecommitError
+
+  - name: Codedeploy
+    children:
+      - Codedeploy
+      - CodedeployError
+
+  - name: Codepipeline
+    children:
+      - Codepipeline
+      - CodepipelineError
+
+  - name: Codestar
+    children:
+      - Codestar
+      - CodestarError
+
+  - name: CognitoIdentity
+    children:
+      - CognitoIdentity
+      - CognitoIdentityError
+
+  - name: CognitoIdp
+    children:
+      - CognitoIdp
+      - CognitoIdpError
+
+  - name: CognitoSync
+    children:
+      - CognitoSync
+      - CognitoSyncError
+
+  - name: Comprehend
+    children:
+      - Comprehend
+      - ComprehendError
+
+  - name: Config
+    children:
+      - Config
+      - ConfigError
+
+  - name: Cur
+    children:
+      - Cur
+      - CurError
+
+  - name: Datapipeline
+    children:
+      - Datapipeline
+      - DatapipelineError
+
+  - name: Dax
+    children:
+      - Dax
+      - DaxError
+
+  - name: Devicefarm
+    children:
+      - Devicefarm
+      - DevicefarmError
+
+  - name: Directconnect
+    children:
+      - Directconnect
+      - DirectconnectError
+
+  - name: Discovery
+    children:
+      - Discovery
+      - DiscoveryError
+
+  - name: Dms
+    children:
+      - Dms
+      - DmsError
+
+  - name: Ds
+    children:
+      - Ds
+      - DsError
+
+  - name: Dynamodb
+    children:
+      - Dynamodb
+      - DynamodbError
+
+  - name: Ec2
+    children:
+      - Ec2
+      - Ec2Error
+
+  - name: Ecr
+    children:
+      - Ecr
+      - EcrError
+
+  - name: Ecs
+    children:
+      - Ecs
+      - EcsError
+
+  - name: Elasticache
+    children:
+      - Elasticache
+      - ElasticacheError
+
+  - name: Elasticbeanstalk
+    children:
+      - Elasticbeanstalk
+      - ElasticbeanstalkError
+
+  - name: Elasticfilesystem
+    children:
+      - Elasticfilesystem
+      - ElasticfilesystemError
+
+  - name: Elasticloadbalancing
+    children:
+      - Elasticloadbalancing
+      - ElasticloadbalancingError
+
+  - name: Elasticloadbalancingv2
+    children:
+      - Elasticloadbalancingv2
+      - Elasticloadbalancingv2Error
+
+  - name: Elasticmapreduce
+    children:
+      - Elasticmapreduce
+      - ElasticmapreduceError
+
+  - name: Elastictranscoder
+    children:
+      - Elastictranscoder
+      - ElastictranscoderError
+
+  - name: Email
+    children:
+      - Email
+      - EmailError
+
+  - name: Entitlementmarketplace
+    children:
+      - Entitlementmarketplace
+      - EntitlementmarketplaceError
+
+  - name: Es
+    children:
+      - Es
+      - EsError
+
+  - name: Events
+    children:
+      - Events
+      - EventsError
+
+  - name: Firehose
+    children:
+      - Firehose
+      - FirehoseError
+
+  - name: Gamelift
+    children:
+      - Gamelift
+      - GameliftError
+
+  - name: Glacier
+    children:
+      - Glacier
+      - GlacierError
+
+  - name: Glue
+    children:
+      - Glue
+      - GlueError
+
+  - name: Greengrass
+    children:
+      - Greengrass
+      - GreengrassError
+
+  - name: GuardDuty
+    children:
+      - GuardDuty
+      - GuardDutyError
+
+  - name: Health
+    children:
+      - Health
+      - HealthError
+
+  - name: Iam
+    children:
+      - Iam
+      - IamError
+
+  - name: Importexport
+    children:
+      - Importexport
+      - ImportexportError
+
+  - name: Inspector
+    children:
+      - Inspector
+      - InspectorError
+
+  - name: IotData
+    children:
+      - IotData
+      - IotDataError
+
+  - name: IotJobsData
+    children:
+      - IotJobsData
+      - IotJobsDataError
+
+  - name: Iot
+    children:
+      - Iot
+      - IotError
+
+  - name: KinesisVideoArchivedMedia
+    children:
+      - KinesisVideoArchivedMedia
+      - KinesisVideoArchivedMediaError
+
+  - name: KinesisVideoMedia
+    children:
+      - KinesisVideoMedia
+      - KinesisVideoMediaError
+
+  - name: Kinesis
+    children:
+      - Kinesis
+      - KinesisError
+
+  - name: Kinesisanalytics
+    children:
+      - Kinesisanalytics
+      - KinesisanalyticsError
+
+  - name: Kinesisvideo
+    children:
+      - Kinesisvideo
+      - KinesisvideoError
+
+  - name: Kms
+    children:
+      - Kms
+      - KmsError
+
+  - name: Lambda
+    children:
+      - Lambda
+      - LambdaError
+
+  - name: LexModels
+    children:
+      - LexModels
+      - LexModelsError
+
+  - name: Lightsail
+    children:
+      - Lightsail
+      - LightsailError
+
+  - name: Logs
+    children:
+      - Logs
+      - LogsError
+
+  - name: Machinelearning
+    children:
+      - Machinelearning
+      - MachinelearningError
+
+  - name: Marketplacecommerceanalytics
+    children:
+      - Marketplacecommerceanalytics
+      - MarketplacecommerceanalyticsError
+
+  - name: Mediaconvert
+    children:
+      - Mediaconvert
+      - MediaconvertError
+
+  - name: Medialive
+    children:
+      - Medialive
+      - MedialiveError
+
+  - name: Mediapackage
+    children:
+      - Mediapackage
+      - MediapackageError
+
+  - name: MediastoreData
+    children:
+      - MediastoreData
+      - MediastoreDataError
+
+  - name: Mediastore
+    children:
+      - Mediastore
+      - MediastoreError
+
+  - name: Meteringmarketplace
+    children:
+      - Meteringmarketplace
+      - MeteringmarketplaceError
+
+  - name: Mobile
+    children:
+      - Mobile
+      - MobileError
+
+  - name: Mobileanalytics
+    children:
+      - Mobileanalytics
+      - MobileanalyticsError
+
+  - name: Monitoring
+    children:
+      - Monitoring
+      - MonitoringError
+
+  - name: Mq
+    children:
+      - Mq
+      - MqError
+
+  - name: MturkRequester
+    children:
+      - MturkRequester
+      - MturkRequesterError
+
+  - name: Opsworks
+    children:
+      - Opsworks
+      - OpsworksError
+
+  - name: Opsworkscm
+    children:
+      - Opsworkscm
+      - OpsworkscmError
+
+  - name: Organizations
+    children:
+      - Organizations
+      - OrganizationsError
+
+  - name: Pinpoint
+    children:
+      - Pinpoint
+      - PinpointError
+
+  - name: Polly
+    children:
+      - Polly
+      - PollyError
+
+  - name: Pricing
+    children:
+      - Pricing
+      - PricingError
+
+  - name: Rds
+    children:
+      - Rds
+      - RdsError
+
+  - name: Redshift
+    children:
+      - Redshift
+      - RedshiftError
+
+  - name: Rekognition
+    children:
+      - Rekognition
+      - RekognitionError
+
+  - name: ResourceGroups
+    children:
+      - ResourceGroups
+      - ResourceGroupsError
+
+  - name: Resourcegroupstaggingapi
+    children:
+      - Resourcegroupstaggingapi
+      - ResourcegroupstaggingapiError
+
+  - name: Route53
+    children:
+      - Route53
+      - Route53Error
+
+  - name: Route53domains
+    children:
+      - Route53domains
+      - Route53domainsError
+
+  - name: Runtimelex
+    children:
+      - Runtimelex
+      - RuntimelexError
+
+  - name: Runtimesagemaker
+    children:
+      - Runtimesagemaker
+      - RuntimesagemakerError
+
+  - name: S3
+    children:
+      - S3
+      - S3Error
+
+  - name: SageMaker
+    children:
+      - SageMaker
+      - SageMakerError
+
+  - name: Sdb
+    children:
+      - Sdb
+      - SdbError
+
+  - name: Serverlessrepo
+    children:
+      - Serverlessrepo
+      - ServerlessrepoError
+
+  - name: Servicecatalog
+    children:
+      - Servicecatalog
+      - ServicecatalogError
+
+  - name: Shield
+    children:
+      - Shield
+      - ShieldError
+
+  - name: Sms
+    children:
+      - Sms
+      - SmsError
+
+  - name: Snowball
+    children:
+      - Snowball
+      - SnowballError
+
+  - name: Sns
+    children:
+      - Sns
+      - SnsError
+
+  - name: Sqs
+    children:
+      - Sqs
+      - SqsError
+
+  - name: Ssm
+    children:
+      - Ssm
+      - SsmError
+
+  - name: States
+    children:
+      - States
+      - StatesError
+
+  - name: Storagegateway
+    children:
+      - Storagegateway
+      - StoragegatewayError
+
+  - name: Streamsdynamodb
+    children:
+      - Streamsdynamodb
+      - StreamsdynamodbError
+
+  - name: Sts
+    children:
+      - Sts
+      - StsError
+
+  - name: Support
+    children:
+      - Support
+      - SupportError
+
+  - name: Swf
+    children:
+      - Swf
+      - SwfError
+
+  - name: Translate
+    children:
+      - Translate
+      - TranslateError
+
+  - name: WafRegional
+    children:
+      - WafRegional
+      - WafRegionalError
+
+  - name: Waf
+    children:
+      - Waf
+      - WafError
+
+  - name: Workdocs
+    children:
+      - Workdocs
+      - WorkdocsError
+
+  - name: Workspaces
+    children:
+      - Workspaces
+      - WorkspacesError
+
+  - name: Xray
+    children:
+      - Xray
+      - XrayError
