@@ -22,12 +22,18 @@ struct S3RequestMiddleware: AWSRequestMiddleware {
             }
             request.url = URL(string: "\(request.url.scheme ?? "https")://\(paths.removeFirst()).\(domain)/\(paths.joined(separator: "/"))\(query)")!
         default:
-            guard  let host = request.url.host, host.contains("amazonaws.com") else { break }
+            guard let host = request.url.host, host.contains("amazonaws.com") else { break }
             var pathes = request.url.path.components(separatedBy: "/")
             if paths.count > 1 {
                 _ = pathes.removeFirst() // /
                 let bucket = pathes.removeFirst() // bucket
-                var urlString = "https://\(bucket).\(host)/\(pathes.joined(separator: "/"))"
+                var urlString: String
+                if let firstHostComponent = host.components(separatedBy: ".").first, bucket == firstHostComponent {
+                    // Bucket name is part of host. No need to append bucket
+                    urlString = "https://\(host)/\(pathes.joined(separator: "/"))"
+                } else {
+                    urlString = "https://\(bucket).\(host)/\(pathes.joined(separator: "/"))"
+                }
                 if let query = request.url.query {
                     urlString += "?\(query)"
                 }
