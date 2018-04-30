@@ -30,7 +30,7 @@ func rootPath() -> String {
 
 func loadEndpointJSON() throws -> JSON {
     let data = try Data(contentsOf: URL(string: "file://\(rootPath())/models/endpoints/endpoints.json")!)
-    return JSON(data: data)
+    return try JSON(data: data)
 }
 
 func loadDocJSONList() throws -> [JSON] {
@@ -43,7 +43,7 @@ func loadDocJSONList() throws -> [JSON] {
     
     return try docPaths.map {
         let data = try Data(contentsOf: URL(string: "file://\($0)")!)
-        return JSON(data: data)
+        return try JSON(data: data)
     }
 }
 
@@ -57,7 +57,7 @@ func loadAPIJSONList() throws -> [JSON] {
     
     return try apiPaths.map {
         let data = try Data(contentsOf: URL(string: "file://\($0)")!)
-        var json = JSON(data: data)
+        var json = try JSON(data: data)
         let paths: [String] = $0.split(separator: "/").reversed()
         json["serviceName"].stringValue = paths[2]
         return json

@@ -57,11 +57,11 @@
       },
       {
         "package": "SwiftyJSON",
-        "repositoryURL": "https://github.com/IBM-Swift/SwiftyJSON.git",
+        "repositoryURL": "https://github.com/SwiftyJSON/SwiftyJSON.git",
         "state": {
           "branch": null,
-          "revision": "1190845cf7d25a5c8ea7653fe03dcdd39a082056",
-          "version": "16.0.2"
+          "revision": "ebfc0d7e314f15c1df02fcb198beb40624421839",
+          "version": "4.1.0"
         }
       }
     ]
