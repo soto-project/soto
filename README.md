@@ -8,10 +8,10 @@ This library doesn't depend on Objective-C Runtime, So you can use this with Lin
 
 ## Supported Platforms and Swift Versions
 
-| | **Swift 4** | **Swift 3.2** |
-|---|:---:|:---:|
-|**macOS**        | ○ | ○ |
-|**Ubuntu 14.04** | ○ | ○ |
+| | **Swift 4.1** |
+|---|:---:|
+|**macOS**        | ○ |
+|**Ubuntu 14.04** | ○ |
 
 ## Documentation
 

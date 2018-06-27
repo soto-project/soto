@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/noppoMan/aws-sdk-swift-core.git",
         "state": {
           "branch": null,
-          "revision": "fcd3ea58a44b7b297713c5db541f924fb193cdd4",
-          "version": "1.0.9"
+          "revision": "48298a7bec6c838553f314cb48c81f2a363e8253",
+          "version": "1.0.10"
         }
       },
       {
@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/SwiftyJSON.git",
         "state": {
           "branch": null,
-          "revision": "1190845cf7d25a5c8ea7653fe03dcdd39a082056",
-          "version": "16.0.2"
+          "revision": "7eb6c83f91c519c19e6a507d604c9176d5ae5b15",
+          "version": "17.0.1"
         }
       }
     ]
