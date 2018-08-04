@@ -16,5 +16,5 @@ install:
   - if [[ $OS != "macos" ]]; then docker run -d -p 4569:4569 lphoward/fake-s3; fi
 
 script:
-  - travis_wait 60 swift build
+  - source scripts/help-travis-wait.sh& travis_wait 60 swift build
   - if [[ $OS != "macos" ]]; then swift test; fi
